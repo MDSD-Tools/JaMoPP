@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 
 import jamopp.parser.jdt.JaMoPPJDTParser;
 
+// Successful for testMicroservice, testESDA, testTeaStore, testTeammates
 @Disabled("Requires initialization of all submodules and dependency resolution.")
 public class BulkTest extends AbstractJaMoPPTests {
 	private final static String BASE_ZIP = "JaMoPP-BulkTest" + File.separator + "Tests" + File.separator

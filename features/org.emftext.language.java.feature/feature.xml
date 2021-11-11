@@ -29,8 +29,22 @@ Contributors:
    </license>
 
    <requires>
+      <import feature="org.eclipse.emf"/>
       <import feature="org.eclipse.platform"/>
       <import feature="org.eclipse.emf"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.22.0" match="greaterOrEqual"/>
+      <import plugin="jamopp.parser" version="5.0.0" match="greaterOrEqual"/>
+      <import plugin="jamopp.parser.jdt" version="5.0.0" match="greaterOrEqual"/>
+      <import plugin="jamopp.printer" version="5.0.0" match="greaterOrEqual"/>
+      <import plugin="org.emftext.language.java" version="5.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
    </requires>
 
    <plugin
@@ -91,6 +105,20 @@ Contributors:
 
    <plugin
          id="jamopp.resource"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.emftext.language.java.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="jamopp.standalone"
          download-size="0"
          install-size="0"
          version="0.0.0"
