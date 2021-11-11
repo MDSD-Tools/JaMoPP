@@ -88,7 +88,6 @@ public class StandaloneTest {
 	@ValueSource(strings = { "src-standalone", "acmeair", "piggymetrics", "petclinic", "TeaStore", "src-input",
 	    "src-sevenandup", "teammates", "esda", "microservice" })
 	// @Timeout(value = 120, unit = TimeUnit.SECONDS)
-	@Disabled("Test is in development.")
 	public void testProject(String input) {
 		ContainersFactory.eINSTANCE.createEmptyModel();
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
