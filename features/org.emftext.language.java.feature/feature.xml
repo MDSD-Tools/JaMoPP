@@ -29,14 +29,12 @@ Contributors:
    </license>
 
    <requires>
-      <import feature="org.eclipse.emf"/>
-      <import feature="org.eclipse.platform"/>
-      <import feature="org.eclipse.emf"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.emf"/>
       <import plugin="org.eclipse.emf.ecore" version="2.22.0" match="greaterOrEqual"/>
       <import plugin="jamopp.parser" version="5.0.0" match="greaterOrEqual"/>
       <import plugin="jamopp.parser.jdt" version="5.0.0" match="greaterOrEqual"/>
@@ -45,6 +43,14 @@ Contributors:
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.text"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="jamopp.resource" version="4.3.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.commons.compress"/>
+      <import plugin="org.junit.jupiter.api"/>
+      <import plugin="org.junit.jupiter.engine"/>
+      <import plugin="org.junit.jupiter.params"/>
+      <import plugin="org.apache.log4j"/>
    </requires>
 
    <plugin

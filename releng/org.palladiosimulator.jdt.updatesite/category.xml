@@ -1,38 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <bundle id="org.emftext.commons.jdt">
-      <category name="org.palladiosimulator.jdt.metamodel"/>
-   </bundle>
-   <bundle id="org.emftext.commons.layout">
-      <category name="org.palladiosimulator.jdt.metamodel"/>
-   </bundle>
-   <bundle id="org.emftext.language.java">
-      <category name="org.palladiosimulator.jdt.metamodel"/>
-   </bundle>
-   <bundle id="org.emftext.commons.layout.edit">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <bundle id="org.emftext.language.java.edit">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <bundle id="org.emftext.language.java.editor">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <bundle id="jamopp.parser">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <bundle id="jamopp.parser.jdt">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <bundle id="jamopp.printer">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <bundle id="jamopp.resource">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <bundle id="jamopp.standalone">
-      <category name="org.palladiosimulator.jdt.core"/>
-   </bundle>
-   <category-def name="org.palladiosimulator.jdt.core" label="Palladio Supporting Eclipse Java Development Tools Core"/>
-   <category-def name="org.palladiosimulator.jdt.metamodel" label="Palladio Supporting Eclipse Java Development Tools Metamodel"/>
+   <feature id="org.emftext.language.java.feature">
+      <category name="org.emftext.language.java"/>
+   </feature>
+   <category-def name="org.emftext.language.java" label="Java Model Parser"/>
 </site>
