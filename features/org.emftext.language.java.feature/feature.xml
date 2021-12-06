@@ -2,7 +2,7 @@
 <feature
       id="org.emftext.language.java.feature"
       label="JaMoPP - Java Model Parser and Printer"
-      version="5.0.0.qualifier"
+      version="5.1.0.qualifier"
       provider-name="Martin Armbruster">
 
    <description url="http://www.jamopp.org">
@@ -38,10 +38,10 @@ Contributors:
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.emf.ecore" version="2.22.0" match="greaterOrEqual"/>
-      <import plugin="jamopp.parser" version="5.0.0" match="greaterOrEqual"/>
-      <import plugin="jamopp.parser.jdt" version="5.0.0" match="greaterOrEqual"/>
-      <import plugin="jamopp.printer" version="5.0.0" match="greaterOrEqual"/>
-      <import plugin="org.emftext.language.java" version="5.0.0" match="greaterOrEqual"/>
+      <import plugin="jamopp.parser" version="5.1.0" match="greaterOrEqual"/>
+      <import plugin="jamopp.parser.jdt" version="5.1.0" match="greaterOrEqual"/>
+      <import plugin="jamopp.printer" version="5.1.0" match="greaterOrEqual"/>
+      <import plugin="org.emftext.language.java" version="5.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
