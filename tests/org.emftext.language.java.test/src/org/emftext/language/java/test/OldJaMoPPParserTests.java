@@ -10,8 +10,10 @@
  *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
- *   DevBoost GmbH - Berlin, Germany
+ *   DevBoost GmbH - Berlin, Germany;
  *      - initial API and implementation
+ *   Yves Kirschner - KIT, Germany
+ *   	- penultimate implementation
  ******************************************************************************/
 
 package org.emftext.language.java.test;
@@ -22,15 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.text.BadLocationException;
 import org.emftext.language.java.classifiers.Annotation;
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
@@ -69,6 +69,7 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.StringReference;
+import org.emftext.language.java.resources.NumberLiterals;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.ForEachLoop;
@@ -77,160 +78,83 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-//import pkg.NumberLiterals;
-
 /**
  * JUnit test suite to test the JaMoPP parser. New tests should by added by:
  * <ul>
- * <li>putting a Java source file that contains valid Java classes to parse to the
- * <code>src-input</code> folder of this plug-in</li>
+ * <li>putting a Java source file that contains valid Java classes to parse to
+ * the <code>src-input</code> folder of this plug-in</li>
  * <li>declaring a test case in this path of Java source relative to the input
  * folder file to the method parseResource(String relativePath)</li>
  * <li>checking the returned CompilationUnit for correctness</li>
  * </ul>
  *
  * @author Christian Wende
+ * @author Yves Kirschner
  */
 public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	private static final String JAVA_FILE_EXTENSION = ".java";
 
+	private static final String RESOLVING_FOLDER = "resolving/";
+
 	protected static final String TEST_INPUT_FOLDER = "src-input";
 
-	@Override
-	protected Map<Object, Object> getLoadOptions() {
-		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
-		return map;
-	}
+	private static final String UNICODE_FOLDER = "unicode/";
 
-	private void assertParsableAndReprintable(String filename)
-		throws Exception, IOException, BadLocationException {
-
-		JavaRoot root = parseResource(filename);
-		assertType(root, CompilationUnit.class);
-		CompilationUnit unit = (CompilationUnit) root;
-		assertNotNull(unit);
-
-		parseAndReprint(filename);
-	}
-
-	private void assertParsesToEnumAndReprints(final String typeName) throws Exception {
-		String filename = typeName + JAVA_FILE_EXTENSION;
-		CompilationUnit model = (CompilationUnit) parseResource(filename);
-		assertNumberOfClassifiers(model, 1);
-		Classifier declaration = model.getClassifiers().get(0);
-		assertClassifierName(declaration, typeName);
-		assertType(declaration, Enumeration.class);
-
-		parseAndReprint(filename);
+	private static <T extends NamedElement> T findElementByName(List<T> elements, String name) {
+		for (final T next : elements) {
+			if (name.equals(next.getName())) {
+				return next;
+			}
+		}
+		return null;
 	}
 
 	private void assertIsBooleanField(Member member, boolean expectedInitValue) {
 		assertType(member, Field.class);
-		Field booleanField = (Field) member;
-		Expression initValueForBoolean = booleanField.getInitialValue();
+		final Field booleanField = (Field) member;
+		final Expression initValueForBoolean = booleanField.getInitialValue();
 
-		BooleanLiteral literal = (BooleanLiteral)initValueForBoolean;
+		final BooleanLiteral literal = (BooleanLiteral) initValueForBoolean;
 
 		assertType(literal, BooleanLiteral.class);
-		BooleanLiteral initLiteralForBoolean = (BooleanLiteral) literal;
+		final BooleanLiteral initLiteralForBoolean = literal;
 		assertEquals(expectedInitValue, initLiteralForBoolean.isValue());
 	}
 
 	private void assertIsCharField(Member member, String expectedInitValue) {
 		assertType(member, Field.class);
-		Field charField = (Field) member;
-		Expression initValue = charField.getInitialValue();
+		final Field charField = (Field) member;
+		final Expression initValue = charField.getInitialValue();
 
-		CharacterLiteral literal = (CharacterLiteral) initValue;
+		final CharacterLiteral literal = (CharacterLiteral) initValue;
 
 		assertType(literal, CharacterLiteral.class);
-		CharacterLiteral initLiteral = (CharacterLiteral) literal;
+		final CharacterLiteral initLiteral = literal;
 		assertEquals(expectedInitValue, initLiteral.getValue());
-	}
-
-	private void assertIsDoubleField(Member member, double expectedInitValue) {
-		assertType(member, Field.class);
-		Field charField = (Field) member;
-		Expression initValue = charField.getInitialValue();
-
-		DecimalDoubleLiteral literal = (DecimalDoubleLiteral) initValue;
-
-		assertNotNull(literal, member.getName() + " is not a double field.");
-		assertType(literal, DecimalDoubleLiteral.class);
-		DecimalDoubleLiteral initLiteral = (DecimalDoubleLiteral) literal;
-		assertEquals(expectedInitValue, initLiteral.getDecimalValue(), 0.0);
-	}
-
-	private void assertIsHexIntegerField(Member member, int expectedInitValue) {
-		assertType(member, Field.class);
-		Field longField = (Field) member;
-		Expression initValue = longField.getInitialValue();
-
-		IntegerLiteral literal = (IntegerLiteral) initValue;
-
-		assertType(literal, HexIntegerLiteral.class);
-		HexIntegerLiteral initLiteralForBoolean = (HexIntegerLiteral) literal;
-		assertEquals(BigInteger.valueOf(expectedInitValue), initLiteralForBoolean.getHexValue());
 	}
 
 	private void assertIsDecimalIntegerField(Member member, int expectedInitValue) {
 		assertType(member, Field.class);
-		Field longField = (Field) member;
-		Expression initValue = longField.getInitialValue();
+		final Field longField = (Field) member;
+		final Expression initValue = longField.getInitialValue();
 
-		IntegerLiteral literal = (IntegerLiteral) initValue;
+		final IntegerLiteral literal = (IntegerLiteral) initValue;
 
 		assertType(literal, DecimalIntegerLiteral.class);
-		DecimalIntegerLiteral initLiteralForBoolean = (DecimalIntegerLiteral) literal;
+		final DecimalIntegerLiteral initLiteralForBoolean = (DecimalIntegerLiteral) literal;
 		assertEquals(BigInteger.valueOf(expectedInitValue), initLiteralForBoolean.getDecimalValue());
-	}
-
-	private void assertIsOctalLongField(Member member, String expectedInitValue) {
-		assertType(member, Field.class);
-		Field longField = (Field) member;
-		Expression initValue = longField.getInitialValue();
-
-		LongLiteral literal = (LongLiteral) initValue;
-
-		assertType(literal, OctalLongLiteral.class);
-		OctalLongLiteral initLiteralForBoolean = (OctalLongLiteral) literal;
-		BigInteger expected;
-		if (expectedInitValue.toLowerCase().startsWith("0x")) {
-			expected = new BigInteger(expectedInitValue.substring(2), 16);
-		} else {
-			expected = new BigInteger(expectedInitValue);
-		}
-		assertEquals(expected, initLiteralForBoolean.getOctalValue());
-	}
-
-	private void assertIsHexLongField(Member member, String expectedInitValue) {
-		assertType(member, Field.class);
-		Field longField = (Field) member;
-		Expression initValue = longField.getInitialValue();
-
-		LongLiteral literal = (LongLiteral) initValue;
-
-		assertType(literal, HexLongLiteral.class);
-		HexLongLiteral initLiteralForBoolean = (HexLongLiteral) literal;
-		BigInteger expected;
-		if (expectedInitValue.toLowerCase().startsWith("0x")) {
-			expected = new BigInteger(expectedInitValue.substring(2), 16);
-		} else {
-			expected = new BigInteger(expectedInitValue);
-		}
-		assertEquals(expected, initLiteralForBoolean.getHexValue());
 	}
 
 	private void assertIsDecimalLongField(Member member, String expectedInitValue) {
 		assertType(member, Field.class);
-		Field longField = (Field) member;
-		Expression initValue = longField.getInitialValue();
+		final Field longField = (Field) member;
+		final Expression initValue = longField.getInitialValue();
 
-		LongLiteral literal = (LongLiteral) initValue;
+		final LongLiteral literal = (LongLiteral) initValue;
 
 		assertType(literal, DecimalLongLiteral.class);
-		DecimalLongLiteral initLiteralForBoolean = (DecimalLongLiteral) literal;
+		final DecimalLongLiteral initLiteralForBoolean = (DecimalLongLiteral) literal;
 		BigInteger expected;
 		if (expectedInitValue.toLowerCase().startsWith("0x")) {
 			expected = new BigInteger(expectedInitValue.substring(2), 16);
@@ -240,14 +164,56 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		assertEquals(expected, initLiteralForBoolean.getDecimalValue());
 	}
 
-	private void assertIsNumericField(List<Member> members, String name,
-			Object expectedValue) {
+	private void assertIsDoubleField(Member member, double expectedInitValue) {
+		assertType(member, Field.class);
+		final Field charField = (Field) member;
+		final Expression initValue = charField.getInitialValue();
 
-		NamedElement field = findElementByName(members, name);
+		final DecimalDoubleLiteral literal = (DecimalDoubleLiteral) initValue;
+
+		assertNotNull(literal, member.getName() + " is not a double field.");
+		assertType(literal, DecimalDoubleLiteral.class);
+		final DecimalDoubleLiteral initLiteral = literal;
+		assertEquals(expectedInitValue, initLiteral.getDecimalValue(), 0.0);
+	}
+
+	private void assertIsHexIntegerField(Member member, int expectedInitValue) {
+		assertType(member, Field.class);
+		final Field longField = (Field) member;
+		final Expression initValue = longField.getInitialValue();
+
+		final IntegerLiteral literal = (IntegerLiteral) initValue;
+
+		assertType(literal, HexIntegerLiteral.class);
+		final HexIntegerLiteral initLiteralForBoolean = (HexIntegerLiteral) literal;
+		assertEquals(BigInteger.valueOf(expectedInitValue), initLiteralForBoolean.getHexValue());
+	}
+
+	private void assertIsHexLongField(Member member, String expectedInitValue) {
+		assertType(member, Field.class);
+		final Field longField = (Field) member;
+		final Expression initValue = longField.getInitialValue();
+
+		final LongLiteral literal = (LongLiteral) initValue;
+
+		assertType(literal, HexLongLiteral.class);
+		final HexLongLiteral initLiteralForBoolean = (HexLongLiteral) literal;
+		BigInteger expected;
+		if (expectedInitValue.toLowerCase().startsWith("0x")) {
+			expected = new BigInteger(expectedInitValue.substring(2), 16);
+		} else {
+			expected = new BigInteger(expectedInitValue);
+		}
+		assertEquals(expected, initLiteralForBoolean.getHexValue());
+	}
+
+	private void assertIsNumericField(List<Member> members, String name, Object expectedValue) {
+		final NamedElement field = findElementByName(members, name);
 		assertNotNull(field);
 		assertType(field, Field.class);
-		Field unicode = (Field) field;
-		Expression value = unicode.getInitialValue();
+		final Field unicode = (Field) field;
+		final Expression value = unicode.getInitialValue();
+		assertNotNull(value);
 
 		Object initValue = null;
 		if (value instanceof DecimalIntegerLiteral) {
@@ -284,46 +250,73 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		assertEquals(expectedValue, initValue, "Field " + name);
 	}
 
-	private void assertIsStringField(List<Member> members, String name, String expectedValue) {
+	private void assertIsOctalLongField(Member member, String expectedInitValue) {
+		assertType(member, Field.class);
+		final Field longField = (Field) member;
+		final Expression initValue = longField.getInitialValue();
 
-		NamedElement field = findElementByName(members, name);
+		final LongLiteral literal = (LongLiteral) initValue;
+
+		assertType(literal, OctalLongLiteral.class);
+		final OctalLongLiteral initLiteralForBoolean = (OctalLongLiteral) literal;
+		BigInteger expected;
+		if (expectedInitValue.toLowerCase().startsWith("0x")) {
+			expected = new BigInteger(expectedInitValue.substring(2), 16);
+		} else {
+			expected = new BigInteger(expectedInitValue);
+		}
+		assertEquals(expected, initLiteralForBoolean.getOctalValue());
+	}
+
+	private void assertIsStringField(List<Member> members, String name, String expectedValue) {
+		final NamedElement field = findElementByName(members, name);
 		assertNotNull(field);
 		assertType(field, Field.class);
-		Field unicode = (Field) field;
-		Expression value = unicode.getInitialValue();
+		final Field unicode = (Field) field;
+		final Expression value = unicode.getInitialValue();
 
-		StringReference literal = (StringReference) value;
+		final StringReference literal = (StringReference) value;
 
 		assertType(literal, StringReference.class);
-		StringReference stringValue = (StringReference) literal;
-		assertEquals("Unescaped value expected for field \"" + name + "\".",
-				expectedValue, stringValue.getValue());
+		final StringReference stringValue = literal;
+		assertEquals("Unescaped value expected for field \"" + name + "\".", expectedValue, stringValue.getValue());
 	}
 
 	private void assertIsStringField(Member member, String expectedInitValue) {
 		assertType(member, Field.class);
-		Field charField = (Field) member;
-		Expression initValue = charField.getInitialValue();
+		final Field charField = (Field) member;
+		final Expression initValue = charField.getInitialValue();
 
-		StringReference literal = (StringReference)initValue;
+		final StringReference literal = (StringReference) initValue;
 
 		assertType(literal, StringReference.class);
-		StringReference initLiteral = (StringReference) literal;
+		final StringReference initLiteral = literal;
 		assertEquals(expectedInitValue, initLiteral.getValue());
 	}
 
-	private <T extends NamedElement> T findElementByName(List<T> elements, String name) {
-		for (T next : elements) {
-			if (name.equals(next.getName())) {
-				return next;
-			}
-		}
-		return null;
+	private void assertParsableAndReprintable(String filename) throws Exception {
+		final JavaRoot root = parseResource(filename);
+		assertType(root, CompilationUnit.class);
+		final CompilationUnit unit = (CompilationUnit) root;
+		assertNotNull(unit);
+
+		parseAndReprint(filename);
+	}
+
+	private void assertParsesToEnumAndReprints(final String typeName) throws Exception {
+		final String filename = typeName + JAVA_FILE_EXTENSION;
+		final CompilationUnit model = (CompilationUnit) parseResource(filename);
+		assertNumberOfClassifiers(model, 1);
+		final Classifier declaration = model.getClassifiers().get(0);
+		assertClassifierName(declaration, typeName);
+		assertType(declaration, Enumeration.class);
+
+		parseAndReprint(filename);
 	}
 
 	@Override
-	protected boolean isExcludedFromReprintTest(String filename) {
-		return false;
+	protected Map<Object, Object> getLoadOptions() {
+		return new HashMap<>();
 	}
 
 	@Override
@@ -331,31 +324,90 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		return TEST_INPUT_FOLDER;
 	}
 
+	@Override
+	protected boolean isExcludedFromReprintTest(String filename) {
+		return false;
+	}
+
 	@Test
-	public void testAnnotations() throws Exception {
-		String typename = "Annotations";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Annotation annotation = assertParsesToAnnotation(typename);
-		assertMemberCount(annotation, 11);
+	public void test$InClassName() throws Exception {
+		parseAndReprint("ClassWith$InName" + JAVA_FILE_EXTENSION);
+		parseAndReprint("ClassWith$$InName" + JAVA_FILE_EXTENSION);
+		parseAndReprint("Class$$$$With$$$$In$$$$Name$$$$$" + JAVA_FILE_EXTENSION);
+		parseAndReprint("pkg/ClassWith$In$$Pkg" + JAVA_FILE_EXTENSION);
+		parseAndReprint("pkg/inner/ClassWith$In$$Inner$Pkg" + JAVA_FILE_EXTENSION);
+
+		final String typename = "ClassWithDollarReferenced";
+		final String filename = typename + JAVA_FILE_EXTENSION;
 
 		parseAndReprint(filename);
 	}
 
 	@Test
 	public void testAnnotationInstances() throws Exception {
-		String typename = "AnnotationInstances";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "AnnotationInstances";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 3);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
+	public void testAnnotations() throws Exception {
+		final String typename = "Annotations";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Annotation annotation = assertParsesToAnnotation(typename);
+		assertMemberCount(annotation, 11);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testAnnotationsAsAnnotationArguments() throws Exception {
+		final String typename = "AnnotationsAsAnnotationArguments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 8);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testAnnotationsBetweenKeywords() throws Exception {
+		final String typename = "AnnotationsBetweenKeywords";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 7);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testAnnotationsForAnnotations() throws Exception {
+		final String typename = "AnnotationsForAnnotations";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 2);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testAnnotationsForEnums() throws Exception {
+		final String typename = "AnnotationsForEnums";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Enumeration eenum = assertParsesToEnumeration(typename);
+		assertMemberCount(eenum, 2);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
 	public void testAnnotationsForInnerTypes() throws Exception {
-		String typename = "AnnotationsForInnerTypes";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "AnnotationsForInnerTypes";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 4);
 
 		parseAndReprint(filename);
@@ -363,9 +415,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testAnnotationsForMethods() throws Exception {
-		String typename = "AnnotationsForMethods";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "AnnotationsForMethods";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 6);
 
 		parseAndReprint(filename);
@@ -374,9 +426,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	@Test
 	@Disabled("Contains empty members that are not parsed by JDT.")
 	public void testAnnotationsForParameters() throws Exception {
-		String typename = "AnnotationsForParameters";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "AnnotationsForParameters";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 15);
 
 		parseAndReprint(filename);
@@ -384,59 +436,19 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testAnnotationsForStatements() throws Exception {
-		String typename = "AnnotationsForStatements";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "AnnotationsForStatements";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
-	public void testAnnotationsForAnnotations() throws Exception {
-		String typename = "AnnotationsForAnnotations";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 2);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testAnnotationsAsAnnotationArguments() throws Exception {
-		String typename = "AnnotationsAsAnnotationArguments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 8);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testAnnotationsBetweenKeywords() throws Exception {
-		String typename = "AnnotationsBetweenKeywords";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 7);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testAnnotationsForEnums() throws Exception {
-		String typename = "AnnotationsForEnums";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Enumeration eenum = assertParsesToEnumeration(typename);
-		assertMemberCount(eenum, 2);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
 	public void testAnonymousEnum() throws Exception {
-		String typename = "AnonymousEnum";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Enumeration enumeration = assertParsesToEnumeration(typename);
+		final String typename = "AnonymousEnum";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Enumeration enumeration = assertParsesToEnumeration(typename);
 		// assert no members because enumeration constants are not members
 		assertMemberCount(enumeration, 2);
 
@@ -445,10 +457,11 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testAnonymousEnumWithArguments() throws Exception {
-		String typename = "AnonymousEnumWithArguments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Enumeration enumeration = assertParsesToEnumeration(typename);
-		// assert one member (the constructor) because enumeration constants are not members
+		final String typename = "AnonymousEnumWithArguments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Enumeration enumeration = assertParsesToEnumeration(typename);
+		// assert one member (the constructor) because enumeration constants are not
+		// members
 		assertMemberCount(enumeration, 3);
 
 		parseAndReprint(filename);
@@ -456,9 +469,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testAnonymousInner() throws Exception {
-		String typename = "AnonymousInner";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "AnonymousInner";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 3);
 
 		parseAndReprint(filename);
@@ -466,9 +479,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testArguments() throws Exception {
-		String typename = "Arguments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Arguments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 5);
 
 		parseAndReprint(filename);
@@ -476,9 +489,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testArrayInitializers() throws Exception {
-		String typename = "ArrayInitializers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ArrayInitializers";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 10);
 
 		parseAndReprint(filename);
@@ -486,11 +499,11 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testArraysInDeclarationsComplex() throws Exception {
-		String typename = "ArraysInDeclarationsComplex";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ArraysInDeclarationsComplex";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 6);
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 		assertType(members.get(0), Field.class);
 		assertType(members.get(1), Field.class);
 		assertType(members.get(2), Field.class);
@@ -502,11 +515,11 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testArraysInDeclarationsSimple() throws Exception {
-		String typename = "ArraysInDeclarationsSimple";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ArraysInDeclarationsSimple";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 5);
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 
 		assertType(members.get(0), Field.class);
 		assertType(members.get(1), Field.class);
@@ -519,11 +532,11 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testAssignments() throws Exception {
-		String typename = "Assignments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Assignments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 2);
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 
 		assertType(members.get(0), Field.class);
 		assertType(members.get(1), Block.class);
@@ -540,10 +553,20 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	}
 
 	@Test
+	public void testBlocks() throws Exception {
+		final String typename = "Blocks";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 3);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
 	public void testBooleanAssignments() throws Exception {
-		String typename = "BooleanAssignments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "BooleanAssignments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
@@ -551,29 +574,31 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testBooleanExpressions() throws Exception {
-		String typename = "BooleanExpressions";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "BooleanExpressions";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 4);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
-	public void testBlocks() throws Exception {
-		String typename = "Blocks";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 3);
+	public void testBug1695() throws Exception {
+		final String typename = "Bug1695";
+		final String filename = "bugs" + File.separator + typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("bugs", typename);
+
+		assertEquals("Bug1695", clazz.getName());
+		assertEquals("InnerClass", clazz.getMembers().get(0).getName());
 
 		parseAndReprint(filename);
 	}
 
 	@Test
 	public void testCasting() throws Exception {
-		String typename = "Casting";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Casting";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 2);
 
 		parseAndReprint(filename);
@@ -581,9 +606,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testChainedCalls() throws Exception {
-		String typename = "ChainedCalls";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ChainedCalls";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 27);
 
 		parseAndReprint(filename);
@@ -592,125 +617,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	@Test
 	@Disabled("Contains empty members that are not parsed by JDT.")
 	public void testClassSemicolonOnly() throws Exception {
-		String typename = "ClassSemicolonOnly";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 1);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testControlZ() throws Exception {
-		String folder = "unicode/";
-		assertParsableAndReprintable(folder + "ControlZ.java");
-	}
-
-	@Test
-	public void testCrazyUnicode() throws Exception {
-		String typename = "CrazyUnicode";
-		String file = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("pkg", typename);
-		assertMemberCount(clazz, 2);
-
-		parseAndReprint(file);
-	}
-
-	@Test
-	public void testComments() throws Exception {
-		String typename = "Comments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 3);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsAtEOF() throws Exception {
-		String typename = "CommentsAtEOF";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 0);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsInArrayInitializers() throws Exception {
-		String typename = "CommentsInArrayInitializers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 4);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsInFieldDeclaration() throws Exception {
-		String typename = "CommentsInFieldDeclaration";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 1);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsBetweenCaseStatements() throws Exception {
-		String typename = "CommentsBetweenCaseStatements";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 3);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsBetweenCatchClauses() throws Exception {
-		String typename = "CommentsBetweenCatchClauses";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 1);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsBetweenConstructorArguments() throws Exception {
-		String typename = "CommentsBetweenConstructorArguments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 2);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsBetweenMethodArguments() throws Exception {
-		String typename = "CommentsBetweenMethodArguments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 1);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsBetweenReferenceSequenceParts() throws Exception {
-		String typename = "CommentsBetweenReferenceSequenceParts";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 2);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testCommentsInParExpression() throws Exception {
-		String typename = "CommentsInParExpression";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ClassSemicolonOnly";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
@@ -718,22 +627,122 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testClassWithEnumeratingFieldDeclaration() throws Exception {
-		String typename = "ClassWithEnumeratingFieldDeclaration";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ClassWithEnumeratingFieldDeclaration";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 		assertType(members.get(0), Field.class);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
+	public void testComments() throws Exception {
+		final String typename = "Comments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 3);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsAtEOF() throws Exception {
+		final String typename = "CommentsAtEOF";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 0);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsBetweenCaseStatements() throws Exception {
+		final String typename = "CommentsBetweenCaseStatements";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 3);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsBetweenCatchClauses() throws Exception {
+		final String typename = "CommentsBetweenCatchClauses";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 1);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsBetweenConstructorArguments() throws Exception {
+		final String typename = "CommentsBetweenConstructorArguments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 2);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsBetweenMethodArguments() throws Exception {
+		final String typename = "CommentsBetweenMethodArguments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 1);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsBetweenReferenceSequenceParts() throws Exception {
+		final String typename = "CommentsBetweenReferenceSequenceParts";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 2);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsInArrayInitializers() throws Exception {
+		final String typename = "CommentsInArrayInitializers";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 4);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsInFieldDeclaration() throws Exception {
+		final String typename = "CommentsInFieldDeclaration";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 1);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testCommentsInParExpression() throws Exception {
+		final String typename = "CommentsInParExpression";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 1);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
 	public void testConditionalExpressions() throws Exception {
-		String typename = "ConditionalExpressions";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ConditionalExpressions";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
@@ -741,18 +750,33 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testConstructorCalls() throws Exception {
-		String typename = "ConstructorCalls";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ConstructorCalls";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 4);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
+	public void testControlZ() throws Exception {
+		assertParsableAndReprintable(UNICODE_FOLDER + "ControlZ.java");
+	}
+
+	@Test
+	public void testCrazyUnicode() throws Exception {
+		final String typename = "CrazyUnicode";
+		final String file = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("pkg", typename);
+		assertMemberCount(clazz, 2);
+
+		parseAndReprint(file);
+	}
+
+	@Test
 	public void testEmptyClass() throws Exception {
-		String typename = "EmptyClass";
-		String filename = typename + JAVA_FILE_EXTENSION;
+		final String typename = "EmptyClass";
+		final String filename = typename + JAVA_FILE_EXTENSION;
 		assertParsesToClass(typename);
 
 		parseAndReprint(filename);
@@ -760,9 +784,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testEmptyEnum() throws Exception {
-		String typename = "EmptyEnum";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Enumeration enumeration = assertParsesToEnumeration(typename);
+		final String typename = "EmptyEnum";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Enumeration enumeration = assertParsesToEnumeration(typename);
 		assertEquals(2, enumeration.getMembers().size(), typename + " should have no members.");
 
 		parseAndReprint(filename);
@@ -775,9 +799,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testEmptyInterface() throws Exception {
-		String typename = "EmptyInterface";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "EmptyInterface";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 		assertEquals(0, interfaze.getMembers().size(), typename + " should have no members.");
 
 		parseAndReprint(filename);
@@ -785,9 +809,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testEnumImplementingTwoInterfaces() throws Exception {
-		String typename = "EnumImplementingTwoInterfaces";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Enumeration enumeration = assertParsesToEnumeration(typename);
+		final String typename = "EnumImplementingTwoInterfaces";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Enumeration enumeration = assertParsesToEnumeration(typename);
 		assertEquals(2, enumeration.getImplements().size(), typename + " implements two interfaces.");
 
 		registerInClassPath("EmptyInterface" + JAVA_FILE_EXTENSION);
@@ -798,39 +822,39 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testEnumValueMethodsUse() throws Exception {
-		String typename = "EnumValueMethodsUse";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		Enumeration enumeration = (Enumeration) clazz.getMembers().get(0);
+		final String typename = "EnumValueMethodsUse";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final Enumeration enumeration = (Enumeration) clazz.getMembers().get(0);
 		assertMemberCount(enumeration, 2);
 		parseAndReprint(filename);
 	}
 
 	@Test
-	public void testEnumWithMember() throws Exception {
-		String typename = "EnumWithMember";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Enumeration enumeration = assertParsesToEnumeration(typename);
-		assertMemberCount(enumeration, 4);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
 	public void testEnumWithConstructor() throws Exception {
-		String typename = "EnumWithConstructor";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Enumeration enumeration = assertParsesToEnumeration(typename);
+		final String typename = "EnumWithConstructor";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Enumeration enumeration = assertParsesToEnumeration(typename);
 		assertMemberCount(enumeration, 3);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
+	public void testEnumWithMember() throws Exception {
+		final String typename = "EnumWithMember";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Enumeration enumeration = assertParsesToEnumeration(typename);
+		assertMemberCount(enumeration, 4);
+
+		parseAndReprint(filename);
+	}
+
+	@Test
 	public void testEqualityExpression() throws Exception {
-		String typename = "EqualityExpression";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "EqualityExpression";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
@@ -838,9 +862,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testEscapedStrings() throws Exception {
-		String typename = "EscapedStrings";
-		String file = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("pkg", typename);
+		final String typename = "EscapedStrings";
+		final String file = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("pkg", typename);
 		assertMemberCount(clazz, 9);
 
 		parseAndReprint(file);
@@ -848,13 +872,13 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testExceptionThrowing() throws Exception {
-		String typename = "ExceptionThrowing";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ExceptionThrowing";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 
 		assertMemberCount(clazz, 7);
 
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 		assertConstructorThrowsCount(members.get(1), 1);
 		assertConstructorThrowsCount(members.get(2), 2);
 		assertMethodThrowsCount(members.get(3), 1);
@@ -866,9 +890,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testExplicitConstructorCalls() throws Exception {
-		String typename = "ExplicitConstructorCalls";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ExplicitConstructorCalls";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 
 		assertMemberCount(clazz, 3);
 
@@ -877,9 +901,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testExplicitGenericConstructorCalls() throws Exception {
-		String typename = "ExplicitGenericConstructorCalls";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ExplicitGenericConstructorCalls";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 
 		assertMemberCount(clazz, 4);
 
@@ -890,9 +914,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testExplicitGenericInvocation() throws Exception {
-		String typename = "ExplicitGenericInvocation";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ExplicitGenericInvocation";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 
 		assertMemberCount(clazz, 2);
 
@@ -901,9 +925,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testExpressions() throws Exception {
-		String typename = "Expressions";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Expressions";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 
 		assertMemberCount(clazz, 2);
 
@@ -912,57 +936,47 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testExpressionsAsMethodArguments() throws Exception {
-		String typename = "ExpressionsAsMethodArguments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ExpressionsAsMethodArguments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 
 		assertMemberCount(clazz, 3);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testLegalIdentifiers() throws Exception {
-		String typename = "LegalIdentifiers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-
-		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
 	public void testForEachLoop() throws Exception {
-		String typename = "ForEachLoop";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ForEachLoop";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 3);
 
-		Member simpleForEach = clazz.getMembers().get(1);
+		final Member simpleForEach = clazz.getMembers().get(1);
 		assertType(simpleForEach, ClassMethod.class);
-		ClassMethod simpleForEachMethod = (ClassMethod) simpleForEach;
-		Statement forEach = simpleForEachMethod.getStatements().get(0);
+		final ClassMethod simpleForEachMethod = (ClassMethod) simpleForEach;
+		final Statement forEach = simpleForEachMethod.getStatements().get(0);
 		assertType(forEach, ForEachLoop.class);
 		parseAndReprint(filename);
 	}
 
 	@Test
 	public void testFullQualifiedNameReferences() throws Exception {
-		String typename = "FullQualifiedNameReferences";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "FullQualifiedNameReferences";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertResolveAllProxies(clazz);
 
 		assertEquals(1, clazz.getMembers().size());
-		Member firstMember = clazz.getMembers().get(0);
+		final Member firstMember = clazz.getMembers().get(0);
 		assertType(firstMember, Method.class);
-		Method method = (Method) firstMember;
+		final Method method = (Method) firstMember;
 
-		ExpressionStatement statement = (ExpressionStatement) method.getStatements().get(0);
+		final ExpressionStatement statement = (ExpressionStatement) method.getStatements().get(0);
 		IdentifierReference ref = (IdentifierReference) statement.getExpression();
 		assertType(ref.getTarget(), org.emftext.language.java.containers.Package.class);
-		org.emftext.language.java.containers.Package p1 = (org.emftext.language.java.containers.Package) ref.getTarget();
+		org.emftext.language.java.containers.Package p1 = (org.emftext.language.java.containers.Package) ref
+				.getTarget();
 		assertEquals(1, p1.getNamespaces().size());
 		assertEquals("java", p1.getNamespaces().get(0));
 
@@ -984,9 +998,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testGenericConstructorCalls() throws Exception {
-		String typename = "GenericConstructorCalls";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "GenericConstructorCalls";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 5);
 
 		parseAndReprint(filename);
@@ -994,12 +1008,12 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testGenericConstructors() throws Exception {
-		String typename = "GenericConstructors";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "GenericConstructors";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 4);
 
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 		assertConstructorTypeParameterCount(members.get(0), 1);
 		assertConstructorTypeParameterCount(members.get(1), 2);
 		assertConstructorTypeParameterCount(members.get(2), 1);
@@ -1010,12 +1024,12 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testGenericMethods() throws Exception {
-		String typename = "GenericMethods";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "GenericMethods";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 5);
 
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 		assertMethodTypeParameterCount(members.get(0), 1);
 		assertMethodTypeParameterCount(members.get(1), 1);
 		assertMethodTypeParameterCount(members.get(2), 2);
@@ -1027,9 +1041,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testGenericSuperConstructors() throws Exception {
-		String typename = "GenericSuperConstructors";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "GenericSuperConstructors";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		registerInClassPath("GenericConstructors" + JAVA_FILE_EXTENSION);
@@ -1042,9 +1056,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		testEmptyInterface();
 		testIOneMethod();
 
-		String typename = "IExtendsMultiple";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "IExtendsMultiple";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 
 		assertEquals(2, interfaze.getExtends().size(), "IExtendsMultiple extends two interfaces.");
 
@@ -1053,15 +1067,14 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testIGenericMembers() throws Exception {
-		String typename = "IGenericMembers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "IGenericMembers";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 		assertMemberCount(interfaze, 3);
-		List<Member> members = interfaze.getMembers();
+		final List<Member> members = interfaze.getMembers();
 		assertType(members.get(0), Method.class);
 		assertType(members.get(1), Interface.class);
-		assertType(members.get(2),
-				org.emftext.language.java.classifiers.Class.class);
+		assertType(members.get(2), org.emftext.language.java.classifiers.Class.class);
 
 		assertMethodTypeParameterCount(members.get(0), 1);
 		assertInterfaceTypeParameterCount(members.get(1), 1);
@@ -1072,18 +1085,17 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testIMembers() throws Exception {
-		String typename = "IMembers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "IMembers";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 
 		assertMemberCount(interfaze, 5);
 
-		List<Member> members = interfaze.getMembers();
+		final List<Member> members = interfaze.getMembers();
 		assertType(members.get(0), Field.class);
 		assertType(members.get(1), Method.class);
 		assertType(members.get(2), Interface.class);
-		assertType(members.get(3),
-				org.emftext.language.java.classifiers.Class.class);
+		assertType(members.get(3), org.emftext.language.java.classifiers.Class.class);
 		assertType(members.get(4), Enumeration.class);
 
 		parseAndReprint(filename);
@@ -1091,12 +1103,12 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testImport1() throws Exception {
-		String typename = "Import1";
-		String filename = typename + JAVA_FILE_EXTENSION;
+		final String typename = "Import1";
+		final String filename = typename + JAVA_FILE_EXTENSION;
 
 		registerInClassPath("Import2" + JAVA_FILE_EXTENSION);
 
-		CompilationUnit model = (CompilationUnit) parseResource(filename);
+		final CompilationUnit model = (CompilationUnit) parseResource(filename);
 		assertNumberOfClassifiers(model, 1);
 
 		parseAndReprint(filename);
@@ -1104,10 +1116,10 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testImport2() throws Exception {
-		String typename = "Import2";
-		String filename = typename + JAVA_FILE_EXTENSION;
+		final String typename = "Import2";
+		final String filename = typename + JAVA_FILE_EXTENSION;
 
-		CompilationUnit model = (CompilationUnit) parseResource(filename);
+		final CompilationUnit model = (CompilationUnit) parseResource(filename);
 		assertNumberOfClassifiers(model, 1);
 
 		registerInClassPath("Import1" + JAVA_FILE_EXTENSION);
@@ -1116,22 +1128,10 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	}
 
 	@Test
-	public void testSpecialHierarchy() {
-		try {
-			CompilationUnit model = (CompilationUnit) parseResource("spechier" + File.separator + "SubClass.java");
-			assertNumberOfClassifiers(model, 1);
-			registerInClassPath("spechier"+ File.separator + "ClassC.java");
-			parseAndReprint("spechier" + File.separator + "SubClass.java");
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
-
-	@Test
 	public void testInstanceOfArrayType() throws Exception {
-		String typename = "InstanceOfArrayType";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "InstanceOfArrayType";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 3);
 
 		parseAndReprint(filename);
@@ -1139,49 +1139,31 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testInterfaces() throws Exception {
-		String filename1 = "Interface1" + JAVA_FILE_EXTENSION;
-		String filename2 = "Interface2" + JAVA_FILE_EXTENSION;
-		String filename3 = "Interface3" + JAVA_FILE_EXTENSION;
+		final String filename1 = "Interface1" + JAVA_FILE_EXTENSION;
+		final String filename2 = "Interface2" + JAVA_FILE_EXTENSION;
+		final String filename3 = "Interface3" + JAVA_FILE_EXTENSION;
 
 		parseAndReprint(filename1);
 		parseAndReprint(filename2);
 		parseAndReprint(filename3);
 
-		String typename = "InterfaceUse";
-		org.emftext.language.java.classifiers.Class clazz =
-				assertParsesToClass(typename);
+		final String typename = "InterfaceUse";
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
-		Statement s = ((Block) clazz.getMembers().get(0)).getStatements().get(1);
-		ConcreteClassifier target = ((MethodCall) ((IdentifierReference) (
-				(ExpressionStatement) s).getExpression()).getNext()).getTarget().getContainingConcreteClassifier();
-		//should point at interface2 with the most concrete type as return type of getX()
+		final Statement s = ((Block) clazz.getMembers().get(0)).getStatements().get(1);
+		final ConcreteClassifier target = ((MethodCall) ((IdentifierReference) ((ExpressionStatement) s)
+				.getExpression()).getNext()).getTarget().getContainingConcreteClassifier();
+		// should point at interface2 with the most concrete type as return type of
+		// getX()
 		assertEquals("SyntheticContainerClass", target.getName());
 		parseAndReprint(typename + JAVA_FILE_EXTENSION);
 	}
 
 	@Test
-	public void testJavadoc1() throws Exception {
-		String filename1 = "JavaDocCommentBlock" + JAVA_FILE_EXTENSION;
-		parseAndReprint(filename1);
-	}
-
-	@Test
-	public void testJavadoc2() throws Exception {
-		String filename2 = "JavaDocCommentInClass" + JAVA_FILE_EXTENSION;
-		parseAndReprint(filename2);
-	}
-
-	@Test
-	public void testJavadoc3() throws Exception {
-		String filename3 = "JavaDocCommentInField" + JAVA_FILE_EXTENSION;
-		parseAndReprint(filename3);
-	}
-
-	@Test
 	public void testIOneMethod() throws Exception {
-		String typename = "IOneMethod";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "IOneMethod";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 		assertMemberCount(interfaze, 1);
 
 		parseAndReprint(filename);
@@ -1190,9 +1172,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	@Test
 	@Disabled("Contains empty members that are not parsed by JDT.")
 	public void testISemicolonOnly() throws Exception {
-		String typename = "ISemicolonOnly";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "ISemicolonOnly";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 		assertMemberCount(interfaze, 1);
 
 		parseAndReprint(filename);
@@ -1200,16 +1182,16 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testITwoPublicVoidMethods() throws Exception {
-		String typename = "ITwoPublicVoidMethods";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "ITwoPublicVoidMethods";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 		assertMemberCount(interfaze, 2);
 
-		List<Member> members = interfaze.getMembers();
-		Member member1 = members.get(0);
-		Member member2 = members.get(1);
-		Method method1 = (Method) member1;
-		Method method2 = (Method) member2;
+		final List<Member> members = interfaze.getMembers();
+		final Member member1 = members.get(0);
+		final Member member2 = members.get(1);
+		final Method method1 = (Method) member1;
+		final Method method2 = (Method) member2;
 		assertModifierCount(method1, 1);
 		assertModifierCount(method2, 1);
 		assertIsPublic(method1);
@@ -1220,22 +1202,50 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testIWithComments() throws Exception {
-		String typename = "IWithComments";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Interface interfaze = assertParsesToInterface(typename);
+		final String typename = "IWithComments";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Interface interfaze = assertParsesToInterface(typename);
 		assertMemberCount(interfaze, 2);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
+	public void testJavadoc1() throws Exception {
+		final String filename1 = "JavaDocCommentBlock" + JAVA_FILE_EXTENSION;
+		parseAndReprint(filename1);
+	}
+
+	@Test
+	public void testJavadoc2() throws Exception {
+		final String filename2 = "JavaDocCommentInClass" + JAVA_FILE_EXTENSION;
+		parseAndReprint(filename2);
+	}
+
+	@Test
+	public void testJavadoc3() throws Exception {
+		final String filename3 = "JavaDocCommentInField" + JAVA_FILE_EXTENSION;
+		parseAndReprint(filename3);
+	}
+
+	@Test
+	public void testLegalIdentifiers() throws Exception {
+		final String typename = "LegalIdentifiers";
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+
+		assertMemberCount(clazz, 1);
+
+		// parseAndReprint(typename + JAVA_FILE_EXTENSION);
+	}
+
+	@Test
 	public void testLiterals() throws Exception {
-		String typename = "Literals";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Literals";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 27);
 
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 		// check the fields and their initialization values
 		assertIsDecimalIntegerField(findElementByName(members, "i1"), 3);
 		assertIsHexIntegerField(members.get(2), 1);
@@ -1247,15 +1257,15 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		assertIsBooleanField(members.get(12), false);
 		assertIsBooleanField(members.get(13), true);
 
-		Member maxLongField = findElementByName(members, "maxLong");
+		final Member maxLongField = findElementByName(members, "maxLong");
 		assertNotNull(maxLongField);
 		assertIsHexLongField(maxLongField, "0xffffffffffffffff");
 
-		Member i7Field = findElementByName(members, "i7");
+		final Member i7Field = findElementByName(members, "i7");
 		assertNotNull(i7Field);
 		assertIsHexIntegerField(i7Field, 0xff);
 
-		Member i8Field = findElementByName(members, "i8");
+		final Member i8Field = findElementByName(members, "i8");
 		assertNotNull(i8Field);
 		assertIsDecimalLongField(i8Field, "10");
 
@@ -1264,9 +1274,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testLocalVariableDeclarations() throws Exception {
-		String typename = "LocalVariableDeclarations";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "LocalVariableDeclarations";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 2);
 
 		parseAndReprint(filename);
@@ -1274,87 +1284,77 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testLocation() throws Exception {
-		String filename = "locations/Location.java";
+		final String filename = "locations/Location.java";
 		assertParsableAndReprintable(filename);
 	}
 
 	@Test
 	public void testMembers() throws Exception {
-		String typename = "Members";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Members";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 6);
 
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 		assertType(members.get(0), Field.class);
 		assertType(members.get(1), Constructor.class);
 		assertType(members.get(2), Method.class);
 		assertType(members.get(3), Interface.class);
-		assertType(members.get(4),
-				org.emftext.language.java.classifiers.Class.class);
+		assertType(members.get(4), org.emftext.language.java.classifiers.Class.class);
 		assertType(members.get(5), Enumeration.class);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
-	public void testResolving() throws Exception {
-		String folder = "resolving/";
-
-		registerInClassPath(folder + "MethodCallsWithoutInheritance.java");
-
-		assertParsableAndReprintable(folder + "MethodCalls.java");
-		assertParsableAndReprintable(folder + "MethodCallsWithLocalTypeReferences.java");
-		assertParsableAndReprintable(folder + "MethodCallsWithoutInheritance.java");
-		assertParsableAndReprintable(folder + "ReferenceToInheritedMethod.java");
-		assertParsableAndReprintable(folder + "VariableReferencing.java");
-	}
-
-	@Test
-	public void testMethodOverride() throws Exception {
-		String typename = "MethodOverride";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 1);
-
-		Statement s = ((Block) clazz.getMembers().get(0)).getStatements().get(1);
-		ConcreteClassifier target = ((MethodCall) ((IdentifierReference) (
-				(ExpressionStatement) s).getExpression()).getNext()).getTarget().getContainingConcreteClassifier();
-		assertEquals("StringBuffer", target.getName());
-		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
-	}
-
-	@Test
-	public void testMethodOverloading() throws Exception {
-		String filename = "resolving_new/methodOverloading_2/MethodOverloading" + JAVA_FILE_EXTENSION;
-		CompilationUnit cu = (CompilationUnit) parseResource(filename);
-		ConcreteClassifier clazz = cu.getClassifiers().get(0);
-
-		Statement s = ((ClassMethod) clazz.getMembers().get(2)).getStatements().get(2);
-		ClassMethod target = (ClassMethod) ((MethodCall) (
-				(ExpressionStatement) s).getExpression()).getTarget();
-		assertEquals(clazz.getMembers().get(1), target);
-		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
-	}
-
-	@Test
 	public void testMethodCallsWithLocalTypeReferences() throws Exception {
-		String typename = "MethodCallsWithLocalTypeReferences";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "MethodCallsWithLocalTypeReferences";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 4);
 
 		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
 	}
 
 	@Test
+	public void testMethodOverloading() throws Exception {
+		final String filename = "resolving_new/methodOverloading_2/MethodOverloading" + JAVA_FILE_EXTENSION;
+		final CompilationUnit cu = (CompilationUnit) parseResource(filename);
+		final ConcreteClassifier clazz = cu.getClassifiers().get(0);
+
+		final Statement s = ((ClassMethod) clazz.getMembers().get(2)).getStatements().get(2);
+		final ClassMethod target = (ClassMethod) ((MethodCall) ((ExpressionStatement) s).getExpression()).getTarget();
+		assertEquals(clazz.getMembers().get(1), target);
+		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
+	}
+
+	@Test
+	public void testMethodOverride() throws Exception {
+		final String typename = "MethodOverride";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 1);
+
+		final Statement s = ((Block) clazz.getMembers().get(0)).getStatements().get(1);
+		final ConcreteClassifier target = ((MethodCall) ((IdentifierReference) ((ExpressionStatement) s)
+				.getExpression()).getNext()).getTarget().getContainingConcreteClassifier();
+		assertEquals("StringBuffer", target.getName());
+		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
+	}
+
+	@Test
 	public void testModifiers() throws Exception {
-		String typename = "Modifiers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Modifiers";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 29);
 
 		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testMoreUnicodeCharacters() throws Exception {
+		assertParsableAndReprintable(UNICODE_FOLDER + "MoreUnicodeCharacters.java");
 	}
 
 	@Test
@@ -1362,11 +1362,11 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		testEmptyInterface();
 		testIOneMethod();
 
-		String typename = "MultipleImplements";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "MultipleImplements";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 0);
-		List<TypeReference> implementedInterfaces = clazz.getImplements();
+		final List<TypeReference> implementedInterfaces = clazz.getImplements();
 		assertEquals(2, implementedInterfaces.size());
 
 		registerInClassPath("ISemicolonOnly" + JAVA_FILE_EXTENSION);
@@ -1376,24 +1376,27 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testMultiplications() throws Exception {
-		String typename = "Multiplications";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Multiplications";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 2);
 
-		List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 
-		Field longField = (Field) members.get(1);
-		Expression initValue = longField.getInitialValue();
+		final Field longField = (Field) members.get(1);
+		final Expression initValue = longField.getInitialValue();
 
-		TreeIterator<EObject> iter = initValue.eAllContents();
+		final TreeIterator<EObject> iter = initValue.eAllContents();
 		DecimalIntegerLiteral literal1 = null;
 		DecimalIntegerLiteral literal2 = null;
-		while(iter.hasNext()){
-			Object obj = iter.next();
+		while (iter.hasNext()) {
+			final Object obj = iter.next();
 			if (obj instanceof DecimalIntegerLiteral) {
-				if (literal1==null)literal1 = (DecimalIntegerLiteral)obj;
-				else literal2 = (DecimalIntegerLiteral)obj;
+				if (literal1 == null) {
+					literal1 = (DecimalIntegerLiteral) obj;
+				} else {
+					literal2 = (DecimalIntegerLiteral) obj;
+				}
 			}
 		}
 		assertNotNull(literal1, "no IntegerLiteral found");
@@ -1405,100 +1408,77 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	}
 
 	@Test
+	public void testNestedPkgPackageInfo() throws Exception {
+		// deep nested package with annotation in SAME package
+		parseAndReprint("pkg2/pkg3/pkg4/PackageAnnotation.java");
+
+		parseAndReprint("pkg2/pkg3/pkg4/package-info.java");
+	}
+
+	@Test
 	public void testNoTypeArgument() throws Exception {
-		String typename = "NoTypeArgument";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "NoTypeArgument";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 3);
-		Field b = (Field) clazz.getMembers().get(2);
-		RelationExpression exp = (RelationExpression) b.getInitialValue();
+		final Field b = (Field) clazz.getMembers().get(2);
+		final RelationExpression exp = (RelationExpression) b.getInitialValue();
 		assertTrue(exp.getRelationOperators().size() == 1);
-		assertTrue(exp.getRelationOperators().get(0) instanceof LessThan, exp.getRelationOperators().get(0).eClass().getName());
+		assertTrue(exp.getRelationOperators().get(0) instanceof LessThan,
+				exp.getRelationOperators().get(0).eClass().getName());
 		assertTrue(exp.getChildren().get(1) instanceof ShiftExpression);
 
 		parseAndReprint(filename);
 	}
 
-	// @Test
-	// public void testNumberLiterals() throws Exception {
-	// 	String typename = "NumberLiterals";
-	// 	String file = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
-	// 	org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("pkg", typename);
-	// 	assertMemberCount(clazz, 46);
-
-	// 	// iterate over all fields, get their value using reflection and
-	// 	// compare this value with the one from the Java parser
-	// 	java.lang.reflect.Field[] fields = NumberLiterals.class
-	// 			.getDeclaredFields();
-	// 	for (java.lang.reflect.Field field : fields) {
-	// 		Object value = field.get(null);
-	// 		Object bigValue = value;
-	// 		if (value instanceof Integer) {
-	// 			bigValue = BigInteger.valueOf(((Integer) value).longValue());
-	// 		}
-	// 		if (value instanceof Long) {
-	// 			bigValue = BigInteger.valueOf(((Long) value).longValue());
-	// 		}
-	// 		assertIsNumericField(clazz.getMembers(), field.getName(), bigValue);
-	// 	}
-
-	// 	parseAndReprint(file);
-	// }
-
 	@Test
-	public void testTempLiterals() throws Exception {
-		String typename = "TempLiterals";
-		String file = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 9);
-		parseAndReprint(file);
-	}
-
-	@Test
-	public void testRoundedLiterals() throws Exception {
-		String typename = "RoundedLiterals";
-		String file = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 26);
+	public void testNumberLiterals() throws Exception {
+		final String typename = "NumberLiterals";
+		final String file = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("pkg", typename);
+		assertMemberCount(clazz, 46);
+		// iterate over all fields, get their value using reflection and
+		// compare this value with the one from the Java parser
+		final java.lang.reflect.Field[] fields = NumberLiterals.class.getDeclaredFields();
+		for (final java.lang.reflect.Field field : fields) {
+			final Object value = field.get(null);
+			Object bigValue = value;
+			if (value instanceof Integer) {
+				bigValue = BigInteger.valueOf(((Integer) value).longValue());
+			}
+			if (value instanceof Long) {
+				bigValue = BigInteger.valueOf((Long) value);
+			}
+			assertIsNumericField(clazz.getMembers(), field.getName(), bigValue);
+		}
 		parseAndReprint(file);
 	}
 
 	@Test
 	public void testParametersWithModifiers() throws Exception {
-		String typename = "ParametersWithModifiers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "ParametersWithModifiers";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 2);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
-	public void testPrimitiveTypeArrays() throws Exception {
-		String typename = "PrimitiveTypeArrays";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 4);
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testPkg_EmptyClass() throws Exception {
-		CompilationUnit model = (CompilationUnit) parseResource("pkg/EmptyClass.java");
+	public void testPkgEmptyClass() throws Exception {
+		final CompilationUnit model = (CompilationUnit) parseResource("pkg/EmptyClass.java");
 		assertNumberOfClassifiers(model, 1);
-		Classifier declaration = model.getClassifiers().get(0);
-		assertEquals("EmptyClass", declaration.getName(),
-			"The name of the declared class equals 'EmptyClass'");
+		final Classifier declaration = model.getClassifiers().get(0);
+		assertEquals("EmptyClass", declaration.getName(), "The name of the declared class equals 'EmptyClass'");
 		assertEquals("pkg", model.getNamespaces().get(0), "pkg.Empty is located in a package 'pkg'");
 		parseAndReprint("pkg/EmptyClass.java");
 	}
 
 	@Test
-	public void testPkg_inner_EmptyClass() throws Exception {
-		CompilationUnit model = (CompilationUnit) parseResource("pkg/inner/Inner.java");
+	public void testPkgInnerEmptyClass() throws Exception {
+		final CompilationUnit model = (CompilationUnit) parseResource("pkg/inner/Inner.java");
 		assertNumberOfClassifiers(model, 1);
-		Classifier declaraction = model.getClassifiers().get(0);
+		final Classifier declaraction = model.getClassifiers().get(0);
 		assertEquals("Inner", declaraction.getName(), "The name of the declared class equals 'Inner'");
 		assertEquals("inner", model.getNamespaces().get(1), "pkg.inner.Inner is located in a package 'inner'");
 		assertEquals("pkg", model.getNamespaces().get(0), "Package 'Inner' is located in a package 'pkg'");
@@ -1506,21 +1486,14 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	}
 
 	@Test
-	public void testPkg_PackageAnnotation() throws Exception {
-		CompilationUnit model = (CompilationUnit) parseResource("pkg/PackageAnnotation.java");
+	public void testPkgPackageAnnotation() throws Exception {
+		final CompilationUnit model = (CompilationUnit) parseResource("pkg/PackageAnnotation.java");
 		assertNumberOfClassifiers(model, 1);
 		parseAndReprint("pkg/PackageAnnotation.java");
 	}
 
 	@Test
-	public void testPkg_package_info() throws Exception {
-		registerInClassPath("pkg/PackageAnnotation.java");
-
-		parseAndReprint("pkg/package-info.java");
-	}
-
-	@Test
-	public void testPkg_package_info2() throws Exception {
+	public void testPkgPackageInfo() throws Exception {
 		parseAndReprint("pkg2/pkg3/Pkg2Enum.java");
 		parseAndReprint("pkg2/pkg3/PackageAnnotation.java");
 
@@ -1528,39 +1501,68 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 	}
 
 	@Test
-	public void testPkg_package_info3() throws Exception {
-		//deep nested package with annotation in SAME package
-		parseAndReprint("pkg2/pkg3/pkg4/PackageAnnotation.java");
+	public void testPkgPackageInfoWithRegisterClass() throws Exception {
+		registerInClassPath("pkg/PackageAnnotation.java");
 
-		parseAndReprint("pkg2/pkg3/pkg4/package-info.java");
+		parseAndReprint("pkg/package-info.java");
 	}
 
 	@Test
-	@Disabled("Contains empty members that are not parsed by JDT.")
-	public void testSemicolonAfterMembers() throws Exception {
-		String typename = "SemicolonAfterMembers";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		assertMemberCount(clazz, 2 + 4);
+	public void testPrimitiveTypeArrays() throws Exception {
+		final String typename = "PrimitiveTypeArrays";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 4);
 
-		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
+		parseAndReprint(filename);
+	}
+
+	@Test
+	public void testResolving() throws Exception {
+		registerInClassPath(RESOLVING_FOLDER + "MethodCallsWithoutInheritance.java");
+
+		assertParsableAndReprintable(RESOLVING_FOLDER + "MethodCalls.java");
+		assertParsableAndReprintable(RESOLVING_FOLDER + "MethodCallsWithLocalTypeReferences.java");
+		assertParsableAndReprintable(RESOLVING_FOLDER + "MethodCallsWithoutInheritance.java");
+		assertParsableAndReprintable(RESOLVING_FOLDER + "ReferenceToInheritedMethod.java");
+		assertParsableAndReprintable(RESOLVING_FOLDER + "VariableReferencing.java");
+	}
+
+	@Test
+	public void testRoundedLiterals() throws Exception {
+		final String typename = "RoundedLiterals";
+		final String file = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 26);
+		parseAndReprint(file);
 	}
 
 	@Test
 	public void testSemicolonAfterExpressions() throws Exception {
-		String typename = "SemicolonAfterExpressions";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "SemicolonAfterExpressions";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
 	}
 
 	@Test
+	@Disabled("Contains empty members that are not parsed by JDT.")
+	public void testSemicolonAfterMembers() throws Exception {
+		final String typename = "SemicolonAfterMembers";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 2 + 4);
+
+		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
+	}
+
+	@Test
 	public void testSimpleAnnotations() throws Exception {
-		String typename = "SimpleAnnotations";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		Annotation annotation = assertParsesToAnnotation(typename);
+		final String typename = "SimpleAnnotations";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final Annotation annotation = assertParsesToAnnotation(typename);
 		assertEquals(2, annotation.getMembers().size(), typename + " should have 2 members.");
 
 		parseAndReprint(filename);
@@ -1568,9 +1570,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testSimpleMethodCalls() throws Exception {
-		String typename = "SimpleMethodCalls";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "SimpleMethodCalls";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 4);
 
 		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
@@ -1578,12 +1580,25 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testSpecialCharacters() throws Exception {
-		String typename = "SpecialCharacters";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "SpecialCharacters";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 3);
 
 		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
+	}
+
+	@Test
+	public void testSpecialHierarchy() {
+		try {
+			final CompilationUnit model = (CompilationUnit) parseResource(
+					"spechier" + File.separator + "SubClass.java");
+			assertNumberOfClassifiers(model, 1);
+			registerInClassPath("spechier" + File.separator + "ClassC.java");
+			parseAndReprint("spechier" + File.separator + "SubClass.java");
+		} catch (final Exception e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
@@ -1601,27 +1616,25 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		assertParsesToClass("LoopStatements", 11);
 	}
 
-	// @Test
-	// public void testStaticImports() throws Exception {
-	// 	String typename = "StaticImports";
-	// 	String filename = typename + JAVA_FILE_EXTENSION;
-	// 	CompilationUnit unit = (CompilationUnit) parseResource(filename, getTestInputFolder());
-	// 	List<Import> imports = unit.getImports();
-	// 	assertEquals(2, imports.size());
-	// 	assertTrue(imports.get(0) instanceof StaticImport, "first import is not static");
-	// 	assertTrue(imports.get(1) instanceof ClassifierImport, "second import is static");
-
-	// 	registerInClassPath("pkg/EmptyClass" + JAVA_FILE_EXTENSION);
-	// 	registerInClassPath("pkg/EscapedStrings" + JAVA_FILE_EXTENSION);
-
-	// 	parseAndReprint(filename);
-	// }
+	@Test
+	public void testStaticImports() throws Exception {
+		final String typename = "StaticImports";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final CompilationUnit unit = (CompilationUnit) parseResource(filename, getTestInputFolder());
+		final List<Import> imports = unit.getImports();
+		assertEquals(2, imports.size());
+		assertTrue(imports.get(0) instanceof StaticImport, "first import is not static");
+		assertTrue(imports.get(1) instanceof ClassifierImport, "second import is static");
+		registerInClassPath("pkg/EmptyClass" + JAVA_FILE_EXTENSION);
+		registerInClassPath("pkg/EscapedStrings" + JAVA_FILE_EXTENSION);
+		parseAndReprint(filename);
+	}
 
 	@Test
 	public void testStringLiteralReferencing() throws Exception {
-		String typename = "StringLiteralReferencing";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "StringLiteralReferencing";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
@@ -1629,12 +1642,12 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testSuperKeyword() throws Exception {
-		String typename = "SuperKeyword";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "SuperKeyword";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
-		Member method = clazz.getMembers().get(0);
+		final Member method = clazz.getMembers().get(0);
 		assertType(method, Constructor.class);
 
 		parseAndReprint(filename);
@@ -1642,21 +1655,30 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testSynchronized() throws Exception {
-		String typename = "Synchronized";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "Synchronized";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 2);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
+	public void testTempLiterals() throws Exception {
+		final String typename = "TempLiterals";
+		final String file = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertMemberCount(clazz, 9);
+		parseAndReprint(file);
+	}
+
+	@Test
 	public void testTypeParameters() throws Exception {
 		testIOneMethod();
 
-		String typename = "TypeParameters";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "TypeParameters";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 14);
 
 		parseAndReprint(filename);
@@ -1664,9 +1686,9 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testTypeReferencing() throws Exception {
-		String typename = "TypeReferencing";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "TypeReferencing";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 3);
 
 		registerInClassPath("pkg/EmptyClass" + JAVA_FILE_EXTENSION);
@@ -1677,8 +1699,8 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testTypeReferencingExternal() throws Exception {
-		String typename = "TypeReferencingExternal";
-		String filename = typename + JAVA_FILE_EXTENSION;
+		final String typename = "TypeReferencingExternal";
+		final String filename = typename + JAVA_FILE_EXTENSION;
 		assertParsesToClass(typename);
 
 		registerInClassPath("TypeReferencing" + JAVA_FILE_EXTENSION);
@@ -1690,104 +1712,69 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 
 	@Test
 	public void testUnaryExpressions() throws Exception {
-		String typename = "UnaryExpressions";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "UnaryExpressions";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 1);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
+	public void testUnicode() throws Exception {
+		assertParsableAndReprintable(UNICODE_FOLDER + "Unicode.java");
+	}
+
+	@Test
+	public void testUnicodeIdentifiers() throws Exception {
+		assertParsableAndReprintable(UNICODE_FOLDER + "UnicodeIdentifiers.java");
+	}
+
+	@Test
+	public void testUnicodeSurrogateCharacter() throws Exception {
+		final String typename = "UnicodeSurrogateCharacters";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final Member m1 = clazz.getMembers().get(0);
+		assertTrue(m1 instanceof Field);
+		final Expression value = ((Field) m1).getInitialValue();
+		assertTrue(value instanceof CharacterLiteral);
+		final String c = ((CharacterLiteral) value).getValue();
+		assertEquals("\\uD800", c);
+		parseAndReprint(filename);
+	}
+
+	@Test
 	public void testUsingAnnotations() throws Exception {
-		String typename = "UsingAnnotations";
-		String filename = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
+		final String typename = "UsingAnnotations";
+		final String filename = "pkg" + File.separator + typename + JAVA_FILE_EXTENSION;
 		assertParsesToClass("pkg", typename);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
-	public void testUnicode() throws Exception {
-		String folder = "unicode/";
-		assertParsableAndReprintable(folder + "Unicode.java");
-	}
-
-	@Test
-	public void testUnicodeIdentifiers() throws Exception {
-		String folder = "unicode/";
-		assertParsableAndReprintable(folder + "UnicodeIdentifiers.java");
-	}
-
-	@Test
-	public void testMoreUnicodeCharacters() throws Exception {
-		String folder = "unicode/";
-		assertParsableAndReprintable(folder + "MoreUnicodeCharacters.java");
-	}
-
-	@Test
 	public void testVariableLengthArgumentList() throws Exception {
-		String typename = "VariableLengthArgumentList";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "VariableLengthArgumentList";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 
 		assertMemberCount(clazz, 4);
-		Member firstMember = clazz.getMembers().get(0);
-		Constructor constructor = assertIsConstructor(firstMember);
+		final Member firstMember = clazz.getMembers().get(0);
+		final Constructor constructor = assertIsConstructor(firstMember);
 		assertEquals(1, constructor.getParameters().size(), "Constructor of " + typename + " should habe 1 parameter.");
-		assertType(constructor.getParameters().get(0),
-				VariableLengthParameter.class);
+		assertType(constructor.getParameters().get(0), VariableLengthParameter.class);
 
 		parseAndReprint(filename);
 	}
 
 	@Test
 	public void testVariableReferencing() throws Exception {
-		String typename = "VariableReferencing";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+		final String typename = "VariableReferencing";
+		final String filename = typename + JAVA_FILE_EXTENSION;
+		final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
 		assertMemberCount(clazz, 2);
 
 		parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
-	}
-
-	@Test
-	public void testUnicodeSurrogateCharacter() throws Exception {
-		String typename = "UnicodeSurrogateCharacters";
-		String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		Member m1 = clazz.getMembers().get(0);
-		assertTrue(m1 instanceof Field);
-		Expression value = ((Field) m1).getInitialValue();
-		assertTrue(value instanceof CharacterLiteral);
-		String c = ((CharacterLiteral) value).getValue();
-		assertEquals("\\uD800", c);
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void test$InClassName() throws Exception {
-		parseAndReprint("ClassWith$InName" + JAVA_FILE_EXTENSION);
-		parseAndReprint("ClassWith$$InName" + JAVA_FILE_EXTENSION);
-		parseAndReprint("Class$$$$With$$$$In$$$$Name$$$$$" + JAVA_FILE_EXTENSION);
-		parseAndReprint("pkg/ClassWith$In$$Pkg" + JAVA_FILE_EXTENSION);
-		parseAndReprint("pkg/inner/ClassWith$In$$Inner$Pkg" + JAVA_FILE_EXTENSION);
-
-		String typename = "ClassWithDollarReferenced";
-		String filename = typename + JAVA_FILE_EXTENSION;
-
-		parseAndReprint(filename);
-	}
-
-	@Test
-	public void testBug1695() throws Exception {
-		String typename = "Bug1695";
-		String filename = "bugs" + File.separator + typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass("bugs", typename);
-
-		assertEquals("Bug1695", clazz.getName());
-		assertEquals("InnerClass", clazz.getMembers().get(0).getName());
-
-		parseAndReprint(filename);
 	}
 }

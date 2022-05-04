@@ -13,3 +13,4 @@ Require-Bundle: org.eclipse.jdt.core,
  org.eclipse.emf.ecore,
  jamopp.parser
 Export-Package: jamopp.parser.jdt
+Import-Package: org.apache.log4j

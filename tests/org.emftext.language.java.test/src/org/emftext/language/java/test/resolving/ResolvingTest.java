@@ -46,7 +46,7 @@ import jamopp.resource.JavaResource2Factory;
  * @author Marvin Meller
  * @author Yves Kirschner
  *
- * @version 1.2
+ * @version 1.3
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class ResolvingTest {
@@ -64,13 +64,15 @@ public class ResolvingTest {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master",
-			"bigbluebutton-develop", "SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
-			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master", "microservice-kafka-master",
-			"h2database-master", "spring-cloud-event-sourcing-example-master", "esda-master",
-			"TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
-			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master",
-			"sagan-main", "spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master" })
+	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master", "bigbluebutton-develop",
+			"SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
+			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master",
+			"microservice-kafka-master", "h2database-master", "spring-cloud-event-sourcing-example-master",
+			"esda-master", "TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
+			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master", "sagan-main",
+			"spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master",
+			"Palladio-Addons-PlantUML-main", "Palladio-Build-DependencyTool-master",
+			"spring-rabbitmq-messaging-microservices-master" })
 	public void test1JavaDirectoryExists(String input) {
 		final Path directory = directoryOf(input);
 		assertTrue(Files.exists(directory), directory.toString() + " does not exist.");
@@ -78,16 +80,36 @@ public class ResolvingTest {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master",
-			"bigbluebutton-develop", "SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
-			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master", "microservice-kafka-master",
-			"h2database-master", "spring-cloud-event-sourcing-example-master", "esda-master",
-			"TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
-			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master",
-			"sagan-main", "spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master" })
+	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master", "bigbluebutton-develop",
+			"SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
+			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master",
+			"microservice-kafka-master", "h2database-master", "spring-cloud-event-sourcing-example-master",
+			"esda-master", "TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
+			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master", "sagan-main",
+			"spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master",
+			"Palladio-Addons-PlantUML-main", "Palladio-Build-DependencyTool-master",
+			"spring-rabbitmq-messaging-microservices-master" })
 	public void test2ResolveAll(String input) {
 		final Path directory = directoryOf(input);
 		final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory));
+		assertNotNull(resourceSet, "ResourceSet for " + input + "was null.");
+		assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet), "Resolve all for " + input + "throws.");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master", "bigbluebutton-develop",
+			"SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
+			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master",
+			"microservice-kafka-master", "h2database-master", "spring-cloud-event-sourcing-example-master",
+			"esda-master", "TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
+			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master", "sagan-main",
+			"spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master",
+			"Palladio-Addons-PlantUML-main", "Palladio-Build-DependencyTool-master",
+			"spring-rabbitmq-messaging-microservices-master" })
+	public void test3ResolveAllWithLatestParser(String input) {
+		final Path directory = directoryOf(input);
+		final ResourceSet resourceSet = assertDoesNotThrow(
+				() -> new JaMoPPJDTParser().parseDirectory(JaMoPPJDTParser.getJavaParser(null), directory));
 		assertNotNull(resourceSet, "ResourceSet for " + input + "was null.");
 		assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet), "Resolve all for " + input + "throws.");
 	}

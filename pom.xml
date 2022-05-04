@@ -347,6 +347,45 @@
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>download-test-resource-messagingservices</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://github.com/jonashackt/spring-rabbitmq-messaging-microservices/archive/refs/heads/master.zip</url>
+                            <unpack>true</unpack>
+                            <skipCache>true</skipCache>
+                            <outputDirectory>${project.build.directory}/resources/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-test-resource-dependencytool</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://github.com/PalladioSimulator/Palladio-Build-DependencyTool/archive/refs/heads/master.zip</url>
+                            <unpack>true</unpack>
+                            <skipCache>true</skipCache>
+                            <outputDirectory>${project.build.directory}/resources/</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-test-resource-plantuml</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://github.com/PalladioSimulator/Palladio-Addons-PlantUML/archive/refs/heads/main.zip</url>
+                            <unpack>true</unpack>
+                            <skipCache>true</skipCache>
+                            <outputDirectory>${project.build.directory}/resources/</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

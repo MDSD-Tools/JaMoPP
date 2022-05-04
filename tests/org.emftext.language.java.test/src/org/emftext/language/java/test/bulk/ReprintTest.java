@@ -20,6 +20,8 @@ import java.nio.file.Path;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.test.AbstractJaMoPPTests;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -34,8 +36,9 @@ import jamopp.parser.jdt.JaMoPPJDTParser;
  * @author Marvin Meller
  * @author Yves Kirschner
  *
- * @version 1.2
+ * @version 1.3
  */
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class ReprintTest extends AbstractJaMoPPTests {
 	protected static Path directoryOf(String input) {
 		return Path.of("../target/resourcess", input).normalize().toAbsolutePath();
@@ -43,19 +46,9 @@ public class ReprintTest extends AbstractJaMoPPTests {
 
 	private String input;
 
-	@ParameterizedTest
-	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master",
-			"bigbluebutton-develop", "SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
-			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master", "microservice-kafka-master",
-			"h2database-master", "spring-cloud-event-sourcing-example-master", "esda-master",
-			"TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
-			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master",
-			"sagan-main", "spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master" })
-	public void testResprint(String input) {
-		this.input = input;
-		final Path directory = directoryOf(input);
-		final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory),  "Parse sirectory for " + input + "throws.");
-		assertDoesNotThrow(() -> testReprint(resourceSet), "Reprint for " + input + "throws.");
+	@Override
+	protected String getTestInputFolder() {
+		return directoryOf(input).toString();
 	}
 
 	@Override
@@ -63,8 +56,36 @@ public class ReprintTest extends AbstractJaMoPPTests {
 		return false;
 	}
 
-	@Override
-	protected String getTestInputFolder() {
-		return directoryOf(input).toString();
+	@ParameterizedTest
+	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master", "bigbluebutton-develop",
+			"SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
+			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master",
+			"microservice-kafka-master", "h2database-master", "spring-cloud-event-sourcing-example-master",
+			"esda-master", "TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
+			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master", "sagan-main",
+			"spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master" })
+	public void test1Resprint(String input) {
+		this.input = input;
+		final Path directory = directoryOf(input);
+		final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory),
+				"Parse sirectory for " + input + "throws.");
+		assertDoesNotThrow(() -> testReprint(resourceSet), "Reprint for " + input + "throws.");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = { "acmeair-master", "commons-lang-master", "flowing-retail-master", "bigbluebutton-develop",
+			"SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
+			"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master",
+			"microservice-kafka-master", "h2database-master", "spring-cloud-event-sourcing-example-master",
+			"esda-master", "TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
+			"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master", "sagan-main",
+			"spring-petclinic-microservices-master", "piggymetrics-master", "teammates-master" })
+	public void test2ResprintWithLatestParser(String input) {
+		this.input = input;
+		final Path directory = directoryOf(input);
+		final ResourceSet resourceSet = assertDoesNotThrow(
+				() -> new JaMoPPJDTParser().parseDirectory(JaMoPPJDTParser.getJavaParser(null), directory),
+				"Parse sirectory for " + input + "throws.");
+		assertDoesNotThrow(() -> testReprint(resourceSet), "Reprint for " + input + "throws.");
 	}
 }
