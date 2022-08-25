@@ -1,5 +1,6 @@
-# This is a comment. Each line is a file pattern followed by one or more owners.
-
-# These owners will be the default owners for everything in this repository.
+# These owners will be the default owners for everything in this repertoire.
 # Unless a later match takes precedence, they will be requested for review when someone opens a pull request.
-*.yml @Nicolas-Boltz
+*                         @YvesKirschner
+
+# These owners are the default owners for all build and deployment workflows.
+.github/workflows/*      @Nicolas-Boltz @larissaschmid
