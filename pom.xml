@@ -42,7 +42,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/acmeair/acmeair/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/acmeair/acmeair/archive/refs/tags/v1.2.0.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -55,7 +55,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/apache/commons-lang/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/apache/commons-lang/archive/refs/tags/rel/commons-lang-3.12.0.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -81,7 +81,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/bigbluebutton/bigbluebutton/archive/refs/heads/develop.zip</url>
+                            <url>https://github.com/bigbluebutton/bigbluebutton/archive/refs/tags/v2.4.7.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -120,7 +120,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/DescartesResearch/TeaStore/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/DescartesResearch/TeaStore/archive/refs/tags/v1.4.0.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -133,7 +133,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/eventuate-tram/eventuate-tram-examples-customers-and-orders-redis/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/eventuate-tram/eventuate-tram-examples-customers-and-orders-redis/archive/be4a3da5502aa11af441b70b7ab6b5f1430b17d4.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -172,7 +172,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/h2database/h2database/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/h2database/h2database/archive/refs/tags/version-2.1.210.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -302,7 +302,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/spring-io/sagan/archive/refs/heads/main.zip</url>
+                            <url>https://github.com/spring-io/sagan/archive/1995913fb2d90693c97c251fd142b429724cdf44.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -315,7 +315,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/spring-petclinic/spring-petclinic-microservices/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/spring-petclinic/spring-petclinic-microservices/archive/refs/tags/v2.3.6.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -328,7 +328,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/sqshq/piggymetrics/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/sqshq/piggymetrics/archive/refs/tags/spring.version.2.0.3.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>
@@ -354,7 +354,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://github.com/jonashackt/spring-rabbitmq-messaging-microservices/archive/refs/heads/master.zip</url>
+                            <url>https://github.com/jonashackt/spring-rabbitmq-messaging-microservices/archive/019cadd4c1310a4651f3529626ac2acd4853a987.zip</url>
                             <unpack>true</unpack>
                             <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}/resources/</outputDirectory>

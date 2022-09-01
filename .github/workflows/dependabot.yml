@@ -1,9 +1,5 @@
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
-  # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -11,7 +7,6 @@ updates:
       day: "sunday"
       time: "02:04"
 
-  # Maintain dependencies for Maven
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
