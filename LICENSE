@@ -11,8 +11,12 @@ Contributors:
   Software Technology Group - TU Dresden, Germany;
   DevBoost GmbH - Berlin, Germany
      - initial API and implementation
+  Fabian Müller
+     - Initial Eclipse AST parser integrtion
   Martin Armbruster
      - Extension for Java 7-13
+  Marvin Meller
+     - Quality assurance within Tycho
 
 ------------------------------------------------------------------------------
 

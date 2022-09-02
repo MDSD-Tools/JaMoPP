@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.jdt.core.dom.ASTParser;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.ContainersFactory;
@@ -51,16 +50,17 @@ import jamopp.resource.JavaResource2Factory;
 public class JaMoPPJDTParserTest {
 
 	private static Stream<Path> caseStudiesProvider() {
-		return Stream
-				.of("acmeair-master", "commons-lang-master", "flowing-retail-master", "bigbluebutton-develop",
-						"SPECjvm2008-master", "SPECjbb2005-master", "TeaStore-master",
-						"eventuate-tram-examples-customers-and-orders-redis-master", "microservice-master",
-						"microservice-kafka-master", "h2database-master", "spring-cloud-event-sourcing-example-master",
-						"esda-master", "TimeSheetGenerator-master", "meet-eat-data-master", "meet-eat-server-master",
-						"trojan-source-main", "smart-home-websockets-master", "RUBiS-master", "clnr-demo-master",
-						"sagan-main", "spring-petclinic-microservices-master", "piggymetrics-master",
-						"teammates-master", "Palladio-Addons-PlantUML-main", "Palladio-Build-DependencyTool-master",
-						"spring-rabbitmq-messaging-microservices-master")
+		return Stream.of("acmeair-1.2.0", "bigbluebutton-2.4.7", "clnr-demo-master",
+				"commons-lang-rel-commons-lang-3.12.0", "esda-master",
+				"eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4",
+				"flowing-retail-master", "h2database-version-2.1.210", "meet-eat-data-master", "meet-eat-server-master",
+				"microservice-kafka-master", "microservice-master", "Palladio-Addons-PlantUML-main",
+				"Palladio-Build-DependencyTool-master", "piggymetrics-spring.version.2.0.3", "RUBiS-master",
+				"sagan-1995913fb2d90693c97c251fd142b429724cdf44", "smart-home-websockets-master", "SPECjbb2005-master",
+				"SPECjvm2008-master", "spring-cloud-event-sourcing-example-master",
+				"spring-petclinic-microservices-2.3.6",
+				"spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987", "teammates-master",
+				"TeaStore-1.4.0", "TimeSheetGenerator-master", "trojan-source-main")
 				.map(c -> Path.of("../target/resources", c).toAbsolutePath().normalize());
 
 	}
@@ -78,19 +78,19 @@ public class JaMoPPJDTParserTest {
 	@ParameterizedTest(name = "{index}. case study: {0}")
 	@MethodSource("caseStudiesProvider")
 	public void testJdtParser(Path caseStudy) {
-		final ASTParser parser = assertDoesNotThrow(() -> JaMoPPJDTParser.getJavaParser(null));
+		final var parser = assertDoesNotThrow(() -> JaMoPPJDTParser.getJavaParser(null));
 		assertNotNull(parser);
-		final JaMoPPJDTParser api = new JaMoPPJDTParser();
+		final var api = new JaMoPPJDTParser();
 		assertNotNull(api);
 
-		final String[] classpathEntries = assertDoesNotThrow(() -> JaMoPPJDTParser.getClasspathEntries(caseStudy));
+		final var classpathEntries = assertDoesNotThrow(() -> JaMoPPJDTParser.getClasspathEntries(caseStudy));
 		assertNotNull(classpathEntries);
 
-		final String[] sourcepathEntries = assertDoesNotThrow(() -> api.getSourcepathEntries(caseStudy));
+		final var sourcepathEntries = assertDoesNotThrow(() -> api.getSourcepathEntries(caseStudy));
 		assertNotNull(sourcepathEntries);
 		assertTrue(sourcepathEntries.length > 0);
 
-		final String[] encodings = new String[sourcepathEntries.length];
+		final var encodings = new String[sourcepathEntries.length];
 		Arrays.fill(encodings, JaMoPPJDTParser.DEFAULT_ENCODING);
 		assertNotNull(sourcepathEntries);
 		assertTrue(sourcepathEntries.length == encodings.length);
