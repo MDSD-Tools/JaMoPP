@@ -54,10 +54,8 @@ public class TypeExtension {
 					return true;
 				}
 			}
-			if (typeParameter.getExtendTypes().isEmpty()) {
-				if (me.getObjectClass().equalsType(arrayDimension, lOtherType, otherArrayDimension)) {
-					return true;
-				}
+			if (typeParameter.getExtendTypes().isEmpty() && me.getObjectClass().equalsType(arrayDimension, lOtherType, otherArrayDimension)) {
+				return true;
 			}
 		} 
 		if (lOtherType instanceof TypeParameter) {
@@ -67,10 +65,8 @@ public class TypeExtension {
 					return true;
 				}
 			}
-			if (typeParameter.getExtendTypes().isEmpty()) {
-				if (me.equalsType(arrayDimension, me.getObjectClass(), otherArrayDimension)) {
-					return true;
-				}
+			if (typeParameter.getExtendTypes().isEmpty() && me.equalsType(arrayDimension, me.getObjectClass(), otherArrayDimension)) {
+				return true;
 			}
 		}
 		
@@ -81,14 +77,10 @@ public class TypeExtension {
 		if (lOtherType instanceof PrimitiveType) {
 			lOtherType = ((PrimitiveType) lOtherType).wrapPrimitiveType();
 		}
-		
-		if (arrayDimension == otherArrayDimension &&
+				
+		return arrayDimension == otherArrayDimension &&
 				lOtherType instanceof Classifier && _this instanceof Classifier &&
-				(lOtherType.equals(_this))) {	
-			return true;
-		}
-		
-		return false;
+				(lOtherType.equals(_this));
 	}
 
 	/**
@@ -108,8 +100,8 @@ public class TypeExtension {
 		Type _this = me;
 		
 		if (_this instanceof TemporalCompositeClassifier || lOtherType instanceof TemporalCompositeClassifier) {
-			EList<Type> _thisTypeList = new UniqueEList<Type>();
-			EList<Type> otherTypeList = new UniqueEList<Type>();
+			EList<Type> _thisTypeList = new UniqueEList<>();
+			EList<Type> otherTypeList = new UniqueEList<>();
 			if (_this instanceof TemporalCompositeClassifier) {
 				for(EObject aType : ((TemporalCompositeClassifier)_this).getSuperTypes()) {
 					_thisTypeList.add((Type)aType);
@@ -140,38 +132,19 @@ public class TypeExtension {
 		}
 		
 		//if I am a void, I am of every type
-		if (_this.equals(me.getLibClass("Void"))) {
-			return true;
-		}
-		
 		//if the other is Object I am a subtype in any case (also array dimensions do not matter)
-		if (lOtherType.equals(me.getObjectClass())) {
+		if (_this.equals(me.getLibClass("Void")) || lOtherType.equals(me.getObjectClass())) {
 			return true;
 		}
 		
 		//String, primitives, and arrays are serializable
 		ConcreteClassifier serializableClass = JavaClasspath.get().getConcreteClassifier("java.io.Serializable");
-		if (lOtherType.equals(serializableClass)) {
-			if (_this.equals(serializableClass)) {
-	 			return true;
-			}
-			else if (_this.equals(me.getStringClass())) {
-	 			return true;
-			}
-			else if (_this instanceof PrimitiveType) {
-				return true;
-			}
-			else if (arrayDimension > 0) {
-				//all arrays are serializable
-				return true;
-			}
+		if (lOtherType.equals(serializableClass) && _this.equals(serializableClass) || _this.equals(me.getStringClass()) || (_this instanceof PrimitiveType) || (arrayDimension > 0)) {
+	 		return true;
 		}
 		
 		//if one of us is a parameter to the best of my knowledge, we might match
-		if (_this instanceof TypeParameter) {
-			return true;
-		}
-		if (lOtherType instanceof TypeParameter) {
+		if ((_this instanceof TypeParameter) || (lOtherType instanceof TypeParameter)) {
 			return true;
 		}
 		
@@ -205,11 +178,8 @@ public class TypeExtension {
 			if(arrayDimension != otherArrayDim && arrayDimension != otherArrayDim-1) {
 				return false;
 			}
-		}
-		else {
-			if(arrayDimension != otherArrayDim) {
-				return false;
-			}
+		} else if(arrayDimension != otherArrayDim) {
+			return false;
 		}
 		
 		//annotations
@@ -246,12 +216,10 @@ public class TypeExtension {
 		//everything can be implicitly casted to CharSequence, so I match when the other type is a CharSequence
 		Interface charSequenceClass = me.getLibInterface("CharSequence");
 		
-		if (lOtherType instanceof ConcreteClassifier) {
-			if(lOtherType.equals(charSequenceClass) ||
-					((ConcreteClassifier)lOtherType).getAllSuperClassifiers(
-							).contains(charSequenceClass)) {
-				return true;
-			}
+		if((lOtherType instanceof ConcreteClassifier) && (lOtherType.equals(charSequenceClass) ||
+				((ConcreteClassifier)lOtherType).getAllSuperClassifiers(
+						).contains(charSequenceClass))) {
+			return true;
 		}
 
 		//there are some specifics for primitive types not reflected in the type hierarchy
@@ -273,43 +241,26 @@ public class TypeExtension {
 		}
 
 		if (_this instanceof org.emftext.language.java.types.Boolean) {
-			if (lOtherType instanceof org.emftext.language.java.types.Boolean) {
-				return true;
-			}
-			else {
-				return false;
-			}
+			return lOtherType instanceof org.emftext.language.java.types.Boolean;
 		}
 		if (_this instanceof org.emftext.language.java.types.Byte ||
 				_this instanceof org.emftext.language.java.types.Int ||
 				_this instanceof org.emftext.language.java.types.Short ||
 				_this instanceof org.emftext.language.java.types.Long ||
 				_this instanceof org.emftext.language.java.types.Char) {
-			if (lOtherType instanceof org.emftext.language.java.types.Byte ||
+
+			return lOtherType instanceof org.emftext.language.java.types.Byte ||
 					lOtherType instanceof org.emftext.language.java.types.Int ||
 					lOtherType instanceof org.emftext.language.java.types.Short ||
 					lOtherType instanceof org.emftext.language.java.types.Long ||
 					lOtherType instanceof org.emftext.language.java.types.Char ||
 					lOtherType instanceof org.emftext.language.java.types.Float ||
-					lOtherType instanceof org.emftext.language.java.types.Double) {
-				return true;
-			}
-			else {
-				return false;
-			}
+					lOtherType instanceof org.emftext.language.java.types.Double;
 		}
-		if (_this instanceof org.emftext.language.java.types.Float ||
-				_this instanceof org.emftext.language.java.types.Double) {
-			if (lOtherType instanceof org.emftext.language.java.types.Float ||
-					lOtherType instanceof org.emftext.language.java.types.Double) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-
-		return false;
+	
+		return (_this instanceof org.emftext.language.java.types.Float ||
+				_this instanceof org.emftext.language.java.types.Double) && (lOtherType instanceof org.emftext.language.java.types.Float ||
+				lOtherType instanceof org.emftext.language.java.types.Double);
 	}
 	
 	public static EList<Member> getAllMembers(Type me) {

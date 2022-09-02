@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
+
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.examples.Expander;
@@ -190,9 +192,9 @@ public class BulkTest extends AbstractJaMoPPTests {
 			decompressZipFile();
 		}
 		Path target = Paths.get(getTestInputFolder());
-		try {
+		try (final Stream<Path> walk = Files.walk(target)) {
 			String jacksPrefix = ".*?jacks\\_javac\\_1\\.6\\.0\\_07\\_passed.*?";
-			Files.walk(target).filter(Files::isRegularFile)
+			walk.filter(Files::isRegularFile)
 			.filter(path -> path.endsWith("bin.jar") || path.endsWith("rt.jar") || path.endsWith("jsse.jar")
 					|| path.endsWith("bin1.jar") || path.endsWith("bin2.jar") || path.endsWith("bin3.jar")
 					|| path.endsWith("bin4.jar") || path.endsWith("jce.jar") || path.endsWith("sunjce_provider.jar")
@@ -218,6 +220,7 @@ public class BulkTest extends AbstractJaMoPPTests {
 				try {
 					Files.delete(path);
 				} catch (IOException e) {
+					fail(e.getMessage());
 				}
 			});
 		} catch (IOException e) {

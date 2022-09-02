@@ -2,12 +2,12 @@
  * Copyright (c) 2006-2014
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
  *   DevBoost GmbH - Berlin, Germany
@@ -22,7 +22,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.annotations.AnnotationInstance;
@@ -55,7 +55,7 @@ public class CommentableExtension {
 		StatementListContainer statementListContainer = (StatementListContainer) container;
 		EList<Statement> statements = statementListContainer.getStatements();
 		int index = statements.indexOf(statement);
-		
+
 		statements.add(index, statementToAdd);
 	}
 
@@ -78,7 +78,7 @@ public class CommentableExtension {
 		StatementListContainer statementListContainer = (StatementListContainer) container;
 		EList<Statement> statements = statementListContainer.getStatements();
 		int index = statements.indexOf(statement);
-		
+
 		if (index == statements.size() - 1) {
 			// statement is the last one
 			statements.add(statementToAdd);
@@ -91,7 +91,7 @@ public class CommentableExtension {
 	 * Walks up the containment hierarchy and returns the first parent with the
 	 * given type. If no such parent is found, null is returned.
 	 */
-	public static EObject getParentByEType(Commentable me, EClass type) {
+	public static EObject getParentByEType(EObject me, EClassifier type) {
 		EObject container = me.eContainer();
 		while (container != null) {
 			if (type.isInstance(container)) {
@@ -106,7 +106,7 @@ public class CommentableExtension {
 	 * Walks up the containment hierarchy and returns the first parent with the
 	 * given type. If no such parent is found, null is returned.
 	 */
-	public static <T> T getParentByType(Commentable me, Class<T> type) {
+	public static <T> T getParentByType(EObject me, Class<T> type) {
 		EObject container = me.eContainer();
 		while (container != null) {
 			if (type.isInstance(container)) {
@@ -121,7 +121,7 @@ public class CommentableExtension {
 	 * Searches for the first child with the given type. If no such child is
 	 * found, <code>null</code> is returned.
 	 */
-	public static EObject getFirstChildByEType(Commentable me, EClass type) {
+	public static EObject getFirstChildByEType(EObject me, EClassifier type) {
 		Iterator<EObject> it = me.eAllContents();
 		while (it.hasNext()) {
 			EObject next = it.next();
@@ -136,7 +136,7 @@ public class CommentableExtension {
 	 * Searches for the first child with the given type. If no such child is
 	 * found, <code>null</code> is returned.
 	 */
-	public static <T> T getFirstChildByType(Commentable me, Class<T> type) {
+	public static <T> T getFirstChildByType(EObject me, Class<T> type) {
 		Iterator<EObject> it = me.eAllContents();
 		while (it.hasNext()) {
 			EObject next = it.next();
@@ -150,8 +150,8 @@ public class CommentableExtension {
 	/**
 	 * Returns all children of the given type.
 	 */
-	public static EList<EObject> getChildrenByEType(Commentable me, EClass type) {
-		EList<EObject> children = new BasicEList<EObject>();
+	public static EList<EObject> getChildrenByEType(EObject me, EClassifier type) {
+		EList<EObject> children = new BasicEList<>();
 		Iterator<EObject> it = me.eAllContents();
 		while (it.hasNext()) {
 			EObject next = it.next();
@@ -165,8 +165,8 @@ public class CommentableExtension {
 	/**
 	 * Returns all children of the given type.
 	 */
-	public static <T> EList<T> getChildrenByType(Commentable me, Class<T> type) {
-		EList<T> children = new BasicEList<T>();
+	public static <T> EList<T> getChildrenByType(EObject me, Class<T> type) {
+		EList<T> children = new BasicEList<>();
 		Iterator<EObject> it = me.eAllContents();
 		while (it.hasNext()) {
 			EObject next = it.next();
@@ -180,18 +180,18 @@ public class CommentableExtension {
 	/**
 	 * Finds the {@link ConcreteClassifier} representing the class with the
 	 * given classified name.
-	 * 
+	 *
 	 * @param name
 	 *            classified name of the ConcreteClassifier
 	 */
 	public static ConcreteClassifier getConcreteClassifier(Commentable me, String name) {
 		return JavaClasspath.get().getFirstConcreteClassifier(name);
 	}
-	
+
 	/**
 	 * Finds all {@link ConcreteClassifier} representing the classes in the
 	 * given package or a single class from that package.
-	 * 
+	 *
 	 * @param packageName
 	 *            name of the package
 	 * @param classifierQuery
@@ -199,8 +199,8 @@ public class CommentableExtension {
 	 */
 	public static EList<ConcreteClassifier> getConcreteClassifiers(
 			Commentable me, String packageName, String classifierQuery) {
-		EList<ConcreteClassifier> result = new UniqueEList<ConcreteClassifier>();
-		if (classifierQuery.equals("*")) {
+		EList<ConcreteClassifier> result = new UniqueEList<>();
+		if ("*".equals(classifierQuery)) {
 			org.emftext.language.java.containers.Package pack = JavaClasspath.get().getPackage(packageName);
 			if (pack != null) {
 				result.addAll(pack.getClassifiers());
@@ -213,90 +213,90 @@ public class CommentableExtension {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Finds the {@link org.emftext.language.java.classifiers.Class}
 	 * representing the class with the given name located in
 	 * <code>java.lang</code>.
-	 * 
+	 *
 	 * @param name
 	 *            name of the Class.
 	 * @return the Class.
 	 */
 	public static org.emftext.language.java.classifiers.Class getLibClass(Commentable me, String name) {
 		ConcreteClassifier result = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
-		if (result != null && result instanceof org.emftext.language.java.classifiers.Class) {
-			return (org.emftext.language.java.classifiers.Class) result; 
+		if (result instanceof org.emftext.language.java.classifiers.Class) {
+			return (org.emftext.language.java.classifiers.Class) result;
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds the {@link org.emftext.language.java.classifiers.Interface}
 	 * representing the interface with the given name located in
 	 * <code>java.lang</code>.
-	 * 
+	 *
 	 * @param name
 	 *            name of the Interface.
 	 * @return the interface.
 	 */
 	public static Interface getLibInterface(Commentable me, String name) {
 		ConcreteClassifier interfaceClass = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
-		if (interfaceClass != null && interfaceClass instanceof Interface) {
+		if (interfaceClass instanceof Interface) {
 			return (Interface) interfaceClass;
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds the {@link org.emftext.language.java.classifiers.Class}
 	 * representing <code>java.lang.Class</code>.
-	 * 
+	 *
 	 * @return the Class.
 	 */
 	public static org.emftext.language.java.classifiers.Class getClassClass(Commentable me)  {
 		return me.getLibClass("Class");
 	}
-	
+
 	/**
 	 * Finds the {@link org.emftext.language.java.classifiers.Class}
 	 * representing <code>java.lang.Object</code>.
-	 * 
+	 *
 	 * @return the Class.
 	 */
 	public static org.emftext.language.java.classifiers.Class getObjectClass(Commentable me)  {
 		return me.getLibClass("Object");
 	}
-	
+
 	/**
 	 * Finds the {@link org.emftext.language.java.classifiers.Class}
 	 * representing <code>java.lang.String</code>.
-	 * 
+	 *
 	 * @return the Class.
 	 */
 	public static org.emftext.language.java.classifiers.Class getStringClass(Commentable me) {
 		return me.getLibClass("String");
 	}
-	
+
 	/**
 	 * Finds the {@link org.emftext.language.java.classifiers.Interface}
 	 * representing <code>java.lang.annotation.Annotation</code>.
-	 * 
+	 *
 	 * @return the Class.
 	 */
 	public static Interface getAnnotationInterface(Commentable me) {
 		ConcreteClassifier proxy = JavaClasspath.get().getConcreteClassifier("java.lang.annotation.Annotation");
-		if (proxy != null && proxy instanceof Interface) {
+		if (proxy instanceof Interface) {
 			return (Interface) proxy;
 		}
 		return null;
 	}
-	
+
 	//===== Container look up =====
-	
+
 	/**
 	 * Finds the containing classifier for the given element.
-	 * 
+	 *
 	 * @param value
 	 * @return containing classifier
 	 */
@@ -307,28 +307,28 @@ public class CommentableExtension {
 		}
 		return (ConcreteClassifier) value;
 	}
-	
+
 	/**
 	 * Finds the classifier that is the parent of this element. If this element
 	 * is an inner classifier the parent classifier does not necessarily contain
 	 * this element, since it can reside in a different compilation unit when
 	 * stored in byte code.
-	 * 
+	 *
 	 * @return containing classifier
 	 */
 	public static ConcreteClassifier getParentConcreteClassifier(Commentable me) {
 		return me.getContainingConcreteClassifier();
 	}
-	
+
 	/**
 	 * Finds the containing anonymous class for the given element.
-	 * 
-	 * @return containing anonymous class 
+	 *
+	 * @return containing anonymous class
 	 */
 	public static AnonymousClass getContainingAnonymousClass(Commentable me) {
 		EObject value = me;
-		while (!(value instanceof AnonymousClass) 
-				&& !(value instanceof ConcreteClassifier) // Do not jump over other classifiers 
+		while (!(value instanceof AnonymousClass)
+				&& !(value instanceof ConcreteClassifier) // Do not jump over other classifiers
 				&& value != null) {
 			value = value.eContainer();
 		}
@@ -337,10 +337,10 @@ public class CommentableExtension {
 		}
 		return (AnonymousClass) value;
 	}
-	
+
 	/**
 	 * Finds the containing compilation unit for the given element.
-	 * 
+	 *
 	 * @return containing compilation unit
 	 */
 	public static CompilationUnit getContainingCompilationUnit(Commentable me) {
@@ -351,9 +351,9 @@ public class CommentableExtension {
 		return (CompilationUnit) value;
 	}
 
-	/** 
+	/**
 	 * Finds the containing annotation instance for the given element.
-	 * 
+	 *
 	 * @return containing annotation instance
 	 */
 	public static AnnotationInstance getContainingAnnotationInstance(Commentable me) {
@@ -363,32 +363,32 @@ public class CommentableExtension {
 		}
 		return (AnnotationInstance) value;
 	}
-	
+
 	public static EList<String> getContainingPackageName(Commentable me) {
 		CompilationUnit cu = me.getContainingCompilationUnit();
 		if (cu == null) {
-			return null;
+			return ECollections.emptyEList();
 		}
-		
+
 		int idx = cu.getNamespaces().size();
 		if (cu.getName() != null) {
 			char[] fullName = cu.getName().toCharArray();
-			for (int i = 0; i < fullName.length; i++) {
-				if (fullName[i] == '$') {
+			for (char element : fullName) {
+				if (element == '$') {
 					idx--;
 				}
 			}
 		}
 		List<String> packageNameParts = cu.getNamespaces().subList(0, idx);
-		BasicEList<String> packageNameList = new BasicEList<String>(
+		BasicEList<String> packageNameList = new BasicEList<>(
 				packageNameParts);
 		return ECollections.unmodifiableEList(packageNameList);
 	}
-	
+
 	public static EList<String> getContainingContainerName(Commentable me) {
 		CompilationUnit cu = me.getContainingCompilationUnit();
 		if (cu == null) {
-			return null;
+			return ECollections.emptyEList();
 		}
 		return ECollections.unmodifiableEList(cu.getNamespaces());
 	}

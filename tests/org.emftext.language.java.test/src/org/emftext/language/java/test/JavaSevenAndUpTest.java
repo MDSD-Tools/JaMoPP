@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2019-2020, Martin Armbruster
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Martin Armbruster
  *      - Initial implementation
@@ -63,7 +63,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the features of Java 7+.
- * 
+ *
  * @author Martin Armbruster
  */
 public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
@@ -71,12 +71,12 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 	public String getTestInputFolder() {
 		return "src-sevenandup";
 	}
-	
+
 	@Override
 	public boolean isExcludedFromReprintTest(String file) {
 		return false;
 	}
-	
+
 	@Test
 	public void testModuleInfo() {
 		try {
@@ -90,7 +90,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testPackageInfo() {
 		try {
@@ -106,7 +106,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithLambdaExpressions() {
 		try {
@@ -146,7 +146,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithLiterals() {
 		try {
@@ -176,7 +176,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithTryCatch() {
 		try {
@@ -230,7 +230,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleInterfaceWithDefaultMethods() {
 		try {
@@ -266,7 +266,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithDiamondTypeArguments() {
 		try {
@@ -294,7 +294,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithMethodReferenceExpressions() {
 		try {
@@ -329,7 +329,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithReceiverParameters() {
 		try {
@@ -342,7 +342,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			this.assertMemberCount(classifier, 7);
 			for (Member member : classifier.getMembers()) {
 				if (member instanceof Constructor) {
-					assertTrue(0 == ((Constructor) member).getParameters().size()
+					assertTrue(((Constructor) member).getParameters().isEmpty()
 							|| 1 == ((Constructor) member).getParameters().size());
 				} else if (member instanceof Method) {
 					Method method = (Method) member;
@@ -372,7 +372,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithVar() {
 		try {
@@ -400,7 +400,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSimpleClassWithRestrictedKeywords() {
 		try {
@@ -413,7 +413,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testIntersectionTypeWithTypeArguments() {
 		try {
@@ -435,7 +435,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Disabled("JDT puts break statements into Blocks on the right side of a SwitchRule.")
 	@Test
 	public void testSimpleClassWithSwitch() {

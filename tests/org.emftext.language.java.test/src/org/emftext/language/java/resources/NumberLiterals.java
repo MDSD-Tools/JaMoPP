@@ -36,9 +36,9 @@ public class NumberLiterals {
 	public static long long2 = 0x1L;
 	public static long long3 = 001L;
 
-	public static long long4 = 1l;
-	public static long long5 = 0x1l;
-	public static long long6 = 001l;
+	public static long long4 = 1L;
+	public static long long5 = 0x1L;
+	public static long long6 = 001L;
 
 	public static float float1 = 1f;
 	public static float float3 = 001f;

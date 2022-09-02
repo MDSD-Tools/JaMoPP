@@ -29,7 +29,7 @@ public class ArgumentableExtension {
 	 * @return list of types of 'me'
 	 */
 	public static EList<Type> getArgumentTypes(Argumentable me) {
-		EList<Type> resultList = new BasicEList<Type>();
+		EList<Type> resultList = new BasicEList<>();
 
 		for (Expression argument : me.getArguments()) {
 			Type type = argument.getType();

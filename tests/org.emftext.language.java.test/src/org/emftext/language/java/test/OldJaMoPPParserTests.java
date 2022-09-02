@@ -268,20 +268,6 @@ public class OldJaMoPPParserTests extends AbstractJaMoPPTests {
 		assertEquals(expected, initLiteralForBoolean.getOctalValue());
 	}
 
-	private void assertIsStringField(List<Member> members, String name, String expectedValue) {
-		final NamedElement field = findElementByName(members, name);
-		assertNotNull(field);
-		assertType(field, Field.class);
-		final Field unicode = (Field) field;
-		final Expression value = unicode.getInitialValue();
-
-		final StringReference literal = (StringReference) value;
-
-		assertType(literal, StringReference.class);
-		final StringReference stringValue = literal;
-		assertEquals("Unescaped value expected for field \"" + name + "\".", expectedValue, stringValue.getValue());
-	}
-
 	private void assertIsStringField(Member member, String expectedInitValue) {
 		assertType(member, Field.class);
 		final Field charField = (Field) member;

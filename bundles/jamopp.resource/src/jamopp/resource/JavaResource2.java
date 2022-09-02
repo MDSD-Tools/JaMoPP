@@ -8,7 +8,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.JavaRoot;
 
 import jamopp.parser.api.JaMoPPParserAPI;
@@ -17,7 +16,6 @@ import jamopp.printer.JaMoPPPrinter;
 
 public class JavaResource2 extends ResourceImpl {
 	public JavaResource2() {
-		super();
 	}
 	
 	public JavaResource2(URI uri) {

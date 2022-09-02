@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 
 public class Bug1834Test extends AbstractBugTestCase {
 
-	private static final String NL = System.getProperty("line.separator");
+	private static final String NL = System.lineSeparator();
 
 	@Disabled("This test is deactivated because the respective feature is not implemented yet")
 	@Test

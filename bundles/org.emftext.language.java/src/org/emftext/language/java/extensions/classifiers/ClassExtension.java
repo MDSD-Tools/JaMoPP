@@ -33,7 +33,7 @@ public class ClassExtension {
 	public static EList<ConcreteClassifier> getAllSuperClassifiers(
 			org.emftext.language.java.classifiers.Class me) {
 		
-		EList<ConcreteClassifier> result = new UniqueEList<ConcreteClassifier>();
+		EList<ConcreteClassifier> result = new UniqueEList<>();
 					
 		// Collects all super classes first
 		org.emftext.language.java.classifiers.Class superClass = me;

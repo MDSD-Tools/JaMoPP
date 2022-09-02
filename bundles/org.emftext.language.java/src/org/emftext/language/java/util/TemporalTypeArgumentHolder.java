@@ -29,7 +29,7 @@ import org.emftext.language.java.generics.TypeArgument;
  * This however will require major changes in the API.
  */
 public class TemporalTypeArgumentHolder extends AdapterImpl {
-	private EList<TypeArgument> typeArguments = new UniqueEList<TypeArgument>();
+	private final EList<TypeArgument> typeArguments = new UniqueEList<>();
 
 	public EList<TypeArgument> getTypeArguments() {
 		return typeArguments;

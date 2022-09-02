@@ -72,9 +72,11 @@ class StatementConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, assertSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.BLOCK) {
+		}
+		if (statement.getNodeType() == ASTNode.BLOCK) {
 			return convertToBlock((Block) statement);
-		} else if (statement.getNodeType() == ASTNode.BREAK_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.BREAK_STATEMENT) {
 			BreakStatement breakSt = (BreakStatement) statement;
 			org.emftext.language.java.statements.Break result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createBreak();
 			if (breakSt.getLabel() != null) {
@@ -84,7 +86,8 @@ class StatementConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, breakSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.CONTINUE_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.CONTINUE_STATEMENT) {
 			ContinueStatement conSt = (ContinueStatement) statement;
 			org.emftext.language.java.statements.Continue result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createContinue();
 			if (conSt.getLabel() != null) {
@@ -94,18 +97,21 @@ class StatementConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, conSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.DO_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.DO_STATEMENT) {
 			DoStatement doSt = (DoStatement) statement;
 			org.emftext.language.java.statements.DoWhileLoop result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createDoWhileLoop();
 			result.setCondition(ExpressionConverterUtility.convertToExpression(doSt.getExpression()));
 			result.setStatement(convertToStatement(doSt.getBody()));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, doSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.EMPTY_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.EMPTY_STATEMENT) {
 			org.emftext.language.java.statements.EmptyStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createEmptyStatement();
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, statement);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.ENHANCED_FOR_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.ENHANCED_FOR_STATEMENT) {
 			EnhancedForStatement forSt = (EnhancedForStatement) statement;
 			org.emftext.language.java.statements.ForEachLoop result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createForEachLoop();
 			result.setNext(ClassifierConverterUtility.convertToOrdinaryParameter(forSt.getParameter()));
@@ -113,20 +119,21 @@ class StatementConverterUtility {
 			result.setStatement(convertToStatement(forSt.getBody()));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.EXPRESSION_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.EXPRESSION_STATEMENT) {
 			ExpressionStatement exprSt = (ExpressionStatement) statement;
 			if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {
 				org.emftext.language.java.statements.LocalVariableStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createLocalVariableStatement();
 				result.setVariable(convertToLocalVariable((VariableDeclarationExpression) exprSt.getExpression()));
 				LayoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 				return result;
-			} else {
-				org.emftext.language.java.statements.ExpressionStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createExpressionStatement();
-				result.setExpression(ExpressionConverterUtility.convertToExpression(exprSt.getExpression()));
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
-				return result;
 			}
-		} else if (statement.getNodeType() == ASTNode.FOR_STATEMENT) {
+			org.emftext.language.java.statements.ExpressionStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createExpressionStatement();
+			result.setExpression(ExpressionConverterUtility.convertToExpression(exprSt.getExpression()));
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
+			return result;
+		}
+		if (statement.getNodeType() == ASTNode.FOR_STATEMENT) {
 			ForStatement forSt = (ForStatement) statement;
 			org.emftext.language.java.statements.ForLoop result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createForLoop();
 			if (forSt.initializers().size() == 1 && forSt.initializers().get(0) instanceof VariableDeclarationExpression) {
@@ -143,7 +150,8 @@ class StatementConverterUtility {
 			result.setStatement(convertToStatement(forSt.getBody()));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.IF_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.IF_STATEMENT) {
 			IfStatement ifSt = (IfStatement) statement;
 			org.emftext.language.java.statements.Condition result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createCondition();
 			result.setCondition(ExpressionConverterUtility.convertToExpression(ifSt.getExpression()));
@@ -153,7 +161,8 @@ class StatementConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, ifSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.LABELED_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.LABELED_STATEMENT) {
 			LabeledStatement labelSt = (LabeledStatement) statement;
 			org.emftext.language.java.statements.JumpLabel result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createJumpLabel();
 			BaseConverterUtility.convertToSimpleNameOnlyAndSet(labelSt.getLabel(), result);
@@ -162,7 +171,8 @@ class StatementConverterUtility {
 			currentJumpLabels.remove(result);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, labelSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.RETURN_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.RETURN_STATEMENT) {
 			ReturnStatement retSt = (ReturnStatement) statement;
 			org.emftext.language.java.statements.Return result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createReturn();
 			if (retSt.getExpression() != null) {
@@ -170,22 +180,26 @@ class StatementConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, retSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.SWITCH_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.SWITCH_STATEMENT) {
 			return convertToSwitch((SwitchStatement) statement);
-		} else if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
 			SynchronizedStatement synSt = (SynchronizedStatement) statement;
 			org.emftext.language.java.statements.SynchronizedBlock result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createSynchronizedBlock();
 			result.setLockProvider(ExpressionConverterUtility.convertToExpression(synSt.getExpression()));
 			result.setBlock(convertToBlock(synSt.getBody()));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, synSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.THROW_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.THROW_STATEMENT) {
 			ThrowStatement throwSt = (ThrowStatement) statement;
 			org.emftext.language.java.statements.Throw result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createThrow();
 			result.setThrowable(ExpressionConverterUtility.convertToExpression(throwSt.getExpression()));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, throwSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.TRY_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.TRY_STATEMENT) {
 			TryStatement trySt = (TryStatement) statement;
 			org.emftext.language.java.statements.TryBlock result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createTryBlock();
 			trySt.resources().forEach(obj -> {
@@ -203,10 +217,12 @@ class StatementConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, trySt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.TYPE_DECLARATION_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.TYPE_DECLARATION_STATEMENT) {
 			TypeDeclarationStatement declSt = (TypeDeclarationStatement) statement;
 			return ClassifierConverterUtility.convertToConcreteClassifier(declSt.getDeclaration());
-		} else if (statement.getNodeType() == ASTNode.VARIABLE_DECLARATION_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.VARIABLE_DECLARATION_STATEMENT) {
 			VariableDeclarationStatement varSt = (VariableDeclarationStatement) statement;
 			org.emftext.language.java.statements.LocalVariableStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createLocalVariableStatement();
 			VariableDeclarationFragment frag = (VariableDeclarationFragment) varSt.fragments().get(0);
@@ -232,27 +248,28 @@ class StatementConverterUtility {
 			result.setVariable(locVar);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, varSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.WHILE_STATEMENT) {
+		}
+		if (statement.getNodeType() == ASTNode.WHILE_STATEMENT) {
 			WhileStatement whileSt = (WhileStatement) statement;
 			org.emftext.language.java.statements.WhileLoop result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createWhileLoop();
 			result.setCondition(ExpressionConverterUtility.convertToExpression(whileSt.getExpression()));
 			result.setStatement(convertToStatement(whileSt.getBody()));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, whileSt);
 			return result;
-		} else if (statement.getNodeType() == ASTNode.YIELD_STATEMENT) {
-			YieldStatement yieldSt = (YieldStatement) statement;
-			
-			org.emftext.language.java.statements.YieldStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createYieldStatement();
-			if (yieldSt.getExpression() != null) {
-				result.setYieldExpression(ExpressionConverterUtility.convertToExpression(yieldSt.getExpression()));
-			}
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, yieldSt);
-			return result;
-		} else {
+		}
+		if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
 			org.emftext.language.java.statements.ExpressionStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createExpressionStatement();
 			result.setExpression(ReferenceConverterUtility.convertToReference(statement));
 			return result;
 		}
+		YieldStatement yieldSt = (YieldStatement) statement;
+		
+		org.emftext.language.java.statements.YieldStatement result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createYieldStatement();
+		if (yieldSt.getExpression() != null) {
+			result.setYieldExpression(ExpressionConverterUtility.convertToExpression(yieldSt.getExpression()));
+		}
+		LayoutInformationConverter.convertToMinimalLayoutInformation(result, yieldSt);
+		return result;
 	}
 	
 	private static org.emftext.language.java.statements.Switch convertToSwitch(SwitchStatement switchSt) {
@@ -266,8 +283,8 @@ class StatementConverterUtility {
 	@SuppressWarnings("rawtypes")
 	static void convertToSwitchCasesAndSet(org.emftext.language.java.statements.Switch switchExprSt, List switchStatementList) {
 		org.emftext.language.java.statements.SwitchCase currentCase = null;
-		for (int index = 0; index < switchStatementList.size(); index++) {
-			Statement st = (Statement) switchStatementList.get(index);
+		for (Object element : switchStatementList) {
+			Statement st = (Statement) element;
 			if (st.getNodeType() == ASTNode.SWITCH_CASE) {
 				currentCase = convertToSwitchCase((SwitchCase) st);
 				switchExprSt.getCases().add(currentCase);

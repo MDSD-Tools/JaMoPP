@@ -49,7 +49,7 @@ class NumberLiteralConverterUtility {
 			}
 			string = actualLiteral.toString();
 		}
-		string = string.replaceAll(UNDER_SCORE, "");
+		string = string.replace(UNDER_SCORE, "");
 		string = string.toLowerCase();
 		if (string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX)) {
 			org.emftext.language.java.literals.BinaryLongLiteral lit = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createBinaryLongLiteral();
@@ -89,11 +89,11 @@ class NumberLiteralConverterUtility {
 			org.emftext.language.java.literals.DecimalDoubleLiteral lit = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalDoubleLiteral();
 			lit.setDecimalValue(Double.parseDouble(string));
 			result = lit;
-		} else if (string.equals("0l") || (!string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX))) {
+		} else if ("0l".equals(string) || (!string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX))) {
 			org.emftext.language.java.literals.DecimalLongLiteral lit = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalLongLiteral();
 			lit.setDecimalValue(new BigInteger(string.substring(0, string.length() - LONG_SUFFIX.length()), DEC_BASE));
 			result = lit;
-		} else if (string.equals("0") || !string.startsWith(OCT_PREFIX)) {
+		} else if ("0".equals(string) || !string.startsWith(OCT_PREFIX)) {
 			org.emftext.language.java.literals.DecimalIntegerLiteral lit = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
 			lit.setDecimalValue(new BigInteger(string, DEC_BASE));
 			result = lit;

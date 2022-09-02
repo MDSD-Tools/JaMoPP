@@ -29,14 +29,15 @@ import org.emftext.language.java.classifiers.impl.ClassifierImpl;
  */
 public class TemporalCompositeClassifier extends ClassifierImpl {
 
-	private EObject creator;
+	private final EObject creator;
 
-	private EList<EObject> superTypes = new UniqueEList<EObject>();
+	private final EList<EObject> superTypes = new UniqueEList<>();
 
 	public TemporalCompositeClassifier(EObject creator) {
 		this.creator = creator;
 	}
 
+	@Override
 	public Resource eResource() {
 		return creator.eResource();
 	}
@@ -45,8 +46,9 @@ public class TemporalCompositeClassifier extends ClassifierImpl {
 		return superTypes;
 	}
 
+	@Override
 	public EList<ConcreteClassifier> getAllSuperClassifiers() {
-		EList<ConcreteClassifier> result = new UniqueEList<ConcreteClassifier>();
+		EList<ConcreteClassifier> result = new UniqueEList<>();
 		for(EObject superType : getSuperTypes()) {
 			result.addAll(((Classifier) superType).getAllSuperClassifiers());
 		}

@@ -66,7 +66,7 @@ public class JaMoPPJDTParserTest {
 	}
 
 	@BeforeEach
-	public final void initResourceFactory() {
+	public static final void initResourceFactory() {
 		ContainersFactory.eINSTANCE.createEmptyModel();
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());

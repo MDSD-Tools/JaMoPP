@@ -32,7 +32,7 @@ public class InterfaceExtension {
 	 * <code>java.lang.Object</code> is also extended although it is a Class.
 	 */
 	public static EList<ConcreteClassifier> getAllSuperClassifiers(Interface me) {
-		EList<ConcreteClassifier> result = new UniqueEList<ConcreteClassifier>();
+		EList<ConcreteClassifier> result = new UniqueEList<>();
 		
 		EList<TypeReference> explicitExtends = me.getExtends();
 		getAllSuperClassifiers(explicitExtends, result);

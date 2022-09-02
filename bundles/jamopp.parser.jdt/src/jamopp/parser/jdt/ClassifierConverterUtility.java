@@ -66,16 +66,15 @@ class ClassifierConverterUtility {
 			typeDecl.superInterfaceTypes().forEach(obj -> interfaceObj.getExtends().add(BaseConverterUtility.convertToTypeReference((Type) obj)));
 			typeDecl.bodyDeclarations().forEach(obj -> interfaceObj.getMembers().add(convertToInterfaceMember((BodyDeclaration) obj)));
 			return interfaceObj;
-		} else {
-			org.emftext.language.java.classifiers.Class classObj = JDTResolverUtility.getClass(typeDecl.resolveBinding());
-			typeDecl.typeParameters().forEach(obj -> classObj.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
-			if (typeDecl.getSuperclassType() != null) {
-				classObj.setExtends(BaseConverterUtility.convertToTypeReference(typeDecl.getSuperclassType()));
-			}
-			typeDecl.superInterfaceTypes().forEach(obj -> classObj.getImplements().add(BaseConverterUtility.convertToTypeReference((Type) obj)));
-			typeDecl.bodyDeclarations().forEach(obj -> classObj.getMembers().add(convertToClassMember((BodyDeclaration) obj)));
-			return classObj;
 		}
+		org.emftext.language.java.classifiers.Class classObj = JDTResolverUtility.getClass(typeDecl.resolveBinding());
+		typeDecl.typeParameters().forEach(obj -> classObj.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
+		if (typeDecl.getSuperclassType() != null) {
+			classObj.setExtends(BaseConverterUtility.convertToTypeReference(typeDecl.getSuperclassType()));
+		}
+		typeDecl.superInterfaceTypes().forEach(obj -> classObj.getImplements().add(BaseConverterUtility.convertToTypeReference((Type) obj)));
+		typeDecl.bodyDeclarations().forEach(obj -> classObj.getMembers().add(convertToClassMember((BodyDeclaration) obj)));
+		return classObj;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -90,21 +89,24 @@ class ClassifierConverterUtility {
 	private static org.emftext.language.java.members.Member convertToInterfaceMember(BodyDeclaration body) {
 		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
 			return convertToInterfaceMethodOrConstructor((MethodDeclaration) body);
-		} else {
-			return convertToClassMember(body);
 		}
+		return convertToClassMember(body);
 	}
 	
 	private static org.emftext.language.java.members.Member convertToClassMember(BodyDeclaration body) {
 		if (body instanceof AbstractTypeDeclaration) {
 			return convertToConcreteClassifier((AbstractTypeDeclaration) body);
-		} else if (body.getNodeType() == ASTNode.INITIALIZER) {
+		}
+		if (body.getNodeType() == ASTNode.INITIALIZER) {
 			return convertToBlock((Initializer) body);
-		} else if (body.getNodeType() == ASTNode.FIELD_DECLARATION) {
+		}
+		if (body.getNodeType() == ASTNode.FIELD_DECLARATION) {
 			return convertToField((FieldDeclaration) body);
-		} else if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
+		}
+		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
 			return convertToClassMethodOrConstructor((MethodDeclaration) body);
-		} else if (body.getNodeType() == ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION) {
+		}
+		if (body.getNodeType() == ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION) {
 			return convertToInterfaceMethod((AnnotationTypeMemberDeclaration) body);
 		}
 		return null;
@@ -190,35 +192,34 @@ class ClassifierConverterUtility {
 	private static org.emftext.language.java.members.Member convertToInterfaceMethodOrConstructor(MethodDeclaration methodDecl) {
 		if (methodDecl.isConstructor()) {
 			return convertToClassMethodOrConstructor(methodDecl);
-		} else {
-			org.emftext.language.java.members.InterfaceMethod result;
-			IMethodBinding binding = methodDecl.resolveBinding();
-			if (binding == null) {
-				result = JDTResolverUtility.getInterfaceMethod(methodDecl.getName().getIdentifier());
-			} else {
-				result = JDTResolverUtility.getInterfaceMethod(binding);
-			}
-			methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(AnnotationInstanceOrModifierConverterUtility
-				.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-			methodDecl.typeParameters().forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
-			result.setTypeReference(BaseConverterUtility.convertToTypeReference(methodDecl.getReturnType2()));
-			BaseConverterUtility.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
-			methodDecl.extraDimensions().forEach(obj -> BaseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
-			BaseConverterUtility.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
-			if (methodDecl.getReceiverType() != null) {
-				result.getParameters().add(convertToReceiverParameter(methodDecl));
-			}
-			methodDecl.parameters().forEach(obj -> result.getParameters().add(convertToParameter((SingleVariableDeclaration) obj)));
-			methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions().add(
-				wrapInNamespaceClassifierReference(BaseConverterUtility.convertToTypeReference((Type) obj))));
-			if (methodDecl.getBody() != null) {
-				TypeInstructionSeparationUtility.addMethod(methodDecl.getBody(), result);
-			} else {
-				result.setStatement(org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createEmptyStatement());
-			}
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, methodDecl);
-			return result;
 		}
+		org.emftext.language.java.members.InterfaceMethod result;
+		IMethodBinding binding = methodDecl.resolveBinding();
+		if (binding == null) {
+			result = JDTResolverUtility.getInterfaceMethod(methodDecl.getName().getIdentifier());
+		} else {
+			result = JDTResolverUtility.getInterfaceMethod(binding);
+		}
+		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(AnnotationInstanceOrModifierConverterUtility
+			.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		methodDecl.typeParameters().forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
+		result.setTypeReference(BaseConverterUtility.convertToTypeReference(methodDecl.getReturnType2()));
+		BaseConverterUtility.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
+		methodDecl.extraDimensions().forEach(obj -> BaseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		BaseConverterUtility.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
+		if (methodDecl.getReceiverType() != null) {
+			result.getParameters().add(convertToReceiverParameter(methodDecl));
+		}
+		methodDecl.parameters().forEach(obj -> result.getParameters().add(convertToParameter((SingleVariableDeclaration) obj)));
+		methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions().add(
+			wrapInNamespaceClassifierReference(BaseConverterUtility.convertToTypeReference((Type) obj))));
+		if (methodDecl.getBody() != null) {
+			TypeInstructionSeparationUtility.addMethod(methodDecl.getBody(), result);
+		} else {
+			result.setStatement(org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createEmptyStatement());
+		}
+		LayoutInformationConverter.convertToMinimalLayoutInformation(result, methodDecl);
+		return result;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -244,41 +245,41 @@ class ClassifierConverterUtility {
 			TypeInstructionSeparationUtility.addConstructor(methodDecl.getBody(), result);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, methodDecl);
 			return result;
-		} else {
-			org.emftext.language.java.members.ClassMethod result;
-			IMethodBinding binding = methodDecl.resolveBinding();
-			if (binding != null) {
-				result = JDTResolverUtility.getClassMethod(binding);
-			} else {
-				result = JDTResolverUtility.getClassMethod(methodDecl.getName().getIdentifier());
-			}
-			methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(AnnotationInstanceOrModifierConverterUtility
-				.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-			methodDecl.typeParameters().forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
-			result.setTypeReference(BaseConverterUtility.convertToTypeReference(methodDecl.getReturnType2()));
-			BaseConverterUtility.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
-			methodDecl.extraDimensions().forEach(obj -> BaseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
-			BaseConverterUtility.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
-			if (methodDecl.getReceiverType() != null) {
-				result.getParameters().add(convertToReceiverParameter(methodDecl));
-			}
-			methodDecl.parameters().forEach(obj -> result.getParameters().add(convertToParameter((SingleVariableDeclaration) obj)));
-			methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions().add(
-				wrapInNamespaceClassifierReference(BaseConverterUtility.convertToTypeReference((Type) obj))));
-			if (methodDecl.getBody() != null) {
-				TypeInstructionSeparationUtility.addMethod(methodDecl.getBody(), result);
-			} else {
-				result.setStatement(org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createEmptyStatement());
-			}
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, methodDecl);
-			return result;
 		}
+		org.emftext.language.java.members.ClassMethod result;
+		IMethodBinding binding = methodDecl.resolveBinding();
+		if (binding != null) {
+			result = JDTResolverUtility.getClassMethod(binding);
+		} else {
+			result = JDTResolverUtility.getClassMethod(methodDecl.getName().getIdentifier());
+		}
+		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(AnnotationInstanceOrModifierConverterUtility
+			.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		methodDecl.typeParameters().forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
+		result.setTypeReference(BaseConverterUtility.convertToTypeReference(methodDecl.getReturnType2()));
+		BaseConverterUtility.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
+		methodDecl.extraDimensions().forEach(obj -> BaseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		BaseConverterUtility.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
+		if (methodDecl.getReceiverType() != null) {
+			result.getParameters().add(convertToReceiverParameter(methodDecl));
+		}
+		methodDecl.parameters().forEach(obj -> result.getParameters().add(convertToParameter((SingleVariableDeclaration) obj)));
+		methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions().add(
+			wrapInNamespaceClassifierReference(BaseConverterUtility.convertToTypeReference((Type) obj))));
+		if (methodDecl.getBody() != null) {
+			TypeInstructionSeparationUtility.addMethod(methodDecl.getBody(), result);
+		} else {
+			result.setStatement(org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createEmptyStatement());
+		}
+		LayoutInformationConverter.convertToMinimalLayoutInformation(result, methodDecl);
+		return result;
 	}
 	
 	private static org.emftext.language.java.types.NamespaceClassifierReference wrapInNamespaceClassifierReference(org.emftext.language.java.types.TypeReference ref) {
 		if (ref instanceof org.emftext.language.java.types.NamespaceClassifierReference) {
 			return (org.emftext.language.java.types.NamespaceClassifierReference) ref;
-		} else if (ref instanceof org.emftext.language.java.types.ClassifierReference) {
+		}
+		if (ref instanceof org.emftext.language.java.types.ClassifierReference) {
 			org.emftext.language.java.types.NamespaceClassifierReference result = org.emftext.language.java.types.TypesFactory.eINSTANCE.createNamespaceClassifierReference();
 			result.getClassifierReferences().add((org.emftext.language.java.types.ClassifierReference) ref);
 			return result;
@@ -355,9 +356,8 @@ class ClassifierConverterUtility {
 				.convertToAnnotationInstance((Annotation) obj)));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 			return result;
-		} else {
-			return convertToOrdinaryParameter(decl);
 		}
+		return convertToOrdinaryParameter(decl);
 	}
 	
 	@SuppressWarnings("unchecked")

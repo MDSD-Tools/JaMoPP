@@ -2,12 +2,12 @@
  * Copyright (c) 2006-2012
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
  *   DevBoost GmbH - Berlin, Germany
@@ -172,12 +172,12 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(CreationReference node, Object other) {
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(Dimension node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -212,12 +212,12 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(ExportsDirective node, Object other) {
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(ExpressionMethodReference node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -276,7 +276,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(IntersectionType node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -292,7 +292,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(LambdaExpression node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -351,17 +351,17 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(ModuleDeclaration node, Object other) {
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(ModuleModifier node, Object other) {
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(NameQualifiedType node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -395,14 +395,13 @@ public class TalkativeASTMatcher extends ASTMatcher {
 		return setDiff(node, other, numberMatch(nToken, oToken));
 	}
 
-	private boolean numberMatch(String nToken, String oToken) {
+	private static boolean numberMatch(String nToken, String oToken) {
 		nToken = normalizeNumberToken(nToken);
 		oToken = normalizeNumberToken(oToken);
-		boolean equals = safeEquals(nToken, oToken);
-		return equals;
+		return safeEquals(nToken, oToken);
 	}
 
-	private String normalizeNumberToken(String token) {
+	private static String normalizeNumberToken(String token) {
 		if (token.contains("\\u")) {
 			StringBuilder actualLiteral = new StringBuilder();
 			for (int index = 0; index < token.length(); index++) {
@@ -417,19 +416,19 @@ public class TalkativeASTMatcher extends ASTMatcher {
 			}
 			token = actualLiteral.toString();
 		}
-		
+
 		token = token.toLowerCase();
-		token = token.replaceAll("_", "");
-		
+		token = token.replace("_", "");
+
 		if (token.startsWith("-0x")) {
 			token = token.substring(1);
 			return token = "-" + normalizeNumberToken(token);
 		}
-		
+
 		if (token.startsWith("- ")) {
 			token = "-" + token.substring(2);
 		}
-		
+
 		if (token.endsWith("l")) {
 			token = token.substring(0, token.length() - 1);
 		}
@@ -486,9 +485,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 			String oToken = ((NumberLiteral)other).getToken();
 			return setDiff(node, other, numberMatch(nToken, oToken));
 		}
-		else {
-			return setDiff(node, other, super.match(node, other));
-		}
+		return setDiff(node, other, super.match(node, other));
 
 	}
 
@@ -497,7 +494,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(ProvidesDirective node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -514,7 +511,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(RequiresDirective node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -584,7 +581,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(SuperMethodReference node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -595,7 +592,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(SwitchExpression node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -661,7 +658,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(TypeMethodReference node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -672,12 +669,12 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(UnionType node, Object other) {
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(UsesDirective node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -711,7 +708,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
 		return setDiff(node, other, super.match(node, other));
 	}
-	
+
 	@Override
 	public boolean match(YieldStatement node, Object other) {
 		return setDiff(node, other, super.match(node, other));
@@ -725,7 +722,7 @@ public class TalkativeASTMatcher extends ASTMatcher {
 			diff += ("\nORIGINAL: \n");
 			if (o1 instanceof ASTNode) {
 				diff += "(POSITION: " + ((ASTNode) o1).getStartPosition() + ")\n";
-			}	
+			}
 			diff += (o1.toString());
 			diff += ("\nREPRINT:\n");
 			if (o2 instanceof ASTNode) {

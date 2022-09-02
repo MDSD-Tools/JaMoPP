@@ -37,18 +37,13 @@ public abstract class JDTJavaClassifierUtil {
 		IWorkspaceRoot root = workspace.getRoot();
 		IProject project = root.getProject(projectName);
 		IJavaProject javaProject = JavaCore.create(project);
-		if (javaProject == null) {
-			return null;
-		}
-		
-		if (!javaProject.exists()) {
+		if ((javaProject == null) || !javaProject.exists()) {
 			return null;
 		}
 		
 		String qualifiedName = classifier.getQualifiedName();
 		try {
-			IType type = javaProject.findType(qualifiedName);
-			return type;
+			return javaProject.findType(qualifiedName);
 		} catch (JavaModelException e) {
 			handleException(e);
 			return null;

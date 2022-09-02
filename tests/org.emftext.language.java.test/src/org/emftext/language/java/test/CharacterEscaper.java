@@ -35,11 +35,12 @@ public class CharacterEscaper {
 	public static String unescapeEscapedCharacters(String source) {
 		final int srcLen = source.length();
 		char c;
-		StringBuffer buffer = new StringBuffer(srcLen);
+		StringBuilder buffer = new StringBuilder(srcLen);
 
 		int i = 0;
 		while (i < srcLen) {
-			c = source.charAt(i++);
+			c = source.charAt(i);
+			i++;
 
 			if (c == BACKSLASH) {
 				char nc = source.charAt(i);
@@ -138,14 +139,15 @@ public class CharacterEscaper {
 		}
 		// Fill in the remaining characters from the buffer
 		while (i < srcLen) {
-			buffer.append(source.charAt(i++));
+			buffer.append(source.charAt(i));
+			i++;
 		}
 		return buffer.toString();
 	}
 
 	public static String escapeEscapedCharacters(String source) {
 		final int srcLen = source.length();
-		StringBuffer buffer = new StringBuffer(srcLen);
+		StringBuilder buffer = new StringBuilder(srcLen);
 		char[] characters = source.toCharArray();
 		for (int i=0; i < characters.length; i++) {
 			boolean octalDigitFollows = false;
@@ -162,48 +164,50 @@ public class CharacterEscaper {
 		if (Character.MIN_SURROGATE <= character && character <= Character.MAX_SURROGATE) {
 			//escape unicode surrogate characters
 			s = "\\u" + Integer.toHexString(character).toUpperCase(); 
-		} else switch (character) {
-			case BACKSLASH: {
-				s = "\\\\";
-				break;
-			}
-			case '\b': {
-				s = "\\b";
-				break;
-			}
-			case '\t': {
-				s = "\\t";
-				break;
-			}
-			case '\n': {
-				s = "\\n";
-				break;
-			}
-			case '\f': {
-				s = "\\f";
-				break;
-			}
-			case '\r': {
-				s = "\\r";
-				break;
-			}
-			case '\"': {
-				s = "\\\"";
-				break;
-			}
-			case '\'': {
-				s = "\\\'";
-				break;
-			}
-			default : {
-				if ((0 <= character && character <= 31) || character == 127) {
-					String octalString = Integer.toOctalString(character);
-					while (octalDigitFollows == true && octalString.length() != 3) {
-						octalString = "0" + octalString;
+		} else {
+			switch (character) {
+				case BACKSLASH: {
+					s = "\\\\";
+					break;
+				}
+				case '\b': {
+					s = "\\b";
+					break;
+				}
+				case '\t': {
+					s = "\\t";
+					break;
+				}
+				case '\n': {
+					s = "\\n";
+					break;
+				}
+				case '\f': {
+					s = "\\f";
+					break;
+				}
+				case '\r': {
+					s = "\\r";
+					break;
+				}
+				case '\"': {
+					s = "\\\"";
+					break;
+				}
+				case '\'': {
+					s = "\\\'";
+					break;
+				}
+				default : {
+					if ((0 <= character && character <= 31) || character == 127) {
+						String octalString = Integer.toOctalString(character);
+						while (octalDigitFollows && octalString.length() != 3) {
+							octalString = "0" + octalString;
+						}
+						s = "\\" + octalString;
+					} else {
+						s = "" + character;					
 					}
-					s = "\\" + octalString;
-				} else {
-					s = "" + character;					
 				}
 			}
 		}

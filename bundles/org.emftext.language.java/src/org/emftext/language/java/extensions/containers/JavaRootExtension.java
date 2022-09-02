@@ -26,7 +26,7 @@ public class JavaRootExtension {
 	 * @return all classes in the same package imports
 	 */
 	public static EList<ConcreteClassifier> getClassifiersInSamePackage(JavaRoot me) {
-		EList<ConcreteClassifier> defaultImportList = new UniqueEList<ConcreteClassifier>();
+		EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
 		
 		String packageName = me.getNamespacesAsString();
 		

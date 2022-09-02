@@ -106,18 +106,18 @@ public class StandaloneTest extends ResolvingTest {
 			xmiResource.getContents().addAll(javaResource.getContents());
 		}
 
-//		URI uri = URI.createFileURI("todo-test");
-//	    Resource resource = resourceSet.createResource(uri);
-//		assertDoesNotThrow(() -> resource.save(((XMLResource) resource).getDefaultSaveOptions()));
-//
-//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
-//		assertDoesNotThrow(() -> resourceSetReloaded.getResource(uri, true));
+		//		URI uri = URI.createFileURI("todo-test");
+		//	    Resource resource = resourceSet.createResource(uri);
+		//		assertDoesNotThrow(() -> resource.save(((XMLResource) resource).getDefaultSaveOptions()));
+		//
+		//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
+		//		assertDoesNotThrow(() -> resourceSetReloaded.getResource(uri, true));
 
-//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
-//
-//		Resource resourceReloaded = resourceSetReloaded.createResource(uri);
-//		// ((ResourceImpl) resource).setIntrinsicIDToEObjectMap(new HashMap<>());
-//		resourceReloaded.load(((XMLResource) resourceReloaded).getDefaultLoadOptions());
+		//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
+		//
+		//		Resource resourceReloaded = resourceSetReloaded.createResource(uri);
+		//		// ((ResourceImpl) resource).setIntrinsicIDToEObjectMap(new HashMap<>());
+		//		resourceReloaded.load(((XMLResource) resourceReloaded).getDefaultLoadOptions());
 
 		for (final Resource resource : resourceSet.getResources()) {
 			if (resource instanceof XMIResource) {
@@ -139,45 +139,45 @@ public class StandaloneTest extends ResolvingTest {
 		}
 	}
 
-//	@TestWithInput
-//	public void testResourceSetSerialization(String input) {
-//		// https://sdqweb.ipd.kit.edu/wiki/Creating_EMF_Model_instances_programmatically
-//		// https://stackoverflow.com/questions/25864816/saving-an-emf-model
-//
-//		final Path directory = directoryOf(input);
-//		final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory));
-//		assertNotNull(resourceSet);
-//		assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet));
-//
-//		for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
-//			// ENABLE_OUTPUT_OF_LIBRARY_FILES has been removed because no library files are
-//			// to be output for the the moment.
-//			if (javaResource.getContents().isEmpty() || !"file".equals(javaResource.getURI().scheme())) {
-//				continue;
-//			}
-//
-//			final Resource xmiResource = resourceSet.createResource(outputUri(input, javaResource));
-//			xmiResource.getContents().addAll(javaResource.getContents());
-//		}
-//
-//		for (final Resource resource : resourceSet.getResources()) {
-//			if (resource instanceof XMIResource) {
-//				assertTrue(resource.getAllContents().hasNext());
-//				assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
-//			}
-//		}
-//
-//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
-//
-//		for (final Resource resource : resourceSet.getResources()) {
-//			if (resource instanceof XMIResource) {
-//				final Resource resourceReloaded = resourceSetReloaded.createResource(outputUri(input, resource));
-//				assertDoesNotThrow(() -> resourceReloaded.load(null));
-//				assertNotSame(resource, resourceReloaded);
-//				compareResources(resource, resourceReloaded);
-//			}
-//		}
-//	}
+	//	@TestWithInput
+	//	public void testResourceSetSerialization(String input) {
+	//		// https://sdqweb.ipd.kit.edu/wiki/Creating_EMF_Model_instances_programmatically
+	//		// https://stackoverflow.com/questions/25864816/saving-an-emf-model
+	//
+	//		final Path directory = directoryOf(input);
+	//		final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory));
+	//		assertNotNull(resourceSet);
+	//		assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet));
+	//
+	//		for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
+	//			// ENABLE_OUTPUT_OF_LIBRARY_FILES has been removed because no library files are
+	//			// to be output for the the moment.
+	//			if (javaResource.getContents().isEmpty() || !"file".equals(javaResource.getURI().scheme())) {
+	//				continue;
+	//			}
+	//
+	//			final Resource xmiResource = resourceSet.createResource(outputUri(input, javaResource));
+	//			xmiResource.getContents().addAll(javaResource.getContents());
+	//		}
+	//
+	//		for (final Resource resource : resourceSet.getResources()) {
+	//			if (resource instanceof XMIResource) {
+	//				assertTrue(resource.getAllContents().hasNext());
+	//				assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
+	//			}
+	//		}
+	//
+	//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
+	//
+	//		for (final Resource resource : resourceSet.getResources()) {
+	//			if (resource instanceof XMIResource) {
+	//				final Resource resourceReloaded = resourceSetReloaded.createResource(outputUri(input, resource));
+	//				assertDoesNotThrow(() -> resourceReloaded.load(null));
+	//				assertNotSame(resource, resourceReloaded);
+	//				compareResources(resource, resourceReloaded);
+	//			}
+	//		}
+	//	}
 
 	private static void compareResources(Resource resource1, Resource resource2) {
 		System.out.println("Resource URI: " + resource1.getURI().lastSegment());
@@ -186,7 +186,7 @@ public class StandaloneTest extends ResolvingTest {
 		assertEquals(1, units1.size());
 		assertEquals(1, units2.size());
 		compareUnits(units1.get(0), units2.get(0));
-//		compareLists(CompilationUnit::getNamespaces, getUnits(resource1), getUnits(resource2), StandaloneTest::compareUnits);
+		//		compareLists(CompilationUnit::getNamespaces, getUnits(resource1), getUnits(resource2), StandaloneTest::compareUnits);
 	}
 
 	private static List<CompilationUnitImpl> getUnits(Resource resource) {
@@ -200,14 +200,14 @@ public class StandaloneTest extends ResolvingTest {
 
 	private static void compareUnits(CompilationUnitImpl unit1, CompilationUnitImpl unit2) {
 		System.out.println("Unit namespaces: " + unit1.getNamespaces());
-//		assertEquals(unit1.getNamespaces(), unit2.getNamespaces());
+		//		assertEquals(unit1.getNamespaces(), unit2.getNamespaces());
 		compareLists(ConcreteClassifier::getQualifiedName, unit1.getClassifiers(), unit2.getClassifiers(),
 				StandaloneTest::compareClassifiers);
 	}
 
 	private static void compareClassifiers(ConcreteClassifier classifier1, ConcreteClassifier classifier2) {
 		System.out.println("Classifier name: " + classifier1.getName());
-//		assertEquals(classifier1.getPackage().getNamespaces(), classifier2.getPackage().getNamespaces());
+		//		assertEquals(classifier1.getPackage().getNamespaces(), classifier2.getPackage().getNamespaces());
 		assertEquals(classifier1.getName(), classifier2.getName());
 		compareLists(Member::getName, classifier1.getMembers(), classifier2.getMembers(),
 				StandaloneTest::compareMembers);
@@ -259,7 +259,7 @@ public class StandaloneTest extends ResolvingTest {
 		if (root instanceof CompilationUnit) {
 			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
 			final CompilationUnit cu = (CompilationUnit) root;
-			if (cu.getClassifiers().size() > 0) {
+			if (!cu.getClassifiers().isEmpty()) {
 				outputFileName += cu.getClassifiers().get(0).getName();
 			} else {
 				outputFileName += emptyFileName;

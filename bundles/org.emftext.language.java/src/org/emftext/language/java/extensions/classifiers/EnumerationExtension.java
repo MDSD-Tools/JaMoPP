@@ -29,7 +29,7 @@ public class EnumerationExtension {
 	 * @return all interfaces extended by this enumeration.
 	 */
 	public static EList<ConcreteClassifier> getAllSuperClassifiers(Enumeration me) {
-		EList<ConcreteClassifier> result = new UniqueEList<ConcreteClassifier>();
+		EList<ConcreteClassifier> result = new UniqueEList<>();
 		
 		// Enumerations inherit from java.lang.Enum
 		org.emftext.language.java.classifiers.Class enumClass = me.getLibClass("Enum");

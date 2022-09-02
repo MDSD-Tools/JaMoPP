@@ -2,12 +2,12 @@
  * Copyright (c) 2006-2014
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
  *   DevBoost GmbH - Berlin, Germany
@@ -28,17 +28,17 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.variables.Variable;
 
 public class VariableExtension {
-	
+
 	/**
 	 * Creates a statement that calls the method with the given name on this
 	 * variable. If the variable's type does not offer such a method, null is
 	 * returned.
-	 * 
-	 * @param methodName 
-	 * @param arguments 
+	 *
+	 * @param methodName
+	 * @param arguments
 	 */
 	public static ExpressionStatement createMethodCallStatement(Variable me, String methodName, EList<Expression> arguments) {
-		
+
 		ExpressionStatement callStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
 		callStatement.setExpression(me.createMethodCall(methodName, arguments));
 		return callStatement;
@@ -48,29 +48,28 @@ public class VariableExtension {
 	 * Creates an expression that calls the method with the given name on this
 	 * variable. If the variable's type does not offer such a method, null is
 	 * returned.
-	 * 
-	 * @param methodName 
-	 * @param arguments 
+	 *
+	 * @param methodName
+	 * @param arguments
 	 */
 	public static IdentifierReference createMethodCall(Variable me, String methodName, EList<Expression> arguments) {
-		
 		IdentifierReference thisRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
 		thisRef.setTarget(me);
-		MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
+
 		Type thisType = me.getTypeReference().getTarget();
-		if (thisType instanceof MemberContainer) {
-			MemberContainer castedType = (MemberContainer) thisType;
-			Method method = castedType.getContainedMethod(methodName);
-			if (method == null) {
-				return null;
-			}
-			methodCall.setTarget(method);
-			// add arguments
-			methodCall.getArguments().addAll(arguments);
-			thisRef.setNext(methodCall);
-			return thisRef;
-		} else {
+		if (!(thisType instanceof MemberContainer)) {
 			return null;
 		}
+		MemberContainer castedType = (MemberContainer) thisType;
+		Method method = castedType.getContainedMethod(methodName);
+		if (method == null) {
+			return null;
+		}
+		MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
+		methodCall.setTarget(method);
+		// add arguments
+		methodCall.getArguments().addAll(arguments);
+		thisRef.setNext(methodCall);
+		return thisRef;
 	}
 }

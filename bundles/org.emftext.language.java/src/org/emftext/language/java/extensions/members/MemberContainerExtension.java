@@ -35,7 +35,7 @@ import org.emftext.language.java.types.TypesFactory;
 public class MemberContainerExtension {
 
 	public static EList<Method> getMethods(MemberContainer me) {
-		EList<Method> methodList = new BasicEList<Method>();
+		EList<Method> methodList = new BasicEList<>();
 
 		for (Member member : me.getMembers()) {
 			if (member instanceof Method) {
@@ -46,7 +46,7 @@ public class MemberContainerExtension {
 	}
 	
 	public static EList<Field> getFields(MemberContainer me) {
-		EList<Field> fieldList = new BasicEList<Field>();
+		EList<Field> fieldList = new BasicEList<>();
 
 		for (Member member : me.getMembers()) {
 			if (member instanceof Field) {
@@ -57,7 +57,7 @@ public class MemberContainerExtension {
 	}
 	
 	public static EList<Constructor> getConstructors(MemberContainer me) {
-		EList<Constructor> constructorList = new BasicEList<Constructor>();
+		EList<Constructor> constructorList = new BasicEList<>();
 
 		for (Member member : me.getMembers()) {
 			if (member instanceof Constructor) {
@@ -68,7 +68,7 @@ public class MemberContainerExtension {
 	}
 	
 	public static EList<Member> getMembersByName(MemberContainer me, String name) {
-		EList<Member> matchingMembers = new BasicEList<Member>();
+		EList<Member> matchingMembers = new BasicEList<>();
 
 		for (Member member : me.getMembers()) {
 			if (name.equals(member.getName())) {
@@ -79,13 +79,11 @@ public class MemberContainerExtension {
 	}
 	
 	public static void removeMethods(MemberContainer me, String name) {
-		EList<Method> methodsToRemove = new BasicEList<Method>();
+		EList<Method> methodsToRemove = new BasicEList<>();
 
 		for (Member member : me.getMembers()) {
-			if (member instanceof Method) {
-				if (name.equals(member.getName())) {
-					methodsToRemove.add((Method) member);
-				}
+			if ((member instanceof Method) && name.equals(member.getName())) {
+				methodsToRemove.add((Method) member);
 			}
 		}
 		me.getMembers().removeAll(methodsToRemove);
@@ -143,9 +141,7 @@ public class MemberContainerExtension {
 				if (found != null) {
 					return null;
 				}
-				else {
-					found = (Method) member;
-				}
+				found = (Method) member;
 			}
  		}
  		for (Member member : me.getDefaultMembers()) {
@@ -153,9 +149,7 @@ public class MemberContainerExtension {
 				if (found != null) {
 					return null;
 				}
-				else {
-					found = (Method) member;
-				}
+				found = (Method) member;
 			}
  		}
 		return found;

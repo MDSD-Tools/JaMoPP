@@ -2,12 +2,12 @@
  * Copyright (c) 2006-2014
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
  *   DevBoost GmbH - Berlin, Germany
@@ -55,7 +55,7 @@ public class AnnotableAndModifiableExtension {
 		me.removeModifier(Protected.class);
 		me.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createPrivate());
 	}
-	
+
 	/**
 	 * Sets the visibility of this element to <code>public</code>.
 	 */
@@ -67,7 +67,7 @@ public class AnnotableAndModifiableExtension {
 		me.removeModifier(Protected.class);
 		me.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createPublic());
 	}
-	
+
 	/**
 	 * Sets the visibility of this element to <code>protected</code>.
 	 */
@@ -79,7 +79,7 @@ public class AnnotableAndModifiableExtension {
 		me.removeModifier(Public.class);
 		me.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createProtected());
 	}
-	
+
 	/**
 	 * Removes all modifiers from this element.
 	 */
@@ -88,13 +88,13 @@ public class AnnotableAndModifiableExtension {
 		EList<AnnotationInstanceOrModifier> elements = me.getAnnotationsAndModifiers();
 		elements.removeAll(modifiers);
 	}
-	
+
 	/**
 	 * Returns an unmodifiable list of the modifiers that apply to this element.
 	 */
 	public static EList<Modifier> getModifiers(AnnotableAndModifiable me) {
 		EList<AnnotationInstanceOrModifier> elements = me.getAnnotationsAndModifiers();
-		EList<Modifier> modifiers = new BasicEList<Modifier>(); 
+		EList<Modifier> modifiers = new BasicEList<>();
 		for (AnnotationInstanceOrModifier next : elements) {
 			if (next instanceof Modifier) {
 				modifiers.add((Modifier) next);
@@ -102,13 +102,13 @@ public class AnnotableAndModifiableExtension {
 		}
 		return ECollections.unmodifiableEList(modifiers);
 	}
-	
+
 	/**
 	 * Returns an unmodifiable list of the annotations that apply to this element.
 	 */
 	public static EList<AnnotationInstance> getAnnotationInstances(AnnotableAndModifiable me) {
 		EList<AnnotationInstanceOrModifier> elements = me.getAnnotationsAndModifiers();
-		EList<AnnotationInstance> annotations = new BasicEList<AnnotationInstance>(); 
+		EList<AnnotationInstance> annotations = new BasicEList<>();
 		for (AnnotationInstanceOrModifier next : elements) {
 			if (next instanceof AnnotationInstance) {
 				annotations.add((AnnotationInstance) next);
@@ -116,11 +116,11 @@ public class AnnotableAndModifiableExtension {
 		}
 		return ECollections.unmodifiableEList(annotations);
 	}
-	
+
 	/**
 	 * Adds the given type of modifier to this element. This method does not
 	 * check for duplicate modifiers!
-	 * 
+	 *
 	 * @param newModifier the modifier to add
 	 */
 	public static void addModifier(AnnotableAndModifiable me, Modifier newModifier) {
@@ -129,12 +129,12 @@ public class AnnotableAndModifiableExtension {
 
 	/**
 	 * Removes the given type of modifier from this element.
-	 * 
+	 *
 	 * @param modifierType
 	 */
 	public static void removeModifier(AnnotableAndModifiable me, Class<?> modifierType) {
 		List<AnnotationInstanceOrModifier> modifiers = me.getAnnotationsAndModifiers();
-		List<AnnotationInstanceOrModifier> modifiersToRemove = new ArrayList<AnnotationInstanceOrModifier>();
+		List<AnnotationInstanceOrModifier> modifiersToRemove = new ArrayList<>();
 		for (AnnotationInstanceOrModifier modifier : modifiers) {
 			if (modifierType.isInstance(modifier)) {
 				modifiersToRemove.add(modifier);
@@ -142,22 +142,22 @@ public class AnnotableAndModifiableExtension {
 		}
 		modifiers.removeAll(modifiersToRemove);
 	}
-	
+
 	public static boolean isPublic(AnnotableAndModifiable me) {
 		return me.hasModifier(Public.class);
 	}
-	
+
 	public static boolean isPrivate(AnnotableAndModifiable me) {
 		return me.hasModifier(Private.class);
 	}
-	
+
 	public static boolean isProtected(AnnotableAndModifiable me) {
 		return me.hasModifier(Protected.class);
 	}
-	
+
 	/**
 	 * Checks whether this element has an modifier of the given type.
-	 * @param type 
+	 * @param type
 	 */
 	public static boolean hasModifier(AnnotableAndModifiable me, Class<?> type) {
 		List<AnnotationInstanceOrModifier> modifiers = me.getAnnotationsAndModifiers();
@@ -168,7 +168,7 @@ public class AnnotableAndModifiableExtension {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns <code>true</code> if this element is static (either by an
 	 * explicit modifier <code>static</code> or because this element is part of
@@ -179,7 +179,7 @@ public class AnnotableAndModifiableExtension {
 		if (me.eContainer() instanceof Interface) {
 			return true;
 		}
-		
+
 		for (AnnotationInstanceOrModifier modifier : me.getAnnotationsAndModifiers()) {
 			if (modifier instanceof Static) {
 				return true;
@@ -189,69 +189,57 @@ public class AnnotableAndModifiableExtension {
 	}
 
 	public static boolean isHidden(AnnotableAndModifiable me, Commentable context) {
-		Commentable	lContext = context;
-		if (me.eIsProxy()) {
-			return false;
-		}
 		//all members of an interface are public by default
-		if (me.eContainer() instanceof Interface) {
+		if (me.eIsProxy() || (me.eContainer() instanceof Interface)) {
 			return false;
 		}
-		
+		Commentable lContext = context;
 		if (lContext.eIsProxy()) {
 			lContext = (Commentable) EcoreUtil.resolve(lContext, me);
 		}
-		
-		ConcreteClassifier lContextClassifier = lContext.getContainingConcreteClassifier(); 
 		if (!(me.eContainer() instanceof Commentable)) {
 			return true;
 		}
+		ConcreteClassifier lContextClassifier = lContext.getContainingConcreteClassifier();
 		ConcreteClassifier myClassifier = ((Commentable) me.eContainer()).getParentConcreteClassifier();
 		//special case: self reference to outer instance
-		if (lContext instanceof Reference) {
-			if (((Reference)lContext).getPrevious() instanceof SelfReference) {
-				SelfReference selfReference = (SelfReference) ((Reference)lContext).getPrevious();
-				if (selfReference.getSelf() instanceof Self) {
-					if (selfReference.getPrevious() != null) {
-						Type type = selfReference.getPrevious().getReferencedType();
-						if (type instanceof ConcreteClassifier) {
-							lContextClassifier = (ConcreteClassifier) type;
-						}
-					}
+		if ((lContext instanceof Reference) && (((Reference)lContext).getPrevious() instanceof SelfReference)) {
+			SelfReference selfReference = (SelfReference) ((Reference)lContext).getPrevious();
+			if ((selfReference.getSelf() instanceof Self) && (selfReference.getPrevious() != null)) {
+				Type type = selfReference.getPrevious().getReferencedType();
+				if (type instanceof ConcreteClassifier) {
+					lContextClassifier = (ConcreteClassifier) type;
 				}
 			}
 		}
-		
+
 		for (AnnotationInstanceOrModifier modifier : me.getAnnotationsAndModifiers()) {
 			if (modifier instanceof Private) {
-				if (myClassifier.equalsType(0, lContextClassifier, 0)) {
-					return false;
-				}
-				return true;
+				return myClassifier.equalsType(0, lContextClassifier, 0);
 			}
 			if(modifier instanceof Public) {
 				return false;
 			}
 			if(modifier instanceof Protected) {
 				//package visibility
-				if (me.getContainingPackageName() != null && 
+				if (me.getContainingPackageName() != null &&
 						me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
 					return false;
 				}
-				//try outer classifiers as well 
+				//try outer classifiers as well
 				while(lContextClassifier instanceof Classifier) {
 					if (lContextClassifier.isSuperType(0, myClassifier, null)) {
 						return false;
 					}
-					
+
 					EObject container = lContextClassifier.eContainer();
 					if (container instanceof Commentable) {
 						lContextClassifier = ((Commentable) container).getParentConcreteClassifier();
 					} else {
 						lContextClassifier = null;
 					}
-					
-					if (lContextClassifier != null && !lContextClassifier.eIsProxy() && 
+
+					if (lContextClassifier != null && !lContextClassifier.eIsProxy() &&
 							lContextClassifier.isSuperType(0, myClassifier, null)) {
 						return false;
 					}
@@ -266,7 +254,7 @@ public class AnnotableAndModifiableExtension {
 					if (lContextClassifier.isSuperType(0, myClassifier, null)) {
 						return false;
 					}
-					
+
 					EObject container = anonymousClass.eContainer();
 					if (container instanceof Commentable) {
 						anonymousClass = ((Commentable) container).getContainingAnonymousClass();
@@ -278,12 +266,7 @@ public class AnnotableAndModifiableExtension {
 			}
 		}
 		//package visibility?
-		if (me.getContainingPackageName() != null && 
-				me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
-			return false;
-		}
-
-		return true;
+		return ((me.getContainingPackageName() == null) || !me.getContainingPackageName().equals(lContext.getContainingPackageName()));
 	}
 }
 

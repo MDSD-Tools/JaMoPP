@@ -2,12 +2,12 @@
  * Copyright (c) 2006-2013
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
  *   DevBoost GmbH - Berlin, Germany
@@ -36,10 +36,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -56,7 +56,6 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Javadoc;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.classifiers.Annotation;
@@ -86,7 +85,7 @@ public abstract class AbstractJaMoPPTests {
 	protected static final String TEST_OUTPUT_FOLDER = "output";
 
 	@BeforeEach
-	public final void initResourceFactory() {
+	public static final void initResourceFactory() {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
 		JavaClasspath.get().clear();
 	}
@@ -96,7 +95,7 @@ public abstract class AbstractJaMoPPTests {
 		File inputFolder = new File(inputFolderPath);
 		File inputFile = new File(file);
 
-		CompilationUnit cu = (CompilationUnit) parseResource(inputFile.getPath());
+		parseResource(inputFile.getPath());
 
 		inputFile = new File(inputFolder + File.separator + file);
 	}
@@ -110,7 +109,7 @@ public abstract class AbstractJaMoPPTests {
 	}
 
 	protected JavaRoot parseResource(ZipFile file, ZipEntry entry) throws Exception {
-		return loadResource(URI.createURI("archive:file:///" + new File(".").getAbsoluteFile().toURI().getRawPath() + file.getName().replaceAll("\\\\", "/") + "!/" + entry.getName()));
+		return loadResource(URI.createURI("archive:file:///" + new File(".").getAbsoluteFile().toURI().getRawPath() + file.getName().replace('\\', '/') + "!/" + entry.getName()));
 	}
 
 	protected JavaRoot loadResource(String filePath) throws Exception {
@@ -121,43 +120,37 @@ public abstract class AbstractJaMoPPTests {
 	protected JavaRoot loadResource(URI uri) throws Exception {
 		JavaResource2 resource = (JavaResource2) getResourceSet().createResource(uri);
 		resource.load(getLoadOptions());
-		
+
 		assertNoErrors(uri.toString(), resource);
 		assertNoWarnings(uri.toString(), resource);
-		
+
 		EList<EObject> contents = resource.getContents();
 		assertEquals(1, contents.size(), "The resource must have one content element.");
-		
+
 		EObject content = contents.get(0);
 		assertTrue(content instanceof JavaRoot, "File '" + uri.toString() + "' was parsed to JavaRoot.");
-		JavaRoot root = (JavaRoot) content;
-		return root;
+		return (JavaRoot) content;
 	}
-	
-	protected void addFileToClasspath(File file, ResourceSet resourceSet) throws Exception {
-		JavaClasspath cp = JavaClasspath.get();
+
+	protected void addFileToClasspath(File file, ResourceSet resourceSet) {
+		JavaClasspath.get();
 		String fullName = file.getPath().substring(getTestInputFolder().length() + 3, file.getPath().length() - 5);
 		fullName = fullName.replace(File.separator, ".");
 		int idx = fullName.lastIndexOf(".");
-		String packageName;
-		String classifierName;
 		if (idx == -1) {
-			packageName = "";
-			classifierName = fullName;
 		} else {
-			packageName = fullName.substring(0, idx);
-			classifierName = fullName.substring(idx + 1);			
+			fullName.substring(0, idx);
+			fullName.substring(idx + 1);
 		}
-//		cp.registerClassifier(packageName, classifierName, URI.createFileURI(file.getAbsolutePath()));
+		//		cp.registerClassifier(packageName, classifierName, URI.createFileURI(file.getAbsolutePath()));
 	}
 
-	protected Map<? extends Object, ? extends Object> getLoadOptions() {
-		Map<Object, Object> map = new HashMap<Object, Object>();
-		return map;
+	protected Map<Object, Object> getLoadOptions() {
+		return new HashMap<>();
 	}
 
 	private void assertNoErrors(String fileIdentifier, JavaResource2 resource) {
-		List<Diagnostic> errors = new BasicEList<Diagnostic>(resource.getErrors());
+		List<Diagnostic> errors = new BasicEList<>(resource.getErrors());
 		printErrors(fileIdentifier, errors);
 		assertTrue(errors.isEmpty(), "The resource should be parsed without errors.");
 	}
@@ -176,12 +169,12 @@ public abstract class AbstractJaMoPPTests {
 		printDiagnostics(filename, warnings, "Warnings");
 	}
 
-	private void printDiagnostics(String filename, List<Diagnostic> errors, String diagnosticType) {
-		if (errors.size() == 0) {
+	private static void printDiagnostics(String filename, List<Diagnostic> errors, String diagnosticType) {
+		if (errors.isEmpty()) {
 			return;
 		}
-		
-		StringBuffer buffer = new StringBuffer();
+
+		StringBuilder buffer = new StringBuilder();
 		buffer.append(diagnosticType + " while parsing resource '" + filename + "':\n");
 		for (Diagnostic diagnostic : errors) {
 			String text = diagnostic.getMessage();
@@ -192,11 +185,7 @@ public abstract class AbstractJaMoPPTests {
 
 	protected void parseAndReprint(ZipFile file, ZipEntry entry, String outputFolderName, String libFolderName)
 			throws Exception {
-		
-		String entryName = entry.getName();
-		String outputFileName = "./" + outputFolderName + File.separator + entryName;
-		File outputFile = prepareOutputFile(outputFileName);
-		URI archiveURI = URI.createURI("archive:file:///" + new File(".").getAbsoluteFile().toURI().getRawPath() + file.getName().replaceAll("\\\\", "/") + "!/" + entry.getName());
+		URI archiveURI = URI.createURI("archive:file:///" + new File(".").getAbsoluteFile().toURI().getRawPath() + file.getName().replace('\\', '/') + "!/" + entry.getName());
 
 		ResourceSet resourceSet = getResourceSet();
 
@@ -217,24 +206,27 @@ public abstract class AbstractJaMoPPTests {
 			return;
 		}
 
+		String entryName = entry.getName();
+		String outputFileName = "./" + outputFolderName + File.separator + entryName;
+		File outputFile = prepareOutputFile(outputFileName);
 		resource.setURI(URI.createFileURI(outputFile.getAbsolutePath()));
 		resource.save(null);
 
 		assertTrue(outputFile.exists(), "File " + outputFile.getAbsolutePath() + " must exist.");
 		compareTextContents(file.getInputStream(entry), entryName.endsWith("module-info.java"),
-			new FileInputStream(outputFile), outputFile.getPath().endsWith("module-info.java"));
+				new FileInputStream(outputFile), outputFile.getPath().endsWith("module-info.java"));
 	}
 
 	protected boolean prefixUsedInZipFile() {
 		return false;
 	}
 
-	public void registerLibs(String libdir, JavaClasspath classpath, String prefix) throws IOException, CoreException  {
+	public void registerLibs(String libdir, JavaClasspath classpath, String prefix) {
 		File libFolder = new File("." + File.separator + libdir);
 		List<File> allLibFiles = collectAllFilesRecursive(libFolder, "jar");
 		for (File libFile : allLibFiles) {
 			String libPath = libFile.getAbsolutePath();
-			URI libURI = URI.createFileURI(libPath);
+			URI.createFileURI(libPath);
 		}
 	}
 
@@ -243,7 +235,7 @@ public abstract class AbstractJaMoPPTests {
 		File file = new File(path);
 		parseAndReprint(file, inputFolderName, outputFolderName);
 	}
-	
+
 	protected void testReprint(ResourceSet set) throws Exception {
 		for (Resource res : set.getResources()) {
 			if (res instanceof JavaResource2) {
@@ -251,51 +243,52 @@ public abstract class AbstractJaMoPPTests {
 			}
 		}
 	}
-	
+
 	protected void testReprint(JavaResource2 resource) throws Exception {
 		testReprint(resource, TEST_OUTPUT_FOLDER);
 	}
-	
+
 	protected void testReprint(JavaResource2 resource, String outputFolderName) throws Exception {
 		String inputFile = resource.getURI().toFileString();
 		if (inputFile == null) {
 			return;
 		}
-		Path input = Paths.get(inputFile);
-		Path localDir = Paths.get(".").toAbsolutePath();
-		String outputFileName = calculateOutputFilename(input.toFile(), localDir.relativize(input).getName(0).toString(),
-			outputFolderName);
-		File outputFile = prepareOutputFile(outputFileName);
-		
 		assertNoErrors(resource.getURI().toString(), resource);
-		
+
 		if (!ignoreSemanticErrors(inputFile)) {
 			// This will not work if external resources are not yet registered (order of tests)
 			assertResolveAllProxies(resource);
 			// Default EMF validation should not fail
 			assertModelValid(resource);
 		}
-		
+
 		if (isExcludedFromReprintTest(inputFile)) {
 			return;
 		}
-		
+
+		Path input = Paths.get(inputFile);
+		Path localDir = Paths.get(".").toAbsolutePath();
+		String outputFileName = calculateOutputFilename(input.toFile(),
+				localDir.relativize(input).getName(0).toString(), outputFolderName);
 		resource.setURI(URI.createFileURI(outputFileName));
 		resource.save(null);
-		
+
+		File outputFile = prepareOutputFile(outputFileName);
 		assertTrue(outputFile.exists(), "File " + outputFile.getAbsolutePath() + " exists.");
-		
-		compareTextContents(new FileInputStream(inputFile), inputFile.endsWith("module-info.java"),
-			new FileInputStream(outputFile), outputFile.getPath().endsWith("module-info.java"));
+
+		try (final FileInputStream inputStream = new FileInputStream(inputFile)) {
+		compareTextContents(inputStream, inputFile.endsWith("module-info.java"),
+				new FileInputStream(outputFile), outputFile.getPath().endsWith("module-info.java"));
+		}
 	}
 
 	protected void parseAndReprint(File file, String inputFolderName, String outputFolderName) throws Exception {
 		File inputFile = file;
 		assertTrue(inputFile.exists(), "File " + inputFile.getAbsolutePath() + " exists.");
-		
-		Resource resource = getResourceSet().createResource(URI.createFileURI(inputFile.getAbsolutePath().toString()));
+
+		Resource resource = getResourceSet().createResource(URI.createFileURI(inputFile.getAbsolutePath()));
 		resource.load(getLoadOptions());
-		
+
 		testReprint((JavaResource2) resource, outputFolderName);
 	}
 
@@ -305,10 +298,9 @@ public abstract class AbstractJaMoPPTests {
 		return false;
 	}
 
-	private boolean compareTextContents(InputStream inputStream, boolean isModule,
-			InputStream inputStream2, boolean is2Module) throws MalformedTreeException,
-			BadLocationException, IOException {
-		
+	private static boolean compareTextContents(InputStream inputStream, boolean isModule, InputStream inputStream2,
+			boolean is2Module) throws MalformedTreeException {
+
 		org.eclipse.jdt.core.dom.CompilationUnit unit1 = parseWithJDT(inputStream, isModule);
 		removeJavadoc(unit1);
 
@@ -323,27 +315,25 @@ public abstract class AbstractJaMoPPTests {
 		return result;
 	}
 
-	private org.eclipse.jdt.core.dom.CompilationUnit parseWithJDT(InputStream inputStream, boolean isModule) {
+	private static org.eclipse.jdt.core.dom.CompilationUnit parseWithJDT(InputStream inputStream, boolean isModule) {
 
 		ASTParser jdtParser = ASTParser.newParser(AST.JLS14);
 		char[] charArray = readTextContents(inputStream).toCharArray();
 		jdtParser.setSource(charArray);
-		
+
 		if (isModule) {
 			jdtParser.setUnitName("module-info.java");
 		}
 
-		Map<String, String> options = new HashMap<String, String>();
+		Map<String, String> options = new HashMap<>();
 		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_14);
 		jdtParser.setCompilerOptions(options);
 
-		org.eclipse.jdt.core.dom.CompilationUnit result1 =
-			(org.eclipse.jdt.core.dom.CompilationUnit) jdtParser.createAST(null);
-		return result1;
+		return (org.eclipse.jdt.core.dom.CompilationUnit) jdtParser.createAST(null);
 	}
 
-	private void removeJavadoc(org.eclipse.jdt.core.dom.CompilationUnit result1) {
-		final List<Javadoc> javadocNodes = new ArrayList<Javadoc>();
+	private static void removeJavadoc(org.eclipse.jdt.core.dom.CompilationUnit result1) {
+		final List<Javadoc> javadocNodes = new ArrayList<>();
 		result1.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(Javadoc node) {
@@ -364,7 +354,7 @@ public abstract class AbstractJaMoPPTests {
 		return outputFile.getAbsolutePath();
 	}
 
-	private File prepareOutputFile(String outputFileName) {
+	private static File prepareOutputFile(String outputFileName) {
 		File outputFile = new File(URI.createFileURI(outputFileName).toFileString());
 		File parent = outputFile.getParentFile();
 		if (!parent.exists()) {
@@ -373,18 +363,16 @@ public abstract class AbstractJaMoPPTests {
 		return outputFile;
 	}
 
-	private String readTextContents(InputStream inputStream) {
-		StringBuffer contents = new StringBuffer();
+	private static String readTextContents(InputStream inputStream) {
+		StringBuilder contents = new StringBuilder();
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-			try {
+			try (input) {
 				String line = null; // not declared within while loop
 				while ((line = input.readLine()) != null) {
 					contents.append(line);
-					contents.append(System.getProperty("line.separator"));
+					contents.append(System.lineSeparator());
 				}
-			} finally {
-				input.close();
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -392,15 +380,14 @@ public abstract class AbstractJaMoPPTests {
 		return contents.toString();
 	}
 
-	protected List<File> collectAllFilesRecursive(File startFolder, String extension)
-			throws CoreException {
+	protected List<File> collectAllFilesRecursive(File startFolder, String extension) {
 		if (!startFolder.isDirectory()) {
 			return Collections.emptyList();
 		}
-		try {
-			return Files.walk(startFolder.toPath()).filter(p -> !p.endsWith(".svn"))
-				.filter(p -> !p.endsWith(".git")).filter(Files::isRegularFile)
-				.map(p -> p.toFile()).filter(f -> f.getName().endsWith(extension)).collect(Collectors.toList());
+		try (final Stream<Path> walk = Files.walk(startFolder.toPath())) {		
+			return walk.filter(p -> !p.endsWith(".svn"))
+					.filter(p -> !p.endsWith(".git")).filter(Files::isRegularFile)
+					.map(Path::toFile).filter(f -> f.getName().endsWith(extension)).collect(Collectors.toList());
 		} catch (IOException e) {
 			return Collections.emptyList();
 		}
@@ -411,7 +398,7 @@ public abstract class AbstractJaMoPPTests {
 		org.emftext.language.java.classifiers.Class clazz = (org.emftext.language.java.classifiers.Class) member;
 		List<TypeParameter> typeParameters = clazz.getTypeParameters();
 		assertEquals(expectedNumberOfTypeArguments, typeParameters.size(),
-			"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
+				"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
 	}
 
 	protected void assertInterfaceTypeParameterCount(Member member, int expectedNumberOfTypeArguments) {
@@ -419,7 +406,7 @@ public abstract class AbstractJaMoPPTests {
 		Interface interfaze = (Interface) member;
 		List<TypeParameter> typeParameters = interfaze.getTypeParameters();
 		assertEquals(expectedNumberOfTypeArguments, typeParameters.size(),
-			"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
+				"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
 	}
 
 	protected void assertMethodThrowsCount(Member member, int expectedNumberOfThrownExceptions) {
@@ -427,7 +414,7 @@ public abstract class AbstractJaMoPPTests {
 		Method method = (Method) member;
 		List<NamespaceClassifierReference> exceptions = method.getExceptions();
 		assertEquals(expectedNumberOfThrownExceptions, exceptions.size(),
-			"Expected " + expectedNumberOfThrownExceptions + " exception(s).");
+				"Expected " + expectedNumberOfThrownExceptions + " exception(s).");
 	}
 
 	protected void assertMethodTypeParameterCount(Member member, int expectedNumberOfTypeArguments) {
@@ -435,7 +422,7 @@ public abstract class AbstractJaMoPPTests {
 		Method method = (Method) member;
 		List<TypeParameter> typeParameters = method.getTypeParameters();
 		assertEquals(expectedNumberOfTypeArguments, typeParameters.size(),
-			"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
+				"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
 	}
 
 	protected void assertConstructorThrowsCount(Member member, int expectedNumberOfThrownExceptions) {
@@ -443,7 +430,7 @@ public abstract class AbstractJaMoPPTests {
 		Constructor constructor = (Constructor) member;
 		List<NamespaceClassifierReference> exceptions = constructor.getExceptions();
 		assertEquals(expectedNumberOfThrownExceptions, exceptions.size(),
-			"Expected " + expectedNumberOfThrownExceptions + " exception(s).");
+				"Expected " + expectedNumberOfThrownExceptions + " exception(s).");
 	}
 
 	protected void assertConstructorTypeParameterCount(Member member, int expectedNumberOfTypeArguments) {
@@ -451,7 +438,7 @@ public abstract class AbstractJaMoPPTests {
 		Constructor constructor = (Constructor) member;
 		List<TypeParameter> typeParameters = constructor.getTypeParameters();
 		assertEquals(expectedNumberOfTypeArguments, typeParameters.size(),
-			"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
+				"Expected " + expectedNumberOfTypeArguments + " type parameter(s).");
 	}
 
 	protected void assertIsClass(Classifier classifier) {
@@ -469,18 +456,18 @@ public abstract class AbstractJaMoPPTests {
 
 	protected void assertType(EObject object, Class<?> expectedType) {
 		assertTrue(expectedType.isInstance(object),
-			"The object should have type '" + expectedType.getSimpleName() + "', but was "
-			+ object.getClass().getSimpleName());
+				"The object should have type '" + expectedType.getSimpleName() + "', but was "
+						+ object.getClass().getSimpleName());
 	}
 
 	protected void assertClassifierName(Classifier declaration, String expectedName) {
 		assertEquals(expectedName, declaration.getName(),
-			"The name of the declared classifier should equal '" + expectedName + "'");
+				"The name of the declared classifier should equal '" + expectedName + "'");
 	}
 
 	protected void assertNumberOfClassifiers(CompilationUnit model, int expectedCount) {
 		assertEquals(expectedCount, model.getClassifiers().size(),
-			"The compilation unit should contain " + expectedCount + " classifier declaration(s).");
+				"The compilation unit should contain " + expectedCount + " classifier declaration(s).");
 	}
 
 	protected void assertModifierCount(Method method, int expectedNumberOfModifiers) {
@@ -500,7 +487,7 @@ public abstract class AbstractJaMoPPTests {
 			throws Exception {
 		return assertParsesToType(pkgFolder, typename, Enumeration.class);
 	}
-	
+
 	protected Interface assertParsesToInterface(String typename) throws Exception {
 		return assertParsesToInterface("", typename);
 	}
@@ -513,7 +500,7 @@ public abstract class AbstractJaMoPPTests {
 	protected Annotation assertParsesToAnnotation(String typename) throws Exception {
 		return assertParsesToAnnotation("", typename);
 	}
-	
+
 	protected Annotation assertParsesToAnnotation(String pkgFolder, String typename)
 			throws Exception {
 		return assertParsesToType(pkgFolder, typename, Annotation.class);
@@ -531,16 +518,15 @@ public abstract class AbstractJaMoPPTests {
 			assertClassifierName(declaration, typename);
 			assertType(declaration, expectedType);
 			return expectedType.cast(declaration);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
-	protected <T> T assertParsesToType(String typename, Class<T> expectedType) 
-			throws Exception {	
+	protected <T> T assertParsesToType(String typename, Class<T> expectedType)
+			throws Exception {
 		return assertParsesToType("", typename, expectedType);
 	}
-	
+
 	protected <T> T assertParsesToType(String pkgFolder, String typename, Class<T> expectedType)
 			throws Exception {
 		return assertParsesToType(pkgFolder, typename, getTestInputFolder(),
@@ -560,7 +546,7 @@ public abstract class AbstractJaMoPPTests {
 	protected void parseAndReprint(File file) throws Exception {
 		parseAndReprint(file, getTestInputFolder(), TEST_OUTPUT_FOLDER);
 	}
-	
+
 	protected org.emftext.language.java.classifiers.Class assertParsesToClass(
 			String typename) throws Exception {
 		return assertParsesToClass("", typename);
@@ -580,14 +566,14 @@ public abstract class AbstractJaMoPPTests {
 		assertEquals(expectedCount, container.getMembers().size(),
 				name + " should have " + expectedCount + " member(s).");
 	}
-	
+
 	protected void assertParsesToClass(String typename, int expectedMembers)
-			throws Exception, IOException, BadLocationException {
+			throws Exception {
 		assertParsesToClass("", typename, expectedMembers);
 	}
 
 	protected void assertParsesToClass(String pkgFolder, String typename, int expectedMembers)
-			throws Exception, IOException, BadLocationException {
+			throws Exception {
 		String filename = typename + ".java";
 		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(pkgFolder, typename);
 		assertEquals(expectedMembers, clazz.getMembers().size(),
@@ -600,14 +586,14 @@ public abstract class AbstractJaMoPPTests {
 		assertResolveAllProxies(element.eResource());
 	}
 
-	protected ResourceSet getResourceSet() throws Exception {
+	protected ResourceSet getResourceSet() {
 		ResourceSet rs = new ResourceSetImpl();
 		rs.getLoadOptions().putAll(getLoadOptions());
 		return rs;
 	}
 
 	protected boolean assertResolveAllProxies(Resource resource) {
-		StringBuffer msg = new StringBuffer();
+		StringBuilder msg = new StringBuilder();
 		resource.getAllContents().forEachRemaining(obj -> {
 			InternalEObject element = (InternalEObject) obj;
 			assertFalse(element.eIsProxy(), "Can not resolve: " + element.eProxyURI());
@@ -622,17 +608,17 @@ public abstract class AbstractJaMoPPTests {
 		assertFalse(finalMsg.length() != 0, finalMsg);
 		return finalMsg.length() != 0;
 	}
-	
+
 
 	protected void assertModelValid(Resource resource) {
 		org.eclipse.emf.common.util.Diagnostic result = Diagnostician.INSTANCE.validate(resource.getContents().get(0));
-		String msg = "EMF validation problems found:";
+		StringBuilder msg = new StringBuilder("EMF validation problems found:");
 		for (org.eclipse.emf.common.util.Diagnostic childResult : result.getChildren()) {
-			msg += "\n" + childResult.getMessage();
+			msg.append("\n").append(childResult.getMessage());
 		}
-		assertTrue(result.getChildren().isEmpty(), msg);
+		assertTrue(result.getChildren().isEmpty(), msg.toString());
 	}
-	
+
 	protected void assertModelValid(ResourceSet set) {
 		StringBuilder builder = new StringBuilder();
 		for (Resource res : set.getResources()) {
