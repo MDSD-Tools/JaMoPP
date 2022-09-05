@@ -366,8 +366,7 @@ public class TypeParameterExtension {
 				else if (parameterType != null && argument instanceof Reference) {
 					Reference argReference = (Reference) argument;
 
-					while (argReference.getNext() instanceof Reference &&
-							!(argReference.getNext() instanceof ReflectiveClassReference) ) {
+					while (!(argReference.getNext() instanceof ReflectiveClassReference) ) {
 						argReference = argReference.getNext();
 					}
 

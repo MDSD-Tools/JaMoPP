@@ -95,7 +95,7 @@ public class JaMoPPStandalone {
 				outputFileName += cu.getClassifiers().get(0).getName();
 			} else {
 				outputFileName += emptyFileName;
-				emptyFileName++;
+                emptyFileName++;
 			}
 
 		} else if (root instanceof Package) {

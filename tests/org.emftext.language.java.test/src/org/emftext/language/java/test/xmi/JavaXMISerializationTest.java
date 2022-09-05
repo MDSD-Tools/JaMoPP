@@ -1,17 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2006-2013
- * Software Technology Group, Dresden University of Technology
- * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+ * Copyright (c) 2006-2013 Software Technology Group, Dresden University of Technology DevBoost
+ * GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *   Software Technology Group - TU Dresden, Germany;
- *   DevBoost GmbH - Berlin, Germany
- *      - initial API and implementation
+ * Contributors: Software Technology Group - TU Dresden, Germany; DevBoost GmbH - Berlin, Germany -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.emftext.language.java.test.xmi;
@@ -47,152 +43,169 @@ import jamopp.parser.jdt.JaMoPPJDTParser;
 @Disabled("xmiResource is null in line 106.")
 public class JavaXMISerializationTest extends AbstractJaMoPPTests {
 
-	protected static final String TEST_INPUT_FOLDER_NAME = "src-input";
-	protected static final String TEST_OUTPUT_FOLDER_NAME = "output";
-	private final HashMap<String, String> inputFileToOutputFile = new HashMap<>();
+    protected static final String TEST_INPUT_FOLDER_NAME = "src-input";
+    protected static final String TEST_OUTPUT_FOLDER_NAME = "output";
+    private final HashMap<String, String> inputFileToOutputFile = new HashMap<>();
 
-	@Test
-	public void testXMISerialization() throws Exception {
-		File inputFolder = new File("./" + TEST_INPUT_FOLDER_NAME);
-		List<File> allTestFiles = collectAllFilesRecursive(inputFolder, "java");
+    private ResourceSet sharedRS;
 
-		JaMoPPJDTParser parser = new JaMoPPJDTParser();
-		parser.setResourceSet(getResourceSet());
-		parser.parseDirectory(inputFolder.toPath());
+    protected void compare(File file) throws Exception {
+        final ResourceSet rs = getResourceSet();
+        final String outputXMIFileName = inputFileToOutputFile.get(file.getAbsolutePath());
+        final URI xmiFileURI = URI.createFileURI(outputXMIFileName)
+            .trimFileExtension()
+            .appendFileExtension("xmi");
+        final Resource xmiResource = rs.getResource(xmiFileURI, false);
+        if (xmiResource == null) {
+            System.out.print("");
+        }
+        assertNotNull(xmiResource);
 
-		transferToXMI();
+        // reload
+        final ResourceSet reloadeSet = super.getResourceSet();
+        Resource reloadedResource = null;
+        try {
+            reloadedResource = reloadeSet.getResource(xmiFileURI, true);
+        } catch (final Exception e) {
+            fail(e.getClass() + ": " + e.getMessage());
+            return;
+        }
+        assertResolveAllProxies(reloadedResource);
+        for (final Diagnostic d : reloadedResource.getErrors()) {
+            System.out.println(d.getMessage());
+        }
+        assertTrue(reloadedResource.getErrors()
+            .isEmpty(), "Parsed XMI contains errors");
 
-		for (final File file : allTestFiles) {
-			compare(file);
-		}
+        final EqualityHelper equalityHelper = new EqualityHelper() {
 
-		inputFileToOutputFile.clear();
-	}
+            private static final long serialVersionUID = 4881383880532985929L;
 
-	private void transferToXMI() throws Exception {
-		ResourceSet rs = getResourceSet();
-		EcoreUtil.resolveAll(rs);
-		int emptyFileName = 0;
+            @Override
+            public boolean equals(EObject eObject1, EObject eObject2) {
+                final boolean result = super.equals(eObject1, eObject2);
+                if (!result) {
+                    System.out.println("Not equal: " + eObject1 + " != " + eObject2);
+                }
+                return result;
+            }
 
-		for (Resource javaResource : new ArrayList<>(rs.getResources())) {
-			assertResolveAllProxies(javaResource);
-			if (javaResource.getContents().isEmpty()) {
-				System.out.println("WARNING: Emtpy Resource: " + javaResource.getURI());
-				continue;
-			}
-			JavaRoot root = (JavaRoot) javaResource.getContents().get(0);
-			String outputFileName = "ERROR";
-			if (root instanceof CompilationUnit) {
-				outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
-				CompilationUnit cu = (CompilationUnit) root;
-				if (!cu.getClassifiers().isEmpty()) {
-					outputFileName += cu.getClassifiers().get(0).getName();
-				} else {
-					outputFileName += emptyFileName;
-					emptyFileName++;
-				}
+            @Override
+            protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature) {
+                if (feature.isTransient()) {
+                    // ignore transient features
+                    return true;
+                }
+                return super.haveEqualFeature(eObject1, eObject2, feature);
+            }
+        };
+        final EObject root = xmiResource.getContents()
+            .get(0);
+        final EObject reloadedRoot = reloadedResource.getContents()
+            .get(0);
+        assertTrue(equalityHelper.equals(root, reloadedRoot), "Original and reloaded XMI are not equal");
+    }
 
-			} else if (root instanceof Package) {
-				outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator + "package-info";
-				if (outputFileName.startsWith(File.separator)) {
-					outputFileName = outputFileName.substring(1);
-				}
-			} else if (root instanceof org.emftext.language.java.containers.Module) {
-				outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator + "module-info";
-			} else {
-				fail();
-			}
-			File outputFile = new File("." + File.separator + TEST_OUTPUT_FOLDER_NAME + File.separator + outputFileName);
-			URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
-			XMIResource xmiResource = (XMIResource) rs.createResource(xmiFileURI);
-			xmiResource.setEncoding(StandardCharsets.UTF_8.toString());
-			xmiResource.getContents().addAll(javaResource.getContents());
+    @Override
+    protected ResourceSet getResourceSet() {
+        if (sharedRS == null) {
+            sharedRS = super.getResourceSet();
+        }
+        return sharedRS;
+    }
 
-			if (javaResource.getURI().isFile()) {
-				inputFileToOutputFile.put(javaResource.getURI().toFileString(), outputFile.getAbsolutePath());
-			}
-		}
-		for (Resource xmiResource : rs.getResources()) {
-			if (xmiResource instanceof XMIResource) {
-				try {
-					xmiResource.save(rs.getLoadOptions());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    @Override
+    protected String getTestInputFolder() {
+        return TEST_INPUT_FOLDER_NAME;
+    }
 
-	protected void compare(File file) throws Exception {
-		ResourceSet rs = getResourceSet();
-		String outputXMIFileName = inputFileToOutputFile.get(file.getAbsolutePath());
-		URI xmiFileURI = URI.createFileURI(outputXMIFileName).trimFileExtension().appendFileExtension("xmi");
-		Resource xmiResource = rs.getResource(xmiFileURI, false);
-		if (xmiResource == null) {
-			System.out.print("");
-		}
-		assertNotNull(xmiResource);
+    @Override
+    protected boolean isExcludedFromReprintTest(String filename) {
+        return true;
+    }
 
-		//reload
-		ResourceSet reloadeSet = super.getResourceSet();
-		Resource reloadedResource = null;
-		try {
-			reloadedResource = reloadeSet.getResource(xmiFileURI, true);
-		} catch (Exception e) {
-			fail(e.getClass() +  ": " + e.getMessage());
-			return;
-		}
-		assertResolveAllProxies(reloadedResource);
-		for (Diagnostic d : reloadedResource.getErrors()) {
-			System.out.println(d.getMessage());
-		}
-		assertTrue(reloadedResource.getErrors().isEmpty(), "Parsed XMI contains errors");
+    @Test
+    public void testXMISerialization() throws Exception {
+        final File inputFolder = new File("./" + TEST_INPUT_FOLDER_NAME);
+        final List<File> allTestFiles = collectAllFilesRecursive(inputFolder, "java");
 
-		EqualityHelper equalityHelper = new EqualityHelper() {
+        final JaMoPPJDTParser parser = new JaMoPPJDTParser();
+        parser.setResourceSet(getResourceSet());
+        parser.parseDirectory(inputFolder.toPath());
 
-			private static final long serialVersionUID = 4881383880532985929L;
+        transferToXMI();
 
-			@Override
-			public boolean equals(EObject eObject1, EObject eObject2) {
-				boolean result = super.equals(eObject1, eObject2);
-				if (!result) {
-					System.out.println("Not equal: " + eObject1 + " != " + eObject2);
-				}
-				return result;
-			}
+        for (final File file : allTestFiles) {
+            compare(file);
+        }
 
-			@Override
-			protected boolean haveEqualFeature(EObject eObject1,
-					EObject eObject2, EStructuralFeature feature) {
-				if (feature.isTransient()) {
-					//ignore transient features
-					return true;
-				}
-				return super.haveEqualFeature(eObject1, eObject2, feature);
-			}
-		};
-		EObject root = xmiResource.getContents().get(0);
-		EObject reloadedRoot = reloadedResource.getContents().get(0);
-		assertTrue(equalityHelper.equals(root, reloadedRoot), "Original and reloaded XMI are not equal");
-	}
+        inputFileToOutputFile.clear();
+    }
 
-	private ResourceSet sharedRS;
+    private void transferToXMI() throws Exception {
+        final ResourceSet rs = getResourceSet();
+        EcoreUtil.resolveAll(rs);
+        int emptyFileName = 0;
 
-	@Override
-	protected ResourceSet getResourceSet() {
-		if (sharedRS == null) {
-			sharedRS = super.getResourceSet();
-		}
-		return sharedRS;
-	}
+        for (final Resource javaResource : new ArrayList<>(rs.getResources())) {
+            assertResolveAllProxies(javaResource);
+            if (javaResource.getContents()
+                .isEmpty()) {
+                System.out.println("WARNING: Emtpy Resource: " + javaResource.getURI());
+                continue;
+            }
+            final JavaRoot root = (JavaRoot) javaResource.getContents()
+                .get(0);
+            String outputFileName = "ERROR";
+            if (root instanceof CompilationUnit) {
+                outputFileName = root.getNamespacesAsString()
+                    .replace(".", File.separator) + File.separator;
+                final CompilationUnit cu = (CompilationUnit) root;
+                if (!cu.getClassifiers()
+                    .isEmpty()) {
+                    outputFileName += cu.getClassifiers()
+                        .get(0)
+                        .getName();
+                } else {
+                    outputFileName += emptyFileName;
+                    emptyFileName++;
+                }
 
-	@Override
-	protected boolean isExcludedFromReprintTest(String filename) {
-		return true;
-	}
+            } else if (root instanceof Package) {
+                outputFileName = root.getNamespacesAsString()
+                    .replace(".", File.separator) + File.separator + "package-info";
+                if (outputFileName.startsWith(File.separator)) {
+                    outputFileName = outputFileName.substring(1);
+                }
+            } else if (root instanceof org.emftext.language.java.containers.Module) {
+                outputFileName = root.getNamespacesAsString()
+                    .replace(".", File.separator) + File.separator + "module-info";
+            } else {
+                fail();
+            }
+            final File outputFile = new File(
+                    "." + File.separator + TEST_OUTPUT_FOLDER_NAME + File.separator + outputFileName);
+            final URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath())
+                .appendFileExtension("xmi");
+            final XMIResource xmiResource = (XMIResource) rs.createResource(xmiFileURI);
+            xmiResource.setEncoding(StandardCharsets.UTF_8.toString());
+            xmiResource.getContents()
+                .addAll(javaResource.getContents());
 
-	@Override
-	protected String getTestInputFolder() {
-		return TEST_INPUT_FOLDER_NAME;
-	}
+            if (javaResource.getURI()
+                .isFile()) {
+                inputFileToOutputFile.put(javaResource.getURI()
+                    .toFileString(), outputFile.getAbsolutePath());
+            }
+        }
+        for (final Resource xmiResource : rs.getResources()) {
+            if (xmiResource instanceof XMIResource) {
+                try {
+                    xmiResource.save(rs.getLoadOptions());
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

@@ -1,14 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2019-2020, Martin Armbruster
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *   Martin Armbruster
- *      - Initial implementation
+ * Contributors: Martin Armbruster - Initial implementation
  ******************************************************************************/
 
 package org.emftext.language.java.test;
@@ -67,404 +64,523 @@ import org.junit.jupiter.api.Test;
  * @author Martin Armbruster
  */
 public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
-	@Override
-	public String getTestInputFolder() {
-		return "src-sevenandup";
-	}
+    @Override
+    public String getTestInputFolder() {
+        return "src-sevenandup";
+    }
 
-	@Override
-	public boolean isExcludedFromReprintTest(String file) {
-		return false;
-	}
+    @Override
+    public boolean isExcludedFromReprintTest(String file) {
+        return false;
+    }
 
-	@Test
-	public void testModuleInfo() {
-		try {
-			String file = "module-info.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, Module.class);
-			assertEquals(6, ((Module) root).getTarget().size());
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testIntersectionTypeWithTypeArguments() {
+        try {
+            final String file = "pkgJava14" + File.separator + "IntersectionTypeWithTypeArguments.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit cu = (CompilationUnit) root;
+            final Member m = cu.getClassifiers()
+                .get(0)
+                .getMembers()
+                .get(0);
+            assertType(m, ClassMethod.class);
+            final ClassMethod method = (ClassMethod) m;
+            final LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock()
+                .getStatements()
+                .get(0);
+            final TypeReference typeRef = locStat.getVariable()
+                .getTypeReference();
+            assertType(typeRef, InferableType.class);
+            final InferableType inferType = (InferableType) typeRef;
+            assertEquals(1, inferType.getActualTargets()
+                .size());
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testPackageInfo() {
-		try {
-			String file = "simplepackage" + File.separator + "package-info.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, org.emftext.language.java.containers.Package.class);
-			org.emftext.language.java.containers.Package pRoot = (org.emftext.language.java.containers.Package) root;
-			assertEquals(1, pRoot.getNamespaces().size());
-			assertEquals("simplepackage", pRoot.getNamespaces().get(0));
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testModuleInfo() {
+        try {
+            final String file = "module-info.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, Module.class);
+            assertEquals(6, ((Module) root).getTarget()
+                .size());
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithLambdaExpressions() {
-		try {
-			String file = "pkg2" + File.separator + "SimpleClassWithLambdaExpressions.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
-			this.assertClassifierName(classifier, "SimpleClassWithLambdaExpressions");
-			this.assertMemberCount(classifier, 2);
-			for (Member m : classifier.getMembers()) {
-				if (m instanceof Interface) {
-					assertEquals("I", m.getName());
-					assertEquals(1, ((Interface) m).getAnnotationInstances().size());
-				} else if (m instanceof Method) {
-					assertEquals("lambdas", m.getName());
-					this.assertIsPublic((Method) m);
-					this.assertType(((Method) m).getTypeReference(), org.emftext.language.java.types.Void.class);
-					for (Statement s : ((Method) m).getBlock().getStatements()) {
-						assertTrue(s instanceof ExpressionStatement || s instanceof LocalVariableStatement);
-						if (s instanceof ExpressionStatement) {
-							ExpressionStatement castedS = (ExpressionStatement) s;
-							this.assertType(castedS.getExpression(), AssignmentExpression.class);
-							AssignmentExpression expr = (AssignmentExpression) castedS.getExpression();
-							this.assertType(expr.getValue(), LambdaExpression.class);
-						} else if (s instanceof LocalVariableStatement) {
-							LocalVariableStatement castedS = (LocalVariableStatement) s;
-							this.assertType(castedS.getVariable().getInitialValue(), LambdaExpression.class);
-						}
-					}
-				}
-			}
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testPackageInfo() {
+        try {
+            final String file = "simplepackage" + File.separator + "package-info.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, org.emftext.language.java.containers.Package.class);
+            final org.emftext.language.java.containers.Package pRoot = (org.emftext.language.java.containers.Package) root;
+            assertEquals(1, pRoot.getNamespaces()
+                .size());
+            assertEquals("simplepackage", pRoot.getNamespaces()
+                .get(0));
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithLiterals() {
-		try {
-			String file = "pkg2" + File.separator + "SimpleClassWithLiterals.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
-			assertEquals(1, classifier.getMembers().size());
-			Method m = (Method) classifier.getMembers().get(0);
-			for (Statement s : m.getBlock().getStatements()) {
-				assertTrue(s instanceof LocalVariableStatement || s instanceof ExpressionStatement);
-				if (s instanceof LocalVariableStatement) {
-					LocalVariableStatement castedS = (LocalVariableStatement) s;
-					assertTrue(castedS.getVariable().getInitialValue() instanceof BinaryIntegerLiteral
-							|| castedS.getVariable().getInitialValue() instanceof BinaryLongLiteral);
-				} else if (s instanceof ExpressionStatement) {
-					AssignmentExpression expr = ((AssignmentExpression) ((ExpressionStatement) s).getExpression());
-					assertTrue(expr.getValue() instanceof BinaryIntegerLiteral
-							|| expr.getValue() instanceof BinaryLongLiteral);
-				}
-			}
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithDiamondTypeArguments() {
+        try {
+            final String file = "simplepackage" + File.separator + "SimpleClassWithDiamondTypeArguments.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
+            assertMemberCount(classifier, 2);
+            final Method method = (Method) classifier.getMembers()
+                .get(0);
+            assertEquals(6, method.getBlock()
+                .getStatements()
+                .size());
+            for (final Statement s : method.getBlock()
+                .getStatements()) {
+                assertTrue(s instanceof LocalVariableStatement || s instanceof ExpressionStatement);
+                if (s instanceof LocalVariableStatement) {
+                    final LocalVariableStatement castedS = (LocalVariableStatement) s;
+                    assertType(castedS.getVariable()
+                        .getInitialValue(), NewConstructorCall.class);
+                } else {
+                    assertType(((ExpressionStatement) s).getExpression(), NewConstructorCall.class);
+                }
+            }
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithTryCatch() {
-		try {
-			String file = "pkg2" + File.separator + "SimpleClassWithTryCatch.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
-			this.assertMemberCount(classifier, 3);
-			Method method = (Method) classifier.getMembers().get(1);
-			this.assertIsPublic(method);
-			assertEquals("tryCatch", method.getName());
-			assertEquals(6, method.getBlock().getStatements().size());
-			TryBlock tryBlock = (TryBlock) method.getBlock().getStatements().get(0);
-			assertEquals(1, tryBlock.getBlock().getStatements().size());
-			assertEquals(1, tryBlock.getResources().size());
-			assertEquals(1, tryBlock.getCatchBlocks().size());
-			assertTrue(tryBlock.getFinallyBlock() != null);
-			tryBlock = (TryBlock) method.getBlock().getStatements().get(1);
-			assertEquals(1, tryBlock.getBlock().getStatements().size());
-			assertEquals(1, tryBlock.getResources().size());
-			assertEquals(1, tryBlock.getCatchBlocks().size());
-			assertTrue(tryBlock.getFinallyBlock() == null);
-			tryBlock = (TryBlock) method.getBlock().getStatements().get(2);
-			assertEquals(1, tryBlock.getBlock().getStatements().size());
-			assertEquals(2, tryBlock.getResources().size());
-			assertEquals(1, tryBlock.getCatchBlocks().size());
-			assertTrue(tryBlock.getFinallyBlock() == null);
-			tryBlock = (TryBlock) method.getBlock().getStatements().get(3);
-			assertEquals(1, tryBlock.getBlock().getStatements().size());
-			assertEquals(0, tryBlock.getResources().size());
-			assertEquals(1, tryBlock.getCatchBlocks().size());
-			this.assertType(tryBlock.getCatchBlocks().get(0).getParameter(), CatchParameter.class);
-			CatchParameter catchParam = (CatchParameter) tryBlock.getCatchBlocks().get(0).getParameter();
-			assertEquals(3, catchParam.getTypeReferences().size());
-			assertTrue(tryBlock.getFinallyBlock() == null);
-			tryBlock = (TryBlock) method.getBlock().getStatements().get(4);
-			assertEquals(0, tryBlock.getBlock().getStatements().size());
-			assertEquals(1, tryBlock.getResources().size());
-			assertEquals(0, tryBlock.getCatchBlocks().size());
-			assertTrue(tryBlock.getFinallyBlock() == null);
-			tryBlock = (TryBlock) method.getBlock().getStatements().get(5);
-			assertEquals(0, tryBlock.getBlock().getStatements().size());
-			assertEquals(1, tryBlock.getResources().size());
-			assertEquals(0, tryBlock.getCatchBlocks().size());
-			assertTrue(tryBlock.getFinallyBlock() != null);
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithLambdaExpressions() {
+        try {
+            final String file = "pkg2" + File.separator + "SimpleClassWithLambdaExpressions.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
+            assertClassifierName(classifier, "SimpleClassWithLambdaExpressions");
+            assertMemberCount(classifier, 2);
+            for (final Member m : classifier.getMembers()) {
+                if (m instanceof Interface) {
+                    assertEquals("I", m.getName());
+                    assertEquals(1, ((Interface) m).getAnnotationInstances()
+                        .size());
+                } else if (m instanceof Method) {
+                    assertEquals("lambdas", m.getName());
+                    assertIsPublic((Method) m);
+                    assertType(((Method) m).getTypeReference(), org.emftext.language.java.types.Void.class);
+                    for (final Statement s : ((Method) m).getBlock()
+                        .getStatements()) {
+                        assertTrue(s instanceof ExpressionStatement || s instanceof LocalVariableStatement);
+                        if (s instanceof ExpressionStatement) {
+                            final ExpressionStatement castedS = (ExpressionStatement) s;
+                            assertType(castedS.getExpression(), AssignmentExpression.class);
+                            final AssignmentExpression expr = (AssignmentExpression) castedS.getExpression();
+                            assertType(expr.getValue(), LambdaExpression.class);
+                        } else if (s instanceof LocalVariableStatement) {
+                            final LocalVariableStatement castedS = (LocalVariableStatement) s;
+                            assertType(castedS.getVariable()
+                                .getInitialValue(), LambdaExpression.class);
+                        }
+                    }
+                }
+            }
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleInterfaceWithDefaultMethods() {
-		try {
-			String file = "pkg2" + File.separator + "SimpleInterfaceWithDefaultMethods.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			Interface classifier = unit.getContainedInterface();
-			this.assertMemberCount(classifier, 5);
-			int numberOfDefaultOrStaticMethods = 0;
-			for (Member member : classifier.getMembers()) {
-				if (member instanceof Method) {
-					Method method = (Method) member;
-					boolean hasStaticOrDefaultModifier = false;
-					for (Modifier modifier : method.getModifiers()) {
-						if (modifier instanceof Static || modifier instanceof Default) {
-							hasStaticOrDefaultModifier = true;
-							numberOfDefaultOrStaticMethods++;
-						}
-					}
-					if (hasStaticOrDefaultModifier) {
-						this.assertType(method.getStatement(), Block.class);
-					} else {
-						this.assertType(method.getStatement(), EmptyStatement.class);
-					}
-				}
-			}
-			assertEquals(3, numberOfDefaultOrStaticMethods);
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithLiterals() {
+        try {
+            final String file = "pkg2" + File.separator + "SimpleClassWithLiterals.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
+            assertEquals(1, classifier.getMembers()
+                .size());
+            final Method m = (Method) classifier.getMembers()
+                .get(0);
+            for (final Statement s : m.getBlock()
+                .getStatements()) {
+                assertTrue(s instanceof LocalVariableStatement || s instanceof ExpressionStatement);
+                if (s instanceof LocalVariableStatement) {
+                    final LocalVariableStatement castedS = (LocalVariableStatement) s;
+                    assertTrue(castedS.getVariable()
+                        .getInitialValue() instanceof BinaryIntegerLiteral
+                            || castedS.getVariable()
+                                .getInitialValue() instanceof BinaryLongLiteral);
+                } else if (s instanceof ExpressionStatement) {
+                    final AssignmentExpression expr = (AssignmentExpression) ((ExpressionStatement) s).getExpression();
+                    assertTrue(expr.getValue() instanceof BinaryIntegerLiteral
+                            || expr.getValue() instanceof BinaryLongLiteral);
+                }
+            }
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithDiamondTypeArguments() {
-		try {
-			String file = "simplepackage" + File.separator + "SimpleClassWithDiamondTypeArguments.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
-			this.assertMemberCount(classifier, 2);
-			Method method = (Method) classifier.getMembers().get(0);
-			assertEquals(6, method.getBlock().getStatements().size());
-			for (Statement s : method.getBlock().getStatements()) {
-				assertTrue(s instanceof LocalVariableStatement || s instanceof ExpressionStatement);
-				if (s instanceof LocalVariableStatement) {
-					LocalVariableStatement castedS = (LocalVariableStatement) s;
-					this.assertType(castedS.getVariable().getInitialValue(), NewConstructorCall.class);
-				} else {
-					this.assertType(((ExpressionStatement) s).getExpression(), NewConstructorCall.class);
-				}
-			}
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithMethodReferenceExpressions() {
+        try {
+            final String file = "simplepackage" + File.separator + "SimpleClassWithMethodReferenceExpressions.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
+            assertMemberCount(classifier, 2);
+            final Method method = (Method) classifier.getMembers()
+                .get(0);
+            assertEquals(8, method.getBlock()
+                .getStatements()
+                .size());
+            LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock()
+                .getStatements()
+                .get(0);
+            assertType(locStat.getVariable()
+                .getInitialValue(), PrimaryExpressionReferenceExpression.class);
+            locStat = (LocalVariableStatement) method.getBlock()
+                .getStatements()
+                .get(1);
+            assertType(locStat.getVariable()
+                .getInitialValue(), ClassTypeConstructorReferenceExpression.class);
+            AssignmentExpression expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock()
+                .getStatements()
+                .get(2)).getExpression();
+            assertType(expr.getValue(), ClassTypeConstructorReferenceExpression.class);
+            expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock()
+                .getStatements()
+                .get(3)).getExpression();
+            assertType(expr.getValue(), ClassTypeConstructorReferenceExpression.class);
+            expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock()
+                .getStatements()
+                .get(4)).getExpression();
+            assertType(expr.getValue(), PrimaryExpressionReferenceExpression.class);
+            locStat = (LocalVariableStatement) method.getBlock()
+                .getStatements()
+                .get(5);
+            assertType(locStat.getVariable()
+                .getInitialValue(), PrimaryExpressionReferenceExpression.class);
+            locStat = (LocalVariableStatement) method.getBlock()
+                .getStatements()
+                .get(6);
+            assertType(locStat.getVariable()
+                .getInitialValue(), ArrayConstructorReferenceExpression.class);
+            expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock()
+                .getStatements()
+                .get(7)).getExpression();
+            assertType(expr.getValue(), ArrayConstructorReferenceExpression.class);
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithMethodReferenceExpressions() {
-		try {
-			String file = "simplepackage" + File.separator + "SimpleClassWithMethodReferenceExpressions.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
-			this.assertMemberCount(classifier, 2);
-			Method method = (Method) classifier.getMembers().get(0);
-			assertEquals(8, method.getBlock().getStatements().size());
-			LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock().getStatements().get(0);
-			this.assertType(locStat.getVariable().getInitialValue(), PrimaryExpressionReferenceExpression.class);
-			locStat = (LocalVariableStatement) method.getBlock().getStatements().get(1);
-			this.assertType(locStat.getVariable().getInitialValue(), ClassTypeConstructorReferenceExpression.class);
-			AssignmentExpression expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock().getStatements().get(2)).getExpression();
-			this.assertType(expr.getValue(), ClassTypeConstructorReferenceExpression.class);
-			expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock().getStatements().get(3)).getExpression();
-			this.assertType(expr.getValue(), ClassTypeConstructorReferenceExpression.class);
-			expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock().getStatements().get(4)).getExpression();
-			this.assertType(expr.getValue(), PrimaryExpressionReferenceExpression.class);
-			locStat = (LocalVariableStatement) method.getBlock().getStatements().get(5);
-			this.assertType(locStat.getVariable().getInitialValue(), PrimaryExpressionReferenceExpression.class);
-			locStat = (LocalVariableStatement) method.getBlock().getStatements().get(6);
-			this.assertType(locStat.getVariable().getInitialValue(), ArrayConstructorReferenceExpression.class);
-			expr = (AssignmentExpression) ((ExpressionStatement) method.getBlock().getStatements().get(7)).getExpression();
-			this.assertType(expr.getValue(), ArrayConstructorReferenceExpression.class);
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithReceiverParameters() {
+        try {
+            final String file = "simplepackage" + File.separator + "SimpleClassWithReceiverParameters.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
+            assertMemberCount(classifier, 7);
+            for (final Member member : classifier.getMembers()) {
+                if (member instanceof Constructor) {
+                    assertTrue(((Constructor) member).getParameters()
+                        .isEmpty()
+                            || 1 == ((Constructor) member).getParameters()
+                                .size());
+                } else if (member instanceof Method) {
+                    final Method method = (Method) member;
+                    assertType(method.getParameters()
+                        .get(0), ReceiverParameter.class);
+                    for (int i = 1; i < method.getParameters()
+                        .size(); i++) {
+                        assertFalse(method.getParameters()
+                            .get(i) instanceof ReceiverParameter);
+                    }
+                } else if (member instanceof org.emftext.language.java.classifiers.Class) {
+                    final org.emftext.language.java.classifiers.Class innerClass = (org.emftext.language.java.classifiers.Class) member;
+                    assertMemberCount(innerClass, 3);
+                    for (final Member innerMember : innerClass.getMembers()) {
+                        if (innerMember instanceof Constructor) {
+                            assertType(((Constructor) innerMember).getParameters()
+                                .get(0), ReceiverParameter.class);
+                        } else if (innerMember instanceof Method) {
+                            assertType(((Method) innerMember).getParameters()
+                                .get(0), ReceiverParameter.class);
+                        } else {
+                            fail("There should be no other member.");
+                        }
+                    }
+                } else {
+                    fail("There should be no other member.");
+                }
+            }
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithReceiverParameters() {
-		try {
-			String file = "simplepackage" + File.separator + "SimpleClassWithReceiverParameters.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
-			this.assertMemberCount(classifier, 7);
-			for (Member member : classifier.getMembers()) {
-				if (member instanceof Constructor) {
-					assertTrue(((Constructor) member).getParameters().isEmpty()
-							|| 1 == ((Constructor) member).getParameters().size());
-				} else if (member instanceof Method) {
-					Method method = (Method) member;
-					this.assertType(method.getParameters().get(0), ReceiverParameter.class);
-					for (int i = 1; i < method.getParameters().size(); i++) {
-						assertFalse(method.getParameters().get(i) instanceof ReceiverParameter);
-					}
-				} else if (member instanceof org.emftext.language.java.classifiers.Class) {
-					org.emftext.language.java.classifiers.Class innerClass = (org.emftext.language.java.classifiers.Class) member;
-					this.assertMemberCount(innerClass, 3);
-					for (Member innerMember : innerClass.getMembers()) {
-						if (innerMember instanceof Constructor) {
-							this.assertType(((Constructor) innerMember).getParameters().get(0), ReceiverParameter.class);
-						} else if (innerMember instanceof Method) {
-							this.assertType(((Method) innerMember).getParameters().get(0), ReceiverParameter.class);
-						} else {
-							fail("There should be no other member.");
-						}
-					}
-				} else {
-					fail("There should be no other member.");
-				}
-			}
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithRestrictedKeywords() {
+        try {
+            final String file = "simplepackage" + File.separator + "SimpleClassWithRestrictedKeywords.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithVar() {
-		try {
-			String file = "simplepackage" + File.separator + "SimpleClassWithVar.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit unit = (CompilationUnit) root;
-			this.assertNumberOfClassifiers(unit, 1);
-			org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
-			this.assertMemberCount(classifier, 6);
-			for (Member member : classifier.getMembers()) {
-				if (member instanceof Method) {
-					Method method = (Method) member;
-					assertEquals(8, method.getBlock().getStatements().size());
-					LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock().getStatements().get(0);
-					this.assertType(locStat.getVariable().getTypeReference(), InferableType.class);
-					TypeReference reference = ((InferableType) locStat.getVariable().getTypeReference()).getActualTargets().get(0);
-					this.assertType(reference, Int.class);
-				}
-			}
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
+    @Disabled("JDT puts break statements into Blocks on the right side of a SwitchRule.")
+    @Test
+    public void testSimpleClassWithSwitch() {
+        try {
+            final String file = "pkgJava14" + File.separator + "SimpleClassWithSwitch.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit cu = (CompilationUnit) root;
+            final Member m = cu.getClassifiers()
+                .get(0)
+                .getMembers()
+                .get(1);
+            assertType(m, ClassMethod.class);
+            final ClassMethod method = (ClassMethod) m;
+            assertEquals(7, method.getBlock()
+                .getStatements()
+                .size());
+            final LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock()
+                .getStatements()
+                .get(5);
+            final Expression e = locStat.getVariable()
+                .getInitialValue();
+            assertType(e, Switch.class);
+            Switch swith = (Switch) e;
+            final SwitchCase ca = swith.getCases()
+                .get(0);
+            assertType(ca, NormalSwitchCase.class);
+            final NormalSwitchCase nca = (NormalSwitchCase) ca;
+            assertNotNull(nca.getCondition());
+            assertEquals(2, nca.getAdditionalConditions()
+                .size());
+            assertType(nca.getStatements()
+                .get(0), YieldStatement.class);
+            swith = (Switch) method.getBlock()
+                .getStatements()
+                .get(1);
+            assertType(swith.getCases()
+                .get(0), NormalSwitchRule.class);
+            assertType(swith.getCases()
+                .get(2), DefaultSwitchRule.class);
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testSimpleClassWithRestrictedKeywords() {
-		try {
-			String file = "simplepackage" + File.separator + "SimpleClassWithRestrictedKeywords.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithTryCatch() {
+        try {
+            final String file = "pkg2" + File.separator + "SimpleClassWithTryCatch.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
+            assertMemberCount(classifier, 3);
+            final Method method = (Method) classifier.getMembers()
+                .get(1);
+            assertIsPublic(method);
+            assertEquals("tryCatch", method.getName());
+            assertEquals(6, method.getBlock()
+                .getStatements()
+                .size());
+            TryBlock tryBlock = (TryBlock) method.getBlock()
+                .getStatements()
+                .get(0);
+            assertEquals(1, tryBlock.getBlock()
+                .getStatements()
+                .size());
+            assertEquals(1, tryBlock.getResources()
+                .size());
+            assertEquals(1, tryBlock.getCatchBlocks()
+                .size());
+            assertTrue(tryBlock.getFinallyBlock() != null);
+            tryBlock = (TryBlock) method.getBlock()
+                .getStatements()
+                .get(1);
+            assertEquals(1, tryBlock.getBlock()
+                .getStatements()
+                .size());
+            assertEquals(1, tryBlock.getResources()
+                .size());
+            assertEquals(1, tryBlock.getCatchBlocks()
+                .size());
+            assertTrue(tryBlock.getFinallyBlock() == null);
+            tryBlock = (TryBlock) method.getBlock()
+                .getStatements()
+                .get(2);
+            assertEquals(1, tryBlock.getBlock()
+                .getStatements()
+                .size());
+            assertEquals(2, tryBlock.getResources()
+                .size());
+            assertEquals(1, tryBlock.getCatchBlocks()
+                .size());
+            assertTrue(tryBlock.getFinallyBlock() == null);
+            tryBlock = (TryBlock) method.getBlock()
+                .getStatements()
+                .get(3);
+            assertEquals(1, tryBlock.getBlock()
+                .getStatements()
+                .size());
+            assertEquals(0, tryBlock.getResources()
+                .size());
+            assertEquals(1, tryBlock.getCatchBlocks()
+                .size());
+            assertType(tryBlock.getCatchBlocks()
+                .get(0)
+                .getParameter(), CatchParameter.class);
+            final CatchParameter catchParam = (CatchParameter) tryBlock.getCatchBlocks()
+                .get(0)
+                .getParameter();
+            assertEquals(3, catchParam.getTypeReferences()
+                .size());
+            assertTrue(tryBlock.getFinallyBlock() == null);
+            tryBlock = (TryBlock) method.getBlock()
+                .getStatements()
+                .get(4);
+            assertEquals(0, tryBlock.getBlock()
+                .getStatements()
+                .size());
+            assertEquals(1, tryBlock.getResources()
+                .size());
+            assertEquals(0, tryBlock.getCatchBlocks()
+                .size());
+            assertTrue(tryBlock.getFinallyBlock() == null);
+            tryBlock = (TryBlock) method.getBlock()
+                .getStatements()
+                .get(5);
+            assertEquals(0, tryBlock.getBlock()
+                .getStatements()
+                .size());
+            assertEquals(1, tryBlock.getResources()
+                .size());
+            assertEquals(0, tryBlock.getCatchBlocks()
+                .size());
+            assertTrue(tryBlock.getFinallyBlock() != null);
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-	@Test
-	public void testIntersectionTypeWithTypeArguments() {
-		try {
-			String file = "pkgJava14" + File.separator + "IntersectionTypeWithTypeArguments.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit cu = (CompilationUnit) root;
-			Member m = cu.getClassifiers().get(0).getMembers().get(0);
-			this.assertType(m, ClassMethod.class);
-			ClassMethod method = (ClassMethod) m;
-			LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock().getStatements().get(0);
-			TypeReference typeRef = locStat.getVariable().getTypeReference();
-			this.assertType(typeRef, InferableType.class);
-			InferableType inferType = (InferableType) typeRef;
-			assertEquals(1, inferType.getActualTargets().size());
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleClassWithVar() {
+        try {
+            final String file = "simplepackage" + File.separator + "SimpleClassWithVar.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
+            assertMemberCount(classifier, 6);
+            for (final Member member : classifier.getMembers()) {
+                if (member instanceof Method) {
+                    final Method method = (Method) member;
+                    assertEquals(8, method.getBlock()
+                        .getStatements()
+                        .size());
+                    final LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock()
+                        .getStatements()
+                        .get(0);
+                    assertType(locStat.getVariable()
+                        .getTypeReference(), InferableType.class);
+                    final TypeReference reference = ((InferableType) locStat.getVariable()
+                        .getTypeReference()).getActualTargets()
+                            .get(0);
+                    assertType(reference, Int.class);
+                }
+            }
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
 
-	@Disabled("JDT puts break statements into Blocks on the right side of a SwitchRule.")
-	@Test
-	public void testSimpleClassWithSwitch() {
-		try {
-			String file = "pkgJava14" + File.separator + "SimpleClassWithSwitch.java";
-			JavaRoot root = this.parseResource(file);
-			this.assertType(root, CompilationUnit.class);
-			CompilationUnit cu = (CompilationUnit) root;
-			Member m = cu.getClassifiers().get(0).getMembers().get(1);
-			this.assertType(m, ClassMethod.class);
-			ClassMethod method = (ClassMethod) m;
-			assertEquals(7, method.getBlock().getStatements().size());
-			LocalVariableStatement locStat = (LocalVariableStatement) method.getBlock().getStatements().get(5);
-			Expression e = locStat.getVariable().getInitialValue();
-			this.assertType(e, Switch.class);
-			Switch swith = (Switch) e;
-			SwitchCase ca = swith.getCases().get(0);
-			this.assertType(ca, NormalSwitchCase.class);
-			NormalSwitchCase nca = (NormalSwitchCase) ca;
-			assertNotNull(nca.getCondition());
-			assertEquals(2, nca.getAdditionalConditions().size());
-			this.assertType(nca.getStatements().get(0), YieldStatement.class);
-			swith = (Switch) method.getBlock().getStatements().get(1);
-			this.assertType(swith.getCases().get(0), NormalSwitchRule.class);
-			this.assertType(swith.getCases().get(2), DefaultSwitchRule.class);
-			this.assertResolveAllProxies(root);
-			this.parseAndReprint(file);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testSimpleInterfaceWithDefaultMethods() {
+        try {
+            final String file = "pkg2" + File.separator + "SimpleInterfaceWithDefaultMethods.java";
+            final JavaRoot root = this.parseResource(file);
+            assertType(root, CompilationUnit.class);
+            final CompilationUnit unit = (CompilationUnit) root;
+            assertNumberOfClassifiers(unit, 1);
+            final Interface classifier = unit.getContainedInterface();
+            assertMemberCount(classifier, 5);
+            int numberOfDefaultOrStaticMethods = 0;
+            for (final Member member : classifier.getMembers()) {
+                if (member instanceof Method) {
+                    final Method method = (Method) member;
+                    boolean hasStaticOrDefaultModifier = false;
+                    for (final Modifier modifier : method.getModifiers()) {
+                        if (modifier instanceof Static || modifier instanceof Default) {
+                            hasStaticOrDefaultModifier = true;
+                            numberOfDefaultOrStaticMethods++;
+                        }
+                    }
+                    if (hasStaticOrDefaultModifier) {
+                        assertType(method.getStatement(), Block.class);
+                    } else {
+                        assertType(method.getStatement(), EmptyStatement.class);
+                    }
+                }
+            }
+            assertEquals(3, numberOfDefaultOrStaticMethods);
+            AbstractJaMoPPTests.assertResolveAllProxies(root);
+            this.parseAndReprint(file);
+        } catch (final Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }

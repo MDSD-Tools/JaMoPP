@@ -22,86 +22,90 @@ import jamopp.parser.jdt.JaMoPPJDTParser;
  */
 
 public class JaMoPPParserAPITest extends AbstractJaMoPPTests {
-	
-	private JaMoPPJDTParser parser;
-	private static final String JAVA_FILE_EXTENSION = ".java";
-	protected static final String TEST_INPUT_FOLDER = "src-input";
-	
-	@BeforeEach
-	public void setUp() {
-		super.initResourceFactory();
-		parser = new JaMoPPJDTParser();
-		
-	}
-	
-	// 
-	//Bekomme ich aus dem resource set irgendwie wieder classifier raus? 
-	// oder die Assert Parser nutzen aus dem old JamoPP project? 
-	
-	@Disabled
-	public void testIsClass() throws Exception {
-		//ResourceSet set = parser.parseDirectory(Paths.get("scr-input/ClassA"));
-		//set.getResources().get(index)
-		String typename = "ClassA";
-		//String filename = typename + JAVA_FILE_EXTENSION;
-		org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
-		
-		this.assertIsClass(clazz);
-		//this.assertParsesToType(typename, "Class")
-	}
-	
-	@Disabled
-	void testNameOfClass() {
-		
-		//this.assertClassifierName(declaration, expectedName);
-	}
-	
-	@Test
-	@Disabled
-	public void testMethodOverwriting()throws Exception {
-		//System.out.print("setup");
-		String filenameParent = "scr-input/ClassB" + JAVA_FILE_EXTENSION;
-		String filenameChild = "scr-input/ClassA" + JAVA_FILE_EXTENSION;
-		CompilationUnit cu = (CompilationUnit) parseResource(filenameParent,filenameChild);
-		System.out.print("setup");
-		System.out.print(cu.getClassifiers().get(1).getName());
-		System.out.print(cu.getClassifiers().get(2).getName());
-		
-		
-		//assertEquals(clazz.getMembers().get(1), target);
-		
-		//ConcreteClassifier clazz = cu.getClassifiers().get(1);
-		//assertEquals(clazz.getMembers().get(1), target);
-		
-		ConcreteClassifier clazz = cu.getClassifiers().get(2);
-				
-				Statement s = ((ClassMethod) clazz.getMembers().get(2)).getStatements().get(2);
-		ClassMethod target = (ClassMethod) ((MethodCall) (
-				(ExpressionStatement) s).getExpression()).getTarget();
-		assertEquals(clazz.getMembers().get(1), target);
-		
-		
-		//parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
-		
-		
-		//ResourceSet set = parser.parseDirectory(Paths.get("scr-input/ClassA","scr-input/ClassB"));
-		
-	}
-	
-	
-	@Disabled
-	public void testSrcSevenAndUp() {
-		ResourceSet set = parser.parseDirectory(Paths.get("src-sevenandup"));
-		this.assertModelValid(set);
-	}
 
-	@Override
-	protected boolean isExcludedFromReprintTest(String filename) {
-		return true;
-	}
+    private static final String JAVA_FILE_EXTENSION = ".java";
+    protected static final String TEST_INPUT_FOLDER = "src-input";
+    private JaMoPPJDTParser parser;
 
-	@Override
-	protected String getTestInputFolder() {
-		return "";
-	}
+    @Override
+    protected String getTestInputFolder() {
+        return "";
+    }
+
+    //
+    // Bekomme ich aus dem resource set irgendwie wieder classifier raus?
+    // oder die Assert Parser nutzen aus dem old JamoPP project?
+
+    @Override
+    protected boolean isExcludedFromReprintTest(String filename) {
+        return true;
+    }
+
+    @BeforeEach
+    public void setUp() {
+        super.initResourceFactory();
+        parser = new JaMoPPJDTParser();
+
+    }
+
+    @Disabled
+    public void testIsClass() throws Exception {
+        // ResourceSet set = parser.parseDirectory(Paths.get("scr-input/ClassA"));
+        // set.getResources().get(index)
+        final String typename = "ClassA";
+        // String filename = typename + JAVA_FILE_EXTENSION;
+        final org.emftext.language.java.classifiers.Class clazz = assertParsesToClass(typename);
+
+        assertIsClass(clazz);
+        // this.assertParsesToType(typename, "Class")
+    }
+
+    @Test
+    @Disabled
+    public void testMethodOverwriting() throws Exception {
+        // System.out.print("setup");
+        final String filenameParent = "scr-input/ClassB" + JAVA_FILE_EXTENSION;
+        final String filenameChild = "scr-input/ClassA" + JAVA_FILE_EXTENSION;
+        final CompilationUnit cu = (CompilationUnit) parseResource(filenameParent, filenameChild);
+        System.out.print("setup");
+        System.out.print(cu.getClassifiers()
+            .get(1)
+            .getName());
+        System.out.print(cu.getClassifiers()
+            .get(2)
+            .getName());
+
+        // assertEquals(clazz.getMembers().get(1), target);
+
+        // ConcreteClassifier clazz = cu.getClassifiers().get(1);
+        // assertEquals(clazz.getMembers().get(1), target);
+
+        final ConcreteClassifier clazz = cu.getClassifiers()
+            .get(2);
+
+        final Statement s = ((ClassMethod) clazz.getMembers()
+            .get(2)).getStatements()
+                .get(2);
+        final ClassMethod target = (ClassMethod) ((MethodCall) ((ExpressionStatement) s).getExpression()).getTarget();
+        assertEquals(clazz.getMembers()
+            .get(1), target);
+
+        // parseAndReprint(filename, getTestInputFolder(), TEST_OUTPUT_FOLDER);
+
+        // ResourceSet set =
+        // parser.parseDirectory(Paths.get("scr-input/ClassA","scr-input/ClassB"));
+
+    }
+
+    @Disabled
+    void testNameOfClass() {
+
+        // this.assertClassifierName(declaration, expectedName);
+    }
+
+    @Disabled
+    public void testSrcSevenAndUp() {
+        final ResourceSet set = parser.parseDirectory(Paths.get("src-sevenandup"));
+        AbstractJaMoPPTests.assertModelValid(set);
+    }
 }

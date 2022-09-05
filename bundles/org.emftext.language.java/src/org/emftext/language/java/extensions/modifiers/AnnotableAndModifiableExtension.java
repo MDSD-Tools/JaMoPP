@@ -25,11 +25,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.AnonymousClass;
-import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.literals.Self;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import org.emftext.language.java.modifiers.Modifier;
@@ -205,7 +203,7 @@ public class AnnotableAndModifiableExtension {
 		//special case: self reference to outer instance
 		if ((lContext instanceof Reference) && (((Reference)lContext).getPrevious() instanceof SelfReference)) {
 			SelfReference selfReference = (SelfReference) ((Reference)lContext).getPrevious();
-			if ((selfReference.getSelf() instanceof Self) && (selfReference.getPrevious() != null)) {
+			if (selfReference.getPrevious() != null) {
 				Type type = selfReference.getPrevious().getReferencedType();
 				if (type instanceof ConcreteClassifier) {
 					lContextClassifier = (ConcreteClassifier) type;
@@ -227,7 +225,7 @@ public class AnnotableAndModifiableExtension {
 					return false;
 				}
 				//try outer classifiers as well
-				while(lContextClassifier instanceof Classifier) {
+				while(lContextClassifier != null) {
 					if (lContextClassifier.isSuperType(0, myClassifier, null)) {
 						return false;
 					}

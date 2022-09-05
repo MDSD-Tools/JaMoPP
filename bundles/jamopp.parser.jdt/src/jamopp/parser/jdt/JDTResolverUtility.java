@@ -1072,7 +1072,7 @@ public class JDTResolverUtility {
 			org.emftext.language.java.containers.CompilationUnit cu = org.emftext.language.java.containers.ContainersFactory.eINSTANCE.createCompilationUnit();
 			cu.setName("");
 			cu.getClassifiers().add(classifier);
-			String[] namespaces = typeName.substring(0).split("\\.");
+			String[] namespaces = typeName.strip().split("\\.");
 			classifier.setName(namespaces[namespaces.length - 1]);
 			for (int index = 0; index < namespaces.length - 1; index++) {
 				cu.getNamespaces().add(namespaces[index]);
