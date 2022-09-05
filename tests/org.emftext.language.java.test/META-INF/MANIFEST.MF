@@ -1,12 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JaMoPP Test Plugin
-Bundle-SymbolicName: org.emftext.language.java.test
+Bundle-SymbolicName: org.emftext.language.java.test;singleton:=true
 Bundle-Version: 5.1.0.qualifier
 Bundle-Vendor: Martin Armbruster
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Bundle-Activator: org.emftext.language.java.test.JaMoPPTestPlugin
 Automatic-Module-Name: org.emftext.language.java.test
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.core,
