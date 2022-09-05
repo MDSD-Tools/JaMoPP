@@ -23,7 +23,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 public class AnnotationExtension {
 	
 	public static EList<ConcreteClassifier> getAllSuperClassifiers(Annotation me) {
-		EList<ConcreteClassifier> result = new UniqueEList<ConcreteClassifier>();
+		EList<ConcreteClassifier> result = new UniqueEList<>();
 		result.add(me.getAnnotationInterface());
 		return result;
 	}		

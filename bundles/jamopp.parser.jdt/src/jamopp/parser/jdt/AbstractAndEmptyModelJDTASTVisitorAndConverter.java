@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2020, Martin Armbruster
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Martin Armbruster
  *      - Initial implementation
@@ -26,23 +26,23 @@ import org.eclipse.jdt.core.dom.QualifiedName;
 class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 	private org.emftext.language.java.containers.JavaRoot convertedRootElement;
 	private String originalSource;
-	
+
 	void setSource(String src) {
 		this.originalSource = src;
 	}
-	
+
 	String getSource() {
 		return this.originalSource;
 	}
-	
+
 	void setConvertedElement(org.emftext.language.java.containers.JavaRoot root) {
 		this.convertedRootElement = root;
 	}
-	
+
 	org.emftext.language.java.containers.JavaRoot getConvertedElement() {
 		return this.convertedRootElement;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(CompilationUnit node) {
@@ -53,11 +53,11 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 		node.imports().forEach(obj -> this.convertedRootElement.getImports().add(this.convertToImport((ImportDeclaration) obj)));
 		return false;
 	}
-	
-	private org.emftext.language.java.imports.Import convertToImport(ImportDeclaration importDecl) {
+
+	private static org.emftext.language.java.imports.Import convertToImport(ImportDeclaration importDecl) {
 		if (!importDecl.isOnDemand() && !importDecl.isStatic()) {
 			org.emftext.language.java.imports.ClassifierImport convertedImport =
-				org.emftext.language.java.imports.ImportsFactory.eINSTANCE.createClassifierImport();
+					org.emftext.language.java.imports.ImportsFactory.eINSTANCE.createClassifierImport();
 			org.emftext.language.java.classifiers.Classifier proxy = null;
 			IBinding b = importDecl.getName().resolveBinding();
 			if (b instanceof IPackageBinding) {
@@ -74,9 +74,10 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			BaseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxy);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 			return convertedImport;
-		} else if (!importDecl.isOnDemand() && importDecl.isStatic()) {
+		}
+		if (!importDecl.isOnDemand() && importDecl.isStatic()) {
 			org.emftext.language.java.imports.StaticMemberImport convertedImport =
-				org.emftext.language.java.imports.ImportsFactory.eINSTANCE.createStaticMemberImport();
+					org.emftext.language.java.imports.ImportsFactory.eINSTANCE.createStaticMemberImport();
 			convertedImport.setStatic(org.emftext.language.java.modifiers.ModifiersFactory.eINSTANCE.createStatic());
 			QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
 			IBinding b = qualifiedName.resolveBinding();
@@ -93,7 +94,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 				if (!typeBinding.isNested()) {
 					proxyClass = JDTResolverUtility.getClassifier(typeBinding);
 					org.emftext.language.java.classifiers.ConcreteClassifier conCl =
-						(org.emftext.language.java.classifiers.ConcreteClassifier) proxyClass;
+							(org.emftext.language.java.classifiers.ConcreteClassifier) proxyClass;
 					for (org.emftext.language.java.members.Member m : conCl.getMembers()) {
 						if (!(m instanceof org.emftext.language.java.members.Constructor)
 								&& m.getName().equals(qualifiedName.getName().getIdentifier())) {
@@ -127,25 +128,25 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			BaseConverterUtility.convertToNamespacesAndSimpleNameAndSet(qualifiedName.getQualifier(), convertedImport, proxyClass);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 			return convertedImport;
-		} else if (importDecl.isOnDemand() && !importDecl.isStatic()) {
+		}
+		if (importDecl.isOnDemand() && !importDecl.isStatic()) {
 			org.emftext.language.java.imports.PackageImport convertedImport = org.emftext.language.java.imports.ImportsFactory.eINSTANCE.createPackageImport();
 			BaseConverterUtility.convertToNamespacesAndSet(importDecl.getName(), convertedImport);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 			return convertedImport;
-		} else { // importDecl.isOnDemand() && importDecl.isStatic()
-			org.emftext.language.java.imports.StaticClassifierImport convertedImport = org.emftext.language.java.imports.ImportsFactory.eINSTANCE.createStaticClassifierImport();
-			convertedImport.setStatic(org.emftext.language.java.modifiers.ModifiersFactory.eINSTANCE.createStatic());
-			IBinding binding = importDecl.getName().resolveBinding();
-			org.emftext.language.java.classifiers.Classifier proxyClass = null;
-			if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
-				proxyClass = JDTResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
-			} else {
-				proxyClass = JDTResolverUtility.getClassifier((ITypeBinding) binding);
-			}
-			convertedImport.setClassifier((org.emftext.language.java.classifiers.ConcreteClassifier) proxyClass);
-			BaseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxyClass);
-			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
-			return convertedImport;
 		}
+		org.emftext.language.java.imports.StaticClassifierImport convertedImport = org.emftext.language.java.imports.ImportsFactory.eINSTANCE.createStaticClassifierImport();
+		convertedImport.setStatic(org.emftext.language.java.modifiers.ModifiersFactory.eINSTANCE.createStatic());
+		IBinding binding = importDecl.getName().resolveBinding();
+		org.emftext.language.java.classifiers.Classifier proxyClass = null;
+		if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
+			proxyClass = JDTResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
+		} else {
+			proxyClass = JDTResolverUtility.getClassifier((ITypeBinding) binding);
+		}
+		convertedImport.setClassifier((org.emftext.language.java.classifiers.ConcreteClassifier) proxyClass);
+		BaseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxyClass);
+		LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
+		return convertedImport;
 	}
 }

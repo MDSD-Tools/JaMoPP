@@ -32,36 +32,35 @@ class BaseConverterUtility {
 	static org.emftext.language.java.types.TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
 		if (name.isSimpleName()) {
 			return convertToClassifierReference((SimpleName) name);
-		} else { // name.isQualifiedName()
-			QualifiedName qualifiedName = (QualifiedName) name;
-			org.emftext.language.java.types.NamespaceClassifierReference ref = org.emftext.language.java.types.TypesFactory.eINSTANCE.createNamespaceClassifierReference();
-			if (name.resolveBinding() == null) {
-				ref.getClassifierReferences().add(convertToClassifierReference(qualifiedName.getName()));
-				convertToNamespacesAndSet(qualifiedName.getQualifier(), ref);
-				return ref;
-			}
-			Name qualifier = qualifiedName.getQualifier();
-			SimpleName simpleName = qualifiedName.getName();
-			while (simpleName != null && simpleName.resolveBinding() instanceof ITypeBinding) {
-				ref.getClassifierReferences().add(0, convertToClassifierReference(simpleName));
-				if (qualifier == null) {
-					simpleName = null;
-				} else if (qualifier.isSimpleName()) {
-					simpleName = (SimpleName) qualifier;
-					qualifier = null;
-				} else {
-					simpleName = ((QualifiedName) qualifier).getName();
-					qualifier = ((QualifiedName) qualifier).getQualifier();
-				}
-			}
-			if (simpleName != null && !(simpleName.resolveBinding() instanceof ITypeBinding)) {
-				convertToNamespacesAndSet(simpleName, ref);
-			}
-			if (qualifier != null) {
-				convertToNamespacesAndSet(qualifier, ref);
-			}
+		}
+		QualifiedName qualifiedName = (QualifiedName) name;
+		org.emftext.language.java.types.NamespaceClassifierReference ref = org.emftext.language.java.types.TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+		if (name.resolveBinding() == null) {
+			ref.getClassifierReferences().add(convertToClassifierReference(qualifiedName.getName()));
+			convertToNamespacesAndSet(qualifiedName.getQualifier(), ref);
 			return ref;
 		}
+		Name qualifier = qualifiedName.getQualifier();
+		SimpleName simpleName = qualifiedName.getName();
+		while (simpleName != null && simpleName.resolveBinding() instanceof ITypeBinding) {
+			ref.getClassifierReferences().add(0, convertToClassifierReference(simpleName));
+			if (qualifier == null) {
+				simpleName = null;
+			} else if (qualifier.isSimpleName()) {
+				simpleName = (SimpleName) qualifier;
+				qualifier = null;
+			} else {
+				simpleName = ((QualifiedName) qualifier).getName();
+				qualifier = ((QualifiedName) qualifier).getQualifier();
+			}
+		}
+		if (simpleName != null && !(simpleName.resolveBinding() instanceof ITypeBinding)) {
+			convertToNamespacesAndSet(simpleName, ref);
+		}
+		if (qualifier != null) {
+			convertToNamespacesAndSet(qualifier, ref);
+		}
+		return ref;
 	}
 	
 	static org.emftext.language.java.types.ClassifierReference convertToClassifierReference(SimpleName simpleName) {
@@ -138,7 +137,8 @@ class BaseConverterUtility {
 				.convertToAnnotationInstance((Annotation) obj)));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
 			return convertedType;
-		} else if (t.isVar()) {
+		}
+		if (t.isVar()) {
 			org.emftext.language.java.types.InferableType ref = org.emftext.language.java.types.TypesFactory.eINSTANCE.createInferableType();
 			ITypeBinding binding = t.resolveBinding();
 			if (binding != null) {
@@ -151,13 +151,15 @@ class BaseConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(ref, t);
 			return ref;
-		} else if (t.isArrayType()) {
+		}
+		if (t.isArrayType()) {
 			ArrayType arrT = (ArrayType) t;
 			return convertToTypeReference(arrT.getElementType());
-		} else if (t.isSimpleType()) {
+		}
+		if (t.isSimpleType()) {
 			SimpleType simT = (SimpleType) t;
 			org.emftext.language.java.types.TypeReference ref;
-			if (simT.annotations().size() > 0) {
+			if (!simT.annotations().isEmpty()) {
 				org.emftext.language.java.types.ClassifierReference tempRef = convertToClassifierReference((SimpleName) simT.getName());
 				simT.annotations().forEach(obj -> tempRef.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
 					.convertToAnnotationInstance((Annotation) obj)));
@@ -167,7 +169,8 @@ class BaseConverterUtility {
 			}
 			LayoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
 			return ref;
-		} else if (t.isQualifiedType()) {
+		}
+		if (t.isQualifiedType()) {
 			QualifiedType qualType = (QualifiedType) t;
 			org.emftext.language.java.types.NamespaceClassifierReference result;
 			org.emftext.language.java.types.TypeReference parentRef = convertToTypeReference(qualType.getQualifier());
@@ -183,7 +186,8 @@ class BaseConverterUtility {
 			result.getClassifierReferences().add(childRef);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
 			return result;
-		} else if (t.isNameQualifiedType()) {
+		}
+		if (t.isNameQualifiedType()) {
 			NameQualifiedType nqT = (NameQualifiedType) t;
 			org.emftext.language.java.types.NamespaceClassifierReference result;
 			org.emftext.language.java.types.TypeReference parentRef = convertToClassifierOrNamespaceClassifierReference(nqT.getQualifier());
@@ -199,7 +203,8 @@ class BaseConverterUtility {
 			result.getClassifierReferences().add(child);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
 			return result;
-		} else if (t.isParameterizedType()) {
+		}
+		if (t.isParameterizedType()) {
 			ParameterizedType paramT = (ParameterizedType) t;
 			org.emftext.language.java.types.TypeReference ref = convertToTypeReference(paramT.getType());
 			org.emftext.language.java.types.ClassifierReference container;
@@ -217,38 +222,37 @@ class BaseConverterUtility {
 	
 	@SuppressWarnings("unchecked")
 	static org.emftext.language.java.generics.TypeArgument convertToTypeArgument(Type t) {
-		if (t.isWildcardType()) {
-			WildcardType wildType = (WildcardType) t;
-			if (wildType.getBound() == null) {
-				org.emftext.language.java.generics.UnknownTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createUnknownTypeArgument();
-				wildType.annotations().forEach(obj -> result.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
-					.convertToAnnotationInstance((Annotation) obj)));
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
-				return result;
-			} else if (wildType.isUpperBound()) {
-				org.emftext.language.java.generics.ExtendsTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createExtendsTypeArgument();
-				wildType.annotations().forEach(obj -> result.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
-					.convertToAnnotationInstance((Annotation) obj)));
-				result.setExtendType(convertToTypeReference(wildType.getBound()));
-				convertToArrayDimensionsAndSet(wildType.getBound(), result);
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
-				return result;
-			} else {
-				org.emftext.language.java.generics.SuperTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createSuperTypeArgument();
-				wildType.annotations().forEach(obj -> result.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
-					.convertToAnnotationInstance((Annotation) obj)));
-				result.setSuperType(convertToTypeReference(wildType.getBound()));
-				convertToArrayDimensionsAndSet(wildType.getBound(), result);
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
-				return result;
-			}
-		} else {
+		if (!t.isWildcardType()) {
 			org.emftext.language.java.generics.QualifiedTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
 			result.setTypeReference(convertToTypeReference(t));
 			convertToArrayDimensionsAndSet(t, result);
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, t);
 			return result;
 		}
+		WildcardType wildType = (WildcardType) t;
+		if (wildType.getBound() == null) {
+			org.emftext.language.java.generics.UnknownTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createUnknownTypeArgument();
+			wildType.annotations().forEach(obj -> result.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
+				.convertToAnnotationInstance((Annotation) obj)));
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
+			return result;
+		}
+		if (wildType.isUpperBound()) {
+			org.emftext.language.java.generics.ExtendsTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createExtendsTypeArgument();
+			wildType.annotations().forEach(obj -> result.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
+				.convertToAnnotationInstance((Annotation) obj)));
+			result.setExtendType(convertToTypeReference(wildType.getBound()));
+			convertToArrayDimensionsAndSet(wildType.getBound(), result);
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
+			return result;
+		}
+		org.emftext.language.java.generics.SuperTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createSuperTypeArgument();
+		wildType.annotations().forEach(obj -> result.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
+			.convertToAnnotationInstance((Annotation) obj)));
+		result.setSuperType(convertToTypeReference(wildType.getBound()));
+		convertToArrayDimensionsAndSet(wildType.getBound(), result);
+		LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
+		return result;
 	}
 	
 	static void convertToArrayDimensionsAndSet(Type t, org.emftext.language.java.arrays.ArrayTypeable arrDimContainer) {

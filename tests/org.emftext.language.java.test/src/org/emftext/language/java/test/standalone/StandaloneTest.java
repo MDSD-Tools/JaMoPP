@@ -1,16 +1,11 @@
 /*******************************************************************************
  * Copyright 2021 Marvin Meller
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *   Marvin Meller
- *      - initial implementation
- *  Yves Kirschner
- *      - parameterize implementation
+ * Contributors: Marvin Meller - initial implementation Yves Kirschner - parameterize implementation
  ******************************************************************************/
 package org.emftext.language.java.test.standalone;
 
@@ -51,11 +46,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
- * Parameterized test for standalone use of JDT-based conversion of Java source
- * code to EMF-based models. Apart from JUint, no dependencies to other tools
- * were newly introduced. For this purpose, the existing code was taken almost
- * identically and copied into this test. This standalone implementation worked
- * as expected in the first version we developed together. A comparable
+ * Parameterized test for standalone use of JDT-based conversion of Java source code to EMF-based
+ * models. Apart from JUint, no dependencies to other tools were newly introduced. For this purpose,
+ * the existing code was taken almost identically and copied into this test. This standalone
+ * implementation worked as expected in the first version we developed together. A comparable
  * standalone call is also included in the original JaMoPP from DevBoost.
  *
  * @author Marvin Meller
@@ -66,215 +60,241 @@ import jamopp.parser.jdt.JaMoPPJDTParser;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class StandaloneTest extends ResolvingTest {
 
-	/**
-	 * This test generates corresponding EMF resources for the Java files in a
-	 * project. JUinit passes the folder name of the projects {@code <project>} to
-	 * be tested as a parameter. The EMF sources are then stored as XMI files in the
-	 * folder {@code ./standalone_output/<project>/}.
-	 *
-	 * This {@code ./standalone_output/} folder is not yet automatically deleted
-	 * after test execution. Likewise, these saved EMF resources would have to be
-	 * reloaded and then tested even further. However, since there are reproducible
-	 * errors before, these should be fixed before reasonable testing can continue.
-	 *
-	 * As before, the projects do not need to be built. The projects are integrated
-	 * with Git submodules, so with {@code git submodule update --init} all projects
-	 * must be updated before test execution.
-	 *
-	 *
-	 * @param input Name of the project folder to test.
-	 *
-	 * @see jamopp.standalone.JaMoPPStandalone
-	 * @see org.emftext.language.java.test.AbstractJaMoPPTests
-	 */
-	@ParameterizedTest
-	@ValueSource(strings = { "esda-master", "trojan-source-main", "spring-petclinic-microservices-master" })
-	public void testResourceSerialization(String input) {
-		final Path directory = directoryOf(input);
-		final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory));
-		assertNotNull(resourceSet);
-		assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet));
+    /**
+     * Creates the path including the package hierarchy for the xmi output. Taken directly from the
+     * last version.
+     *
+     * @param javaResource
+     *     Resource for which the path is to be created.
+     *
+     * @return path including the package hierarchy
+     *
+     * @see jamopp.standalone.JaMoPPStandalone#checkScheme()
+     */
+    private static String checkScheme(Resource javaResource) {
+        int emptyFileName = 0;
+        String outputFileName = "";
+        JavaRoot root = ContainersFactory.eINSTANCE.createEmptyModel();
 
-		for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
-			// ENABLE_OUTPUT_OF_LIBRARY_FILES has been removed because no library files are
-			// to be output for the the moment.
-			if (javaResource.getContents().isEmpty() || !"file".equals(javaResource.getURI().scheme())) {
-				continue;
-			}
+        root = (JavaRoot) javaResource.getContents()
+            .get(0);
 
-			final Resource xmiResource = resourceSet.createResource(outputUri(input, javaResource));
-			xmiResource.getContents().addAll(javaResource.getContents());
-		}
+        if (root instanceof CompilationUnit) {
+            outputFileName = root.getNamespacesAsString()
+                .replace(".", File.separator) + File.separator;
+            final CompilationUnit cu = (CompilationUnit) root;
+            if (!cu.getClassifiers()
+                .isEmpty()) {
+                outputFileName += cu.getClassifiers()
+                    .get(0)
+                    .getName();
+            } else {
+                outputFileName += emptyFileName;
+                emptyFileName++;
+            }
 
-//		URI uri = URI.createFileURI("todo-test");
-//	    Resource resource = resourceSet.createResource(uri);
-//		assertDoesNotThrow(() -> resource.save(((XMLResource) resource).getDefaultSaveOptions()));
-//
-//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
-//		assertDoesNotThrow(() -> resourceSetReloaded.getResource(uri, true));
+        } else if (root instanceof Package) {
+            outputFileName = root.getNamespacesAsString()
+                .replace(".", File.separator) + File.separator + "package-info";
+            if (outputFileName.startsWith(File.separator)) {
+                outputFileName = outputFileName.substring(1);
+            }
+        } else if (root instanceof org.emftext.language.java.containers.Module) {
+            outputFileName = root.getNamespacesAsString()
+                .replace(".", File.separator) + File.separator + "module-info";
+        }
+        return outputFileName;
+    }
 
-//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
-//
-//		Resource resourceReloaded = resourceSetReloaded.createResource(uri);
-//		// ((ResourceImpl) resource).setIntrinsicIDToEObjectMap(new HashMap<>());
-//		resourceReloaded.load(((XMLResource) resourceReloaded).getDefaultLoadOptions());
+    // @TestWithInput
+    // public void testResourceSetSerialization(String input) {
+    // // https://sdqweb.ipd.kit.edu/wiki/Creating_EMF_Model_instances_programmatically
+    // // https://stackoverflow.com/questions/25864816/saving-an-emf-model
+    //
+    // final Path directory = directoryOf(input);
+    // final ResourceSet resourceSet = assertDoesNotThrow(() -> new
+    // JaMoPPJDTParser().parseDirectory(directory));
+    // assertNotNull(resourceSet);
+    // assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet));
+    //
+    // for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
+    // // ENABLE_OUTPUT_OF_LIBRARY_FILES has been removed because no library files are
+    // // to be output for the the moment.
+    // if (javaResource.getContents().isEmpty() || !"file".equals(javaResource.getURI().scheme())) {
+    // continue;
+    // }
+    //
+    // final Resource xmiResource = resourceSet.createResource(outputUri(input, javaResource));
+    // xmiResource.getContents().addAll(javaResource.getContents());
+    // }
+    //
+    // for (final Resource resource : resourceSet.getResources()) {
+    // if (resource instanceof XMIResource) {
+    // assertTrue(resource.getAllContents().hasNext());
+    // assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
+    // }
+    // }
+    //
+    // final ResourceSet resourceSetReloaded = new ResourceSetImpl();
+    //
+    // for (final Resource resource : resourceSet.getResources()) {
+    // if (resource instanceof XMIResource) {
+    // final Resource resourceReloaded = resourceSetReloaded.createResource(outputUri(input,
+    // resource));
+    // assertDoesNotThrow(() -> resourceReloaded.load(null));
+    // assertNotSame(resource, resourceReloaded);
+    // compareResources(resource, resourceReloaded);
+    // }
+    // }
+    // }
 
-		for (final Resource resource : resourceSet.getResources()) {
-			if (resource instanceof XMIResource) {
-				assertTrue(resource.getAllContents().hasNext());
-				assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
-				assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
-			}
-		}
+    private static void compareClassifiers(ConcreteClassifier classifier1, ConcreteClassifier classifier2) {
+        System.out.println("Classifier name: " + classifier1.getName());
+        // assertEquals(classifier1.getPackage().getNamespaces(),
+        // classifier2.getPackage().getNamespaces());
+        assertEquals(classifier1.getName(), classifier2.getName());
+        compareLists(Member::getName, classifier1.getMembers(), classifier2.getMembers(),
+                StandaloneTest::compareMembers);
+    }
 
-		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
+    /**
+     * Compare two lists, possibly in different order. Values are associated by their mapped keys
+     * and then values with equal keys are compared. Asserts that the lists' mapped key sets are
+     * equal.
+     */
+    private static <K, V> void compareLists(Function<V, K> keyMapper, List<V> values1, List<V> values2,
+            BiConsumer<V, V> compare) {
+        final Map<K, V> map1 = values1.stream()
+            .collect(Collectors.toMap(keyMapper, value -> value));
+        final Map<K, V> map2 = values2.stream()
+            .collect(Collectors.toMap(keyMapper, value -> value));
+        assertEquals(map1.keySet(), map2.keySet());
+        map1.keySet()
+            .forEach(key -> compare.accept(map1.get(key), map2.get(key)));
+    }
 
-		for (final Resource resource : resourceSet.getResources()) {
-			if (resource instanceof XMIResource) {
-				final Resource resourceReloaded = resourceSetReloaded.createResource(outputUri(input, resource));
-				assertDoesNotThrow(() -> resourceReloaded.load(null));
-				assertNotSame(resource, resourceReloaded);
-				compareResources(resource, resourceReloaded);
-			}
-		}
-	}
+    private static void compareMembers(Member member1, Member member2) {
+        System.out.println("Member name: " + member1.getName());
+        assertEquals(member1.getName(), member2.getName());
+        assertEquals(member1.getClass(), member2.getClass());
+    }
 
-//	@TestWithInput
-//	public void testResourceSetSerialization(String input) {
-//		// https://sdqweb.ipd.kit.edu/wiki/Creating_EMF_Model_instances_programmatically
-//		// https://stackoverflow.com/questions/25864816/saving-an-emf-model
-//
-//		final Path directory = directoryOf(input);
-//		final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory));
-//		assertNotNull(resourceSet);
-//		assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet));
-//
-//		for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
-//			// ENABLE_OUTPUT_OF_LIBRARY_FILES has been removed because no library files are
-//			// to be output for the the moment.
-//			if (javaResource.getContents().isEmpty() || !"file".equals(javaResource.getURI().scheme())) {
-//				continue;
-//			}
-//
-//			final Resource xmiResource = resourceSet.createResource(outputUri(input, javaResource));
-//			xmiResource.getContents().addAll(javaResource.getContents());
-//		}
-//
-//		for (final Resource resource : resourceSet.getResources()) {
-//			if (resource instanceof XMIResource) {
-//				assertTrue(resource.getAllContents().hasNext());
-//				assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
-//			}
-//		}
-//
-//		final ResourceSet resourceSetReloaded = new ResourceSetImpl();
-//
-//		for (final Resource resource : resourceSet.getResources()) {
-//			if (resource instanceof XMIResource) {
-//				final Resource resourceReloaded = resourceSetReloaded.createResource(outputUri(input, resource));
-//				assertDoesNotThrow(() -> resourceReloaded.load(null));
-//				assertNotSame(resource, resourceReloaded);
-//				compareResources(resource, resourceReloaded);
-//			}
-//		}
-//	}
+    private static void compareResources(Resource resource1, Resource resource2) {
+        System.out.println("Resource URI: " + resource1.getURI()
+            .lastSegment());
+        final List<CompilationUnitImpl> units1 = getUnits(resource1);
+        final List<CompilationUnitImpl> units2 = getUnits(resource2);
+        assertEquals(1, units1.size());
+        assertEquals(1, units2.size());
+        compareUnits(units1.get(0), units2.get(0));
+        // compareLists(CompilationUnit::getNamespaces, getUnits(resource1), getUnits(resource2),
+        // StandaloneTest::compareUnits);
+    }
 
-	private static void compareResources(Resource resource1, Resource resource2) {
-		System.out.println("Resource URI: " + resource1.getURI().lastSegment());
-		final List<CompilationUnitImpl> units1 = getUnits(resource1);
-		final List<CompilationUnitImpl> units2 = getUnits(resource2);
-		assertEquals(1, units1.size());
-		assertEquals(1, units2.size());
-		compareUnits(units1.get(0), units2.get(0));
-//		compareLists(CompilationUnit::getNamespaces, getUnits(resource1), getUnits(resource2), StandaloneTest::compareUnits);
-	}
+    private static void compareUnits(CompilationUnitImpl unit1, CompilationUnitImpl unit2) {
+        System.out.println("Unit namespaces: " + unit1.getNamespaces());
+        // assertEquals(unit1.getNamespaces(), unit2.getNamespaces());
+        compareLists(ConcreteClassifier::getQualifiedName, unit1.getClassifiers(), unit2.getClassifiers(),
+                StandaloneTest::compareClassifiers);
+    }
 
-	private static List<CompilationUnitImpl> getUnits(Resource resource) {
-		// TODO filter getName() != null relevant?
-		// See
-		// https://github.com/PalladioSimulator/Palladio-ReverseEngineering-SoMoX-JaMoPP/blob/1bdf3c37c211676637ac93318c3fcf800b9de955/bundles/org.palladiosimulator.somox.analyzer.rules.main/src/org/palladiosimulator/somox/analyzer/rules/main/RuleEngine.java#L175
-		return resource.getContents().stream().filter(CompilationUnitImpl.class::isInstance)
-				.map(CompilationUnitImpl.class::cast).filter(compi -> compi.getName() != null)
-				.collect(Collectors.toList());
-	}
+    private static List<CompilationUnitImpl> getUnits(Resource resource) {
+        // TODO filter getName() != null relevant?
+        // See
+        // https://github.com/PalladioSimulator/Palladio-ReverseEngineering-SoMoX-JaMoPP/blob/1bdf3c37c211676637ac93318c3fcf800b9de955/bundles/org.palladiosimulator.somox.analyzer.rules.main/src/org/palladiosimulator/somox/analyzer/rules/main/RuleEngine.java#L175
+        return resource.getContents()
+            .stream()
+            .filter(CompilationUnitImpl.class::isInstance)
+            .map(CompilationUnitImpl.class::cast)
+            .filter(compi -> compi.getName() != null)
+            .collect(Collectors.toList());
+    }
 
-	private static void compareUnits(CompilationUnitImpl unit1, CompilationUnitImpl unit2) {
-		System.out.println("Unit namespaces: " + unit1.getNamespaces());
-//		assertEquals(unit1.getNamespaces(), unit2.getNamespaces());
-		compareLists(ConcreteClassifier::getQualifiedName, unit1.getClassifiers(), unit2.getClassifiers(),
-				StandaloneTest::compareClassifiers);
-	}
+    private static URI outputUri(String input, Resource resource) {
+        // For the parameterized test, the input parameter was also included in the path
+        // for the output.
+        final File outputFile = new File(
+                "standalone_output" + File.separator + input + File.separator + checkScheme(resource));
+        return URI.createFileURI(outputFile.getAbsolutePath())
+            .appendFileExtension("xmi");
+    }
 
-	private static void compareClassifiers(ConcreteClassifier classifier1, ConcreteClassifier classifier2) {
-		System.out.println("Classifier name: " + classifier1.getName());
-//		assertEquals(classifier1.getPackage().getNamespaces(), classifier2.getPackage().getNamespaces());
-		assertEquals(classifier1.getName(), classifier2.getName());
-		compareLists(Member::getName, classifier1.getMembers(), classifier2.getMembers(),
-				StandaloneTest::compareMembers);
-	}
+    /**
+     * This test generates corresponding EMF resources for the Java files in a project. JUinit
+     * passes the folder name of the projects {@code <project>} to be tested as a parameter. The EMF
+     * sources are then stored as XMI files in the folder {@code ./standalone_output/<project>/}.
+     *
+     * This {@code ./standalone_output/} folder is not yet automatically deleted after test
+     * execution. Likewise, these saved EMF resources would have to be reloaded and then tested even
+     * further. However, since there are reproducible errors before, these should be fixed before
+     * reasonable testing can continue.
+     *
+     * As before, the projects do not need to be built. The projects are integrated with Git
+     * submodules, so with {@code git submodule update --init} all projects must be updated before
+     * test execution.
+     *
+     *
+     * @param input
+     *     Name of the project folder to test.
+     *
+     * @see jamopp.standalone.JaMoPPStandalone
+     * @see org.emftext.language.java.test.AbstractJaMoPPTests
+     */
+    @ParameterizedTest
+    @ValueSource(strings = { "esda-master", "trojan-source-main", "spring-petclinic-microservices-master" })
+    public void testResourceSerialization(String input) {
+        final Path directory = directoryOf(input);
+        final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory));
+        assertNotNull(resourceSet);
+        assertDoesNotThrow(() -> EcoreUtil.resolveAll(resourceSet));
 
-	private static void compareMembers(Member member1, Member member2) {
-		System.out.println("Member name: " + member1.getName());
-		assertEquals(member1.getName(), member2.getName());
-		assertEquals(member1.getClass(), member2.getClass());
-	}
+        for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
+            // ENABLE_OUTPUT_OF_LIBRARY_FILES has been removed because no library files are
+            // to be output for the the moment.
+            if (javaResource.getContents()
+                .isEmpty()
+                    || !"file".equals(javaResource.getURI()
+                        .scheme())) {
+                continue;
+            }
 
-	/**
-	 * Compare two lists, possibly in different order. Values are associated by
-	 * their mapped keys and then values with equal keys are compared. Asserts that
-	 * the lists' mapped key sets are equal.
-	 */
-	private static <K, V> void compareLists(Function<V, K> keyMapper, List<V> values1, List<V> values2,
-			BiConsumer<V, V> compare) {
-		final Map<K, V> map1 = values1.stream().collect(Collectors.toMap(keyMapper, value -> value));
-		final Map<K, V> map2 = values2.stream().collect(Collectors.toMap(keyMapper, value -> value));
-		assertEquals(map1.keySet(), map2.keySet());
-		map1.keySet().forEach(key -> compare.accept(map1.get(key), map2.get(key)));
-	}
+            final Resource xmiResource = resourceSet.createResource(outputUri(input, javaResource));
+            xmiResource.getContents()
+                .addAll(javaResource.getContents());
+        }
 
-	private static URI outputUri(String input, Resource resource) {
-		// For the parameterized test, the input parameter was also included in the path
-		// for the output.
-		final File outputFile = new File(
-				"standalone_output" + File.separator + input + File.separator + checkScheme(resource));
-		return URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
-	}
+        // URI uri = URI.createFileURI("todo-test");
+        // Resource resource = resourceSet.createResource(uri);
+        // assertDoesNotThrow(() -> resource.save(((XMLResource)
+        // resource).getDefaultSaveOptions()));
+        //
+        // final ResourceSet resourceSetReloaded = new ResourceSetImpl();
+        // assertDoesNotThrow(() -> resourceSetReloaded.getResource(uri, true));
 
-	/**
-	 * Creates the path including the package hierarchy for the xmi output. Taken
-	 * directly from the last version.
-	 *
-	 * @param javaResource Resource for which the path is to be created.
-	 * @return path including the package hierarchy
-	 *
-	 * @see jamopp.standalone.JaMoPPStandalone#checkScheme()
-	 */
-	private static String checkScheme(Resource javaResource) {
-		int emptyFileName = 0;
-		String outputFileName = "";
-		JavaRoot root = ContainersFactory.eINSTANCE.createEmptyModel();
+        // final ResourceSet resourceSetReloaded = new ResourceSetImpl();
+        //
+        // Resource resourceReloaded = resourceSetReloaded.createResource(uri);
+        // // ((ResourceImpl) resource).setIntrinsicIDToEObjectMap(new HashMap<>());
+        // resourceReloaded.load(((XMLResource) resourceReloaded).getDefaultLoadOptions());
 
-		root = (JavaRoot) javaResource.getContents().get(0);
+        for (final Resource resource : resourceSet.getResources()) {
+            if (resource instanceof XMIResource) {
+                assertTrue(resource.getAllContents()
+                    .hasNext());
+                assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
+                assertDoesNotThrow(() -> resource.save(resourceSet.getLoadOptions()));
+            }
+        }
 
-		if (root instanceof CompilationUnit) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
-			final CompilationUnit cu = (CompilationUnit) root;
-			if (cu.getClassifiers().size() > 0) {
-				outputFileName += cu.getClassifiers().get(0).getName();
-			} else {
-				outputFileName += emptyFileName;
-				emptyFileName++;
-			}
+        final ResourceSet resourceSetReloaded = new ResourceSetImpl();
 
-		} else if (root instanceof Package) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator
-					+ "package-info";
-			if (outputFileName.startsWith(File.separator)) {
-				outputFileName = outputFileName.substring(1);
-			}
-		} else if (root instanceof org.emftext.language.java.containers.Module) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator + "module-info";
-		}
-		return outputFileName;
-	}
+        for (final Resource resource : resourceSet.getResources()) {
+            if (resource instanceof XMIResource) {
+                final Resource resourceReloaded = resourceSetReloaded.createResource(outputUri(input, resource));
+                assertDoesNotThrow(() -> resourceReloaded.load(null));
+                assertNotSame(resource, resourceReloaded);
+                compareResources(resource, resourceReloaded);
+            }
+        }
+    }
 }

@@ -28,9 +28,8 @@ class AnnotationInstanceOrModifierConverterUtility {
 	static org.emftext.language.java.modifiers.AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {
 			return convertToModifier((Modifier) mod);
-		} else { // mod.isAnnotation()
-			return convertToAnnotationInstance((Annotation) mod);
 		}
+		return convertToAnnotationInstance((Annotation) mod);
 	}
 	
 	static org.emftext.language.java.modifiers.Modifier convertToModifier(Modifier mod) {
@@ -114,12 +113,12 @@ class AnnotationInstanceOrModifierConverterUtility {
 	static org.emftext.language.java.annotations.AnnotationValue convertToAnnotationValue(Expression expr) {
 		if (expr instanceof Annotation) {
 			return convertToAnnotationInstance((Annotation) expr);
-		} else if (expr.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
-			return convertToArrayInitializer((ArrayInitializer) expr);
-		} else {
-			return (org.emftext.language.java.expressions.AssignmentExpressionChild)
-				ExpressionConverterUtility.convertToExpression((Expression) expr);
 		}
+		if (expr.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
+			return convertToArrayInitializer((ArrayInitializer) expr);
+		}
+		return (org.emftext.language.java.expressions.AssignmentExpressionChild)
+			ExpressionConverterUtility.convertToExpression(expr);
 	}
 	
 	@SuppressWarnings("unchecked")

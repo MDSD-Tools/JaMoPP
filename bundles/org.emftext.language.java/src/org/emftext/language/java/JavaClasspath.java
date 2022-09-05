@@ -2,12 +2,12 @@
  * Copyright (c) 2006-2015
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Dresden, Amtsgericht Dresden, HRB 34001
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
  *   DevBoost GmbH - Dresden, Germany
@@ -33,7 +33,7 @@ public class JavaClasspath {
 	/**
 	 * Singleton instance.
 	 */
-	private static JavaClasspath globalClasspath = null;
+	private static JavaClasspath globalClasspath;
 
 	public static JavaClasspath get() {
 		if (globalClasspath == null) {
@@ -41,10 +41,10 @@ public class JavaClasspath {
 		}
 		return globalClasspath;
 	}
-	
-	private HashSet<org.emftext.language.java.containers.Module> modules = new HashSet<>();
-	private HashSet<org.emftext.language.java.containers.Package> packages = new HashSet<>();
-	private HashSet<ConcreteClassifier> classifiers = new HashSet<>();
+
+	private final HashSet<org.emftext.language.java.containers.Module> modules = new HashSet<>();
+	private final HashSet<org.emftext.language.java.containers.Package> packages = new HashSet<>();
+	private final HashSet<ConcreteClassifier> classifiers = new HashSet<>();
 
 	public void clear() {
 		modules.clear();
@@ -59,38 +59,31 @@ public class JavaClasspath {
 	public void registerModule(org.emftext.language.java.containers.Module module) {
 		modules.add(module);
 	}
-	
-	public void registerConcreteClassifier(org.emftext.language.java.classifiers.ConcreteClassifier classifier) {
+
+	public void registerConcreteClassifier(ConcreteClassifier classifier) {
 		classifiers.add(classifier);
 	}
-	
+
 	public org.emftext.language.java.containers.Package getPackage(String packageName) {
 		return packages.stream().filter(p -> p.getNamespacesAsString().equals(packageName)).findFirst().orElse(null);
 	}
-	
+
 	public org.emftext.language.java.containers.Module getModule(String moduleName) {
 		return modules.stream().filter(m -> m.getNamespacesAsString().equals(moduleName)).findFirst().orElse(null);
 	}
-	
+
 	public ConcreteClassifier getConcreteClassifier(URI uri) {
-		return classifiers.stream().filter(c -> {
-			if (c.eResource() != null) {
-				if (c.eResource().getURI().toString().equals(uri.toString())) {
-					return true;
-				}
-			}
-			return false;
-		}).findFirst().orElse(null);
+		return classifiers.stream().filter(c -> ((c.eResource() != null) && c.eResource().getURI().toString().equals(uri.toString()))).findFirst().orElse(null);
 	}
-	
+
 	public ConcreteClassifier getConcreteClassifier(String fullQualifiedClassifierName) {
 		return classifiers.stream().filter(c -> c.getQualifiedName().equals(fullQualifiedClassifierName)).findFirst().orElse(null);
 	}
-	
+
 	public ConcreteClassifier getFirstConcreteClassifier(String simpleClassifierName) {
 		return classifiers.stream().filter(c -> c.getName().equals(simpleClassifierName)).findFirst().orElse(null);
 	}
-	
+
 	public CompilationUnit getCompilationUnit(String fullQualifiedClassifierName) {
 		ConcreteClassifier classifier = getConcreteClassifier(fullQualifiedClassifierName);
 		if (classifier != null) {
@@ -103,21 +96,21 @@ public class JavaClasspath {
 		}
 		return null;
 	}
-	
+
 	public Resource getResource(URI resourceURI) {
 		ConcreteClassifier classifier = getConcreteClassifier(resourceURI);
 		if (classifier != null) {
 			return classifier.eResource();
 		}
 		org.emftext.language.java.containers.Package pack = packages.stream().filter(p -> p.eResource() != null)
-			.filter(p -> p.eResource().getURI().toString().equals(resourceURI.toString()))
-			.findFirst().orElse(null);
+				.filter(p -> p.eResource().getURI().toString().equals(resourceURI.toString()))
+				.findFirst().orElse(null);
 		if (pack != null) {
 			return pack.eResource();
 		}
 		org.emftext.language.java.containers.Module mod = modules.stream().filter(m -> m.eResource() != null)
-			.filter(m -> m.eResource().getURI().toString().equals(resourceURI.toString()))
-			.findFirst().orElse(null);
+				.filter(m -> m.eResource().getURI().toString().equals(resourceURI.toString()))
+				.findFirst().orElse(null);
 		if (mod != null) {
 			return mod.eResource();
 		}

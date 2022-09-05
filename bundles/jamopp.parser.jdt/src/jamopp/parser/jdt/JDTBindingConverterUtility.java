@@ -2,6 +2,7 @@ package jamopp.parser.jdt;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
@@ -19,23 +20,23 @@ class JDTBindingConverterUtility {
 	static List<org.emftext.language.java.types.TypeReference> convertToTypeReferences(ITypeBinding binding) {
 		List<org.emftext.language.java.types.TypeReference> result = new ArrayList<>();
 		if (binding.isPrimitive()) {
-			if (binding.getName().equals("int")) {
+			if ("int".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createInt());
-			} else if (binding.getName().equals("byte")) {
+			} else if ("byte".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createByte());
-			} else if (binding.getName().equals("short")) {
+			} else if ("short".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createShort());
-			} else if (binding.getName().equals("long")) {
+			} else if ("long".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createLong());
-			} else if (binding.getName().equals("boolean")) {
+			} else if ("boolean".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createBoolean());
-			} else if (binding.getName().equals("double")) {
+			} else if ("double".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createDouble());
-			} else if (binding.getName().equals("float")) {
+			} else if ("float".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createFloat());
-			} else if (binding.getName().equals("void")) {
+			} else if ("void".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createVoid());
-			} else if (binding.getName().equals("char")) {
+			} else if ("char".equals(binding.getName())) {
 				result.add(org.emftext.language.java.types.TypesFactory.eINSTANCE.createChar());
 			}
 		} else if (binding.isArray()) {
@@ -70,26 +71,25 @@ class JDTBindingConverterUtility {
 	}
 	
 	static org.emftext.language.java.generics.TypeArgument convertToTypeArgument(ITypeBinding binding) {
-		if (binding.isWildcardType()) {
-			if (binding.getBound() == null) {
-				return org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createUnknownTypeArgument();
-			} else if (binding.isUpperbound()) {
-				org.emftext.language.java.generics.ExtendsTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createExtendsTypeArgument();
-				result.setExtendType(convertToTypeReferences(binding.getBound()).get(0));
-				convertToArrayDimensionsAndSet(binding, result);
-				return result;
-			} else {
-				org.emftext.language.java.generics.SuperTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createSuperTypeArgument();
-				result.setSuperType(convertToTypeReferences(binding.getBound()).get(0));
-				convertToArrayDimensionsAndSet(binding, result);
-				return result;
-			}
-		} else {
+		if (!binding.isWildcardType()) {
 			org.emftext.language.java.generics.QualifiedTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
 			result.setTypeReference(convertToTypeReferences(binding).get(0));
 			convertToArrayDimensionsAndSet(binding, result);
 			return result;
 		}
+		if (binding.getBound() == null) {
+			return org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createUnknownTypeArgument();
+		}
+		if (binding.isUpperbound()) {
+			org.emftext.language.java.generics.ExtendsTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createExtendsTypeArgument();
+			result.setExtendType(convertToTypeReferences(binding.getBound()).get(0));
+			convertToArrayDimensionsAndSet(binding, result);
+			return result;
+		}
+		org.emftext.language.java.generics.SuperTypeArgument result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE.createSuperTypeArgument();
+		result.setSuperType(convertToTypeReferences(binding.getBound()).get(0));
+		convertToArrayDimensionsAndSet(binding, result);
+		return result;
 	}
 	
 	static void convertToArrayDimensionsAndSet(ITypeBinding binding, org.emftext.language.java.arrays.ArrayTypeable arrDimContainer) {
@@ -248,9 +248,8 @@ class JDTBindingConverterUtility {
 			if (refElement instanceof org.emftext.language.java.members.AdditionalField) {
 				return (org.emftext.language.java.members.Field)
 					((org.emftext.language.java.members.AdditionalField) refElement).eContainer();
-			} else {
-				return (org.emftext.language.java.members.Field) refElement;
 			}
+			return (org.emftext.language.java.members.Field) refElement;
 		}
 		org.emftext.language.java.members.Field result = (org.emftext.language.java.members.Field) refElement;
 		result.getAnnotationsAndModifiers().addAll(convertToModifiers(binding.getModifiers()));
@@ -412,9 +411,7 @@ class JDTBindingConverterUtility {
 	private static org.emftext.language.java.types.NamespaceClassifierReference convertToNamespaceClassifierReference(ITypeBinding binding) {
 		org.emftext.language.java.types.NamespaceClassifierReference ref = org.emftext.language.java.types.TypesFactory.eINSTANCE.createNamespaceClassifierReference();
 		if (binding.getPackage() != null) {
-			for (String nameComp : binding.getPackage().getNameComponents()) {
-				ref.getNamespaces().add(nameComp);
-			}
+			Collections.addAll(ref.getNamespaces(), binding.getPackage().getNameComponents());
 		}
 		org.emftext.language.java.types.ClassifierReference classRef = org.emftext.language.java.types.TypesFactory.eINSTANCE.createClassifierReference();
 		classRef.setTarget(JDTResolverUtility.getClassifier(binding));
@@ -455,24 +452,26 @@ class JDTBindingConverterUtility {
 			varRef.setTarget(JDTResolverUtility.getEnumConstant(varBind));
 			parentRef.setNext(varRef);
 			return getTopReference(varRef);
-		} else if (value instanceof IAnnotationBinding) {
+		}
+		if (value instanceof IAnnotationBinding) {
 			return convertToAnnotationInstance((IAnnotationBinding) value);
-		} else if (value instanceof Object[]) {
+		}
+		if (value instanceof Object[]) {
 			Object[] values = (Object[]) value;
 			org.emftext.language.java.arrays.ArrayInitializer initializer = org.emftext.language.java.arrays.ArraysFactory.eINSTANCE.createArrayInitializer();
-			for (int index = 0; index < values.length; index++) {
+			for (Object value2 : values) {
 				initializer.getInitialValues().add((org.emftext.language.java.arrays.ArrayInitializationValue)
-					convertToAnnotationValue(values[index]));
+					convertToAnnotationValue(value2));
 			}
 			return initializer;
-		} else if (value instanceof ITypeBinding) {
+		}
+		if (value instanceof ITypeBinding) {
 			org.emftext.language.java.references.Reference parentRef = internalConvertToReference((ITypeBinding) value);
 			org.emftext.language.java.references.ReflectiveClassReference classRef = org.emftext.language.java.references.ReferencesFactory.eINSTANCE.createReflectiveClassReference();
 			parentRef.setNext(classRef);
 			return getTopReference(classRef);
-		} else {
-			return convertToPrimaryExpression(value);
 		}
+		return convertToPrimaryExpression(value);
 	}
 	
 	private static org.emftext.language.java.expressions.PrimaryExpression convertToPrimaryExpression(Object value) {
@@ -480,42 +479,48 @@ class JDTBindingConverterUtility {
 			org.emftext.language.java.references.StringReference ref = org.emftext.language.java.references.ReferencesFactory.eINSTANCE.createStringReference();
 			ref.setValue((String) value);
 			return ref;
-		} else if (value instanceof Boolean) {
+		}
+		if (value instanceof Boolean) {
 			org.emftext.language.java.literals.BooleanLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createBooleanLiteral();
 			literal.setValue((boolean) value);
 			return literal;
-		} else if (value instanceof Character) {
+		}
+		if (value instanceof Character) {
 			org.emftext.language.java.literals.CharacterLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createCharacterLiteral();
 			literal.setValue("\\u" + Integer.toHexString((Character) value));
 			return literal;
-		} else if (value instanceof Byte) {
-			org.emftext.language.java.literals.DecimalIntegerLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();;
+		}
+		if (value instanceof Byte) {
+			org.emftext.language.java.literals.DecimalIntegerLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((byte) value));
 			return literal;
-		} else if (value instanceof Short) {
+		}
+		if (value instanceof Short) {
 			org.emftext.language.java.literals.DecimalIntegerLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((short) value));
 			return literal;
-		} else if (value instanceof Integer) {
+		}
+		if (value instanceof Integer) {
 			org.emftext.language.java.literals.DecimalIntegerLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((int) value));
 			return literal;
-		} else if (value instanceof Long) {
+		}
+		if (value instanceof Long) {
 			org.emftext.language.java.literals.DecimalLongLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalLongLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((long) value));
 			return literal;
-		} else if (value instanceof Float) {
+		}
+		if (value instanceof Float) {
 			org.emftext.language.java.literals.DecimalFloatLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalFloatLiteral();
 			literal.setDecimalValue((float) value);
 			return literal;
-		} else if (value instanceof Double) {
+		}
+		if (value instanceof Double) {
 			org.emftext.language.java.literals.DecimalDoubleLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createDecimalDoubleLiteral();
 			literal.setDecimalValue((double) value);
 			return literal;
-		} else { // value == null
-			org.emftext.language.java.literals.NullLiteral literal = org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createNullLiteral();
-			return literal;
 		}
+		return org.emftext.language.java.literals.LiteralsFactory.eINSTANCE.createNullLiteral();
 	}
 
 	private static List<org.emftext.language.java.modifiers.Modifier> convertToModifiers(int modifiers) {
@@ -562,13 +567,11 @@ class JDTBindingConverterUtility {
 	static org.emftext.language.java.containers.Package convertToPackage(IPackageBinding binding) {
 		org.emftext.language.java.containers.Package pack = JDTResolverUtility.getPackage(binding);
 		pack.setModule(JDTResolverUtility.getModule(binding.getModule()));
-		if (pack.getAnnotations().size() > 0) {
+		if (!pack.getAnnotations().isEmpty()) {
 			return pack;
 		}
 		pack.getNamespaces().clear();
-		for (String nameComp : binding.getNameComponents()) {
-			pack.getNamespaces().add(nameComp);
-		}
+		Collections.addAll(pack.getNamespaces(), binding.getNameComponents());
 		pack.setName("");
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
@@ -581,7 +584,7 @@ class JDTBindingConverterUtility {
 	
 	static org.emftext.language.java.containers.Module convertToModule(IModuleBinding binding) {
 		org.emftext.language.java.containers.Module result = JDTResolverUtility.getModule(binding);
-		if (result.eContents().size() > 0) {
+		if (!result.eContents().isEmpty()) {
 			return result;
 		}
 		try {
@@ -647,8 +650,6 @@ class JDTBindingConverterUtility {
 	private static void convertToNamespacesAndSet(String namespaces, org.emftext.language.java.commons.NamespaceAwareElement ele) {
 		ele.getNamespaces().clear();
 		String[] singleNamespaces = namespaces.split("\\.");
-		for (String part : singleNamespaces) {
-			ele.getNamespaces().add(part);
-		}
+		Collections.addAll(ele.getNamespaces(), singleNamespaces);
 	}
 }

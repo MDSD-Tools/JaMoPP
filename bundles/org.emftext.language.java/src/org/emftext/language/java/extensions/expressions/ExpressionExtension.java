@@ -2,12 +2,12 @@
  * Copyright (c) 2006-2014
  * Software Technology Group, Dresden University of Technology
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Software Technology Group - TU Dresden, Germany;
  *   DevBoost GmbH - Berlin, Germany
@@ -55,20 +55,20 @@ public class ExpressionExtension {
 	/**
 	 * Returns the type of the expression considering all concrete subtypes of
 	 * the Expression.
-	 * 
+	 *
 	 * @return type of expression
 	 */
 	public static Type getType(Expression me) {
 		return me.getOneType(false);
 	}
-	
+
 	public static Type getAlternativeType(Expression me) {
 		return me.getOneType(true);
 	}
-	
+
 	public static Type getOneType(Expression me, boolean alternative) {
 		org.emftext.language.java.classifiers.Class stringClass = me.getStringClass();
-		
+
 		Type type = null;
 
 		if (me instanceof Reference) {
@@ -96,7 +96,7 @@ public class ExpressionExtension {
 			else {
 				type = ((ConditionalExpression)me).getExpressionIf().getOneType(alternative);
 			}
-			
+
 		}
 		else if (me instanceof EqualityExpression ||
 				me instanceof RelationExpression ||
@@ -111,7 +111,7 @@ public class ExpressionExtension {
 				me instanceof ExclusiveOrExpression ||
 				me instanceof AndExpression ||
 				me instanceof ShiftExpression) {
-			
+
 			if (me instanceof AdditiveExpression) {
 				AdditiveExpression additiveExpression = (AdditiveExpression) me;
 				for(Expression subExp : additiveExpression.getChildren()) {
@@ -121,67 +121,66 @@ public class ExpressionExtension {
 					}
 				}
 			}
-			
+
 			@SuppressWarnings("unchecked")
-			Expression subExp = ((EList<Expression>) 
+			Expression subExp = ((EList<Expression>)
 					me.eGet(me.eClass().getEStructuralFeature("children"))).get(0);
-			
+
 			return subExp.getOneType(alternative);
 		}
 		else if (me instanceof UnaryExpression) {
 			Expression subExp = ((UnaryExpression) me).getChild();
-			
+
 			return subExp.getOneType(alternative);
-		}
-		else for(TreeIterator<EObject> i = me.eAllContents(); i.hasNext(); ) {
-			EObject next = i.next();
-			Type nextType = null;
+		} else {
+			for(TreeIterator<EObject> i = me.eAllContents(); i.hasNext(); ) {
+				EObject next = i.next();
+				Type nextType = null;
 
-			if (next instanceof PrimaryExpression) {
+				if (next instanceof PrimaryExpression) {
 
-				if (next instanceof Reference) {
-					Reference ref = (Reference) next;
-					//navigate down references
-					while(ref.getNext() != null) {
-						ref = ref.getNext();
+					if (next instanceof Reference) {
+						Reference ref = (Reference) next;
+						//navigate down references
+						while(ref.getNext() != null) {
+							ref = ref.getNext();
+						}
+						next = ref;
 					}
-					next = ref;
-				}
-				if (next instanceof Literal) {
-					nextType = ((Literal) next).getType();
-				}
-				else if (next instanceof CastExpression) {
-					nextType = ((CastExpression)next).getTypeReference().getTarget();
-				}
-				else {
-					nextType = ((Reference) next).getReferencedType();
-				}
-				i.prune();
+					if (next instanceof Literal) {
+						nextType = ((Literal) next).getType();
+					}
+					else if (next instanceof CastExpression) {
+						nextType = ((CastExpression)next).getTypeReference().getTarget();
+					}
+					else {
+						nextType = ((Reference) next).getReferencedType();
+					}
+					i.prune();
 
-			}
-			if (nextType != null) {
-				type = nextType;
-				//in the special case that this is an expression with
-				//some string included, everything is converted to string
-				if (stringClass.equals(type)) {
-					break;
+				}
+				if (nextType != null) {
+					type = nextType;
+					//in the special case that this is an expression with
+					//some string included, everything is converted to string
+					if (stringClass.equals(type)) {
+						break;
+					}
 				}
 			}
 		}
 		//type can be null in cases of unresolved/unresolvable proxies
 		return type;
 	}
-	
+
 	public static long getArrayDimension(Expression me) {
-		long size = 0;
-		ArrayTypeable arrayType = null;
-		if (me instanceof NestedExpression && 
+		if (me instanceof NestedExpression &&
 				((NestedExpression)me).getNext() == null) {
 			return ((NestedExpression) me).getExpression().getArrayDimension()
-				- ((NestedExpression) me).getArraySelectors().size();
+					- ((NestedExpression) me).getArraySelectors().size();
 		}
 		if (me instanceof ConditionalExpression &&
-				((ConditionalExpression)me).getExpressionIf() != null) {		
+				((ConditionalExpression)me).getExpressionIf() != null) {
 			return ((ConditionalExpression)me).getExpressionIf().getArrayDimension();
 		}
 		if (me instanceof AssignmentExpression) {
@@ -194,22 +193,21 @@ public class ExpressionExtension {
 		if (me instanceof InstanceOfExpression) {
 			return 0;
 		}
+		long size = 0;
+		ArrayTypeable arrayType = null;
 		if (me instanceof Reference) {
 			Reference reference = (Reference) me;
 			while (reference.getNext() != null) {
 				reference = reference.getNext();
 			}
 			//an array clone? -> dimension defined by cloned array
-			if (reference instanceof ElementReference && 
+			if (reference instanceof ElementReference &&
 					reference.getPrevious() != null) {
 				ReferenceableElement target = ((ElementReference)reference).getTarget();
-				if (target instanceof Method) {
-					if("clone".equals(((Method)target).getName())) {
-						reference = (Reference) reference.eContainer();
-					}
+				if((target instanceof Method) && "clone".equals(((Method)target).getName())) {
+					reference = (Reference) reference.eContainer();
 				}
 			}
-			
 			if (reference instanceof ElementReference) {
 				ElementReference elementReference = (ElementReference) reference;
 				if (elementReference.getTarget() instanceof ArrayTypeable) {
@@ -242,15 +240,15 @@ public class ExpressionExtension {
 				size++;
 			}
 		}
-		
+
 		if (me instanceof ArrayInstantiationBySize) {
 			size += ((ArrayInstantiationBySize) me).getSizes().size();
 		}
-		
+
 		if(arrayType != null) {
 			size += arrayType.getArrayDimension();
 		}
-		
+
 		return size;
 	}
 }

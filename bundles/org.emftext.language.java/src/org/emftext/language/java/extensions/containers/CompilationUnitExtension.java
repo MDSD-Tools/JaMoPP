@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.emftext.language.java.extensions.containers;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
@@ -56,7 +57,7 @@ public class CompilationUnitExtension {
 	 * @return all classes in the same package imports
 	 */
 	public static EList<ConcreteClassifier> getClassifiersInSamePackage(CompilationUnit me) {
-		EList<ConcreteClassifier> defaultImportList = new UniqueEList<ConcreteClassifier>();
+		EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
 		
 		String packageName = me.getNamespacesAsString();
 
@@ -77,15 +78,15 @@ public class CompilationUnitExtension {
 	 * @return the class directly contained in the compilation unit (if there is
 	 *         exactly one contained classifier that is of type {@link Class})
 	 */
-	public static org.emftext.language.java.classifiers.Class getContainedClass(CompilationUnit me) {
+	public static Class getContainedClass(CompilationUnit me) {
 		List<ConcreteClassifier> classifiers = me.getClassifiers();
 		if (classifiers.size() != 1) {
 			return null;
 		}
 		
 		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof org.emftext.language.java.classifiers.Class) {
-			return (org.emftext.language.java.classifiers.Class) first;
+		if (first instanceof Class) {
+			return (Class) first;
 		}
 		return null;
 	}
@@ -175,9 +176,7 @@ public class CompilationUnitExtension {
 	 */
 	public static void addPackageImport(CompilationUnit me, String packageName) {
 		PackageImport nsImport = ImportsFactory.eINSTANCE.createPackageImport();
-		for (String name : packageName.split("\\.")) {
-			nsImport.getNamespaces().add(name);
-		}
+		Collections.addAll(nsImport.getNamespaces(), packageName.split("\\."));
 		me.getImports().add(nsImport);
 	}
 }

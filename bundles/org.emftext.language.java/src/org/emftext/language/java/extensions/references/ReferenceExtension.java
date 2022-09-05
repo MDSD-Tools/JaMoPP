@@ -100,7 +100,7 @@ public class ReferenceExtension {
 		// Referenced element points to an element with a type
 		else if (me instanceof ElementReference) {
 			ReferenceableElement target = 
-				(ReferenceableElement) ((ElementReference) me).getTarget();
+				((ElementReference) me).getTarget();
 			
 			if (target == null) {
 				return null;

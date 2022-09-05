@@ -34,11 +34,10 @@ import org.emftext.commons.jdt.JdtFactory;
  */
 class ClassifierVisitor extends TypeNameRequestor {
 	
-	private final List<JDTJavaClassifier> classifiersInClasspath = new ArrayList<JDTJavaClassifier>();
+	private final List<JDTJavaClassifier> classifiersInClasspath = new ArrayList<>();
 	private final IJavaProject project;
 	
 	public ClassifierVisitor(IJavaProject project) {
-		super();
 		this.project = project;
 	}
 
