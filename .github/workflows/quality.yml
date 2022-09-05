@@ -25,10 +25,14 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
     - name: Run Maven Verify
-      run: mvn -B -U clean verify
+      run: |
+          mvn -B -U clean verify
+          mvn clean
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
+    - name: Autobuild repository
+      uses: github/codeql-action/autobuild@v2
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

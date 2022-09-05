@@ -61,7 +61,6 @@ public class JaMoPPJDTParserTest {
             .map(c -> Path.of("../target/resources", c)
                 .toAbsolutePath()
                 .normalize());
-
     }
 
     @BeforeEach
