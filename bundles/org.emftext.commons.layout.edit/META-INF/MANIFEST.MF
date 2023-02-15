@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.emftext.commons.layout.edit;singleton:=true
 Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.emftext.commons.layout.provider.LayoutEditPlugin$Implementation
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.emftext.commons.layout.edit

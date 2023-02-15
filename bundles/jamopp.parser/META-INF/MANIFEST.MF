@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JaMoPP Parser API
 Bundle-SymbolicName: jamopp.parser
 Bundle-Version: 5.1.0.qualifier
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Automatic-Module-Name: jamopp.parser
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: jamopp.parser.api

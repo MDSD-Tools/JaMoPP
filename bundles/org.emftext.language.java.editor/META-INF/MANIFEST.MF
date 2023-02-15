@@ -6,7 +6,7 @@ Automatic-Module-Name: org.emftext.language.java.editor
 Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.emftext.language.java.annotations.presentation.JavaEditorPlugin$Implementation
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Bundle-Localization: plugin
 Export-Package: org.emftext.language.java.annotations.presentation,
  org.emftext.language.java.arrays.presentation,

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JaMoPP new Resource support
 Bundle-SymbolicName: jamopp.resource
 Bundle-Version: 5.1.0.qualifier
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Automatic-Module-Name: jamopp.resource
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy

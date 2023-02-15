@@ -4,7 +4,7 @@ Bundle-Name: JaMoPP (Java Model Parser and Printer) Metamodel
 Bundle-SymbolicName: org.emftext.language.java;singleton:=true
 Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.emftext.language.java

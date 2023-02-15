@@ -3,7 +3,7 @@
       id="org.emftext.language.java.feature"
       label="JaMoPP - Java Model Parser and Printer"
       version="5.1.0.qualifier"
-      provider-name="Martin Armbruster">
+      provider-name="MDSD-Tools">
 
    <description url="http://www.jamopp.org">
       JaMoPP: Java Model Parser and Printer (EMFText-based Java support for EMF modelling tools).
@@ -29,28 +29,28 @@ Contributors:
    </license>
 
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.emf"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.22.0" match="greaterOrEqual"/>
-      <import plugin="jamopp.parser" version="5.1.0" match="greaterOrEqual"/>
-      <import plugin="jamopp.parser.jdt" version="5.1.0" match="greaterOrEqual"/>
-      <import plugin="jamopp.printer" version="5.1.0" match="greaterOrEqual"/>
-      <import plugin="org.emftext.language.java" version="5.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.emf.edit.ui"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.text"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="jamopp.resource" version="4.3.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.compress"/>
-      <import plugin="org.junit.jupiter.api"/>
-      <import plugin="org.junit.jupiter.engine"/>
-      <import plugin="org.junit.jupiter.params"/>
-      <import plugin="org.apache.log4j"/>
+<import plugin="jamopp.parser.jdt"/>
+<import plugin="jamopp.parser"/>
+<import plugin="jamopp.printer"/>
+<import plugin="jamopp.resource"/>
+<import plugin="org.apache.commons.compress"/>
+<import plugin="org.apache.log4j"/>
+<import plugin="org.eclipse.core.resources"/>
+<import plugin="org.eclipse.core.runtime"/>
+<import plugin="org.eclipse.emf.ecore.xmi"/>
+<import plugin="org.eclipse.emf.ecore"/>
+<import plugin="org.eclipse.emf.edit.ui"/>
+<import plugin="org.eclipse.emf.edit"/>
+<import plugin="org.eclipse.emf"/>
+<import plugin="org.eclipse.jdt.core"/>
+<import plugin="org.eclipse.jface.text"/>
+<import plugin="org.eclipse.text"/>
+<import plugin="org.eclipse.ui.ide"/>
+<import plugin="org.emftext.language.java"/>
+<import plugin="org.junit.jupiter.api"/>
+<import plugin="org.junit.jupiter.engine"/>
+<import plugin="org.junit.jupiter.params"/>
+
    </requires>
 
    <plugin
