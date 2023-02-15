@@ -33,7 +33,7 @@ import jamopp.parser.jdt.JaMoPPJDTParser;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class ReprintTest extends AbstractJaMoPPTests {
     protected static Path directoryOf(String input) {
-        return Path.of("../target/resourcess", input)
+        return Path.of("./resourcess", input)
             .toAbsolutePath()
             .normalize();
     }
@@ -77,7 +77,7 @@ public class ReprintTest extends AbstractJaMoPPTests {
         assertDoesNotThrow(() -> reprint("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
         assertDoesNotThrow(() -> reprint("teammates-master"));
         assertDoesNotThrow(() -> reprint("TeaStore-1.4.0"));
-        assertDoesNotThrow(() -> reprint("TimeSheetGenerator-master"));
+        assertDoesNotThrow(() -> reprint("TimeSheetGenerator-main"));
         assertDoesNotThrow(() -> reprint("trojan-source-main"));
     }
 
@@ -116,7 +116,7 @@ public class ReprintTest extends AbstractJaMoPPTests {
         assertDoesNotThrow(() -> resprintWithLatestParser("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
         assertDoesNotThrow(() -> resprintWithLatestParser("teammates-master"));
         assertDoesNotThrow(() -> resprintWithLatestParser("TeaStore-1.4.0"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("TimeSheetGenerator-master"));
+        assertDoesNotThrow(() -> resprintWithLatestParser("TimeSheetGenerator-main"));
         assertDoesNotThrow(() -> resprintWithLatestParser("trojan-source-main"));
 
     }

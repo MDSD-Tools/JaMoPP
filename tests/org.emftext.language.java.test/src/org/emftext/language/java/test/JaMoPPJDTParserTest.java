@@ -59,33 +59,33 @@ public class JaMoPPJDTParserTest {
     
     @Test
     public void testJdtParser() {
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/acmeair-1.2.0").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/bigbluebutton-2.4.7").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/clnr-demo-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/commons-lang-rel-commons-lang-3.12.0").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/esda-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/flowing-retail-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/h2database-version-2.1.210").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/meet-eat-data-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/meet-eat-server-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/microservice-kafka-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/microservice-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/Palladio-Addons-PlantUML-main").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/Palladio-Build-DependencyTool-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/piggymetrics-spring.version.2.0.3").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/RUBiS-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/sagan-1995913fb2d90693c97c251fd142b429724cdf44").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/smart-home-websockets-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/SPECjbb2005-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/SPECjvm2008-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/spring-cloud-event-sourcing-example-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/spring-petclinic-microservices-2.3.6").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/teammates-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/TeaStore-1.4.0").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/TimeSheetGenerator-master").toAbsolutePath().normalize()));
-    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/trojan-source-main").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/acmeair-1.2.0").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/bigbluebutton-2.4.7").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/clnr-demo-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/commons-lang-rel-commons-lang-3.12.0").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/esda-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/flowing-retail-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/h2database-version-2.1.210").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/meet-eat-data-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/meet-eat-server-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/microservice-kafka-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/microservice-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/Palladio-Addons-PlantUML-main").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/Palladio-Build-DependencyTool-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/piggymetrics-spring.version.2.0.3").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/RUBiS-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/sagan-1995913fb2d90693c97c251fd142b429724cdf44").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/smart-home-websockets-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/SPECjbb2005-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/SPECjvm2008-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/spring-cloud-event-sourcing-example-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/spring-petclinic-microservices-2.3.6").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/teammates-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/TeaStore-1.4.0").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/TimeSheetGenerator-main").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("./resources/trojan-source-main").toAbsolutePath().normalize()));
     }
 
     private void jdtParser(Path caseStudy) {

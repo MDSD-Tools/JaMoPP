@@ -43,7 +43,7 @@ import jamopp.resource.JavaResource2Factory;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class ResolvingTest {
     protected static Path directoryOf(String input) {
-        return Path.of("../target/resources", input)
+        return Path.of("./resources", input)
             .toAbsolutePath()
             .normalize();
     }
@@ -88,7 +88,7 @@ public class ResolvingTest {
     	assertDoesNotThrow(() -> javaDirectoryExists("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
     	assertDoesNotThrow(() -> javaDirectoryExists("teammates-master"));
     	assertDoesNotThrow(() -> javaDirectoryExists("TeaStore-1.4.0"));
-    	assertDoesNotThrow(() -> javaDirectoryExists("TimeSheetGenerator-master"));
+    	assertDoesNotThrow(() -> javaDirectoryExists("TimeSheetGenerator-main"));
     	assertDoesNotThrow(() -> javaDirectoryExists("trojan-source-main"));
     }
     
@@ -127,7 +127,7 @@ public class ResolvingTest {
     	assertDoesNotThrow(() -> resolveAll("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
     	assertDoesNotThrow(() -> resolveAll("teammates-master"));
     	assertDoesNotThrow(() -> resolveAll("TeaStore-1.4.0"));
-    	assertDoesNotThrow(() -> resolveAll("TimeSheetGenerator-master"));
+    	assertDoesNotThrow(() -> resolveAll("TimeSheetGenerator-main"));
     	assertDoesNotThrow(() -> resolveAll("trojan-source-main"));
 
     }
@@ -167,7 +167,7 @@ public class ResolvingTest {
     	assertDoesNotThrow(() -> resolveAllWithLatestParser("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
     	assertDoesNotThrow(() -> resolveAllWithLatestParser("teammates-master"));
     	assertDoesNotThrow(() -> resolveAllWithLatestParser("TeaStore-1.4.0"));
-    	assertDoesNotThrow(() -> resolveAllWithLatestParser("TimeSheetGenerator-master"));
+    	assertDoesNotThrow(() -> resolveAllWithLatestParser("TimeSheetGenerator-main"));
     	assertDoesNotThrow(() -> resolveAllWithLatestParser("trojan-source-main"));
     }
     
