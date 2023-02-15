@@ -71,8 +71,7 @@ public class ExpressionExtension {
 
 		Type type = null;
 
-		if (me instanceof Reference) {
-			Reference reference = (Reference) me;
+		if (me instanceof Reference reference) {
 			//navigate down references
 			while(reference.getNext() != null) {
 				reference = reference.getNext();
@@ -112,8 +111,7 @@ public class ExpressionExtension {
 				me instanceof AndExpression ||
 				me instanceof ShiftExpression) {
 
-			if (me instanceof AdditiveExpression) {
-				AdditiveExpression additiveExpression = (AdditiveExpression) me;
+			if (me instanceof AdditiveExpression additiveExpression) {
 				for(Expression subExp : additiveExpression.getChildren()) {
 					if (stringClass.equals(subExp.getOneType(alternative))) {
 						//special case: string concatenation
@@ -139,8 +137,7 @@ public class ExpressionExtension {
 
 				if (next instanceof PrimaryExpression) {
 
-					if (next instanceof Reference) {
-						Reference ref = (Reference) next;
+					if (next instanceof Reference ref) {
 						//navigate down references
 						while(ref.getNext() != null) {
 							ref = ref.getNext();
@@ -195,8 +192,7 @@ public class ExpressionExtension {
 		}
 		long size = 0;
 		ArrayTypeable arrayType = null;
-		if (me instanceof Reference) {
-			Reference reference = (Reference) me;
+		if (me instanceof Reference reference) {
 			while (reference.getNext() != null) {
 				reference = reference.getNext();
 			}
@@ -208,8 +204,7 @@ public class ExpressionExtension {
 					reference = (Reference) reference.eContainer();
 				}
 			}
-			if (reference instanceof ElementReference) {
-				ElementReference elementReference = (ElementReference) reference;
+			if (reference instanceof ElementReference elementReference) {
 				if (elementReference.getTarget() instanceof ArrayTypeable) {
 					arrayType = (ArrayTypeable) elementReference.getTarget();
 				}

@@ -395,8 +395,7 @@ public class JDTResolverUtility {
 	}
 
 	private static String convertToTypeName(org.emftext.language.java.types.TypeReference ref) {
-		if (ref instanceof org.emftext.language.java.types.ClassifierReference) {
-			org.emftext.language.java.types.ClassifierReference convRef = (org.emftext.language.java.types.ClassifierReference) ref;
+		if (ref instanceof org.emftext.language.java.types.ClassifierReference convRef) {
 			if (convRef.getTarget() instanceof org.emftext.language.java.classifiers.ConcreteClassifier) {
 				return ((org.emftext.language.java.classifiers.ConcreteClassifier) convRef.getTarget()).getQualifiedName();
 			}
@@ -405,8 +404,7 @@ public class JDTResolverUtility {
 			}
 			return ((org.emftext.language.java.generics.TypeParameter) convRef.getTarget()).getName();
 		}
-		if (ref instanceof org.emftext.language.java.types.NamespaceClassifierReference) {
-			org.emftext.language.java.types.NamespaceClassifierReference nRef = (org.emftext.language.java.types.NamespaceClassifierReference) ref;
+		if (ref instanceof org.emftext.language.java.types.NamespaceClassifierReference nRef) {
 			if (!nRef.getClassifierReferences().isEmpty()) {
 				return convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
 			}
@@ -450,8 +448,7 @@ public class JDTResolverUtility {
 				(org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
 			outerLoop: for (org.emftext.language.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof org.emftext.language.java.members.Constructor && mem.getName().equals(binding.getName())) {
-					org.emftext.language.java.members.Constructor con = (org.emftext.language.java.members.Constructor) mem;
+				if (mem instanceof org.emftext.language.java.members.Constructor con && mem.getName().equals(binding.getName())) {
 					int receiveOffset = 0;
 					if (binding.getDeclaredReceiverType() != null) {
 						receiveOffset = 1;
@@ -637,8 +634,7 @@ public class JDTResolverUtility {
 				(org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
 			outerLoop: for (org.emftext.language.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof org.emftext.language.java.members.Field) {
-					org.emftext.language.java.members.Field field = (org.emftext.language.java.members.Field) mem;
+				if (mem instanceof org.emftext.language.java.members.Field field) {
 					for (org.emftext.language.java.members.AdditionalField af : field.getAdditionalFields()) {
 						if (af.getName().equals(binding.getName())) {
 							result = af;
@@ -910,8 +906,7 @@ public class JDTResolverUtility {
 							addToSyntheticClass(field);
 						}
 					} else if (!extractAdditionalInformationFromTypeBindings
-							&& cla instanceof org.emftext.language.java.classifiers.ConcreteClassifier) {
-						var i = (org.emftext.language.java.classifiers.ConcreteClassifier) cla;
+							&& cla instanceof org.emftext.language.java.classifiers.ConcreteClassifier i) {
 						if (!i.getMembers().contains(field)) {
 							i.getMembers().add(field);
 						}
@@ -990,8 +985,7 @@ public class JDTResolverUtility {
 						addToSyntheticClass(method);
 					}
 				} else if (!extractAdditionalInformationFromTypeBindings
-						&& cla instanceof org.emftext.language.java.classifiers.ConcreteClassifier) {
-					var i = (org.emftext.language.java.classifiers.ConcreteClassifier) cla;
+						&& cla instanceof org.emftext.language.java.classifiers.ConcreteClassifier i) {
 					if(!i.getMembers().contains(method)) {
 						i.getMembers().add(method);
 					}
@@ -1144,8 +1138,7 @@ public class JDTResolverUtility {
 	}
 
 	private static void escapeIdentifier(Notifier not) {
-		if (not instanceof org.emftext.language.java.commons.NamedElement) {
-			org.emftext.language.java.commons.NamedElement ele = (org.emftext.language.java.commons.NamedElement) not;
+		if (not instanceof org.emftext.language.java.commons.NamedElement ele) {
 			StringBuilder builder = new StringBuilder();
 			String name = ele.getName();
 			name.codePoints().forEach(i -> {

@@ -97,9 +97,7 @@ public class ConcreteClassifierExtension {
 
 	public static EList<ClassifierReference> getSuperTypeReferences(ConcreteClassifier me) {
 		EList<ClassifierReference> typeReferenceList = new UniqueEList<>();
-		if (me instanceof org.emftext.language.java.classifiers.Class) {
-			org.emftext.language.java.classifiers.Class javaClass = (org.emftext.language.java.classifiers.Class) me;
-
+		if (me instanceof org.emftext.language.java.classifiers.Class javaClass) {
 			// Add super type of class to super type list
 			TypeReference superClass = javaClass.getExtends();
 			if (superClass != null) {
@@ -115,9 +113,7 @@ public class ConcreteClassifierExtension {
 			// Add all implemented interfaces to super type list
 			addSuperTypes(javaClass.getImplements(), typeReferenceList);
 
-		} else if (me instanceof Interface) {
-			Interface javaInterface = (Interface) me;
-
+		} else if (me instanceof Interface javaInterface) {
 			// Add all super interfaces to super type list
 			addSuperTypes(javaInterface.getExtends(), typeReferenceList);
 		}
@@ -160,9 +156,7 @@ public class ConcreteClassifierExtension {
 
 		for (ConcreteClassifier superClassifier : me.getAllSuperClassifiers()) {
 			for (Member member : superClassifier.getMembers()) {
-				if (member instanceof AnnotableAndModifiable) {
-					AnnotableAndModifiable modifiable = (AnnotableAndModifiable) member;
-
+				if (member instanceof AnnotableAndModifiable modifiable) {
 					boolean isVisible = !modifiable.isHidden(context);
 					if (isVisible) {
 						memberList.add(member);

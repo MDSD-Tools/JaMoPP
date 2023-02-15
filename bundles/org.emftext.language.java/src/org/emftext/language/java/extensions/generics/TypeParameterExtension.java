@@ -64,12 +64,10 @@ public class TypeParameterExtension {
 		EList<ConcreteClassifier> result = new UniqueEList<>();
 		for (TypeReference typeRef : me.getExtendTypes()) {
 			Type type = typeRef.getTarget();
-			if (type instanceof ConcreteClassifier) {
-				ConcreteClassifier concreteClassifier = (ConcreteClassifier) type;
+			if (type instanceof ConcreteClassifier concreteClassifier) {
 				result.add(concreteClassifier);
 			}
-			if (type instanceof Classifier) {
-				Classifier classifier = (Classifier) type;
+			if (type instanceof Classifier classifier) {
 				result.addAll(classifier.getAllSuperClassifiers());
 			}
 		}
@@ -95,9 +93,7 @@ public class TypeParameterExtension {
 
 		for (ConcreteClassifier superClassifier : me.getAllSuperClassifiers()) {
 			for (Member member : superClassifier.getMembers()) {
-				if (member instanceof AnnotableAndModifiable) {
-					AnnotableAndModifiable modifiable = (AnnotableAndModifiable) member;
-
+				if (member instanceof AnnotableAndModifiable modifiable) {
 					if (!modifiable.isHidden(context) || possiblyVisibleSuperClassifier.contains(superClassifier)) {
 						memberList.add(member);
 					}
@@ -136,13 +132,11 @@ public class TypeParameterExtension {
 			Expression nestedExpressionExpression = nestedExpression.getExpression();
 			if (nestedExpressionExpression instanceof Reference) {
 				expression = nestedExpressionExpression;
-			} else if (nestedExpressionExpression instanceof ConditionalExpression) {
-				ConditionalExpression conditionalExpression = (ConditionalExpression) nestedExpressionExpression;
+			} else if (nestedExpressionExpression instanceof ConditionalExpression conditionalExpression) {
 				expression = conditionalExpression.getExpressionIf();
 			}
 
-			if (expression instanceof Reference) {
-				Reference expressionReference = (Reference) expression;
+			if (expression instanceof Reference expressionReference) {
 				// Navigate down references
 				while (expressionReference.getNext() != null) {
 					expressionReference = expressionReference.getNext();
@@ -150,8 +144,7 @@ public class TypeParameterExtension {
 
 				parentReference = expressionReference;
 				Type prevType = nestedExpressionExpression.getType();
-				if (prevType instanceof TemporalCompositeClassifier) {
-					TemporalCompositeClassifier temporalCompositeClassifier = (TemporalCompositeClassifier)prevType;
+				if (prevType instanceof TemporalCompositeClassifier temporalCompositeClassifier) {
 					for (EObject nextSuperType : temporalCompositeClassifier.getSuperTypes()) {
 						prevTypeList.add((Type) nextSuperType);
 					}
@@ -160,8 +153,7 @@ public class TypeParameterExtension {
 					prevTypeList.add(prevType);
 				}
 			}
-			else if (nestedExpressionExpression instanceof CastExpression) {
-				CastExpression castExpression = (CastExpression) nestedExpressionExpression;
+			else if (nestedExpressionExpression instanceof CastExpression castExpression) {
 				prevTypeList.add(castExpression.getTypeReference().getTarget());
 			}
 		}
@@ -185,8 +177,7 @@ public class TypeParameterExtension {
 
 			if (parentReference != null) {
 				Type prevType = parentReference.getReferencedType();
-				if (prevType instanceof TemporalCompositeClassifier) {
-					TemporalCompositeClassifier temporalCompositeClassifier = (TemporalCompositeClassifier) prevType;
+				if (prevType instanceof TemporalCompositeClassifier temporalCompositeClassifier) {
 					for (EObject aType : temporalCompositeClassifier.getSuperTypes()) {
 						prevTypeList.add((Type)aType);
 					}
@@ -203,8 +194,7 @@ public class TypeParameterExtension {
 			while (containingClassifier != null) {
 				prevTypeList.add(containingClassifier);
 				EObject container = containingClassifier.eContainer();
-				if (container instanceof Commentable) {
-					Commentable commentableContainer = (Commentable) container;
+				if (container instanceof Commentable commentableContainer) {
 					containingClassifier = commentableContainer.getContainingConcreteClassifier();
 				} else {
 					containingClassifier = null;
@@ -313,8 +303,7 @@ public class TypeParameterExtension {
 			}
 		}
 
-		if ((typeParameterDeclarator instanceof Method) && (reference instanceof MethodCall)) {
-			Method method = (Method) typeParameterDeclarator;
+		if ((typeParameterDeclarator instanceof Method method) && (reference instanceof MethodCall)) {
 			MethodCall methodCall = (MethodCall) reference;
 			if (method.getTypeParameters().size() == methodCall.getCallTypeArguments().size()) {
 				TypeArgument typeArgument = methodCall.getCallTypeArguments().get(method.getTypeParameters().indexOf(me));
@@ -363,16 +352,13 @@ public class TypeParameterExtension {
 						resultList.add(0, argumentType.getTarget());
 					}
 				}
-				else if (parameterType != null && argument instanceof Reference) {
-					Reference argReference = (Reference) argument;
-
+				else if (parameterType != null && argument instanceof Reference argReference) {
 					while (!(argReference.getNext() instanceof ReflectiveClassReference) ) {
 						argReference = argReference.getNext();
 					}
 
 
-					if (argReference instanceof ElementReference) {
-						ElementReference elementReference = (ElementReference) argReference;
+					if (argReference instanceof ElementReference elementReference) {
 						while (elementReference.getNext() instanceof ElementReference) {
 							elementReference = (ElementReference) elementReference.getNext();
 						}

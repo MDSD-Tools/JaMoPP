@@ -3,17 +3,17 @@ package jamopp.standalone;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Package;
-
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.emftext.language.java.containers.ContainersFactory;
 
 import jamopp.parser.api.JaMoPPParserAPI;
 import jamopp.parser.jdt.JaMoPPJDTParser;

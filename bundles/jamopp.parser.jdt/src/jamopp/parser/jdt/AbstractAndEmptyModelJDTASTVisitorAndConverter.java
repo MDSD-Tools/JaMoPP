@@ -50,7 +50,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			this.convertedRootElement = org.emftext.language.java.containers.ContainersFactory.eINSTANCE.createEmptyModel();
 			this.convertedRootElement.setName("");
 		}
-		node.imports().forEach(obj -> this.convertedRootElement.getImports().add(this.convertToImport((ImportDeclaration) obj)));
+		node.imports().forEach(obj -> this.convertedRootElement.getImports().add(AbstractAndEmptyModelJDTASTVisitorAndConverter.convertToImport((ImportDeclaration) obj)));
 		return false;
 	}
 
@@ -89,8 +89,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 				proxyMember = JDTResolverUtility.getMethod((IMethodBinding) b);
 			} else if (b instanceof IVariableBinding) {
 				proxyMember = JDTResolverUtility.getReferencableElement((IVariableBinding) b);
-			} else if (b instanceof ITypeBinding) {
-				ITypeBinding typeBinding = (ITypeBinding) b;
+			} else if (b instanceof ITypeBinding typeBinding) {
 				if (!typeBinding.isNested()) {
 					proxyClass = JDTResolverUtility.getClassifier(typeBinding);
 					org.emftext.language.java.classifiers.ConcreteClassifier conCl =

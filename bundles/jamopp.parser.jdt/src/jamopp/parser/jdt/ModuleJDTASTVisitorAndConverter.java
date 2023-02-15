@@ -66,7 +66,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 					result.setModifier(org.emftext.language.java.modifiers.ModifiersFactory.eINSTANCE.createTransitive());
 				}
 			});
-			result.setRequiredModule(this.convertToModuleReference(reqDir.getName()));
+			result.setRequiredModule(ModuleJDTASTVisitorAndConverter.convertToModuleReference(reqDir.getName()));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 			return result;
 		}
@@ -80,7 +80,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 			}
 			IPackageBinding binding = (IPackageBinding) accessDir.getName().resolveBinding();
 			convertedDir.setAccessablePackage(JDTResolverUtility.getPackage(binding));
-			accessDir.modules().forEach(obj -> convertedDir.getModules().add(this.convertToModuleReference((Name) obj)));
+			accessDir.modules().forEach(obj -> convertedDir.getModules().add(ModuleJDTASTVisitorAndConverter.convertToModuleReference((Name) obj)));
 			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedDir, directive);
 			return convertedDir;
 		}
