@@ -176,10 +176,9 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
     @Override
     public boolean match(CharacterLiteral node, Object other) {
-        if (!(other instanceof CharacterLiteral)) {
+        if (!(other instanceof CharacterLiteral o)) {
             return false;
         }
-        final CharacterLiteral o = (CharacterLiteral) other;
         String oToken = o.getEscapedValue();
         String nToken = node.getEscapedValue();
 
@@ -548,11 +547,9 @@ public class TalkativeASTMatcher extends ASTMatcher {
 
     @Override
     public boolean match(StringLiteral node, Object other) {
-        if (!(other instanceof StringLiteral)) {
+        if (!(other instanceof StringLiteral o)) {
             return setDiff(node, other, false);
         }
-        final StringLiteral o = (StringLiteral) other;
-
         String nString = node.getEscapedValue();
         String oString = o.getEscapedValue();
 

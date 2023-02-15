@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -30,8 +29,7 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
 import jamopp.parser.jdt.JaMoPPJDTParser;
 import jamopp.resource.JavaResource2Factory;
@@ -46,23 +44,6 @@ import jamopp.resource.JavaResource2Factory;
 @DisplayName("Test the individual steps with the JDT parser")
 public class JaMoPPJDTParserTest {
 
-    private static Stream<Path> caseStudiesProvider() {
-        return Stream.of("acmeair-1.2.0", "bigbluebutton-2.4.7", "clnr-demo-master",
-                "commons-lang-rel-commons-lang-3.12.0", "esda-master",
-                "eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4",
-                "flowing-retail-master", "h2database-version-2.1.210", "meet-eat-data-master", "meet-eat-server-master",
-                "microservice-kafka-master", "microservice-master", "Palladio-Addons-PlantUML-main",
-                "Palladio-Build-DependencyTool-master", "piggymetrics-spring.version.2.0.3", "RUBiS-master",
-                "sagan-1995913fb2d90693c97c251fd142b429724cdf44", "smart-home-websockets-master", "SPECjbb2005-master",
-                "SPECjvm2008-master", "spring-cloud-event-sourcing-example-master",
-                "spring-petclinic-microservices-2.3.6",
-                "spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987", "teammates-master",
-                "TeaStore-1.4.0", "TimeSheetGenerator-master", "trojan-source-main")
-            .map(c -> Path.of("../target/resources", c)
-                .toAbsolutePath()
-                .normalize());
-    }
-
     @BeforeEach
     public final void initResourceFactory() {
         ContainersFactory.eINSTANCE.createEmptyModel();
@@ -75,11 +56,39 @@ public class JaMoPPJDTParserTest {
         JavaClasspath.get()
             .clear();
     }
+    
+    @Test
+    public void testJdtParser() {
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/acmeair-1.2.0").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/bigbluebutton-2.4.7").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/clnr-demo-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/commons-lang-rel-commons-lang-3.12.0").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/esda-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/flowing-retail-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/h2database-version-2.1.210").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/meet-eat-data-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/meet-eat-server-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/microservice-kafka-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/microservice-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/Palladio-Addons-PlantUML-main").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/Palladio-Build-DependencyTool-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/piggymetrics-spring.version.2.0.3").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/RUBiS-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/sagan-1995913fb2d90693c97c251fd142b429724cdf44").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/smart-home-websockets-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/SPECjbb2005-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/SPECjvm2008-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/spring-cloud-event-sourcing-example-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/spring-petclinic-microservices-2.3.6").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/teammates-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/TeaStore-1.4.0").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/TimeSheetGenerator-master").toAbsolutePath().normalize()));
+    	assertDoesNotThrow(() -> jdtParser(Path.of("../target/resources/trojan-source-main").toAbsolutePath().normalize()));
+    }
 
-    @DisplayName("Test with different case studies")
-    @ParameterizedTest(name = "{index}. case study: {0}")
-    @MethodSource("caseStudiesProvider")
-    public void testJdtParser(Path caseStudy) {
+    private void jdtParser(Path caseStudy) {
         final var parser = assertDoesNotThrow(() -> JaMoPPJDTParser.getJavaParser(null));
         assertNotNull(parser);
         final var api = new JaMoPPJDTParser();
