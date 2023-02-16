@@ -57,10 +57,9 @@ public class VariableExtension {
 		thisRef.setTarget(me);
 
 		Type thisType = me.getTypeReference().getTarget();
-		if (!(thisType instanceof MemberContainer)) {
+		if (!(thisType instanceof MemberContainer castedType)) {
 			return null;
 		}
-		MemberContainer castedType = (MemberContainer) thisType;
 		Method method = castedType.getContainedMethod(methodName);
 		if (method == null) {
 			return null;

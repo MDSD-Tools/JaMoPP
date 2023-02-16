@@ -445,8 +445,7 @@ class JDTBindingConverterUtility {
 	}
 	
 	private static org.emftext.language.java.annotations.AnnotationValue convertToAnnotationValue(Object value) {
-		if (value instanceof IVariableBinding) {
-			IVariableBinding varBind = (IVariableBinding) value;
+		if (value instanceof IVariableBinding varBind) {
 			org.emftext.language.java.references.Reference parentRef = internalConvertToReference(varBind.getDeclaringClass());
 			org.emftext.language.java.references.IdentifierReference varRef = org.emftext.language.java.references.ReferencesFactory.eINSTANCE.createIdentifierReference();
 			varRef.setTarget(JDTResolverUtility.getEnumConstant(varBind));
@@ -456,8 +455,7 @@ class JDTBindingConverterUtility {
 		if (value instanceof IAnnotationBinding) {
 			return convertToAnnotationInstance((IAnnotationBinding) value);
 		}
-		if (value instanceof Object[]) {
-			Object[] values = (Object[]) value;
+		if (value instanceof Object[] values) {
 			org.emftext.language.java.arrays.ArrayInitializer initializer = org.emftext.language.java.arrays.ArraysFactory.eINSTANCE.createArrayInitializer();
 			for (Object value2 : values) {
 				initializer.getInitialValues().add((org.emftext.language.java.arrays.ArrayInitializationValue)

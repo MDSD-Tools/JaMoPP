@@ -6,7 +6,7 @@ Automatic-Module-Name: org.emftext.language.java.editor
 Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.emftext.language.java.annotations.presentation.JavaEditorPlugin$Implementation
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Bundle-Localization: plugin
 Export-Package: org.emftext.language.java.annotations.presentation,
  org.emftext.language.java.arrays.presentation,
@@ -26,7 +26,7 @@ Export-Package: org.emftext.language.java.annotations.presentation,
  org.emftext.language.java.statements.presentation,
  org.emftext.language.java.types.presentation,
  org.emftext.language.java.variables.presentation
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.emftext.language.java.edit;visibility:=reexport,

@@ -4,7 +4,7 @@ Bundle-Name: JaMoPP Printer
 Bundle-SymbolicName: jamopp.printer
 Bundle-Version: 5.1.0.qualifier
 Automatic-Module-Name: jamopp.printer
-Bundle-RequiredExecutionEnvironment: JavaSE-11
-Bundle-Vendor: Martin Armbruster
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-Vendor: MDSD-Tools
 Require-Bundle: org.emftext.language.java
 Export-Package: jamopp.printer

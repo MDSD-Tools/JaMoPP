@@ -460,15 +460,12 @@ public final class JaMoPPPrinter {
 	}
 
 	private static void printTypeArgument(TypeArgument element, BufferedWriter writer) throws IOException {
-		if (element instanceof QualifiedTypeArgument) {
-			QualifiedTypeArgument arg = (QualifiedTypeArgument) element;
+		if (element instanceof QualifiedTypeArgument arg) {
 			printTypeReference(arg.getTypeReference(), writer);
-		} else if (element instanceof UnknownTypeArgument) {
-			UnknownTypeArgument arg = (UnknownTypeArgument) element;
+		} else if (element instanceof UnknownTypeArgument arg) {
 			printAnnotable(arg, writer);
 			writer.append("?");
-		} else if (element instanceof SuperTypeArgument) {
-			SuperTypeArgument arg = (SuperTypeArgument) element;
+		} else if (element instanceof SuperTypeArgument arg) {
 			printAnnotable(arg, writer);
 			writer.append("? super ");
 			printTypeReference(arg.getSuperType(), writer);
@@ -772,8 +769,7 @@ public final class JaMoPPPrinter {
 			if (isStatic && isPublic) {
 				if ("valueOf".equals(element.getName()) && element.getParameters().size() == 1) {
 					Type t = element.getParameters().get(0).getTypeReference().getTarget();
-					if (t instanceof org.emftext.language.java.classifiers.Class) {
-						org.emftext.language.java.classifiers.Class cla = (org.emftext.language.java.classifiers.Class) t;
+					if (t instanceof org.emftext.language.java.classifiers.Class cla) {
 						if ("java.lang.String".equals(cla.getQualifiedName())) {
 							return;
 						}
@@ -1308,16 +1304,14 @@ public final class JaMoPPPrinter {
 	}
 
 	private static void printMethodReferenceExpression(MethodReferenceExpression element, BufferedWriter writer) throws IOException {
-		if (element instanceof PrimaryExpressionReferenceExpression) {
-			PrimaryExpressionReferenceExpression ref = (PrimaryExpressionReferenceExpression) element;
+		if (element instanceof PrimaryExpressionReferenceExpression ref) {
 			printMethodReferenceExpressionChild(ref.getChild(), writer);
 			if (ref.getMethodReference() != null) {
 				writer.append("::");
 				printCallTypeArgumentable(ref, writer);
 				printReference(ref.getMethodReference(), writer);
 			}
-		} else if (element instanceof ClassTypeConstructorReferenceExpression) {
-			ClassTypeConstructorReferenceExpression ref = (ClassTypeConstructorReferenceExpression) element;
+		} else if (element instanceof ClassTypeConstructorReferenceExpression ref) {
 			printTypeReference(ref.getTypeReference(), writer);
 			writer.append("::");
 			printCallTypeArgumentable(ref, writer);
@@ -1353,49 +1347,35 @@ public final class JaMoPPPrinter {
 	}
 
 	private static void printLiteral(Literal element, BufferedWriter writer) throws IOException {
-		if (element instanceof BooleanLiteral) {
-			BooleanLiteral lit = (BooleanLiteral) element;
+		if (element instanceof BooleanLiteral lit) {
 			writer.append(Boolean.toString(lit.isValue()));
-		} else if (element instanceof CharacterLiteral) {
-			CharacterLiteral lit = (CharacterLiteral) element;
+		} else if (element instanceof CharacterLiteral lit) {
 			writer.append("'" + lit.getValue() + "'");
 		} else if (element instanceof NullLiteral) {
 			writer.append("null");
-		} else if (element instanceof DecimalFloatLiteral) {
-			DecimalFloatLiteral lit = (DecimalFloatLiteral) element;
+		} else if (element instanceof DecimalFloatLiteral lit) {
 			writer.append(Float.toString(lit.getDecimalValue()) + "F");
-		} else if (element instanceof HexFloatLiteral) {
-			HexFloatLiteral lit = (HexFloatLiteral) element;
+		} else if (element instanceof HexFloatLiteral lit) {
 			writer.append(Float.toHexString(lit.getHexValue()) + "F");
-		} else if (element instanceof DecimalDoubleLiteral) {
-			DecimalDoubleLiteral lit = (DecimalDoubleLiteral) element;
+		} else if (element instanceof DecimalDoubleLiteral lit) {
 			writer.append(Double.toString(lit.getDecimalValue()) + "D");
-		} else if (element instanceof HexDoubleLiteral) {
-			HexDoubleLiteral lit = (HexDoubleLiteral) element;
+		} else if (element instanceof HexDoubleLiteral lit) {
 			writer.append(Double.toHexString(lit.getHexValue()) + "D");
-		} else if (element instanceof DecimalIntegerLiteral) {
-			DecimalIntegerLiteral lit = (DecimalIntegerLiteral) element;
+		} else if (element instanceof DecimalIntegerLiteral lit) {
 			writer.append(lit.getDecimalValue().toString());
-		} else if (element instanceof HexIntegerLiteral) {
-			HexIntegerLiteral lit = (HexIntegerLiteral) element;
+		} else if (element instanceof HexIntegerLiteral lit) {
 			writer.append("0x" + lit.getHexValue().toString(16));
-		} else if (element instanceof OctalIntegerLiteral) {
-			OctalIntegerLiteral lit = (OctalIntegerLiteral) element;
+		} else if (element instanceof OctalIntegerLiteral lit) {
 			writer.append("0" + lit.getOctalValue().toString(8));
-		} else if (element instanceof BinaryIntegerLiteral) {
-			BinaryIntegerLiteral lit = (BinaryIntegerLiteral) element;
+		} else if (element instanceof BinaryIntegerLiteral lit) {
 			writer.append("0b" + lit.getBinaryValue().toString(2));
-		} else if (element instanceof DecimalLongLiteral) {
-			DecimalLongLiteral lit = (DecimalLongLiteral) element;
+		} else if (element instanceof DecimalLongLiteral lit) {
 			writer.append(lit.getDecimalValue().toString() + "L");
-		} else if (element instanceof HexLongLiteral) {
-			HexLongLiteral lit = (HexLongLiteral) element;
+		} else if (element instanceof HexLongLiteral lit) {
 			writer.append("0x" + lit.getHexValue().toString(16) + "L");
-		} else if (element instanceof OctalLongLiteral) {
-			OctalLongLiteral lit = (OctalLongLiteral) element;
+		} else if (element instanceof OctalLongLiteral lit) {
 			writer.append("0" + lit.getOctalValue().toString(8) + "L");
-		} else if (element instanceof BinaryLongLiteral) {
-			BinaryLongLiteral lit = (BinaryLongLiteral) element;
+		} else if (element instanceof BinaryLongLiteral lit) {
 			writer.append("0b" + lit.getBinaryValue().toString(2) + "L");
 		}
 	}
@@ -1477,8 +1457,7 @@ public final class JaMoPPPrinter {
 	}
 
 	private static void printInstantiation(Instantiation element, BufferedWriter writer) throws IOException {
-		if (element instanceof NewConstructorCall) {
-			NewConstructorCall call = (NewConstructorCall) element;
+		if (element instanceof NewConstructorCall call) {
 			writer.append("new ");
 			printCallTypeArgumentable(call, writer);
 			writer.append(" ");
@@ -1501,8 +1480,7 @@ public final class JaMoPPPrinter {
 	}
 
 	private static void printArrayInstantiation(ArrayInstantiation element, BufferedWriter writer) throws IOException {
-		if (element instanceof ArrayInstantiationBySize) {
-			ArrayInstantiationBySize inst = (ArrayInstantiationBySize) element;
+		if (element instanceof ArrayInstantiationBySize inst) {
 			writer.append("new ");
 			printTypeReference(inst.getTypeReference(), writer);
 			printTypeArgumentable(inst, writer);
@@ -1514,8 +1492,7 @@ public final class JaMoPPPrinter {
 			}
 			printArrayDimensions(inst.getArrayDimensionsBefore(), writer);
 			printArrayDimensions(inst.getArrayDimensionsAfter(), writer);
-		} else if (element instanceof ArrayInstantiationByValuesUntyped) {
-			ArrayInstantiationByValuesUntyped inst = (ArrayInstantiationByValuesUntyped) element;
+		} else if (element instanceof ArrayInstantiationByValuesUntyped inst) {
 			printArrayInitializer(inst.getArrayInitializer(), writer);
 		} else {
 			ArrayInstantiationByValuesTyped inst = (ArrayInstantiationByValuesTyped) element;

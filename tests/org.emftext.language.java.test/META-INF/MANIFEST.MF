@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JaMoPP Test Plugin
 Bundle-SymbolicName: org.emftext.language.java.test;singleton:=true
 Bundle-Version: 5.1.0.qualifier
-Bundle-Vendor: Martin Armbruster
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Vendor: MDSD-Tools
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.emftext.language.java.test
 Require-Bundle: org.eclipse.core.runtime,

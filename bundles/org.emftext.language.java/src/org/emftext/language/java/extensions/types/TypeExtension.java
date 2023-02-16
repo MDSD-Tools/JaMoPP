@@ -47,8 +47,7 @@ public class TypeExtension {
 		Type lOtherType = otherType;
 		Type _this = me;
 		//comparison for type parameters
-		if (_this instanceof TypeParameter) {
-			TypeParameter typeParameter = (TypeParameter) _this;
+		if (_this instanceof TypeParameter typeParameter) {
 			for (TypeReference referencedType : typeParameter.getExtendTypes()) {
 				if (referencedType.getTarget() != null && !referencedType.getTarget().eIsProxy() && referencedType.getTarget().equalsType(arrayDimension, lOtherType, otherArrayDimension)) {
 					return true;
@@ -58,8 +57,7 @@ public class TypeExtension {
 				return true;
 			}
 		} 
-		if (lOtherType instanceof TypeParameter) {
-			TypeParameter typeParameter = (TypeParameter) lOtherType;
+		if (lOtherType instanceof TypeParameter typeParameter) {
 			for (TypeReference referencedType : typeParameter.getExtendTypes()) {
 				if (referencedType.getTarget() != null && !referencedType.getTarget().eIsProxy() && me.equalsType(arrayDimension, referencedType.getTarget(), otherArrayDimension)) {
 					return true;

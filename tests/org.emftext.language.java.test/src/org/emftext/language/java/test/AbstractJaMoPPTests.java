@@ -459,8 +459,7 @@ public abstract class AbstractJaMoPPTests {
             throws Exception {
         final String filename = pkgFolder + File.separator + typename + ".java";
         final JavaRoot model = parseResource(filename, folder);
-        if (model instanceof CompilationUnit) {
-            final CompilationUnit cu = (CompilationUnit) model;
+        if (model instanceof CompilationUnit cu) {
             assertNumberOfClassifiers(cu, 1);
 
             final Classifier declaration = cu.getClassifiers()

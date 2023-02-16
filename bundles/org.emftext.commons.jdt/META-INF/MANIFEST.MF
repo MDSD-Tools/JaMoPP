@@ -4,9 +4,9 @@ Bundle-Name: EMFText Common JDT Util
 Bundle-SymbolicName: org.emftext.commons.jdt;singleton:=true
 Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.emftext.commons.jdt
 Export-Package: org.emftext.commons.jdt,
  org.emftext.commons.jdt.impl,

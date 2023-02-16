@@ -1,4 +1,4 @@
 output
-
-/target
-/standalone_output
+resources
+standalone_output
+target

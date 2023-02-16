@@ -4,9 +4,9 @@ Bundle-Name: EMFText LayoutInformation Meta-model
 Bundle-SymbolicName: org.emftext.commons.layout;singleton:=true
 Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: Martin Armbruster
+Bundle-Vendor: MDSD-Tools
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.emftext.commons.layout
 Export-Package: org.emftext.commons.layout,
  org.emftext.commons.layout.impl,

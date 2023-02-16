@@ -154,8 +154,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
             for (final Statement s : method.getBlock()
                 .getStatements()) {
                 assertTrue(s instanceof LocalVariableStatement || s instanceof ExpressionStatement);
-                if (s instanceof LocalVariableStatement) {
-                    final LocalVariableStatement castedS = (LocalVariableStatement) s;
+                if (s instanceof LocalVariableStatement castedS) {
                     assertType(castedS.getVariable()
                         .getInitialValue(), NewConstructorCall.class);
                 } else {
@@ -192,13 +191,11 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
                     for (final Statement s : ((Method) m).getBlock()
                         .getStatements()) {
                         assertTrue(s instanceof ExpressionStatement || s instanceof LocalVariableStatement);
-                        if (s instanceof ExpressionStatement) {
-                            final ExpressionStatement castedS = (ExpressionStatement) s;
+                        if (s instanceof ExpressionStatement castedS) {
                             assertType(castedS.getExpression(), AssignmentExpression.class);
                             final AssignmentExpression expr = (AssignmentExpression) castedS.getExpression();
                             assertType(expr.getValue(), LambdaExpression.class);
-                        } else if (s instanceof LocalVariableStatement) {
-                            final LocalVariableStatement castedS = (LocalVariableStatement) s;
+                        } else if (s instanceof LocalVariableStatement castedS) {
                             assertType(castedS.getVariable()
                                 .getInitialValue(), LambdaExpression.class);
                         }
@@ -228,8 +225,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
             for (final Statement s : m.getBlock()
                 .getStatements()) {
                 assertTrue(s instanceof LocalVariableStatement || s instanceof ExpressionStatement);
-                if (s instanceof LocalVariableStatement) {
-                    final LocalVariableStatement castedS = (LocalVariableStatement) s;
+                if (s instanceof LocalVariableStatement castedS) {
                     assertTrue(castedS.getVariable()
                         .getInitialValue() instanceof BinaryIntegerLiteral
                             || castedS.getVariable()
@@ -321,8 +317,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
                         .isEmpty()
                             || 1 == ((Constructor) member).getParameters()
                                 .size());
-                } else if (member instanceof Method) {
-                    final Method method = (Method) member;
+                } else if (member instanceof Method method) {
                     assertType(method.getParameters()
                         .get(0), ReceiverParameter.class);
                     for (int i = 1; i < method.getParameters()
@@ -330,8 +325,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
                         assertFalse(method.getParameters()
                             .get(i) instanceof ReceiverParameter);
                     }
-                } else if (member instanceof org.emftext.language.java.classifiers.Class) {
-                    final org.emftext.language.java.classifiers.Class innerClass = (org.emftext.language.java.classifiers.Class) member;
+                } else if (member instanceof org.emftext.language.java.classifiers.Class innerClass) {
                     assertMemberCount(innerClass, 3);
                     for (final Member innerMember : innerClass.getMembers()) {
                         if (innerMember instanceof Constructor) {
@@ -524,8 +518,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
             final org.emftext.language.java.classifiers.Class classifier = unit.getContainedClass();
             assertMemberCount(classifier, 6);
             for (final Member member : classifier.getMembers()) {
-                if (member instanceof Method) {
-                    final Method method = (Method) member;
+                if (member instanceof Method method) {
                     assertEquals(8, method.getBlock()
                         .getStatements()
                         .size());
@@ -560,8 +553,7 @@ public class JavaSevenAndUpTest extends AbstractJaMoPPTests {
             assertMemberCount(classifier, 5);
             int numberOfDefaultOrStaticMethods = 0;
             for (final Member member : classifier.getMembers()) {
-                if (member instanceof Method) {
-                    final Method method = (Method) member;
+                if (member instanceof Method method) {
                     boolean hasStaticOrDefaultModifier = false;
                     for (final Modifier modifier : method.getModifiers()) {
                         if (modifier instanceof Static || modifier instanceof Default) {

@@ -38,10 +38,7 @@ import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.containers.impl.CompilationUnitImpl;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.test.resolving.ResolvingTest;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 
 import jamopp.parser.jdt.JaMoPPJDTParser;
 
@@ -57,7 +54,6 @@ import jamopp.parser.jdt.JaMoPPJDTParser;
  *
  * @version 1.2
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
 public class StandaloneTest extends ResolvingTest {
 
     /**
@@ -218,7 +214,7 @@ public class StandaloneTest extends ResolvingTest {
         return URI.createFileURI(outputFile.getAbsolutePath())
             .appendFileExtension("xmi");
     }
-
+    
     /**
      * This test generates corresponding EMF resources for the Java files in a project. JUinit
      * passes the folder name of the projects {@code <project>} to be tested as a parameter. The EMF
@@ -240,9 +236,7 @@ public class StandaloneTest extends ResolvingTest {
      * @see jamopp.standalone.JaMoPPStandalone
      * @see org.emftext.language.java.test.AbstractJaMoPPTests
      */
-    @ParameterizedTest
-    @ValueSource(strings = { "esda-master", "trojan-source-main", "spring-petclinic-microservices-master" })
-    public void testResourceSerialization(String input) {
+    private void resourceSerialization(String input) {
         final Path directory = directoryOf(input);
         final ResourceSet resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory));
         assertNotNull(resourceSet);
@@ -296,5 +290,12 @@ public class StandaloneTest extends ResolvingTest {
                 compareResources(resource, resourceReloaded);
             }
         }
+    }
+    
+    @Test
+    public void testParameterizedResourceSerialization() {
+    	assertDoesNotThrow(() -> resourceSerialization("esda-master"));
+    	assertDoesNotThrow(() -> resourceSerialization("trojan-source-main"));
+    	assertDoesNotThrow(() -> resourceSerialization("spring-petclinic-microservices-master"));
     }
 }
