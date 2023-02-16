@@ -11,14 +11,14 @@
         <version>0.8.7</version>
     </parent>
 
-    <groupId>org.palladiosimulator.jdt</groupId>
+    <groupId>tools.mdsd.jamopp</groupId>
     <artifactId>parent</artifactId>
     <version>5.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <org.palladiosimulator.maven.tychotprefresh.tplocation.2>
-            ${project.build.directory}/releng/org.palladiosimulator.jdt.targetplatform/org.palladiosimulator.jdt.targetplatform.target</org.palladiosimulator.maven.tychotprefresh.tplocation.2>
+        <tools.mdsd.maven.tychotprefresh.tplocation.2>
+            ${project.build.directory}/releng/tools.mdsd.jamopp.targetplatform/tools.mdsd.jamopp.targetplatform.target</tools.mdsd.maven.tychotprefresh.tplocation.2>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

@@ -14,119 +14,326 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.nio.file.Path;
 
 import org.emftext.language.java.test.AbstractJaMoPPTests;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
- * Parameterized test for resolving use of JDT-based conversion of Java source code to EMF-based
- * models. Apart from JUint, no dependencies to other tools were newly introduced. For this purpose,
- * the existing code was taken almost identically and copied into this test.
+ * Parameterized test for resolving use of JDT-based conversion of Java source
+ * code to EMF-based models. Apart from JUint, no dependencies to other tools
+ * were newly introduced. For this purpose, the existing code was taken almost
+ * identically and copied into this test.
  *
  * @author Marvin Meller
  * @author Yves Kirschner
  *
  * @version 1.3
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
 public class ReprintTest extends AbstractJaMoPPTests {
-    protected static Path directoryOf(String input) {
-        return Path.of("./resourcess", input)
-            .toAbsolutePath()
-            .normalize();
-    }
+	protected static Path directoryOf(String input) {
+		return Path.of("./resourcess", input).toAbsolutePath().normalize();
+	}
 
-    private String input;
+	private String input;
 
-    @Override
-    protected String getTestInputFolder() {
-        return directoryOf(input).toString();
-    }
+	@Override
+	protected String getTestInputFolder() {
+		return directoryOf(this.input).toString();
+	}
 
-    @Override
-    protected boolean isExcludedFromReprintTest(String filename) {
-        return false;
-    }
+	@Override
+	protected boolean isExcludedFromReprintTest(String filename) {
+		return false;
+	}
 
-    @Test
-    public void test1ParameterizedResprint() {
-        assertDoesNotThrow(() -> reprint("acmeair-1.2.0"));
-        assertDoesNotThrow(() -> reprint("bigbluebutton-2.4.7"));
-        assertDoesNotThrow(() -> reprint("clnr-demo-master"));
-        assertDoesNotThrow(() -> reprint("commons-lang-rel-commons-lang-3.12.0"));
-        assertDoesNotThrow(() -> reprint("esda-master"));
-        assertDoesNotThrow(() -> reprint("eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4"));
-        assertDoesNotThrow(() -> reprint("flowing-retail-master"));
-        assertDoesNotThrow(() -> reprint("h2database-version-2.1.210"));
-        assertDoesNotThrow(() -> reprint("meet-eat-data-master"));
-        assertDoesNotThrow(() -> reprint("meet-eat-server-master"));
-        assertDoesNotThrow(() -> reprint("microservice-kafka-master"));
-        assertDoesNotThrow(() -> reprint("microservice-master"));
-        assertDoesNotThrow(() -> reprint("Palladio-Addons-PlantUML-main"));
-        assertDoesNotThrow(() -> reprint("Palladio-Build-DependencyTool-master"));
-        assertDoesNotThrow(() -> reprint("piggymetrics-spring.version.2.0.3"));
-        assertDoesNotThrow(() -> reprint("RUBiS-master"));
-        assertDoesNotThrow(() -> reprint("sagan-1995913fb2d90693c97c251fd142b429724cdf44"));
-        assertDoesNotThrow(() -> reprint("smart-home-websockets-master"));
-        assertDoesNotThrow(() -> reprint("SPECjbb2005-master"));
-        assertDoesNotThrow(() -> reprint("SPECjvm2008-master"));
-        assertDoesNotThrow(() -> reprint("spring-cloud-event-sourcing-example-master"));
-        assertDoesNotThrow(() -> reprint("spring-petclinic-microservices-2.3.6"));
-        assertDoesNotThrow(() -> reprint("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
-        assertDoesNotThrow(() -> reprint("teammates-master"));
-        assertDoesNotThrow(() -> reprint("TeaStore-1.4.0"));
-        assertDoesNotThrow(() -> reprint("TimeSheetGenerator-main"));
-        assertDoesNotThrow(() -> reprint("trojan-source-main"));
-    }
+	private void reprint(String input) {
+		this.input = input;
+		final var directory = directoryOf(input);
+		final var resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory),
+				"Parse directory for " + input + "throws.");
+		assertDoesNotThrow(() -> this.testReprint(resourceSet), "Reprint for " + input + "throws.");
+	}
 
-    private void reprint(String input) {
-        this.input = input;
-        final var directory = directoryOf(input);
-        final var resourceSet = assertDoesNotThrow(() -> new JaMoPPJDTParser().parseDirectory(directory),
-                "Parse directory for " + input + "throws.");
-        assertDoesNotThrow(() -> testReprint(resourceSet), "Reprint for " + input + "throws.");
-    }
+	private void resprintWithLatestParser(String input) {
+		this.input = input;
+		final var directory = directoryOf(input);
+		final var resourceSet = assertDoesNotThrow(
+				() -> new JaMoPPJDTParser().parseDirectory(JaMoPPJDTParser.getJavaParser(null), directory),
+				"Parse directory for " + input + "throws.");
+		assertDoesNotThrow(() -> this.testReprint(resourceSet), "Reprint for " + input + "throws.");
+	}
 
-    @Test
-    public void test2ParameterizedResprintWithLatestParser() {
-        assertDoesNotThrow(() -> resprintWithLatestParser("acmeair-1.2.0"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("bigbluebutton-2.4.7"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("clnr-demo-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("commons-lang-rel-commons-lang-3.12.0"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("esda-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("flowing-retail-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("h2database-version-2.1.210"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("meet-eat-data-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("meet-eat-server-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("microservice-kafka-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("microservice-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("Palladio-Addons-PlantUML-main"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("Palladio-Build-DependencyTool-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("piggymetrics-spring.version.2.0.3"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("RUBiS-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("sagan-1995913fb2d90693c97c251fd142b429724cdf44"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("smart-home-websockets-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("SPECjbb2005-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("SPECjvm2008-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("spring-cloud-event-sourcing-example-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("spring-petclinic-microservices-2.3.6"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("teammates-master"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("TeaStore-1.4.0"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("TimeSheetGenerator-main"));
-        assertDoesNotThrow(() -> resprintWithLatestParser("trojan-source-main"));
+	@Test
+	public void testAcmeair() {
+		assertDoesNotThrow(() -> this.reprint("acmeair-1.2.0"));
+	}
 
-    }
+	@Test
+	public void testBigbluebutton() {
+		assertDoesNotThrow(() -> this.reprint("bigbluebutton-2.4.7"));
+	}
 
-    private void resprintWithLatestParser(String input) {
-        this.input = input;
-        final var directory = directoryOf(input);
-        final var resourceSet = assertDoesNotThrow(
-                () -> new JaMoPPJDTParser().parseDirectory(JaMoPPJDTParser.getJavaParser(null), directory),
-                "Parse directory for " + input + "throws.");
-        assertDoesNotThrow(() -> testReprint(resourceSet), "Reprint for " + input + "throws.");
-    }
+	@Test
+	public void testClnr() {
+		assertDoesNotThrow(() -> this.reprint("clnr-demo-master"));
+	}
+
+	@Test
+	public void testCommons() {
+		assertDoesNotThrow(() -> this.reprint("commons-lang-rel-commons-lang-3.12.0"));
+	}
+
+	@Test
+	public void testData() {
+		assertDoesNotThrow(() -> this.reprint("meet-eat-data-master"));
+	}
+
+	@Test
+	public void testDependencyTool() {
+		assertDoesNotThrow(() -> this.reprint("Palladio-Build-DependencyTool-master"));
+	}
+
+	@Test
+	public void testEsda() {
+		assertDoesNotThrow(() -> this.reprint("esda-master"));
+	}
+
+	@Test
+	public void testEventuate() {
+		assertDoesNotThrow(() -> this.reprint(
+				"eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4"));
+	}
+
+	@Test
+	public void testFlowing() {
+		assertDoesNotThrow(() -> this.reprint("flowing-retail-master"));
+	}
+
+	@Test
+	public void testH2database() {
+		assertDoesNotThrow(() -> this.reprint("h2database-version-2.1.210"));
+	}
+
+	@Test
+	public void testKafka() {
+		assertDoesNotThrow(() -> this.reprint("microservice-kafka-master"));
+	}
+
+	@Test
+	public void testLatestAcmeair() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("acmeair-1.2.0"));
+	}
+
+	@Test
+	public void testLatestBigbluebutton() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("bigbluebutton-2.4.7"));
+	}
+
+	@Test
+	public void testLatestClnr() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("clnr-demo-master"));
+	}
+
+	@Test
+	public void testLatestCommons() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("commons-lang-rel-commons-lang-3.12.0"));
+	}
+
+	@Test
+	public void testLatestData() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("meet-eat-data-master"));
+	}
+
+	@Test
+	public void testLatestDependencyTool() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("Palladio-Build-DependencyTool-master"));
+	}
+
+	@Test
+	public void testLatestEsda() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("esda-master"));
+	}
+
+	@Test
+	public void testLatestEventuate() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser(
+				"eventuate-tram-examples-customers-and-orders-redis-be4a3da5502aa11af441b70b7ab6b5f1430b17d4"));
+	}
+
+	@Test
+	public void testLatestFlowing() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("flowing-retail-master"));
+	}
+
+	@Test
+	public void testLatestH2database() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("h2database-version-2.1.210"));
+	}
+
+	@Test
+	public void testLatestKafka() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("microservice-kafka-master"));
+	}
+
+	@Test
+	public void testLatestMicroservice() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("microservice-master"));
+	}
+
+	@Test
+	public void testLatestPetclinic() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("spring-petclinic-microservices-2.3.6"));
+	}
+
+	@Test
+	public void testLatestPiggymetrics() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("piggymetrics-spring.version.2.0.3"));
+	}
+
+	@Test
+	public void testLatestPlantUML() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("Palladio-Addons-PlantUML-main"));
+	}
+
+	@Test
+	public void testLatestRabbitmq() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser(
+				"spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
+	}
+
+	@Test
+	public void testLatestRUBiS() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("RUBiS-master"));
+	}
+
+	@Test
+	public void testLatestSagan() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("sagan-1995913fb2d90693c97c251fd142b429724cdf44"));
+	}
+
+	@Test
+	public void testLatestServer() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("meet-eat-server-master"));
+	}
+
+	@Test
+	public void testLatestSmart() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("smart-home-websockets-master"));
+	}
+
+	@Test
+	public void testLatestSourcing() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("spring-petclinic-microservices-2.3.6"));
+	}
+
+	@Test
+	public void testLatestSPECjbb2005() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("SPECjbb2005-master"));
+	}
+
+	@Test
+	public void testLatestSPECjvm2008() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("SPECjvm2008-master"));
+	}
+
+	@Test
+	public void testLatestTeammates() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("teammates-master"));
+	}
+
+	@Test
+	public void testLatestTeaStore() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("TeaStore-1.4.0"));
+	}
+
+	@Test
+	public void testLatestTimeSheetGenerator() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("TimeSheetGenerator-main"));
+	}
+
+	@Test
+	public void testLatestTrojan() {
+		assertDoesNotThrow(() -> this.resprintWithLatestParser("trojan-source-main"));
+	}
+
+	@Test
+	public void testMicroservice() {
+		assertDoesNotThrow(() -> this.reprint("microservice-master"));
+	}
+
+	@Test
+	public void testPetclinic() {
+		assertDoesNotThrow(() -> this.reprint("spring-petclinic-microservices-2.3.6"));
+	}
+
+	@Test
+	public void testPiggymetrics() {
+		assertDoesNotThrow(() -> this.reprint("piggymetrics-spring.version.2.0.3"));
+	}
+
+	@Test
+	public void testPlantUML() {
+		assertDoesNotThrow(() -> this.reprint("Palladio-Addons-PlantUML-main"));
+	}
+
+	@Test
+	public void testRabbitmq() {
+		assertDoesNotThrow(
+				() -> this.reprint("spring-rabbitmq-messaging-microservices-019cadd4c1310a4651f3529626ac2acd4853a987"));
+	}
+
+	@Test
+	public void testRUBiS() {
+		assertDoesNotThrow(() -> this.reprint("RUBiS-master"));
+	}
+
+	@Test
+	public void testSagan() {
+		assertDoesNotThrow(() -> this.reprint("sagan-1995913fb2d90693c97c251fd142b429724cdf44"));
+	}
+
+	@Test
+	public void testServer() {
+		assertDoesNotThrow(() -> this.reprint("meet-eat-server-master"));
+	}
+
+	@Test
+	public void testSmart() {
+		assertDoesNotThrow(() -> this.reprint("smart-home-websockets-master"));
+	}
+
+	@Test
+	public void testSourcing() {
+		assertDoesNotThrow(() -> this.reprint("spring-petclinic-microservices-2.3.6"));
+	}
+
+	@Test
+	public void testSPECjbb2005() {
+		assertDoesNotThrow(() -> this.reprint("SPECjbb2005-master"));
+	}
+
+	@Test
+	public void testSPECjvm2008() {
+		assertDoesNotThrow(() -> this.reprint("SPECjvm2008-master"));
+	}
+
+	@Test
+	public void testTeammates() {
+		assertDoesNotThrow(() -> this.reprint("teammates-master"));
+	}
+
+	@Test
+	public void testTeaStore() {
+		assertDoesNotThrow(() -> this.reprint("TeaStore-1.4.0"));
+	}
+
+	@Test
+	public void testTimeSheetGenerator() {
+		assertDoesNotThrow(() -> this.reprint("TimeSheetGenerator-main"));
+	}
+
+	@Test
+	public void testTrojan() {
+		assertDoesNotThrow(() -> this.reprint("trojan-source-main"));
+	}
 }

@@ -3,5 +3,5 @@
    <feature id="org.emftext.language.java.feature">
       <category name="org.emftext.language.java"/>
    </feature>
-   <category-def name="org.emftext.language.java" label="Java Model Parser"/>
+   <category-def name="org.emftext.language.java" label="JaMoPP - Java Model Parser and Printer" />
 </site>
