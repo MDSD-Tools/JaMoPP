@@ -8,7 +8,7 @@ jobs:
     with:
       use-display-output: true
       runner-label: ubuntu-latest
-      deploy-updatesite: 'releng/org.palladiosimulator.jdt.updatesite/target/repository'
+      deploy-updatesite: 'releng/tools.mdsd.jamopp.updatesite/target/repository'
     secrets:
       SERVER_SSH_KEY: ${{ secrets.DEPLOYMENT_SERVER_SSH_KEY }}
       REMOTE_HOST: ${{ secrets.DEPLOYMENT_REMOTE_HOST }}
