@@ -18,7 +18,7 @@ jobs:
         working-directory: ./
         run: |
           rm -rf ./.mvn
-          rm f ./pom.xml
+          rm -f ./pom.xml
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
