@@ -6,9 +6,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>tools.mdsd</groupId>
     <artifactId>jamopp</artifactId>
-    <version>5.1.0</version>
+    <version>6.0.0</version>
     <name>JaMoPP</name>
-    <description>https://github.com/mdsd-tools/jamopp/</description>
+    <description>https://github.com/mdsd-tools/jamopp</description>
     <url>https://mdsd.tools/jamopp</url>
     <packaging>pom</packaging>
 
