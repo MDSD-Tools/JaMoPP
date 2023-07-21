@@ -6,10 +6,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>tools.mdsd</groupId>
     <artifactId>jamopp</artifactId>
-    <version>6.0.0</version>
+    <version>7.0.0</version>
     <name>JaMoPP</name>
     <description>https://github.com/mdsd-tools/jamopp</description>
-    <url>https://mdsd.tools/jamopp</url>
+    <url>https://s.kit.edu/jamopp</url>
     <packaging>pom</packaging>
 
     <licenses>
@@ -164,6 +164,52 @@
         </profile>
 
         <profile>
+            <id>default-plugin-usage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>target-platform-configuration</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.palladiosimulator</groupId>
+                        <artifactId>tycho-tp-refresh-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-p2-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-surefire-plugin</artifactId>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
             <id>tycho-javadoc-for-updatesite</id>
             <activation>
                 <file>
@@ -265,6 +311,150 @@
         </profile>
 
         <profile>
+            <id>compile-xtend</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.xtend</groupId>
+                        <artifactId>xtend-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>default-plugin-configurations</id>
+            <properties>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
+                <java.version>17</java.version>
+                <java.api.doc>https://docs.oracle.com/en/java/javase/17/docs/api/</java.api.doc>
+                <maven.compiler.target>${java.version}</maven.compiler.target>
+                <maven.compiler.source>${java.version}</maven.compiler.source>
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <version>3.8.1</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.eclipse.tycho</groupId>
+                            <artifactId>tycho-source-plugin</artifactId>
+                            <version>${tycho.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>plugin-source</id>
+                                    <goals>
+                                        <goal>plugin-source</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
+                                    <id>feature-source</id>
+                                    <goals>
+                                        <goal>feature-source</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.eclipse.tycho</groupId>
+                            <artifactId>tycho-p2-plugin</artifactId>
+                            <version>${tycho.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>attached-p2-metadata</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>p2-metadata</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.eclipse.xtend</groupId>
+                            <artifactId>xtend-maven-plugin</artifactId>
+                            <version>2.26.0</version>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>compile</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>xtend-gen</outputDirectory>
+                                        <javaSourceVersion>11</javaSourceVersion>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-clean-plugin</artifactId>
+                            <version>3.1.0</version>
+                            <configuration>
+                                <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                                <filesets>
+                                    <fileset>
+                                        <directory>${project.basedir}</directory>
+                                        <includes>
+                                            <include>target/**</include>
+                                            <include>xtend-gen/**</include>
+                                            <include>emfparsley-gen/**</include>
+                                        </includes>
+                                        <excludes>
+                                            <exclude>*/.gitkeep</exclude>
+                                        </excludes>
+                                    </fileset>
+                                </filesets>
+                            </configuration>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.eclipse.tycho</groupId>
+                            <artifactId>tycho-maven-plugin</artifactId>
+                            <version>${tycho.version}</version>
+                            <extensions>true</extensions>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <version>0.8.7</version>
+                            <executions>
+                                <execution>
+                                    <id>jacoco-prepare</id>
+                                    <phase>generate-test-sources</phase>
+                                    <goals>
+                                        <goal>prepare-agent</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.eclipse.tycho</groupId>
+                            <artifactId>tycho-surefire-plugin</artifactId>
+                            <version>${tycho.version}</version>
+                            <configuration>
+                                <includes>
+                                    <include>**/*Test.java</include>
+                                    <include>**/*Tests.java</include>
+                                </includes>
+                                <failIfNoTests>false</failIfNoTests>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
             <id>execute-generate-workflow</id>
             <activation>
                 <file>
@@ -302,6 +492,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>execute-clean-workflow</id>
             <activation>
@@ -341,6 +532,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>win32-amd64</id>
             <activation>
@@ -355,6 +547,7 @@
                 <target.platform.arch>x86_64</target.platform.arch>
             </properties>
         </profile>
+
         <profile>
             <id>linux-amd64</id>
             <activation>
@@ -370,6 +563,7 @@
                 <target.platform.arch>x86_64</target.platform.arch>
             </properties>
         </profile>
+
         <profile>
             <id>cocoa-macosx-x86_64</id>
             <activation>
@@ -559,6 +753,94 @@
                         </executions>
                     </plugin>
                 </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>updatesite-build</id>
+            <properties>
+                <org.palladiosimulator.maven.tychotprefresh.tplocation.0>
+                    tools.mdsd:eclipse-target-platforms:0.3.5:eclipse-modeling-2022-12:target</org.palladiosimulator.maven.tychotprefresh.tplocation.0>
+                <org.palladiosimulator.maven.tychotprefresh.tpproject.groupId>${project.groupId}</org.palladiosimulator.maven.tychotprefresh.tpproject.groupId>
+                <org.palladiosimulator.maven.tychotprefresh.tpproject.artifactId>
+                    target-platform-merged-temporary</org.palladiosimulator.maven.tychotprefresh.tpproject.artifactId>
+                <org.palladiosimulator.maven.tychotprefresh.tpproject.version>1.0.0</org.palladiosimulator.maven.tychotprefresh.tpproject.version>
+                <org.palladiosimulator.maven.tychotprefresh.tpproject.classifier>merged-temporary</org.palladiosimulator.maven.tychotprefresh.tpproject.classifier>
+                <org.palladiosimulator.maven.tychotprefresh.tpproject.type>target</org.palladiosimulator.maven.tychotprefresh.tpproject.type>
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.eclipse.tycho</groupId>
+                            <artifactId>target-platform-configuration</artifactId>
+                            <version>${tycho.version}</version>
+                            <configuration>
+                                <target>
+                                    <artifact>
+                                        <groupId>
+                                            ${org.palladiosimulator.maven.tychotprefresh.tpproject.groupId}</groupId>
+                                        <artifactId>
+                                            ${org.palladiosimulator.maven.tychotprefresh.tpproject.artifactId}</artifactId>
+                                        <version>
+                                            ${org.palladiosimulator.maven.tychotprefresh.tpproject.version}</version>
+                                        <classifier>
+                                            ${org.palladiosimulator.maven.tychotprefresh.tpproject.classifier}</classifier>
+                                    </artifact>
+                                </target>
+                                <environments>
+                                    <environment>
+                                        <os>linux</os>
+                                        <ws>gtk</ws>
+                                        <arch>x86_64</arch>
+                                    </environment>
+                                    <environment>
+                                        <os>linux</os>
+                                        <ws>gtk</ws>
+                                        <arch>aarch64</arch>
+                                    </environment>
+                                    <environment>
+                                        <os>win32</os>
+                                        <ws>win32</ws>
+                                        <arch>x86_64</arch>
+                                    </environment>
+                                    <environment>
+                                        <os>macosx</os>
+                                        <ws>cocoa</ws>
+                                        <arch>x86_64</arch>
+                                    </environment>
+                                    <environment>
+                                        <os>macosx</os>
+                                        <ws>cocoa</ws>
+                                        <arch>aarch64</arch>
+                                    </environment>
+                                </environments>
+                                <dependency-resolution>
+                                    <extraRequirements>
+                                        <requirement>
+                                            <type>eclipse-plugin</type>
+                                            <id>javax.annotation</id>
+                                            <versionRange>0.0.0</versionRange>
+                                        </requirement>
+                                    </extraRequirements>
+                                </dependency-resolution>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.palladiosimulator</groupId>
+                            <artifactId>tycho-tp-refresh-maven-plugin</artifactId>
+                            <version>${org.palladiosimulator.maven.tychotprefresh.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>target-platform-copy</id>
+                                    <goals>
+                                        <goal>copy</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
 
