@@ -5,10 +5,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>tools.mdsd</groupId>
-    <artifactId>jamopp</artifactId>
-    <version>7.0.0</version>
-    <name>JaMoPP</name>
-    <description>https://github.com/mdsd-tools/jamopp</description>
+    <artifactId>jamopp.model</artifactId>
+    <version>8.0.0</version>
+    <name>JaMoPP-POM</name>
+    <description>The project object model for the Maven Tyco based build of JaMoPP.</description>
     <url>https://s.kit.edu/jamopp</url>
     <packaging>pom</packaging>
 
@@ -77,8 +77,7 @@
 
     <profiles>
         <profile>
-            <id>local-build-deployable</id>
-            <distributionManagement>
+            <id>local-build-deployable</id> command --> <distributionManagement>
                 <snapshotRepository>
                     <id>ossrh</id>
                     <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -125,7 +124,6 @@
                 <org.palladiosimulator.maven.tychotprefresh.filter.0>nightly</org.palladiosimulator.maven.tychotprefresh.filter.0>
                 <updatesite.aggregator.filename>target/classes/nightly.aggr</updatesite.aggregator.filename>
             </properties>
-
             <pluginRepositories>
                 <pluginRepository>
                     <id>sonatype-snapshots</id>
@@ -165,6 +163,11 @@
 
         <profile>
             <id>default-plugin-usage</id>
+            <activation>
+                <file>
+                    <missing>.maven_disable_default-plugin-usage</missing>
+                </file>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -312,6 +315,11 @@
 
         <profile>
             <id>compile-xtend</id>
+            <activation>
+                <file>
+                    <missing>.maven_disable_compile-xtend</missing>
+                </file>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -324,6 +332,11 @@
 
         <profile>
             <id>default-plugin-configurations</id>
+            <activation>
+                <file>
+                    <missing>.maven_disable_default-plugin-configurations</missing>
+                </file>
+            </activation>
             <properties>
                 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                 <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
@@ -340,7 +353,6 @@
                             <artifactId>maven-compiler-plugin</artifactId>
                             <version>3.8.1</version>
                         </plugin>
-
                         <plugin>
                             <groupId>org.eclipse.tycho</groupId>
                             <artifactId>tycho-source-plugin</artifactId>
@@ -360,7 +372,6 @@
                                 </execution>
                             </executions>
                         </plugin>
-
                         <plugin>
                             <groupId>org.eclipse.tycho</groupId>
                             <artifactId>tycho-p2-plugin</artifactId>
@@ -375,7 +386,6 @@
                                 </execution>
                             </executions>
                         </plugin>
-
                         <plugin>
                             <groupId>org.eclipse.xtend</groupId>
                             <artifactId>xtend-maven-plugin</artifactId>
@@ -392,7 +402,6 @@
                                 </execution>
                             </executions>
                         </plugin>
-
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-clean-plugin</artifactId>
@@ -414,14 +423,12 @@
                                 </filesets>
                             </configuration>
                         </plugin>
-
                         <plugin>
                             <groupId>org.eclipse.tycho</groupId>
                             <artifactId>tycho-maven-plugin</artifactId>
                             <version>${tycho.version}</version>
                             <extensions>true</extensions>
                         </plugin>
-
                         <plugin>
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
@@ -436,7 +443,6 @@
                                 </execution>
                             </executions>
                         </plugin>
-
                         <plugin>
                             <groupId>org.eclipse.tycho</groupId>
                             <artifactId>tycho-surefire-plugin</artifactId>
@@ -696,7 +702,6 @@
                     <exists>.enable_dagger_annotation_processing</exists>
                 </file>
             </activation>
-
             <build>
                 <plugins>
                     <plugin>
@@ -758,6 +763,11 @@
 
         <profile>
             <id>updatesite-build</id>
+            <activation>
+                <file>
+                    <missing>.maven_disable_updatesite-build</missing>
+                </file>
+            </activation>
             <properties>
                 <org.palladiosimulator.maven.tychotprefresh.tplocation.0>
                     tools.mdsd:eclipse-target-platforms:0.3.5:eclipse-modeling-2022-12:target</org.palladiosimulator.maven.tychotprefresh.tplocation.0>
