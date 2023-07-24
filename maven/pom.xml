@@ -77,7 +77,8 @@
 
     <profiles>
         <profile>
-            <id>local-build-deployable</id> command --> <distributionManagement>
+            <id>local-build-deployable</id>
+            <distributionManagement>
                 <snapshotRepository>
                     <id>ossrh</id>
                     <url>https://oss.sonatype.org/content/repositories/snapshots</url>
