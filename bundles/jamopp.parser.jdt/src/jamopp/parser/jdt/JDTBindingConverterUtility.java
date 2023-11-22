@@ -147,8 +147,7 @@ class JDTBindingConverterUtility {
 			org.emftext.language.java.arrays.ArrayTypeable arrDimContainer) {
 		if (binding.isArray()) {
 			for (int i = 0; i < binding.getDimensions(); i++) {
-				arrDimContainer.getArrayDimensionsBefore()
-						.add(ArraysFactory.eINSTANCE.createArrayDimension());
+				arrDimContainer.getArrayDimensionsBefore().add(ArraysFactory.eINSTANCE.createArrayDimension());
 			}
 		}
 	}
@@ -651,50 +650,42 @@ class JDTBindingConverterUtility {
 		result.setName("");
 		try {
 			for (IPackageBinding packBind : binding.getExportedPackages()) {
-				ExportsModuleDirective dir = ModulesFactory.eINSTANCE
-						.createExportsModuleDirective();
+				ExportsModuleDirective dir = ModulesFactory.eINSTANCE.createExportsModuleDirective();
 				dir.setAccessablePackage(JDTResolverUtility.getPackage(packBind));
 				String[] mods = binding.getExportedTo(packBind);
 				for (String modName : mods) {
-					ModuleReference ref = ModulesFactory.eINSTANCE
-							.createModuleReference();
+					ModuleReference ref = ModulesFactory.eINSTANCE.createModuleReference();
 					ref.setTarget(JDTResolverUtility.getModule(modName));
 					dir.getModules().add(ref);
 				}
 				result.getTarget().add(dir);
 			}
 			for (IPackageBinding packBind : binding.getOpenedPackages()) {
-				OpensModuleDirective dir = ModulesFactory.eINSTANCE
-						.createOpensModuleDirective();
+				OpensModuleDirective dir = ModulesFactory.eINSTANCE.createOpensModuleDirective();
 				dir.setAccessablePackage(JDTResolverUtility.getPackage(packBind));
 				String[] mods = binding.getOpenedTo(packBind);
 				for (String modName : mods) {
-					ModuleReference ref = ModulesFactory.eINSTANCE
-							.createModuleReference();
+					ModuleReference ref = ModulesFactory.eINSTANCE.createModuleReference();
 					ref.setTarget(JDTResolverUtility.getModule(modName));
 					dir.getModules().add(ref);
 				}
 				result.getTarget().add(dir);
 			}
 			for (IModuleBinding modBind : binding.getRequiredModules()) {
-				RequiresModuleDirective dir = ModulesFactory.eINSTANCE
-						.createRequiresModuleDirective();
+				RequiresModuleDirective dir = ModulesFactory.eINSTANCE.createRequiresModuleDirective();
 				org.emftext.language.java.containers.Module reqMod = JDTResolverUtility.getModule(modBind);
-				ModuleReference ref = ModulesFactory.eINSTANCE
-						.createModuleReference();
+				ModuleReference ref = ModulesFactory.eINSTANCE.createModuleReference();
 				ref.setTarget(reqMod);
 				dir.setRequiredModule(ref);
 				result.getTarget().add(dir);
 			}
 			for (ITypeBinding typeBind : binding.getUses()) {
-				UsesModuleDirective dir = ModulesFactory.eINSTANCE
-						.createUsesModuleDirective();
+				UsesModuleDirective dir = ModulesFactory.eINSTANCE.createUsesModuleDirective();
 				dir.setTypeReference(convertToTypeReferences(typeBind).get(0));
 				result.getTarget().add(dir);
 			}
 			for (ITypeBinding typeBind : binding.getServices()) {
-				ProvidesModuleDirective dir = ModulesFactory.eINSTANCE
-						.createProvidesModuleDirective();
+				ProvidesModuleDirective dir = ModulesFactory.eINSTANCE.createProvidesModuleDirective();
 				dir.setTypeReference(convertToTypeReferences(typeBind).get(0));
 				for (ITypeBinding service : binding.getImplementations(typeBind)) {
 					dir.getServiceProviders().addAll(convertToTypeReferences(service));
