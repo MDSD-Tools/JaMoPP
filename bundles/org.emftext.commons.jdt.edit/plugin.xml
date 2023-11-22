@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ Copyright (c) 2006-2012
+ Software Technology Group, Dresden University of Technology
+ DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+ 
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+ 
+ Contributors:
+   Software Technology Group - TU Dresden, Germany;
+   DevBoost GmbH - Berlin, Germany
+      - initial API and implementation
+  
+-->
+
+<plugin
+      name="%pluginName"
+      id="org.emftext.commons.jdt.edit/src-gen"
+      version="1.0.0"
+      provider-name="%providerName"
+      class="org.emftext.commons.jdt.provider.JdtEditPlugin$Implementation">
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.emftext.commons.jdt" export="true"/>
+      <import plugin="org.eclipse.emf.edit" export="true"/>
+   </requires>
+
+   <runtime>
+      <library name=".">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated jdt -->
+      <factory
+            uri="http://www.emftext.org/commons/jdt"
+            class="org.emftext.commons.jdt.provider.JdtItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+</plugin>
