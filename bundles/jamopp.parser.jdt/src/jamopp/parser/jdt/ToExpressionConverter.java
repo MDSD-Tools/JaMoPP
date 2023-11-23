@@ -39,152 +39,13 @@ public class ToExpressionConverter {
 	@SuppressWarnings("unchecked")
 	org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
 		if (expr.getNodeType() == ASTNode.ASSIGNMENT) {
-			Assignment assign = (Assignment) expr;
-			org.emftext.language.java.expressions.AssignmentExpression result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
-					.createAssignmentExpression();
-			result.setChild((org.emftext.language.java.expressions.AssignmentExpressionChild) convertToExpression(
-					assign.getLeftHandSide()));
-			result.setAssignmentOperator(
-					toAssignmentOperatorConverter.convertToAssignmentOperator(assign.getOperator()));
-			result.setValue(convertToExpression(assign.getRightHandSide()));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
-			return result;
-		}
-		if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {
-			return toConditionalExpressionConverter.convertToConditionalExpression((ConditionalExpression) expr);
-		}
-		if (expr.getNodeType() == ASTNode.INFIX_EXPRESSION) {
-			InfixExpression infix = (InfixExpression) expr;
-			if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_OR) {
-				org.emftext.language.java.expressions.ConditionalOrExpression result;
-				org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
-				if (ex instanceof org.emftext.language.java.expressions.ConditionalOrExpression) {
-					result = (org.emftext.language.java.expressions.ConditionalOrExpression) ex;
-				} else {
-					result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
-							.createConditionalOrExpression();
-					result.getChildren().add((org.emftext.language.java.expressions.ConditionalOrExpressionChild) ex);
-				}
-				result.getChildren()
-						.add((org.emftext.language.java.expressions.ConditionalOrExpressionChild) convertToExpression(
-								infix.getRightOperand()));
-				infix.extendedOperands().forEach(obj -> result.getChildren()
-						.add((org.emftext.language.java.expressions.ConditionalOrExpressionChild) convertToExpression(
-								(Expression) obj)));
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
-				return result;
-			}
-			if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_AND) {
-				org.emftext.language.java.expressions.ConditionalAndExpression result;
-				org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
-				if (ex instanceof org.emftext.language.java.expressions.ConditionalAndExpression) {
-					result = (org.emftext.language.java.expressions.ConditionalAndExpression) ex;
-				} else {
-					result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
-							.createConditionalAndExpression();
-					result.getChildren().add((org.emftext.language.java.expressions.ConditionalAndExpressionChild) ex);
-				}
-				result.getChildren()
-						.add((org.emftext.language.java.expressions.ConditionalAndExpressionChild) convertToExpression(
-								infix.getRightOperand()));
-				infix.extendedOperands().forEach(obj -> result.getChildren()
-						.add((org.emftext.language.java.expressions.ConditionalAndExpressionChild) convertToExpression(
-								(Expression) obj)));
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
-				return result;
-			}
-			if (infix.getOperator() == InfixExpression.Operator.OR) {
-				org.emftext.language.java.expressions.InclusiveOrExpression result;
-				org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
-				if (ex instanceof org.emftext.language.java.expressions.InclusiveOrExpression) {
-					result = (org.emftext.language.java.expressions.InclusiveOrExpression) ex;
-				} else {
-					result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
-							.createInclusiveOrExpression();
-					result.getChildren().add((org.emftext.language.java.expressions.InclusiveOrExpressionChild) ex);
-				}
-				result.getChildren()
-						.add((org.emftext.language.java.expressions.InclusiveOrExpressionChild) convertToExpression(
-								infix.getRightOperand()));
-				infix.extendedOperands()
-						.forEach(obj -> result.getChildren().add(
-								(org.emftext.language.java.expressions.InclusiveOrExpressionChild) convertToExpression(
-										(Expression) obj)));
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
-				return result;
-			}
-			if (infix.getOperator() == InfixExpression.Operator.XOR) {
-				org.emftext.language.java.expressions.ExclusiveOrExpression result;
-				org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
-				if (ex instanceof org.emftext.language.java.expressions.ExclusiveOrExpression) {
-					result = (org.emftext.language.java.expressions.ExclusiveOrExpression) ex;
-				} else {
-					result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
-							.createExclusiveOrExpression();
-					result.getChildren().add((org.emftext.language.java.expressions.ExclusiveOrExpressionChild) ex);
-				}
-				result.getChildren()
-						.add((org.emftext.language.java.expressions.ExclusiveOrExpressionChild) convertToExpression(
-								infix.getRightOperand()));
-				infix.extendedOperands()
-						.forEach(obj -> result.getChildren().add(
-								(org.emftext.language.java.expressions.ExclusiveOrExpressionChild) convertToExpression(
-										(Expression) obj)));
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
-				return result;
-			}
-			if (infix.getOperator() == InfixExpression.Operator.AND) {
-				org.emftext.language.java.expressions.AndExpression result;
-				org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
-				if (ex instanceof org.emftext.language.java.expressions.AndExpression) {
-					result = (org.emftext.language.java.expressions.AndExpression) ex;
-				} else {
-					result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE.createAndExpression();
-					result.getChildren().add((org.emftext.language.java.expressions.AndExpressionChild) ex);
-				}
-				result.getChildren().add((org.emftext.language.java.expressions.AndExpressionChild) convertToExpression(
-						infix.getRightOperand()));
-				infix.extendedOperands()
-						.forEach(obj -> result.getChildren()
-								.add((org.emftext.language.java.expressions.AndExpressionChild) convertToExpression(
-										(Expression) obj)));
-				LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
-				return result;
-			}
-			if (infix.getOperator() == InfixExpression.Operator.EQUALS
-					|| infix.getOperator() == InfixExpression.Operator.NOT_EQUALS) {
-				return toEqualityExpressionConverter.convertToEqualityExpression(infix);
-			}
-			if (infix.getOperator() == InfixExpression.Operator.GREATER
-					|| infix.getOperator() == InfixExpression.Operator.GREATER_EQUALS
-					|| infix.getOperator() == InfixExpression.Operator.LESS
-					|| infix.getOperator() == InfixExpression.Operator.LESS_EQUALS) {
-				return toRelationExpressionConverter.convertToRelationExpression(infix);
-			}
-			if (infix.getOperator() == InfixExpression.Operator.LEFT_SHIFT
-					|| infix.getOperator() == InfixExpression.Operator.RIGHT_SHIFT_SIGNED
-					|| infix.getOperator() == InfixExpression.Operator.RIGHT_SHIFT_UNSIGNED) {
-				return toShiftExpressionConverter.convertToShiftExpression(infix);
-			}
-			if (infix.getOperator() == InfixExpression.Operator.PLUS
-					|| infix.getOperator() == InfixExpression.Operator.MINUS) {
-				return toAdditiveExpressionConverter.convertToAdditiveExpression(infix);
-			}
-			if (infix.getOperator() == InfixExpression.Operator.TIMES
-					|| infix.getOperator() == InfixExpression.Operator.DIVIDE
-					|| infix.getOperator() == InfixExpression.Operator.REMAINDER) {
-				return toMultiplicativeExpressionConverter.convertToMultiplicativeExpression(infix);
-			}
+			return handleAssignment(expr);
+		} else if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {
+			return handleConditionalExpression(expr);
+		} else if (expr.getNodeType() == ASTNode.INFIX_EXPRESSION) {
+			return handleInfixExpression(expr);
 		} else if (expr.getNodeType() == ASTNode.INSTANCEOF_EXPRESSION) {
-			InstanceofExpression castedExpr = (InstanceofExpression) expr;
-			org.emftext.language.java.expressions.InstanceOfExpression result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
-					.createInstanceOfExpression();
-			result.setChild((org.emftext.language.java.expressions.InstanceOfExpressionChild) convertToExpression(
-					castedExpr.getLeftOperand()));
-			result.setTypeReference(BaseConverterUtility.convertToTypeReference(castedExpr.getRightOperand()));
-			BaseConverterUtility.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, castedExpr);
-			return result;
+			return handleInstanceOf(expr);
 		} else if (expr.getNodeType() == ASTNode.PREFIX_EXPRESSION) {
 			PrefixExpression prefixExpr = (PrefixExpression) expr;
 			if (prefixExpr.getOperator() == PrefixExpression.Operator.COMPLEMENT
@@ -299,7 +160,151 @@ public class ToExpressionConverter {
 		} else {
 			return toPrimaryExpressionConverter.convertToPrimaryExpression(expr);
 		}
-		return null;
+	}
+
+	private org.emftext.language.java.expressions.Expression handleInstanceOf(Expression expr) {
+		InstanceofExpression castedExpr = (InstanceofExpression) expr;
+		org.emftext.language.java.expressions.InstanceOfExpression result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+				.createInstanceOfExpression();
+		result.setChild((org.emftext.language.java.expressions.InstanceOfExpressionChild) convertToExpression(
+				castedExpr.getLeftOperand()));
+		result.setTypeReference(BaseConverterUtility.convertToTypeReference(castedExpr.getRightOperand()));
+		BaseConverterUtility.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
+		LayoutInformationConverter.convertToMinimalLayoutInformation(result, castedExpr);
+		return result;
+	}
+
+	private org.emftext.language.java.expressions.Expression handleInfixExpression(Expression expr) {
+		InfixExpression infix = (InfixExpression) expr;
+		if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_OR) {
+			org.emftext.language.java.expressions.ConditionalOrExpression result;
+			org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
+			if (ex instanceof org.emftext.language.java.expressions.ConditionalOrExpression) {
+				result = (org.emftext.language.java.expressions.ConditionalOrExpression) ex;
+			} else {
+				result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+						.createConditionalOrExpression();
+				result.getChildren().add((org.emftext.language.java.expressions.ConditionalOrExpressionChild) ex);
+			}
+			result.getChildren()
+					.add((org.emftext.language.java.expressions.ConditionalOrExpressionChild) convertToExpression(
+							infix.getRightOperand()));
+			infix.extendedOperands().forEach(obj -> result.getChildren()
+					.add((org.emftext.language.java.expressions.ConditionalOrExpressionChild) convertToExpression(
+							(Expression) obj)));
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			return result;
+		} else if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_AND) {
+			org.emftext.language.java.expressions.ConditionalAndExpression result;
+			org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
+			if (ex instanceof org.emftext.language.java.expressions.ConditionalAndExpression) {
+				result = (org.emftext.language.java.expressions.ConditionalAndExpression) ex;
+			} else {
+				result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+						.createConditionalAndExpression();
+				result.getChildren().add((org.emftext.language.java.expressions.ConditionalAndExpressionChild) ex);
+			}
+			result.getChildren()
+					.add((org.emftext.language.java.expressions.ConditionalAndExpressionChild) convertToExpression(
+							infix.getRightOperand()));
+			infix.extendedOperands().forEach(obj -> result.getChildren()
+					.add((org.emftext.language.java.expressions.ConditionalAndExpressionChild) convertToExpression(
+							(Expression) obj)));
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			return result;
+		} else if (infix.getOperator() == InfixExpression.Operator.OR) {
+			org.emftext.language.java.expressions.InclusiveOrExpression result;
+			org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
+			if (ex instanceof org.emftext.language.java.expressions.InclusiveOrExpression) {
+				result = (org.emftext.language.java.expressions.InclusiveOrExpression) ex;
+			} else {
+				result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+						.createInclusiveOrExpression();
+				result.getChildren().add((org.emftext.language.java.expressions.InclusiveOrExpressionChild) ex);
+			}
+			result.getChildren()
+					.add((org.emftext.language.java.expressions.InclusiveOrExpressionChild) convertToExpression(
+							infix.getRightOperand()));
+			infix.extendedOperands()
+					.forEach(obj -> result.getChildren().add(
+							(org.emftext.language.java.expressions.InclusiveOrExpressionChild) convertToExpression(
+									(Expression) obj)));
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			return result;
+		} else if (infix.getOperator() == InfixExpression.Operator.XOR) {
+			org.emftext.language.java.expressions.ExclusiveOrExpression result;
+			org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
+			if (ex instanceof org.emftext.language.java.expressions.ExclusiveOrExpression) {
+				result = (org.emftext.language.java.expressions.ExclusiveOrExpression) ex;
+			} else {
+				result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+						.createExclusiveOrExpression();
+				result.getChildren().add((org.emftext.language.java.expressions.ExclusiveOrExpressionChild) ex);
+			}
+			result.getChildren()
+					.add((org.emftext.language.java.expressions.ExclusiveOrExpressionChild) convertToExpression(
+							infix.getRightOperand()));
+			infix.extendedOperands()
+					.forEach(obj -> result.getChildren().add(
+							(org.emftext.language.java.expressions.ExclusiveOrExpressionChild) convertToExpression(
+									(Expression) obj)));
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			return result;
+		} else if (infix.getOperator() == InfixExpression.Operator.AND) {
+			org.emftext.language.java.expressions.AndExpression result;
+			org.emftext.language.java.expressions.Expression ex = convertToExpression(infix.getLeftOperand());
+			if (ex instanceof org.emftext.language.java.expressions.AndExpression) {
+				result = (org.emftext.language.java.expressions.AndExpression) ex;
+			} else {
+				result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE.createAndExpression();
+				result.getChildren().add((org.emftext.language.java.expressions.AndExpressionChild) ex);
+			}
+			result.getChildren().add((org.emftext.language.java.expressions.AndExpressionChild) convertToExpression(
+					infix.getRightOperand()));
+			infix.extendedOperands()
+					.forEach(obj -> result.getChildren()
+							.add((org.emftext.language.java.expressions.AndExpressionChild) convertToExpression(
+									(Expression) obj)));
+			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			return result;
+		} else if (infix.getOperator() == InfixExpression.Operator.EQUALS
+				|| infix.getOperator() == InfixExpression.Operator.NOT_EQUALS) {
+			return toEqualityExpressionConverter.convertToEqualityExpression(infix);
+		} else if (infix.getOperator() == InfixExpression.Operator.GREATER
+				|| infix.getOperator() == InfixExpression.Operator.GREATER_EQUALS
+				|| infix.getOperator() == InfixExpression.Operator.LESS
+				|| infix.getOperator() == InfixExpression.Operator.LESS_EQUALS) {
+			return toRelationExpressionConverter.convertToRelationExpression(infix);
+		} else if (infix.getOperator() == InfixExpression.Operator.LEFT_SHIFT
+				|| infix.getOperator() == InfixExpression.Operator.RIGHT_SHIFT_SIGNED
+				|| infix.getOperator() == InfixExpression.Operator.RIGHT_SHIFT_UNSIGNED) {
+			return toShiftExpressionConverter.convertToShiftExpression(infix);
+		} else if (infix.getOperator() == InfixExpression.Operator.PLUS
+				|| infix.getOperator() == InfixExpression.Operator.MINUS) {
+			return toAdditiveExpressionConverter.convertToAdditiveExpression(infix);
+		} else if (infix.getOperator() == InfixExpression.Operator.TIMES
+				|| infix.getOperator() == InfixExpression.Operator.DIVIDE
+				|| infix.getOperator() == InfixExpression.Operator.REMAINDER) {
+			return toMultiplicativeExpressionConverter.convertToMultiplicativeExpression(infix);
+		} else {
+			return null;
+		}
+	}
+
+	private org.emftext.language.java.expressions.Expression handleConditionalExpression(Expression expr) {
+		return toConditionalExpressionConverter.convertToConditionalExpression((ConditionalExpression) expr);
+	}
+
+	private org.emftext.language.java.expressions.Expression handleAssignment(Expression expr) {
+		Assignment assign = (Assignment) expr;
+		org.emftext.language.java.expressions.AssignmentExpression result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+				.createAssignmentExpression();
+		result.setChild((org.emftext.language.java.expressions.AssignmentExpressionChild) convertToExpression(
+				assign.getLeftHandSide()));
+		result.setAssignmentOperator(toAssignmentOperatorConverter.convertToAssignmentOperator(assign.getOperator()));
+		result.setValue(convertToExpression(assign.getRightHandSide()));
+		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
+		return result;
 	}
 
 	public void setToAssignmentOperatorConverter(ToAssignmentConverter toAssignmentOperatorConverter) {
