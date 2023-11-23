@@ -9,7 +9,7 @@ import org.emftext.language.java.members.EnumConstant;
 public class EnumerationPrinter {
 
 	static void printEnumeration(Enumeration element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("enum " + element.getName() + " ");
 		ImplementorPrinter.printImplementor(element, writer);
 		writer.append("{\n");

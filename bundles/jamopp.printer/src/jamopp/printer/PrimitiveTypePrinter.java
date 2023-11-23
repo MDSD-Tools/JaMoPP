@@ -17,7 +17,7 @@ import org.emftext.language.java.types.Void;
 public class PrimitiveTypePrinter {
 
 	static void printPrimitiveType(PrimitiveType element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.printAnnotable(element, writer);
+		AnnotablePrinter.print(element, writer);
 		if (element instanceof org.emftext.language.java.types.Boolean) {
 			writer.append("boolean");
 		} else if (element instanceof org.emftext.language.java.types.Byte) {

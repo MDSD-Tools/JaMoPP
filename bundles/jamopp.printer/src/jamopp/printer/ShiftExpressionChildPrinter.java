@@ -12,9 +12,9 @@ public class ShiftExpressionChildPrinter {
 	static void printShiftExpressionChild(ShiftExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof AdditiveExpression) {
-			AdditiveExpressionPrinter.printAdditiveExpression((AdditiveExpression) element, writer);
+			AdditiveExpressionPrinter.print((AdditiveExpression) element, writer);
 		} else {
-			AdditiveExpressionChildPrinter.printAdditiveExpressionChild((AdditiveExpressionChild) element, writer);
+			AdditiveExpressionChildPrinter.print((AdditiveExpressionChild) element, writer);
 		}
 	}
 

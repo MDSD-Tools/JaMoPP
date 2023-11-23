@@ -23,7 +23,7 @@ public class InstantiationPrinter {
 			}
 			ArgumentablePrinter.printArgumentable(call, writer);
 			if (call.getAnonymousClass() != null) {
-				AnonymousClassPrinter.printAnonymousClass(call.getAnonymousClass(), writer);
+				AnonymousClassPrinter.print(call.getAnonymousClass(), writer);
 			}
 		} else {
 			ExplicitConstructorCall call = (ExplicitConstructorCall) element;

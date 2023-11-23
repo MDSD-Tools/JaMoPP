@@ -15,7 +15,7 @@ public class ArrayInitializerPrinter {
 		for (int index = 0; index < element.getInitialValues().size(); index++) {
 			ArrayInitializationValue val = element.getInitialValues().get(index);
 			if (val instanceof AnnotationInstance) {
-				AnnotationInstancePrinter.printAnnotationInstance((AnnotationInstance) val, writer);
+				AnnotationInstancePrinter.print((AnnotationInstance) val, writer);
 			} else if (val instanceof ArrayInitializer) {
 				printArrayInitializer((ArrayInitializer) val, writer);
 			} else {

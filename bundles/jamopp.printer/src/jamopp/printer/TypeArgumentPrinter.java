@@ -15,15 +15,15 @@ public class TypeArgumentPrinter {
 		if (element instanceof QualifiedTypeArgument arg) {
 			TypeReferencePrinter.printTypeReference(arg.getTypeReference(), writer);
 		} else if (element instanceof UnknownTypeArgument arg) {
-			AnnotablePrinter.printAnnotable(arg, writer);
+			AnnotablePrinter.print(arg, writer);
 			writer.append("?");
 		} else if (element instanceof SuperTypeArgument arg) {
-			AnnotablePrinter.printAnnotable(arg, writer);
+			AnnotablePrinter.print(arg, writer);
 			writer.append("? super ");
 			TypeReferencePrinter.printTypeReference(arg.getSuperType(), writer);
 		} else {
 			ExtendsTypeArgument arg = (ExtendsTypeArgument) element;
-			AnnotablePrinter.printAnnotable(arg, writer);
+			AnnotablePrinter.print(arg, writer);
 			writer.append("? extends ");
 			TypeReferencePrinter.printTypeReference(arg.getExtendType(), writer);
 		}

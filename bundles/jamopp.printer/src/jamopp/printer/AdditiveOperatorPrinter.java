@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.emftext.language.java.operators.Addition;
 import org.emftext.language.java.operators.AdditiveOperator;
 
-public class AdditiveOperatorPrinter {
+class AdditiveOperatorPrinter {
 
-	static void printAdditiveOperator(AdditiveOperator element, BufferedWriter writer) throws IOException {
+	static void print(AdditiveOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Addition) {
 			writer.append(" + ");
 		} else {

@@ -9,7 +9,7 @@ public class ClassPrinter {
 
 	static void printClass(org.emftext.language.java.classifiers.Class element, BufferedWriter writer)
 			throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("class " + element.getName());
 		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
 		writer.append(" ");

@@ -6,11 +6,11 @@ import java.io.IOException;
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
 
-public class AnnotablePrinter {
+class AnnotablePrinter {
 
-	static void printAnnotable(Annotable element, BufferedWriter writer) throws IOException {
+	static void print(Annotable element, BufferedWriter writer) throws IOException {
 		for (AnnotationInstance inst : element.getAnnotations()) {
-			AnnotationInstancePrinter.printAnnotationInstance(inst, writer);
+			AnnotationInstancePrinter.print(inst, writer);
 		}
 	}
 

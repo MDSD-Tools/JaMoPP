@@ -5,10 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 
-public class AdditionalLocalVariablePrinter {
+class AdditionalLocalVariablePrinter {
 
-	static void printAdditionalLocalVariable(AdditionalLocalVariable element, BufferedWriter writer)
-			throws IOException {
+	static void print(AdditionalLocalVariable element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
 		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
 		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);

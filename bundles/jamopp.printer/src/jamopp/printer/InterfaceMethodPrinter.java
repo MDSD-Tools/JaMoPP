@@ -8,7 +8,7 @@ import org.emftext.language.java.members.InterfaceMethod;
 public class InterfaceMethodPrinter {
 
 	static void printInterfaceMethod(InterfaceMethod element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
 		writer.append(" ");
 		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
@@ -20,7 +20,7 @@ public class InterfaceMethodPrinter {
 		writer.append(" ");
 		if (element.getDefaultValue() != null) {
 			writer.append("default ");
-			AnnotationValuePrinter.printAnnotationValue(element.getDefaultValue(), writer);
+			AnnotationValuePrinter.print(element.getDefaultValue(), writer);
 		}
 		StatementPrinter.printStatement(element.getStatement(), writer);
 		writer.append("\n");

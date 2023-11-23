@@ -9,7 +9,7 @@ import org.emftext.language.java.members.Field;
 public class FieldPrinter {
 
 	static void printField(Field element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
 		TypeArgumentablePrinter.printTypeArgumentable(element, writer);
 		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
@@ -21,7 +21,7 @@ public class FieldPrinter {
 		}
 		for (AdditionalField f : element.getAdditionalFields()) {
 			writer.append(", ");
-			AdditionalFieldPrinter.printAdditionalField(f, writer);
+			AdditionalFieldPrinter.print(f, writer);
 		}
 		writer.append(";\n\n");
 	}

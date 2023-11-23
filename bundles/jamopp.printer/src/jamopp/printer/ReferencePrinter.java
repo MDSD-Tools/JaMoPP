@@ -20,7 +20,7 @@ public class ReferencePrinter {
 
 	static void printReference(Reference element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
-			AnnotationInstancePrinter.printAnnotationInstance((AnnotationInstance) element, writer);
+			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);
 		} else if (element instanceof NestedExpression) {
 			NestedExpressionPrinter.printNestedExpression((NestedExpression) element, writer);
 		} else if (element instanceof ReflectiveClassReference) {

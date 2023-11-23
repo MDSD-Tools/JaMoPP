@@ -12,9 +12,9 @@ public class ExclusiveOrExpressionChildPrinter {
 	static void printExclusiveOrExpressionChild(ExclusiveOrExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof AndExpression) {
-			AndExpressionPrinter.printAndExpression((AndExpression) element, writer);
+			AndExpressionPrinter.print((AndExpression) element, writer);
 		} else {
-			AndExpressionChildPrinter.printAndExpressionChild((AndExpressionChild) element, writer);
+			AndExpressionChildPrinter.print((AndExpressionChild) element, writer);
 		}
 	}
 

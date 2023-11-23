@@ -37,7 +37,7 @@ public class ClassMethodPrinter {
 				}
 			}
 		}
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
 		writer.append(" ");
 		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);

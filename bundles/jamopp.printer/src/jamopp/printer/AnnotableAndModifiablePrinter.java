@@ -6,12 +6,11 @@ import java.io.IOException;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 
-public class AnnotableAndModifiablePrinter {
+class AnnotableAndModifiablePrinter {
 
-	static void printAnnotableAndModifiable(AnnotableAndModifiable element, BufferedWriter writer)
-			throws IOException {
+	static void print(AnnotableAndModifiable element, BufferedWriter writer) throws IOException {
 		for (AnnotationInstanceOrModifier el : element.getAnnotationsAndModifiers()) {
-			AnnotationInstanceOrModifierPrinter.printAnnotationInstanceOrModifier(el, writer);
+			AnnotationInstanceOrModifierPrinter.print(el, writer);
 		}
 	}
 

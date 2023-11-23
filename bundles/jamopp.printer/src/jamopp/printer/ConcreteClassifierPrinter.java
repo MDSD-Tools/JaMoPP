@@ -19,7 +19,7 @@ public class ConcreteClassifierPrinter {
 		} else if (element instanceof Enumeration) {
 			EnumerationPrinter.printEnumeration((Enumeration) element, writer);
 		} else {
-			AnnotationPrinter.printAnnotation((Annotation) element, writer);
+			AnnotationPrinter.print((Annotation) element, writer);
 		}
 	}
 

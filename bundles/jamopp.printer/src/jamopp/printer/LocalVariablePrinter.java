@@ -9,7 +9,7 @@ import org.emftext.language.java.variables.LocalVariable;
 public class LocalVariablePrinter {
 
 	static void printLocalVariable(LocalVariable element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
 		TypeArgumentablePrinter.printTypeArgumentable(element, writer);
 		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
@@ -21,7 +21,7 @@ public class LocalVariablePrinter {
 		}
 		for (AdditionalLocalVariable var : element.getAdditionalLocalVariables()) {
 			writer.append(", ");
-			AdditionalLocalVariablePrinter.printAdditionalLocalVariable(var, writer);
+			AdditionalLocalVariablePrinter.print(var, writer);
 		}
 	}
 

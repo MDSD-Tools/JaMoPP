@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.AdditiveExpression;
 
-public class AdditiveExpressionPrinter {
+class AdditiveExpressionPrinter {
 
-	static void printAdditiveExpression(AdditiveExpression element, BufferedWriter writer) throws IOException {
-		AdditiveExpressionChildPrinter.printAdditiveExpressionChild(element.getChildren().get(0), writer);
+	static void print(AdditiveExpression element, BufferedWriter writer) throws IOException {
+		AdditiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {
-			AdditiveOperatorPrinter.printAdditiveOperator(element.getAdditiveOperators().get(index - 1), writer);
-			AdditiveExpressionChildPrinter.printAdditiveExpressionChild(element.getChildren().get(index), writer);
+			AdditiveOperatorPrinter.print(element.getAdditiveOperators().get(index - 1), writer);
+			AdditiveExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

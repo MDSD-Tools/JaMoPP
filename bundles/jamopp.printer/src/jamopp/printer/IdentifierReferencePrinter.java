@@ -10,7 +10,7 @@ public class IdentifierReferencePrinter {
 
 	static void printIdentifierReference(IdentifierReference element, BufferedWriter writer)
 			throws IOException {
-		AnnotablePrinter.printAnnotable(element, writer);
+		AnnotablePrinter.print(element, writer);
 		if (element.getTarget() instanceof org.emftext.language.java.containers.Package) {
 			org.emftext.language.java.containers.Package pack = (org.emftext.language.java.containers.Package) element
 					.getTarget();

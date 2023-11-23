@@ -8,7 +8,7 @@ import org.emftext.language.java.members.Constructor;
 public class ConstructorPrinter {
 
 	static void printConstructor(Constructor element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
 		writer.append(" " + element.getName());
 		ParametrizablePrinter.printParametrizable(element, writer);

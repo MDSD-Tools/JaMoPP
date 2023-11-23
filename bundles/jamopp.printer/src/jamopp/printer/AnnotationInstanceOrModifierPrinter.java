@@ -7,12 +7,12 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import org.emftext.language.java.modifiers.Modifier;
 
-public class AnnotationInstanceOrModifierPrinter {
+class AnnotationInstanceOrModifierPrinter {
 
-	static void printAnnotationInstanceOrModifier(AnnotationInstanceOrModifier element, BufferedWriter writer)
+	static void print(AnnotationInstanceOrModifier element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof AnnotationInstance) {
-			AnnotationInstancePrinter.printAnnotationInstance((AnnotationInstance) element, writer);
+			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);
 		} else {
 			ModifierPrinter.printModifier((Modifier) element, writer);
 		}

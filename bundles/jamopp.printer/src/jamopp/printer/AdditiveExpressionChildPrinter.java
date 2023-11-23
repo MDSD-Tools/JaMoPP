@@ -7,9 +7,9 @@ import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.expressions.MultiplicativeExpression;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 
-public class AdditiveExpressionChildPrinter {
+class AdditiveExpressionChildPrinter {
 
-	static void printAdditiveExpressionChild(AdditiveExpressionChild element, BufferedWriter writer)
+	static void print(AdditiveExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof MultiplicativeExpression) {
 			MultiplicativeExpressionPrinter.printMultiplicativeExpression((MultiplicativeExpression) element, writer);

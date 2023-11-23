@@ -22,7 +22,7 @@ public class JavaRootPrinter {
 			ModulePrinter.printModule((org.emftext.language.java.containers.Module) root, writer);
 		} else {
 			if (!root.getNamespaces().isEmpty()) {
-				AnnotablePrinter.printAnnotable(root, writer);
+				AnnotablePrinter.print(root, writer);
 				writer.append("package " + root.getNamespacesAsString() + ";\n\n");
 			}
 			ImportingElementPrinter.printImportingElement(root, writer);

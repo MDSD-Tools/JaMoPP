@@ -8,7 +8,7 @@ import org.emftext.language.java.classifiers.Interface;
 public class InterfacePrinter {
 
 	static void printInterface(Interface element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
+		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("interface " + element.getName());
 		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
 		writer.append(" ");

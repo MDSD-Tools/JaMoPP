@@ -7,9 +7,9 @@ import org.emftext.language.java.expressions.AndExpressionChild;
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
 
-public class AndExpressionChildPrinter {
+class AndExpressionChildPrinter {
 
-	static void printAndExpressionChild(AndExpressionChild element, BufferedWriter writer) throws IOException {
+	static void print(AndExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof EqualityExpression) {
 			EqualityExpressionPrinter.printEqualityExpression((EqualityExpression) element, writer);
 		} else {

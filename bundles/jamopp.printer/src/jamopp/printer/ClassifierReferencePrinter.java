@@ -8,7 +8,7 @@ import org.emftext.language.java.types.ClassifierReference;
 public class ClassifierReferencePrinter {
 
 	static void printClassifierReference(ClassifierReference element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.printAnnotable(element, writer);
+		AnnotablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());
 		TypeArgumentablePrinter.printTypeArgumentable(element, writer);
 	}

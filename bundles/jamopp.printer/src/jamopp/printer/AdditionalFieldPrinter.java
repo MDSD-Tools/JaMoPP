@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.members.AdditionalField;
 
-public class AdditionalFieldPrinter {
+class AdditionalFieldPrinter {
 
-	static void printAdditionalField(AdditionalField element, BufferedWriter writer) throws IOException {
+	static void print(AdditionalField element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
 		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
 		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);

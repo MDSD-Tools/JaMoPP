@@ -8,7 +8,7 @@ import org.emftext.language.java.parameters.ReceiverParameter;
 public class ReceiverParameterPrinter {
 
 	static void printReceiverParameter(ReceiverParameter element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.printAnnotable(element, writer);
+		AnnotablePrinter.print(element, writer);
 		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
 		TypeArgumentablePrinter.printTypeArgumentable(element, writer);
 		writer.append(" ");

@@ -8,13 +8,13 @@ import org.emftext.language.java.members.EnumConstant;
 public class EnumConstantPrinter {
 
 	static void printEnumConstant(EnumConstant element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.printAnnotable(element, writer);
+		AnnotablePrinter.print(element, writer);
 		writer.append(element.getName() + " ");
 		if (!element.getArguments().isEmpty()) {
 			ArgumentablePrinter.printArgumentable(element, writer);
 		}
 		if (element.getAnonymousClass() != null) {
-			AnonymousClassPrinter.printAnonymousClass(element.getAnonymousClass(), writer);
+			AnonymousClassPrinter.print(element.getAnonymousClass(), writer);
 		}
 	}
 

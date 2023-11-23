@@ -12,7 +12,7 @@ public class ArrayDimensionsPrinter {
 		for (ArrayDimension dim : element) {
 			if (!dim.getAnnotations().isEmpty()) {
 				writer.append(" ");
-				AnnotablePrinter.printAnnotable(dim, writer);
+				AnnotablePrinter.print(dim, writer);
 			}
 			writer.append("[] ");
 		}

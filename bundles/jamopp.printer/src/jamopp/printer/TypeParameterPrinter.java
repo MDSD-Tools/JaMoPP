@@ -8,7 +8,7 @@ import org.emftext.language.java.generics.TypeParameter;
 public class TypeParameterPrinter {
 
 	static void printTypeParameter(TypeParameter element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.printAnnotable(element, writer);
+		AnnotablePrinter.print(element, writer);
 		writer.append(element.getName());
 		if (!element.getExtendTypes().isEmpty()) {
 			writer.append(" extends ");
