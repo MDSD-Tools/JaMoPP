@@ -1,44 +1,48 @@
 package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.Assignment;
+import org.emftext.language.java.operators.AssignmentOperator;
+import org.emftext.language.java.operators.OperatorsFactory;
 
 public class ToAssignmentConverter {
 
-	org.emftext.language.java.operators.AssignmentOperator convertToAssignmentOperator(Assignment.Operator op) {
+	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
+
+	AssignmentOperator convertToAssignmentOperator(Assignment.Operator op) {
 		if (op == Assignment.Operator.ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignment();
+			return operatorsFactory.createAssignment();
 		}
 		if (op == Assignment.Operator.BIT_AND_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentAnd();
+			return operatorsFactory.createAssignmentAnd();
 		}
 		if (op == Assignment.Operator.BIT_OR_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentOr();
+			return operatorsFactory.createAssignmentOr();
 		}
 		if (op == Assignment.Operator.BIT_XOR_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentExclusiveOr();
+			return operatorsFactory.createAssignmentExclusiveOr();
 		}
 		if (op == Assignment.Operator.DIVIDE_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentDivision();
+			return operatorsFactory.createAssignmentDivision();
 		}
 		if (op == Assignment.Operator.LEFT_SHIFT_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentLeftShift();
+			return operatorsFactory.createAssignmentLeftShift();
 		}
 		if (op == Assignment.Operator.MINUS_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentMinus();
+			return operatorsFactory.createAssignmentMinus();
 		}
 		if (op == Assignment.Operator.PLUS_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentPlus();
+			return operatorsFactory.createAssignmentPlus();
 		}
 		if (op == Assignment.Operator.REMAINDER_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentModulo();
+			return operatorsFactory.createAssignmentModulo();
 		}
 		if (op == Assignment.Operator.RIGHT_SHIFT_SIGNED_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentRightShift();
+			return operatorsFactory.createAssignmentRightShift();
 		}
 		if (op == Assignment.Operator.RIGHT_SHIFT_UNSIGNED_ASSIGN) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentUnsignedRightShift();
+			return operatorsFactory.createAssignmentUnsignedRightShift();
 		}
-		return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAssignmentMultiplication();
+		return operatorsFactory.createAssignmentMultiplication();
 	}
-	
+
 }

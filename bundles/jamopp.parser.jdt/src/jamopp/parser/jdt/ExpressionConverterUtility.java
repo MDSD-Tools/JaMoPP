@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2020, Martin Armbruster
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Martin Armbruster
  *      - Initial implementation
@@ -18,49 +18,37 @@ import org.eclipse.jdt.core.dom.Expression;
 
 class ExpressionConverterUtility {
 
-	private static final ToAssignmentConverter toAssignmentOperatorConverter;
-	private static final ToEqualityOperatorConverter toEqualityOperatorConverter;
-	private static final ToRelationOperatorConverter toRelationOperatorConverter;
-	private static final ToShiftOperatorConverter toShiftOperatorConverter;
-	private static final ToAdditiveOperatorConverter toAdditiveOperatorConverter;
-	private static final ToUnaryOperatorConverter toUnaryOperatorConverter;
-	private static final ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter;
-
 	private static final ToExpressionConverter toExpressionConverter;
-	private static final ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 	private static final ToConditionalExpressionConverter toConditionalExpressionConverter;
-	private static final ToEqualityExpressionConverter toEqualityExpressionConverter;
-	private static final ToRelationExpressionConverter toRelationExpressionConverter;
-	private static final ToShiftExpressionConverter toShiftExpressionConverter;
-	private static final ToAdditiveExpressionConverter toAdditiveExpressionConverter;
-	private static final ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter;
-	private static final ToUnaryExpressionConverter toUnaryExpressionConverter;
-	private static final ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 
 	static {
 
-		toAssignmentOperatorConverter = new ToAssignmentConverter();
-		toEqualityOperatorConverter = new ToEqualityOperatorConverter();
-		toRelationOperatorConverter = new ToRelationOperatorConverter();
-		toShiftOperatorConverter = new ToShiftOperatorConverter();
-		toAdditiveOperatorConverter = new ToAdditiveOperatorConverter();
-		toUnaryOperatorConverter = new ToUnaryOperatorConverter();
-		toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
+		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter();
+		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter();
+		ToRelationOperatorConverter toRelationOperatorConverter = new ToRelationOperatorConverter();
+		ToShiftOperatorConverter toShiftOperatorConverter = new ToShiftOperatorConverter();
+		ToAdditiveOperatorConverter toAdditiveOperatorConverter = new ToAdditiveOperatorConverter();
+		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter();
+		ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
 
 		toExpressionConverter = new ToExpressionConverter();
-		toPrimaryExpressionConverter = new ToPrimaryExpressionConverter();
 		toConditionalExpressionConverter = new ToConditionalExpressionConverter(toExpressionConverter);
-		toEqualityExpressionConverter = new ToEqualityExpressionConverter(toExpressionConverter,
-				toEqualityOperatorConverter);
-		toRelationExpressionConverter = new ToRelationExpressionConverter(toRelationOperatorConverter,
+
+		ToPrimaryExpressionConverter toPrimaryExpressionConverter = new ToPrimaryExpressionConverter();
+		ToEqualityExpressionConverter toEqualityExpressionConverter = new ToEqualityExpressionConverter(
+				toExpressionConverter, toEqualityOperatorConverter);
+		ToRelationExpressionConverter toRelationExpressionConverter = new ToRelationExpressionConverter(
+				toRelationOperatorConverter, toExpressionConverter);
+		ToShiftExpressionConverter toShiftExpressionConverter = new ToShiftExpressionConverter(toShiftOperatorConverter,
 				toExpressionConverter);
-		toShiftExpressionConverter = new ToShiftExpressionConverter(toShiftOperatorConverter, toExpressionConverter);
-		toAdditiveExpressionConverter = new ToAdditiveExpressionConverter(toExpressionConverter,
-				toAdditiveOperatorConverter);
-		toMultiplicativeExpressionConverter = new ToMultiplicativeExpressionConverter(toMultiplicativeOperatorConverter,
+		ToAdditiveExpressionConverter toAdditiveExpressionConverter = new ToAdditiveExpressionConverter(
+				toExpressionConverter, toAdditiveOperatorConverter);
+		ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter = new ToMultiplicativeExpressionConverter(
+				toMultiplicativeOperatorConverter, toExpressionConverter);
+		ToUnaryExpressionConverter toUnaryExpressionConverter = new ToUnaryExpressionConverter(toUnaryOperatorConverter,
 				toExpressionConverter);
-		toUnaryExpressionConverter = new ToUnaryExpressionConverter(toUnaryOperatorConverter, toExpressionConverter);
-		toMethodReferenceExpressionConverter = new ToMethodReferenceExpressionConverter(toExpressionConverter);
+		ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter = new ToMethodReferenceExpressionConverter(
+				toExpressionConverter);
 
 		toExpressionConverter.setToAssignmentOperatorConverter(toAssignmentOperatorConverter);
 		toExpressionConverter.setToConditionalExpressionConverter(toConditionalExpressionConverter);
@@ -75,7 +63,6 @@ class ExpressionConverterUtility {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	static org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
 		return toExpressionConverter.convertToExpression(expr);
 	}

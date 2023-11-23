@@ -1,6 +1,8 @@
 package jamopp.parser.jdt;
 
-import org.eclipse.jdt.core.dom.ConditionalExpression;
+import org.emftext.language.java.expressions.ConditionalExpression;
+import org.emftext.language.java.expressions.ConditionalExpressionChild;
+import org.emftext.language.java.expressions.ExpressionsFactory;
 
 public class ToConditionalExpressionConverter {
 
@@ -8,15 +10,11 @@ public class ToConditionalExpressionConverter {
 
 	public ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
-
 	}
 
-	org.emftext.language.java.expressions.ConditionalExpression convertToConditionalExpression(
-			ConditionalExpression expr) {
-		org.emftext.language.java.expressions.ConditionalExpression result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
-				.createConditionalExpression();
-		result.setChild((org.emftext.language.java.expressions.ConditionalExpressionChild) toExpressionConverter
-				.convertToExpression(expr.getExpression()));
+	ConditionalExpression convertToConditionalExpression(org.eclipse.jdt.core.dom.ConditionalExpression expr) {
+		ConditionalExpression result = ExpressionsFactory.eINSTANCE.createConditionalExpression();
+		result.setChild((ConditionalExpressionChild) toExpressionConverter.convertToExpression(expr.getExpression()));
 		result.setExpressionIf(toExpressionConverter.convertToExpression(expr.getThenExpression()));
 		result.setGeneralExpressionElse(toExpressionConverter.convertToExpression(expr.getElseExpression()));
 		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);

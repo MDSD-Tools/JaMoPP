@@ -1,17 +1,21 @@
 package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.emftext.language.java.operators.AdditiveOperator;
+import org.emftext.language.java.operators.OperatorsFactory;
 
 public class ToAdditiveOperatorConverter {
 
-	org.emftext.language.java.operators.AdditiveOperator convertToAdditiveOperator(InfixExpression.Operator op) {
+	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
+
+	AdditiveOperator convertToAdditiveOperator(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.PLUS) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAddition();
+			return operatorsFactory.createAddition();
 		}
 		if (op == InfixExpression.Operator.MINUS) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createSubtraction();
+			return operatorsFactory.createSubtraction();
 		}
 		return null;
 	}
-	
+
 }
