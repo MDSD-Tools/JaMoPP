@@ -10,9 +10,9 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.VariableLengthParameter;
 
-public class LambdaParametersPrinter {
+class LambdaParametersPrinter {
 
-	static void printLambdaParameters(LambdaParameters element, BufferedWriter writer) throws IOException {
+	static void print(LambdaParameters element, BufferedWriter writer) throws IOException {
 		if (element instanceof SingleImplicitLambdaParameter) {
 			writer.append(element.getParameters().get(0).getName());
 		} else {
@@ -29,9 +29,9 @@ public class LambdaParametersPrinter {
 				for (int index = 0; index < element.getParameters().size(); index++) {
 					Parameter param = element.getParameters().get(index);
 					if (param instanceof OrdinaryParameter) {
-						OrdinaryParameterPrinter.printOrdinaryParameter((OrdinaryParameter) param, writer);
+						OrdinaryParameterPrinter.print((OrdinaryParameter) param, writer);
 					} else {
-						VariableLengthParameterPrinter.printVariableLengthParameter((VariableLengthParameter) param, writer);
+						VariableLengthParameterPrinter.print((VariableLengthParameter) param, writer);
 					}
 					if (index < element.getParameters().size() - 1) {
 						writer.append(", ");

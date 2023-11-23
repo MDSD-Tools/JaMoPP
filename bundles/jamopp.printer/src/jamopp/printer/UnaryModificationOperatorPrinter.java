@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.emftext.language.java.operators.PlusPlus;
 import org.emftext.language.java.operators.UnaryModificationOperator;
 
-public class UnaryModificationOperatorPrinter {
+class UnaryModificationOperatorPrinter {
 
-	static void printUnaryModificationOperator(UnaryModificationOperator element, BufferedWriter writer)
+	static void print(UnaryModificationOperator element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof PlusPlus) {
 			writer.append("++");

@@ -9,9 +9,9 @@ import org.emftext.language.java.operators.LessThan;
 import org.emftext.language.java.operators.LessThanOrEqual;
 import org.emftext.language.java.operators.RelationOperator;
 
-public class RelationOperatorPrinter {
+class RelationOperatorPrinter {
 
-	static void printRelationOperator(RelationOperator element, BufferedWriter writer) throws IOException {
+	static void print(RelationOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof GreaterThan) {
 			writer.append(" > ");
 		} else if (element instanceof GreaterThanOrEqual) {

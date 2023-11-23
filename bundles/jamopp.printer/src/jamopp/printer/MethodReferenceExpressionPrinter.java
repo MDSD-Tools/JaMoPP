@@ -8,27 +8,27 @@ import org.emftext.language.java.expressions.ClassTypeConstructorReferenceExpres
 import org.emftext.language.java.expressions.MethodReferenceExpression;
 import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
 
-public class MethodReferenceExpressionPrinter {
+class MethodReferenceExpressionPrinter {
 
-	static void printMethodReferenceExpression(MethodReferenceExpression element, BufferedWriter writer)
+	static void print(MethodReferenceExpression element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof PrimaryExpressionReferenceExpression ref) {
-			MethodReferenceExpressionChildPrinter.printMethodReferenceExpressionChild(ref.getChild(), writer);
+			MethodReferenceExpressionChildPrinter.print(ref.getChild(), writer);
 			if (ref.getMethodReference() != null) {
 				writer.append("::");
-				CallTypeArgumentablePrinter.printCallTypeArgumentable(ref, writer);
-				ReferencePrinter.printReference(ref.getMethodReference(), writer);
+				CallTypeArgumentablePrinter.print(ref, writer);
+				ReferencePrinter.print(ref.getMethodReference(), writer);
 			}
 		} else if (element instanceof ClassTypeConstructorReferenceExpression ref) {
-			TypeReferencePrinter.printTypeReference(ref.getTypeReference(), writer);
+			TypeReferencePrinter.print(ref.getTypeReference(), writer);
 			writer.append("::");
-			CallTypeArgumentablePrinter.printCallTypeArgumentable(ref, writer);
+			CallTypeArgumentablePrinter.print(ref, writer);
 			writer.append("new");
 		} else {
 			ArrayConstructorReferenceExpression ref = (ArrayConstructorReferenceExpression) element;
-			TypeReferencePrinter.printTypeReference(ref.getTypeReference(), writer);
-			ArrayDimensionsPrinter.printArrayDimensions(ref.getArrayDimensionsBefore(), writer);
-			ArrayDimensionsPrinter.printArrayDimensions(ref.getArrayDimensionsAfter(), writer);
+			TypeReferencePrinter.print(ref.getTypeReference(), writer);
+			ArrayDimensionsPrinter.print(ref.getArrayDimensionsBefore(), writer);
+			ArrayDimensionsPrinter.print(ref.getArrayDimensionsAfter(), writer);
 			writer.append("::new");
 		}
 	}

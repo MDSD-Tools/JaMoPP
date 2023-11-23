@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.Return;
 
-public class ReturnPrint {
+class ReturnPrinter {
 
-	static void printReturn(Return element, BufferedWriter writer) throws IOException {
+	static void print(Return element, BufferedWriter writer) throws IOException {
 		writer.append("return");
 		if (element.getReturnValue() != null) {
 			writer.append(" ");
-			ExpressionPrinter.printExpression(element.getReturnValue(), writer);
+			ExpressionPrinter.print(element.getReturnValue(), writer);
 		}
 		writer.append(";\n");
 	}

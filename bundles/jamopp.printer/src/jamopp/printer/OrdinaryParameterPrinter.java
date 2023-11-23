@@ -5,15 +5,15 @@ import java.io.IOException;
 
 import org.emftext.language.java.parameters.OrdinaryParameter;
 
-public class OrdinaryParameterPrinter {
+class OrdinaryParameterPrinter {
 
-	static void printOrdinaryParameter(OrdinaryParameter element, BufferedWriter writer) throws IOException {
+	static void print(OrdinaryParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
-		TypeArgumentablePrinter.printTypeArgumentable(element, writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		TypeArgumentablePrinter.print(element, writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

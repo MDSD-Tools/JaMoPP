@@ -9,26 +9,26 @@ import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.UnknownTypeArgument;
 
-public class TypeArgumentPrinter {
+class TypeArgumentPrinter {
 
-	static void printTypeArgument(TypeArgument element, BufferedWriter writer) throws IOException {
+	static void print(TypeArgument element, BufferedWriter writer) throws IOException {
 		if (element instanceof QualifiedTypeArgument arg) {
-			TypeReferencePrinter.printTypeReference(arg.getTypeReference(), writer);
+			TypeReferencePrinter.print(arg.getTypeReference(), writer);
 		} else if (element instanceof UnknownTypeArgument arg) {
 			AnnotablePrinter.print(arg, writer);
 			writer.append("?");
 		} else if (element instanceof SuperTypeArgument arg) {
 			AnnotablePrinter.print(arg, writer);
 			writer.append("? super ");
-			TypeReferencePrinter.printTypeReference(arg.getSuperType(), writer);
+			TypeReferencePrinter.print(arg.getSuperType(), writer);
 		} else {
 			ExtendsTypeArgument arg = (ExtendsTypeArgument) element;
 			AnnotablePrinter.print(arg, writer);
 			writer.append("? extends ");
-			TypeReferencePrinter.printTypeReference(arg.getExtendType(), writer);
+			TypeReferencePrinter.print(arg.getExtendType(), writer);
 		}
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

@@ -5,14 +5,14 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.ExclusiveOrExpression;
 
-public class ExclusiveOrExpressionPrinter {
+class ExclusiveOrExpressionPrinter {
 
-	static void printExclusiveOrExpression(ExclusiveOrExpression element, BufferedWriter writer)
+	static void print(ExclusiveOrExpression element, BufferedWriter writer)
 			throws IOException {
-		ExclusiveOrExpressionChildPrinter.printExclusiveOrExpressionChild(element.getChildren().get(0), writer);
+		ExclusiveOrExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {
 			writer.append(" ^ ");
-			ExclusiveOrExpressionChildPrinter.printExclusiveOrExpressionChild(element.getChildren().get(index), writer);
+			ExclusiveOrExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

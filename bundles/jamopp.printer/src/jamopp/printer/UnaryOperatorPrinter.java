@@ -8,9 +8,9 @@ import org.emftext.language.java.operators.Negate;
 import org.emftext.language.java.operators.Subtraction;
 import org.emftext.language.java.operators.UnaryOperator;
 
-public class UnaryOperatorPrinter {
+class UnaryOperatorPrinter {
 
-	static void printUnaryOperator(UnaryOperator element, BufferedWriter writer) throws IOException {
+	static void print(UnaryOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Addition) {
 			writer.append("+");
 		} else if (element instanceof Subtraction) {

@@ -5,15 +5,15 @@ import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Implementor;
 
-public class ImplementorPrinter {
+class ImplementorPrinter {
 
-	static void printImplementor(Implementor element, BufferedWriter writer) throws IOException {
+	static void print(Implementor element, BufferedWriter writer) throws IOException {
 		if (!element.getImplements().isEmpty()) {
 			writer.append("implements ");
-			TypeReferencePrinter.printTypeReference(element.getImplements().get(0), writer);
+			TypeReferencePrinter.print(element.getImplements().get(0), writer);
 			for (int index = 1; index < element.getImplements().size(); index++) {
 				writer.append(", ");
-				TypeReferencePrinter.printTypeReference(element.getImplements().get(index), writer);
+				TypeReferencePrinter.print(element.getImplements().get(index), writer);
 			}
 			writer.append(" ");
 		}

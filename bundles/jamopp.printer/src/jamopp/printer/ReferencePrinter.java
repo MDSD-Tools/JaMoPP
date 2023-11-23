@@ -16,36 +16,36 @@ import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.references.TextBlockReference;
 
-public class ReferencePrinter {
+class ReferencePrinter {
 
-	static void printReference(Reference element, BufferedWriter writer) throws IOException {
+	static void print(Reference element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);
 		} else if (element instanceof NestedExpression) {
-			NestedExpressionPrinter.printNestedExpression((NestedExpression) element, writer);
+			NestedExpressionPrinter.print((NestedExpression) element, writer);
 		} else if (element instanceof ReflectiveClassReference) {
-			ReflectiveClassReferencePrinter.printReflectiveClassReference(writer);
+			ReflectiveClassReferencePrinter.print(writer);
 		} else if (element instanceof PrimitiveTypeReference) {
-			PrimitiveTypeReferencePrinter.printPrimitiveTypeReference((PrimitiveTypeReference) element, writer);
+			PrimitiveTypeReferencePrinter.print((PrimitiveTypeReference) element, writer);
 		} else if (element instanceof StringReference) {
-			StringReferencePrinter.printStringReference((StringReference) element, writer);
+			StringReferencePrinter.print((StringReference) element, writer);
 		} else if (element instanceof SelfReference) {
-			SelfReferencePrinter.printSelfReference((SelfReference) element, writer);
+			SelfReferencePrinter.print((SelfReference) element, writer);
 		} else if (element instanceof ArrayInstantiation) {
-			ArrayInstantiationPrinter.printArrayInstantiation((ArrayInstantiation) element, writer);
+			ArrayInstantiationPrinter.print((ArrayInstantiation) element, writer);
 		} else if (element instanceof Instantiation) {
-			InstantiationPrinter.printInstantiation((Instantiation) element, writer);
+			InstantiationPrinter.print((Instantiation) element, writer);
 		} else if (element instanceof TextBlockReference) {
-			TextBlockReferencePrinter.printTextBlockReference((TextBlockReference) element, writer);
+			TextBlockReferencePrinter.print((TextBlockReference) element, writer);
 		} else {
-			ElementReferencePrinter.printElementReference((ElementReference) element, writer);
+			ElementReferencePrinter.print((ElementReference) element, writer);
 		}
 		for (ArraySelector sel : element.getArraySelectors()) {
-			ArraySelectorPrinter.printArraySelector(sel, writer);
+			ArraySelectorPrinter.print(sel, writer);
 		}
 		if (element.getNext() != null) {
 			writer.append(".");
-			printReference(element.getNext(), writer);
+			print(element.getNext(), writer);
 		}
 	}
 

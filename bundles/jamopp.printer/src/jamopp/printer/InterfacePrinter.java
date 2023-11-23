@@ -5,24 +5,24 @@ import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Interface;
 
-public class InterfacePrinter {
+class InterfacePrinter {
 
-	static void printInterface(Interface element, BufferedWriter writer) throws IOException {
+	static void print(Interface element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("interface " + element.getName());
-		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
+		TypeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
 		if (!element.getExtends().isEmpty()) {
 			writer.append("extends ");
-			TypeReferencePrinter.printTypeReference(element.getExtends().get(0), writer);
+			TypeReferencePrinter.print(element.getExtends().get(0), writer);
 			for (int index = 1; index < element.getExtends().size(); index++) {
 				writer.append(", ");
-				TypeReferencePrinter.printTypeReference(element.getExtends().get(index), writer);
+				TypeReferencePrinter.print(element.getExtends().get(index), writer);
 			}
 			writer.append(" ");
 		}
 		writer.append("{\n");
-		MemberContainerPrinter.printMemberContainer(element, writer);
+		MemberContainerPrinter.print(element, writer);
 		writer.append("}\n");
 	}
 

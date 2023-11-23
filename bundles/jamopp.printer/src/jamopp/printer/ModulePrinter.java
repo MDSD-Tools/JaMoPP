@@ -11,9 +11,9 @@ import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 import org.emftext.language.java.modules.UsesModuleDirective;
 
-public class ModulePrinter {
+class ModulePrinter {
 
-	static void printModule(org.emftext.language.java.containers.Module element, BufferedWriter writer) throws IOException {
+	static void print(org.emftext.language.java.containers.Module element, BufferedWriter writer) throws IOException {
 		writer.append("module ");
 		if (element.getOpen() != null) {
 			writer.append("open ");
@@ -21,15 +21,15 @@ public class ModulePrinter {
 		writer.append(element.getNamespacesAsString() + " {\n");
 		for (ModuleDirective dir : element.getTarget()) {
 			if (dir instanceof UsesModuleDirective) {
-				UsesModuleDirectivePrinter.printUsesModuleDirective((UsesModuleDirective) dir, writer);
+				UsesModuleDirectivePrinter.print((UsesModuleDirective) dir, writer);
 			} else if (dir instanceof ProvidesModuleDirective) {
-				ProvidesModuleDirectivePrinter.printProvidesModuleDirective((ProvidesModuleDirective) dir, writer);
+				ProvidesModuleDirectivePrinter.print((ProvidesModuleDirective) dir, writer);
 			} else if (dir instanceof RequiresModuleDirective) {
-				RequiresModuleDirectivePrinter.printRequiresModuleDirective((RequiresModuleDirective) dir, writer);
+				RequiresModuleDirectivePrinter.print((RequiresModuleDirective) dir, writer);
 			} else if (dir instanceof OpensModuleDirective) {
-				OpensModuleDirectivePrinter.printOpensModuleDirective((OpensModuleDirective) dir, writer);
+				OpensModuleDirectivePrinter.print((OpensModuleDirective) dir, writer);
 			} else {
-				ExportsModuleDirectivePrinter.printExportsModuleDirective((ExportsModuleDirective) dir, writer);
+				ExportsModuleDirectivePrinter.print((ExportsModuleDirective) dir, writer);
 			}
 		}
 		writer.append("}\n");

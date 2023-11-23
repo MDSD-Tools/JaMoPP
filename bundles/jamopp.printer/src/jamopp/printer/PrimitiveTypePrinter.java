@@ -14,9 +14,9 @@ import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Short;
 import org.emftext.language.java.types.Void;
 
-public class PrimitiveTypePrinter {
+class PrimitiveTypePrinter {
 
-	static void printPrimitiveType(PrimitiveType element, BufferedWriter writer) throws IOException {
+	static void print(PrimitiveType element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		if (element instanceof org.emftext.language.java.types.Boolean) {
 			writer.append("boolean");

@@ -16,9 +16,9 @@ import org.emftext.language.java.operators.AssignmentOr;
 import org.emftext.language.java.operators.AssignmentPlus;
 import org.emftext.language.java.operators.AssignmentRightShift;
 
-public class AssignmentOperatorPrinter {
+class AssignmentOperatorPrinter {
 
-	static void printAssignmentOperator(AssignmentOperator element, BufferedWriter writer) throws IOException {
+	static void print(AssignmentOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Assignment) {
 			writer.append(" = ");
 		} else if (element instanceof AssignmentAnd) {

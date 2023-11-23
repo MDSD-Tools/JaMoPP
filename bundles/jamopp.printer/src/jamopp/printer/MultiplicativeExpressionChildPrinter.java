@@ -7,14 +7,14 @@ import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 
-public class MultiplicativeExpressionChildPrinter {
+class MultiplicativeExpressionChildPrinter {
 
-	static void printMultiplicativeExpressionChild(MultiplicativeExpressionChild element, BufferedWriter writer)
+	static void print(MultiplicativeExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof UnaryExpression) {
-			UnaryExpressionPrinter.printUnaryExpression((UnaryExpression) element, writer);
+			UnaryExpressionPrinter.print((UnaryExpression) element, writer);
 		} else {
-			UnaryExpressionChildPrinter.printUnaryExpressionChild((UnaryExpressionChild) element, writer);
+			UnaryExpressionChildPrinter.print((UnaryExpressionChild) element, writer);
 		}
 	}
 

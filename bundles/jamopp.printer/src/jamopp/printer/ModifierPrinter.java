@@ -17,9 +17,9 @@ import org.emftext.language.java.modifiers.Synchronized;
 import org.emftext.language.java.modifiers.Transient;
 import org.emftext.language.java.modifiers.Volatile;
 
-public class ModifierPrinter {
+class ModifierPrinter {
 
-	static void printModifier(Modifier element, BufferedWriter writer) throws IOException {
+	static void print(Modifier element, BufferedWriter writer) throws IOException {
 		if (element instanceof Abstract) {
 			writer.append("abstract ");
 		} else if (element instanceof Final) {

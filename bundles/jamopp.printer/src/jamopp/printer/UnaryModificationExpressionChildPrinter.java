@@ -9,18 +9,18 @@ import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
 import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
 import org.emftext.language.java.statements.Switch;
 
-public class UnaryModificationExpressionChildPrinter {
+class UnaryModificationExpressionChildPrinter {
 
-	static void printUnaryModificationExpressionChild(UnaryModificationExpressionChild element,
+	static void print(UnaryModificationExpressionChild element,
 			BufferedWriter writer) throws IOException {
 		if (element instanceof Switch) {
-			SwitchPrint.printSwitch((Switch) element, writer);
+			SwitchPrint.print((Switch) element, writer);
 		} else if (element instanceof CastExpression) {
-			CastExpressionPrinter.printCastExpression((CastExpression) element, writer);
+			CastExpressionPrinter.print((CastExpression) element, writer);
 		} else if (element instanceof MethodReferenceExpression) {
-			MethodReferenceExpressionPrinter.printMethodReferenceExpression((MethodReferenceExpression) element, writer);
+			MethodReferenceExpressionPrinter.print((MethodReferenceExpression) element, writer);
 		} else {
-			MethodReferenceExpressionChildPrinter.printMethodReferenceExpressionChild((MethodReferenceExpressionChild) element, writer);
+			MethodReferenceExpressionChildPrinter.print((MethodReferenceExpressionChild) element, writer);
 		}
 	}
 

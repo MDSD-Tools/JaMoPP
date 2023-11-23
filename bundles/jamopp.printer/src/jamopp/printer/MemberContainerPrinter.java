@@ -6,11 +6,11 @@ import java.io.IOException;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 
-public class MemberContainerPrinter {
+class MemberContainerPrinter {
 
-	static void printMemberContainer(MemberContainer element, BufferedWriter writer) throws IOException {
+	static void print(MemberContainer element, BufferedWriter writer) throws IOException {
 		for (Member mem : element.getMembers()) {
-			MemberPrinter.printMember(mem, writer);
+			MemberPrinter.print(mem, writer);
 		}
 	}
 

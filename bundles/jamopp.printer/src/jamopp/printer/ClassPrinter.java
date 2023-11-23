@@ -5,22 +5,22 @@ import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Class;
 
-public class ClassPrinter {
+class ClassPrinter {
 
-	static void printClass(org.emftext.language.java.classifiers.Class element, BufferedWriter writer)
+	static void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer)
 			throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("class " + element.getName());
-		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
+		TypeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
 		if (element.getExtends() != null) {
 			writer.append("extends ");
-			TypeReferencePrinter.printTypeReference(element.getExtends(), writer);
+			TypeReferencePrinter.print(element.getExtends(), writer);
 			writer.append(" ");
 		}
-		ImplementorPrinter.printImplementor(element, writer);
+		ImplementorPrinter.print(element, writer);
 		writer.append("{\n");
-		MemberContainerPrinter.printMemberContainer(element, writer);
+		MemberContainerPrinter.print(element, writer);
 		writer.append("}\n");
 	}
 

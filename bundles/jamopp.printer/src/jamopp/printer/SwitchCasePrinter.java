@@ -9,17 +9,17 @@ import org.emftext.language.java.statements.NormalSwitchCase;
 import org.emftext.language.java.statements.NormalSwitchRule;
 import org.emftext.language.java.statements.SwitchCase;
 
-public class SwitchCasePrinter {
+class SwitchCasePrinter {
 
-	static void printSwitchCase(SwitchCase element, BufferedWriter writer) throws IOException {
+	static void print(SwitchCase element, BufferedWriter writer) throws IOException {
 		if (element instanceof DefaultSwitchCase) {
-			DefaultSwitchCasePrinter.printDefaultSwitchCase((DefaultSwitchCase) element, writer);
+			DefaultSwitchCasePrinter.print((DefaultSwitchCase) element, writer);
 		} else if (element instanceof NormalSwitchCase) {
-			NormalSwitchCasePrinter.printNormalSwitchCase((NormalSwitchCase) element, writer);
+			NormalSwitchCasePrinter.print((NormalSwitchCase) element, writer);
 		} else if (element instanceof DefaultSwitchRule) {
-			DefaultSwitchRulePrinter.printDefaultSwitchRule((DefaultSwitchRule) element, writer);
+			DefaultSwitchRulePrinter.print((DefaultSwitchRule) element, writer);
 		} else {
-			NormalSwitchRulePrinter.printNormalSwitchRule((NormalSwitchRule) element, writer);
+			NormalSwitchRulePrinter.print((NormalSwitchRule) element, writer);
 		}
 	}
 

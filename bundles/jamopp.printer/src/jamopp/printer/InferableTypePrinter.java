@@ -3,9 +3,9 @@ package jamopp.printer;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class InferableTypePrinter {
+class InferableTypePrinter {
 
-	static void printInferableType(BufferedWriter writer) throws IOException {
+	static void print(BufferedWriter writer) throws IOException {
 		writer.append("var");
 	}
 

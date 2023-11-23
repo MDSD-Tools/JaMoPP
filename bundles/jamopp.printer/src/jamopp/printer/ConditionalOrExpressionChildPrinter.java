@@ -7,14 +7,14 @@ import org.emftext.language.java.expressions.ConditionalAndExpression;
 import org.emftext.language.java.expressions.ConditionalAndExpressionChild;
 import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 
-public class ConditionalOrExpressionChildPrinter {
+class ConditionalOrExpressionChildPrinter {
 
-	static void printConditionalOrExpressionChild(ConditionalOrExpressionChild element, BufferedWriter writer)
+	static void print(ConditionalOrExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof ConditionalAndExpression) {
-			ConditionalAndExpressionPrinter.printConditionalAndExpression((ConditionalAndExpression) element, writer);
+			ConditionalAndExpressionPrinter.print((ConditionalAndExpression) element, writer);
 		} else {
-			ConditionalAndExpressionChildPrinter.printConditionalAndExpressionChild((ConditionalAndExpressionChild) element, writer);
+			ConditionalAndExpressionChildPrinter.print((ConditionalAndExpressionChild) element, writer);
 		}
 	}
 

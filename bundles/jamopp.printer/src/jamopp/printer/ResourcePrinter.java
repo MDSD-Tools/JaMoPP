@@ -7,13 +7,13 @@ import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.Resource;
 
-public class ResourcePrinter {
+class ResourcePrinter {
 
-	static void printResource(Resource element, BufferedWriter writer) throws IOException {
+	static void print(Resource element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
-			LocalVariablePrinter.printLocalVariable((LocalVariable) element, writer);
+			LocalVariablePrinter.print((LocalVariable) element, writer);
 		} else {
-			ElementReferencePrinter.printElementReference((ElementReference) element, writer);
+			ElementReferencePrinter.print((ElementReference) element, writer);
 		}
 	}
 

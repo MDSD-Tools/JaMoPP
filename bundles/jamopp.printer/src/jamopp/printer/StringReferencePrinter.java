@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.references.StringReference;
 
-public class StringReferencePrinter {
+class StringReferencePrinter {
 
-	static void printStringReference(StringReference element, BufferedWriter writer) throws IOException {
+	static void print(StringReference element, BufferedWriter writer) throws IOException {
 		writer.append("\"" + element.getValue() + "\"");
 	}
 

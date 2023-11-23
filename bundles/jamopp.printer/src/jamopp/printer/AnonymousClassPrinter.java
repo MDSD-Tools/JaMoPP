@@ -9,7 +9,7 @@ class AnonymousClassPrinter {
 
 	static void print(AnonymousClass element, BufferedWriter writer) throws IOException {
 		writer.append("{\n");
-		MemberContainerPrinter.printMemberContainer(element, writer);
+		MemberContainerPrinter.print(element, writer);
 		writer.append("}\n");
 	}
 

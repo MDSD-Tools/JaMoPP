@@ -6,20 +6,20 @@ import java.io.IOException;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.members.EnumConstant;
 
-public class EnumerationPrinter {
+class EnumerationPrinter {
 
-	static void printEnumeration(Enumeration element, BufferedWriter writer) throws IOException {
+	static void print(Enumeration element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("enum " + element.getName() + " ");
-		ImplementorPrinter.printImplementor(element, writer);
+		ImplementorPrinter.print(element, writer);
 		writer.append("{\n");
 		for (EnumConstant enc : element.getConstants()) {
-			EnumConstantPrinter.printEnumConstant(enc, writer);
+			EnumConstantPrinter.print(enc, writer);
 			writer.append(",\n");
 		}
 		if (!element.getMembers().isEmpty()) {
 			writer.append(";\n\n");
-			MemberContainerPrinter.printMemberContainer(element, writer);
+			MemberContainerPrinter.print(element, writer);
 		}
 		writer.append("}\n");
 	}

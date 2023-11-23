@@ -9,9 +9,9 @@ import org.emftext.language.java.imports.PackageImport;
 import org.emftext.language.java.imports.StaticClassifierImport;
 import org.emftext.language.java.imports.StaticMemberImport;
 
-public class ImportPrinter {
+class ImportPrinter {
 
-	static void printImport(Import element, BufferedWriter writer) throws IOException {
+	static void print(Import element, BufferedWriter writer) throws IOException {
 		writer.append("import ");
 		if (element instanceof ClassifierImport) {
 			printClassifierImport((ClassifierImport) element, writer);

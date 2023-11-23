@@ -7,9 +7,9 @@ import org.emftext.language.java.expressions.AdditiveExpression;
 import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.expressions.ShiftExpressionChild;
 
-public class ShiftExpressionChildPrinter {
+class ShiftExpressionChildPrinter {
 
-	static void printShiftExpressionChild(ShiftExpressionChild element, BufferedWriter writer)
+	static void print(ShiftExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof AdditiveExpression) {
 			AdditiveExpressionPrinter.print((AdditiveExpression) element, writer);

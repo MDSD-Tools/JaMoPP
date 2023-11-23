@@ -25,49 +25,49 @@ import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.statements.YieldStatement;
 
-public class StatementPrinter {
+class StatementPrinter {
 
-	static void printStatement(Statement element, BufferedWriter writer) throws IOException {
+	static void print(Statement element, BufferedWriter writer) throws IOException {
 		if (element instanceof ConcreteClassifier) {
-			ConcreteClassifierPrinter.printConcreteClassifier((ConcreteClassifier) element, writer);
+			ConcreteClassifierPrinter.print((ConcreteClassifier) element, writer);
 		} else if (element instanceof Assert) {
-			AssertPrinter.printAssert((Assert) element, writer);
+			AssertPrinter.print((Assert) element, writer);
 		} else if (element instanceof Block) {
-			BlockPrinter.printBlock((Block) element, writer);
+			BlockPrinter.print((Block) element, writer);
 		} else if (element instanceof Condition) {
-			ConditionPrinter.printCondition((Condition) element, writer);
+			ConditionPrinter.print((Condition) element, writer);
 		} else if (element instanceof EmptyStatement) {
-			EmptyStatementPrinter.printEmptyStatement(writer);
+			EmptyStatementPrinter.print(writer);
 		} else if (element instanceof ExpressionStatement) {
-			ExpressionStatementPrinter.printExpressionStatement((ExpressionStatement) element, writer);
+			ExpressionStatementPrinter.print((ExpressionStatement) element, writer);
 		} else if (element instanceof ForLoop) {
 			ForLoopPrinter.printForLoop((ForLoop) element, writer);
 		} else if (element instanceof ForEachLoop) {
-			ForEachLoopPrinter.printForEachLoop((ForEachLoop) element, writer);
+			ForEachLoopPrinter.print((ForEachLoop) element, writer);
 		} else if (element instanceof Break) {
-			BreakPrinter.printBreak((Break) element, writer);
+			BreakPrinter.print((Break) element, writer);
 		} else if (element instanceof Continue) {
-			ContinuePrinter.printContinue((Continue) element, writer);
+			ContinuePrinter.print((Continue) element, writer);
 		} else if (element instanceof JumpLabel) {
-			JumpLabelPrinter.printJumpLabel((JumpLabel) element, writer);
+			JumpLabelPrinter.print((JumpLabel) element, writer);
 		} else if (element instanceof LocalVariableStatement) {
-			LocalVariableStatementPrinter.printLocalVariableStatement((LocalVariableStatement) element, writer);
+			LocalVariableStatementPrinter.print((LocalVariableStatement) element, writer);
 		} else if (element instanceof Return) {
-			ReturnPrint.printReturn((Return) element, writer);
+			ReturnPrinter.print((Return) element, writer);
 		} else if (element instanceof Switch) {
-			SwitchPrint.printSwitch((Switch) element, writer);
+			SwitchPrint.print((Switch) element, writer);
 		} else if (element instanceof SynchronizedBlock) {
-			SynchronizedBlockPrinter.printSynchronizedBlock((SynchronizedBlock) element, writer);
+			SynchronizedBlockPrinter.print((SynchronizedBlock) element, writer);
 		} else if (element instanceof Throw) {
-			ThrowPrinter.printThrow((Throw) element, writer);
+			ThrowPrinter.print((Throw) element, writer);
 		} else if (element instanceof TryBlock) {
-			TryBlockPrinter.printTryBlock((TryBlock) element, writer);
+			TryBlockPrinter.print((TryBlock) element, writer);
 		} else if (element instanceof DoWhileLoop) {
-			DoWhileLoopPrinter.printDoWhileLoop((DoWhileLoop) element, writer);
+			DoWhileLoopPrinter.print((DoWhileLoop) element, writer);
 		} else if (element instanceof WhileLoop) {
-			WhileLoopPrinter.printWhileLoop((WhileLoop) element, writer);
+			WhileLoopPrinter.print((WhileLoop) element, writer);
 		} else {
-			YieldStatementPrinter.printYieldStatement((YieldStatement) element, writer);
+			YieldStatementPrinter.print((YieldStatement) element, writer);
 		}
 	}
 

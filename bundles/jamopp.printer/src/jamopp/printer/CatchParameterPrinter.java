@@ -6,15 +6,15 @@ import java.io.IOException;
 import org.emftext.language.java.parameters.CatchParameter;
 import org.emftext.language.java.types.TypeReference;
 
-public class CatchParameterPrinter {
+class CatchParameterPrinter {
 
-	static void printCatchParameter(CatchParameter element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.printAnnotableAndModifiable(element, writer);
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
+	static void print(CatchParameter element, BufferedWriter writer) throws IOException {
+		AnnotableAndModifiablePrinter.print(element, writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
 		if (!element.getTypeReferences().isEmpty()) {
 			for (TypeReference ref : element.getTypeReferences()) {
 				writer.append(" | ");
-				TypeReferencePrinter.printTypeReference(ref, writer);
+				TypeReferencePrinter.print(ref, writer);
 			}
 		}
 		writer.append(" " + element.getName());

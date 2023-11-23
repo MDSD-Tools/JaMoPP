@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 
-public class RemainingAccessProvidingModuleDirectivePrinter {
+class RemainingAccessProvidingModuleDirectivePrinter {
 
-	static void printRemainingAccessProvidingModuleDirective(AccessProvidingModuleDirective element,
+	static void print(AccessProvidingModuleDirective element,
 			BufferedWriter writer) throws IOException {
 		writer.append(element.getAccessablePackage().getNamespacesAsString());
 		if (!element.getModules().isEmpty()) {

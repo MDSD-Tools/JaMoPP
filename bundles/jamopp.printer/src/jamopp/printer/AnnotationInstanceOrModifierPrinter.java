@@ -14,7 +14,7 @@ class AnnotationInstanceOrModifierPrinter {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);
 		} else {
-			ModifierPrinter.printModifier((Modifier) element, writer);
+			ModifierPrinter.print((Modifier) element, writer);
 		}
 	}
 

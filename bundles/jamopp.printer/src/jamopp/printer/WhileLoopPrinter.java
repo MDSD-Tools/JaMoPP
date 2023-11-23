@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.WhileLoop;
 
-public class WhileLoopPrinter {
+class WhileLoopPrinter {
 
-	static void printWhileLoop(WhileLoop element, BufferedWriter writer) throws IOException {
+	static void print(WhileLoop element, BufferedWriter writer) throws IOException {
 		writer.append("while (");
-		ExpressionPrinter.printExpression(element.getCondition(), writer);
+		ExpressionPrinter.print(element.getCondition(), writer);
 		writer.append(")\n");
-		StatementPrinter.printStatement(element.getStatement(), writer);
+		StatementPrinter.print(element.getStatement(), writer);
 	}
 
 }

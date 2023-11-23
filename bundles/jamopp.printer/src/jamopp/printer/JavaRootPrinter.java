@@ -7,7 +7,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Module;
 
-public class JavaRootPrinter {
+class JavaRootPrinter {
 
 	/**
 	 * Converts a model instance to text and writes it.
@@ -16,18 +16,18 @@ public class JavaRootPrinter {
 	 * @param writer writer in which the text is written.
 	 * @throws IOException if the text cannot be written.
 	 */
-	static void printJavaRoot(JavaRoot root, BufferedWriter writer) throws IOException {
+	static void print(JavaRoot root, BufferedWriter writer) throws IOException {
 		if (root instanceof org.emftext.language.java.containers.Module) {
-			ImportingElementPrinter.printImportingElement(root, writer);
-			ModulePrinter.printModule((org.emftext.language.java.containers.Module) root, writer);
+			ImportingElementPrinter.print(root, writer);
+			ModulePrinter.print((org.emftext.language.java.containers.Module) root, writer);
 		} else {
 			if (!root.getNamespaces().isEmpty()) {
 				AnnotablePrinter.print(root, writer);
 				writer.append("package " + root.getNamespacesAsString() + ";\n\n");
 			}
-			ImportingElementPrinter.printImportingElement(root, writer);
+			ImportingElementPrinter.print(root, writer);
 			if (root instanceof CompilationUnit) {
-				CompilationUnitPrinter.printCompilationUnit((CompilationUnit) root, writer);
+				CompilationUnitPrinter.print((CompilationUnit) root, writer);
 			}
 		}
 	}

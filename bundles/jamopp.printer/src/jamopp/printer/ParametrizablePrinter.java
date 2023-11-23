@@ -9,18 +9,18 @@ import org.emftext.language.java.parameters.Parametrizable;
 import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.parameters.VariableLengthParameter;
 
-public class ParametrizablePrinter {
+class ParametrizablePrinter {
 
-	static void printParametrizable(Parametrizable element, BufferedWriter writer) throws IOException {
+	static void print(Parametrizable element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		for (int index = 0; index < element.getParameters().size(); index++) {
 			Parameter param = element.getParameters().get(index);
 			if (param instanceof ReceiverParameter) {
-				ReceiverParameterPrinter.printReceiverParameter((ReceiverParameter) param, writer);
+				ReceiverParameterPrinter.print((ReceiverParameter) param, writer);
 			} else if (param instanceof OrdinaryParameter) {
-				OrdinaryParameterPrinter.printOrdinaryParameter((OrdinaryParameter) param, writer);
+				OrdinaryParameterPrinter.print((OrdinaryParameter) param, writer);
 			} else {
-				VariableLengthParameterPrinter.printVariableLengthParameter((VariableLengthParameter) param, writer);
+				VariableLengthParameterPrinter.print((VariableLengthParameter) param, writer);
 			}
 			if (index < element.getParameters().size() - 1) {
 				writer.append(", ");

@@ -8,15 +8,15 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.LambdaExpression;
 
-public class ExpressionPrinter {
+class ExpressionPrinter {
 
-	static void printExpression(Expression element, BufferedWriter writer) throws IOException {
+	static void print(Expression element, BufferedWriter writer) throws IOException {
 		if (element instanceof LambdaExpression) {
-			LambdaExpressionPrinter.printLambdaExpression((LambdaExpression) element, writer);
+			LambdaExpressionPrinter.print((LambdaExpression) element, writer);
 		} else if (element instanceof AssignmentExpression) {
-			AssignmentExpressionPrinter.printAssignmentExpression((AssignmentExpression) element, writer);
+			AssignmentExpressionPrinter.print((AssignmentExpression) element, writer);
 		} else {
-			AssignmentExpressionChildPrinter.printAssignmentExpressionChild((AssignmentExpressionChild) element, writer);
+			AssignmentExpressionChildPrinter.print((AssignmentExpressionChild) element, writer);
 		}
 	}
 

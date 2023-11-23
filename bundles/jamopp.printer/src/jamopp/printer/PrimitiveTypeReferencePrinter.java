@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import org.emftext.language.java.references.PrimitiveTypeReference;
 
-public class PrimitiveTypeReferencePrinter {
+class PrimitiveTypeReferencePrinter {
 
-	static void printPrimitiveTypeReference(PrimitiveTypeReference element, BufferedWriter writer)
+	static void print(PrimitiveTypeReference element, BufferedWriter writer)
 			throws IOException {
-		PrimitiveTypePrinter.printPrimitiveType(element.getPrimitiveType(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		PrimitiveTypePrinter.print(element.getPrimitiveType(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

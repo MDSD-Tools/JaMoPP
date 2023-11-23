@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 
-public class RequiresModuleDirectivePrinter {
+class RequiresModuleDirectivePrinter {
 
-	static void printRequiresModuleDirective(RequiresModuleDirective element, BufferedWriter writer)
+	static void print(RequiresModuleDirective element, BufferedWriter writer)
 			throws IOException {
 		writer.append("requires ");
 		if (element.getModifier() != null) {

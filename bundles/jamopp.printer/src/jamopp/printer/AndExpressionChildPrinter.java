@@ -11,9 +11,9 @@ class AndExpressionChildPrinter {
 
 	static void print(AndExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof EqualityExpression) {
-			EqualityExpressionPrinter.printEqualityExpression((EqualityExpression) element, writer);
+			EqualityExpressionPrinter.print((EqualityExpression) element, writer);
 		} else {
-			EqualityExpressionChildPrinter.printEqualityExpressionChild((EqualityExpressionChild) element, writer);
+			EqualityExpressionChildPrinter.print((EqualityExpressionChild) element, writer);
 		}
 	}
 

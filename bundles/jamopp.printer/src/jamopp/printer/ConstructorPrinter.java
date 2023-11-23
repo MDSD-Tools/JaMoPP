@@ -5,15 +5,15 @@ import java.io.IOException;
 
 import org.emftext.language.java.members.Constructor;
 
-public class ConstructorPrinter {
+class ConstructorPrinter {
 
-	static void printConstructor(Constructor element, BufferedWriter writer) throws IOException {
+	static void print(Constructor element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
+		TypeParametrizablePrinter.print(element, writer);
 		writer.append(" " + element.getName());
-		ParametrizablePrinter.printParametrizable(element, writer);
-		ExceptionThrowerPrinter.printExceptionThrower(element, writer);
-		BlockPrinter.printBlock(element.getBlock(), writer);
+		ParametrizablePrinter.print(element, writer);
+		ExceptionThrowerPrinter.print(element, writer);
+		BlockPrinter.print(element.getBlock(), writer);
 	}
 
 }

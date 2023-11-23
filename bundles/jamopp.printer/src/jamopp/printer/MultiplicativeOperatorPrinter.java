@@ -7,9 +7,9 @@ import org.emftext.language.java.operators.Division;
 import org.emftext.language.java.operators.Multiplication;
 import org.emftext.language.java.operators.MultiplicativeOperator;
 
-public class MultiplicativeOperatorPrinter {
+class MultiplicativeOperatorPrinter {
 
-	static void printMultiplicativeOperator(MultiplicativeOperator element, BufferedWriter writer)
+	static void print(MultiplicativeOperator element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof Multiplication) {
 			writer.append(" * ");

@@ -5,15 +5,15 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.ForEachLoop;
 
-public class ForEachLoopPrinter {
+class ForEachLoopPrinter {
 
-	static void printForEachLoop(ForEachLoop element, BufferedWriter writer) throws IOException {
+	static void print(ForEachLoop element, BufferedWriter writer) throws IOException {
 		writer.append("for (");
-		OrdinaryParameterPrinter.printOrdinaryParameter(element.getNext(), writer);
+		OrdinaryParameterPrinter.print(element.getNext(), writer);
 		writer.append(" : ");
-		ExpressionPrinter.printExpression(element.getCollection(), writer);
+		ExpressionPrinter.print(element.getCollection(), writer);
 		writer.append(")\n");
-		StatementPrinter.printStatement(element.getStatement(), writer);
+		StatementPrinter.print(element.getStatement(), writer);
 	}
 
 }

@@ -5,10 +5,10 @@ import java.io.IOException;
 
 import org.emftext.language.java.references.SelfReference;
 
-public class SelfReferencePrinter {
+class SelfReferencePrinter {
 
-	static void printSelfReference(SelfReference element, BufferedWriter writer) throws IOException {
-		SelfPrinter.printSelf(element.getSelf(), writer);
+	static void print(SelfReference element, BufferedWriter writer) throws IOException {
+		SelfPrinter.print(element.getSelf(), writer);
 	}
 
 }

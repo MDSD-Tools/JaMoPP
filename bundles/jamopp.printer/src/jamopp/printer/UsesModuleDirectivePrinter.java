@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import org.emftext.language.java.modules.UsesModuleDirective;
 
-public class UsesModuleDirectivePrinter {
+class UsesModuleDirectivePrinter {
 
-	static void printUsesModuleDirective(UsesModuleDirective element, BufferedWriter writer) throws IOException {
+	static void print(UsesModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("uses ");
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
 		writer.append(";\n");
 	}
 

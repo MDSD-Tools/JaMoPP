@@ -3,9 +3,9 @@ package jamopp.printer;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class ReflectiveClassReferencePrinter {
+class ReflectiveClassReferencePrinter {
 
-	static void printReflectiveClassReference(BufferedWriter writer) throws IOException {
+	static void print(BufferedWriter writer) throws IOException {
 		writer.append("class");
 	}
 

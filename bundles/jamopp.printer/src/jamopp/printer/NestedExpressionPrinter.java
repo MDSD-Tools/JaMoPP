@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.NestedExpression;
 
-public class NestedExpressionPrinter {
+class NestedExpressionPrinter {
 
-	static void printNestedExpression(NestedExpression element, BufferedWriter writer) throws IOException {
+	static void print(NestedExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
-		ExpressionPrinter.printExpression(element.getExpression(), writer);
+		ExpressionPrinter.print(element.getExpression(), writer);
 		writer.append(")");
 	}
 

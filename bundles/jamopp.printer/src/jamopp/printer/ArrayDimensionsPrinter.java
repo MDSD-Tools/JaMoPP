@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.emftext.language.java.arrays.ArrayDimension;
 
-public class ArrayDimensionsPrinter {
+class ArrayDimensionsPrinter {
 
-	static void printArrayDimensions(List<ArrayDimension> element, BufferedWriter writer) throws IOException {
+	static void print(List<ArrayDimension> element, BufferedWriter writer) throws IOException {
 		for (ArrayDimension dim : element) {
 			if (!dim.getAnnotations().isEmpty()) {
 				writer.append(" ");

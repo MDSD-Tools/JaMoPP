@@ -5,16 +5,16 @@ import java.io.IOException;
 
 import org.emftext.language.java.generics.CallTypeArgumentable;
 
-public class CallTypeArgumentablePrinter {
+class CallTypeArgumentablePrinter {
 
-	static void printCallTypeArgumentable(CallTypeArgumentable element, BufferedWriter writer)
+	static void print(CallTypeArgumentable element, BufferedWriter writer)
 			throws IOException {
 		if (!element.getCallTypeArguments().isEmpty()) {
 			writer.append("<");
-			TypeArgumentPrinter.printTypeArgument(element.getCallTypeArguments().get(0), writer);
+			TypeArgumentPrinter.print(element.getCallTypeArguments().get(0), writer);
 			for (int index = 1; index < element.getCallTypeArguments().size(); index++) {
 				writer.append(", ");
-				TypeArgumentPrinter.printTypeArgument(element.getCallTypeArguments().get(index), writer);
+				TypeArgumentPrinter.print(element.getCallTypeArguments().get(index), writer);
 			}
 			writer.append(">");
 		}

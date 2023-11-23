@@ -12,9 +12,9 @@ class AdditiveExpressionChildPrinter {
 	static void print(AdditiveExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof MultiplicativeExpression) {
-			MultiplicativeExpressionPrinter.printMultiplicativeExpression((MultiplicativeExpression) element, writer);
+			MultiplicativeExpressionPrinter.print((MultiplicativeExpression) element, writer);
 		} else {
-			MultiplicativeExpressionChildPrinter.printMultiplicativeExpressionChild((MultiplicativeExpressionChild) element, writer);
+			MultiplicativeExpressionChildPrinter.print((MultiplicativeExpressionChild) element, writer);
 		}
 	}
 

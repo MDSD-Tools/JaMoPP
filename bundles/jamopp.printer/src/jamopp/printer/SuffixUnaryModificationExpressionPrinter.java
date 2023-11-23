@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.SuffixUnaryModificationExpression;
 
-public class SuffixUnaryModificationExpressionPrinter {
+class SuffixUnaryModificationExpressionPrinter {
 
-	static void printSuffixUnaryModificationExpression(SuffixUnaryModificationExpression element,
+	static void print(SuffixUnaryModificationExpression element,
 			BufferedWriter writer) throws IOException {
-		UnaryModificationExpressionChildPrinter.printUnaryModificationExpressionChild(element.getChild(), writer);
+		UnaryModificationExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getOperator() != null) {
-			UnaryModificationOperatorPrinter.printUnaryModificationOperator(element.getOperator(), writer);
+			UnaryModificationOperatorPrinter.print(element.getOperator(), writer);
 		}
 	}
 

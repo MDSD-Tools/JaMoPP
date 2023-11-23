@@ -5,14 +5,14 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.AssignmentExpression;
 
-public class AssignmentExpressionPrinter {
+class AssignmentExpressionPrinter {
 
-	static void printAssignmentExpression(AssignmentExpression element, BufferedWriter writer)
+	static void print(AssignmentExpression element, BufferedWriter writer)
 			throws IOException {
-		AssignmentExpressionChildPrinter.printAssignmentExpressionChild(element.getChild(), writer);
+		AssignmentExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getAssignmentOperator() != null) {
-			AssignmentOperatorPrinter.printAssignmentOperator(element.getAssignmentOperator(), writer);
-			ExpressionPrinter.printExpression(element.getValue(), writer);
+			AssignmentOperatorPrinter.print(element.getAssignmentOperator(), writer);
+			ExpressionPrinter.print(element.getValue(), writer);
 		}
 	}
 

@@ -6,13 +6,13 @@ import java.io.IOException;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.operators.UnaryOperator;
 
-public class UnaryExpressionPrinter {
+class UnaryExpressionPrinter {
 
-	static void printUnaryExpression(UnaryExpression element, BufferedWriter writer) throws IOException {
+	static void print(UnaryExpression element, BufferedWriter writer) throws IOException {
 		for (UnaryOperator op : element.getOperators()) {
-			UnaryOperatorPrinter.printUnaryOperator(op, writer);
+			UnaryOperatorPrinter.print(op, writer);
 		}
-		UnaryExpressionChildPrinter.printUnaryExpressionChild(element.getChild(), writer);
+		UnaryExpressionChildPrinter.print(element.getChild(), writer);
 	}
 
 }

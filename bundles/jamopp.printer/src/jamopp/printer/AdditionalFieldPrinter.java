@@ -9,11 +9,11 @@ class AdditionalFieldPrinter {
 
 	static void print(AdditionalField element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		if (element.getInitialValue() != null) {
 			writer.append(" = ");
-			ExpressionPrinter.printExpression(element.getInitialValue(), writer);
+			ExpressionPrinter.print(element.getInitialValue(), writer);
 		}
 	}
 

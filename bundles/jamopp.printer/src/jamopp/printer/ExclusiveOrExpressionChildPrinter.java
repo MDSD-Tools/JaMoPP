@@ -7,9 +7,9 @@ import org.emftext.language.java.expressions.AndExpression;
 import org.emftext.language.java.expressions.AndExpressionChild;
 import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 
-public class ExclusiveOrExpressionChildPrinter {
+class ExclusiveOrExpressionChildPrinter {
 
-	static void printExclusiveOrExpressionChild(ExclusiveOrExpressionChild element, BufferedWriter writer)
+	static void print(ExclusiveOrExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof AndExpression) {
 			AndExpressionPrinter.print((AndExpression) element, writer);

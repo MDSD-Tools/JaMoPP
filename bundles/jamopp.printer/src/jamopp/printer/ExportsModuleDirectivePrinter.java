@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import org.emftext.language.java.modules.ExportsModuleDirective;
 
-public class ExportsModuleDirectivePrinter {
+class ExportsModuleDirectivePrinter {
 
-	static void printExportsModuleDirective(ExportsModuleDirective element, BufferedWriter writer) throws IOException {
+	static void print(ExportsModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("exports ");
-		RemainingAccessProvidingModuleDirectivePrinter.printRemainingAccessProvidingModuleDirective(element, writer);
+		RemainingAccessProvidingModuleDirectivePrinter.print(element, writer);
 	}
 
 }

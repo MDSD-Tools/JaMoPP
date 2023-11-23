@@ -7,14 +7,14 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 import org.emftext.language.java.expressions.RelationExpression;
 import org.emftext.language.java.expressions.RelationExpressionChild;
 
-public class InstanceOfExpressionChildPrinter {
+class InstanceOfExpressionChildPrinter {
 
-	static void printInstanceOfExpressionChild(InstanceOfExpressionChild element, BufferedWriter writer)
+	static void print(InstanceOfExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof RelationExpression) {
-			RelationExpressionPrinter.printRelationExpression((RelationExpression) element, writer);
+			RelationExpressionPrinter.print((RelationExpression) element, writer);
 		} else {
-			RelationExpressionChildPrinter.printRelationExpressionChild((RelationExpressionChild) element, writer);
+			RelationExpressionChildPrinter.print((RelationExpressionChild) element, writer);
 		}
 	}
 

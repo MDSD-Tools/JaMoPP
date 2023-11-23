@@ -20,9 +20,9 @@ import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.literals.OctalIntegerLiteral;
 import org.emftext.language.java.literals.OctalLongLiteral;
 
-public class LiteralPrinter {
+class LiteralPrinter {
 
-	static void printLiteral(Literal element, BufferedWriter writer) throws IOException {
+	static void print(Literal element, BufferedWriter writer) throws IOException {
 		if (element instanceof BooleanLiteral lit) {
 			writer.append(Boolean.toString(lit.isValue()));
 		} else if (element instanceof CharacterLiteral lit) {

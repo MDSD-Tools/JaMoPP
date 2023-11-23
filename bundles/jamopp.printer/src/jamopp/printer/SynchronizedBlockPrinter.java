@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.SynchronizedBlock;
 
-public class SynchronizedBlockPrinter {
+class SynchronizedBlockPrinter {
 
-	static void printSynchronizedBlock(SynchronizedBlock element, BufferedWriter writer) throws IOException {
+	static void print(SynchronizedBlock element, BufferedWriter writer) throws IOException {
 		writer.append("synchronized (");
-		ExpressionPrinter.printExpression(element.getLockProvider(), writer);
+		ExpressionPrinter.print(element.getLockProvider(), writer);
 		writer.append(") ");
-		BlockPrinter.printBlock(element.getBlock(), writer);
+		BlockPrinter.print(element.getBlock(), writer);
 	}
 
 }

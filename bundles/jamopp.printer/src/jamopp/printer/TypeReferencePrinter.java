@@ -9,17 +9,17 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypeReference;
 
-public class TypeReferencePrinter {
+class TypeReferencePrinter {
 
-	static void printTypeReference(TypeReference element, BufferedWriter writer) throws IOException {
+	static void print(TypeReference element, BufferedWriter writer) throws IOException {
 		if (element instanceof NamespaceClassifierReference) {
-			NamespaceClassifierReferencePrinter.printNamespaceClassifierReference((NamespaceClassifierReference) element, writer);
+			NamespaceClassifierReferencePrinter.print((NamespaceClassifierReference) element, writer);
 		} else if (element instanceof ClassifierReference) {
-			ClassifierReferencePrinter.printClassifierReference((ClassifierReference) element, writer);
+			ClassifierReferencePrinter.print((ClassifierReference) element, writer);
 		} else if (element instanceof PrimitiveType) {
-			PrimitiveTypePrinter.printPrimitiveType((PrimitiveType) element, writer);
+			PrimitiveTypePrinter.print((PrimitiveType) element, writer);
 		} else if (element instanceof InferableType) {
-			InferableTypePrinter.printInferableType(writer);
+			InferableTypePrinter.print(writer);
 		}
 	}
 

@@ -29,7 +29,7 @@ public final class JaMoPPPrinter {
 	public static void print(JavaRoot root, OutputStream output) {
 		try (OutputStreamWriter outWriter = new OutputStreamWriter(output, StandardCharsets.UTF_8);
 				BufferedWriter buffWriter = new BufferedWriter(outWriter)) {
-			JavaRootPrinter.printJavaRoot(root, buffWriter);
+			JavaRootPrinter.print(root, buffWriter);
 		} catch (IOException e) {
 		}
 	}
@@ -42,7 +42,7 @@ public final class JaMoPPPrinter {
 	 */
 	public static void print(JavaRoot root, Path file) {
 		try (BufferedWriter writer = Files.newBufferedWriter(file)) {
-			JavaRootPrinter.printJavaRoot(root, writer);
+			JavaRootPrinter.print(root, writer);
 		} catch (IOException e) {
 		}
 	}

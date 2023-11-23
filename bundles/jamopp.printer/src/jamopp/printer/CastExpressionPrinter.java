@@ -6,19 +6,19 @@ import java.io.IOException;
 import org.emftext.language.java.expressions.CastExpression;
 import org.emftext.language.java.types.TypeReference;
 
-public class CastExpressionPrinter {
+class CastExpressionPrinter {
 
-	static void printCastExpression(CastExpression element, BufferedWriter writer) throws IOException {
+	static void print(CastExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		for (TypeReference ref : element.getAdditionalBounds()) {
 			writer.append(" & ");
-			TypeReferencePrinter.printTypeReference(ref, writer);
+			TypeReferencePrinter.print(ref, writer);
 		}
 		writer.append(") ");
-		ExpressionPrinter.printExpression(element.getGeneralChild(), writer);
+		ExpressionPrinter.print(element.getGeneralChild(), writer);
 	}
 
 }

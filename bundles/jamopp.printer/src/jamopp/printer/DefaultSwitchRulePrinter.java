@@ -6,12 +6,12 @@ import java.io.IOException;
 import org.emftext.language.java.statements.DefaultSwitchRule;
 import org.emftext.language.java.statements.Statement;
 
-public class DefaultSwitchRulePrinter {
+class DefaultSwitchRulePrinter {
 
-	static void printDefaultSwitchRule(DefaultSwitchRule element, BufferedWriter writer) throws IOException {
+	static void print(DefaultSwitchRule element, BufferedWriter writer) throws IOException {
 		writer.append("default -> ");
 		for (Statement s : element.getStatements()) {
-			StatementPrinter.printStatement(s, writer);
+			StatementPrinter.print(s, writer);
 		}
 	}
 

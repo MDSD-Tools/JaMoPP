@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.Continue;
 
-public class ContinuePrinter {
+class ContinuePrinter {
 
-	static void printContinue(Continue element, BufferedWriter writer) throws IOException {
+	static void print(Continue element, BufferedWriter writer) throws IOException {
 		writer.append("continue");
 		if (element.getTarget() != null) {
 			writer.append(" " + element.getTarget().getName());

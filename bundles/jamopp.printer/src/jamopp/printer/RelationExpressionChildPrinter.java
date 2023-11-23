@@ -7,14 +7,14 @@ import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.expressions.ShiftExpression;
 import org.emftext.language.java.expressions.ShiftExpressionChild;
 
-public class RelationExpressionChildPrinter {
+class RelationExpressionChildPrinter {
 
-	static void printRelationExpressionChild(RelationExpressionChild element, BufferedWriter writer)
+	static void print(RelationExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof ShiftExpression) {
-			ShiftExpressionPrinter.printShiftExpression((ShiftExpression) element, writer);
+			ShiftExpressionPrinter.print((ShiftExpression) element, writer);
 		} else {
-			ShiftExpressionChildPrinter.printShiftExpressionChild((ShiftExpressionChild) element, writer);
+			ShiftExpressionChildPrinter.print((ShiftExpressionChild) element, writer);
 		}
 	}
 

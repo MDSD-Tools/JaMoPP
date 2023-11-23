@@ -6,16 +6,16 @@ import java.io.IOException;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.types.TypeReference;
 
-public class ProvidesModuleDirectivePrinter {
+class ProvidesModuleDirectivePrinter {
 
-	static void printProvidesModuleDirective(ProvidesModuleDirective element, BufferedWriter writer)
+	static void print(ProvidesModuleDirective element, BufferedWriter writer)
 			throws IOException {
 		writer.append("provides ");
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
 		writer.append(" with ");
 		for (int index = 0; index < element.getServiceProviders().size(); index++) {
 			TypeReference ref = element.getServiceProviders().get(index);
-			TypeReferencePrinter.printTypeReference(ref, writer);
+			TypeReferencePrinter.print(ref, writer);
 			if (index < element.getServiceProviders().size() - 1) {
 				writer.append(".");
 			}

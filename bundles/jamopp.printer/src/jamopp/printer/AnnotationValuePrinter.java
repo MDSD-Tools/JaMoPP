@@ -14,9 +14,9 @@ class AnnotationValuePrinter {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);
 		} else if (element instanceof ArrayInitializer) {
-			ArrayInitializerPrinter.printArrayInitializer((ArrayInitializer) element, writer);
+			ArrayInitializerPrinter.print((ArrayInitializer) element, writer);
 		} else {
-			ExpressionPrinter.printExpression((Expression) element, writer);
+			ExpressionPrinter.print((Expression) element, writer);
 		}
 	}
 

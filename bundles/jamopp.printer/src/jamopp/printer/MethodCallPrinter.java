@@ -5,12 +5,12 @@ import java.io.IOException;
 
 import org.emftext.language.java.references.MethodCall;
 
-public class MethodCallPrinter {
+class MethodCallPrinter {
 
-	static void printMethodCall(MethodCall element, BufferedWriter writer) throws IOException {
-		CallTypeArgumentablePrinter.printCallTypeArgumentable(element, writer);
+	static void print(MethodCall element, BufferedWriter writer) throws IOException {
+		CallTypeArgumentablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());
-		ArgumentablePrinter.printArgumentable(element, writer);
+		ArgumentablePrinter.print(element, writer);
 	}
 
 }

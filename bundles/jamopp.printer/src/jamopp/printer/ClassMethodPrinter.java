@@ -11,9 +11,9 @@ import org.emftext.language.java.modifiers.Public;
 import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.types.Type;
 
-public class ClassMethodPrinter {
+class ClassMethodPrinter {
 
-	static void printClassMethod(ClassMethod element, BufferedWriter writer) throws IOException {
+	static void print(ClassMethod element, BufferedWriter writer) throws IOException {
 		if (element.eContainer() instanceof Enumeration) {
 			boolean isStatic = false;
 			boolean isPublic = false;
@@ -38,16 +38,16 @@ public class ClassMethodPrinter {
 			}
 		}
 		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeParametrizablePrinter.printTypeParametrizable(element, writer);
+		TypeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		ParametrizablePrinter.printParametrizable(element, writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
-		ExceptionThrowerPrinter.printExceptionThrower(element, writer);
+		ParametrizablePrinter.print(element, writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		ExceptionThrowerPrinter.print(element, writer);
 		writer.append(" ");
-		StatementPrinter.printStatement(element.getStatement(), writer);
+		StatementPrinter.print(element.getStatement(), writer);
 		writer.append("\n");
 	}
 

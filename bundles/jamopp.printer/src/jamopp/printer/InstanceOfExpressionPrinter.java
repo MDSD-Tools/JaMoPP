@@ -5,15 +5,15 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.InstanceOfExpression;
 
-public class InstanceOfExpressionPrinter {
+class InstanceOfExpressionPrinter {
 
-	static void printInstanceOfExpression(InstanceOfExpression element, BufferedWriter writer)
+	static void print(InstanceOfExpression element, BufferedWriter writer)
 			throws IOException {
-		InstanceOfExpressionChildPrinter.printInstanceOfExpressionChild(element.getChild(), writer);
+		InstanceOfExpressionChildPrinter.print(element.getChild(), writer);
 		writer.append(" instanceof ");
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

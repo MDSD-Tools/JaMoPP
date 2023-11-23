@@ -5,12 +5,12 @@ import java.io.IOException;
 
 import org.emftext.language.java.arrays.ArraySelector;
 
-public class ArraySelectorPrinter {
+class ArraySelectorPrinter {
 
-	static void printArraySelector(ArraySelector element, BufferedWriter writer) throws IOException {
+	static void print(ArraySelector element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		writer.append("[");
-		ExpressionPrinter.printExpression(element.getPosition(), writer);
+		ExpressionPrinter.print(element.getPosition(), writer);
 		writer.append("]");
 	}
 

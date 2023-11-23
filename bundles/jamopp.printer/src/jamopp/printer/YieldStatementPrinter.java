@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.YieldStatement;
 
-public class YieldStatementPrinter {
+class YieldStatementPrinter {
 
-	static void printYieldStatement(YieldStatement element, BufferedWriter writer) throws IOException {
+	static void print(YieldStatement element, BufferedWriter writer) throws IOException {
 		writer.append("yield ");
-		ExpressionPrinter.printExpression(element.getYieldExpression(), writer);
+		ExpressionPrinter.print(element.getYieldExpression(), writer);
 		writer.append(";\n");
 	}
 

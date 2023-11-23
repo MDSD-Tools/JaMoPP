@@ -5,14 +5,14 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.PrefixUnaryModificationExpression;
 
-public class PrefixUnaryModificationExpressionPrinter {
+class PrefixUnaryModificationExpressionPrinter {
 
-	static void printPrefixUnaryModificationExpression(PrefixUnaryModificationExpression element,
+	static void print(PrefixUnaryModificationExpression element,
 			BufferedWriter writer) throws IOException {
 		if (element.getOperator() != null) {
-			UnaryModificationOperatorPrinter.printUnaryModificationOperator(element.getOperator(), writer);
+			UnaryModificationOperatorPrinter.print(element.getOperator(), writer);
 		}
-		UnaryModificationExpressionChildPrinter.printUnaryModificationExpressionChild(element.getChild(), writer);
+		UnaryModificationExpressionChildPrinter.print(element.getChild(), writer);
 	}
 
 }

@@ -18,9 +18,9 @@ public class IdentifierReferencePrinter {
 		} else {
 			writer.append(element.getTarget().getName());
 		}
-		TypeArgumentablePrinter.printTypeArgumentable(element, writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		TypeArgumentablePrinter.print(element, writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

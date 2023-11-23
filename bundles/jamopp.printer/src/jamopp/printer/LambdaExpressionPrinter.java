@@ -7,15 +7,15 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.LambdaExpression;
 import org.emftext.language.java.statements.Block;
 
-public class LambdaExpressionPrinter {
+class LambdaExpressionPrinter {
 
-	static void printLambdaExpression(LambdaExpression element, BufferedWriter writer) throws IOException {
-		LambdaParametersPrinter.printLambdaParameters(element.getParameters(), writer);
+	static void print(LambdaExpression element, BufferedWriter writer) throws IOException {
+		LambdaParametersPrinter.print(element.getParameters(), writer);
 		writer.append(" -> ");
 		if (element.getBody() instanceof Block) {
-			BlockPrinter.printBlock((Block) element.getBody(), writer);
+			BlockPrinter.print((Block) element.getBody(), writer);
 		} else {
-			ExpressionPrinter.printExpression((Expression) element.getBody(), writer);
+			ExpressionPrinter.print((Expression) element.getBody(), writer);
 		}
 	}
 

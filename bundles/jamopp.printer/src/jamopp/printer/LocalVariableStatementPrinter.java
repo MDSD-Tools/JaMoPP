@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.LocalVariableStatement;
 
-public class LocalVariableStatementPrinter {
+class LocalVariableStatementPrinter {
 
-	static void printLocalVariableStatement(LocalVariableStatement element, BufferedWriter writer)
+	static void print(LocalVariableStatement element, BufferedWriter writer)
 			throws IOException {
-		LocalVariablePrinter.printLocalVariable(element.getVariable(), writer);
+		LocalVariablePrinter.print(element.getVariable(), writer);
 		writer.append(";\n");
 	}
 

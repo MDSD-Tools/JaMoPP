@@ -7,14 +7,14 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
-public class EqualityExpressionChildPrinter {
+class EqualityExpressionChildPrinter {
 
-	static void printEqualityExpressionChild(EqualityExpressionChild element, BufferedWriter writer)
+	static void print(EqualityExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof InstanceOfExpression) {
-			InstanceOfExpressionPrinter.printInstanceOfExpression((InstanceOfExpression) element, writer);
+			InstanceOfExpressionPrinter.print((InstanceOfExpression) element, writer);
 		} else {
-			InstanceOfExpressionChildPrinter.printInstanceOfExpressionChild((InstanceOfExpressionChild) element, writer);
+			InstanceOfExpressionChildPrinter.print((InstanceOfExpressionChild) element, writer);
 		}
 	}
 

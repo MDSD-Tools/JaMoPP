@@ -6,18 +6,18 @@ import java.io.IOException;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 
-public class LocalVariablePrinter {
+class LocalVariablePrinter {
 
-	static void printLocalVariable(LocalVariable element, BufferedWriter writer) throws IOException {
+	static void print(LocalVariable element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeReferencePrinter.printTypeReference(element.getTypeReference(), writer);
-		TypeArgumentablePrinter.printTypeArgumentable(element, writer);
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsBefore(), writer);
+		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		TypeArgumentablePrinter.print(element, writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		ArrayDimensionsPrinter.printArrayDimensions(element.getArrayDimensionsAfter(), writer);
+		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		if (element.getInitialValue() != null) {
 			writer.append(" = ");
-			ExpressionPrinter.printExpression(element.getInitialValue(), writer);
+			ExpressionPrinter.print(element.getInitialValue(), writer);
 		}
 		for (AdditionalLocalVariable var : element.getAdditionalLocalVariables()) {
 			writer.append(", ");

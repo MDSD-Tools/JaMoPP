@@ -6,13 +6,13 @@ import java.io.IOException;
 import org.emftext.language.java.parameters.CatchParameter;
 import org.emftext.language.java.statements.CatchBlock;
 
-public class CatchBlockPrinter {
+class CatchBlockPrinter {
 
-	static void printCatchBlock(CatchBlock element, BufferedWriter writer) throws IOException {
+	static void print(CatchBlock element, BufferedWriter writer) throws IOException {
 		writer.append("catch(");
-		CatchParameterPrinter.printCatchParameter((CatchParameter) element.getParameter(), writer);
+		CatchParameterPrinter.print((CatchParameter) element.getParameter(), writer);
 		writer.append(")");
-		BlockPrinter.printBlock(element.getBlock(), writer);
+		BlockPrinter.print(element.getBlock(), writer);
 	}
 
 }
