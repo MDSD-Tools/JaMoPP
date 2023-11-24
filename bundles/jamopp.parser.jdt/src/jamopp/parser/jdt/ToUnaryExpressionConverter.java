@@ -8,19 +8,22 @@ import org.emftext.language.java.expressions.UnaryExpressionChild;
 
 class ToUnaryExpressionConverter {
 
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	
+	private final LayoutInformationConverter layoutInformationConverter;
+	private final ExpressionsFactory expressionsFactory;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToUnaryOperatorConverter toUnaryOperatorConverter;
 
 	ToUnaryExpressionConverter(ToUnaryOperatorConverter toUnaryOperatorConverter,
-			ToExpressionConverter toExpressionConverter) {
+			ToExpressionConverter toExpressionConverter, LayoutInformationConverter layoutInformationConverter,
+			ExpressionsFactory expressionsFactory) {
+		this.layoutInformationConverter = layoutInformationConverter;
+		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toUnaryOperatorConverter = toUnaryOperatorConverter;
 	}
 
 	UnaryExpression convertToUnaryExpression(PrefixExpression expr) {
-		UnaryExpression result = ExpressionsFactory.eINSTANCE.createUnaryExpression();
+		UnaryExpression result = expressionsFactory.createUnaryExpression();
 		result.getOperators().add(toUnaryOperatorConverter.convertToUnaryOperator(expr.getOperator()));
 		Expression potChild = toExpressionConverter.convertToExpression(expr.getOperand());
 		if (potChild instanceof UnaryExpressionChild) {
@@ -30,7 +33,7 @@ class ToUnaryExpressionConverter {
 			result.getOperators().addAll(secRes.getOperators());
 			result.setChild(secRes.getChild());
 		}
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 

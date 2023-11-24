@@ -1,21 +1,29 @@
 package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.PrefixExpression;
+import org.emftext.language.java.operators.OperatorsFactory;
 
 class ToUnaryOperatorConverter {
 
+	private final OperatorsFactory operatorsFactory;
+
+	public ToUnaryOperatorConverter(OperatorsFactory operatorsFactory) {
+		this.operatorsFactory = operatorsFactory;
+
+	}
+
 	org.emftext.language.java.operators.UnaryOperator convertToUnaryOperator(PrefixExpression.Operator op) {
 		if (op == PrefixExpression.Operator.COMPLEMENT) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createComplement();
+			return operatorsFactory.createComplement();
 		}
 		if (op == PrefixExpression.Operator.NOT) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createNegate();
+			return operatorsFactory.createNegate();
 		}
 		if (op == PrefixExpression.Operator.PLUS) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createAddition();
+			return operatorsFactory.createAddition();
 		}
 		if (op == PrefixExpression.Operator.MINUS) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createSubtraction();
+			return operatorsFactory.createSubtraction();
 		}
 		return null;
 	}

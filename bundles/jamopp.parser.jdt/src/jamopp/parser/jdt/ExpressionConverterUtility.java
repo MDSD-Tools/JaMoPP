@@ -15,6 +15,8 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.Expression;
+import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.operators.OperatorsFactory;
 
 class ExpressionConverterUtility {
 
@@ -23,10 +25,15 @@ class ExpressionConverterUtility {
 
 	static {
 
+		OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
+		ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
+		
+		LayoutInformationConverter layoutInformationConverter = new LayoutInformationConverter();
+
 		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter();
 		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter();
 		ToRelationOperatorConverter toRelationOperatorConverter = new ToRelationOperatorConverter();
-		ToShiftOperatorConverter toShiftOperatorConverter = new ToShiftOperatorConverter();
+		ToShiftOperatorConverter toShiftOperatorConverter = new ToShiftOperatorConverter(operatorsFactory);
 		ToAdditiveOperatorConverter toAdditiveOperatorConverter = new ToAdditiveOperatorConverter();
 		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter();
 		ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
@@ -46,7 +53,7 @@ class ExpressionConverterUtility {
 		ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter = new ToMultiplicativeExpressionConverter(
 				toMultiplicativeOperatorConverter, toExpressionConverter);
 		ToUnaryExpressionConverter toUnaryExpressionConverter = new ToUnaryExpressionConverter(toUnaryOperatorConverter,
-				toExpressionConverter);
+				toExpressionConverter, layoutInformationConverter, expressionsFactory);
 		ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter = new ToMethodReferenceExpressionConverter(
 				toExpressionConverter);
 

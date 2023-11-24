@@ -1,18 +1,26 @@
 package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.emftext.language.java.operators.OperatorsFactory;
+import org.emftext.language.java.operators.ShiftOperator;
 
 class ToShiftOperatorConverter {
 
-	org.emftext.language.java.operators.ShiftOperator convertToShiftOperator(InfixExpression.Operator op) {
+	private final OperatorsFactory operatorsFactory;
+	
+	public ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
+		this.operatorsFactory = operatorsFactory;	
+	}
+
+	ShiftOperator convertToShiftOperator(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.LEFT_SHIFT) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createLeftShift();
+			return operatorsFactory.createLeftShift();
 		}
 		if (op == InfixExpression.Operator.RIGHT_SHIFT_SIGNED) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createRightShift();
+			return operatorsFactory.createRightShift();
 		}
 		if (op == InfixExpression.Operator.RIGHT_SHIFT_UNSIGNED) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createUnsignedRightShift();
+			return operatorsFactory.createUnsignedRightShift();
 		}
 		return null;
 	}
