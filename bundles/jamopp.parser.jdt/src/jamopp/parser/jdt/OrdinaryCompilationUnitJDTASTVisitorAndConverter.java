@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisitorAndConverter {
 	
 	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
 	
 	@Override
 	public boolean visit(CompilationUnit node) {

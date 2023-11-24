@@ -18,6 +18,9 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.emftext.language.java.JavaClasspath;
 
 class JDTResolverUtility {
+	
+	private static final JDTBindingConverterUtility JDTBindingConverterUtility = new JDTBindingConverterUtility();
+	
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
 	private static HashMap<String, org.emftext.language.java.containers.Package> nameToPackage = new HashMap<>();

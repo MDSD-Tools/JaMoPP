@@ -63,11 +63,11 @@ class ExpressionConverterUtility {
 
 	}
 
-	static org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
+	org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
 		return toExpressionConverter.convertToExpression(expr);
 	}
 
-	static org.emftext.language.java.expressions.ConditionalExpression convertToConditionalExpression(
+	org.emftext.language.java.expressions.ConditionalExpression convertToConditionalExpression(
 			ConditionalExpression expr) {
 		return toConditionalExpressionConverter.convertToConditionalExpression(expr);
 	}

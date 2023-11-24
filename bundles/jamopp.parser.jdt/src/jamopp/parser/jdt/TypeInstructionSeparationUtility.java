@@ -13,6 +13,7 @@ class TypeInstructionSeparationUtility {
 	
 	private static final StatementConverterUtility StatementConverterUtility = new StatementConverterUtility();
 	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
 	
 	private static HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
 	private static HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();

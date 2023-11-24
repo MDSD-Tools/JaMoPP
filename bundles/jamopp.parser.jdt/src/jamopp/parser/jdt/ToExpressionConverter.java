@@ -28,6 +28,9 @@ class ToExpressionConverter {
 	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
 	private static final StatementConverterUtility StatementConverterUtility = new StatementConverterUtility();
 	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	private static final JDTBindingConverterUtility JDTBindingConverterUtility = new JDTBindingConverterUtility();
+	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
+	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
 	
 	private static final ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
 	private ToAssignmentConverter toAssignmentOperatorConverter;

@@ -61,13 +61,15 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 class ClassifierConverterUtility {
-	
-	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	
+
+	private final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
+	private final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	private final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
+	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+
 	@SuppressWarnings("unchecked")
-	static ConcreteClassifier convertToConcreteClassifier(AbstractTypeDeclaration typeDecl) {
+	ConcreteClassifier convertToConcreteClassifier(AbstractTypeDeclaration typeDecl) {
 		ConcreteClassifier result = null;
 		if (typeDecl.getNodeType() == ASTNode.TYPE_DECLARATION) {
 			result = convertToClassOrInterface((TypeDeclaration) typeDecl);
@@ -90,7 +92,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static ConcreteClassifier convertToClassOrInterface(TypeDeclaration typeDecl) {
+	private ConcreteClassifier convertToClassOrInterface(TypeDeclaration typeDecl) {
 		if (typeDecl.isInterface()) {
 			Interface interfaceObj = JDTResolverUtility.getInterface(typeDecl.resolveBinding());
 			typeDecl.typeParameters()
@@ -115,7 +117,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Enumeration convertToEnum(EnumDeclaration enumDecl) {
+	private Enumeration convertToEnum(EnumDeclaration enumDecl) {
 		Enumeration result = JDTResolverUtility.getEnumeration(enumDecl.resolveBinding());
 		enumDecl.superInterfaceTypes()
 				.forEach(obj -> result.getImplements().add(BaseConverterUtility.convertToTypeReference((Type) obj)));
@@ -126,14 +128,14 @@ class ClassifierConverterUtility {
 		return result;
 	}
 
-	private static org.emftext.language.java.members.Member convertToInterfaceMember(BodyDeclaration body) {
+	private org.emftext.language.java.members.Member convertToInterfaceMember(BodyDeclaration body) {
 		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
 			return convertToInterfaceMethodOrConstructor((MethodDeclaration) body);
 		}
 		return convertToClassMember(body);
 	}
 
-	private static Member convertToClassMember(BodyDeclaration body) {
+	private Member convertToClassMember(BodyDeclaration body) {
 		if (body instanceof AbstractTypeDeclaration) {
 			return convertToConcreteClassifier((AbstractTypeDeclaration) body);
 		}
@@ -153,7 +155,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Block convertToBlock(Initializer init) {
+	private Block convertToBlock(Initializer init) {
 		Block result = StatementsFactory.eINSTANCE.createBlock();
 		result.setName("");
 		TypeInstructionSeparationUtility.addInitializer(init.getBody(), result);
@@ -163,7 +165,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Field convertToField(FieldDeclaration fieldDecl) {
+	private Field convertToField(FieldDeclaration fieldDecl) {
 		VariableDeclarationFragment firstFragment = (VariableDeclarationFragment) fieldDecl.fragments().get(0);
 		Field result;
 		IVariableBinding binding = firstFragment.resolveBinding();
@@ -192,7 +194,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static AdditionalField convertToAdditionalField(VariableDeclarationFragment frag) {
+	private AdditionalField convertToAdditionalField(VariableDeclarationFragment frag) {
 		AdditionalField result;
 		IVariableBinding binding = frag.resolveBinding();
 		if (binding != null) {
@@ -211,7 +213,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static InterfaceMethod convertToInterfaceMethod(AnnotationTypeMemberDeclaration annDecl) {
+	private InterfaceMethod convertToInterfaceMethod(AnnotationTypeMemberDeclaration annDecl) {
 		IMethodBinding binding = annDecl.resolveBinding();
 		InterfaceMethod result;
 		if (binding != null) {
@@ -234,7 +236,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Member convertToInterfaceMethodOrConstructor(MethodDeclaration methodDecl) {
+	private Member convertToInterfaceMethodOrConstructor(MethodDeclaration methodDecl) {
 		if (methodDecl.isConstructor()) {
 			return convertToClassMethodOrConstructor(methodDecl);
 		}
@@ -272,8 +274,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Member convertToClassMethodOrConstructor(
-			MethodDeclaration methodDecl) {
+	private Member convertToClassMethodOrConstructor(MethodDeclaration methodDecl) {
 		if (methodDecl.isConstructor()) {
 			Constructor result;
 			IMethodBinding binding = methodDecl.resolveBinding();
@@ -332,7 +333,7 @@ class ClassifierConverterUtility {
 		return result;
 	}
 
-	private static NamespaceClassifierReference wrapInNamespaceClassifierReference(TypeReference ref) {
+	private NamespaceClassifierReference wrapInNamespaceClassifierReference(TypeReference ref) {
 		if (ref instanceof NamespaceClassifierReference) {
 			return (NamespaceClassifierReference) ref;
 		}
@@ -345,7 +346,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static EnumConstant convertToEnumConstant(EnumConstantDeclaration enDecl) {
+	private EnumConstant convertToEnumConstant(EnumConstantDeclaration enDecl) {
 		EnumConstant result;
 		IVariableBinding binding = enDecl.resolveVariable();
 		if (binding == null) {
@@ -366,7 +367,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.generics.TypeParameter convertToTypeParameter(TypeParameter param) {
+	private org.emftext.language.java.generics.TypeParameter convertToTypeParameter(TypeParameter param) {
 		org.emftext.language.java.generics.TypeParameter result = JDTResolverUtility
 				.getTypeParameter(param.resolveBinding());
 		param.modifiers().forEach(obj -> result.getAnnotations()
@@ -379,7 +380,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	static AnonymousClass convertToAnonymousClass(AnonymousClassDeclaration anon) {
+	AnonymousClass convertToAnonymousClass(AnonymousClassDeclaration anon) {
 		ITypeBinding binding = anon.resolveBinding();
 		AnonymousClass result;
 		if (binding != null) {
@@ -392,7 +393,7 @@ class ClassifierConverterUtility {
 		return result;
 	}
 
-	private static ReceiverParameter convertToReceiverParameter(MethodDeclaration methodDecl) {
+	private ReceiverParameter convertToReceiverParameter(MethodDeclaration methodDecl) {
 		ReceiverParameter result = ParametersFactory.eINSTANCE.createReceiverParameter();
 		result.setName("");
 		result.setTypeReference(BaseConverterUtility.convertToTypeReference(methodDecl.getReceiverType()));
@@ -405,7 +406,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Parameter convertToParameter(SingleVariableDeclaration decl) {
+	private Parameter convertToParameter(SingleVariableDeclaration decl) {
 		if (decl.isVarargs()) {
 			VariableLengthParameter result = JDTResolverUtility.getVariableLengthParameter(decl.resolveBinding());
 			decl.modifiers()
@@ -425,7 +426,7 @@ class ClassifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	static OrdinaryParameter convertToOrdinaryParameter(SingleVariableDeclaration decl) {
+	OrdinaryParameter convertToOrdinaryParameter(SingleVariableDeclaration decl) {
 		OrdinaryParameter result = JDTResolverUtility.getOrdinaryParameter(decl.resolveBinding());
 		decl.modifiers()
 				.forEach(obj -> result.getAnnotationsAndModifiers().add(AnnotationInstanceOrModifierConverterUtility

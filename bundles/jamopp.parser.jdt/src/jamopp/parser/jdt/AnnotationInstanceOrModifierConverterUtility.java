@@ -40,6 +40,8 @@ class AnnotationInstanceOrModifierConverterUtility {
 	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
 	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
 	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
+	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
 
 	static AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {

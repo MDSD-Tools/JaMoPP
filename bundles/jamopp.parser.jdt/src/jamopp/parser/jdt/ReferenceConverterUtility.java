@@ -50,6 +50,9 @@ class ReferenceConverterUtility {
 	
 	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
 	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
+	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
+	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
 	
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
 		return walkUp(internalConvertToReference(expr));

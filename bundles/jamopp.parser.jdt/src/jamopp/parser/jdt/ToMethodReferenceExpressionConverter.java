@@ -12,6 +12,7 @@ class ToMethodReferenceExpressionConverter {
 	
 	private static ReferenceConverterUtility ReferenceConverterUtility = new ReferenceConverterUtility();
 	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
 
 	private final ToExpressionConverter toExpressionConverter;
 	

@@ -49,8 +49,9 @@ class BaseConverterUtility {
 	
 	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
 	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	private static final JDTBindingConverterUtility JDTBindingConverterUtility = new JDTBindingConverterUtility();
 	
-	static TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
+	 TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
 		if (name.isSimpleName()) {
 			return convertToClassifierReference((SimpleName) name);
 		}
@@ -84,7 +85,7 @@ class BaseConverterUtility {
 		return ref;
 	}
 
-	static ClassifierReference convertToClassifierReference(SimpleName simpleName) {
+	 ClassifierReference convertToClassifierReference(SimpleName simpleName) {
 		ClassifierReference ref = TypesFactory.eINSTANCE.createClassifierReference();
 		ITypeBinding binding = (ITypeBinding) simpleName.resolveBinding();
 		Classifier proxy;
@@ -98,7 +99,7 @@ class BaseConverterUtility {
 		return ref;
 	}
 
-	static void convertToNamespacesAndSimpleNameAndSet(Name name, NamespaceAwareElement namespaceElement,
+	 void convertToNamespacesAndSimpleNameAndSet(Name name, NamespaceAwareElement namespaceElement,
 			NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			namedElement.setName(((SimpleName) name).getIdentifier());
@@ -109,7 +110,7 @@ class BaseConverterUtility {
 		}
 	}
 
-	static void convertToNamespacesAndSet(Name name, NamespaceAwareElement namespaceElement) {
+	 void convertToNamespacesAndSet(Name name, NamespaceAwareElement namespaceElement) {
 		if (name.isSimpleName()) {
 			SimpleName simpleName = (SimpleName) name;
 			namespaceElement.getNamespaces().add(0, simpleName.getIdentifier());
@@ -120,7 +121,7 @@ class BaseConverterUtility {
 		}
 	}
 
-	static void convertToSimpleNameOnlyAndSet(Name name, NamedElement namedElement) {
+	 void convertToSimpleNameOnlyAndSet(Name name, NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			SimpleName simpleName = (SimpleName) name;
 			namedElement.setName(simpleName.getIdentifier());
@@ -132,7 +133,7 @@ class BaseConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	static TypeReference convertToTypeReference(Type t) {
+	 TypeReference convertToTypeReference(Type t) {
 		if (t.isPrimitiveType()) {
 			PrimitiveType primType = (PrimitiveType) t;
 			org.emftext.language.java.types.PrimitiveType convertedType;
@@ -245,7 +246,7 @@ class BaseConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	static TypeArgument convertToTypeArgument(Type t) {
+	 TypeArgument convertToTypeArgument(Type t) {
 		if (!t.isWildcardType()) {
 			QualifiedTypeArgument result = GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
 			result.setTypeReference(convertToTypeReference(t));
@@ -279,11 +280,11 @@ class BaseConverterUtility {
 		return result;
 	}
 
-	static void convertToArrayDimensionsAndSet(Type t, ArrayTypeable arrDimContainer) {
+	 void convertToArrayDimensionsAndSet(Type t, ArrayTypeable arrDimContainer) {
 		convertToArrayDimensionsAndSet(t, arrDimContainer, 0);
 	}
 
-	static void convertToArrayDimensionsAndSet(Type t, ArrayTypeable arrDimContainer, int ignoreDimensions) {
+	 void convertToArrayDimensionsAndSet(Type t, ArrayTypeable arrDimContainer, int ignoreDimensions) {
 		if (t.isArrayType()) {
 			ArrayType arrT = (ArrayType) t;
 			for (int i = ignoreDimensions; i < arrT.dimensions().size(); i++) {
@@ -293,12 +294,12 @@ class BaseConverterUtility {
 		}
 	}
 
-	static void convertToArrayDimensionAfterAndSet(Dimension dim, ArrayTypeable arrDimContainer) {
+	 void convertToArrayDimensionAfterAndSet(Dimension dim, ArrayTypeable arrDimContainer) {
 		arrDimContainer.getArrayDimensionsAfter().add(convertToArrayDimension(dim));
 	}
 
 	@SuppressWarnings("unchecked")
-	private static ArrayDimension convertToArrayDimension(Dimension dim) {
+	private  ArrayDimension convertToArrayDimension(Dimension dim) {
 		ArrayDimension result = ArraysFactory.eINSTANCE.createArrayDimension();
 		dim.annotations().forEach(annot -> result.getAnnotations()
 				.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) annot)));
