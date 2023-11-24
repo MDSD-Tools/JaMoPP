@@ -32,10 +32,10 @@ class ExpressionConverterUtility {
 
 		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter();
 		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter();
-		ToRelationOperatorConverter toRelationOperatorConverter = new ToRelationOperatorConverter();
+		ToRelationOperatorConverter toRelationOperatorConverter = new ToRelationOperatorConverter(operatorsFactory);
 		ToShiftOperatorConverter toShiftOperatorConverter = new ToShiftOperatorConverter(operatorsFactory);
 		ToAdditiveOperatorConverter toAdditiveOperatorConverter = new ToAdditiveOperatorConverter();
-		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter();
+		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter(operatorsFactory);
 		ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
 
 		toExpressionConverter = new ToExpressionConverter();
@@ -47,7 +47,7 @@ class ExpressionConverterUtility {
 		ToRelationExpressionConverter toRelationExpressionConverter = new ToRelationExpressionConverter(
 				toRelationOperatorConverter, toExpressionConverter);
 		ToShiftExpressionConverter toShiftExpressionConverter = new ToShiftExpressionConverter(toShiftOperatorConverter,
-				toExpressionConverter);
+				toExpressionConverter, layoutInformationConverter, expressionsFactory);
 		ToAdditiveExpressionConverter toAdditiveExpressionConverter = new ToAdditiveExpressionConverter(
 				toExpressionConverter, toAdditiveOperatorConverter);
 		ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter = new ToMultiplicativeExpressionConverter(
