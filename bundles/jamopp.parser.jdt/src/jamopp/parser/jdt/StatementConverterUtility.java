@@ -52,6 +52,8 @@ import org.eclipse.jdt.core.dom.YieldStatement;
 class StatementConverterUtility {
 	
 	private static ReferenceConverterUtility ReferenceConverterUtility = new ReferenceConverterUtility();
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 	
 	private static HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 	

@@ -38,6 +38,8 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 class AnnotationInstanceOrModifierConverterUtility {
 
 	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 
 	static AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {

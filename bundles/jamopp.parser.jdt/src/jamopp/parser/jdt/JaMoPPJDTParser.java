@@ -42,6 +42,7 @@ import jamopp.parser.api.JaMoPPParserAPI;
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 	
 	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 
 	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
 

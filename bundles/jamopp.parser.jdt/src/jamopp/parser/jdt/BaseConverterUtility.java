@@ -46,6 +46,10 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 class BaseConverterUtility {
+	
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	
 	static TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
 		if (name.isSimpleName()) {
 			return convertToClassifierReference((SimpleName) name);

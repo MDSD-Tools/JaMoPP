@@ -69,6 +69,8 @@ import org.emftext.language.java.types.TypesFactory;
 
 @SuppressWarnings("restriction")
 class JDTBindingConverterUtility {
+	
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 
 	static List<TypeReference> convertToTypeReferences(ITypeBinding binding) {
 		List<TypeReference> result = new ArrayList<>();

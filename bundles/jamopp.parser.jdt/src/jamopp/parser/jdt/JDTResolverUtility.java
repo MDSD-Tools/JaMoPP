@@ -50,16 +50,16 @@ class JDTResolverUtility {
 	private final static String SYNTH_CLASS = "SyntheticContainerClass";
 	private final static boolean extractAdditionalInformationFromTypeBindings = true;
 
-	static void setResourceSet(ResourceSet set) {
+	void setResourceSet(ResourceSet set) {
 		resourceSet = set;
 	}
 
-	static org.emftext.language.java.containers.Module getModule(IModuleBinding binding) {
+	org.emftext.language.java.containers.Module getModule(IModuleBinding binding) {
 		moduleBindings.add(binding);
 		return getModule(binding.getName());
 	}
 
-	static org.emftext.language.java.containers.Module getModule(String modName) {
+	 org.emftext.language.java.containers.Module getModule(String modName) {
 		if (modBindToMod.containsKey(modName)) {
 			return modBindToMod.get(modName);
 		}
@@ -71,12 +71,12 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.containers.Package getPackage(IPackageBinding binding) {
+	 org.emftext.language.java.containers.Package getPackage(IPackageBinding binding) {
 		packageBindings.add(binding);
 		return getPackage(binding.getName());
 	}
 
-	private static org.emftext.language.java.containers.Package getPackage(String packageName) {
+	private  org.emftext.language.java.containers.Package getPackage(String packageName) {
 		if (nameToPackage.containsKey(packageName)) {
 			return nameToPackage.get(packageName);
 		}
@@ -88,7 +88,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	private static String convertToTypeName(ITypeBinding binding) {
+	private  String convertToTypeName(ITypeBinding binding) {
 		if (binding == null) {
 			return "";
 		}
@@ -122,12 +122,12 @@ class JDTResolverUtility {
 		return qualifiedName;
 	}
 
-	static org.emftext.language.java.classifiers.Annotation getAnnotation(ITypeBinding binding) {
+	 org.emftext.language.java.classifiers.Annotation getAnnotation(ITypeBinding binding) {
 		typeBindings.add(binding);
 		return getAnnotation(convertToTypeName(binding));
 	}
 
-	static org.emftext.language.java.classifiers.Annotation getAnnotation(String annotName) {
+	 org.emftext.language.java.classifiers.Annotation getAnnotation(String annotName) {
 		if (typeBindToAnnot.containsKey(annotName)) {
 			return typeBindToAnnot.get(annotName);
 		}
@@ -142,7 +142,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.classifiers.Enumeration getEnumeration(ITypeBinding binding) {
+	 org.emftext.language.java.classifiers.Enumeration getEnumeration(ITypeBinding binding) {
 		String enumName = convertToTypeName(binding);
 		if (typeBindToEnum.containsKey(enumName)) {
 			return typeBindToEnum.get(enumName);
@@ -159,12 +159,12 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.classifiers.Class getClass(ITypeBinding binding) {
+	 org.emftext.language.java.classifiers.Class getClass(ITypeBinding binding) {
 		typeBindings.add(binding);
 		return getClass(convertToTypeName(binding));
 	}
 
-	static org.emftext.language.java.classifiers.Interface getInterface(ITypeBinding binding) {
+	 org.emftext.language.java.classifiers.Interface getInterface(ITypeBinding binding) {
 		String interName = convertToTypeName(binding);
 		if (typeBindToInterface.containsKey(interName)) {
 			return typeBindToInterface.get(interName);
@@ -181,7 +181,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	private static String convertToTypeParameterName(ITypeBinding binding) {
+	private  String convertToTypeParameterName(ITypeBinding binding) {
 		if (binding == null) {
 			return "";
 		}
@@ -199,7 +199,7 @@ class JDTResolverUtility {
 		return name;
 	}
 
-	static org.emftext.language.java.generics.TypeParameter getTypeParameter(ITypeBinding binding) {
+	 org.emftext.language.java.generics.TypeParameter getTypeParameter(ITypeBinding binding) {
 		String paramName = convertToTypeParameterName(binding);
 		if (typeBindToTP.containsKey(paramName)) {
 			return typeBindToTP.get(paramName);
@@ -210,7 +210,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.classifiers.Classifier getClassifier(ITypeBinding binding) {
+	 org.emftext.language.java.classifiers.Classifier getClassifier(ITypeBinding binding) {
 		String typeName = convertToTypeName(binding);
 		org.emftext.language.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get().getConcreteClassifier(typeName);
 		if (potClass != null) {
@@ -241,7 +241,7 @@ class JDTResolverUtility {
 		return null;
 	}
 
-	private static String convertToMethodName(IMethodBinding binding) {
+	private  String convertToMethodName(IMethodBinding binding) {
 		if (binding == null) {
 			return "";
 		}
@@ -271,7 +271,7 @@ class JDTResolverUtility {
 		return name;
 	}
 
-	static org.emftext.language.java.members.InterfaceMethod getInterfaceMethod(String methodName) {
+	 org.emftext.language.java.members.InterfaceMethod getInterfaceMethod(String methodName) {
 		if (methBindToInter.containsKey(methodName)) {
 			return methBindToInter.get(methodName);
 		}
@@ -280,7 +280,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	private static org.emftext.language.java.members.InterfaceMethod createNewInterfaceMethod() {
+	private  org.emftext.language.java.members.InterfaceMethod createNewInterfaceMethod() {
 		org.emftext.language.java.members.InterfaceMethod result =
 				org.emftext.language.java.members.MembersFactory.eINSTANCE.createInterfaceMethod();
 		result.setTypeReference(org.emftext.language.java.types.TypesFactory.eINSTANCE.createVoid());
@@ -288,7 +288,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.InterfaceMethod getInterfaceMethod(IMethodBinding binding) {
+	 org.emftext.language.java.members.InterfaceMethod getInterfaceMethod(IMethodBinding binding) {
 		binding = binding.getMethodDeclaration();
 		methodBindings.add(binding);
 		String methName = convertToMethodName(binding);
@@ -315,7 +315,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.ClassMethod getClassMethod(String methodName) {
+	 org.emftext.language.java.members.ClassMethod getClassMethod(String methodName) {
 		if (methBindToCM.containsKey(methodName)) {
 			return methBindToCM.get(methodName);
 		}
@@ -324,7 +324,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	private static org.emftext.language.java.members.ClassMethod createNewClassMethod() {
+	private  org.emftext.language.java.members.ClassMethod createNewClassMethod() {
 		org.emftext.language.java.members.ClassMethod result =
 				org.emftext.language.java.members.MembersFactory.eINSTANCE.createClassMethod();
 		result.setTypeReference(org.emftext.language.java.types.TypesFactory.eINSTANCE.createVoid());
@@ -334,7 +334,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.ClassMethod getClassMethod(IMethodBinding binding) {
+	 org.emftext.language.java.members.ClassMethod getClassMethod(IMethodBinding binding) {
 		binding = binding.getMethodDeclaration();
 		methodBindings.add(binding);
 		String methName = convertToMethodName(binding);
@@ -363,7 +363,7 @@ class JDTResolverUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T extends org.emftext.language.java.members.Method> T checkMethod(org.emftext.language.java.members.Method mem,
+	private  <T extends org.emftext.language.java.members.Method> T checkMethod(org.emftext.language.java.members.Method mem,
 			IMethodBinding binding) {
 		if (mem.getName().equals(binding.getName())) {
 			T meth = (T) mem;
@@ -394,7 +394,7 @@ class JDTResolverUtility {
 		return null;
 	}
 
-	private static String convertToTypeName(org.emftext.language.java.types.TypeReference ref) {
+	private  String convertToTypeName(org.emftext.language.java.types.TypeReference ref) {
 		if (ref instanceof org.emftext.language.java.types.ClassifierReference convRef) {
 			if (convRef.getTarget() instanceof org.emftext.language.java.classifiers.ConcreteClassifier) {
 				return ((org.emftext.language.java.classifiers.ConcreteClassifier) convRef.getTarget()).getQualifiedName();
@@ -437,7 +437,7 @@ class JDTResolverUtility {
 		return "void";
 	}
 
-	static org.emftext.language.java.members.Constructor getConstructor(IMethodBinding binding) {
+	 org.emftext.language.java.members.Constructor getConstructor(IMethodBinding binding) {
 		String methName = convertToMethodName(binding);
 		if (methBindToConstr.containsKey(methName)) {
 			return methBindToConstr.get(methName);
@@ -483,7 +483,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.Constructor getConstructor(String methName) {
+	 org.emftext.language.java.members.Constructor getConstructor(String methName) {
 		if (methBindToConstr.containsKey(methName)) {
 			return methBindToConstr.get(methName);
 		}
@@ -498,14 +498,14 @@ class JDTResolverUtility {
 	}
 
 
-	static org.emftext.language.java.members.Method getMethod(IMethodBinding binding) {
+	 org.emftext.language.java.members.Method getMethod(IMethodBinding binding) {
 		if (binding.getDeclaringClass().isInterface()) {
 			return getInterfaceMethod(binding);
 		}
 		return getClassMethod(binding);
 	}
 
-	static org.emftext.language.java.classifiers.Class getClass(String typeName) {
+	 org.emftext.language.java.classifiers.Class getClass(String typeName) {
 		if (typeBindToClass.containsKey(typeName)) {
 			return typeBindToClass.get(typeName);
 		}
@@ -520,7 +520,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.classifiers.AnonymousClass getAnonymousClass(String typeName) {
+	 org.emftext.language.java.classifiers.AnonymousClass getAnonymousClass(String typeName) {
 		if (nameToAnonymousClass.containsKey(typeName)) {
 			return nameToAnonymousClass.get(typeName);
 		}
@@ -529,12 +529,12 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.classifiers.AnonymousClass getAnonymousClass(ITypeBinding binding) {
+	 org.emftext.language.java.classifiers.AnonymousClass getAnonymousClass(ITypeBinding binding) {
 		String typeName = convertToTypeName(binding);
 		return getAnonymousClass(typeName);
 	}
 
-	private static String convertToFieldName(IVariableBinding binding) {
+	private  String convertToFieldName(IVariableBinding binding) {
 		if (binding == null || !binding.isField()) {
 			return "";
 		}
@@ -546,7 +546,7 @@ class JDTResolverUtility {
 		return name;
 	}
 
-	static org.emftext.language.java.members.Field getField(String name) {
+	 org.emftext.language.java.members.Field getField(String name) {
 		if (nameToField.containsKey(name)) {
 			return nameToField.get(name);
 		}
@@ -555,7 +555,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.Field getField(IVariableBinding binding) {
+	 org.emftext.language.java.members.Field getField(IVariableBinding binding) {
 		String varName = convertToFieldName(binding);
 		if (nameToField.containsKey(varName)) {
 			return nameToField.get(varName);
@@ -582,7 +582,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.EnumConstant getEnumConstant(IVariableBinding binding) {
+	 org.emftext.language.java.members.EnumConstant getEnumConstant(IVariableBinding binding) {
 		String enumCN = convertToFieldName(binding);
 		if (nameToEnumConst.containsKey(enumCN)) {
 			return nameToEnumConst.get(enumCN);
@@ -605,7 +605,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.EnumConstant getEnumConstant(String enumCN) {
+	 org.emftext.language.java.members.EnumConstant getEnumConstant(String enumCN) {
 		if (nameToEnumConst.containsKey(enumCN)) {
 			return nameToEnumConst.get(enumCN);
 		}
@@ -614,7 +614,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.AdditionalField getAdditionalField(String name) {
+	 org.emftext.language.java.members.AdditionalField getAdditionalField(String name) {
 		if (nameToAddField.containsKey(name)) {
 			return nameToAddField.get(name);
 		}
@@ -623,7 +623,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.members.AdditionalField getAdditionalField(IVariableBinding binding) {
+	 org.emftext.language.java.members.AdditionalField getAdditionalField(IVariableBinding binding) {
 		String varName = convertToFieldName(binding);
 		if (nameToAddField.containsKey(varName)) {
 			return nameToAddField.get(varName);
@@ -651,7 +651,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	private static String convertToParameterName(IVariableBinding binding, boolean register) {
+	private  String convertToParameterName(IVariableBinding binding, boolean register) {
 		if (binding == null) {
 			return "";
 		}
@@ -674,12 +674,12 @@ class JDTResolverUtility {
 		return name;
 	}
 
-	static org.emftext.language.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
+	 org.emftext.language.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getLocalVariable(convertToParameterName(binding, true));
 	}
 
-	static org.emftext.language.java.variables.LocalVariable getLocalVariable(String varName) {
+	 org.emftext.language.java.variables.LocalVariable getLocalVariable(String varName) {
 		if (nameToLocVar.containsKey(varName)) {
 			return nameToLocVar.get(varName);
 		}
@@ -688,12 +688,12 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(IVariableBinding binding) {
+	 org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getAdditionalLocalVariable(convertToParameterName(binding, true));
 	}
 
-	static org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
+	 org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
 		if (nameToAddLocVar.containsKey(varName)) {
 			return nameToAddLocVar.get(varName);
 		}
@@ -702,13 +702,13 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.parameters.OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
+	 org.emftext.language.java.parameters.OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
 		variableBindings.add(binding);
 		String paramName = convertToParameterName(binding, true);
 		return getOrdinaryParameter(paramName);
 	}
 
-	static org.emftext.language.java.parameters.OrdinaryParameter getOrdinaryParameter(String paramName) {
+	 org.emftext.language.java.parameters.OrdinaryParameter getOrdinaryParameter(String paramName) {
 		if (nameToOrdParam.containsKey(paramName)) {
 			return nameToOrdParam.get(paramName);
 		}
@@ -717,7 +717,7 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.parameters.VariableLengthParameter getVariableLengthParameter(IVariableBinding binding) {
+	 org.emftext.language.java.parameters.VariableLengthParameter getVariableLengthParameter(IVariableBinding binding) {
 		String paramName = convertToParameterName(binding, true);
 		if (nameToVarLenParam.containsKey(paramName)) {
 			return nameToVarLenParam.get(paramName);
@@ -728,12 +728,12 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
+	 org.emftext.language.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getCatchParameter(convertToParameterName(binding, true));
 	}
 
-	static org.emftext.language.java.parameters.CatchParameter getCatchParameter(String paramName) {
+	 org.emftext.language.java.parameters.CatchParameter getCatchParameter(String paramName) {
 		if (nameToCatchParam.containsKey(paramName)) {
 			return nameToCatchParam.get(paramName);
 		}
@@ -742,11 +742,11 @@ class JDTResolverUtility {
 		return result;
 	}
 
-	static void prepareNextUid() {
+	 void prepareNextUid() {
 		uid++;
 	}
 
-	static org.emftext.language.java.references.ReferenceableElement getReferencableElement(IVariableBinding binding) {
+	 org.emftext.language.java.references.ReferenceableElement getReferencableElement(IVariableBinding binding) {
 		if (binding.isEnumConstant()) {
 			return getEnumConstant(binding);
 		}
@@ -786,7 +786,7 @@ class JDTResolverUtility {
 		return getLocalVariable(binding);
 	}
 
-	static org.emftext.language.java.references.ReferenceableElement getReferenceableElementByNameMatching(String name) {
+	 org.emftext.language.java.references.ReferenceableElement getReferenceableElementByNameMatching(String name) {
 		IVariableBinding vBinding = variableBindings.stream().filter(var -> var != null &&
 				var.getName().equals(name)).findFirst().orElse(null);
 		if (vBinding != null) {
@@ -869,11 +869,11 @@ class JDTResolverUtility {
 		if (c != null) {
 			return c;
 		}
-		return JDTResolverUtility.getClass(name);
+		return getClass(name);
 	}
 
 	@SuppressWarnings("unused")
-	static void completeResolution() {
+	 void completeResolution() {
 		nameToEnumConst.forEach((constName, enConst) -> {
 			if (enConst.eContainer() == null) {
 				IVariableBinding varBind = variableBindings.stream().filter(var -> var != null &&
@@ -915,11 +915,11 @@ class JDTResolverUtility {
 			}
 		});
 
-		methBindToConstr.forEach(JDTResolverUtility::completeMethod);
+		methBindToConstr.forEach(this::completeMethod);
 
-		methBindToInter.forEach(JDTResolverUtility::completeMethod);
+		methBindToInter.forEach(this::completeMethod);
 
-		methBindToCM.forEach(JDTResolverUtility::completeMethod);
+		methBindToCM.forEach(this::completeMethod);
 
 		convertPureTypeBindings();
 
@@ -968,7 +968,7 @@ class JDTResolverUtility {
 	}
 
 	@SuppressWarnings("unused")
-	private static void completeMethod(String methodName, org.emftext.language.java.members.Member method) {
+	private  void completeMethod(String methodName, org.emftext.language.java.members.Member method) {
 		if (method.eContainer() == null) {
 			IMethodBinding methBind = methodBindings.stream().filter(meth -> methodName.equals(convertToMethodName(meth)))
 					.findFirst().orElse(null);
@@ -996,7 +996,7 @@ class JDTResolverUtility {
 		}
 	}
 
-	private static void addToSyntheticClass(org.emftext.language.java.members.Member member) {
+	private  void addToSyntheticClass(org.emftext.language.java.members.Member member) {
 		org.emftext.language.java.classifiers.Class container = getClass(SYNTH_CLASS);
 		container.setName(SYNTH_CLASS);
 		if (!container.getMembers().contains(member)) {
@@ -1005,7 +1005,7 @@ class JDTResolverUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void convertPureTypeBindings() {
+	private  void convertPureTypeBindings() {
 		int oldSize;
 		int newSize = typeBindToAnnot.size() + typeBindToEnum.size() + typeBindToInterface.size() + typeBindToClass.size()
 		+ modBindToMod.size() + nameToPackage.size();
@@ -1013,25 +1013,25 @@ class JDTResolverUtility {
 			oldSize = newSize;
 			HashMap<String, ? extends org.emftext.language.java.classifiers.ConcreteClassifier> map =
 					(HashMap<String, org.emftext.language.java.classifiers.Annotation>) typeBindToAnnot.clone();
-			map.forEach(JDTResolverUtility::convertPureTypeBinding);
+			map.forEach(this::convertPureTypeBinding);
 			map = (HashMap<String, org.emftext.language.java.classifiers.Enumeration>) typeBindToEnum.clone();
-			map.forEach(JDTResolverUtility::convertPureTypeBinding);
+			map.forEach(this::convertPureTypeBinding);
 			map = (HashMap<String, org.emftext.language.java.classifiers.Interface>) typeBindToInterface.clone();
-			map.forEach(JDTResolverUtility::convertPureTypeBinding);
+			map.forEach(this::convertPureTypeBinding);
 			map = (HashMap<String, org.emftext.language.java.classifiers.Class>) typeBindToClass.clone();
-			map.forEach(JDTResolverUtility::convertPureTypeBinding);
+			map.forEach(this::convertPureTypeBinding);
 			HashMap<String, org.emftext.language.java.containers.Package> mapP =
 					(HashMap<String, org.emftext.language.java.containers.Package>) nameToPackage.clone();
-			mapP.forEach(JDTResolverUtility::convertPurePackageBinding);
+			mapP.forEach(this::convertPurePackageBinding);
 			HashMap<String, org.emftext.language.java.containers.Module> mapM =
 					(HashMap<String, org.emftext.language.java.containers.Module>) modBindToMod.clone();
-			mapM.forEach(JDTResolverUtility::convertPureModuleBinding);
+			mapM.forEach(this::convertPureModuleBinding);
 			newSize = typeBindToAnnot.size() + typeBindToEnum.size() + typeBindToInterface.size() + typeBindToClass.size()
 			+ modBindToMod.size() + nameToPackage.size();
 		} while (oldSize < newSize);
 	}
 
-	private static void convertPureTypeBinding(String typeName, org.emftext.language.java.classifiers.ConcreteClassifier classifier) {
+	private  void convertPureTypeBinding(String typeName, org.emftext.language.java.classifiers.ConcreteClassifier classifier) {
 		if (objVisited.contains(classifier)) {
 			return;
 		}
@@ -1077,7 +1077,7 @@ class JDTResolverUtility {
 		}
 	}
 
-	private static void convertPurePackageBinding(String packageName, org.emftext.language.java.containers.Package pack) {
+	private  void convertPurePackageBinding(String packageName, org.emftext.language.java.containers.Package pack) {
 		if (objVisited.contains(pack)) {
 			return;
 		}
@@ -1101,7 +1101,7 @@ class JDTResolverUtility {
 		newResource.getContents().add(pack);
 	}
 
-	private static void convertPureModuleBinding(String modName, org.emftext.language.java.containers.Module module) {
+	private  void convertPureModuleBinding(String modName, org.emftext.language.java.containers.Module module) {
 		if (objVisited.contains(module)) {
 			return;
 		}
@@ -1124,20 +1124,20 @@ class JDTResolverUtility {
 		newResource.getContents().add(module);
 	}
 
-	private static void escapeAllIdentifiers() {
-		modBindToMod.values().forEach(JDTResolverUtility::escapeIdentifiers);
-		nameToPackage.values().forEach(JDTResolverUtility::escapeIdentifiers);
-		typeBindToAnnot.values().forEach(JDTResolverUtility::escapeIdentifiers);
-		typeBindToEnum.values().forEach(JDTResolverUtility::escapeIdentifiers);
-		typeBindToClass.values().forEach(JDTResolverUtility::escapeIdentifiers);
-		typeBindToInterface.values().forEach(JDTResolverUtility::escapeIdentifiers);
+	private  void escapeAllIdentifiers() {
+		modBindToMod.values().forEach(this::escapeIdentifiers);
+		nameToPackage.values().forEach(this::escapeIdentifiers);
+		typeBindToAnnot.values().forEach(this::escapeIdentifiers);
+		typeBindToEnum.values().forEach(this::escapeIdentifiers);
+		typeBindToClass.values().forEach(this::escapeIdentifiers);
+		typeBindToInterface.values().forEach(this::escapeIdentifiers);
 	}
 
-	private static void escapeIdentifiers(EObject obj) {
-		obj.eAllContents().forEachRemaining(JDTResolverUtility::escapeIdentifier);
+	private  void escapeIdentifiers(EObject obj) {
+		obj.eAllContents().forEachRemaining(this::escapeIdentifier);
 	}
 
-	private static void escapeIdentifier(Notifier not) {
+	private  void escapeIdentifier(Notifier not) {
 		if (not instanceof org.emftext.language.java.commons.NamedElement ele) {
 			StringBuilder builder = new StringBuilder();
 			String name = ele.getName();

@@ -25,7 +25,9 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 class ToExpressionConverter {
 
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
 	private static final StatementConverterUtility StatementConverterUtility = new StatementConverterUtility();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 	
 	private static final ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
 	private ToAssignmentConverter toAssignmentOperatorConverter;

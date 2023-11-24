@@ -19,6 +19,8 @@ import org.eclipse.jdt.core.dom.NumberLiteral;
 
 class ToNumberLiteralConverter {
 	
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	
 	private static final String HEX_PREFIX = "0x";
 	private static final String BIN_PREFIX = "0b";
 	private static final String OCT_PREFIX = "0";

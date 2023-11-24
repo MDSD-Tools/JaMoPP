@@ -5,6 +5,8 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 
 class ToMultiplicativeExpressionConverter {
 
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter;
 	

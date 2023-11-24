@@ -8,6 +8,8 @@ import org.emftext.language.java.expressions.UnaryExpressionChild;
 
 class ToUnaryExpressionConverter {
 
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToUnaryOperatorConverter toUnaryOperatorConverter;
 

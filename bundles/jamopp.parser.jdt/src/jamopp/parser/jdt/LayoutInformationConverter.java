@@ -23,7 +23,7 @@ class LayoutInformationConverter
 {
 	private static MinimalLayoutInformation currentRootLayout;
 	
-	static void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode) {
+	void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode) {
 		currentRootLayout = null;
 		if (sourceCode != null) {
 			currentRootLayout = LayoutFactory.eINSTANCE.createMinimalLayoutInformation();
@@ -36,7 +36,7 @@ class LayoutInformationConverter
 		}
 	}
 	
-	static void convertToMinimalLayoutInformation(Commentable target, ASTNode source) {
+	void convertToMinimalLayoutInformation(Commentable target, ASTNode source) {
 		if (currentRootLayout != null) {
 			MinimalLayoutInformation li = LayoutFactory.eINSTANCE.createMinimalLayoutInformation();
 			li.setStartOffset(source.getStartPosition());

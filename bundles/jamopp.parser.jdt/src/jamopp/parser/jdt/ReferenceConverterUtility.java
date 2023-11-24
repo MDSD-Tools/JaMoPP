@@ -47,6 +47,10 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 
 class ReferenceConverterUtility {
+	
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
 		return walkUp(internalConvertToReference(expr));
 	}

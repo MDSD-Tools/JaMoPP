@@ -38,6 +38,10 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.references.ReferenceableElement;
 
 class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
+
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+
 	private static final ModifiersFactory MODIFIERS_FACTORY = ModifiersFactory.eINSTANCE;
 	private static final ImportsFactory IMPORTS_FACTORY = ImportsFactory.eINSTANCE;
 	private JavaRoot convertedRootElement;

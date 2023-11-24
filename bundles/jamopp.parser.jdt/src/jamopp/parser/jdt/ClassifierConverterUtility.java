@@ -63,6 +63,8 @@ import org.emftext.language.java.types.TypesFactory;
 class ClassifierConverterUtility {
 	
 	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 	
 	@SuppressWarnings("unchecked")
 	static ConcreteClassifier convertToConcreteClassifier(AbstractTypeDeclaration typeDecl) {

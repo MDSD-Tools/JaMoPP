@@ -18,6 +18,9 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 
 class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
 	
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(CompilationUnit node) {

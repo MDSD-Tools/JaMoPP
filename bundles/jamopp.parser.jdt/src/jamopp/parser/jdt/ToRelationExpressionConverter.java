@@ -4,6 +4,8 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
 
 class ToRelationExpressionConverter {
+	
+	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
 
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToRelationOperatorConverter toRelationOperatorConverter;
