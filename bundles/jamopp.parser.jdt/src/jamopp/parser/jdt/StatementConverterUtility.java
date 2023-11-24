@@ -57,6 +57,7 @@ class StatementConverterUtility {
 	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
 	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
 	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
 	
 	private static HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 	

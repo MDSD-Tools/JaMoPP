@@ -43,14 +43,14 @@ class AnnotationInstanceOrModifierConverterUtility {
 	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
 	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
 
-	static AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
+	 AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {
 			return convertToModifier((Modifier) mod);
 		}
 		return convertToAnnotationInstance((Annotation) mod);
 	}
 
-	static org.emftext.language.java.modifiers.Modifier convertToModifier(Modifier mod) {
+	 org.emftext.language.java.modifiers.Modifier convertToModifier(Modifier mod) {
 		org.emftext.language.java.modifiers.Modifier result = null;
 		if (mod.isAbstract()) {
 			result = ModifiersFactory.eINSTANCE.createAbstract();
@@ -82,7 +82,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	static AnnotationInstance convertToAnnotationInstance(Annotation annot) {
+	 AnnotationInstance convertToAnnotationInstance(Annotation annot) {
 		AnnotationInstance result = AnnotationsFactory.eINSTANCE.createAnnotationInstance();
 		BaseConverterUtility.convertToNamespacesAndSet(annot.getTypeName(), result);
 		org.emftext.language.java.classifiers.Annotation proxyClass;
@@ -126,7 +126,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 		return result;
 	}
 
-	static AnnotationValue convertToAnnotationValue(Expression expr) {
+	 AnnotationValue convertToAnnotationValue(Expression expr) {
 		if (expr instanceof Annotation) {
 			return convertToAnnotationInstance((Annotation) expr);
 		}
@@ -137,7 +137,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	static org.emftext.language.java.arrays.ArrayInitializer convertToArrayInitializer(ArrayInitializer arr) {
+	 org.emftext.language.java.arrays.ArrayInitializer convertToArrayInitializer(ArrayInitializer arr) {
 		org.emftext.language.java.arrays.ArrayInitializer result = ArraysFactory.eINSTANCE.createArrayInitializer();
 		arr.expressions().forEach(obj -> {
 			org.emftext.language.java.arrays.ArrayInitializationValue value = null;

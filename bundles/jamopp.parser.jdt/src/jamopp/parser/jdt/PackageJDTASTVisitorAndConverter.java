@@ -21,6 +21,7 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
 	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
 	
 	@SuppressWarnings("unchecked")
 	@Override

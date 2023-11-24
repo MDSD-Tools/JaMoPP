@@ -67,6 +67,7 @@ class ClassifierConverterUtility {
 	private final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
 	private final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
 	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
 
 	@SuppressWarnings("unchecked")
 	ConcreteClassifier convertToConcreteClassifier(AbstractTypeDeclaration typeDecl) {

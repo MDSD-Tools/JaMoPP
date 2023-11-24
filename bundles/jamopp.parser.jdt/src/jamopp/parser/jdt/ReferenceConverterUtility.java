@@ -53,6 +53,7 @@ class ReferenceConverterUtility {
 	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
 	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
 	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
 	
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
 		return walkUp(internalConvertToReference(expr));

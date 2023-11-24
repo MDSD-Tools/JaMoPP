@@ -77,7 +77,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 		return false;
 	}
 
-	private static Import convertToImport(ImportDeclaration declaration) {
+	private  Import convertToImport(ImportDeclaration declaration) {
 		if (declaration.isOnDemand()) {
 			if (declaration.isStatic()) {
 				return convertToOnDemandStatic(declaration);
@@ -94,7 +94,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
 	}
 
-	private static Import convertToOnDemandStatic(ImportDeclaration importDecl) {
+	private  Import convertToOnDemandStatic(ImportDeclaration importDecl) {
 		StaticClassifierImport convertedImport = IMPORTS_FACTORY.createStaticClassifierImport();
 		convertedImport.setStatic(MODIFIERS_FACTORY.createStatic());
 		IBinding binding = importDecl.getName().resolveBinding();
@@ -110,14 +110,14 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 		return convertedImport;
 	}
 
-	private static Import convertToOnDemandNonStatic(ImportDeclaration importDecl) {
+	private  Import convertToOnDemandNonStatic(ImportDeclaration importDecl) {
 		PackageImport convertedImport = IMPORTS_FACTORY.createPackageImport();
 		BaseConverterUtility.convertToNamespacesAndSet(importDecl.getName(), convertedImport);
 		LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
 
-	private static Import convertToNonOnDemandStatic(ImportDeclaration importDecl) {
+	private  Import convertToNonOnDemandStatic(ImportDeclaration importDecl) {
 		StaticMemberImport convertedImport = IMPORTS_FACTORY.createStaticMemberImport();
 		convertedImport.setStatic(MODIFIERS_FACTORY.createStatic());
 		QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
@@ -169,7 +169,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 		return convertedImport;
 	}
 
-	private static Import convertToNonOnDemandNonStatic(ImportDeclaration importDecl) {
+	private  Import convertToNonOnDemandNonStatic(ImportDeclaration importDecl) {
 		ClassifierImport convertedImport = IMPORTS_FACTORY.createClassifierImport();
 		Classifier proxy = null;
 		IBinding b = importDecl.getName().resolveBinding();
