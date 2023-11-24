@@ -19,48 +19,50 @@ class TypeInstructionSeparationUtility {
 	private static HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> singleAnnotations = new HashMap<>();
 	private static HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
 	private static HashSet<EObject> visitedObjects = new HashSet<>();
-	
-	static void addMethod(Block block, org.emftext.language.java.members.Method method) {
+
+	void addMethod(Block block, org.emftext.language.java.members.Method method) {
 		methods.put(block, method);
 	}
-	
-	static void addConstructor(Block block, org.emftext.language.java.members.Constructor constructor) {
+
+	void addConstructor(Block block, org.emftext.language.java.members.Constructor constructor) {
 		constructors.put(block, constructor);
 	}
-	
-	static void addField(Expression initializer, org.emftext.language.java.members.Field field) {
+
+	void addField(Expression initializer, org.emftext.language.java.members.Field field) {
 		fields.put(initializer, field);
 	}
-	
-	static void addAdditionalField(Expression initializer, org.emftext.language.java.members.AdditionalField field) {
+
+	void addAdditionalField(Expression initializer, org.emftext.language.java.members.AdditionalField field) {
 		addFields.put(initializer, field);
 	}
-	
-	static void addInitializer(Block block, org.emftext.language.java.statements.Block correspondingBlock) {
+
+	void addInitializer(Block block, org.emftext.language.java.statements.Block correspondingBlock) {
 		initializers.put(block, correspondingBlock);
 	}
-	
-	static void addAnnotationMethod(Expression value, org.emftext.language.java.members.InterfaceMethod method) {
+
+	void addAnnotationMethod(Expression value, org.emftext.language.java.members.InterfaceMethod method) {
 		annotationMethods.put(value, method);
 	}
-	
-	static void addSingleAnnotationParameter(Expression value, org.emftext.language.java.annotations.SingleAnnotationParameter param) {
+
+	void addSingleAnnotationParameter(Expression value,
+			org.emftext.language.java.annotations.SingleAnnotationParameter param) {
 		singleAnnotations.put(value, param);
 	}
-	
-	static void addAnnotationAttributeSetting(Expression value, org.emftext.language.java.annotations.AnnotationAttributeSetting setting) {
+
+	void addAnnotationAttributeSetting(Expression value,
+			org.emftext.language.java.annotations.AnnotationAttributeSetting setting) {
 		annotationSetting.put(value, setting);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	static void convertAll() {
+	void convertAll() {
 		int oldSize;
-		int newSize = methods.size() + constructors.size() + fields.size() + addFields.size() + initializers.size() + annotationMethods.size()
-			+ singleAnnotations.size() + annotationSetting.size();
+		int newSize = methods.size() + constructors.size() + fields.size() + addFields.size() + initializers.size()
+				+ annotationMethods.size() + singleAnnotations.size() + annotationSetting.size();
 		do {
 			oldSize = newSize;
-			HashMap<Block, org.emftext.language.java.members.Method> clonedMethods =
-				(HashMap<Block, org.emftext.language.java.members.Method>) methods.clone();
+			HashMap<Block, org.emftext.language.java.members.Method> clonedMethods = (HashMap<Block, org.emftext.language.java.members.Method>) methods
+					.clone();
 			Iterator<Block> iter = clonedMethods.keySet().iterator();
 			while (iter.hasNext()) {
 				if (visitedObjects.contains(clonedMethods.get(iter.next()))) {
@@ -71,8 +73,8 @@ class TypeInstructionSeparationUtility {
 				visitedObjects.add(m);
 				m.setStatement(StatementConverterUtility.convertToBlock(b));
 			});
-			HashMap<Block, org.emftext.language.java.members.Constructor> clonedConstructors =
-				(HashMap<Block, org.emftext.language.java.members.Constructor>) constructors.clone();
+			HashMap<Block, org.emftext.language.java.members.Constructor> clonedConstructors = (HashMap<Block, org.emftext.language.java.members.Constructor>) constructors
+					.clone();
 			iter = clonedConstructors.keySet().iterator();
 			while (iter.hasNext()) {
 				if (visitedObjects.contains(clonedConstructors.get(iter.next()))) {
@@ -83,8 +85,8 @@ class TypeInstructionSeparationUtility {
 				visitedObjects.add(c);
 				c.setBlock(StatementConverterUtility.convertToBlock(b));
 			});
-			HashMap<Expression, org.emftext.language.java.members.Field> clonedFields =
-				(HashMap<Expression, org.emftext.language.java.members.Field>) fields.clone();
+			HashMap<Expression, org.emftext.language.java.members.Field> clonedFields = (HashMap<Expression, org.emftext.language.java.members.Field>) fields
+					.clone();
 			Iterator<Expression> exprIter = clonedFields.keySet().iterator();
 			while (exprIter.hasNext()) {
 				if (visitedObjects.contains(clonedFields.get(exprIter.next()))) {
@@ -95,8 +97,8 @@ class TypeInstructionSeparationUtility {
 				visitedObjects.add(f);
 				f.setInitialValue(ExpressionConverterUtility.convertToExpression(expr));
 			});
-			HashMap<Expression, org.emftext.language.java.members.AdditionalField> clonedAddFields =
-				(HashMap<Expression, org.emftext.language.java.members.AdditionalField>) addFields.clone();
+			HashMap<Expression, org.emftext.language.java.members.AdditionalField> clonedAddFields = (HashMap<Expression, org.emftext.language.java.members.AdditionalField>) addFields
+					.clone();
 			exprIter = clonedAddFields.keySet().iterator();
 			while (exprIter.hasNext()) {
 				if (visitedObjects.contains(clonedAddFields.get(exprIter.next()))) {
@@ -107,8 +109,8 @@ class TypeInstructionSeparationUtility {
 				visitedObjects.add(f);
 				f.setInitialValue(ExpressionConverterUtility.convertToExpression(expr));
 			});
-			HashMap<Block, org.emftext.language.java.statements.Block> clonedInitializers =
-				(HashMap<Block, org.emftext.language.java.statements.Block>) initializers.clone();
+			HashMap<Block, org.emftext.language.java.statements.Block> clonedInitializers = (HashMap<Block, org.emftext.language.java.statements.Block>) initializers
+					.clone();
 			iter = clonedInitializers.keySet().iterator();
 			while (iter.hasNext()) {
 				if (visitedObjects.contains(clonedInitializers.get(iter.next()))) {
@@ -118,11 +120,11 @@ class TypeInstructionSeparationUtility {
 			clonedInitializers.forEach((b1, b2) -> {
 				visitedObjects.add(b2);
 				JDTResolverUtility.prepareNextUid();
-				b1.statements().forEach(obj -> b2.getStatements().add(
-					StatementConverterUtility.convertToStatement((Statement) obj)));
+				b1.statements().forEach(
+						obj -> b2.getStatements().add(StatementConverterUtility.convertToStatement((Statement) obj)));
 			});
-			HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> clonedAnnotationMethods
-				= (HashMap<Expression, org.emftext.language.java.members.InterfaceMethod>) annotationMethods.clone();
+			HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> clonedAnnotationMethods = (HashMap<Expression, org.emftext.language.java.members.InterfaceMethod>) annotationMethods
+					.clone();
 			exprIter = clonedAnnotationMethods.keySet().iterator();
 			while (exprIter.hasNext()) {
 				if (visitedObjects.contains(clonedAnnotationMethods.get(exprIter.next()))) {
@@ -133,8 +135,8 @@ class TypeInstructionSeparationUtility {
 				visitedObjects.add(m);
 				m.setDefaultValue(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationValue(expr));
 			});
-			HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations =
-				(HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter>) singleAnnotations.clone();
+			HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations = (HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter>) singleAnnotations
+					.clone();
 			exprIter = clonedSingleAnnotations.keySet().iterator();
 			while (exprIter.hasNext()) {
 				if (visitedObjects.contains(clonedSingleAnnotations.get(exprIter.next()))) {
@@ -145,8 +147,8 @@ class TypeInstructionSeparationUtility {
 				visitedObjects.add(sap);
 				sap.setValue(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationValue(expr));
 			});
-			HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting =
-				(HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting>) annotationSetting.clone();
+			HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting = (HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting>) annotationSetting
+					.clone();
 			exprIter = clonedAnnotationSetting.keySet().iterator();
 			while (exprIter.hasNext()) {
 				if (visitedObjects.contains(clonedAnnotationSetting.get(exprIter.next()))) {
@@ -158,9 +160,9 @@ class TypeInstructionSeparationUtility {
 				aas.setValue(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationValue(expr));
 			});
 			newSize = methods.size() + constructors.size() + fields.size() + addFields.size() + initializers.size()
-				+ annotationMethods.size() + singleAnnotations.size() + annotationSetting.size();
+					+ annotationMethods.size() + singleAnnotations.size() + annotationSetting.size();
 		} while (newSize != oldSize);
-		
+
 		methods.clear();
 		constructors.clear();
 		fields.clear();

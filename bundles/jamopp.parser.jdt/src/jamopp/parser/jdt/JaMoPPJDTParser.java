@@ -40,6 +40,8 @@ import org.emftext.language.java.containers.JavaRoot;
 import jamopp.parser.api.JaMoPPParserAPI;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
+	
+	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
 
 	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
 

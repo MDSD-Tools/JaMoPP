@@ -61,6 +61,9 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 class ClassifierConverterUtility {
+	
+	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
+	
 	@SuppressWarnings("unchecked")
 	static ConcreteClassifier convertToConcreteClassifier(AbstractTypeDeclaration typeDecl) {
 		ConcreteClassifier result = null;
