@@ -8,7 +8,7 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToShiftOperatorConverter toShiftOperatorConverter;
 
-	public ToShiftExpressionConverter(ToShiftOperatorConverter toShiftOperatorConverter,
+	ToShiftExpressionConverter(ToShiftOperatorConverter toShiftOperatorConverter,
 			ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 		this.toShiftOperatorConverter = toShiftOperatorConverter;

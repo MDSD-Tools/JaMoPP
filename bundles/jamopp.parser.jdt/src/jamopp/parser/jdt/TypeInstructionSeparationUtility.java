@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 
-public class TypeInstructionSeparationUtility {
+class TypeInstructionSeparationUtility {
 	private static HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
 	private static HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();
 	private static HashMap<Expression, org.emftext.language.java.members.Field> fields = new HashMap<>();

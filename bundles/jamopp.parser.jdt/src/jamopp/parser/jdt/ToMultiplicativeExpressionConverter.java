@@ -8,7 +8,7 @@ class ToMultiplicativeExpressionConverter {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter;
 	
-	public ToMultiplicativeExpressionConverter(ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter, ToExpressionConverter toExpressionConverter) {
+	ToMultiplicativeExpressionConverter(ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter, ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 		this.toMultiplicativeOperatorConverter = toMultiplicativeOperatorConverter;
 	}

@@ -11,7 +11,7 @@ class ToUnaryExpressionConverter {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToUnaryOperatorConverter toUnaryOperatorConverter;
 
-	public ToUnaryExpressionConverter(ToUnaryOperatorConverter toUnaryOperatorConverter,
+	ToUnaryExpressionConverter(ToUnaryOperatorConverter toUnaryOperatorConverter,
 			ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 		this.toUnaryOperatorConverter = toUnaryOperatorConverter;

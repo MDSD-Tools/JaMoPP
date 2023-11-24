@@ -37,7 +37,7 @@ class ToExpressionConverter {
 	private ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 	private ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 
-	public ToExpressionConverter() {
+	ToExpressionConverter() {
 
 	}
 

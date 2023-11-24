@@ -12,7 +12,7 @@ class ToMethodReferenceExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 	
-	public ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter) {
+	ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 	}
 

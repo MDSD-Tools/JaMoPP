@@ -8,7 +8,7 @@ class ToRelationExpressionConverter {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToRelationOperatorConverter toRelationOperatorConverter;
 
-	public ToRelationExpressionConverter(ToRelationOperatorConverter toRelationOperatorConverter,
+	ToRelationExpressionConverter(ToRelationOperatorConverter toRelationOperatorConverter,
 			ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 		this.toRelationOperatorConverter = toRelationOperatorConverter;
