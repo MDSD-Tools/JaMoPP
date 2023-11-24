@@ -50,10 +50,13 @@ import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.YieldStatement;
 
 class StatementConverterUtility {
+	
+	private static ReferenceConverterUtility ReferenceConverterUtility = new ReferenceConverterUtility();
+	
 	private static HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 	
 	@SuppressWarnings("unchecked")
-	static org.emftext.language.java.statements.Block convertToBlock(Block block) {
+	org.emftext.language.java.statements.Block convertToBlock(Block block) {
 		org.emftext.language.java.statements.Block result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createBlock();
 		result.setName("");
 		block.statements().forEach(obj -> result.getStatements().add(convertToStatement((Statement) obj)));
@@ -62,7 +65,7 @@ class StatementConverterUtility {
 	}
 	
 	@SuppressWarnings("unchecked")
-	static org.emftext.language.java.statements.Statement convertToStatement(Statement statement) {
+	org.emftext.language.java.statements.Statement convertToStatement(Statement statement) {
 		if (statement.getNodeType() == ASTNode.ASSERT_STATEMENT) {
 			AssertStatement assertSt = (AssertStatement) statement;
 			org.emftext.language.java.statements.Assert result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createAssert();
@@ -272,7 +275,7 @@ class StatementConverterUtility {
 		return result;
 	}
 	
-	private static org.emftext.language.java.statements.Switch convertToSwitch(SwitchStatement switchSt) {
+	private org.emftext.language.java.statements.Switch convertToSwitch(SwitchStatement switchSt) {
 		org.emftext.language.java.statements.Switch result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createSwitch();
 		result.setVariable(ExpressionConverterUtility.convertToExpression(switchSt.getExpression()));
 		convertToSwitchCasesAndSet(result, switchSt.statements());
@@ -281,7 +284,7 @@ class StatementConverterUtility {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	static void convertToSwitchCasesAndSet(org.emftext.language.java.statements.Switch switchExprSt, List switchStatementList) {
+	void convertToSwitchCasesAndSet(org.emftext.language.java.statements.Switch switchExprSt, List switchStatementList) {
 		org.emftext.language.java.statements.SwitchCase currentCase = null;
 		for (Object element : switchStatementList) {
 			Statement st = (Statement) element;
@@ -300,7 +303,7 @@ class StatementConverterUtility {
 		}
 	}
 	
-	private static org.emftext.language.java.statements.SwitchCase convertToSwitchCase(SwitchCase switchCase) {
+	private org.emftext.language.java.statements.SwitchCase convertToSwitchCase(SwitchCase switchCase) {
 		org.emftext.language.java.statements.SwitchCase result = null;
 		if (switchCase.isSwitchLabeledRule() && switchCase.isDefault()) {
 			result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createDefaultSwitchRule();
@@ -328,7 +331,7 @@ class StatementConverterUtility {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.statements.CatchBlock convertToCatchBlock(CatchClause block) {
+	private org.emftext.language.java.statements.CatchBlock convertToCatchBlock(CatchClause block) {
 		org.emftext.language.java.statements.CatchBlock result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createCatchBlock();
 		SingleVariableDeclaration decl = block.getException();
 		org.emftext.language.java.parameters.CatchParameter param;
@@ -357,7 +360,7 @@ class StatementConverterUtility {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.variables.AdditionalLocalVariable convertToAdditionalLocalVariable(VariableDeclarationFragment frag) {
+	private org.emftext.language.java.variables.AdditionalLocalVariable convertToAdditionalLocalVariable(VariableDeclarationFragment frag) {
 		org.emftext.language.java.variables.AdditionalLocalVariable result;
 		IVariableBinding binding = frag.resolveBinding();
 		if (binding == null) {
@@ -375,7 +378,7 @@ class StatementConverterUtility {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.variables.LocalVariable convertToLocalVariable(VariableDeclarationExpression expr) {
+	private org.emftext.language.java.variables.LocalVariable convertToLocalVariable(VariableDeclarationExpression expr) {
 		VariableDeclarationFragment frag = (VariableDeclarationFragment) expr.fragments().get(0);
 		org.emftext.language.java.variables.LocalVariable loc;
 		IVariableBinding binding = frag.resolveBinding();

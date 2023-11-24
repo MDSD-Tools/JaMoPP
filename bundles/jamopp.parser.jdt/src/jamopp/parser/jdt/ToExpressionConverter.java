@@ -25,6 +25,8 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 class ToExpressionConverter {
 
+	private static final StatementConverterUtility StatementConverterUtility = new StatementConverterUtility();
+	
 	private static final ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
 	private ToAssignmentConverter toAssignmentOperatorConverter;
 	private ToConditionalExpressionConverter toConditionalExpressionConverter;
@@ -320,45 +322,45 @@ class ToExpressionConverter {
 		return result;
 	}
 
-	public void setToAssignmentOperatorConverter(ToAssignmentConverter toAssignmentOperatorConverter) {
+	void setToAssignmentOperatorConverter(ToAssignmentConverter toAssignmentOperatorConverter) {
 		this.toAssignmentOperatorConverter = toAssignmentOperatorConverter;
 	}
 
-	public void setToConditionalExpressionConverter(ToConditionalExpressionConverter toConditionalExpressionConverter) {
+	void setToConditionalExpressionConverter(ToConditionalExpressionConverter toConditionalExpressionConverter) {
 		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
 	}
 
-	public void setToEqualityExpressionConverter(ToEqualityExpressionConverter toEqualityExpressionConverter) {
+	void setToEqualityExpressionConverter(ToEqualityExpressionConverter toEqualityExpressionConverter) {
 		this.toEqualityExpressionConverter = toEqualityExpressionConverter;
 	}
 
-	public void setToRelationExpressionConverter(ToRelationExpressionConverter toRelationExpressionConverter) {
+	void setToRelationExpressionConverter(ToRelationExpressionConverter toRelationExpressionConverter) {
 		this.toRelationExpressionConverter = toRelationExpressionConverter;
 	}
 
-	public void setToShiftExpressionConverter(ToShiftExpressionConverter toShiftExpressionConverter) {
+	void setToShiftExpressionConverter(ToShiftExpressionConverter toShiftExpressionConverter) {
 		this.toShiftExpressionConverter = toShiftExpressionConverter;
 	}
 
-	public void setToAdditiveExpressionConverter(ToAdditiveExpressionConverter toAdditiveExpressionConverter) {
+	void setToAdditiveExpressionConverter(ToAdditiveExpressionConverter toAdditiveExpressionConverter) {
 		this.toAdditiveExpressionConverter = toAdditiveExpressionConverter;
 	}
 
-	public void setToMultiplicativeExpressionConverter(
+	void setToMultiplicativeExpressionConverter(
 			ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter) {
 		this.toMultiplicativeExpressionConverter = toMultiplicativeExpressionConverter;
 	}
 
-	public void setToUnaryExpressionConverter(ToUnaryExpressionConverter toUnaryExpressionConverter) {
+	void setToUnaryExpressionConverter(ToUnaryExpressionConverter toUnaryExpressionConverter) {
 		this.toUnaryExpressionConverter = toUnaryExpressionConverter;
 	}
 
-	public void setToMethodReferenceExpressionConverter(
+	void setToMethodReferenceExpressionConverter(
 			ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter) {
 		this.toMethodReferenceExpressionConverter = toMethodReferenceExpressionConverter;
 	}
 
-	public void setToPrimaryExpressionConverter(ToPrimaryExpressionConverter toPrimaryExpressionConverter) {
+	void setToPrimaryExpressionConverter(ToPrimaryExpressionConverter toPrimaryExpressionConverter) {
 		this.toPrimaryExpressionConverter = toPrimaryExpressionConverter;
 	}
 

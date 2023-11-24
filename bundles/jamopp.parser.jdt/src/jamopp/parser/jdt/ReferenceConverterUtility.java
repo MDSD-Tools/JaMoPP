@@ -47,11 +47,11 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 
 class ReferenceConverterUtility {
-	static org.emftext.language.java.references.Reference convertToReference(Expression expr) {
+	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
 		return walkUp(internalConvertToReference(expr));
 	}
 
-	private static org.emftext.language.java.references.Reference walkUp(org.emftext.language.java.references.Reference ref) {
+	private org.emftext.language.java.references.Reference walkUp(org.emftext.language.java.references.Reference ref) {
 		org.emftext.language.java.references.Reference result = ref;
 		org.emftext.language.java.references.Reference parent = result.getPrevious();
 		while (parent != null) {
@@ -62,7 +62,7 @@ class ReferenceConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.references.Reference internalConvertToReference(Expression expr) {
+	private org.emftext.language.java.references.Reference internalConvertToReference(Expression expr) {
 		if (expr instanceof Annotation) {
 			return AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) expr);
 		}
@@ -212,7 +212,7 @@ class ReferenceConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.references.MethodCall convertToMethodCall(MethodInvocation arr) {
+	private org.emftext.language.java.references.MethodCall convertToMethodCall(MethodInvocation arr) {
 		org.emftext.language.java.references.Reference parent = null;
 		if (arr.getExpression() != null) {
 			parent = internalConvertToReference(arr.getExpression());
@@ -237,7 +237,7 @@ class ReferenceConverterUtility {
 		return result;
 	}
 
-	private static org.emftext.language.java.references.IdentifierReference convertToIdentifierReference(Name name) {
+	private org.emftext.language.java.references.IdentifierReference convertToIdentifierReference(Name name) {
 		if (name.isSimpleName()) {
 			return convertToIdentifierReference((SimpleName) name);
 		}
@@ -248,7 +248,7 @@ class ReferenceConverterUtility {
 		return child;
 	}
 
-	private static org.emftext.language.java.references.IdentifierReference convertToIdentifierReference(SimpleName name) {
+	private org.emftext.language.java.references.IdentifierReference convertToIdentifierReference(SimpleName name) {
 		org.emftext.language.java.references.IdentifierReference result = org.emftext.language.java.references.ReferencesFactory.eINSTANCE.createIdentifierReference();
 		IBinding b = name.resolveBinding();
 		org.emftext.language.java.references.ReferenceableElement target = null;
@@ -271,12 +271,12 @@ class ReferenceConverterUtility {
 		return result;
 	}
 
-	static org.emftext.language.java.references.Reference convertToReference(Type t) {
+	org.emftext.language.java.references.Reference convertToReference(Type t) {
 		return walkUp(internalConvertToReference(t));
 	}
 
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.references.Reference internalConvertToReference(Type t) {
+	private org.emftext.language.java.references.Reference internalConvertToReference(Type t) {
 		if (t.isNameQualifiedType()) {
 			NameQualifiedType nqType = (NameQualifiedType) t;
 			org.emftext.language.java.references.IdentifierReference parent = convertToIdentifierReference(nqType.getQualifier());
@@ -330,12 +330,12 @@ class ReferenceConverterUtility {
 		return null;
 	}
 
-	static org.emftext.language.java.references.Reference convertToReference(Statement st) {
+	org.emftext.language.java.references.Reference convertToReference(Statement st) {
 		return walkUp(internalConvertToReference(st));
 	}
 
 	@SuppressWarnings("unchecked")
-	private static org.emftext.language.java.references.Reference internalConvertToReference(Statement st) {
+	private org.emftext.language.java.references.Reference internalConvertToReference(Statement st) {
 		if (st.getNodeType() == ASTNode.CONSTRUCTOR_INVOCATION) {
 			ConstructorInvocation invoc = (ConstructorInvocation) st;
 			org.emftext.language.java.instantiations.ExplicitConstructorCall result = org.emftext.language.java.instantiations.InstantiationsFactory.eINSTANCE.createExplicitConstructorCall();

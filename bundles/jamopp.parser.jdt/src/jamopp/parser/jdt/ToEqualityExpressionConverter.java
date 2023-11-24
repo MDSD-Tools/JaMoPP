@@ -11,7 +11,7 @@ class ToEqualityExpressionConverter {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToEqualityOperatorConverter toEqualityOperatorConverter;
 
-	public ToEqualityExpressionConverter(ToExpressionConverter toExpressionConverter,
+	ToEqualityExpressionConverter(ToExpressionConverter toExpressionConverter,
 			ToEqualityOperatorConverter toEqualityOperatorConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 		this.toEqualityOperatorConverter = toEqualityOperatorConverter;

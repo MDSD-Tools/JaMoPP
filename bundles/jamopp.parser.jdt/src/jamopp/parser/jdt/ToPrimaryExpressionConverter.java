@@ -10,6 +10,9 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 class ToPrimaryExpressionConverter {
 
+	private static final ToNumberLiteralConverter ToNumberLiteralConverter = new ToNumberLiteralConverter();
+	private static ReferenceConverterUtility ReferenceConverterUtility = new ReferenceConverterUtility();
+	
 	private static final LiteralsFactory LITERALS_FACTORY = LiteralsFactory.eINSTANCE;
 
 	PrimaryExpression convertToPrimaryExpression(Expression expr) {

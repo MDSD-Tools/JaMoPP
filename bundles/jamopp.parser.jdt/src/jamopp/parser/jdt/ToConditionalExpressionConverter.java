@@ -8,7 +8,7 @@ class ToConditionalExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 
-	public ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter) {
+	ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 	}
 

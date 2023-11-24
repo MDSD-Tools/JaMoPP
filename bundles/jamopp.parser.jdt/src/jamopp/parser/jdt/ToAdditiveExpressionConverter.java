@@ -11,7 +11,7 @@ class ToAdditiveExpressionConverter {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToAdditiveOperatorConverter toAdditiveOperatorConverter;
 
-	public ToAdditiveExpressionConverter(ToExpressionConverter toExpressionConverter,
+	ToAdditiveExpressionConverter(ToExpressionConverter toExpressionConverter,
 			ToAdditiveOperatorConverter toAdditiveOperatorConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 		this.toAdditiveOperatorConverter = toAdditiveOperatorConverter;
