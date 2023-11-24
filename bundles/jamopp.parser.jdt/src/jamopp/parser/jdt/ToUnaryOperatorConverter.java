@@ -2,7 +2,7 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.PrefixExpression;
 
-public class ToUnaryOperatorConverter {
+class ToUnaryOperatorConverter {
 
 	org.emftext.language.java.operators.UnaryOperator convertToUnaryOperator(PrefixExpression.Operator op) {
 		if (op == PrefixExpression.Operator.COMPLEMENT) {

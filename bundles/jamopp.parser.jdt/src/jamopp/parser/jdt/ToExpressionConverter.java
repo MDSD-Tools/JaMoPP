@@ -23,7 +23,7 @@ import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
-public class ToExpressionConverter {
+class ToExpressionConverter {
 
 	private static final ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
 	private ToAssignmentConverter toAssignmentOperatorConverter;

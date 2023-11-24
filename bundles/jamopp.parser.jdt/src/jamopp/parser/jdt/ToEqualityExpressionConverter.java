@@ -6,7 +6,7 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class ToEqualityExpressionConverter {
+class ToEqualityExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToEqualityOperatorConverter toEqualityOperatorConverter;

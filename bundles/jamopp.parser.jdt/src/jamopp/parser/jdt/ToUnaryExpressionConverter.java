@@ -6,7 +6,7 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 
-public class ToUnaryExpressionConverter {
+class ToUnaryExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToUnaryOperatorConverter toUnaryOperatorConverter;

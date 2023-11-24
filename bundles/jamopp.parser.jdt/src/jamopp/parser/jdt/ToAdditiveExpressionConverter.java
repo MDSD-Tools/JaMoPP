@@ -6,7 +6,7 @@ import org.emftext.language.java.expressions.AdditiveExpression;
 import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class ToAdditiveExpressionConverter {
+class ToAdditiveExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToAdditiveOperatorConverter toAdditiveOperatorConverter;

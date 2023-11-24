@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.operators.EqualityOperator;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class ToEqualityOperatorConverter {
+class ToEqualityOperatorConverter {
 
 	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
 

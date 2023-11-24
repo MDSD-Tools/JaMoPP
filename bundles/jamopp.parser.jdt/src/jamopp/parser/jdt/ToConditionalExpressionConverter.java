@@ -4,7 +4,7 @@ import org.emftext.language.java.expressions.ConditionalExpression;
 import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class ToConditionalExpressionConverter {
+class ToConditionalExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 

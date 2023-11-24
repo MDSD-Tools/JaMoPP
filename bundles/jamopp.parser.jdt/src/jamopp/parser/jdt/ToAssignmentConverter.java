@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.Assignment;
 import org.emftext.language.java.operators.AssignmentOperator;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class ToAssignmentConverter {
+class ToAssignmentConverter {
 
 	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
 

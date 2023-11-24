@@ -8,7 +8,7 @@ import org.eclipse.jdt.core.dom.SuperMethodReference;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
 
-public class ToMethodReferenceExpressionConverter {
+class ToMethodReferenceExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 	

@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.operators.AdditiveOperator;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class ToAdditiveOperatorConverter {
+class ToAdditiveOperatorConverter {
 
 	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
 

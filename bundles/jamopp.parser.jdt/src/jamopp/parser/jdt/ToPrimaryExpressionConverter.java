@@ -8,7 +8,7 @@ import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.emftext.language.java.expressions.PrimaryExpression;
 import org.emftext.language.java.literals.LiteralsFactory;
 
-public class ToPrimaryExpressionConverter {
+class ToPrimaryExpressionConverter {
 
 	private static final LiteralsFactory LITERALS_FACTORY = LiteralsFactory.eINSTANCE;
 

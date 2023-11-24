@@ -3,7 +3,7 @@ package jamopp.parser.jdt;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
 
-public class ToMultiplicativeExpressionConverter {
+class ToMultiplicativeExpressionConverter {
 
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter;

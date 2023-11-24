@@ -2,7 +2,7 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.InfixExpression;
 
-public class ToRelationOperatorConverter {
+class ToRelationOperatorConverter {
 	
 	org.emftext.language.java.operators.RelationOperator convertToRelationOperator(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.GREATER) {
