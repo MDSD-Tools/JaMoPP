@@ -17,7 +17,7 @@ import java.math.BigInteger;
 
 import org.eclipse.jdt.core.dom.NumberLiteral;
 
-class NumberLiteralConverterUtility {
+class ToNumberLiteralConverter {
 	private static final String HEX_PREFIX = "0x";
 	private static final String BIN_PREFIX = "0b";
 	private static final String OCT_PREFIX = "0";
@@ -32,7 +32,7 @@ class NumberLiteralConverterUtility {
 	private static final int OCT_BASE = 8;
 	private static final String UNDER_SCORE = "_";
 	
-	static org.emftext.language.java.literals.Literal convertToLiteral(NumberLiteral literal) {
+	static org.emftext.language.java.literals.Literal convert(NumberLiteral literal) {
 		org.emftext.language.java.literals.Literal result = null;
 		String string = literal.getToken();
 		if (string.contains("\\u")) {
