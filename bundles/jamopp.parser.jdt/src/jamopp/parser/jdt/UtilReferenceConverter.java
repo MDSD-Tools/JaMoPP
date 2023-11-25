@@ -48,14 +48,14 @@ import org.eclipse.jdt.core.dom.TypeLiteral;
 
 class UtilReferenceConverter {
 
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilClassifierConverter classifierConverterUtility;
 	private final UtilBaseConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
 
-	UtilReferenceConverter(LayoutInformationConverter layoutInformationConverter,
+	UtilReferenceConverter(UtilLayout layoutInformationConverter,
 			UtilJDTResolver jdtResolverUtility, UtilExpressionConverter expressionConverterUtility,
 			UtilClassifierConverter classifierConverterUtility, UtilBaseConverter utilBaseConverter, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;

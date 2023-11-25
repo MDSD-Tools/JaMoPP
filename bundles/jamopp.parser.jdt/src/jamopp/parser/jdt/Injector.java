@@ -10,7 +10,7 @@ class Injector {
 
 	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	private static final UtilJDTResolver jdtResolverUtility;
-	private static final TypeInstructionSeparationUtility typeInstructionSeparationUtility;
+	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	static {
 		ModifiersFactory factory = ModifiersFactory.eINSTANCE;
@@ -19,18 +19,29 @@ class Injector {
 		ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
 		LiteralsFactory literalsFactory = LiteralsFactory.eINSTANCE;
 
-		LayoutInformationConverter layoutInformationConverter = new LayoutInformationConverter();
+		UtilLayout layoutInformationConverter = new UtilLayout();
 		UtilNamedElement utilNamedElement = new UtilNamedElement();
-		ToNumberLiteralConverter toNumberLiteralConverter = new ToNumberLiteralConverter(layoutInformationConverter);
-
 		UtilExpressionConverter expressionConverterUtility = new UtilExpressionConverter();
 		UtilJDTBindingConverter jdtBindingConverterUtility = new UtilJDTBindingConverter();
+		
 		jdtResolverUtility = new UtilJDTResolver(jdtBindingConverterUtility);
+		
+		ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
+		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter(operatorsFactory);
+		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter(operatorsFactory);
+		ToRelationOperatorConverter toRelationOperatorConverter = new ToRelationOperatorConverter(operatorsFactory);
+		ToShiftOperatorConverter toShiftOperatorConverter = new ToShiftOperatorConverter(operatorsFactory);
+		ToAdditiveOperatorConverter toAdditiveOperatorConverter = new ToAdditiveOperatorConverter(operatorsFactory);
+		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter(operatorsFactory);
+		ToNumberLiteralConverter toNumberLiteralConverter = new ToNumberLiteralConverter(layoutInformationConverter);
+		
+
+
 
 		UtilBaseConverter utilBaseConverter = new UtilBaseConverter(layoutInformationConverter,
 				jdtResolverUtility, jdtBindingConverterUtility, expressionConverterUtility, utilNamedElement);
 
-		typeInstructionSeparationUtility = new TypeInstructionSeparationUtility(jdtResolverUtility,
+		typeInstructionSeparationUtility = new UtilTypeInstructionSeparation(jdtResolverUtility,
 				expressionConverterUtility, utilBaseConverter);
 		UtilClassifierConverter classifierConverterUtility = new UtilClassifierConverter(
 				typeInstructionSeparationUtility, layoutInformationConverter, jdtResolverUtility,
@@ -47,20 +58,14 @@ class Injector {
 				layoutInformationConverter, jdtResolverUtility, utilBaseConverter, factory, importsFactory,
 				utilNamedElement, classifierConverterUtility);
 
-		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter(operatorsFactory);
-		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter(operatorsFactory);
-		ToRelationOperatorConverter toRelationOperatorConverter = new ToRelationOperatorConverter(operatorsFactory);
-		ToShiftOperatorConverter toShiftOperatorConverter = new ToShiftOperatorConverter(operatorsFactory);
-		ToAdditiveOperatorConverter toAdditiveOperatorConverter = new ToAdditiveOperatorConverter(operatorsFactory);
-		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter(operatorsFactory);
-		ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
+
 
 		ToExpressionConverter toExpressionConverter = new ToExpressionConverter(expressionsFactory,
 				statementConverterUtility, layoutInformationConverter, jdtResolverUtility, jdtBindingConverterUtility,
 				classifierConverterUtility, utilBaseConverter);
+		
 		ToConditionalExpressionConverter toConditionalExpressionConverter = new ToConditionalExpressionConverter(
 				toExpressionConverter, layoutInformationConverter);
-
 		ToPrimaryExpressionConverter toPrimaryExpressionConverter = new ToPrimaryExpressionConverter(literalsFactory,
 				toNumberLiteralConverter, referenceConverterUtility, layoutInformationConverter);
 		ToEqualityExpressionConverter toEqualityExpressionConverter = new ToEqualityExpressionConverter(
@@ -90,7 +95,6 @@ class Injector {
 		toExpressionConverter.setToMethodReferenceExpressionConverter(toMethodReferenceExpressionConverter);
 
 		expressionConverterUtility.setToExpressionConverter(toExpressionConverter);
-
 		typeInstructionSeparationUtility.setStatementConverterUtility(statementConverterUtility);
 		jdtBindingConverterUtility.setJDTResolverUtility(jdtResolverUtility);
 		utilBaseConverter.setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
@@ -104,7 +108,7 @@ class Injector {
 		return jdtResolverUtility;
 	}
 
-	static TypeInstructionSeparationUtility getTypeInstructionSeparationUtility() {
+	static UtilTypeInstructionSeparation getTypeInstructionSeparationUtility() {
 		return typeInstructionSeparationUtility;
 	}
 

@@ -4,7 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="166ff725-9f7e-49d2-880f-9556fa8e2b41" name="Changes" comment="" />
+    <list default="true" id="166ff725-9f7e-49d2-880f-9556fa8e2b41" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/AbstractAndEmptyModelJDTASTVisitorAndConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/AbstractAndEmptyModelJDTASTVisitorAndConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/Injector.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/Injector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/JaMoPPJDTParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/JaMoPPJDTParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/LayoutInformationConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilLayout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ModuleJDTASTVisitorAndConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ModuleJDTASTVisitorAndConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/OrdinaryCompilationUnitJDTASTVisitorAndConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/OrdinaryCompilationUnitJDTASTVisitorAndConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/PackageJDTASTVisitorAndConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/PackageJDTASTVisitorAndConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToAdditiveExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToAdditiveExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToConditionalExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToConditionalExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToEqualityExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToEqualityExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToMethodReferenceExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToMethodReferenceExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToMultiplicativeExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToMultiplicativeExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToNumberLiteralConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToNumberLiteralConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToPrimaryExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToPrimaryExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToRelationExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToRelationExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToShiftExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToShiftExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToUnaryExpressionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/ToUnaryExpressionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/TypeInstructionSeparationUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilTypeInstructionSeparation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilBaseConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilBaseConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilClassifierConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilClassifierConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilReferenceConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilReferenceConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilStatementConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bundles/jamopp.parser.jdt/src/jamopp/parser/jdt/UtilStatementConverter.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,7 +70,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1700951086323</updated>
-      <workItem from="1700951087922" duration="1106000" />
+      <workItem from="1700951087922" duration="1921000" />
     </task>
     <servers />
   </component>

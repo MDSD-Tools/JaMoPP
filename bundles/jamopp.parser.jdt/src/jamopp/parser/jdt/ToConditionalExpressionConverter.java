@@ -6,10 +6,10 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 class ToConditionalExpressionConverter {
 
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 
-	ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter, LayoutInformationConverter layoutInformationConverter) {
+	ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 	}

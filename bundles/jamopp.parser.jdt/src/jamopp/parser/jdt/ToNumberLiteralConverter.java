@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.dom.NumberLiteral;
 
 class ToNumberLiteralConverter {
 	
-	private final LayoutInformationConverter layoutInformationConverter ;
+	private final UtilLayout layoutInformationConverter ;
 	
 	private static final String HEX_PREFIX = "0x";
 	private static final String BIN_PREFIX = "0b";
@@ -35,7 +35,7 @@ class ToNumberLiteralConverter {
 	private static final int OCT_BASE = 8;
 	private static final String UNDER_SCORE = "_";
 	
-	ToNumberLiteralConverter(LayoutInformationConverter layoutInformationConverter) {
+	ToNumberLiteralConverter(UtilLayout layoutInformationConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 	}
 	

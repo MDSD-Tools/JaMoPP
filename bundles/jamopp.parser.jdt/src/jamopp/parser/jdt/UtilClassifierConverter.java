@@ -62,15 +62,15 @@ import org.emftext.language.java.types.TypesFactory;
 
 class UtilClassifierConverter {
 
-	private final TypeInstructionSeparationUtility typeInstructionSeparationUtility;
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
+	private final UtilLayout layoutInformationConverter;
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilBaseConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
 
-	UtilClassifierConverter(TypeInstructionSeparationUtility typeInstructionSeparationUtility,
-			LayoutInformationConverter layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+	UtilClassifierConverter(UtilTypeInstructionSeparation typeInstructionSeparationUtility,
+			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility, UtilBaseConverter utilBaseConverter, UtilNamedElement utilNamedElement) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 		this.layoutInformationConverter = layoutInformationConverter;

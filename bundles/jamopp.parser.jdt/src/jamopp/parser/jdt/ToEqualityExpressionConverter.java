@@ -8,13 +8,13 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 class ToEqualityExpressionConverter {
 
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToEqualityOperatorConverter toEqualityOperatorConverter;
 
 	ToEqualityExpressionConverter(ToExpressionConverter toExpressionConverter,
 			ToEqualityOperatorConverter toEqualityOperatorConverter,
-			LayoutInformationConverter layoutInformationConverter) {
+			UtilLayout layoutInformationConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toEqualityOperatorConverter = toEqualityOperatorConverter;

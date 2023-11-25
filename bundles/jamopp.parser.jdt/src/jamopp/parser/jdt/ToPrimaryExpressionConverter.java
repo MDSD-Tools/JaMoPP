@@ -12,10 +12,10 @@ class ToPrimaryExpressionConverter {
 
 	private final ToNumberLiteralConverter toNumberLiteralConverter;
 	private final UtilReferenceConverter referenceConverterUtility ;
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final LiteralsFactory literalsFactory ;
 	
-	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, UtilReferenceConverter referenceConverterUtility, LayoutInformationConverter layoutInformationConverter) {
+	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter) {
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;

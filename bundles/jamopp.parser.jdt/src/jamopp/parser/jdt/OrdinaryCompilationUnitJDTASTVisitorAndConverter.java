@@ -21,7 +21,7 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisitorAndConverter {
 
 
-	OrdinaryCompilationUnitJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+	OrdinaryCompilationUnitJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
 			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement, UtilClassifierConverter classifierConverterUtility) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,

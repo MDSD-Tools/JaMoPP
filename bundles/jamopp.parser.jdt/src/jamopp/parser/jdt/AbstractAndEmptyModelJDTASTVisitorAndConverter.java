@@ -39,14 +39,14 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
-	protected final LayoutInformationConverter layoutInformationConverter;
+	protected final UtilLayout layoutInformationConverter;
 	protected final UtilJDTResolver jdtResolverUtility;
 	protected final UtilBaseConverter utilBaseConverter;
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
 	protected final UtilNamedElement utilNamedElement;
 
-	AbstractAndEmptyModelJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+	AbstractAndEmptyModelJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
 			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;

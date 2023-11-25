@@ -52,7 +52,7 @@ import org.eclipse.jdt.core.dom.YieldStatement;
 class UtilStatementConverter {
 
 	private final UtilReferenceConverter referenceConverterUtility;
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilClassifierConverter classifierConverterUtility;
@@ -62,7 +62,7 @@ class UtilStatementConverter {
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
 	UtilStatementConverter(UtilReferenceConverter referenceConverterUtility,
-			LayoutInformationConverter layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility,
 			UtilClassifierConverter classifierConverterUtility, UtilBaseConverter utilBaseConverter, UtilNamedElement utilNamedElement) {
 		this.referenceConverterUtility = referenceConverterUtility;

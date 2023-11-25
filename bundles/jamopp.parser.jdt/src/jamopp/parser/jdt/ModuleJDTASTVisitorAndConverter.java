@@ -33,7 +33,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
 
 	ModuleJDTASTVisitorAndConverter(
-			LayoutInformationConverter layoutInformationConverter,
+			UtilLayout layoutInformationConverter,
 			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,

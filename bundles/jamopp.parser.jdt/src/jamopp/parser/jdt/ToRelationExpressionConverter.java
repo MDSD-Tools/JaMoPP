@@ -5,12 +5,12 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 
 class ToRelationExpressionConverter {
 	
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToRelationOperatorConverter toRelationOperatorConverter;
 
 	ToRelationExpressionConverter(ToRelationOperatorConverter toRelationOperatorConverter,
-			ToExpressionConverter toExpressionConverter, LayoutInformationConverter layoutInformationConverter) {
+			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toRelationOperatorConverter = toRelationOperatorConverter;

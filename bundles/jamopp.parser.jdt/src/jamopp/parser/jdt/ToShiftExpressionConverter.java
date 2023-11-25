@@ -8,13 +8,13 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 
 class ToShiftExpressionConverter {
 
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToShiftOperatorConverter toShiftOperatorConverter;
 	private final ExpressionsFactory expressionsFactory;
 
 	ToShiftExpressionConverter(ToShiftOperatorConverter toShiftOperatorConverter,
-			ToExpressionConverter toExpressionConverter, LayoutInformationConverter layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toShiftOperatorConverter = toShiftOperatorConverter;

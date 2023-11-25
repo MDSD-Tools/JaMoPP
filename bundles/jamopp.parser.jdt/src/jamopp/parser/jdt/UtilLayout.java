@@ -19,7 +19,7 @@ import org.emftext.commons.layout.MinimalLayoutInformation;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.JavaRoot;
 
-class LayoutInformationConverter {
+class UtilLayout {
 	
 	private static MinimalLayoutInformation currentRootLayout;
 

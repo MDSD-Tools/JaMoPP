@@ -11,12 +11,12 @@ import org.eclipse.jdt.core.dom.TypeMethodReference;
 class ToMethodReferenceExpressionConverter {
 
 	private final UtilReferenceConverter referenceConverterUtility;
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final UtilBaseConverter utilBaseConverter;
 	private final ToExpressionConverter toExpressionConverter;
 
 	ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter,
-			UtilReferenceConverter referenceConverterUtility, LayoutInformationConverter layoutInformationConverter,
+			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter,
 			UtilBaseConverter utilBaseConverter) {
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;

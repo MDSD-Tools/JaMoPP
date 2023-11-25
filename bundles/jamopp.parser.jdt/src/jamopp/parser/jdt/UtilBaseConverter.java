@@ -66,15 +66,15 @@ import org.emftext.language.java.types.TypesFactory;
 
 class UtilBaseConverter {
 
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilJDTBindingConverter jdtBindingConverterUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilNamedElement utilNamedElement;
 
-	private TypeInstructionSeparationUtility typeInstructionSeparationUtility;
+	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
-	UtilBaseConverter(LayoutInformationConverter layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+	UtilBaseConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
 			UtilJDTBindingConverter jdtBindingConverterUtility,
 			UtilExpressionConverter expressionConverterUtility, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -418,7 +418,7 @@ class UtilBaseConverter {
 		return result;
 	}
 
-	void setTypeInstructionSeparationUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility) {
+	void setTypeInstructionSeparationUtility(UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 

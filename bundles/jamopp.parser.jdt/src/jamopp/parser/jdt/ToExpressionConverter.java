@@ -25,7 +25,7 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 class ToExpressionConverter {
 
-	private final LayoutInformationConverter layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final UtilStatementConverter statementConverterUtility;
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilJDTBindingConverter jdtBindingConverterUtility;
@@ -44,7 +44,7 @@ class ToExpressionConverter {
 	private ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 	private ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 
-	ToExpressionConverter(ExpressionsFactory expressionsFactory, UtilStatementConverter statementConverterUtility, LayoutInformationConverter layoutInformationConverter, UtilJDTResolver jdtResolverUtility, UtilJDTBindingConverter jdtBindingConverterUtility, UtilClassifierConverter classifierConverterUtility, UtilBaseConverter utilBaseConverter) {
+	ToExpressionConverter(ExpressionsFactory expressionsFactory, UtilStatementConverter statementConverterUtility, UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility, UtilJDTBindingConverter jdtBindingConverterUtility, UtilClassifierConverter classifierConverterUtility, UtilBaseConverter utilBaseConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.statementConverterUtility = statementConverterUtility;
 		this.jdtResolverUtility = jdtResolverUtility;
