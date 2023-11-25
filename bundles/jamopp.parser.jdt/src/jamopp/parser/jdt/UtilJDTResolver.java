@@ -17,9 +17,9 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.emftext.language.java.JavaClasspath;
 
-class JDTResolverUtility {
+class UtilJDTResolver {
 	
-	private final JDTBindingConverterUtility jdtBindingConverterUtility;
+	private final UtilJDTBindingConverter jdtBindingConverterUtility;
 	
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
@@ -53,7 +53,7 @@ class JDTResolverUtility {
 	private final static String SYNTH_CLASS = "SyntheticContainerClass";
 	private final static boolean extractAdditionalInformationFromTypeBindings = true;
 
-	JDTResolverUtility(JDTBindingConverterUtility jdtBindingConverterUtility) {
+	UtilJDTResolver(UtilJDTBindingConverter jdtBindingConverterUtility) {
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 	}
 	

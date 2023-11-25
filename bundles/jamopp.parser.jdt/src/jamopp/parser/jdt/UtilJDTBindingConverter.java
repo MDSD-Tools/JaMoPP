@@ -68,11 +68,11 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 @SuppressWarnings("restriction")
-class JDTBindingConverterUtility {
+class UtilJDTBindingConverter {
 
-	private JDTResolverUtility jdtTResolverUtility;
+	private UtilJDTResolver jdtTResolverUtility;
 	
-	JDTBindingConverterUtility() {
+	UtilJDTBindingConverter() {
 	}
 
 	List<TypeReference> convertToTypeReferences(ITypeBinding binding) {
@@ -750,7 +750,7 @@ class JDTBindingConverterUtility {
 		Collections.addAll(ele.getNamespaces(), singleNamespaces);
 	}
 	
-	void setJDTResolverUtility(JDTResolverUtility jDTResolverUtility) {
+	void setJDTResolverUtility(UtilJDTResolver jDTResolverUtility) {
 		jdtTResolverUtility = jDTResolverUtility;
 	}
 }

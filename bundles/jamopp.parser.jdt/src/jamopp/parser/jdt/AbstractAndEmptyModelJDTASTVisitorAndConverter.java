@@ -37,21 +37,21 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.references.ReferenceableElement;
 
-class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
+abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
 	protected final LayoutInformationConverter layoutInformationConverter;
-	protected final JDTResolverUtility jdtResolverUtility;
-	protected final BaseConverterUtility baseConverterUtility;
+	protected final UtilJDTResolver jdtResolverUtility;
+	protected final UtilBaseConverter utilBaseConverter;
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
 	protected final UtilNamedElement utilNamedElement;
 
 	AbstractAndEmptyModelJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
-			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
+			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
-		this.baseConverterUtility = baseConverterUtility;
+		this.utilBaseConverter = utilBaseConverter;
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;
 		this.utilNamedElement = utilNamedElement;

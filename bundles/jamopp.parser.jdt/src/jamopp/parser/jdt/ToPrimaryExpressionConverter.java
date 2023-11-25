@@ -11,11 +11,11 @@ import org.emftext.language.java.literals.LiteralsFactory;
 class ToPrimaryExpressionConverter {
 
 	private final ToNumberLiteralConverter toNumberLiteralConverter;
-	private final ReferenceConverterUtility referenceConverterUtility ;
+	private final UtilReferenceConverter referenceConverterUtility ;
 	private final LayoutInformationConverter layoutInformationConverter;
 	private final LiteralsFactory literalsFactory ;
 	
-	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, ReferenceConverterUtility referenceConverterUtility, LayoutInformationConverter layoutInformationConverter) {
+	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, UtilReferenceConverter referenceConverterUtility, LayoutInformationConverter layoutInformationConverter) {
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;

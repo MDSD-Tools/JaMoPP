@@ -42,7 +42,7 @@ import jamopp.parser.api.JaMoPPParserAPI;
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	private static final TypeInstructionSeparationUtility typeInstructionSeparationUtility;
-	private static final JDTResolverUtility jdtResolverUtility;
+	private static final UtilJDTResolver jdtResolverUtility;
 	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter;
 	
 	static {

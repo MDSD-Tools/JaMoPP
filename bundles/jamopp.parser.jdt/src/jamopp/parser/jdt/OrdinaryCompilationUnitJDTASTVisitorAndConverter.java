@@ -22,14 +22,14 @@ class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisit
 
 
 	OrdinaryCompilationUnitJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
-			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement, ClassifierConverterUtility classifierConverterUtility) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
+			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement, UtilClassifierConverter classifierConverterUtility) {
+		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement);
 		this.ClassifierConverterUtility = classifierConverterUtility;
 	}
 
-	private final ClassifierConverterUtility ClassifierConverterUtility;
+	private final UtilClassifierConverter ClassifierConverterUtility;
 
 	@Override
 	public boolean visit(CompilationUnit node) {

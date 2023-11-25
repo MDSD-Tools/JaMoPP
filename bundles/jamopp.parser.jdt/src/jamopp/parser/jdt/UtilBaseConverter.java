@@ -64,19 +64,19 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
-class BaseConverterUtility {
+class UtilBaseConverter {
 
 	private final LayoutInformationConverter layoutInformationConverter;
-	private final JDTResolverUtility jdtResolverUtility;
-	private final JDTBindingConverterUtility jdtBindingConverterUtility;
-	private final ExpressionConverterUtility expressionConverterUtility;
+	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJDTBindingConverter jdtBindingConverterUtility;
+	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilNamedElement utilNamedElement;
 
 	private TypeInstructionSeparationUtility typeInstructionSeparationUtility;
 
-	BaseConverterUtility(LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
-			JDTBindingConverterUtility jdtBindingConverterUtility,
-			ExpressionConverterUtility expressionConverterUtility, UtilNamedElement utilNamedElement) {
+	UtilBaseConverter(LayoutInformationConverter layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+			UtilJDTBindingConverter jdtBindingConverterUtility,
+			UtilExpressionConverter expressionConverterUtility, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;

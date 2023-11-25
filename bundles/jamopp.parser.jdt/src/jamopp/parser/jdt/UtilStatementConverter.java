@@ -49,28 +49,28 @@ import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.YieldStatement;
 
-class StatementConverterUtility {
+class UtilStatementConverter {
 
-	private final ReferenceConverterUtility referenceConverterUtility;
+	private final UtilReferenceConverter referenceConverterUtility;
 	private final LayoutInformationConverter layoutInformationConverter;
-	private final JDTResolverUtility jdtResolverUtility;
-	private final ExpressionConverterUtility expressionConverterUtility;
-	private final ClassifierConverterUtility classifierConverterUtility;
-	private final BaseConverterUtility baseConverterUtility;
+	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilExpressionConverter expressionConverterUtility;
+	private final UtilClassifierConverter classifierConverterUtility;
+	private final UtilBaseConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
 
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
-	StatementConverterUtility(ReferenceConverterUtility referenceConverterUtility,
-			LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
-			ExpressionConverterUtility expressionConverterUtility,
-			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility, UtilNamedElement utilNamedElement) {
+	UtilStatementConverter(UtilReferenceConverter referenceConverterUtility,
+			LayoutInformationConverter layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+			UtilExpressionConverter expressionConverterUtility,
+			UtilClassifierConverter classifierConverterUtility, UtilBaseConverter utilBaseConverter, UtilNamedElement utilNamedElement) {
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.classifierConverterUtility = classifierConverterUtility;
-		this.baseConverterUtility = baseConverterUtility;
+		this.utilBaseConverter = utilBaseConverter;
 		this.utilNamedElement = utilNamedElement;
 	}
 
@@ -280,11 +280,11 @@ class StatementConverterUtility {
 			}
 			utilNamedElement.setNameOfElement(frag.getName(), locVar);
 			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
-					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-			locVar.setTypeReference(baseConverterUtility.convertToTypeReference(varSt.getType()));
-			baseConverterUtility.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
+					.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+			locVar.setTypeReference(utilBaseConverter.convertToTypeReference(varSt.getType()));
+			utilBaseConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
 			frag.extraDimensions()
-					.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
+					.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
 			if (frag.getInitializer() != null) {
 				locVar.setInitialValue(expressionConverterUtility.convertToExpression(frag.getInitializer()));
 			}
@@ -397,16 +397,16 @@ class StatementConverterUtility {
 			param = jdtResolverUtility.getCatchParameter(binding);
 		}
 		decl.modifiers().forEach(obj -> param.getAnnotationsAndModifiers()
-				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		if (decl.getType().isUnionType()) {
 			UnionType un = (UnionType) decl.getType();
-			param.setTypeReference(baseConverterUtility.convertToTypeReference((Type) un.types().get(0)));
+			param.setTypeReference(utilBaseConverter.convertToTypeReference((Type) un.types().get(0)));
 			for (int index = 1; index < un.types().size(); index++) {
 				param.getTypeReferences()
-						.add(baseConverterUtility.convertToTypeReference((Type) un.types().get(index)));
+						.add(utilBaseConverter.convertToTypeReference((Type) un.types().get(index)));
 			}
 		} else {
-			param.setTypeReference(baseConverterUtility.convertToTypeReference(decl.getType()));
+			param.setTypeReference(utilBaseConverter.convertToTypeReference(decl.getType()));
 		}
 		utilNamedElement.setNameOfElement(decl.getName(), param);
 		result.setParameter(param);
@@ -428,7 +428,7 @@ class StatementConverterUtility {
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions()
-				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			result.setInitialValue(expressionConverterUtility.convertToExpression(frag.getInitializer()));
 		}
@@ -449,11 +449,11 @@ class StatementConverterUtility {
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), loc);
 		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers()
-				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		loc.setTypeReference(baseConverterUtility.convertToTypeReference(expr.getType()));
-		baseConverterUtility.convertToArrayDimensionsAndSet(expr.getType(), loc);
+				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		loc.setTypeReference(utilBaseConverter.convertToTypeReference(expr.getType()));
+		utilBaseConverter.convertToArrayDimensionsAndSet(expr.getType(), loc);
 		frag.extraDimensions()
-				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, loc));
+				.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, loc));
 		if (frag.getInitializer() != null) {
 			loc.setInitialValue(expressionConverterUtility.convertToExpression(frag.getInitializer()));
 		}

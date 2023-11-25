@@ -34,9 +34,9 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
 	ModuleJDTASTVisitorAndConverter(
 			LayoutInformationConverter layoutInformationConverter,
-			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
+			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
+		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement);
 		// TODO Auto-generated constructor stub
 	}
@@ -61,7 +61,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 		utilNamedElement.addNameToNameSpace(node.getName(), module);
 		module.setName("");
 		node.annotations().forEach(obj -> module.getAnnotations()
-				.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+				.add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
 		node.moduleStatements().forEach(obj -> module.getTarget().add(this.convertToDirective((ModuleDirective) obj)));
 		return module;
 	}
@@ -106,9 +106,9 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 			org.emftext.language.java.modules.ProvidesModuleDirective result = org.emftext.language.java.modules.ModulesFactory.eINSTANCE
 					.createProvidesModuleDirective();
 			result.setTypeReference(
-					baseConverterUtility.convertToClassifierOrNamespaceClassifierReference(provDir.getName()));
+					utilBaseConverter.convertToClassifierOrNamespaceClassifierReference(provDir.getName()));
 			provDir.implementations().forEach(obj -> result.getServiceProviders()
-					.add(baseConverterUtility.convertToClassifierOrNamespaceClassifierReference((Name) obj)));
+					.add(utilBaseConverter.convertToClassifierOrNamespaceClassifierReference((Name) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 			return result;
 		}
@@ -116,7 +116,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 		org.emftext.language.java.modules.UsesModuleDirective result = org.emftext.language.java.modules.ModulesFactory.eINSTANCE
 				.createUsesModuleDirective();
 		result.setTypeReference(
-				baseConverterUtility.convertToClassifierOrNamespaceClassifierReference(usDir.getName()));
+				utilBaseConverter.convertToClassifierOrNamespaceClassifierReference(usDir.getName()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 		return result;
 	}

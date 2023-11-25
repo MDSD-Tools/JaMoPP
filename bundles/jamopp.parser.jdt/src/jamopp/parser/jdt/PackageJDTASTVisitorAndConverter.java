@@ -18,12 +18,12 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 
-class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
+abstract class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
 
 	PackageJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
-			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
+			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
+		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement);
 	}
 
@@ -40,7 +40,7 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
 			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
-					.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
 			root.getNamespaces().clear();
 			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), root);
 		}

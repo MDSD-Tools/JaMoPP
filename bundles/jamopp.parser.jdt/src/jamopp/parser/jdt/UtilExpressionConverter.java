@@ -18,11 +18,11 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-class ExpressionConverterUtility {
+class UtilExpressionConverter {
 
 	private ToExpressionConverter toExpressionConverter;
 
-	ExpressionConverterUtility() {
+	UtilExpressionConverter() {
 	}
 
 	org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
