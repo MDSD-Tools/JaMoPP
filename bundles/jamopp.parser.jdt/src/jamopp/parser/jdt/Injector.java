@@ -8,9 +8,9 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 public class Injector {
 
-	private static OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
-	private static JDTResolverUtility jdtResolverUtility;
-	private static TypeInstructionSeparationUtility typeInstructionSeparationUtility;
+	private static final  OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
+	private static final JDTResolverUtility jdtResolverUtility;
+	private static final TypeInstructionSeparationUtility typeInstructionSeparationUtility;
 
 	static {
 		ModifiersFactory factory = ModifiersFactory.eINSTANCE;
@@ -24,7 +24,7 @@ public class Injector {
 
 		ExpressionConverterUtility expressionConverterUtility = new ExpressionConverterUtility();
 		JDTBindingConverterUtility jdtBindingConverterUtility = new JDTBindingConverterUtility();
-		JDTResolverUtility jdtResolverUtility = new JDTResolverUtility(jdtBindingConverterUtility);
+		jdtResolverUtility = new JDTResolverUtility(jdtBindingConverterUtility);
 
 		BaseConverterUtility baseConverterUtility = new BaseConverterUtility(layoutInformationConverter,
 				jdtResolverUtility, jdtBindingConverterUtility);
@@ -32,7 +32,7 @@ public class Injector {
 		AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility(
 				layoutInformationConverter, jdtResolverUtility, expressionConverterUtility, baseConverterUtility);
 
-		TypeInstructionSeparationUtility typeInstructionSeparationUtility = new TypeInstructionSeparationUtility(
+		typeInstructionSeparationUtility = new TypeInstructionSeparationUtility(
 				jdtResolverUtility, expressionConverterUtility, annotationInstanceOrModifierConverterUtility);
 		ClassifierConverterUtility classifierConverterUtility = new ClassifierConverterUtility(
 				typeInstructionSeparationUtility, layoutInformationConverter, jdtResolverUtility,
