@@ -51,12 +51,12 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
 	@SuppressWarnings("unchecked")
 	private org.emftext.language.java.containers.Module convertToModule(ModuleDeclaration node) {
-		org.emftext.language.java.containers.Module module = JDTResolverUtility.getModule(node.resolveBinding());
+		org.emftext.language.java.containers.Module module = jdtResolverUtility.getModule(node.resolveBinding());
 		if (node.isOpen()) {
 			module.setOpen(org.emftext.language.java.modifiers.ModifiersFactory.eINSTANCE.createOpen());
 		}
-		LayoutInformationConverter.convertJavaRootLayoutInformation(module, node, this.getSource());
-		BaseConverterUtility.convertToNamespacesAndSet(node.getName(), module);
+		layoutInformationConverter.convertJavaRootLayoutInformation(module, node, this.getSource());
+		baseConverterUtility.convertToNamespacesAndSet(node.getName(), module);
 		module.setName("");
 		node.annotations().forEach(obj -> module.getAnnotations()
 				.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
@@ -80,7 +80,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 				}
 			});
 			result.setRequiredModule(convertToModuleReference(reqDir.getName()));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 			return result;
 		}
 		if (directive.getNodeType() == ASTNode.EXPORTS_DIRECTIVE
@@ -94,9 +94,9 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 						.createExportsModuleDirective();
 			}
 			IPackageBinding binding = (IPackageBinding) accessDir.getName().resolveBinding();
-			convertedDir.setAccessablePackage(JDTResolverUtility.getPackage(binding));
+			convertedDir.setAccessablePackage(jdtResolverUtility.getPackage(binding));
 			accessDir.modules().forEach(obj -> convertedDir.getModules().add(convertToModuleReference((Name) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedDir, directive);
+			layoutInformationConverter.convertToMinimalLayoutInformation(convertedDir, directive);
 			return convertedDir;
 		}
 		if (directive.getNodeType() == ASTNode.PROVIDES_DIRECTIVE) {
@@ -104,29 +104,29 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 			org.emftext.language.java.modules.ProvidesModuleDirective result = org.emftext.language.java.modules.ModulesFactory.eINSTANCE
 					.createProvidesModuleDirective();
 			result.setTypeReference(
-					BaseConverterUtility.convertToClassifierOrNamespaceClassifierReference(provDir.getName()));
+					baseConverterUtility.convertToClassifierOrNamespaceClassifierReference(provDir.getName()));
 			provDir.implementations().forEach(obj -> result.getServiceProviders()
-					.add(BaseConverterUtility.convertToClassifierOrNamespaceClassifierReference((Name) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
+					.add(baseConverterUtility.convertToClassifierOrNamespaceClassifierReference((Name) obj)));
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 			return result;
 		}
 		UsesDirective usDir = (UsesDirective) directive;
 		org.emftext.language.java.modules.UsesModuleDirective result = org.emftext.language.java.modules.ModulesFactory.eINSTANCE
 				.createUsesModuleDirective();
 		result.setTypeReference(
-				BaseConverterUtility.convertToClassifierOrNamespaceClassifierReference(usDir.getName()));
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
+				baseConverterUtility.convertToClassifierOrNamespaceClassifierReference(usDir.getName()));
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 		return result;
 	}
 
 	private org.emftext.language.java.modules.ModuleReference convertToModuleReference(Name name) {
 		org.emftext.language.java.modules.ModuleReference ref = org.emftext.language.java.modules.ModulesFactory.eINSTANCE
 				.createModuleReference();
-		org.emftext.language.java.containers.Module modProxy = JDTResolverUtility
+		org.emftext.language.java.containers.Module modProxy = jdtResolverUtility
 				.getModule((IModuleBinding) name.resolveBinding());
 		modProxy.setName("");
 		ref.setTarget(modProxy);
-		BaseConverterUtility.convertToNamespacesAndSet(name, modProxy);
+		baseConverterUtility.convertToNamespacesAndSet(name, modProxy);
 		return ref;
 	}
 }

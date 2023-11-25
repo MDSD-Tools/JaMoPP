@@ -37,19 +37,19 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class AnnotationInstanceOrModifierConverterUtility {
 
-	private TypeInstructionSeparationUtility TypeInstructionSeparationUtility;
-	private final LayoutInformationConverter LayoutInformationConverter;
-	private final JDTResolverUtility JDTResolverUtility;
-	private final ExpressionConverterUtility ExpressionConverterUtility;
-	private final BaseConverterUtility BaseConverterUtility;
-	
-	AnnotationInstanceOrModifierConverterUtility(
-			LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
-			ExpressionConverterUtility expressionConverterUtility, BaseConverterUtility baseConverterUtility) {
-		this.LayoutInformationConverter = layoutInformationConverter;
-		this.JDTResolverUtility = jdtResolverUtility;
-		this.ExpressionConverterUtility = expressionConverterUtility;
-		this.BaseConverterUtility = baseConverterUtility;
+	private TypeInstructionSeparationUtility typeInstructionSeparationUtility;
+	private final LayoutInformationConverter layoutInformationConverter;
+	private final JDTResolverUtility jdtResolverUtility;
+	private final ExpressionConverterUtility expressionConverterUtility;
+	private final BaseConverterUtility baseConverterUtility;
+
+	AnnotationInstanceOrModifierConverterUtility(LayoutInformationConverter layoutInformationConverter,
+			JDTResolverUtility jdtResolverUtility, ExpressionConverterUtility expressionConverterUtility,
+			BaseConverterUtility baseConverterUtility) {
+		this.layoutInformationConverter = layoutInformationConverter;
+		this.jdtResolverUtility = jdtResolverUtility;
+		this.expressionConverterUtility = expressionConverterUtility;
+		this.baseConverterUtility = baseConverterUtility;
 	}
 
 	AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
@@ -86,27 +86,27 @@ class AnnotationInstanceOrModifierConverterUtility {
 		} else { // mod.isVolatile()
 			result = ModifiersFactory.eINSTANCE.createVolatile();
 		}
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, mod);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, mod);
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	AnnotationInstance convertToAnnotationInstance(Annotation annot) {
 		AnnotationInstance result = AnnotationsFactory.eINSTANCE.createAnnotationInstance();
-		BaseConverterUtility.convertToNamespacesAndSet(annot.getTypeName(), result);
+		baseConverterUtility.convertToNamespacesAndSet(annot.getTypeName(), result);
 		org.emftext.language.java.classifiers.Annotation proxyClass;
 		IAnnotationBinding binding = annot.resolveAnnotationBinding();
 		if (binding == null) {
-			proxyClass = JDTResolverUtility.getAnnotation(annot.getTypeName().getFullyQualifiedName());
+			proxyClass = jdtResolverUtility.getAnnotation(annot.getTypeName().getFullyQualifiedName());
 		} else {
-			proxyClass = JDTResolverUtility.getAnnotation(binding.getAnnotationType());
+			proxyClass = jdtResolverUtility.getAnnotation(binding.getAnnotationType());
 		}
 		result.setAnnotation(proxyClass);
 		if (annot.isSingleMemberAnnotation()) {
 			SingleAnnotationParameter param = AnnotationsFactory.eINSTANCE.createSingleAnnotationParameter();
 			result.setParameter(param);
 			SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
-			TypeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
+			typeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
 		} else if (annot.isNormalAnnotation()) {
 			AnnotationParameterList param = AnnotationsFactory.eINSTANCE.createAnnotationParameterList();
 			result.setParameter(param);
@@ -116,22 +116,22 @@ class AnnotationInstanceOrModifierConverterUtility {
 				AnnotationAttributeSetting attrSet = AnnotationsFactory.eINSTANCE.createAnnotationAttributeSetting();
 				InterfaceMethod methodProxy;
 				if (memVal.resolveMemberValuePairBinding() != null) {
-					methodProxy = JDTResolverUtility
+					methodProxy = jdtResolverUtility
 							.getInterfaceMethod(memVal.resolveMemberValuePairBinding().getMethodBinding());
 				} else {
-					methodProxy = JDTResolverUtility.getInterfaceMethod(memVal.getName().getIdentifier());
+					methodProxy = jdtResolverUtility.getInterfaceMethod(memVal.getName().getIdentifier());
 					if (!proxyClass.getMembers().contains(methodProxy)) {
 						proxyClass.getMembers().add(methodProxy);
 					}
 				}
-				BaseConverterUtility.convertToSimpleNameOnlyAndSet(memVal.getName(), methodProxy);
+				baseConverterUtility.convertToSimpleNameOnlyAndSet(memVal.getName(), methodProxy);
 				attrSet.setAttribute(methodProxy);
-				TypeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
-				LayoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);
+				typeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
+				layoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);
 				param.getSettings().add(attrSet);
 			});
 		}
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, annot);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, annot);
 		return result;
 	}
 
@@ -142,7 +142,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 		if (expr.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
 			return convertToArrayInitializer((ArrayInitializer) expr);
 		}
-		return (AssignmentExpressionChild) ExpressionConverterUtility.convertToExpression(expr);
+		return (AssignmentExpressionChild) expressionConverterUtility.convertToExpression(expr);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -156,15 +156,15 @@ class AnnotationInstanceOrModifierConverterUtility {
 			} else if (expr instanceof Annotation) {
 				value = convertToAnnotationInstance((Annotation) expr);
 			} else {
-				value = ExpressionConverterUtility.convertToExpression(expr);
+				value = expressionConverterUtility.convertToExpression(expr);
 			}
 			result.getInitialValues().add(value);
 		});
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
-	
+
 	public void setTypeInstructionSeparationUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility) {
-		TypeInstructionSeparationUtility = typeInstructionSeparationUtility;
+		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 }

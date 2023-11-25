@@ -41,13 +41,13 @@ import jamopp.parser.api.JaMoPPParserAPI;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
-	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility;
-	private static final JDTResolverUtility JDTResolverUtility;
+	private static final TypeInstructionSeparationUtility typeInstructionSeparationUtility;
+	private static final JDTResolverUtility jdtResolverUtility;
 	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter;
 	
 	static {
-		TypeInstructionSeparationUtility = Injector.getTypeInstructionSeparationUtility();
-		JDTResolverUtility = Injector.getJDTResolverUtility();
+		typeInstructionSeparationUtility = Injector.getTypeInstructionSeparationUtility();
+		jdtResolverUtility = Injector.getJDTResolverUtility();
 		converter = Injector.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
 	}
 
@@ -189,7 +189,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 	public JaMoPPJDTParser() {
 		ContainersFactory.eINSTANCE.createEmptyModel();
 		this.resourceSet = new ResourceSetImpl();
-		JDTResolverUtility.setResourceSet(this.resourceSet);
+		jdtResolverUtility.setResourceSet(this.resourceSet);
 	}
 
 	public List<JavaRoot> convertCompilationUnits(Map<String, CompilationUnit> compilationUnits) {
@@ -210,8 +210,8 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 			result.add(root);
 		}
 
-		TypeInstructionSeparationUtility.convertAll();
-		JDTResolverUtility.completeResolution();
+		typeInstructionSeparationUtility.convertAll();
+		jdtResolverUtility.completeResolution();
 		for (final Resource res : new ArrayList<>(this.resourceSet.getResources())) {
 			if (res.getContents().isEmpty()) {
 				try {
@@ -291,8 +291,8 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		final ASTNode ast = parseFileWithJDT(src, fileName);
 		converter.setSource(src);
 		ast.accept(converter);
-		TypeInstructionSeparationUtility.convertAll();
-		JDTResolverUtility.completeResolution();
+		typeInstructionSeparationUtility.convertAll();
+		jdtResolverUtility.completeResolution();
 		this.resourceSet = null;
 		return converter.getConvertedElement();
 	}

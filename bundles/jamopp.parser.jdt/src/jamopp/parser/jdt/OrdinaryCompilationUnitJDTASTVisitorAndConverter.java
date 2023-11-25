@@ -47,7 +47,7 @@ class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisit
 		org.emftext.language.java.containers.CompilationUnit result = org.emftext.language.java.containers.ContainersFactory.eINSTANCE
 				.createCompilationUnit();
 		result.setName("");
-		LayoutInformationConverter.convertJavaRootLayoutInformation(result, cu, getSource());
+		layoutInformationConverter.convertJavaRootLayoutInformation(result, cu, getSource());
 		cu.types().forEach(obj -> result.getClassifiers()
 				.add(ClassifierConverterUtility.convertToConcreteClassifier((AbstractTypeDeclaration) obj)));
 		return result;

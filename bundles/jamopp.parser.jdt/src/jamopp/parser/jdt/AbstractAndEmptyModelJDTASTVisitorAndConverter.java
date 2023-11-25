@@ -39,20 +39,20 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
-	protected final LayoutInformationConverter LayoutInformationConverter;
-	protected final JDTResolverUtility JDTResolverUtility;
-	protected final BaseConverterUtility BaseConverterUtility;
-	protected final ModifiersFactory MODIFIERS_FACTORY;
-	protected final ImportsFactory IMPORTS_FACTORY;
+	protected final LayoutInformationConverter layoutInformationConverter;
+	protected final JDTResolverUtility jdtResolverUtility;
+	protected final BaseConverterUtility baseConverterUtility;
+	protected final ModifiersFactory modifiersFactory;
+	protected final ImportsFactory importsFactory;
 
 	public AbstractAndEmptyModelJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiers_FACTORY, ImportsFactory imports_FACTORY) {
-		this.LayoutInformationConverter = layoutInformationConverter;
-		this.JDTResolverUtility = jdtResolverUtility;
-		this.BaseConverterUtility = baseConverterUtility;
-		this.MODIFIERS_FACTORY = modifiers_FACTORY;
-		this.IMPORTS_FACTORY = imports_FACTORY;
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory) {
+		this.layoutInformationConverter = layoutInformationConverter;
+		this.jdtResolverUtility = jdtResolverUtility;
+		this.baseConverterUtility = baseConverterUtility;
+		this.modifiersFactory = modifiersFactory;
+		this.importsFactory = importsFactory;
 	}
 
 	private JavaRoot convertedRootElement;
@@ -105,44 +105,44 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 	}
 
 	private Import convertToOnDemandStatic(ImportDeclaration importDecl) {
-		StaticClassifierImport convertedImport = IMPORTS_FACTORY.createStaticClassifierImport();
-		convertedImport.setStatic(MODIFIERS_FACTORY.createStatic());
+		StaticClassifierImport convertedImport = importsFactory.createStaticClassifierImport();
+		convertedImport.setStatic(modifiersFactory.createStatic());
 		IBinding binding = importDecl.getName().resolveBinding();
 		Classifier proxyClass = null;
 		if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
-			proxyClass = JDTResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
+			proxyClass = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 		} else {
-			proxyClass = JDTResolverUtility.getClassifier((ITypeBinding) binding);
+			proxyClass = jdtResolverUtility.getClassifier((ITypeBinding) binding);
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
-		BaseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxyClass);
-		LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
+		baseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxyClass);
+		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
 
 	private Import convertToOnDemandNonStatic(ImportDeclaration importDecl) {
-		PackageImport convertedImport = IMPORTS_FACTORY.createPackageImport();
-		BaseConverterUtility.convertToNamespacesAndSet(importDecl.getName(), convertedImport);
-		LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
+		PackageImport convertedImport = importsFactory.createPackageImport();
+		baseConverterUtility.convertToNamespacesAndSet(importDecl.getName(), convertedImport);
+		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
 
 	private Import convertToNonOnDemandStatic(ImportDeclaration importDecl) {
-		StaticMemberImport convertedImport = IMPORTS_FACTORY.createStaticMemberImport();
-		convertedImport.setStatic(MODIFIERS_FACTORY.createStatic());
+		StaticMemberImport convertedImport = importsFactory.createStaticMemberImport();
+		convertedImport.setStatic(modifiersFactory.createStatic());
 		QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
 		IBinding b = qualifiedName.resolveBinding();
 		ReferenceableElement proxyMember = null;
 		Classifier proxyClass = null;
 		if (b == null || b.isRecovered()) {
-			proxyMember = JDTResolverUtility.getField(qualifiedName.getFullyQualifiedName());
+			proxyMember = jdtResolverUtility.getField(qualifiedName.getFullyQualifiedName());
 		} else if (b instanceof IMethodBinding) {
-			proxyMember = JDTResolverUtility.getMethod((IMethodBinding) b);
+			proxyMember = jdtResolverUtility.getMethod((IMethodBinding) b);
 		} else if (b instanceof IVariableBinding) {
-			proxyMember = JDTResolverUtility.getReferencableElement((IVariableBinding) b);
+			proxyMember = jdtResolverUtility.getReferencableElement((IVariableBinding) b);
 		} else if (b instanceof ITypeBinding typeBinding) {
 			if (!typeBinding.isNested()) {
-				proxyClass = JDTResolverUtility.getClassifier(typeBinding);
+				proxyClass = jdtResolverUtility.getClassifier(typeBinding);
 				ConcreteClassifier conCl = (ConcreteClassifier) proxyClass;
 				for (Member m : conCl.getMembers()) {
 					if (!(m instanceof Constructor) && m.getName().equals(qualifiedName.getName().getIdentifier())) {
@@ -151,51 +151,51 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 					}
 				}
 				if (proxyMember == null) {
-					proxyMember = JDTResolverUtility.getClassMethod(qualifiedName.getFullyQualifiedName());
+					proxyMember = jdtResolverUtility.getClassMethod(qualifiedName.getFullyQualifiedName());
 					proxyMember.setName(qualifiedName.getName().getIdentifier());
 					conCl.getMembers().add((Member) proxyMember);
 				}
 			} else {
-				proxyMember = JDTResolverUtility.getClassifier(typeBinding);
-				proxyClass = JDTResolverUtility.getClassifier(typeBinding.getDeclaringClass());
+				proxyMember = jdtResolverUtility.getClassifier(typeBinding);
+				proxyClass = jdtResolverUtility.getClassifier(typeBinding.getDeclaringClass());
 			}
 		} else {
-			proxyMember = JDTResolverUtility.getField(qualifiedName.getFullyQualifiedName());
+			proxyMember = jdtResolverUtility.getField(qualifiedName.getFullyQualifiedName());
 		}
 		proxyMember.setName(qualifiedName.getName().getIdentifier());
 		convertedImport.getStaticMembers().add(proxyMember);
 		if (proxyClass == null) {
 			IBinding binding = qualifiedName.getQualifier().resolveBinding();
 			if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
-				proxyClass = JDTResolverUtility.getClass(qualifiedName.getQualifier().getFullyQualifiedName());
+				proxyClass = jdtResolverUtility.getClass(qualifiedName.getQualifier().getFullyQualifiedName());
 			} else {
-				proxyClass = JDTResolverUtility.getClassifier((ITypeBinding) binding);
+				proxyClass = jdtResolverUtility.getClassifier((ITypeBinding) binding);
 			}
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
-		BaseConverterUtility.convertToNamespacesAndSimpleNameAndSet(qualifiedName.getQualifier(), convertedImport,
+		baseConverterUtility.convertToNamespacesAndSimpleNameAndSet(qualifiedName.getQualifier(), convertedImport,
 				proxyClass);
-		LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
+		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
 
 	private Import convertToNonOnDemandNonStatic(ImportDeclaration importDecl) {
-		ClassifierImport convertedImport = IMPORTS_FACTORY.createClassifierImport();
+		ClassifierImport convertedImport = importsFactory.createClassifierImport();
 		Classifier proxy = null;
 		IBinding b = importDecl.getName().resolveBinding();
 		if (b instanceof IPackageBinding) {
-			proxy = JDTResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
+			proxy = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 		} else {
 			ITypeBinding binding = (ITypeBinding) b;
 			if (binding == null || binding.isRecovered()) {
-				proxy = JDTResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
+				proxy = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 			} else {
-				proxy = JDTResolverUtility.getClassifier((ITypeBinding) importDecl.getName().resolveBinding());
+				proxy = jdtResolverUtility.getClassifier((ITypeBinding) importDecl.getName().resolveBinding());
 			}
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxy);
-		BaseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxy);
-		LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
+		baseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxy);
+		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
 }

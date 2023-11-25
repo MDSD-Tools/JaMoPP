@@ -35,9 +35,9 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 	public boolean visit(CompilationUnit node) {
 		org.emftext.language.java.containers.JavaRoot root = this.getConvertedElement();
 		if (root == null && node.getPackage() != null) {
-			root = JDTResolverUtility.getPackage(node.getPackage().resolveBinding());
+			root = jdtResolverUtility.getPackage(node.getPackage().resolveBinding());
 			root.setName("");
-			LayoutInformationConverter.convertJavaRootLayoutInformation(root, node, this.getSource());
+			layoutInformationConverter.convertJavaRootLayoutInformation(root, node, this.getSource());
 			this.setConvertedElement(root);
 		}
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
@@ -45,7 +45,7 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
 					.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			root.getNamespaces().clear();
-			BaseConverterUtility.convertToNamespacesAndSet(node.getPackage().getName(), root);
+			baseConverterUtility.convertToNamespacesAndSet(node.getPackage().getName(), root);
 		}
 		super.visit(node);
 		return false;

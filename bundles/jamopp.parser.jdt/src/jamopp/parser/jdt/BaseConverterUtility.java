@@ -47,17 +47,16 @@ import org.emftext.language.java.types.TypesFactory;
 
 class BaseConverterUtility {
 
-	private final LayoutInformationConverter LayoutInformationConverter;
-	private final JDTResolverUtility JDTResolverUtility;
-	private final JDTBindingConverterUtility JDTBindingConverterUtility;
-	private AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility;
-	
-	
-	
-	public BaseConverterUtility(LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, JDTBindingConverterUtility jdtBindingConverterUtility) {
-		this.LayoutInformationConverter = layoutInformationConverter;
-		this.JDTResolverUtility = jdtResolverUtility;
-		this.JDTBindingConverterUtility = jdtBindingConverterUtility;
+	private final LayoutInformationConverter layoutInformationConverter;
+	private final JDTResolverUtility jdtResolverUtility;
+	private final JDTBindingConverterUtility jdtBindingConverterUtility;
+	private AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
+
+	public BaseConverterUtility(LayoutInformationConverter layoutInformationConverter,
+			JDTResolverUtility jdtResolverUtility, JDTBindingConverterUtility jdtBindingConverterUtility) {
+		this.layoutInformationConverter = layoutInformationConverter;
+		this.jdtResolverUtility = jdtResolverUtility;
+		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 	}
 
 	TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
@@ -99,9 +98,9 @@ class BaseConverterUtility {
 		ITypeBinding binding = (ITypeBinding) simpleName.resolveBinding();
 		Classifier proxy;
 		if (binding == null || binding.isRecovered()) {
-			proxy = JDTResolverUtility.getClass(simpleName.getIdentifier());
+			proxy = jdtResolverUtility.getClass(simpleName.getIdentifier());
 		} else {
-			proxy = JDTResolverUtility.getClassifier(binding);
+			proxy = jdtResolverUtility.getClassifier(binding);
 		}
 		proxy.setName(simpleName.getIdentifier());
 		ref.setTarget(proxy);
@@ -166,22 +165,22 @@ class BaseConverterUtility {
 				convertedType = TypesFactory.eINSTANCE.createVoid();
 			}
 			primType.annotations().forEach(obj -> convertedType.getAnnotations()
-					.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
+					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+			layoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
 			return convertedType;
 		}
 		if (t.isVar()) {
 			InferableType ref = TypesFactory.eINSTANCE.createInferableType();
 			ITypeBinding binding = t.resolveBinding();
 			if (binding != null) {
-				ref.getActualTargets().addAll(JDTBindingConverterUtility.convertToTypeReferences(binding));
+				ref.getActualTargets().addAll(jdtBindingConverterUtility.convertToTypeReferences(binding));
 				if (binding.isArray()) {
-					JDTBindingConverterUtility.convertToArrayDimensionsAndSet(binding, ref);
+					jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding, ref);
 				} else if (binding.isIntersectionType() && binding.getTypeBounds()[0].isArray()) {
-					JDTBindingConverterUtility.convertToArrayDimensionsAndSet(binding.getTypeBounds()[0], ref);
+					jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding.getTypeBounds()[0], ref);
 				}
 			}
-			LayoutInformationConverter.convertToMinimalLayoutInformation(ref, t);
+			layoutInformationConverter.convertToMinimalLayoutInformation(ref, t);
 			return ref;
 		}
 		if (t.isArrayType()) {
@@ -194,12 +193,12 @@ class BaseConverterUtility {
 			if (!simT.annotations().isEmpty()) {
 				ClassifierReference tempRef = convertToClassifierReference((SimpleName) simT.getName());
 				simT.annotations().forEach(obj -> tempRef.getAnnotations().add(
-						AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+						annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 				ref = tempRef;
 			} else {
 				ref = convertToClassifierOrNamespaceClassifierReference(simT.getName());
 			}
-			LayoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
+			layoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
 			return ref;
 		}
 		if (t.isQualifiedType()) {
@@ -215,9 +214,9 @@ class BaseConverterUtility {
 			}
 			ClassifierReference childRef = convertToClassifierReference(qualType.getName());
 			qualType.annotations().forEach(obj -> childRef.getAnnotations()
-					.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			result.getClassifierReferences().add(childRef);
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
 			return result;
 		}
 		if (t.isNameQualifiedType()) {
@@ -232,9 +231,9 @@ class BaseConverterUtility {
 			}
 			ClassifierReference child = convertToClassifierReference(nqT.getName());
 			nqT.annotations().forEach(obj -> child.getAnnotations()
-					.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			result.getClassifierReferences().add(child);
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
 			return result;
 		}
 		if (t.isParameterizedType()) {
@@ -260,32 +259,32 @@ class BaseConverterUtility {
 			QualifiedTypeArgument result = GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
 			result.setTypeReference(convertToTypeReference(t));
 			convertToArrayDimensionsAndSet(t, result);
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, t);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, t);
 			return result;
 		}
 		WildcardType wildType = (WildcardType) t;
 		if (wildType.getBound() == null) {
 			UnknownTypeArgument result = GenericsFactory.eINSTANCE.createUnknownTypeArgument();
 			wildType.annotations().forEach(obj -> result.getAnnotations()
-					.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
+					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		if (wildType.isUpperBound()) {
 			ExtendsTypeArgument result = GenericsFactory.eINSTANCE.createExtendsTypeArgument();
 			wildType.annotations().forEach(obj -> result.getAnnotations()
-					.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			result.setExtendType(convertToTypeReference(wildType.getBound()));
 			convertToArrayDimensionsAndSet(wildType.getBound(), result);
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		SuperTypeArgument result = GenericsFactory.eINSTANCE.createSuperTypeArgument();
 		wildType.annotations().forEach(obj -> result.getAnnotations()
-				.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+				.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 		result.setSuperType(convertToTypeReference(wildType.getBound()));
 		convertToArrayDimensionsAndSet(wildType.getBound(), result);
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 		return result;
 	}
 
@@ -311,13 +310,13 @@ class BaseConverterUtility {
 	private ArrayDimension convertToArrayDimension(Dimension dim) {
 		ArrayDimension result = ArraysFactory.eINSTANCE.createArrayDimension();
 		dim.annotations().forEach(annot -> result.getAnnotations()
-				.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) annot)));
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, dim);
+				.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) annot)));
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, dim);
 		return result;
 	}
-	
+
 	public void setAnnotationInstanceOrModifierConverterUtility(
 			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
-		AnnotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
+		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}
 }
