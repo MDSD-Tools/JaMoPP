@@ -45,7 +45,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
 
-	public AbstractAndEmptyModelJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+	AbstractAndEmptyModelJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;

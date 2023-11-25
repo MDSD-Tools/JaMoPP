@@ -7,7 +7,7 @@ class ToUnaryOperatorConverter {
 
 	private final OperatorsFactory operatorsFactory;
 
-	public ToUnaryOperatorConverter(OperatorsFactory operatorsFactory) {
+	ToUnaryOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 
 	}

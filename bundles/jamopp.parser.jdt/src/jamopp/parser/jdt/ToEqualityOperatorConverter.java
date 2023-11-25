@@ -8,7 +8,7 @@ class ToEqualityOperatorConverter {
 
 	private final OperatorsFactory operatorsFactory;
 	
-	public ToEqualityOperatorConverter(OperatorsFactory operatorsFactory) {
+	ToEqualityOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 

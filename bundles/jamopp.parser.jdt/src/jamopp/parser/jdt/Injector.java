@@ -6,7 +6,7 @@ import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class Injector {
+class Injector {
 
 	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	private static final JDTResolverUtility jdtResolverUtility;

@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.dom.NumberLiteral;
 
 class ToNumberLiteralConverter {
 	
-	private final LayoutInformationConverter LayoutInformationConverter ;
+	private final LayoutInformationConverter layoutInformationConverter ;
 	
 	private static final String HEX_PREFIX = "0x";
 	private static final String BIN_PREFIX = "0b";
@@ -35,8 +35,8 @@ class ToNumberLiteralConverter {
 	private static final int OCT_BASE = 8;
 	private static final String UNDER_SCORE = "_";
 	
-	public ToNumberLiteralConverter(LayoutInformationConverter layoutInformationConverter) {
-		this.LayoutInformationConverter = layoutInformationConverter;
+	ToNumberLiteralConverter(LayoutInformationConverter layoutInformationConverter) {
+		this.layoutInformationConverter = layoutInformationConverter;
 	}
 	
 	org.emftext.language.java.literals.Literal convert(NumberLiteral literal) {
@@ -113,7 +113,7 @@ class ToNumberLiteralConverter {
 			lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length()), OCT_BASE));
 			result = lit;
 		}
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, literal);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, literal);
 		return result;
 	}
 }

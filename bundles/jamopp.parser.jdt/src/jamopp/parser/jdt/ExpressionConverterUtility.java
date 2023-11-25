@@ -23,7 +23,7 @@ class ExpressionConverterUtility {
 	private ToExpressionConverter toExpressionConverter;
 	private ToConditionalExpressionConverter toConditionalExpressionConverter;
 
-	public ExpressionConverterUtility() {
+	ExpressionConverterUtility() {
 	}
 
 	org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
@@ -35,11 +35,11 @@ class ExpressionConverterUtility {
 		return toConditionalExpressionConverter.convertToConditionalExpression(expr);
 	}
 	
-	public void setToConditionalExpressionConverter(ToConditionalExpressionConverter toConditionalExpressionConverter) {
+	void setToConditionalExpressionConverter(ToConditionalExpressionConverter toConditionalExpressionConverter) {
 		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
 	}
 	
-	public void setToExpressionConverter(ToExpressionConverter toExpressionConverter) {
+	void setToExpressionConverter(ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 	}
 }

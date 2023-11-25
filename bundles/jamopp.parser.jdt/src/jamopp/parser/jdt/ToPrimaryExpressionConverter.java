@@ -10,15 +10,15 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 class ToPrimaryExpressionConverter {
 
-	private final ToNumberLiteralConverter ToNumberLiteralConverter;
-	private final ReferenceConverterUtility ReferenceConverterUtility ;
-	private final LayoutInformationConverter LayoutInformationConverter;
+	private final ToNumberLiteralConverter toNumberLiteralConverter;
+	private final ReferenceConverterUtility referenceConverterUtility ;
+	private final LayoutInformationConverter layoutInformationConverter;
 	private final LiteralsFactory literalsFactory ;
 	
-	public ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, ReferenceConverterUtility referenceConverterUtility, LayoutInformationConverter layoutInformationConverter) {
-		this.ToNumberLiteralConverter = toNumberLiteralConverter;
-		this.ReferenceConverterUtility = referenceConverterUtility;
-		this.LayoutInformationConverter = layoutInformationConverter;
+	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, ReferenceConverterUtility referenceConverterUtility, LayoutInformationConverter layoutInformationConverter) {
+		this.toNumberLiteralConverter = toNumberLiteralConverter;
+		this.referenceConverterUtility = referenceConverterUtility;
+		this.layoutInformationConverter = layoutInformationConverter;
 		this.literalsFactory = literalsFactory;
 	}
 
@@ -30,22 +30,22 @@ class ToPrimaryExpressionConverter {
 		} else if (expr.getNodeType() == ASTNode.CHARACTER_LITERAL) {
 			return createCharacterLiteral(expr);
 		} else if (expr.getNodeType() == ASTNode.NUMBER_LITERAL) {
-			return ToNumberLiteralConverter.convert((NumberLiteral) expr);
+			return toNumberLiteralConverter.convert((NumberLiteral) expr);
 		}
-		return ReferenceConverterUtility.convertToReference(expr);
+		return referenceConverterUtility.convertToReference(expr);
 	}
 
 	private PrimaryExpression createCharacterLiteral(Expression expr) {
 		CharacterLiteral lit = (CharacterLiteral) expr;
 		org.emftext.language.java.literals.CharacterLiteral result = literalsFactory.createCharacterLiteral();
 		result.setValue(lit.getEscapedValue().substring(1, lit.getEscapedValue().length() - 1));
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
 		return result;
 	}
 
 	private PrimaryExpression createNullLiteral(Expression expr) {
 		org.emftext.language.java.literals.NullLiteral result = literalsFactory.createNullLiteral();
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 
@@ -53,7 +53,7 @@ class ToPrimaryExpressionConverter {
 		BooleanLiteral lit = (BooleanLiteral) expr;
 		org.emftext.language.java.literals.BooleanLiteral result = literalsFactory.createBooleanLiteral();
 		result.setValue(lit.booleanValue());
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
 		return result;
 	}
 

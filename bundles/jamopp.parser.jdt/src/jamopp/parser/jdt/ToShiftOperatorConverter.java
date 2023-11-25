@@ -8,7 +8,7 @@ class ToShiftOperatorConverter {
 
 	private final OperatorsFactory operatorsFactory;
 	
-	public ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
+	ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;	
 	}
 

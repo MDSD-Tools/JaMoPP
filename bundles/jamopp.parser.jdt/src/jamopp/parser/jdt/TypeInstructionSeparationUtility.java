@@ -26,7 +26,7 @@ class TypeInstructionSeparationUtility {
 	private final HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
-	public TypeInstructionSeparationUtility(JDTResolverUtility jdtResolverUtility,
+	TypeInstructionSeparationUtility(JDTResolverUtility jdtResolverUtility,
 			ExpressionConverterUtility expressionConverterUtility,
 			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
 
@@ -189,7 +189,7 @@ class TypeInstructionSeparationUtility {
 		visitedObjects.clear();
 	}
 	
-	public void setStatementConverterUtility(StatementConverterUtility statementConverterUtility) {
+	void setStatementConverterUtility(StatementConverterUtility statementConverterUtility) {
 		this.statementConverterUtility = statementConverterUtility;
 	}
 }

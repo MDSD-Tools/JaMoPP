@@ -164,7 +164,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 		return result;
 	}
 
-	public void setTypeInstructionSeparationUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility) {
+	void setTypeInstructionSeparationUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 }

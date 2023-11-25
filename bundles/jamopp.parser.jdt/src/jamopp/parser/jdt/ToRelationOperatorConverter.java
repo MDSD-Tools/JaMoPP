@@ -7,7 +7,7 @@ class ToRelationOperatorConverter {
 	
 	private final OperatorsFactory operatorsFactory;
 	
-	public ToRelationOperatorConverter(OperatorsFactory operatorsFactory) {
+	ToRelationOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 	

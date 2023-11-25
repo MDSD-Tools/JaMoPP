@@ -6,11 +6,11 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 class ToConditionalExpressionConverter {
 
-	private final LayoutInformationConverter LayoutInformationConverter;
+	private final LayoutInformationConverter layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 
 	ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter, LayoutInformationConverter layoutInformationConverter) {
-		this.LayoutInformationConverter = layoutInformationConverter;
+		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 	}
 
@@ -19,7 +19,7 @@ class ToConditionalExpressionConverter {
 		result.setChild((ConditionalExpressionChild) toExpressionConverter.convertToExpression(expr.getExpression()));
 		result.setExpressionIf(toExpressionConverter.convertToExpression(expr.getThenExpression()));
 		result.setGeneralExpressionElse(toExpressionConverter.convertToExpression(expr.getElseExpression()));
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 

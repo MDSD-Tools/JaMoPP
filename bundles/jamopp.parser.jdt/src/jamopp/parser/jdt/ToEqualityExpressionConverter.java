@@ -8,14 +8,14 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 class ToEqualityExpressionConverter {
 
-	private final LayoutInformationConverter LayoutInformationConverter;
+	private final LayoutInformationConverter layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToEqualityOperatorConverter toEqualityOperatorConverter;
 
 	ToEqualityExpressionConverter(ToExpressionConverter toExpressionConverter,
 			ToEqualityOperatorConverter toEqualityOperatorConverter,
 			LayoutInformationConverter layoutInformationConverter) {
-		this.LayoutInformationConverter = layoutInformationConverter;
+		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toEqualityOperatorConverter = toEqualityOperatorConverter;
 	}
@@ -32,7 +32,7 @@ class ToEqualityExpressionConverter {
 			mergeEqualityExpressionAndExpression(result,
 					toExpressionConverter.convertToExpression((org.eclipse.jdt.core.dom.Expression) obj));
 		});
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 

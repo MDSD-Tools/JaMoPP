@@ -19,7 +19,7 @@ import org.emftext.language.java.JavaClasspath;
 
 class JDTResolverUtility {
 	
-	private final JDTBindingConverterUtility JDTBindingConverterUtility;
+	private final JDTBindingConverterUtility jdtBindingConverterUtility;
 	
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
@@ -53,8 +53,8 @@ class JDTResolverUtility {
 	private final static String SYNTH_CLASS = "SyntheticContainerClass";
 	private final static boolean extractAdditionalInformationFromTypeBindings = true;
 
-	public JDTResolverUtility(JDTBindingConverterUtility jdtBindingConverterUtility) {
-		this.JDTBindingConverterUtility = jdtBindingConverterUtility;
+	JDTResolverUtility(JDTBindingConverterUtility jdtBindingConverterUtility) {
+		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 	}
 	
 	void setResourceSet(ResourceSet set) {
@@ -1056,7 +1056,7 @@ class JDTResolverUtility {
 				return;
 			}
 		} else if (typeBind.isTopLevel()) {
-			JDTBindingConverterUtility.convertToConcreteClassifier(typeBind, extractAdditionalInformationFromTypeBindings);
+			jdtBindingConverterUtility.convertToConcreteClassifier(typeBind, extractAdditionalInformationFromTypeBindings);
 		} else if (typeBind.isNested()) {
 			org.emftext.language.java.classifiers.ConcreteClassifier parentClassifier =
 					(org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(typeBind.getDeclaringClass());
@@ -1098,7 +1098,7 @@ class JDTResolverUtility {
 			pack.setName("");
 			pack.setModule(getModule(""));
 		} else {
-			JDTBindingConverterUtility.convertToPackage(binding);
+			jdtBindingConverterUtility.convertToPackage(binding);
 		}
 		if (pack.eResource() != null) {
 			return;
@@ -1124,7 +1124,7 @@ class JDTResolverUtility {
 			Collections.addAll(module.getNamespaces(), parts);
 			module.setName("");
 		} else {
-			JDTBindingConverterUtility.convertToModule(binding);
+			jdtBindingConverterUtility.convertToModule(binding);
 		}
 		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Module", null,
 				new String[] {modName, "module-info.java"}, null, null));

@@ -25,12 +25,12 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 class ToExpressionConverter {
 
-	private final LayoutInformationConverter LayoutInformationConverter;
-	private final StatementConverterUtility StatementConverterUtility;
-	private final JDTResolverUtility JDTResolverUtility;
-	private final JDTBindingConverterUtility JDTBindingConverterUtility;
-	private final ClassifierConverterUtility ClassifierConverterUtility;
-	private final BaseConverterUtility BaseConverterUtility;
+	private final LayoutInformationConverter layoutInformationConverter;
+	private final StatementConverterUtility statementConverterUtility;
+	private final JDTResolverUtility jdtResolverUtility;
+	private final JDTBindingConverterUtility jdtBindingConverterUtility;
+	private final ClassifierConverterUtility classifierConverterUtility;
+	private final BaseConverterUtility baseConverterUtility;
 	private final ExpressionsFactory expressionsFactory;
 	
 	private ToAssignmentConverter toAssignmentOperatorConverter;
@@ -45,12 +45,12 @@ class ToExpressionConverter {
 	private ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 
 	ToExpressionConverter(ExpressionsFactory expressionsFactory, StatementConverterUtility statementConverterUtility, LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, JDTBindingConverterUtility jdtBindingConverterUtility, ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility) {
-		this.LayoutInformationConverter = layoutInformationConverter;
-		this.StatementConverterUtility = statementConverterUtility;
-		this.JDTResolverUtility = jdtResolverUtility;
-		this.JDTBindingConverterUtility = jdtBindingConverterUtility;
-		this.ClassifierConverterUtility = classifierConverterUtility;
-		this.BaseConverterUtility = baseConverterUtility;
+		this.layoutInformationConverter = layoutInformationConverter;
+		this.statementConverterUtility = statementConverterUtility;
+		this.jdtResolverUtility = jdtResolverUtility;
+		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
+		this.classifierConverterUtility = classifierConverterUtility;
+		this.baseConverterUtility = baseConverterUtility;
 		this.expressionsFactory = expressionsFactory;
 	}
 
@@ -97,11 +97,11 @@ class ToExpressionConverter {
 				IVariableBinding binding = frag.resolveBinding();
 				org.emftext.language.java.parameters.OrdinaryParameter nextParam;
 				if (binding != null) {
-					nextParam = JDTResolverUtility.getOrdinaryParameter(binding);
+					nextParam = jdtResolverUtility.getOrdinaryParameter(binding);
 					nextParam.setTypeReference(
-							JDTBindingConverterUtility.convertToTypeReferences(binding.getType()).get(0));
+							jdtBindingConverterUtility.convertToTypeReferences(binding.getType()).get(0));
 				} else {
-					nextParam = JDTResolverUtility
+					nextParam = jdtResolverUtility
 							.getOrdinaryParameter(frag.getName().getIdentifier() + frag.hashCode());
 					nextParam.setTypeReference(org.emftext.language.java.types.TypesFactory.eINSTANCE.createVoid());
 				}
@@ -113,15 +113,15 @@ class ToExpressionConverter {
 			org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters param = expressionsFactory
 					.createExplicitlyTypedLambdaParameters();
 			lambda.parameters().forEach(obj -> param.getParameters()
-					.add(ClassifierConverterUtility.convertToOrdinaryParameter((SingleVariableDeclaration) obj)));
+					.add(classifierConverterUtility.convertToOrdinaryParameter((SingleVariableDeclaration) obj)));
 			result.setParameters(param);
 		}
 		if (lambda.getBody() instanceof Expression) {
 			result.setBody(convertToExpression((Expression) lambda.getBody()));
 		} else {
-			result.setBody(StatementConverterUtility.convertToBlock((Block) lambda.getBody()));
+			result.setBody(statementConverterUtility.convertToBlock((Block) lambda.getBody()));
 		}
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, lambda);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, lambda);
 		return result;
 	}
 
@@ -134,8 +134,8 @@ class ToExpressionConverter {
 		org.emftext.language.java.statements.Switch result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE
 				.createSwitch();
 		result.setVariable(convertToExpression(switchExpr.getExpression()));
-		StatementConverterUtility.convertToSwitchCasesAndSet(result, switchExpr.statements());
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, switchExpr);
+		statementConverterUtility.convertToSwitchCasesAndSet(result, switchExpr.statements());
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, switchExpr);
 		return result;
 	}
 
@@ -144,18 +144,18 @@ class ToExpressionConverter {
 		org.emftext.language.java.expressions.CastExpression result = expressionsFactory.createCastExpression();
 		if (castExpr.getType().isIntersectionType()) {
 			IntersectionType interType = (IntersectionType) castExpr.getType();
-			result.setTypeReference(BaseConverterUtility.convertToTypeReference((Type) interType.types().get(0)));
-			BaseConverterUtility.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
+			result.setTypeReference(baseConverterUtility.convertToTypeReference((Type) interType.types().get(0)));
+			baseConverterUtility.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
 			for (int index = 1; index < interType.types().size(); index++) {
 				result.getAdditionalBounds()
-						.add(BaseConverterUtility.convertToTypeReference((Type) interType.types().get(index)));
+						.add(baseConverterUtility.convertToTypeReference((Type) interType.types().get(index)));
 			}
 		} else {
-			result.setTypeReference(BaseConverterUtility.convertToTypeReference(castExpr.getType()));
-			BaseConverterUtility.convertToArrayDimensionsAndSet(castExpr.getType(), result);
+			result.setTypeReference(baseConverterUtility.convertToTypeReference(castExpr.getType()));
+			baseConverterUtility.convertToArrayDimensionsAndSet(castExpr.getType(), result);
 		}
 		result.setGeneralChild(convertToExpression(castExpr.getExpression()));
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, castExpr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, castExpr);
 		return result;
 	}
 
@@ -170,7 +170,7 @@ class ToExpressionConverter {
 		}
 		result.setChild((org.emftext.language.java.expressions.UnaryModificationExpressionChild) convertToExpression(
 				postfixExpr.getOperand()));
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, postfixExpr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, postfixExpr);
 		return result;
 	}
 
@@ -194,7 +194,7 @@ class ToExpressionConverter {
 			result.setChild(
 					(org.emftext.language.java.expressions.UnaryModificationExpressionChild) convertToExpression(
 							prefixExpr.getOperand()));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, prefixExpr);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, prefixExpr);
 			return result;
 		}
 		return null;
@@ -205,9 +205,9 @@ class ToExpressionConverter {
 		org.emftext.language.java.expressions.InstanceOfExpression result = expressionsFactory
 				.createInstanceOfExpression();
 		result.setChild((InstanceOfExpressionChild) convertToExpression(castedExpr.getLeftOperand()));
-		result.setTypeReference(BaseConverterUtility.convertToTypeReference(castedExpr.getRightOperand()));
-		BaseConverterUtility.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, castedExpr);
+		result.setTypeReference(baseConverterUtility.convertToTypeReference(castedExpr.getRightOperand()));
+		baseConverterUtility.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, castedExpr);
 		return result;
 	}
 
@@ -226,7 +226,7 @@ class ToExpressionConverter {
 			result.getChildren().add((ConditionalOrExpressionChild) convertToExpression(infix.getRightOperand()));
 			infix.extendedOperands().forEach(obj -> result.getChildren()
 					.add((ConditionalOrExpressionChild) convertToExpression((Expression) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_AND) {
 			org.emftext.language.java.expressions.ConditionalAndExpression result;
@@ -240,7 +240,7 @@ class ToExpressionConverter {
 			result.getChildren().add((ConditionalAndExpressionChild) convertToExpression(infix.getRightOperand()));
 			infix.extendedOperands().forEach(obj -> result.getChildren()
 					.add((ConditionalAndExpressionChild) convertToExpression((Expression) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.OR) {
 			org.emftext.language.java.expressions.InclusiveOrExpression result;
@@ -258,7 +258,7 @@ class ToExpressionConverter {
 					.forEach(obj -> result.getChildren()
 							.add((org.emftext.language.java.expressions.InclusiveOrExpressionChild) convertToExpression(
 									(Expression) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.XOR) {
 			org.emftext.language.java.expressions.ExclusiveOrExpression result;
@@ -276,7 +276,7 @@ class ToExpressionConverter {
 					.forEach(obj -> result.getChildren()
 							.add((org.emftext.language.java.expressions.ExclusiveOrExpressionChild) convertToExpression(
 									(Expression) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.AND) {
 			org.emftext.language.java.expressions.AndExpression result;
@@ -291,7 +291,7 @@ class ToExpressionConverter {
 					infix.getRightOperand()));
 			infix.extendedOperands().forEach(obj -> result.getChildren().add(
 					(org.emftext.language.java.expressions.AndExpressionChild) convertToExpression((Expression) obj)));
-			LayoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, infix);
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.EQUALS
 				|| infix.getOperator() == InfixExpression.Operator.NOT_EQUALS) {
@@ -329,7 +329,7 @@ class ToExpressionConverter {
 				assign.getLeftHandSide()));
 		result.setAssignmentOperator(toAssignmentOperatorConverter.convertToAssignmentOperator(assign.getOperator()));
 		result.setValue(convertToExpression(assign.getRightHandSide()));
-		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 

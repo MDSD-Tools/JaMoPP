@@ -7,12 +7,10 @@ import org.emftext.language.java.operators.OperatorsFactory;
 class ToAssignmentConverter {
 
 	private final OperatorsFactory operatorsFactory;
-	
-	
-	public ToAssignmentConverter(OperatorsFactory operatorsFactory) {
+
+	ToAssignmentConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
-	
 
 	AssignmentOperator convertToAssignmentOperator(Assignment.Operator op) {
 		if (op == Assignment.Operator.ASSIGN) {

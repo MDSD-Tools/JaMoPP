@@ -52,7 +52,7 @@ class BaseConverterUtility {
 	private final JDTBindingConverterUtility jdtBindingConverterUtility;
 	private AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
 
-	public BaseConverterUtility(LayoutInformationConverter layoutInformationConverter,
+	BaseConverterUtility(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, JDTBindingConverterUtility jdtBindingConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -315,7 +315,7 @@ class BaseConverterUtility {
 		return result;
 	}
 
-	public void setAnnotationInstanceOrModifierConverterUtility(
+	void setAnnotationInstanceOrModifierConverterUtility(
 			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
 		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}

@@ -8,7 +8,7 @@ class ToAdditiveOperatorConverter {
 
 	private final OperatorsFactory operatorsFactory;
 	
-	public ToAdditiveOperatorConverter(OperatorsFactory operatorsFactory) {
+	ToAdditiveOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
