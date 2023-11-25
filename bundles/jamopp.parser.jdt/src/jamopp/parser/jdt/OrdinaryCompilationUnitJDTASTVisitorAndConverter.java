@@ -20,11 +20,12 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisitorAndConverter {
 
+
 	OrdinaryCompilationUnitJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
-			ClassifierConverterUtility classifierConverterUtility) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory);
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement, ClassifierConverterUtility classifierConverterUtility) {
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
+				utilNamedElement);
 		this.ClassifierConverterUtility = classifierConverterUtility;
 	}
 

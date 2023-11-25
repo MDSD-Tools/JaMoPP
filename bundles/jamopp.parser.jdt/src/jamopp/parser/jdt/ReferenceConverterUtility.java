@@ -53,15 +53,17 @@ class ReferenceConverterUtility {
 	private final ExpressionConverterUtility expressionConverterUtility;
 	private final ClassifierConverterUtility classifierConverterUtility;
 	private final BaseConverterUtility baseConverterUtility;
+	private final UtilNamedElement utilNamedElement;
 
 	ReferenceConverterUtility(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, ExpressionConverterUtility expressionConverterUtility,
-			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility) {
+			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.classifierConverterUtility = classifierConverterUtility;
 		this.baseConverterUtility = baseConverterUtility;
+		this.utilNamedElement = utilNamedElement;
 	}
 
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
@@ -222,7 +224,7 @@ class ReferenceConverterUtility {
 				proxy = jdtResolverUtility.getClassMethod(arr.getName().getIdentifier());
 				proxy.setName(arr.getName().getIdentifier());
 			}
-			baseConverterUtility.convertToSimpleNameOnlyAndSet(arr.getName(), proxy);
+			utilNamedElement.convertToSimpleNameOnlyAndSet(arr.getName(), proxy);
 			partTwo.setTarget(proxy);
 			partOne.setNext(partTwo);
 			layoutInformationConverter.convertToMinimalLayoutInformation(partTwo, arr);
@@ -272,7 +274,7 @@ class ReferenceConverterUtility {
 			methodProxy = jdtResolverUtility.getClassMethod(arr.getName().getIdentifier());
 			methodProxy.setName(arr.getName().getIdentifier());
 		}
-		baseConverterUtility.convertToSimpleNameOnlyAndSet(arr.getName(), methodProxy);
+		utilNamedElement.convertToSimpleNameOnlyAndSet(arr.getName(), methodProxy);
 		result.setTarget(methodProxy);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		if (parent != null) {

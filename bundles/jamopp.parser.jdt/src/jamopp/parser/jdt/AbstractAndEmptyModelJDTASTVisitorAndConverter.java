@@ -44,15 +44,17 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 	protected final BaseConverterUtility baseConverterUtility;
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
+	protected final UtilNamedElement utilNamedElement;
 
 	AbstractAndEmptyModelJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory) {
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.baseConverterUtility = baseConverterUtility;
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;
+		this.utilNamedElement = utilNamedElement;
 	}
 
 	private JavaRoot convertedRootElement;
@@ -115,14 +117,14 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			proxyClass = jdtResolverUtility.getClassifier((ITypeBinding) binding);
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
-		baseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxyClass);
+		utilNamedElement.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxyClass);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
 
 	private Import convertToOnDemandNonStatic(ImportDeclaration importDecl) {
 		PackageImport convertedImport = importsFactory.createPackageImport();
-		baseConverterUtility.convertToNamespacesAndSet(importDecl.getName(), convertedImport);
+		utilNamedElement.addNameToNameSpace(importDecl.getName(), convertedImport);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
@@ -173,7 +175,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			}
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
-		baseConverterUtility.convertToNamespacesAndSimpleNameAndSet(qualifiedName.getQualifier(), convertedImport,
+		utilNamedElement.convertToNamespacesAndSimpleNameAndSet(qualifiedName.getQualifier(), convertedImport,
 				proxyClass);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
@@ -194,7 +196,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			}
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxy);
-		baseConverterUtility.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxy);
+		utilNamedElement.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxy);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}

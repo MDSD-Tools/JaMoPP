@@ -31,10 +31,14 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
-	ModuleJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+
+	ModuleJDTASTVisitorAndConverter(
+			LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory);
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
+				utilNamedElement);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -54,7 +58,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 			module.setOpen(org.emftext.language.java.modifiers.ModifiersFactory.eINSTANCE.createOpen());
 		}
 		layoutInformationConverter.convertJavaRootLayoutInformation(module, node, this.getSource());
-		baseConverterUtility.convertToNamespacesAndSet(node.getName(), module);
+		utilNamedElement.addNameToNameSpace(node.getName(), module);
 		module.setName("");
 		node.annotations().forEach(obj -> module.getAnnotations()
 				.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
@@ -124,7 +128,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 				.getModule((IModuleBinding) name.resolveBinding());
 		modProxy.setName("");
 		ref.setTarget(modProxy);
-		baseConverterUtility.convertToNamespacesAndSet(name, modProxy);
+		utilNamedElement.addNameToNameSpace(name, modProxy);
 		return ref;
 	}
 }

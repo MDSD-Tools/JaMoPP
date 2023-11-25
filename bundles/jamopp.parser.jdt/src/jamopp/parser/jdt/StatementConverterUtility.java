@@ -57,19 +57,21 @@ class StatementConverterUtility {
 	private final ExpressionConverterUtility expressionConverterUtility;
 	private final ClassifierConverterUtility classifierConverterUtility;
 	private final BaseConverterUtility baseConverterUtility;
+	private final UtilNamedElement utilNamedElement;
 
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
 	StatementConverterUtility(ReferenceConverterUtility referenceConverterUtility,
 			LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
 			ExpressionConverterUtility expressionConverterUtility,
-			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility) {
+			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility, UtilNamedElement utilNamedElement) {
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.classifierConverterUtility = classifierConverterUtility;
 		this.baseConverterUtility = baseConverterUtility;
+		this.utilNamedElement = utilNamedElement;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -201,7 +203,7 @@ class StatementConverterUtility {
 			LabeledStatement labelSt = (LabeledStatement) statement;
 			org.emftext.language.java.statements.JumpLabel result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE
 					.createJumpLabel();
-			baseConverterUtility.convertToSimpleNameOnlyAndSet(labelSt.getLabel(), result);
+			utilNamedElement.convertToSimpleNameOnlyAndSet(labelSt.getLabel(), result);
 			currentJumpLabels.add(result);
 			result.setStatement(convertToStatement(labelSt.getBody()));
 			currentJumpLabels.remove(result);
@@ -276,7 +278,7 @@ class StatementConverterUtility {
 			} else {
 				locVar = jdtResolverUtility.getLocalVariable(binding);
 			}
-			baseConverterUtility.convertToSimpleNameOnlyAndSet(frag.getName(), locVar);
+			utilNamedElement.convertToSimpleNameOnlyAndSet(frag.getName(), locVar);
 			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
 					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			locVar.setTypeReference(baseConverterUtility.convertToTypeReference(varSt.getType()));
@@ -406,7 +408,7 @@ class StatementConverterUtility {
 		} else {
 			param.setTypeReference(baseConverterUtility.convertToTypeReference(decl.getType()));
 		}
-		baseConverterUtility.convertToSimpleNameOnlyAndSet(decl.getName(), param);
+		utilNamedElement.convertToSimpleNameOnlyAndSet(decl.getName(), param);
 		result.setParameter(param);
 		result.setBlock(convertToBlock(block.getBody()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, block);
@@ -424,7 +426,7 @@ class StatementConverterUtility {
 		} else {
 			result = jdtResolverUtility.getAdditionalLocalVariable(frag.resolveBinding());
 		}
-		baseConverterUtility.convertToSimpleNameOnlyAndSet(frag.getName(), result);
+		utilNamedElement.convertToSimpleNameOnlyAndSet(frag.getName(), result);
 		frag.extraDimensions()
 				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
@@ -445,7 +447,7 @@ class StatementConverterUtility {
 		} else {
 			loc = jdtResolverUtility.getLocalVariable(binding);
 		}
-		baseConverterUtility.convertToSimpleNameOnlyAndSet(frag.getName(), loc);
+		utilNamedElement.convertToSimpleNameOnlyAndSet(frag.getName(), loc);
 		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers()
 				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		loc.setTypeReference(baseConverterUtility.convertToTypeReference(expr.getType()));

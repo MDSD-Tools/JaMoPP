@@ -22,8 +22,9 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 
 	PackageJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory);
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
+				utilNamedElement);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -41,7 +42,7 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
 					.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			root.getNamespaces().clear();
-			baseConverterUtility.convertToNamespacesAndSet(node.getPackage().getName(), root);
+			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), root);
 		}
 		super.visit(node);
 		return false;

@@ -70,15 +70,18 @@ class BaseConverterUtility {
 	private final JDTResolverUtility jdtResolverUtility;
 	private final JDTBindingConverterUtility jdtBindingConverterUtility;
 	private final ExpressionConverterUtility expressionConverterUtility;
-	
+	private final UtilNamedElement utilNamedElement;
+
 	private TypeInstructionSeparationUtility typeInstructionSeparationUtility;
 
-	BaseConverterUtility(LayoutInformationConverter layoutInformationConverter,
-			JDTResolverUtility jdtResolverUtility, JDTBindingConverterUtility jdtBindingConverterUtility, ExpressionConverterUtility expressionConverterUtility) {
+	BaseConverterUtility(LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
+			JDTBindingConverterUtility jdtBindingConverterUtility,
+			ExpressionConverterUtility expressionConverterUtility, UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
+		this.utilNamedElement = utilNamedElement;
 	}
 
 	TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
@@ -89,7 +92,7 @@ class BaseConverterUtility {
 		NamespaceClassifierReference ref = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
 		if (name.resolveBinding() == null) {
 			ref.getClassifierReferences().add(convertToClassifierReference(qualifiedName.getName()));
-			convertToNamespacesAndSet(qualifiedName.getQualifier(), ref);
+			utilNamedElement.addNameToNameSpace(qualifiedName.getQualifier(), ref);
 			return ref;
 		}
 		Name qualifier = qualifiedName.getQualifier();
@@ -107,10 +110,10 @@ class BaseConverterUtility {
 			}
 		}
 		if (simpleName != null && !(simpleName.resolveBinding() instanceof ITypeBinding)) {
-			convertToNamespacesAndSet(simpleName, ref);
+			utilNamedElement.addNameToNameSpace(simpleName, ref);
 		}
 		if (qualifier != null) {
-			convertToNamespacesAndSet(qualifier, ref);
+			utilNamedElement.addNameToNameSpace(qualifier, ref);
 		}
 		return ref;
 	}
@@ -127,39 +130,6 @@ class BaseConverterUtility {
 		proxy.setName(simpleName.getIdentifier());
 		ref.setTarget(proxy);
 		return ref;
-	}
-
-	void convertToNamespacesAndSimpleNameAndSet(Name name, NamespaceAwareElement namespaceElement,
-			NamedElement namedElement) {
-		if (name.isSimpleName()) {
-			namedElement.setName(((SimpleName) name).getIdentifier());
-		} else if (name.isQualifiedName()) {
-			QualifiedName qualifiedName = (QualifiedName) name;
-			namedElement.setName(qualifiedName.getName().getIdentifier());
-			convertToNamespacesAndSet(qualifiedName.getQualifier(), namespaceElement);
-		}
-	}
-
-	void convertToNamespacesAndSet(Name name, NamespaceAwareElement namespaceElement) {
-		if (name.isSimpleName()) {
-			SimpleName simpleName = (SimpleName) name;
-			namespaceElement.getNamespaces().add(0, simpleName.getIdentifier());
-		} else if (name.isQualifiedName()) {
-			QualifiedName qualifiedName = (QualifiedName) name;
-			namespaceElement.getNamespaces().add(0, qualifiedName.getName().getIdentifier());
-			convertToNamespacesAndSet(qualifiedName.getQualifier(), namespaceElement);
-		}
-	}
-
-	void convertToSimpleNameOnlyAndSet(Name name, NamedElement namedElement) {
-		if (name.isSimpleName()) {
-			SimpleName simpleName = (SimpleName) name;
-			namedElement.setName(simpleName.getIdentifier());
-		} else {
-			// name.isQualifiedName()
-			QualifiedName qualifiedName = (QualifiedName) name;
-			namedElement.setName(qualifiedName.getName().getIdentifier());
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -186,8 +156,8 @@ class BaseConverterUtility {
 			} else { // primType.getPrimitiveTypeCode() == PrimitiveType.VOID
 				convertedType = TypesFactory.eINSTANCE.createVoid();
 			}
-			primType.annotations().forEach(obj -> convertedType.getAnnotations()
-					.add(convertToAnnotationInstance((Annotation) obj)));
+			primType.annotations()
+					.forEach(obj -> convertedType.getAnnotations().add(convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
 			return convertedType;
 		}
@@ -214,8 +184,8 @@ class BaseConverterUtility {
 			TypeReference ref;
 			if (!simT.annotations().isEmpty()) {
 				ClassifierReference tempRef = convertToClassifierReference((SimpleName) simT.getName());
-				simT.annotations().forEach(obj -> tempRef.getAnnotations().add(
-						convertToAnnotationInstance((Annotation) obj)));
+				simT.annotations()
+						.forEach(obj -> tempRef.getAnnotations().add(convertToAnnotationInstance((Annotation) obj)));
 				ref = tempRef;
 			} else {
 				ref = convertToClassifierOrNamespaceClassifierReference(simT.getName());
@@ -235,8 +205,8 @@ class BaseConverterUtility {
 				result = (NamespaceClassifierReference) parentRef;
 			}
 			ClassifierReference childRef = convertToClassifierReference(qualType.getName());
-			qualType.annotations().forEach(obj -> childRef.getAnnotations()
-					.add(convertToAnnotationInstance((Annotation) obj)));
+			qualType.annotations()
+					.forEach(obj -> childRef.getAnnotations().add(convertToAnnotationInstance((Annotation) obj)));
 			result.getClassifierReferences().add(childRef);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
 			return result;
@@ -252,8 +222,7 @@ class BaseConverterUtility {
 				result = (NamespaceClassifierReference) parentRef;
 			}
 			ClassifierReference child = convertToClassifierReference(nqT.getName());
-			nqT.annotations().forEach(obj -> child.getAnnotations()
-					.add(convertToAnnotationInstance((Annotation) obj)));
+			nqT.annotations().forEach(obj -> child.getAnnotations().add(convertToAnnotationInstance((Annotation) obj)));
 			result.getClassifierReferences().add(child);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
 			return result;
@@ -287,23 +256,23 @@ class BaseConverterUtility {
 		WildcardType wildType = (WildcardType) t;
 		if (wildType.getBound() == null) {
 			UnknownTypeArgument result = GenericsFactory.eINSTANCE.createUnknownTypeArgument();
-			wildType.annotations().forEach(obj -> result.getAnnotations()
-					.add(convertToAnnotationInstance((Annotation) obj)));
+			wildType.annotations()
+					.forEach(obj -> result.getAnnotations().add(convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		if (wildType.isUpperBound()) {
 			ExtendsTypeArgument result = GenericsFactory.eINSTANCE.createExtendsTypeArgument();
-			wildType.annotations().forEach(obj -> result.getAnnotations()
-					.add(convertToAnnotationInstance((Annotation) obj)));
+			wildType.annotations()
+					.forEach(obj -> result.getAnnotations().add(convertToAnnotationInstance((Annotation) obj)));
 			result.setExtendType(convertToTypeReference(wildType.getBound()));
 			convertToArrayDimensionsAndSet(wildType.getBound(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		SuperTypeArgument result = GenericsFactory.eINSTANCE.createSuperTypeArgument();
-		wildType.annotations().forEach(obj -> result.getAnnotations()
-				.add(convertToAnnotationInstance((Annotation) obj)));
+		wildType.annotations()
+				.forEach(obj -> result.getAnnotations().add(convertToAnnotationInstance((Annotation) obj)));
 		result.setSuperType(convertToTypeReference(wildType.getBound()));
 		convertToArrayDimensionsAndSet(wildType.getBound(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
@@ -331,12 +300,11 @@ class BaseConverterUtility {
 	@SuppressWarnings("unchecked")
 	private ArrayDimension convertToArrayDimension(Dimension dim) {
 		ArrayDimension result = ArraysFactory.eINSTANCE.createArrayDimension();
-		dim.annotations().forEach(annot -> result.getAnnotations()
-				.add(convertToAnnotationInstance((Annotation) annot)));
+		dim.annotations()
+				.forEach(annot -> result.getAnnotations().add(convertToAnnotationInstance((Annotation) annot)));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, dim);
 		return result;
 	}
-
 
 	AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {
@@ -379,7 +347,7 @@ class BaseConverterUtility {
 	@SuppressWarnings("unchecked")
 	AnnotationInstance convertToAnnotationInstance(Annotation annot) {
 		AnnotationInstance result = AnnotationsFactory.eINSTANCE.createAnnotationInstance();
-		convertToNamespacesAndSet(annot.getTypeName(), result);
+		utilNamedElement.addNameToNameSpace(annot.getTypeName(), result);
 		org.emftext.language.java.classifiers.Annotation proxyClass;
 		IAnnotationBinding binding = annot.resolveAnnotationBinding();
 		if (binding == null) {
@@ -410,7 +378,7 @@ class BaseConverterUtility {
 						proxyClass.getMembers().add(methodProxy);
 					}
 				}
-				convertToSimpleNameOnlyAndSet(memVal.getName(), methodProxy);
+				utilNamedElement.convertToSimpleNameOnlyAndSet(memVal.getName(), methodProxy);
 				attrSet.setAttribute(methodProxy);
 				typeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
 				layoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);
@@ -449,10 +417,9 @@ class BaseConverterUtility {
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
-	
-	
+
 	void setTypeInstructionSeparationUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
-	
+
 }
