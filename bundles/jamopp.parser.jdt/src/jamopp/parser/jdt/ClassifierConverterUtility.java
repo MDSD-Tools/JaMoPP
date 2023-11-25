@@ -97,7 +97,7 @@ class ClassifierConverterUtility {
 		ConcreteClassifier finalResult = result;
 		typeDecl.modifiers().forEach(obj -> finalResult.getAnnotationsAndModifiers()
 				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		utilNamedElement.convertToSimpleNameOnlyAndSet(typeDecl.getName(), result);
+		utilNamedElement.setNameOfElement(typeDecl.getName(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, typeDecl);
 		return result;
 	}
@@ -185,7 +185,7 @@ class ClassifierConverterUtility {
 		} else {
 			result = jdtResolverUtility.getField(firstFragment.getName().getIdentifier());
 		}
-		utilNamedElement.convertToSimpleNameOnlyAndSet(firstFragment.getName(), result);
+		utilNamedElement.setNameOfElement(firstFragment.getName(), result);
 		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(fieldDecl.getType()));
@@ -212,7 +212,7 @@ class ClassifierConverterUtility {
 		} else {
 			result = jdtResolverUtility.getAdditionalField(frag.getName().getIdentifier());
 		}
-		utilNamedElement.convertToSimpleNameOnlyAndSet(frag.getName(), result);
+		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions()
 				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
@@ -235,7 +235,7 @@ class ClassifierConverterUtility {
 				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(annDecl.getType()));
 		baseConverterUtility.convertToArrayDimensionsAndSet(annDecl.getType(), result);
-		utilNamedElement.convertToSimpleNameOnlyAndSet(annDecl.getName(), result);
+		utilNamedElement.setNameOfElement(annDecl.getName(), result);
 		if (annDecl.getDefault() != null) {
 			typeInstructionSeparationUtility.addAnnotationMethod(annDecl.getDefault(), result);
 		}
@@ -264,7 +264,7 @@ class ClassifierConverterUtility {
 		baseConverterUtility.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
 		methodDecl.extraDimensions()
 				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
-		utilNamedElement.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
+		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(convertToReceiverParameter(methodDecl));
 		}
@@ -295,7 +295,7 @@ class ClassifierConverterUtility {
 					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			methodDecl.typeParameters()
 					.forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
-			utilNamedElement.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
+			utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 			if (methodDecl.getReceiverType() != null) {
 				result.getParameters().add(convertToReceiverParameter(methodDecl));
 			}
@@ -322,7 +322,7 @@ class ClassifierConverterUtility {
 		baseConverterUtility.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
 		methodDecl.extraDimensions()
 				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
-		utilNamedElement.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
+		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(convertToReceiverParameter(methodDecl));
 		}
@@ -362,7 +362,7 @@ class ClassifierConverterUtility {
 		}
 		enDecl.modifiers().forEach(
 				obj -> result.getAnnotations().add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
-		utilNamedElement.convertToSimpleNameOnlyAndSet(enDecl.getName(), result);
+		utilNamedElement.setNameOfElement(enDecl.getName(), result);
 		enDecl.arguments().forEach(
 				obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
 		if (enDecl.getAnonymousClassDeclaration() != null) {
@@ -378,7 +378,7 @@ class ClassifierConverterUtility {
 				.getTypeParameter(param.resolveBinding());
 		param.modifiers().forEach(
 				obj -> result.getAnnotations().add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
-		utilNamedElement.convertToSimpleNameOnlyAndSet(param.getName(), result);
+		utilNamedElement.setNameOfElement(param.getName(), result);
 		param.typeBounds()
 				.forEach(obj -> result.getExtendTypes().add(baseConverterUtility.convertToTypeReference((Type) obj)));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, param);
@@ -419,7 +419,7 @@ class ClassifierConverterUtility {
 					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			result.setTypeReference(baseConverterUtility.convertToTypeReference(decl.getType()));
 			baseConverterUtility.convertToArrayDimensionsAndSet(decl.getType(), result);
-			utilNamedElement.convertToSimpleNameOnlyAndSet(decl.getName(), result);
+			utilNamedElement.setNameOfElement(decl.getName(), result);
 			decl.extraDimensions()
 					.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 			decl.varargsAnnotations().forEach(obj -> result.getAnnotations()
@@ -437,7 +437,7 @@ class ClassifierConverterUtility {
 				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(decl.getType()));
 		baseConverterUtility.convertToArrayDimensionsAndSet(decl.getType(), result);
-		utilNamedElement.convertToSimpleNameOnlyAndSet(decl.getName(), result);
+		utilNamedElement.setNameOfElement(decl.getName(), result);
 		decl.extraDimensions()
 				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);

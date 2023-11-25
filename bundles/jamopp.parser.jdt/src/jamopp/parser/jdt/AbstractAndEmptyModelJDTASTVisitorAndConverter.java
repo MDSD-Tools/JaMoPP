@@ -117,7 +117,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			proxyClass = jdtResolverUtility.getClassifier((ITypeBinding) binding);
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
-		utilNamedElement.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxyClass);
+		utilNamedElement.addNameToNameSpaceAndElement(importDecl.getName(), convertedImport, proxyClass);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
@@ -175,7 +175,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			}
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
-		utilNamedElement.convertToNamespacesAndSimpleNameAndSet(qualifiedName.getQualifier(), convertedImport,
+		utilNamedElement.addNameToNameSpaceAndElement(qualifiedName.getQualifier(), convertedImport,
 				proxyClass);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
@@ -196,7 +196,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 			}
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxy);
-		utilNamedElement.convertToNamespacesAndSimpleNameAndSet(importDecl.getName(), convertedImport, proxy);
+		utilNamedElement.addNameToNameSpaceAndElement(importDecl.getName(), convertedImport, proxy);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}

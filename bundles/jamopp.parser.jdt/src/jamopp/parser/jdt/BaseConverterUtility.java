@@ -378,7 +378,7 @@ class BaseConverterUtility {
 						proxyClass.getMembers().add(methodProxy);
 					}
 				}
-				utilNamedElement.convertToSimpleNameOnlyAndSet(memVal.getName(), methodProxy);
+				utilNamedElement.setNameOfElement(memVal.getName(), methodProxy);
 				attrSet.setAttribute(methodProxy);
 				typeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
 				layoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);

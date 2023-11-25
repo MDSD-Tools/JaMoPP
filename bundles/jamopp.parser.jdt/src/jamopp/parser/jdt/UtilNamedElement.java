@@ -8,8 +8,7 @@ import org.emftext.language.java.commons.NamespaceAwareElement;
 
 public class UtilNamedElement {
 
-	void convertToNamespacesAndSimpleNameAndSet(Name name, NamespaceAwareElement namespaceElement,
-			NamedElement namedElement) {
+	void addNameToNameSpaceAndElement(Name name, NamespaceAwareElement namespaceElement, NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			namedElement.setName(((SimpleName) name).getIdentifier());
 		} else if (name.isQualifiedName()) {
@@ -30,7 +29,7 @@ public class UtilNamedElement {
 		}
 	}
 
-	void convertToSimpleNameOnlyAndSet(Name name, NamedElement namedElement) {
+	void setNameOfElement(Name name, NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			SimpleName simpleName = (SimpleName) name;
 			namedElement.setName(simpleName.getIdentifier());

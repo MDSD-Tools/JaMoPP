@@ -203,7 +203,7 @@ class StatementConverterUtility {
 			LabeledStatement labelSt = (LabeledStatement) statement;
 			org.emftext.language.java.statements.JumpLabel result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE
 					.createJumpLabel();
-			utilNamedElement.convertToSimpleNameOnlyAndSet(labelSt.getLabel(), result);
+			utilNamedElement.setNameOfElement(labelSt.getLabel(), result);
 			currentJumpLabels.add(result);
 			result.setStatement(convertToStatement(labelSt.getBody()));
 			currentJumpLabels.remove(result);
@@ -278,7 +278,7 @@ class StatementConverterUtility {
 			} else {
 				locVar = jdtResolverUtility.getLocalVariable(binding);
 			}
-			utilNamedElement.convertToSimpleNameOnlyAndSet(frag.getName(), locVar);
+			utilNamedElement.setNameOfElement(frag.getName(), locVar);
 			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
 					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			locVar.setTypeReference(baseConverterUtility.convertToTypeReference(varSt.getType()));
@@ -408,7 +408,7 @@ class StatementConverterUtility {
 		} else {
 			param.setTypeReference(baseConverterUtility.convertToTypeReference(decl.getType()));
 		}
-		utilNamedElement.convertToSimpleNameOnlyAndSet(decl.getName(), param);
+		utilNamedElement.setNameOfElement(decl.getName(), param);
 		result.setParameter(param);
 		result.setBlock(convertToBlock(block.getBody()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, block);
@@ -426,7 +426,7 @@ class StatementConverterUtility {
 		} else {
 			result = jdtResolverUtility.getAdditionalLocalVariable(frag.resolveBinding());
 		}
-		utilNamedElement.convertToSimpleNameOnlyAndSet(frag.getName(), result);
+		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions()
 				.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
@@ -447,7 +447,7 @@ class StatementConverterUtility {
 		} else {
 			loc = jdtResolverUtility.getLocalVariable(binding);
 		}
-		utilNamedElement.convertToSimpleNameOnlyAndSet(frag.getName(), loc);
+		utilNamedElement.setNameOfElement(frag.getName(), loc);
 		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers()
 				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		loc.setTypeReference(baseConverterUtility.convertToTypeReference(expr.getType()));

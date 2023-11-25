@@ -224,7 +224,7 @@ class ReferenceConverterUtility {
 				proxy = jdtResolverUtility.getClassMethod(arr.getName().getIdentifier());
 				proxy.setName(arr.getName().getIdentifier());
 			}
-			utilNamedElement.convertToSimpleNameOnlyAndSet(arr.getName(), proxy);
+			utilNamedElement.setNameOfElement(arr.getName(), proxy);
 			partTwo.setTarget(proxy);
 			partOne.setNext(partTwo);
 			layoutInformationConverter.convertToMinimalLayoutInformation(partTwo, arr);
@@ -274,7 +274,7 @@ class ReferenceConverterUtility {
 			methodProxy = jdtResolverUtility.getClassMethod(arr.getName().getIdentifier());
 			methodProxy.setName(arr.getName().getIdentifier());
 		}
-		utilNamedElement.convertToSimpleNameOnlyAndSet(arr.getName(), methodProxy);
+		utilNamedElement.setNameOfElement(arr.getName(), methodProxy);
 		result.setTarget(methodProxy);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		if (parent != null) {
