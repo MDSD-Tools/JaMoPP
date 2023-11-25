@@ -6,7 +6,11 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 class ToEqualityOperatorConverter {
 
-	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
+	private final OperatorsFactory operatorsFactory;
+	
+	public ToEqualityOperatorConverter(OperatorsFactory operatorsFactory) {
+		this.operatorsFactory = operatorsFactory;
+	}
 
 	EqualityOperator convertToEqualityOperator(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.EQUALS) {

@@ -47,10 +47,18 @@ import org.emftext.language.java.types.TypesFactory;
 
 class BaseConverterUtility {
 
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final JDTBindingConverterUtility JDTBindingConverterUtility = new JDTBindingConverterUtility();
-	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final JDTResolverUtility JDTResolverUtility;
+	private final JDTBindingConverterUtility JDTBindingConverterUtility;
+	private AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility;
+	
+	
+	
+	public BaseConverterUtility(LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, JDTBindingConverterUtility jdtBindingConverterUtility) {
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.JDTResolverUtility = jdtResolverUtility;
+		this.JDTBindingConverterUtility = jdtBindingConverterUtility;
+	}
 
 	TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
 		if (name.isSimpleName()) {
@@ -306,5 +314,10 @@ class BaseConverterUtility {
 				.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) annot)));
 		LayoutInformationConverter.convertToMinimalLayoutInformation(result, dim);
 		return result;
+	}
+	
+	public void setAnnotationInstanceOrModifierConverterUtility(
+			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+		AnnotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}
 }

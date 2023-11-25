@@ -51,15 +51,25 @@ import org.eclipse.jdt.core.dom.YieldStatement;
 
 class StatementConverterUtility {
 	
-	private static ReferenceConverterUtility ReferenceConverterUtility = new ReferenceConverterUtility();
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
-	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
-	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
+	private final ReferenceConverterUtility ReferenceConverterUtility;
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final JDTResolverUtility JDTResolverUtility;
+	private final ExpressionConverterUtility ExpressionConverterUtility;
+	private final ClassifierConverterUtility ClassifierConverterUtility;
+	private final BaseConverterUtility BaseConverterUtility ;
+	private final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility;
 	
-	private static HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
+	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
+	
+	public StatementConverterUtility(ReferenceConverterUtility referenceConverterUtility, LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, ExpressionConverterUtility expressionConverterUtility, ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility, AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+		this.ReferenceConverterUtility = referenceConverterUtility;
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.JDTResolverUtility = jdtResolverUtility;
+		this.ExpressionConverterUtility = expressionConverterUtility;
+		this.ClassifierConverterUtility = classifierConverterUtility;
+		this.BaseConverterUtility = baseConverterUtility;
+		this.AnnotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
+	}
 	
 	@SuppressWarnings("unchecked")
 	org.emftext.language.java.statements.Block convertToBlock(Block block) {

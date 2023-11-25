@@ -40,9 +40,16 @@ import org.emftext.language.java.containers.JavaRoot;
 import jamopp.parser.api.JaMoPPParserAPI;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
+
+	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility;
+	private static final JDTResolverUtility JDTResolverUtility;
+	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter;
 	
-	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	static {
+		TypeInstructionSeparationUtility = Injector.getTypeInstructionSeparationUtility();
+		JDTResolverUtility = Injector.getJDTResolverUtility();
+		converter = Injector.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
+	}
 
 	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
 
@@ -187,7 +194,6 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	public List<JavaRoot> convertCompilationUnits(Map<String, CompilationUnit> compilationUnits) {
 		final List<JavaRoot> result = new ArrayList<>();
-		final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter = new OrdinaryCompilationUnitJDTASTVisitorAndConverter();
 		for (final String sourceFilePath : compilationUnits.keySet()) {
 			compilationUnits.get(sourceFilePath).accept(converter);
 			final JavaRoot root = converter.getConvertedElement();
@@ -283,7 +289,6 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 		final String src = builder.toString();
 		final ASTNode ast = parseFileWithJDT(src, fileName);
-		final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter = new OrdinaryCompilationUnitJDTASTVisitorAndConverter();
 		converter.setSource(src);
 		ast.accept(converter);
 		TypeInstructionSeparationUtility.convertAll();

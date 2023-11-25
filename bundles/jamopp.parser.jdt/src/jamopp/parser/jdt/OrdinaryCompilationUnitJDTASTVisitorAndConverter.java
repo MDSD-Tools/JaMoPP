@@ -15,12 +15,23 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.emftext.language.java.imports.ImportsFactory;
+import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisitorAndConverter {
-	
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
-	
+
+	public OrdinaryCompilationUnitJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
+			ModifiersFactory modifiers_FACTORY, ImportsFactory imports_FACTORY,
+			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility,
+			ClassifierConverterUtility classifierConverterUtility) {
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiers_FACTORY, imports_FACTORY,
+				annotationInstanceOrModifierConverterUtility);
+		this.ClassifierConverterUtility = classifierConverterUtility;
+	}
+
+	private final ClassifierConverterUtility ClassifierConverterUtility;
+
 	@Override
 	public boolean visit(CompilationUnit node) {
 		this.setConvertedElement(null);
@@ -33,10 +44,12 @@ class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisit
 
 	@SuppressWarnings("unchecked")
 	private org.emftext.language.java.containers.CompilationUnit convertToCompilationUnit(CompilationUnit cu) {
-		org.emftext.language.java.containers.CompilationUnit result = org.emftext.language.java.containers.ContainersFactory.eINSTANCE.createCompilationUnit();
+		org.emftext.language.java.containers.CompilationUnit result = org.emftext.language.java.containers.ContainersFactory.eINSTANCE
+				.createCompilationUnit();
 		result.setName("");
 		LayoutInformationConverter.convertJavaRootLayoutInformation(result, cu, getSource());
-		cu.types().forEach(obj -> result.getClassifiers().add(ClassifierConverterUtility.convertToConcreteClassifier((AbstractTypeDeclaration) obj)));
+		cu.types().forEach(obj -> result.getClassifiers()
+				.add(ClassifierConverterUtility.convertToConcreteClassifier((AbstractTypeDeclaration) obj)));
 		return result;
 	}
 }

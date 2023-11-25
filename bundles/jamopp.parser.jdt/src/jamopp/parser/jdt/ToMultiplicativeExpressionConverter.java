@@ -5,12 +5,13 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 
 class ToMultiplicativeExpressionConverter {
 
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	
+	private final LayoutInformationConverter LayoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter;
-	
-	ToMultiplicativeExpressionConverter(ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter, ToExpressionConverter toExpressionConverter) {
+
+	ToMultiplicativeExpressionConverter(ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter,
+			ToExpressionConverter toExpressionConverter, LayoutInformationConverter layoutInformationConverter) {
+		this.LayoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toMultiplicativeOperatorConverter = toMultiplicativeOperatorConverter;
 	}

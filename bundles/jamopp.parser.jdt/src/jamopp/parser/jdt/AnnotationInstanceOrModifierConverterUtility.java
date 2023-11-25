@@ -37,20 +37,29 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class AnnotationInstanceOrModifierConverterUtility {
 
-	private static final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+	private TypeInstructionSeparationUtility TypeInstructionSeparationUtility;
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final JDTResolverUtility JDTResolverUtility;
+	private final ExpressionConverterUtility ExpressionConverterUtility;
+	private final BaseConverterUtility BaseConverterUtility;
+	
+	AnnotationInstanceOrModifierConverterUtility(
+			LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
+			ExpressionConverterUtility expressionConverterUtility, BaseConverterUtility baseConverterUtility) {
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.JDTResolverUtility = jdtResolverUtility;
+		this.ExpressionConverterUtility = expressionConverterUtility;
+		this.BaseConverterUtility = baseConverterUtility;
+	}
 
-	 AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
+	AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {
 			return convertToModifier((Modifier) mod);
 		}
 		return convertToAnnotationInstance((Annotation) mod);
 	}
 
-	 org.emftext.language.java.modifiers.Modifier convertToModifier(Modifier mod) {
+	org.emftext.language.java.modifiers.Modifier convertToModifier(Modifier mod) {
 		org.emftext.language.java.modifiers.Modifier result = null;
 		if (mod.isAbstract()) {
 			result = ModifiersFactory.eINSTANCE.createAbstract();
@@ -82,7 +91,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	 AnnotationInstance convertToAnnotationInstance(Annotation annot) {
+	AnnotationInstance convertToAnnotationInstance(Annotation annot) {
 		AnnotationInstance result = AnnotationsFactory.eINSTANCE.createAnnotationInstance();
 		BaseConverterUtility.convertToNamespacesAndSet(annot.getTypeName(), result);
 		org.emftext.language.java.classifiers.Annotation proxyClass;
@@ -126,7 +135,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 		return result;
 	}
 
-	 AnnotationValue convertToAnnotationValue(Expression expr) {
+	AnnotationValue convertToAnnotationValue(Expression expr) {
 		if (expr instanceof Annotation) {
 			return convertToAnnotationInstance((Annotation) expr);
 		}
@@ -137,7 +146,7 @@ class AnnotationInstanceOrModifierConverterUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	 org.emftext.language.java.arrays.ArrayInitializer convertToArrayInitializer(ArrayInitializer arr) {
+	org.emftext.language.java.arrays.ArrayInitializer convertToArrayInitializer(ArrayInitializer arr) {
 		org.emftext.language.java.arrays.ArrayInitializer result = ArraysFactory.eINSTANCE.createArrayInitializer();
 		arr.expressions().forEach(obj -> {
 			org.emftext.language.java.arrays.ArrayInitializationValue value = null;
@@ -153,5 +162,9 @@ class AnnotationInstanceOrModifierConverterUtility {
 		});
 		LayoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
+	}
+	
+	public void setTypeInstructionSeparationUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility) {
+		TypeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 }

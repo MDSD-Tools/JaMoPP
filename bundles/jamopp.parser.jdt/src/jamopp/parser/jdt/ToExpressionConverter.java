@@ -25,14 +25,14 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 class ToExpressionConverter {
 
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final StatementConverterUtility StatementConverterUtility = new StatementConverterUtility();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final JDTBindingConverterUtility JDTBindingConverterUtility = new JDTBindingConverterUtility();
-	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final StatementConverterUtility StatementConverterUtility;
+	private final JDTResolverUtility JDTResolverUtility;
+	private final JDTBindingConverterUtility JDTBindingConverterUtility;
+	private final ClassifierConverterUtility ClassifierConverterUtility;
+	private final BaseConverterUtility BaseConverterUtility;
+	private final ExpressionsFactory expressionsFactory;
 	
-	private static final ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
 	private ToAssignmentConverter toAssignmentOperatorConverter;
 	private ToConditionalExpressionConverter toConditionalExpressionConverter;
 	private ToEqualityExpressionConverter toEqualityExpressionConverter;
@@ -44,8 +44,14 @@ class ToExpressionConverter {
 	private ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 	private ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 
-	ToExpressionConverter() {
-
+	ToExpressionConverter(ExpressionsFactory expressionsFactory, StatementConverterUtility statementConverterUtility, LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, JDTBindingConverterUtility jdtBindingConverterUtility, ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility) {
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.StatementConverterUtility = statementConverterUtility;
+		this.JDTResolverUtility = jdtResolverUtility;
+		this.JDTBindingConverterUtility = jdtBindingConverterUtility;
+		this.ClassifierConverterUtility = classifierConverterUtility;
+		this.BaseConverterUtility = baseConverterUtility;
+		this.expressionsFactory = expressionsFactory;
 	}
 
 	@SuppressWarnings("unchecked")

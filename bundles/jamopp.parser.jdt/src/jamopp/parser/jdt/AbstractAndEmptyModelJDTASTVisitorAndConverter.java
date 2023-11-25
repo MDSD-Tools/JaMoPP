@@ -39,12 +39,22 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
+	protected final LayoutInformationConverter LayoutInformationConverter;
+	protected final JDTResolverUtility JDTResolverUtility;
+	protected final BaseConverterUtility BaseConverterUtility;
+	protected final ModifiersFactory MODIFIERS_FACTORY;
+	protected final ImportsFactory IMPORTS_FACTORY;
 
-	private static final ModifiersFactory MODIFIERS_FACTORY = ModifiersFactory.eINSTANCE;
-	private static final ImportsFactory IMPORTS_FACTORY = ImportsFactory.eINSTANCE;
+	public AbstractAndEmptyModelJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
+			ModifiersFactory modifiers_FACTORY, ImportsFactory imports_FACTORY) {
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.JDTResolverUtility = jdtResolverUtility;
+		this.BaseConverterUtility = baseConverterUtility;
+		this.MODIFIERS_FACTORY = modifiers_FACTORY;
+		this.IMPORTS_FACTORY = imports_FACTORY;
+	}
+
 	private JavaRoot convertedRootElement;
 	private String originalSource;
 
@@ -77,7 +87,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 		return false;
 	}
 
-	private  Import convertToImport(ImportDeclaration declaration) {
+	private Import convertToImport(ImportDeclaration declaration) {
 		if (declaration.isOnDemand()) {
 			if (declaration.isStatic()) {
 				return convertToOnDemandStatic(declaration);
@@ -94,7 +104,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
 	}
 
-	private  Import convertToOnDemandStatic(ImportDeclaration importDecl) {
+	private Import convertToOnDemandStatic(ImportDeclaration importDecl) {
 		StaticClassifierImport convertedImport = IMPORTS_FACTORY.createStaticClassifierImport();
 		convertedImport.setStatic(MODIFIERS_FACTORY.createStatic());
 		IBinding binding = importDecl.getName().resolveBinding();
@@ -110,14 +120,14 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 		return convertedImport;
 	}
 
-	private  Import convertToOnDemandNonStatic(ImportDeclaration importDecl) {
+	private Import convertToOnDemandNonStatic(ImportDeclaration importDecl) {
 		PackageImport convertedImport = IMPORTS_FACTORY.createPackageImport();
 		BaseConverterUtility.convertToNamespacesAndSet(importDecl.getName(), convertedImport);
 		LayoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}
 
-	private  Import convertToNonOnDemandStatic(ImportDeclaration importDecl) {
+	private Import convertToNonOnDemandStatic(ImportDeclaration importDecl) {
 		StaticMemberImport convertedImport = IMPORTS_FACTORY.createStaticMemberImport();
 		convertedImport.setStatic(MODIFIERS_FACTORY.createStatic());
 		QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
@@ -169,7 +179,7 @@ class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 		return convertedImport;
 	}
 
-	private  Import convertToNonOnDemandNonStatic(ImportDeclaration importDecl) {
+	private Import convertToNonOnDemandNonStatic(ImportDeclaration importDecl) {
 		ClassifierImport convertedImport = IMPORTS_FACTORY.createClassifierImport();
 		Classifier proxy = null;
 		IBinding b = importDecl.getName().resolveBinding();

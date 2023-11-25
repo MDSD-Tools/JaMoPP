@@ -10,11 +10,17 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 class ToPrimaryExpressionConverter {
 
-	private static final ToNumberLiteralConverter ToNumberLiteralConverter = new ToNumberLiteralConverter();
-	private static final ReferenceConverterUtility ReferenceConverterUtility = new ReferenceConverterUtility();
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
+	private final ToNumberLiteralConverter ToNumberLiteralConverter;
+	private final ReferenceConverterUtility ReferenceConverterUtility ;
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final LiteralsFactory literalsFactory ;
 	
-	private static final LiteralsFactory LITERALS_FACTORY = LiteralsFactory.eINSTANCE;
+	public ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, ReferenceConverterUtility referenceConverterUtility, LayoutInformationConverter layoutInformationConverter) {
+		this.ToNumberLiteralConverter = toNumberLiteralConverter;
+		this.ReferenceConverterUtility = referenceConverterUtility;
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.literalsFactory = literalsFactory;
+	}
 
 	PrimaryExpression convertToPrimaryExpression(Expression expr) {
 		if (expr.getNodeType() == ASTNode.BOOLEAN_LITERAL) {
@@ -31,21 +37,21 @@ class ToPrimaryExpressionConverter {
 
 	private PrimaryExpression createCharacterLiteral(Expression expr) {
 		CharacterLiteral lit = (CharacterLiteral) expr;
-		org.emftext.language.java.literals.CharacterLiteral result = LITERALS_FACTORY.createCharacterLiteral();
+		org.emftext.language.java.literals.CharacterLiteral result = literalsFactory.createCharacterLiteral();
 		result.setValue(lit.getEscapedValue().substring(1, lit.getEscapedValue().length() - 1));
 		LayoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
 		return result;
 	}
 
 	private PrimaryExpression createNullLiteral(Expression expr) {
-		org.emftext.language.java.literals.NullLiteral result = LITERALS_FACTORY.createNullLiteral();
+		org.emftext.language.java.literals.NullLiteral result = literalsFactory.createNullLiteral();
 		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 
 	private org.emftext.language.java.literals.BooleanLiteral createBooleanLiteral(Expression expr) {
 		BooleanLiteral lit = (BooleanLiteral) expr;
-		org.emftext.language.java.literals.BooleanLiteral result = LITERALS_FACTORY.createBooleanLiteral();
+		org.emftext.language.java.literals.BooleanLiteral result = literalsFactory.createBooleanLiteral();
 		result.setValue(lit.booleanValue());
 		LayoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
 		return result;

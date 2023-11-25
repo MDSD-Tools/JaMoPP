@@ -20,54 +20,10 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 class ExpressionConverterUtility {
 
-	private static final ToExpressionConverter toExpressionConverter;
-	private static final ToConditionalExpressionConverter toConditionalExpressionConverter;
+	private ToExpressionConverter toExpressionConverter;
+	private ToConditionalExpressionConverter toConditionalExpressionConverter;
 
-	static {
-
-		OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
-		ExpressionsFactory expressionsFactory = ExpressionsFactory.eINSTANCE;
-		
-		LayoutInformationConverter layoutInformationConverter = new LayoutInformationConverter();
-
-		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter();
-		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter();
-		ToRelationOperatorConverter toRelationOperatorConverter = new ToRelationOperatorConverter(operatorsFactory);
-		ToShiftOperatorConverter toShiftOperatorConverter = new ToShiftOperatorConverter(operatorsFactory);
-		ToAdditiveOperatorConverter toAdditiveOperatorConverter = new ToAdditiveOperatorConverter();
-		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter(operatorsFactory);
-		ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
-
-		toExpressionConverter = new ToExpressionConverter();
-		toConditionalExpressionConverter = new ToConditionalExpressionConverter(toExpressionConverter);
-
-		ToPrimaryExpressionConverter toPrimaryExpressionConverter = new ToPrimaryExpressionConverter();
-		ToEqualityExpressionConverter toEqualityExpressionConverter = new ToEqualityExpressionConverter(
-				toExpressionConverter, toEqualityOperatorConverter);
-		ToRelationExpressionConverter toRelationExpressionConverter = new ToRelationExpressionConverter(
-				toRelationOperatorConverter, toExpressionConverter);
-		ToShiftExpressionConverter toShiftExpressionConverter = new ToShiftExpressionConverter(toShiftOperatorConverter,
-				toExpressionConverter, layoutInformationConverter, expressionsFactory);
-		ToAdditiveExpressionConverter toAdditiveExpressionConverter = new ToAdditiveExpressionConverter(
-				toExpressionConverter, toAdditiveOperatorConverter);
-		ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter = new ToMultiplicativeExpressionConverter(
-				toMultiplicativeOperatorConverter, toExpressionConverter);
-		ToUnaryExpressionConverter toUnaryExpressionConverter = new ToUnaryExpressionConverter(toUnaryOperatorConverter,
-				toExpressionConverter, layoutInformationConverter, expressionsFactory);
-		ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter = new ToMethodReferenceExpressionConverter(
-				toExpressionConverter);
-
-		toExpressionConverter.setToAssignmentOperatorConverter(toAssignmentOperatorConverter);
-		toExpressionConverter.setToConditionalExpressionConverter(toConditionalExpressionConverter);
-		toExpressionConverter.setToEqualityExpressionConverter(toEqualityExpressionConverter);
-		toExpressionConverter.setToRelationExpressionConverter(toRelationExpressionConverter);
-		toExpressionConverter.setToShiftExpressionConverter(toShiftExpressionConverter);
-		toExpressionConverter.setToAdditiveExpressionConverter(toAdditiveExpressionConverter);
-		toExpressionConverter.setToMultiplicativeExpressionConverter(toMultiplicativeExpressionConverter);
-		toExpressionConverter.setToUnaryExpressionConverter(toUnaryExpressionConverter);
-		toExpressionConverter.setToMethodReferenceExpressionConverter(toMethodReferenceExpressionConverter);
-		toExpressionConverter.setToPrimaryExpressionConverter(toPrimaryExpressionConverter);
-
+	public ExpressionConverterUtility() {
 	}
 
 	org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
@@ -77,5 +33,13 @@ class ExpressionConverterUtility {
 	org.emftext.language.java.expressions.ConditionalExpression convertToConditionalExpression(
 			ConditionalExpression expr) {
 		return toConditionalExpressionConverter.convertToConditionalExpression(expr);
+	}
+	
+	public void setToConditionalExpressionConverter(ToConditionalExpressionConverter toConditionalExpressionConverter) {
+		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
+	}
+	
+	public void setToExpressionConverter(ToExpressionConverter toExpressionConverter) {
+		this.toExpressionConverter = toExpressionConverter;
 	}
 }

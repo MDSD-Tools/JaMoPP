@@ -6,7 +6,13 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 class ToAssignmentConverter {
 
-	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
+	private final OperatorsFactory operatorsFactory;
+	
+	
+	public ToAssignmentConverter(OperatorsFactory operatorsFactory) {
+		this.operatorsFactory = operatorsFactory;
+	}
+	
 
 	AssignmentOperator convertToAssignmentOperator(Assignment.Operator op) {
 		if (op == Assignment.Operator.ASSIGN) {

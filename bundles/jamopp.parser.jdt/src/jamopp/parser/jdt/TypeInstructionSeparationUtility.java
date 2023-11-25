@@ -10,26 +10,31 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 
 class TypeInstructionSeparationUtility {
-	
-	private static final StatementConverterUtility statementConverterUtility = new StatementConverterUtility();
-	private static final JDTResolverUtility jdtResolverUtility = new JDTResolverUtility();
-	private static final ExpressionConverterUtility expressionConverterUtility = new ExpressionConverterUtility();
-	private static final AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
-	
-	private static HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
-	private static HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();
-	private static HashMap<Expression, org.emftext.language.java.members.Field> fields = new HashMap<>();
-	private static HashMap<Expression, org.emftext.language.java.members.AdditionalField> addFields = new HashMap<>();
-	private static HashMap<Block, org.emftext.language.java.statements.Block> initializers = new HashMap<>();
-	private static HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> annotationMethods = new HashMap<>();
-	private static HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> singleAnnotations = new HashMap<>();
-	private static HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
-	private static HashSet<EObject> visitedObjects = new HashSet<>();
 
-	public TypeInstructionSeparationUtility() {
-		// TODO Auto-generated constructor stub
+	private StatementConverterUtility statementConverterUtility;
+	private final JDTResolverUtility jdtResolverUtility;
+	private final ExpressionConverterUtility expressionConverterUtility;
+	private final AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
+
+	private final HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
+	private final HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();
+	private final HashMap<Expression, org.emftext.language.java.members.Field> fields = new HashMap<>();
+	private final HashMap<Expression, org.emftext.language.java.members.AdditionalField> addFields = new HashMap<>();
+	private final HashMap<Block, org.emftext.language.java.statements.Block> initializers = new HashMap<>();
+	private final HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> annotationMethods = new HashMap<>();
+	private final HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> singleAnnotations = new HashMap<>();
+	private final HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
+	private final HashSet<EObject> visitedObjects = new HashSet<>();
+
+	public TypeInstructionSeparationUtility(JDTResolverUtility jdtResolverUtility,
+			ExpressionConverterUtility expressionConverterUtility,
+			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+
+		this.jdtResolverUtility = jdtResolverUtility;
+		this.expressionConverterUtility = expressionConverterUtility;
+		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}
-	
+
 	void addMethod(Block block, org.emftext.language.java.members.Method method) {
 		methods.put(block, method);
 	}
@@ -182,5 +187,9 @@ class TypeInstructionSeparationUtility {
 		singleAnnotations.clear();
 		annotationSetting.clear();
 		visitedObjects.clear();
+	}
+	
+	public void setStatementConverterUtility(StatementConverterUtility statementConverterUtility) {
+		this.statementConverterUtility = statementConverterUtility;
 	}
 }

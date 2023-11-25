@@ -19,10 +19,10 @@ import org.emftext.commons.layout.MinimalLayoutInformation;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.JavaRoot;
 
-class LayoutInformationConverter
-{
-	private static MinimalLayoutInformation currentRootLayout;
+class LayoutInformationConverter {
 	
+	private static MinimalLayoutInformation currentRootLayout;
+
 	void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode) {
 		currentRootLayout = null;
 		if (sourceCode != null) {
@@ -35,7 +35,7 @@ class LayoutInformationConverter
 			root.getLayoutInformations().add(currentRootLayout);
 		}
 	}
-	
+
 	void convertToMinimalLayoutInformation(Commentable target, ASTNode source) {
 		if (currentRootLayout != null) {
 			MinimalLayoutInformation li = LayoutFactory.eINSTANCE.createMinimalLayoutInformation();

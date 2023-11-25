@@ -5,13 +5,13 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 
 class ToRelationExpressionConverter {
 	
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-
+	private final LayoutInformationConverter LayoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToRelationOperatorConverter toRelationOperatorConverter;
 
 	ToRelationExpressionConverter(ToRelationOperatorConverter toRelationOperatorConverter,
-			ToExpressionConverter toExpressionConverter) {
+			ToExpressionConverter toExpressionConverter, LayoutInformationConverter layoutInformationConverter) {
+		this.LayoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toRelationOperatorConverter = toRelationOperatorConverter;
 	}

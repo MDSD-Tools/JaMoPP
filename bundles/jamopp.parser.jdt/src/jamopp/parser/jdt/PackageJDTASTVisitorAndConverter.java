@@ -15,14 +15,21 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.emftext.language.java.imports.ImportsFactory;
+import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
-	
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
-	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
-	
+
+	protected final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility;
+
+	public PackageJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
+			ModifiersFactory modifiers_FACTORY, ImportsFactory imports_FACTORY,
+			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiers_FACTORY, imports_FACTORY);
+		this.AnnotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(CompilationUnit node) {
@@ -35,8 +42,8 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 		}
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
-			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations().add(AnnotationInstanceOrModifierConverterUtility
-				.convertToAnnotationInstance((Annotation) obj)));
+			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
+					.add(AnnotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			root.getNamespaces().clear();
 			BaseConverterUtility.convertToNamespacesAndSet(node.getPackage().getName(), root);
 		}

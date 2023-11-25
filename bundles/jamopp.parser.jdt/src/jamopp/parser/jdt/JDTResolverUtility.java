@@ -19,7 +19,7 @@ import org.emftext.language.java.JavaClasspath;
 
 class JDTResolverUtility {
 	
-	private static final JDTBindingConverterUtility JDTBindingConverterUtility = new JDTBindingConverterUtility();
+	private final JDTBindingConverterUtility JDTBindingConverterUtility;
 	
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
@@ -53,6 +53,10 @@ class JDTResolverUtility {
 	private final static String SYNTH_CLASS = "SyntheticContainerClass";
 	private final static boolean extractAdditionalInformationFromTypeBindings = true;
 
+	public JDTResolverUtility(JDTBindingConverterUtility jdtBindingConverterUtility) {
+		this.JDTBindingConverterUtility = jdtBindingConverterUtility;
+	}
+	
 	void setResourceSet(ResourceSet set) {
 		resourceSet = set;
 	}

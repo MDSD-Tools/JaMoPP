@@ -70,7 +70,10 @@ import org.emftext.language.java.types.TypesFactory;
 @SuppressWarnings("restriction")
 class JDTBindingConverterUtility {
 
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
+	private JDTResolverUtility JDTResolverUtility;
+	
+	public JDTBindingConverterUtility() {
+	}
 
 	List<TypeReference> convertToTypeReferences(ITypeBinding binding) {
 		List<TypeReference> result = new ArrayList<>();
@@ -745,5 +748,9 @@ class JDTBindingConverterUtility {
 		ele.getNamespaces().clear();
 		String[] singleNamespaces = namespaces.split("\\.");
 		Collections.addAll(ele.getNamespaces(), singleNamespaces);
+	}
+	
+	public void setJDTResolverUtility(JDTResolverUtility jDTResolverUtility) {
+		JDTResolverUtility = jDTResolverUtility;
 	}
 }

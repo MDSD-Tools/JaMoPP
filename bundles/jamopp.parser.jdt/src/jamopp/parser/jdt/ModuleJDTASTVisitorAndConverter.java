@@ -26,14 +26,19 @@ import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.ProvidesDirective;
 import org.eclipse.jdt.core.dom.RequiresDirective;
 import org.eclipse.jdt.core.dom.UsesDirective;
+import org.emftext.language.java.imports.ImportsFactory;
+import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
-	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
-	
+	public ModuleJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
+			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
+			ModifiersFactory modifiers_FACTORY, ImportsFactory imports_FACTORY,
+			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiers_FACTORY, imports_FACTORY,
+				annotationInstanceOrModifierConverterUtility);
+	}
+
 	@Override
 	public boolean visit(CompilationUnit node) {
 		if (node.getModule() != null) {

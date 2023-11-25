@@ -48,12 +48,21 @@ import org.eclipse.jdt.core.dom.TypeLiteral;
 
 class ReferenceConverterUtility {
 	
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private static final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
-	private static final ClassifierConverterUtility ClassifierConverterUtility = new ClassifierConverterUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
-	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final JDTResolverUtility JDTResolverUtility;
+	private final ExpressionConverterUtility ExpressionConverterUtility;
+	private final ClassifierConverterUtility ClassifierConverterUtility;
+	private final BaseConverterUtility BaseConverterUtility;
+	private final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility;
+	
+	ReferenceConverterUtility(LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, ExpressionConverterUtility expressionConverterUtility, ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility, AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.JDTResolverUtility = jdtResolverUtility;
+		this.ExpressionConverterUtility = expressionConverterUtility;
+		this.ClassifierConverterUtility = classifierConverterUtility;
+		this.BaseConverterUtility = baseConverterUtility;
+		this.AnnotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
+	}
 	
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
 		return walkUp(internalConvertToReference(expr));

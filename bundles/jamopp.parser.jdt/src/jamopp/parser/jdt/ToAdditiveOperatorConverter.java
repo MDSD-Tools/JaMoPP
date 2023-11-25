@@ -6,7 +6,11 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 class ToAdditiveOperatorConverter {
 
-	private static final OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
+	private final OperatorsFactory operatorsFactory;
+	
+	public ToAdditiveOperatorConverter(OperatorsFactory operatorsFactory) {
+		this.operatorsFactory = operatorsFactory;
+	}
 
 	AdditiveOperator convertToAdditiveOperator(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.PLUS) {

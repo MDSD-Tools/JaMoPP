@@ -8,16 +8,17 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 class ToAdditiveExpressionConverter {
 
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	
+	private final LayoutInformationConverter LayoutInformationConverter;
+
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToAdditiveOperatorConverter toAdditiveOperatorConverter;
 
 	ToAdditiveExpressionConverter(ToExpressionConverter toExpressionConverter,
-			ToAdditiveOperatorConverter toAdditiveOperatorConverter) {
+			ToAdditiveOperatorConverter toAdditiveOperatorConverter,
+			LayoutInformationConverter layoutInformationConverter) {
+		this.LayoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toAdditiveOperatorConverter = toAdditiveOperatorConverter;
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -31,8 +32,7 @@ class ToAdditiveExpressionConverter {
 					.add(toAdditiveOperatorConverter.convertToAdditiveOperator(expr.getOperator()));
 			mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convertToExpression((Expression) obj));
 		});
-		
-		
+
 		LayoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}

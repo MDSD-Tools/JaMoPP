@@ -9,14 +9,18 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
 
 class ToMethodReferenceExpressionConverter {
-	
-	private static ReferenceConverterUtility ReferenceConverterUtility = new ReferenceConverterUtility();
-	private static final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
 
+	private final ReferenceConverterUtility ReferenceConverterUtility;
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final BaseConverterUtility BaseConverterUtility;
 	private final ToExpressionConverter toExpressionConverter;
-	
-	ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter) {
+
+	ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter,
+			ReferenceConverterUtility referenceConverterUtility, LayoutInformationConverter layoutInformationConverter,
+			BaseConverterUtility baseConverterUtility) {
+		this.ReferenceConverterUtility = referenceConverterUtility;
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.BaseConverterUtility = baseConverterUtility;
 		this.toExpressionConverter = toExpressionConverter;
 	}
 
@@ -76,8 +80,8 @@ class ToMethodReferenceExpressionConverter {
 			result.setMethodReference(ReferenceConverterUtility.convertToReference(superRef.getName()));
 		} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
 			ExpressionMethodReference exprRef = (ExpressionMethodReference) ref;
-			result.setChild((org.emftext.language.java.expressions.MethodReferenceExpressionChild) toExpressionConverter.convertToExpression(
-					exprRef.getExpression()));
+			result.setChild((org.emftext.language.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
+					.convertToExpression(exprRef.getExpression()));
 			exprRef.typeArguments().forEach(
 					obj -> result.getCallTypeArguments().add(BaseConverterUtility.convertToTypeArgument((Type) obj)));
 			result.setMethodReference(ReferenceConverterUtility.convertToReference(exprRef.getName()));

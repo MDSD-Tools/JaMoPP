@@ -62,12 +62,21 @@ import org.emftext.language.java.types.TypesFactory;
 
 class ClassifierConverterUtility {
 
-	private final TypeInstructionSeparationUtility TypeInstructionSeparationUtility = new TypeInstructionSeparationUtility();
-	private final LayoutInformationConverter LayoutInformationConverter = new LayoutInformationConverter();
-	private final JDTResolverUtility JDTResolverUtility = new JDTResolverUtility();
-	private final ExpressionConverterUtility ExpressionConverterUtility = new ExpressionConverterUtility();
-	private static final BaseConverterUtility BaseConverterUtility = new BaseConverterUtility();
-	private static final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility();
+	private final TypeInstructionSeparationUtility TypeInstructionSeparationUtility;
+	private final LayoutInformationConverter LayoutInformationConverter;
+	private final JDTResolverUtility JDTResolverUtility;
+	private final ExpressionConverterUtility ExpressionConverterUtility;
+	private final BaseConverterUtility BaseConverterUtility;
+	private final AnnotationInstanceOrModifierConverterUtility AnnotationInstanceOrModifierConverterUtility;
+	
+	public ClassifierConverterUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility, LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, ExpressionConverterUtility expressionConverterUtility, BaseConverterUtility baseConverterUtility, AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+		this.TypeInstructionSeparationUtility = typeInstructionSeparationUtility;
+		this.LayoutInformationConverter = layoutInformationConverter;
+		this.JDTResolverUtility = jdtResolverUtility;
+		this.ExpressionConverterUtility = expressionConverterUtility;
+		this.BaseConverterUtility = baseConverterUtility;
+		this.AnnotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
+	}
 
 	@SuppressWarnings("unchecked")
 	ConcreteClassifier convertToConcreteClassifier(AbstractTypeDeclaration typeDecl) {
