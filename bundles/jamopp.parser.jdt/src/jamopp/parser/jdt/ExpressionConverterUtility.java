@@ -21,7 +21,6 @@ import org.emftext.language.java.operators.OperatorsFactory;
 class ExpressionConverterUtility {
 
 	private ToExpressionConverter toExpressionConverter;
-	private ToConditionalExpressionConverter toConditionalExpressionConverter;
 
 	ExpressionConverterUtility() {
 	}
@@ -30,15 +29,6 @@ class ExpressionConverterUtility {
 		return toExpressionConverter.convertToExpression(expr);
 	}
 
-	org.emftext.language.java.expressions.ConditionalExpression convertToConditionalExpression(
-			ConditionalExpression expr) {
-		return toConditionalExpressionConverter.convertToConditionalExpression(expr);
-	}
-	
-	void setToConditionalExpressionConverter(ToConditionalExpressionConverter toConditionalExpressionConverter) {
-		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
-	}
-	
 	void setToExpressionConverter(ToExpressionConverter toExpressionConverter) {
 		this.toExpressionConverter = toExpressionConverter;
 	}

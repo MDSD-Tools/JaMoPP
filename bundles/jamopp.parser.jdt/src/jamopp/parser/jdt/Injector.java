@@ -91,7 +91,6 @@ class Injector {
 		toExpressionConverter.setToUnaryExpressionConverter(toUnaryExpressionConverter);
 		toExpressionConverter.setToMethodReferenceExpressionConverter(toMethodReferenceExpressionConverter);
 
-		expressionConverterUtility.setToConditionalExpressionConverter(toConditionalExpressionConverter);
 		expressionConverterUtility.setToExpressionConverter(toExpressionConverter);
 
 		baseConverterUtility
