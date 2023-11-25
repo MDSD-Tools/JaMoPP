@@ -8,7 +8,7 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 public class Injector {
 
-	private static final  OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
+	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	private static final JDTResolverUtility jdtResolverUtility;
 	private static final TypeInstructionSeparationUtility typeInstructionSeparationUtility;
 
@@ -32,8 +32,8 @@ public class Injector {
 		AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility(
 				layoutInformationConverter, jdtResolverUtility, expressionConverterUtility, baseConverterUtility);
 
-		typeInstructionSeparationUtility = new TypeInstructionSeparationUtility(
-				jdtResolverUtility, expressionConverterUtility, annotationInstanceOrModifierConverterUtility);
+		typeInstructionSeparationUtility = new TypeInstructionSeparationUtility(jdtResolverUtility,
+				expressionConverterUtility, annotationInstanceOrModifierConverterUtility);
 		ClassifierConverterUtility classifierConverterUtility = new ClassifierConverterUtility(
 				typeInstructionSeparationUtility, layoutInformationConverter, jdtResolverUtility,
 				expressionConverterUtility, baseConverterUtility, annotationInstanceOrModifierConverterUtility);
@@ -80,6 +80,7 @@ public class Injector {
 		ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter = new ToMethodReferenceExpressionConverter(
 				toExpressionConverter, referenceConverterUtility, layoutInformationConverter, baseConverterUtility);
 
+		toExpressionConverter.setToPrimaryExpressionConverter(toPrimaryExpressionConverter);
 		toExpressionConverter.setToAssignmentOperatorConverter(toAssignmentOperatorConverter);
 		toExpressionConverter.setToConditionalExpressionConverter(toConditionalExpressionConverter);
 		toExpressionConverter.setToEqualityExpressionConverter(toEqualityExpressionConverter);
@@ -97,7 +98,8 @@ public class Injector {
 				.setAnnotationInstanceOrModifierConverterUtility(annotationInstanceOrModifierConverterUtility);
 		typeInstructionSeparationUtility.setStatementConverterUtility(statementConverterUtility);
 		jdtBindingConverterUtility.setJDTResolverUtility(jdtResolverUtility);
-		annotationInstanceOrModifierConverterUtility.setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
+		annotationInstanceOrModifierConverterUtility
+				.setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
 	}
 
 	static OrdinaryCompilationUnitJDTASTVisitorAndConverter getOrdinaryCompilationUnitJDTASTVisitorAndConverter() {
