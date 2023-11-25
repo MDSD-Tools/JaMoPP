@@ -14,7 +14,7 @@ class TypeInstructionSeparationUtility {
 	private StatementConverterUtility statementConverterUtility;
 	private final JDTResolverUtility jdtResolverUtility;
 	private final ExpressionConverterUtility expressionConverterUtility;
-	private final AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
+	private final BaseConverterUtility baseConverterUtility;
 
 	private final HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
 	private final HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();
@@ -27,12 +27,11 @@ class TypeInstructionSeparationUtility {
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
 	TypeInstructionSeparationUtility(JDTResolverUtility jdtResolverUtility,
-			ExpressionConverterUtility expressionConverterUtility,
-			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+			ExpressionConverterUtility expressionConverterUtility, BaseConverterUtility baseConverterUtility) {
 
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
-		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
+		this.baseConverterUtility = baseConverterUtility;
 	}
 
 	void addMethod(Block block, org.emftext.language.java.members.Method method) {
@@ -148,7 +147,7 @@ class TypeInstructionSeparationUtility {
 			}
 			clonedAnnotationMethods.forEach((expr, m) -> {
 				visitedObjects.add(m);
-				m.setDefaultValue(annotationInstanceOrModifierConverterUtility.convertToAnnotationValue(expr));
+				m.setDefaultValue(baseConverterUtility.convertToAnnotationValue(expr));
 			});
 			HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations = (HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter>) singleAnnotations
 					.clone();
@@ -160,7 +159,7 @@ class TypeInstructionSeparationUtility {
 			}
 			clonedSingleAnnotations.forEach((expr, sap) -> {
 				visitedObjects.add(sap);
-				sap.setValue(annotationInstanceOrModifierConverterUtility.convertToAnnotationValue(expr));
+				sap.setValue(baseConverterUtility.convertToAnnotationValue(expr));
 			});
 			HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting = (HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting>) annotationSetting
 					.clone();
@@ -172,7 +171,7 @@ class TypeInstructionSeparationUtility {
 			}
 			clonedAnnotationSetting.forEach((expr, aas) -> {
 				visitedObjects.add(aas);
-				aas.setValue(annotationInstanceOrModifierConverterUtility.convertToAnnotationValue(expr));
+				aas.setValue(baseConverterUtility.convertToAnnotationValue(expr));
 			});
 			newSize = methods.size() + constructors.size() + fields.size() + addFields.size() + initializers.size()
 					+ annotationMethods.size() + singleAnnotations.size() + annotationSetting.size();
@@ -188,7 +187,7 @@ class TypeInstructionSeparationUtility {
 		annotationSetting.clear();
 		visitedObjects.clear();
 	}
-	
+
 	void setStatementConverterUtility(StatementConverterUtility statementConverterUtility) {
 		this.statementConverterUtility = statementConverterUtility;
 	}

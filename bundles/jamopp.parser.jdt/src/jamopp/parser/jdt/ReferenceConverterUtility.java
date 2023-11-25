@@ -53,18 +53,15 @@ class ReferenceConverterUtility {
 	private final ExpressionConverterUtility expressionConverterUtility;
 	private final ClassifierConverterUtility classifierConverterUtility;
 	private final BaseConverterUtility baseConverterUtility;
-	private final AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
 
 	ReferenceConverterUtility(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, ExpressionConverterUtility expressionConverterUtility,
-			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility,
-			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.classifierConverterUtility = classifierConverterUtility;
 		this.baseConverterUtility = baseConverterUtility;
-		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}
 
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
@@ -84,7 +81,7 @@ class ReferenceConverterUtility {
 	@SuppressWarnings("unchecked")
 	private org.emftext.language.java.references.Reference internalConvertToReference(Expression expr) {
 		if (expr instanceof Annotation) {
-			return annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) expr);
+			return baseConverterUtility.convertToAnnotationInstance((Annotation) expr);
 		}
 		if (expr.getNodeType() == ASTNode.ARRAY_ACCESS) {
 			ArrayAccess arr = (ArrayAccess) expr;
@@ -103,7 +100,7 @@ class ReferenceConverterUtility {
 				result.setTypeReference(baseConverterUtility.convertToTypeReference(arr.getType()));
 				baseConverterUtility.convertToArrayDimensionsAndSet(arr.getType(), result);
 				result.setArrayInitializer(
-						annotationInstanceOrModifierConverterUtility.convertToArrayInitializer(arr.getInitializer()));
+						baseConverterUtility.convertToArrayInitializer(arr.getInitializer()));
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 				return result;
 			}
@@ -120,7 +117,7 @@ class ReferenceConverterUtility {
 			org.emftext.language.java.arrays.ArrayInstantiationByValuesUntyped result = org.emftext.language.java.arrays.ArraysFactory.eINSTANCE
 					.createArrayInstantiationByValuesUntyped();
 			result.setArrayInitializer(
-					annotationInstanceOrModifierConverterUtility.convertToArrayInitializer((ArrayInitializer) expr));
+					baseConverterUtility.convertToArrayInitializer((ArrayInitializer) expr));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 			return result;
 		}
@@ -335,7 +332,7 @@ class ReferenceConverterUtility {
 					nqType.getName());
 			parent.setNext(child);
 			nqType.annotations().forEach(obj -> child.getAnnotations()
-					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, nqType);
 			return child;
 		}
@@ -345,7 +342,7 @@ class ReferenceConverterUtility {
 			org.emftext.language.java.references.IdentifierReference child = convertToIdentifierReference(
 					qType.getName());
 			qType.annotations().forEach(obj -> child.getAnnotations()
-					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			parent.setNext(child);
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, qType);
 			return child;
@@ -355,7 +352,7 @@ class ReferenceConverterUtility {
 			org.emftext.language.java.references.IdentifierReference result = convertToIdentifierReference(
 					sType.getName());
 			sType.annotations().forEach(obj -> result.getAnnotations()
-					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, sType);
 			return result;
 		}

@@ -67,15 +67,15 @@ class ClassifierConverterUtility {
 	private final JDTResolverUtility jdtResolverUtility;
 	private final ExpressionConverterUtility expressionConverterUtility;
 	private final BaseConverterUtility baseConverterUtility;
-	private final AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
-	
-	ClassifierConverterUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility, LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility, ExpressionConverterUtility expressionConverterUtility, BaseConverterUtility baseConverterUtility, AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+
+	ClassifierConverterUtility(TypeInstructionSeparationUtility typeInstructionSeparationUtility,
+			LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
+			ExpressionConverterUtility expressionConverterUtility, BaseConverterUtility baseConverterUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.baseConverterUtility = baseConverterUtility;
-		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -93,9 +93,8 @@ class ClassifierConverterUtility {
 			result = convertToEnum((EnumDeclaration) typeDecl);
 		}
 		ConcreteClassifier finalResult = result;
-		typeDecl.modifiers().forEach(
-				obj -> finalResult.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		typeDecl.modifiers().forEach(obj -> finalResult.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		baseConverterUtility.convertToSimpleNameOnlyAndSet(typeDecl.getName(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, typeDecl);
 		return result;
@@ -169,8 +168,8 @@ class ClassifierConverterUtility {
 		Block result = StatementsFactory.eINSTANCE.createBlock();
 		result.setName("");
 		typeInstructionSeparationUtility.addInitializer(init.getBody(), result);
-		init.modifiers().forEach(obj -> result.getModifiers()
-				.add(annotationInstanceOrModifierConverterUtility.convertToModifier((Modifier) obj)));
+		init.modifiers()
+				.forEach(obj -> result.getModifiers().add(baseConverterUtility.convertToModifier((Modifier) obj)));
 		return result;
 	}
 
@@ -185,9 +184,8 @@ class ClassifierConverterUtility {
 			result = jdtResolverUtility.getField(firstFragment.getName().getIdentifier());
 		}
 		baseConverterUtility.convertToSimpleNameOnlyAndSet(firstFragment.getName(), result);
-		fieldDecl.modifiers()
-				.forEach(obj -> result.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(fieldDecl.getType()));
 		baseConverterUtility.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
 		firstFragment.extraDimensions()
@@ -231,9 +229,8 @@ class ClassifierConverterUtility {
 		} else {
 			result = jdtResolverUtility.getInterfaceMethod(annDecl.getName().getIdentifier());
 		}
-		annDecl.modifiers()
-				.forEach(obj -> result.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		annDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(annDecl.getType()));
 		baseConverterUtility.convertToArrayDimensionsAndSet(annDecl.getType(), result);
 		baseConverterUtility.convertToSimpleNameOnlyAndSet(annDecl.getName(), result);
@@ -257,9 +254,8 @@ class ClassifierConverterUtility {
 		} else {
 			result = jdtResolverUtility.getInterfaceMethod(binding);
 		}
-		methodDecl.modifiers()
-				.forEach(obj -> result.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		methodDecl.typeParameters()
 				.forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(methodDecl.getReturnType2()));
@@ -293,9 +289,8 @@ class ClassifierConverterUtility {
 			} else {
 				result = jdtResolverUtility.getConstructor(binding);
 			}
-			methodDecl.modifiers()
-					.forEach(obj -> result.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-							.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+			methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			methodDecl.typeParameters()
 					.forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
 			baseConverterUtility.convertToSimpleNameOnlyAndSet(methodDecl.getName(), result);
@@ -317,9 +312,8 @@ class ClassifierConverterUtility {
 		} else {
 			result = jdtResolverUtility.getClassMethod(methodDecl.getName().getIdentifier());
 		}
-		methodDecl.modifiers()
-				.forEach(obj -> result.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		methodDecl.typeParameters()
 				.forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(methodDecl.getReturnType2()));
@@ -364,8 +358,8 @@ class ClassifierConverterUtility {
 		} else {
 			result = jdtResolverUtility.getEnumConstant(binding);
 		}
-		enDecl.modifiers().forEach(obj -> result.getAnnotations()
-				.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+		enDecl.modifiers().forEach(
+				obj -> result.getAnnotations().add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 		baseConverterUtility.convertToSimpleNameOnlyAndSet(enDecl.getName(), result);
 		enDecl.arguments().forEach(
 				obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
@@ -380,8 +374,8 @@ class ClassifierConverterUtility {
 	private org.emftext.language.java.generics.TypeParameter convertToTypeParameter(TypeParameter param) {
 		org.emftext.language.java.generics.TypeParameter result = jdtResolverUtility
 				.getTypeParameter(param.resolveBinding());
-		param.modifiers().forEach(obj -> result.getAnnotations()
-				.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+		param.modifiers().forEach(
+				obj -> result.getAnnotations().add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 		baseConverterUtility.convertToSimpleNameOnlyAndSet(param.getName(), result);
 		param.typeBounds()
 				.forEach(obj -> result.getExtendTypes().add(baseConverterUtility.convertToTypeReference((Type) obj)));
@@ -419,16 +413,15 @@ class ClassifierConverterUtility {
 	private Parameter convertToParameter(SingleVariableDeclaration decl) {
 		if (decl.isVarargs()) {
 			VariableLengthParameter result = jdtResolverUtility.getVariableLengthParameter(decl.resolveBinding());
-			decl.modifiers()
-					.forEach(obj -> result.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-							.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+			decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			result.setTypeReference(baseConverterUtility.convertToTypeReference(decl.getType()));
 			baseConverterUtility.convertToArrayDimensionsAndSet(decl.getType(), result);
 			baseConverterUtility.convertToSimpleNameOnlyAndSet(decl.getName(), result);
 			decl.extraDimensions()
 					.forEach(obj -> baseConverterUtility.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 			decl.varargsAnnotations().forEach(obj -> result.getAnnotations()
-					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 			return result;
 		}
@@ -438,9 +431,8 @@ class ClassifierConverterUtility {
 	@SuppressWarnings("unchecked")
 	OrdinaryParameter convertToOrdinaryParameter(SingleVariableDeclaration decl) {
 		OrdinaryParameter result = jdtResolverUtility.getOrdinaryParameter(decl.resolveBinding());
-		decl.modifiers()
-				.forEach(obj -> result.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		result.setTypeReference(baseConverterUtility.convertToTypeReference(decl.getType()));
 		baseConverterUtility.convertToArrayDimensionsAndSet(decl.getType(), result);
 		baseConverterUtility.convertToSimpleNameOnlyAndSet(decl.getName(), result);

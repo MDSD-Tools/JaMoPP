@@ -23,10 +23,8 @@ class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisit
 	OrdinaryCompilationUnitJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
-			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility,
 			ClassifierConverterUtility classifierConverterUtility) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
-				annotationInstanceOrModifierConverterUtility);
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory);
 		this.ClassifierConverterUtility = classifierConverterUtility;
 	}
 

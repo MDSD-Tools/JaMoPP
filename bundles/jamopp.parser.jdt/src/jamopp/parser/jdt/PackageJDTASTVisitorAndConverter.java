@@ -20,14 +20,10 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
 
-	protected final AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
-
 	PackageJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
-			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory);
-		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -43,7 +39,7 @@ class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisito
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
 			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
-					.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+					.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 			root.getNamespaces().clear();
 			baseConverterUtility.convertToNamespacesAndSet(node.getPackage().getName(), root);
 		}

@@ -57,22 +57,19 @@ class StatementConverterUtility {
 	private final ExpressionConverterUtility expressionConverterUtility;
 	private final ClassifierConverterUtility classifierConverterUtility;
 	private final BaseConverterUtility baseConverterUtility;
-	private final AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility;
 
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
 	StatementConverterUtility(ReferenceConverterUtility referenceConverterUtility,
 			LayoutInformationConverter layoutInformationConverter, JDTResolverUtility jdtResolverUtility,
 			ExpressionConverterUtility expressionConverterUtility,
-			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility,
-			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
+			ClassifierConverterUtility classifierConverterUtility, BaseConverterUtility baseConverterUtility) {
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.classifierConverterUtility = classifierConverterUtility;
 		this.baseConverterUtility = baseConverterUtility;
-		this.annotationInstanceOrModifierConverterUtility = annotationInstanceOrModifierConverterUtility;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -280,9 +277,8 @@ class StatementConverterUtility {
 				locVar = jdtResolverUtility.getLocalVariable(binding);
 			}
 			baseConverterUtility.convertToSimpleNameOnlyAndSet(frag.getName(), locVar);
-			varSt.modifiers()
-					.forEach(obj -> locVar.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-							.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
+					.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			locVar.setTypeReference(baseConverterUtility.convertToTypeReference(varSt.getType()));
 			baseConverterUtility.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
 			frag.extraDimensions()
@@ -398,9 +394,8 @@ class StatementConverterUtility {
 		} else {
 			param = jdtResolverUtility.getCatchParameter(binding);
 		}
-		decl.modifiers()
-				.forEach(obj -> param.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		decl.modifiers().forEach(obj -> param.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		if (decl.getType().isUnionType()) {
 			UnionType un = (UnionType) decl.getType();
 			param.setTypeReference(baseConverterUtility.convertToTypeReference((Type) un.types().get(0)));
@@ -451,9 +446,8 @@ class StatementConverterUtility {
 			loc = jdtResolverUtility.getLocalVariable(binding);
 		}
 		baseConverterUtility.convertToSimpleNameOnlyAndSet(frag.getName(), loc);
-		expr.modifiers()
-				.forEach(obj -> loc.getAnnotationsAndModifiers().add(annotationInstanceOrModifierConverterUtility
-						.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers()
+				.add(baseConverterUtility.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		loc.setTypeReference(baseConverterUtility.convertToTypeReference(expr.getType()));
 		baseConverterUtility.convertToArrayDimensionsAndSet(expr.getType(), loc);
 		frag.extraDimensions()

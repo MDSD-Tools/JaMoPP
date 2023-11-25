@@ -33,10 +33,8 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
 	ModuleJDTASTVisitorAndConverter(LayoutInformationConverter layoutInformationConverter,
 			JDTResolverUtility jdtResolverUtility, BaseConverterUtility baseConverterUtility,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
-			AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility) {
-		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory,
-				annotationInstanceOrModifierConverterUtility);
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory) {
+		super(layoutInformationConverter, jdtResolverUtility, baseConverterUtility, modifiersFactory, importsFactory);
 	}
 
 	@Override
@@ -59,7 +57,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 		baseConverterUtility.convertToNamespacesAndSet(node.getName(), module);
 		module.setName("");
 		node.annotations().forEach(obj -> module.getAnnotations()
-				.add(annotationInstanceOrModifierConverterUtility.convertToAnnotationInstance((Annotation) obj)));
+				.add(baseConverterUtility.convertToAnnotationInstance((Annotation) obj)));
 		node.moduleStatements().forEach(obj -> module.getTarget().add(this.convertToDirective((ModuleDirective) obj)));
 		return module;
 	}

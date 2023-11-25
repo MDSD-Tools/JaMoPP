@@ -27,27 +27,23 @@ class Injector {
 		jdtResolverUtility = new JDTResolverUtility(jdtBindingConverterUtility);
 
 		BaseConverterUtility baseConverterUtility = new BaseConverterUtility(layoutInformationConverter,
-				jdtResolverUtility, jdtBindingConverterUtility);
-
-		AnnotationInstanceOrModifierConverterUtility annotationInstanceOrModifierConverterUtility = new AnnotationInstanceOrModifierConverterUtility(
-				layoutInformationConverter, jdtResolverUtility, expressionConverterUtility, baseConverterUtility);
+				jdtResolverUtility, jdtBindingConverterUtility, expressionConverterUtility);
 
 		typeInstructionSeparationUtility = new TypeInstructionSeparationUtility(jdtResolverUtility,
-				expressionConverterUtility, annotationInstanceOrModifierConverterUtility);
+				expressionConverterUtility, baseConverterUtility);
 		ClassifierConverterUtility classifierConverterUtility = new ClassifierConverterUtility(
 				typeInstructionSeparationUtility, layoutInformationConverter, jdtResolverUtility,
-				expressionConverterUtility, baseConverterUtility, annotationInstanceOrModifierConverterUtility);
+				expressionConverterUtility, baseConverterUtility);
 
 		ReferenceConverterUtility referenceConverterUtility = new ReferenceConverterUtility(layoutInformationConverter,
-				jdtResolverUtility, expressionConverterUtility, classifierConverterUtility, baseConverterUtility,
-				annotationInstanceOrModifierConverterUtility);
+				jdtResolverUtility, expressionConverterUtility, classifierConverterUtility, baseConverterUtility);
 		StatementConverterUtility statementConverterUtility = new StatementConverterUtility(referenceConverterUtility,
 				layoutInformationConverter, jdtResolverUtility, expressionConverterUtility, classifierConverterUtility,
-				baseConverterUtility, annotationInstanceOrModifierConverterUtility);
+				baseConverterUtility);
 
 		ordinaryCompilationUnitJDTASTVisitorAndConverter = new OrdinaryCompilationUnitJDTASTVisitorAndConverter(
 				layoutInformationConverter, jdtResolverUtility, baseConverterUtility, factory, importsFactory,
-				annotationInstanceOrModifierConverterUtility, classifierConverterUtility);
+				classifierConverterUtility);
 
 		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter(operatorsFactory);
 		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter(operatorsFactory);
@@ -93,11 +89,9 @@ class Injector {
 
 		expressionConverterUtility.setToExpressionConverter(toExpressionConverter);
 
-		baseConverterUtility
-				.setAnnotationInstanceOrModifierConverterUtility(annotationInstanceOrModifierConverterUtility);
 		typeInstructionSeparationUtility.setStatementConverterUtility(statementConverterUtility);
 		jdtBindingConverterUtility.setJDTResolverUtility(jdtResolverUtility);
-		annotationInstanceOrModifierConverterUtility
+		baseConverterUtility
 				.setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
 	}
 
