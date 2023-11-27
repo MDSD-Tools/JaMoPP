@@ -54,14 +54,14 @@ class Injector {
 				expressionConverterUtility, toAnnotationValueConverter);
 		UtilClassifierConverter classifierConverterUtility = new UtilClassifierConverter(
 				typeInstructionSeparationUtility, layoutInformationConverter, jdtResolverUtility,
-				expressionConverterUtility, utilBaseConverter, utilNamedElement, null,
+				expressionConverterUtility, utilBaseConverter, utilNamedElement, toTypeReferenceConverter,
 				toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter);
 
 		UtilReferenceConverter referenceConverterUtility = new UtilReferenceConverter(layoutInformationConverter,
 				jdtResolverUtility, expressionConverterUtility, classifierConverterUtility, utilBaseConverter,
 				utilNamedElement, toTypeReferenceConverter, toArrayInitialisierConverter);
-		UtilStatementConverter statementConverterUtility = new UtilStatementConverter(utilNamedElement, null,
-				toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter,
+		UtilStatementConverter statementConverterUtility = new UtilStatementConverter(utilNamedElement,
+				toTypeReferenceConverter, toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter,
 				referenceConverterUtility, layoutInformationConverter, jdtResolverUtility, expressionConverterUtility,
 				classifierConverterUtility, toModifierOrAnnotationInstanceConverter);
 
