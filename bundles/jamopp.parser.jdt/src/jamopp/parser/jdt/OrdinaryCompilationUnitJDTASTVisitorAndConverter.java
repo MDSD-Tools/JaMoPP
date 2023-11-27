@@ -21,15 +21,16 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisitorAndConverter {
 
 
-	OrdinaryCompilationUnitJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement, UtilClassifierConverter classifierConverterUtility) {
-		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
-				utilNamedElement);
-		this.ClassifierConverterUtility = classifierConverterUtility;
-	}
 
-	private final UtilClassifierConverter ClassifierConverterUtility;
+	OrdinaryCompilationUnitJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
+			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter, ModifiersFactory modifiersFactory,
+			ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			ToAnnotationInstanceConverter annotationInstanceConverter,
+			UtilClassifierConverter classifierConverterUtility) {
+		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
+				utilNamedElement, annotationInstanceConverter, classifierConverterUtility);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public boolean visit(CompilationUnit node) {

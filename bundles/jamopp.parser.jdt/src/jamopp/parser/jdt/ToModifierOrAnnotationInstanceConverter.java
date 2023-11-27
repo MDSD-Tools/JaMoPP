@@ -8,16 +8,18 @@ import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 public class ToModifierOrAnnotationInstanceConverter {
 
 	private final UtilBaseConverter utilBaseConverter;
-	
-	public ToModifierOrAnnotationInstanceConverter(UtilBaseConverter utilBaseConverter) {
+	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
+
+	public ToModifierOrAnnotationInstanceConverter(UtilBaseConverter utilBaseConverter, ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.utilBaseConverter = utilBaseConverter;
+		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
-	
+
 	AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {
 			return utilBaseConverter.convertToModifier((Modifier) mod);
 		}
-		return utilBaseConverter.convertToAnnotationInstance((Annotation) mod);
+		return toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) mod);
 	}
-	
+
 }

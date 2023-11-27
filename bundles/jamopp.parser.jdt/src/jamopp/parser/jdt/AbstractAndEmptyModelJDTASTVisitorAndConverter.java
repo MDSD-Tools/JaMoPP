@@ -45,16 +45,20 @@ abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
 	protected final UtilNamedElement utilNamedElement;
+	protected final ToAnnotationInstanceConverter annotationInstanceConverter;
+	protected final UtilClassifierConverter ClassifierConverterUtility;
 
 	AbstractAndEmptyModelJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
+			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter, ModifiersFactory modifiersFactory,
+			ImportsFactory importsFactory, UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter, UtilClassifierConverter classifierConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilBaseConverter = utilBaseConverter;
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;
 		this.utilNamedElement = utilNamedElement;
+		this.annotationInstanceConverter = annotationInstanceConverter;
+		this.ClassifierConverterUtility = classifierConverterUtility;
 	}
 
 	private JavaRoot convertedRootElement;
@@ -175,8 +179,7 @@ abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor
 			}
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
-		utilNamedElement.addNameToNameSpaceAndElement(qualifiedName.getQualifier(), convertedImport,
-				proxyClass);
+		utilNamedElement.addNameToNameSpaceAndElement(qualifiedName.getQualifier(), convertedImport, proxyClass);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
 	}

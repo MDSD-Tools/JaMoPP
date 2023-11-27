@@ -38,28 +38,34 @@ class Injector {
 
 		UtilBaseConverter utilBaseConverter = new UtilBaseConverter(layoutInformationConverter, jdtResolverUtility,
 				jdtBindingConverterUtility, expressionConverterUtility, utilNamedElement);
+		ToAnnotationInstanceConverter toAnnotationInstanceConverter = new ToAnnotationInstanceConverter(
+				utilNamedElement, layoutInformationConverter, jdtResolverUtility);
 
 		ToArrayInitialisierConverter toArrayInitialisierConverter = new ToArrayInitialisierConverter(
-				expressionConverterUtility, utilBaseConverter, layoutInformationConverter);
+				expressionConverterUtility, layoutInformationConverter, toAnnotationInstanceConverter);
 		ToAnnotationValueConverter toAnnotationValueConverter = new ToAnnotationValueConverter(
-				expressionConverterUtility, utilBaseConverter, toArrayInitialisierConverter);
+				expressionConverterUtility, utilBaseConverter, toArrayInitialisierConverter,
+				toAnnotationInstanceConverter);
 		ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter = new ToArrayDimensionAfterAndSetConverter(
-				utilBaseConverter, layoutInformationConverter);
+				layoutInformationConverter, toAnnotationInstanceConverter);
 		ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter = new ToModifierOrAnnotationInstanceConverter(
-				utilBaseConverter);
+				utilBaseConverter, toAnnotationInstanceConverter);
 		ToTypeReferenceConverter toTypeReferenceConverter = new ToTypeReferenceConverter(utilBaseConverter,
-				toArrayDimensionAfterAndSetConverter, layoutInformationConverter, jdtBindingConverterUtility);
+				toArrayDimensionAfterAndSetConverter, layoutInformationConverter, jdtBindingConverterUtility,
+				toAnnotationInstanceConverter);
 
 		typeInstructionSeparationUtility = new UtilTypeInstructionSeparation(jdtResolverUtility,
 				expressionConverterUtility, toAnnotationValueConverter);
 		UtilClassifierConverter classifierConverterUtility = new UtilClassifierConverter(
 				typeInstructionSeparationUtility, layoutInformationConverter, jdtResolverUtility,
 				expressionConverterUtility, utilBaseConverter, utilNamedElement, toTypeReferenceConverter,
-				toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter);
+				toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter,
+				toAnnotationInstanceConverter);
 
 		UtilReferenceConverter referenceConverterUtility = new UtilReferenceConverter(layoutInformationConverter,
 				jdtResolverUtility, expressionConverterUtility, classifierConverterUtility, utilBaseConverter,
-				utilNamedElement, toTypeReferenceConverter, toArrayInitialisierConverter);
+				utilNamedElement, toTypeReferenceConverter, toArrayInitialisierConverter,
+				toAnnotationInstanceConverter);
 		UtilStatementConverter statementConverterUtility = new UtilStatementConverter(utilNamedElement,
 				toTypeReferenceConverter, toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter,
 				referenceConverterUtility, layoutInformationConverter, jdtResolverUtility, expressionConverterUtility,
@@ -67,7 +73,7 @@ class Injector {
 
 		ordinaryCompilationUnitJDTASTVisitorAndConverter = new OrdinaryCompilationUnitJDTASTVisitorAndConverter(
 				layoutInformationConverter, jdtResolverUtility, utilBaseConverter, factory, importsFactory,
-				utilNamedElement, classifierConverterUtility);
+				utilNamedElement, toAnnotationInstanceConverter, classifierConverterUtility);
 
 		ToExpressionConverter toExpressionConverter = new ToExpressionConverter(expressionsFactory,
 				statementConverterUtility, layoutInformationConverter, jdtResolverUtility, jdtBindingConverterUtility,
@@ -107,7 +113,7 @@ class Injector {
 		expressionConverterUtility.setToExpressionConverter(toExpressionConverter);
 		typeInstructionSeparationUtility.setStatementConverterUtility(statementConverterUtility);
 		jdtBindingConverterUtility.setJDTResolverUtility(jdtResolverUtility);
-		utilBaseConverter.setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
+		toAnnotationInstanceConverter.setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
 	}
 
 	static OrdinaryCompilationUnitJDTASTVisitorAndConverter getOrdinaryCompilationUnitJDTASTVisitorAndConverter() {

@@ -71,11 +71,12 @@ class UtilClassifierConverter {
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
+	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
 	UtilClassifierConverter(UtilTypeInstructionSeparation typeInstructionSeparationUtility,
 			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility, UtilBaseConverter utilBaseConverter,
-			UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter, ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter, ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {
+			UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter, ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter, ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter, ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -85,6 +86,7 @@ class UtilClassifierConverter {
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
+		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -368,7 +370,7 @@ class UtilClassifierConverter {
 			result = jdtResolverUtility.getEnumConstant(binding);
 		}
 		enDecl.modifiers().forEach(
-				obj -> result.getAnnotations().add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+				obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		utilNamedElement.setNameOfElement(enDecl.getName(), result);
 		enDecl.arguments().forEach(
 				obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
@@ -384,7 +386,7 @@ class UtilClassifierConverter {
 		org.emftext.language.java.generics.TypeParameter result = jdtResolverUtility
 				.getTypeParameter(param.resolveBinding());
 		param.modifiers().forEach(
-				obj -> result.getAnnotations().add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+				obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		utilNamedElement.setNameOfElement(param.getName(), result);
 		param.typeBounds().forEach(
 				obj -> result.getExtendTypes().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
@@ -431,7 +433,7 @@ class UtilClassifierConverter {
 			decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
 					.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 			decl.varargsAnnotations().forEach(obj -> result.getAnnotations()
-					.add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 			return result;
 		}

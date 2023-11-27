@@ -31,13 +31,12 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
-
-	ModuleJDTASTVisitorAndConverter(
-			UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
+	ModuleJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+			UtilBaseConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
+			UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter,
+			UtilClassifierConverter classifierConverterUtility) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
-				utilNamedElement);
+				utilNamedElement, annotationInstanceConverter, classifierConverterUtility);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -61,7 +60,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 		utilNamedElement.addNameToNameSpace(node.getName(), module);
 		module.setName("");
 		node.annotations().forEach(obj -> module.getAnnotations()
-				.add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+				.add(annotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		node.moduleStatements().forEach(obj -> module.getTarget().add(this.convertToDirective((ModuleDirective) obj)));
 		return module;
 	}
@@ -115,8 +114,7 @@ class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 		UsesDirective usDir = (UsesDirective) directive;
 		org.emftext.language.java.modules.UsesModuleDirective result = org.emftext.language.java.modules.ModulesFactory.eINSTANCE
 				.createUsesModuleDirective();
-		result.setTypeReference(
-				utilBaseConverter.convertToClassifierOrNamespaceClassifierReference(usDir.getName()));
+		result.setTypeReference(utilBaseConverter.convertToClassifierOrNamespaceClassifierReference(usDir.getName()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 		return result;
 	}

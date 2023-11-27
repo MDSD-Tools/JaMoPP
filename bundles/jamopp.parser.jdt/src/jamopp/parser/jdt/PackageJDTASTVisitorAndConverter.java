@@ -20,11 +20,13 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 abstract class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
 
-	PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement) {
+	PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+			UtilBaseConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
+			UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter,
+			UtilClassifierConverter classifierConverterUtility) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
-				utilNamedElement);
+				utilNamedElement, annotationInstanceConverter, classifierConverterUtility);
+		// TODO Auto-generated constructor stub
 	}
 
 	@SuppressWarnings("unchecked")
@@ -40,7 +42,7 @@ abstract class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDT
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
 			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
-					.add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(annotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			root.getNamespaces().clear();
 			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), root);
 		}

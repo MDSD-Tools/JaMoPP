@@ -13,53 +13,14 @@
 
 package jamopp.parser.jdt;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.Annotation;
-import org.eclipse.jdt.core.dom.ArrayInitializer;
-import org.eclipse.jdt.core.dom.ArrayType;
-import org.eclipse.jdt.core.dom.Dimension;
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.IAnnotationBinding;
-import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.NameQualifiedType;
-import org.eclipse.jdt.core.dom.NormalAnnotation;
-import org.eclipse.jdt.core.dom.ParameterizedType;
-import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.QualifiedName;
-import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.SimpleType;
-import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
-import org.eclipse.jdt.core.dom.Type;
-import org.eclipse.jdt.core.dom.WildcardType;
-import org.emftext.language.java.annotations.AnnotationAttributeSetting;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.annotations.AnnotationParameterList;
-import org.emftext.language.java.annotations.AnnotationValue;
-import org.emftext.language.java.annotations.AnnotationsFactory;
-import org.emftext.language.java.annotations.SingleAnnotationParameter;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.arrays.ArrayTypeable;
-import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.commons.NamedElement;
-import org.emftext.language.java.commons.NamespaceAwareElement;
-import org.emftext.language.java.expressions.AssignmentExpressionChild;
-import org.emftext.language.java.generics.ExtendsTypeArgument;
-import org.emftext.language.java.generics.GenericsFactory;
-import org.emftext.language.java.generics.QualifiedTypeArgument;
-import org.emftext.language.java.generics.SuperTypeArgument;
-import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.generics.UnknownTypeArgument;
-import org.emftext.language.java.members.InterfaceMethod;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.InferableType;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
@@ -68,8 +29,6 @@ class UtilBaseConverter {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJDTResolver jdtResolverUtility;
-	private final UtilJDTBindingConverter jdtBindingConverterUtility;
-	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilNamedElement utilNamedElement;
 
 	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
@@ -79,8 +38,6 @@ class UtilBaseConverter {
 			UtilNamedElement utilNamedElement) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
-		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
-		this.expressionConverterUtility = expressionConverterUtility;
 		this.utilNamedElement = utilNamedElement;
 	}
 
@@ -165,50 +122,7 @@ class UtilBaseConverter {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
-	AnnotationInstance convertToAnnotationInstance(Annotation annot) {
-		AnnotationInstance result = AnnotationsFactory.eINSTANCE.createAnnotationInstance();
-		utilNamedElement.addNameToNameSpace(annot.getTypeName(), result);
-		org.emftext.language.java.classifiers.Annotation proxyClass;
-		IAnnotationBinding binding = annot.resolveAnnotationBinding();
-		if (binding == null) {
-			proxyClass = jdtResolverUtility.getAnnotation(annot.getTypeName().getFullyQualifiedName());
-		} else {
-			proxyClass = jdtResolverUtility.getAnnotation(binding.getAnnotationType());
-		}
-		result.setAnnotation(proxyClass);
-		if (annot.isSingleMemberAnnotation()) {
-			SingleAnnotationParameter param = AnnotationsFactory.eINSTANCE.createSingleAnnotationParameter();
-			result.setParameter(param);
-			SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
-			typeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
-		} else if (annot.isNormalAnnotation()) {
-			AnnotationParameterList param = AnnotationsFactory.eINSTANCE.createAnnotationParameterList();
-			result.setParameter(param);
-			NormalAnnotation normalAnnot = (NormalAnnotation) annot;
-			normalAnnot.values().forEach(obj -> {
-				MemberValuePair memVal = (MemberValuePair) obj;
-				AnnotationAttributeSetting attrSet = AnnotationsFactory.eINSTANCE.createAnnotationAttributeSetting();
-				InterfaceMethod methodProxy;
-				if (memVal.resolveMemberValuePairBinding() != null) {
-					methodProxy = jdtResolverUtility
-							.getInterfaceMethod(memVal.resolveMemberValuePairBinding().getMethodBinding());
-				} else {
-					methodProxy = jdtResolverUtility.getInterfaceMethod(memVal.getName().getIdentifier());
-					if (!proxyClass.getMembers().contains(methodProxy)) {
-						proxyClass.getMembers().add(methodProxy);
-					}
-				}
-				utilNamedElement.setNameOfElement(memVal.getName(), methodProxy);
-				attrSet.setAttribute(methodProxy);
-				typeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
-				layoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);
-				param.getSettings().add(attrSet);
-			});
-		}
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, annot);
-		return result;
-	}
+
 
 	void setTypeInstructionSeparationUtility(UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;

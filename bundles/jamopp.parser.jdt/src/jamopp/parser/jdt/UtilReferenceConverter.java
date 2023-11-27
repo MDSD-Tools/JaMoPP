@@ -56,12 +56,14 @@ class UtilReferenceConverter {
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayInitialisierConverter toArrayInitialisierConverter;
+	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
 	UtilReferenceConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility, UtilClassifierConverter classifierConverterUtility,
 			UtilBaseConverter utilBaseConverter, UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter,
-			ToArrayInitialisierConverter toArrayInitialisierConverter) {
+			ToArrayInitialisierConverter toArrayInitialisierConverter,
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -70,6 +72,7 @@ class UtilReferenceConverter {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toArrayInitialisierConverter = toArrayInitialisierConverter;
+		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
@@ -338,8 +341,8 @@ class UtilReferenceConverter {
 			org.emftext.language.java.references.IdentifierReference child = convertToIdentifierReference(
 					nqType.getName());
 			parent.setNext(child);
-			nqType.annotations().forEach(
-					obj -> child.getAnnotations().add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+			nqType.annotations().forEach(obj -> child.getAnnotations()
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, nqType);
 			return child;
 		}
@@ -348,8 +351,8 @@ class UtilReferenceConverter {
 			org.emftext.language.java.references.Reference parent = internalConvertToReference(qType.getQualifier());
 			org.emftext.language.java.references.IdentifierReference child = convertToIdentifierReference(
 					qType.getName());
-			qType.annotations().forEach(
-					obj -> child.getAnnotations().add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+			qType.annotations().forEach(obj -> child.getAnnotations()
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			parent.setNext(child);
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, qType);
 			return child;
@@ -359,7 +362,7 @@ class UtilReferenceConverter {
 			org.emftext.language.java.references.IdentifierReference result = convertToIdentifierReference(
 					sType.getName());
 			sType.annotations().forEach(obj -> result.getAnnotations()
-					.add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, sType);
 			return result;
 		}

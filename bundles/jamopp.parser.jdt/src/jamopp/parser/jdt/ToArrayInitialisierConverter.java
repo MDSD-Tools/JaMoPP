@@ -7,15 +7,15 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 public class ToArrayInitialisierConverter {
 
-	private final UtilBaseConverter utilBaseConverter;
 	private final UtilExpressionConverter utilExpressionConverter;
 	private final UtilLayout utilLayout;
+	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
-	public ToArrayInitialisierConverter(UtilExpressionConverter utilExpressionConverter,
-			UtilBaseConverter utilBaseConverter, UtilLayout utilLayout) {
-		this.utilBaseConverter = utilBaseConverter;
+	public ToArrayInitialisierConverter(UtilExpressionConverter utilExpressionConverter, UtilLayout utilLayout,
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.utilExpressionConverter = utilExpressionConverter;
 		this.utilLayout = utilLayout;
+		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -27,7 +27,7 @@ public class ToArrayInitialisierConverter {
 			if (expr instanceof ArrayInitializer) {
 				value = convertToArrayInitializer((ArrayInitializer) expr);
 			} else if (expr instanceof Annotation) {
-				value = utilBaseConverter.convertToAnnotationInstance((Annotation) expr);
+				value = toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) expr);
 			} else {
 				value = utilExpressionConverter.convertToExpression(expr);
 			}

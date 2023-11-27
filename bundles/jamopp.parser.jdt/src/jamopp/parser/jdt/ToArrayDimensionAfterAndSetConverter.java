@@ -8,22 +8,24 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 class ToArrayDimensionAfterAndSetConverter {
 
-	private final UtilBaseConverter utilBaseConverter;
 	private final UtilLayout utilLayout;
+	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
-	ToArrayDimensionAfterAndSetConverter(UtilBaseConverter utilBaseConverter, UtilLayout utilLayout) {
-		this.utilBaseConverter = utilBaseConverter;
+	ToArrayDimensionAfterAndSetConverter(UtilLayout utilLayout,
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.utilLayout = utilLayout;
+		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	void convertToArrayDimensionAfterAndSet(Dimension dim, ArrayTypeable arrDimContainer) {
 		arrDimContainer.getArrayDimensionsAfter().add(convertToArrayDimension(dim));
 	}
 
-	@SuppressWarnings("unchecked") ArrayDimension convertToArrayDimension(Dimension dim) {
+	@SuppressWarnings("unchecked")
+	ArrayDimension convertToArrayDimension(Dimension dim) {
 		ArrayDimension result = ArraysFactory.eINSTANCE.createArrayDimension();
 		dim.annotations().forEach(annot -> result.getAnnotations()
-				.add(utilBaseConverter.convertToAnnotationInstance((Annotation) annot)));
+				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) annot)));
 		utilLayout.convertToMinimalLayoutInformation(result, dim);
 		return result;
 	}
