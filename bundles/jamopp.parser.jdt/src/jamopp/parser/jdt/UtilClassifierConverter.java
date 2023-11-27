@@ -68,16 +68,23 @@ class UtilClassifierConverter {
 	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilBaseConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
+	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
+	private final ToTypeReferenceConverter toTypeReferenceConverter;
+	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 
 	UtilClassifierConverter(UtilTypeInstructionSeparation typeInstructionSeparationUtility,
 			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
-			UtilExpressionConverter expressionConverterUtility, UtilBaseConverter utilBaseConverter, UtilNamedElement utilNamedElement) {
+			UtilExpressionConverter expressionConverterUtility, UtilBaseConverter utilBaseConverter,
+			UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter, ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter, ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.utilBaseConverter = utilBaseConverter;
 		this.utilNamedElement = utilNamedElement;
+		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
+		this.toTypeReferenceConverter = toTypeReferenceConverter;
+		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -95,8 +102,8 @@ class UtilClassifierConverter {
 			result = convertToEnum((EnumDeclaration) typeDecl);
 		}
 		ConcreteClassifier finalResult = result;
-		typeDecl.modifiers().forEach(obj -> finalResult.getAnnotationsAndModifiers()
-				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		typeDecl.modifiers().forEach(obj -> finalResult.getAnnotationsAndModifiers().add(
+				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		utilNamedElement.setNameOfElement(typeDecl.getName(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, typeDecl);
 		return result;
@@ -109,7 +116,7 @@ class UtilClassifierConverter {
 			typeDecl.typeParameters()
 					.forEach(obj -> interfaceObj.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
 			typeDecl.superInterfaceTypes().forEach(
-					obj -> interfaceObj.getExtends().add(utilBaseConverter.convertToTypeReference((Type) obj)));
+					obj -> interfaceObj.getExtends().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
 			typeDecl.bodyDeclarations()
 					.forEach(obj -> interfaceObj.getMembers().add(convertToInterfaceMember((BodyDeclaration) obj)));
 			return interfaceObj;
@@ -118,10 +125,10 @@ class UtilClassifierConverter {
 		typeDecl.typeParameters()
 				.forEach(obj -> classObj.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
 		if (typeDecl.getSuperclassType() != null) {
-			classObj.setExtends(utilBaseConverter.convertToTypeReference(typeDecl.getSuperclassType()));
+			classObj.setExtends(toTypeReferenceConverter.convertToTypeReference(typeDecl.getSuperclassType()));
 		}
-		typeDecl.superInterfaceTypes()
-				.forEach(obj -> classObj.getImplements().add(utilBaseConverter.convertToTypeReference((Type) obj)));
+		typeDecl.superInterfaceTypes().forEach(
+				obj -> classObj.getImplements().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
 		typeDecl.bodyDeclarations()
 				.forEach(obj -> classObj.getMembers().add(convertToClassMember((BodyDeclaration) obj)));
 		return classObj;
@@ -130,8 +137,8 @@ class UtilClassifierConverter {
 	@SuppressWarnings("unchecked")
 	private Enumeration convertToEnum(EnumDeclaration enumDecl) {
 		Enumeration result = jdtResolverUtility.getEnumeration(enumDecl.resolveBinding());
-		enumDecl.superInterfaceTypes()
-				.forEach(obj -> result.getImplements().add(utilBaseConverter.convertToTypeReference((Type) obj)));
+		enumDecl.superInterfaceTypes().forEach(
+				obj -> result.getImplements().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
 		enumDecl.enumConstants()
 				.forEach(obj -> result.getConstants().add(convertToEnumConstant((EnumConstantDeclaration) obj)));
 		enumDecl.bodyDeclarations()
@@ -170,8 +177,7 @@ class UtilClassifierConverter {
 		Block result = StatementsFactory.eINSTANCE.createBlock();
 		result.setName("");
 		typeInstructionSeparationUtility.addInitializer(init.getBody(), result);
-		init.modifiers()
-				.forEach(obj -> result.getModifiers().add(utilBaseConverter.convertToModifier((Modifier) obj)));
+		init.modifiers().forEach(obj -> result.getModifiers().add(utilBaseConverter.convertToModifier((Modifier) obj)));
 		return result;
 	}
 
@@ -186,12 +192,12 @@ class UtilClassifierConverter {
 			result = jdtResolverUtility.getField(firstFragment.getName().getIdentifier());
 		}
 		utilNamedElement.setNameOfElement(firstFragment.getName(), result);
-		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
-				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		result.setTypeReference(utilBaseConverter.convertToTypeReference(fieldDecl.getType()));
-		utilBaseConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
-		firstFragment.extraDimensions()
-				.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
+				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(fieldDecl.getType()));
+		toTypeReferenceConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
+		firstFragment.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (firstFragment.getInitializer() != null) {
 			typeInstructionSeparationUtility.addField(firstFragment.getInitializer(), result);
 		}
@@ -213,8 +219,8 @@ class UtilClassifierConverter {
 			result = jdtResolverUtility.getAdditionalField(frag.getName().getIdentifier());
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
-		frag.extraDimensions()
-				.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			typeInstructionSeparationUtility.addAdditionalField(frag.getInitializer(), result);
 		}
@@ -231,10 +237,10 @@ class UtilClassifierConverter {
 		} else {
 			result = jdtResolverUtility.getInterfaceMethod(annDecl.getName().getIdentifier());
 		}
-		annDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
-				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		result.setTypeReference(utilBaseConverter.convertToTypeReference(annDecl.getType()));
-		utilBaseConverter.convertToArrayDimensionsAndSet(annDecl.getType(), result);
+		annDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
+				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(annDecl.getType()));
+		toTypeReferenceConverter.convertToArrayDimensionsAndSet(annDecl.getType(), result);
 		utilNamedElement.setNameOfElement(annDecl.getName(), result);
 		if (annDecl.getDefault() != null) {
 			typeInstructionSeparationUtility.addAnnotationMethod(annDecl.getDefault(), result);
@@ -256,14 +262,14 @@ class UtilClassifierConverter {
 		} else {
 			result = jdtResolverUtility.getInterfaceMethod(binding);
 		}
-		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
-				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
+				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		methodDecl.typeParameters()
 				.forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
-		result.setTypeReference(utilBaseConverter.convertToTypeReference(methodDecl.getReturnType2()));
-		utilBaseConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
-		methodDecl.extraDimensions()
-				.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(methodDecl.getReturnType2()));
+		toTypeReferenceConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
+		methodDecl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(convertToReceiverParameter(methodDecl));
@@ -271,7 +277,7 @@ class UtilClassifierConverter {
 		methodDecl.parameters()
 				.forEach(obj -> result.getParameters().add(convertToParameter((SingleVariableDeclaration) obj)));
 		methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions()
-				.add(wrapInNamespaceClassifierReference(utilBaseConverter.convertToTypeReference((Type) obj))));
+				.add(wrapInNamespaceClassifierReference(toTypeReferenceConverter.convertToTypeReference((Type) obj))));
 		if (methodDecl.getBody() != null) {
 			typeInstructionSeparationUtility.addMethod(methodDecl.getBody(), result);
 		} else {
@@ -291,8 +297,9 @@ class UtilClassifierConverter {
 			} else {
 				result = jdtResolverUtility.getConstructor(binding);
 			}
-			methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
-					.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+			methodDecl.modifiers()
+					.forEach(obj -> result.getAnnotationsAndModifiers().add(toModifierOrAnnotationInstanceConverter
+							.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 			methodDecl.typeParameters()
 					.forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
 			utilNamedElement.setNameOfElement(methodDecl.getName(), result);
@@ -301,8 +308,8 @@ class UtilClassifierConverter {
 			}
 			methodDecl.parameters()
 					.forEach(obj -> result.getParameters().add(convertToParameter((SingleVariableDeclaration) obj)));
-			methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions()
-					.add(wrapInNamespaceClassifierReference(utilBaseConverter.convertToTypeReference((Type) obj))));
+			methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions().add(
+					wrapInNamespaceClassifierReference(toTypeReferenceConverter.convertToTypeReference((Type) obj))));
 			typeInstructionSeparationUtility.addConstructor(methodDecl.getBody(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, methodDecl);
 			return result;
@@ -314,14 +321,14 @@ class UtilClassifierConverter {
 		} else {
 			result = jdtResolverUtility.getClassMethod(methodDecl.getName().getIdentifier());
 		}
-		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
-				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
+				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
 		methodDecl.typeParameters()
 				.forEach(obj -> result.getTypeParameters().add(convertToTypeParameter((TypeParameter) obj)));
-		result.setTypeReference(utilBaseConverter.convertToTypeReference(methodDecl.getReturnType2()));
-		utilBaseConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
-		methodDecl.extraDimensions()
-				.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(methodDecl.getReturnType2()));
+		toTypeReferenceConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
+		methodDecl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(convertToReceiverParameter(methodDecl));
@@ -329,7 +336,7 @@ class UtilClassifierConverter {
 		methodDecl.parameters()
 				.forEach(obj -> result.getParameters().add(convertToParameter((SingleVariableDeclaration) obj)));
 		methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions()
-				.add(wrapInNamespaceClassifierReference(utilBaseConverter.convertToTypeReference((Type) obj))));
+				.add(wrapInNamespaceClassifierReference(toTypeReferenceConverter.convertToTypeReference((Type) obj))));
 		if (methodDecl.getBody() != null) {
 			typeInstructionSeparationUtility.addMethod(methodDecl.getBody(), result);
 		} else {
@@ -379,8 +386,8 @@ class UtilClassifierConverter {
 		param.modifiers().forEach(
 				obj -> result.getAnnotations().add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
 		utilNamedElement.setNameOfElement(param.getName(), result);
-		param.typeBounds()
-				.forEach(obj -> result.getExtendTypes().add(utilBaseConverter.convertToTypeReference((Type) obj)));
+		param.typeBounds().forEach(
+				obj -> result.getExtendTypes().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, param);
 		return result;
 	}
@@ -402,7 +409,7 @@ class UtilClassifierConverter {
 	private ReceiverParameter convertToReceiverParameter(MethodDeclaration methodDecl) {
 		ReceiverParameter result = ParametersFactory.eINSTANCE.createReceiverParameter();
 		result.setName("");
-		result.setTypeReference(utilBaseConverter.convertToTypeReference(methodDecl.getReceiverType()));
+		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(methodDecl.getReceiverType()));
 		if (methodDecl.getReceiverQualifier() != null) {
 			result.setOuterTypeReference(
 					utilBaseConverter.convertToClassifierReference(methodDecl.getReceiverQualifier()));
@@ -415,13 +422,14 @@ class UtilClassifierConverter {
 	private Parameter convertToParameter(SingleVariableDeclaration decl) {
 		if (decl.isVarargs()) {
 			VariableLengthParameter result = jdtResolverUtility.getVariableLengthParameter(decl.resolveBinding());
-			decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
-					.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-			result.setTypeReference(utilBaseConverter.convertToTypeReference(decl.getType()));
-			utilBaseConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
+			decl.modifiers()
+					.forEach(obj -> result.getAnnotationsAndModifiers().add(toModifierOrAnnotationInstanceConverter
+							.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(decl.getType()));
+			toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 			utilNamedElement.setNameOfElement(decl.getName(), result);
-			decl.extraDimensions()
-					.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+			decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+					.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 			decl.varargsAnnotations().forEach(obj -> result.getAnnotations()
 					.add(utilBaseConverter.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
@@ -433,13 +441,13 @@ class UtilClassifierConverter {
 	@SuppressWarnings("unchecked")
 	OrdinaryParameter convertToOrdinaryParameter(SingleVariableDeclaration decl) {
 		OrdinaryParameter result = jdtResolverUtility.getOrdinaryParameter(decl.resolveBinding());
-		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
-				.add(utilBaseConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		result.setTypeReference(utilBaseConverter.convertToTypeReference(decl.getType()));
-		utilBaseConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
+		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
+				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(decl.getType()));
+		toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 		utilNamedElement.setNameOfElement(decl.getName(), result);
-		decl.extraDimensions()
-				.forEach(obj -> utilBaseConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 		return result;
 	}

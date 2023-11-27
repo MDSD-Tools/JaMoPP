@@ -13,6 +13,7 @@ class Injector {
 	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	static {
+
 		ModifiersFactory factory = ModifiersFactory.eINSTANCE;
 		ImportsFactory importsFactory = ImportsFactory.eINSTANCE;
 		OperatorsFactory operatorsFactory = OperatorsFactory.eINSTANCE;
@@ -23,9 +24,9 @@ class Injector {
 		UtilNamedElement utilNamedElement = new UtilNamedElement();
 		UtilExpressionConverter expressionConverterUtility = new UtilExpressionConverter();
 		UtilJDTBindingConverter jdtBindingConverterUtility = new UtilJDTBindingConverter();
-		
+
 		jdtResolverUtility = new UtilJDTResolver(jdtBindingConverterUtility);
-		
+
 		ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter = new ToMultiplicativeOperatorConverter();
 		ToAssignmentConverter toAssignmentOperatorConverter = new ToAssignmentConverter(operatorsFactory);
 		ToEqualityOperatorConverter toEqualityOperatorConverter = new ToEqualityOperatorConverter(operatorsFactory);
@@ -34,36 +35,45 @@ class Injector {
 		ToAdditiveOperatorConverter toAdditiveOperatorConverter = new ToAdditiveOperatorConverter(operatorsFactory);
 		ToUnaryOperatorConverter toUnaryOperatorConverter = new ToUnaryOperatorConverter(operatorsFactory);
 		ToNumberLiteralConverter toNumberLiteralConverter = new ToNumberLiteralConverter(layoutInformationConverter);
-		
 
+		UtilBaseConverter utilBaseConverter = new UtilBaseConverter(layoutInformationConverter, jdtResolverUtility,
+				jdtBindingConverterUtility, expressionConverterUtility, utilNamedElement);
 
-
-		UtilBaseConverter utilBaseConverter = new UtilBaseConverter(layoutInformationConverter,
-				jdtResolverUtility, jdtBindingConverterUtility, expressionConverterUtility, utilNamedElement);
+		ToArrayInitialisierConverter toArrayInitialisierConverter = new ToArrayInitialisierConverter(
+				expressionConverterUtility, utilBaseConverter, layoutInformationConverter);
+		ToAnnotationValueConverter toAnnotationValueConverter = new ToAnnotationValueConverter(
+				expressionConverterUtility, utilBaseConverter, toArrayInitialisierConverter);
+		ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter = new ToArrayDimensionAfterAndSetConverter(
+				utilBaseConverter, layoutInformationConverter);
+		ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter = new ToModifierOrAnnotationInstanceConverter(
+				utilBaseConverter);
+		ToTypeReferenceConverter toTypeReferenceConverter = new ToTypeReferenceConverter(utilBaseConverter,
+				toArrayDimensionAfterAndSetConverter, layoutInformationConverter, jdtBindingConverterUtility);
 
 		typeInstructionSeparationUtility = new UtilTypeInstructionSeparation(jdtResolverUtility,
-				expressionConverterUtility, utilBaseConverter);
+				expressionConverterUtility, toAnnotationValueConverter);
 		UtilClassifierConverter classifierConverterUtility = new UtilClassifierConverter(
 				typeInstructionSeparationUtility, layoutInformationConverter, jdtResolverUtility,
-				expressionConverterUtility, utilBaseConverter, utilNamedElement);
+				expressionConverterUtility, utilBaseConverter, utilNamedElement, null,
+				toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter);
 
 		UtilReferenceConverter referenceConverterUtility = new UtilReferenceConverter(layoutInformationConverter,
 				jdtResolverUtility, expressionConverterUtility, classifierConverterUtility, utilBaseConverter,
-				utilNamedElement);
-		UtilStatementConverter statementConverterUtility = new UtilStatementConverter(referenceConverterUtility,
-				layoutInformationConverter, jdtResolverUtility, expressionConverterUtility, classifierConverterUtility,
-				utilBaseConverter, utilNamedElement);
+				utilNamedElement, toTypeReferenceConverter, toArrayInitialisierConverter);
+		UtilStatementConverter statementConverterUtility = new UtilStatementConverter(utilNamedElement, null,
+				toModifierOrAnnotationInstanceConverter, toArrayDimensionAfterAndSetConverter,
+				referenceConverterUtility, layoutInformationConverter, jdtResolverUtility, expressionConverterUtility,
+				classifierConverterUtility, toModifierOrAnnotationInstanceConverter);
 
 		ordinaryCompilationUnitJDTASTVisitorAndConverter = new OrdinaryCompilationUnitJDTASTVisitorAndConverter(
 				layoutInformationConverter, jdtResolverUtility, utilBaseConverter, factory, importsFactory,
 				utilNamedElement, classifierConverterUtility);
 
-
-
 		ToExpressionConverter toExpressionConverter = new ToExpressionConverter(expressionsFactory,
 				statementConverterUtility, layoutInformationConverter, jdtResolverUtility, jdtBindingConverterUtility,
-				classifierConverterUtility, utilBaseConverter);
-		
+				classifierConverterUtility, utilBaseConverter, toTypeReferenceConverter,
+				toArrayDimensionAfterAndSetConverter);
+
 		ToConditionalExpressionConverter toConditionalExpressionConverter = new ToConditionalExpressionConverter(
 				toExpressionConverter, layoutInformationConverter);
 		ToPrimaryExpressionConverter toPrimaryExpressionConverter = new ToPrimaryExpressionConverter(literalsFactory,
@@ -81,7 +91,7 @@ class Injector {
 		ToUnaryExpressionConverter toUnaryExpressionConverter = new ToUnaryExpressionConverter(toUnaryOperatorConverter,
 				toExpressionConverter, layoutInformationConverter, expressionsFactory);
 		ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter = new ToMethodReferenceExpressionConverter(
-				toExpressionConverter, referenceConverterUtility, layoutInformationConverter, utilBaseConverter);
+				toExpressionConverter, referenceConverterUtility, layoutInformationConverter, toTypeReferenceConverter);
 
 		toExpressionConverter.setToPrimaryExpressionConverter(toPrimaryExpressionConverter);
 		toExpressionConverter.setToAssignmentOperatorConverter(toAssignmentOperatorConverter);

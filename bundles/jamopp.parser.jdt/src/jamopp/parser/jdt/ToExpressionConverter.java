@@ -32,7 +32,7 @@ class ToExpressionConverter {
 	private final UtilClassifierConverter classifierConverterUtility;
 	private final UtilBaseConverter utilBaseConverter;
 	private final ExpressionsFactory expressionsFactory;
-	
+
 	private ToAssignmentConverter toAssignmentOperatorConverter;
 	private ToConditionalExpressionConverter toConditionalExpressionConverter;
 	private ToEqualityExpressionConverter toEqualityExpressionConverter;
@@ -44,7 +44,14 @@ class ToExpressionConverter {
 	private ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 	private ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 
-	ToExpressionConverter(ExpressionsFactory expressionsFactory, UtilStatementConverter statementConverterUtility, UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility, UtilJDTBindingConverter jdtBindingConverterUtility, UtilClassifierConverter classifierConverterUtility, UtilBaseConverter utilBaseConverter) {
+	private final ToTypeReferenceConverter toTypeReferenceConverter;
+	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
+
+	ToExpressionConverter(ExpressionsFactory expressionsFactory, UtilStatementConverter statementConverterUtility,
+			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+			UtilJDTBindingConverter jdtBindingConverterUtility, UtilClassifierConverter classifierConverterUtility,
+			UtilBaseConverter utilBaseConverter, ToTypeReferenceConverter toTypeReferenceConverter,
+			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.statementConverterUtility = statementConverterUtility;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -52,6 +59,8 @@ class ToExpressionConverter {
 		this.classifierConverterUtility = classifierConverterUtility;
 		this.utilBaseConverter = utilBaseConverter;
 		this.expressionsFactory = expressionsFactory;
+		this.toTypeReferenceConverter = toTypeReferenceConverter;
+		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -144,15 +153,15 @@ class ToExpressionConverter {
 		org.emftext.language.java.expressions.CastExpression result = expressionsFactory.createCastExpression();
 		if (castExpr.getType().isIntersectionType()) {
 			IntersectionType interType = (IntersectionType) castExpr.getType();
-			result.setTypeReference(utilBaseConverter.convertToTypeReference((Type) interType.types().get(0)));
-			utilBaseConverter.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
+			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference((Type) interType.types().get(0)));
+			toTypeReferenceConverter.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
 			for (int index = 1; index < interType.types().size(); index++) {
 				result.getAdditionalBounds()
-						.add(utilBaseConverter.convertToTypeReference((Type) interType.types().get(index)));
+						.add(toTypeReferenceConverter.convertToTypeReference((Type) interType.types().get(index)));
 			}
 		} else {
-			result.setTypeReference(utilBaseConverter.convertToTypeReference(castExpr.getType()));
-			utilBaseConverter.convertToArrayDimensionsAndSet(castExpr.getType(), result);
+			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(castExpr.getType()));
+			toTypeReferenceConverter.convertToArrayDimensionsAndSet(castExpr.getType(), result);
 		}
 		result.setGeneralChild(convertToExpression(castExpr.getExpression()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, castExpr);
@@ -205,8 +214,8 @@ class ToExpressionConverter {
 		org.emftext.language.java.expressions.InstanceOfExpression result = expressionsFactory
 				.createInstanceOfExpression();
 		result.setChild((InstanceOfExpressionChild) convertToExpression(castedExpr.getLeftOperand()));
-		result.setTypeReference(utilBaseConverter.convertToTypeReference(castedExpr.getRightOperand()));
-		utilBaseConverter.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
+		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(castedExpr.getRightOperand()));
+		toTypeReferenceConverter.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, castedExpr);
 		return result;
 	}
