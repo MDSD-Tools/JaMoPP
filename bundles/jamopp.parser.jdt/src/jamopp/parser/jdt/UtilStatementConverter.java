@@ -61,6 +61,7 @@ class UtilStatementConverter {
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToModifierOrAnnotationInstanceConverter annotationInstanceConverter;
+	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
@@ -70,7 +71,8 @@ class UtilStatementConverter {
 			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter,
 			UtilJDTResolver jdtResolverUtility, UtilExpressionConverter expressionConverterUtility,
 			UtilClassifierConverter classifierConverterUtility,
-			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter) {
+			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter,
+			ToOrdinaryParameterConverter toOrdinaryParameterConverter) {
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -81,6 +83,7 @@ class UtilStatementConverter {
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.annotationInstanceConverter = annotationInstanceConverter;
+		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
 
 	}
 
@@ -153,7 +156,7 @@ class UtilStatementConverter {
 			EnhancedForStatement forSt = (EnhancedForStatement) statement;
 			org.emftext.language.java.statements.ForEachLoop result = org.emftext.language.java.statements.StatementsFactory.eINSTANCE
 					.createForEachLoop();
-			result.setNext(classifierConverterUtility.convertToOrdinaryParameter(forSt.getParameter()));
+			result.setNext(toOrdinaryParameterConverter.convertToOrdinaryParameter(forSt.getParameter()));
 			result.setCollection(expressionConverterUtility.convertToExpression(forSt.getExpression()));
 			result.setStatement(convertToStatement(forSt.getBody()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);

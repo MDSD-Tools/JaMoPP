@@ -74,6 +74,7 @@ class UtilClassifierConverter {
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToModifierConverter toModifierConverter;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
+	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 
 	UtilClassifierConverter(UtilTypeInstructionSeparation typeInstructionSeparationUtility,
 			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
@@ -83,7 +84,7 @@ class UtilClassifierConverter {
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ToModifierConverter toModifierConverter,
-			ToClassifierReferenceConverter toClassifierReferenceConverter) {
+			ToClassifierReferenceConverter toClassifierReferenceConverter, ToOrdinaryParameterConverter toOrdinaryParameterConverter) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -96,6 +97,7 @@ class UtilClassifierConverter {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.toModifierConverter = toModifierConverter;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
+		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -447,20 +449,8 @@ class UtilClassifierConverter {
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 			return result;
 		}
-		return convertToOrdinaryParameter(decl);
+		return toOrdinaryParameterConverter.convertToOrdinaryParameter(decl);
 	}
 
-	@SuppressWarnings("unchecked")
-	OrdinaryParameter convertToOrdinaryParameter(SingleVariableDeclaration decl) {
-		OrdinaryParameter result = jdtResolverUtility.getOrdinaryParameter(decl.resolveBinding());
-		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(decl.getType()));
-		toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
-		utilNamedElement.setNameOfElement(decl.getName(), result);
-		decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
-		return result;
-	}
+
 }

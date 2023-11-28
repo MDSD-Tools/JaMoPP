@@ -29,9 +29,9 @@ class ToExpressionConverter {
 	private final UtilStatementConverter statementConverterUtility;
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilJDTBindingConverter jdtBindingConverterUtility;
-	private final UtilClassifierConverter classifierConverterUtility;
-	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final ExpressionsFactory expressionsFactory;
+	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
+	private final ToTypeReferenceConverter toTypeReferenceConverter;
 
 	private ToAssignmentConverter toAssignmentOperatorConverter;
 	private ToConditionalExpressionConverter toConditionalExpressionConverter;
@@ -44,26 +44,19 @@ class ToExpressionConverter {
 	private ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 	private ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
-
-	ToExpressionConverter(ExpressionsFactory expressionsFactory, UtilStatementConverter statementConverterUtility,
+	ToExpressionConverter(ToTypeReferenceConverter toTypeReferenceConverter,
+			ToOrdinaryParameterConverter toOrdinaryParameterConverter, UtilStatementConverter statementConverterUtility,
 			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
-			UtilJDTBindingConverter jdtBindingConverterUtility, UtilClassifierConverter classifierConverterUtility,
-			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {
+			UtilJDTBindingConverter jdtBindingConverterUtility, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.statementConverterUtility = statementConverterUtility;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
-		this.classifierConverterUtility = classifierConverterUtility;
-		this.utilBaseConverter = utilBaseConverter;
 		this.expressionsFactory = expressionsFactory;
+		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 	}
 
-	@SuppressWarnings("unchecked")
 	org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
 		if (expr.getNodeType() == ASTNode.ASSIGNMENT) {
 			return handleAssignment(expr);
@@ -122,7 +115,7 @@ class ToExpressionConverter {
 			org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters param = expressionsFactory
 					.createExplicitlyTypedLambdaParameters();
 			lambda.parameters().forEach(obj -> param.getParameters()
-					.add(classifierConverterUtility.convertToOrdinaryParameter((SingleVariableDeclaration) obj)));
+					.add(toOrdinaryParameterConverter.convertToOrdinaryParameter((SingleVariableDeclaration) obj)));
 			result.setParameters(param);
 		}
 		if (lambda.getBody() instanceof Expression) {
