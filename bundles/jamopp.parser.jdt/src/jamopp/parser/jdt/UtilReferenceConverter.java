@@ -92,7 +92,7 @@ class UtilReferenceConverter {
 	@SuppressWarnings("unchecked")
 	private org.emftext.language.java.references.Reference internalConvertToReference(Expression expr) {
 		if (expr instanceof Annotation) {
-			return utilBaseConverter.convertToAnnotationInstance((Annotation) expr);
+			return toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) expr);
 		}
 		if (expr.getNodeType() == ASTNode.ARRAY_ACCESS) {
 			ArrayAccess arr = (ArrayAccess) expr;
