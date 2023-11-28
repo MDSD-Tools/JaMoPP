@@ -66,17 +66,24 @@ class UtilClassifierConverter {
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
-	private final UtilBaseConverter utilBaseConverter;
+	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
+	private final ToModifierConverter toModifierConverter;
+	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 
 	UtilClassifierConverter(UtilTypeInstructionSeparation typeInstructionSeparationUtility,
 			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
-			UtilExpressionConverter expressionConverterUtility, UtilBaseConverter utilBaseConverter,
-			UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter, ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter, ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter, ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+			UtilExpressionConverter expressionConverterUtility,
+			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, UtilNamedElement utilNamedElement,
+			ToTypeReferenceConverter toTypeReferenceConverter,
+			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
+			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ToModifierConverter toModifierConverter,
+			ToClassifierReferenceConverter toClassifierReferenceConverter) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -87,6 +94,8 @@ class UtilClassifierConverter {
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
+		this.toModifierConverter = toModifierConverter;
+		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -179,7 +188,8 @@ class UtilClassifierConverter {
 		Block result = StatementsFactory.eINSTANCE.createBlock();
 		result.setName("");
 		typeInstructionSeparationUtility.addInitializer(init.getBody(), result);
-		init.modifiers().forEach(obj -> result.getModifiers().add(utilBaseConverter.convertToModifier((Modifier) obj)));
+		init.modifiers()
+				.forEach(obj -> result.getModifiers().add(toModifierConverter.convertToModifier((Modifier) obj)));
 		return result;
 	}
 
@@ -369,8 +379,8 @@ class UtilClassifierConverter {
 		} else {
 			result = jdtResolverUtility.getEnumConstant(binding);
 		}
-		enDecl.modifiers().forEach(
-				obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+		enDecl.modifiers().forEach(obj -> result.getAnnotations()
+				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		utilNamedElement.setNameOfElement(enDecl.getName(), result);
 		enDecl.arguments().forEach(
 				obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
@@ -385,8 +395,8 @@ class UtilClassifierConverter {
 	private org.emftext.language.java.generics.TypeParameter convertToTypeParameter(TypeParameter param) {
 		org.emftext.language.java.generics.TypeParameter result = jdtResolverUtility
 				.getTypeParameter(param.resolveBinding());
-		param.modifiers().forEach(
-				obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+		param.modifiers().forEach(obj -> result.getAnnotations()
+				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		utilNamedElement.setNameOfElement(param.getName(), result);
 		param.typeBounds().forEach(
 				obj -> result.getExtendTypes().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
@@ -414,7 +424,7 @@ class UtilClassifierConverter {
 		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(methodDecl.getReceiverType()));
 		if (methodDecl.getReceiverQualifier() != null) {
 			result.setOuterTypeReference(
-					utilBaseConverter.convertToClassifierReference(methodDecl.getReceiverQualifier()));
+					toClassifierReferenceConverter.convertToClassifierReference(methodDecl.getReceiverQualifier()));
 		}
 		result.setThisReference(LiteralsFactory.eINSTANCE.createThis());
 		return result;

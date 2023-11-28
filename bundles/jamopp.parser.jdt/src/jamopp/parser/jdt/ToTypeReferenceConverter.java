@@ -26,21 +26,27 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 class ToTypeReferenceConverter {
-	
+
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJDTBindingConverter jdtBindingConverterUtility;
-	private final UtilBaseConverter utilBaseConverter;
+	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
+	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 
-	public ToTypeReferenceConverter(UtilBaseConverter utilBaseConverter, ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter, UtilLayout layoutInformationConverter, UtilJDTBindingConverter jdtBindingConverterUtility, ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+	public ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
+			UtilLayout layoutInformationConverter, UtilJDTBindingConverter jdtBindingConverterUtility,
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter,
+			ToClassifierReferenceConverter toClassifierReferenceConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 		this.utilBaseConverter = utilBaseConverter;
 		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
+		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	TypeReference convertToTypeReference(Type t) {
 		if (t.isPrimitiveType()) {
@@ -65,8 +71,8 @@ class ToTypeReferenceConverter {
 			} else { // primType.getPrimitiveTypeCode() == PrimitiveType.VOID
 				convertedType = TypesFactory.eINSTANCE.createVoid();
 			}
-			primType.annotations()
-					.forEach(obj -> convertedType.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+			primType.annotations().forEach(obj -> convertedType.getAnnotations()
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
 			return convertedType;
 		}
@@ -92,12 +98,13 @@ class ToTypeReferenceConverter {
 			SimpleType simT = (SimpleType) t;
 			TypeReference ref;
 			if (!simT.annotations().isEmpty()) {
-				ClassifierReference tempRef = utilBaseConverter.convertToClassifierReference((SimpleName) simT.getName());
-				simT.annotations()
-						.forEach(obj -> tempRef.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+				ClassifierReference tempRef = toClassifierReferenceConverter
+						.convertToClassifierReference((SimpleName) simT.getName());
+				simT.annotations().forEach(obj -> tempRef.getAnnotations()
+						.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 				ref = tempRef;
 			} else {
-				ref =utilBaseConverter. convertToClassifierOrNamespaceClassifierReference(simT.getName());
+				ref = utilBaseConverter.convertToClassifierOrNamespaceClassifierReference(simT.getName());
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
 			return ref;
@@ -113,9 +120,10 @@ class ToTypeReferenceConverter {
 				// parentRef instanceof NamespaceClassifierReference
 				result = (NamespaceClassifierReference) parentRef;
 			}
-			ClassifierReference childRef = utilBaseConverter.convertToClassifierReference(qualType.getName());
-			qualType.annotations()
-					.forEach(obj -> childRef.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+			ClassifierReference childRef = toClassifierReferenceConverter
+					.convertToClassifierReference(qualType.getName());
+			qualType.annotations().forEach(obj -> childRef.getAnnotations()
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			result.getClassifierReferences().add(childRef);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
 			return result;
@@ -123,15 +131,17 @@ class ToTypeReferenceConverter {
 		if (t.isNameQualifiedType()) {
 			NameQualifiedType nqT = (NameQualifiedType) t;
 			NamespaceClassifierReference result;
-			TypeReference parentRef = utilBaseConverter.convertToClassifierOrNamespaceClassifierReference(nqT.getQualifier());
+			TypeReference parentRef = utilBaseConverter
+					.convertToClassifierOrNamespaceClassifierReference(nqT.getQualifier());
 			if (parentRef instanceof ClassifierReference) {
 				result = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
 				result.getClassifierReferences().add((ClassifierReference) parentRef);
 			} else {
 				result = (NamespaceClassifierReference) parentRef;
 			}
-			ClassifierReference child = utilBaseConverter.convertToClassifierReference(nqT.getName());
-			nqT.annotations().forEach(obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+			ClassifierReference child = toClassifierReferenceConverter.convertToClassifierReference(nqT.getName());
+			nqT.annotations().forEach(obj -> child.getAnnotations()
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			result.getClassifierReferences().add(child);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
 			return result;
@@ -165,23 +175,23 @@ class ToTypeReferenceConverter {
 		WildcardType wildType = (WildcardType) t;
 		if (wildType.getBound() == null) {
 			UnknownTypeArgument result = GenericsFactory.eINSTANCE.createUnknownTypeArgument();
-			wildType.annotations()
-					.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+			wildType.annotations().forEach(obj -> result.getAnnotations()
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		if (wildType.isUpperBound()) {
 			ExtendsTypeArgument result = GenericsFactory.eINSTANCE.createExtendsTypeArgument();
-			wildType.annotations()
-					.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+			wildType.annotations().forEach(obj -> result.getAnnotations()
+					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			result.setExtendType(convertToTypeReference(wildType.getBound()));
 			convertToArrayDimensionsAndSet(wildType.getBound(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		SuperTypeArgument result = GenericsFactory.eINSTANCE.createSuperTypeArgument();
-		wildType.annotations()
-				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+		wildType.annotations().forEach(obj -> result.getAnnotations()
+				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		result.setSuperType(convertToTypeReference(wildType.getBound()));
 		convertToArrayDimensionsAndSet(wildType.getBound(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
@@ -196,10 +206,10 @@ class ToTypeReferenceConverter {
 		if (t.isArrayType()) {
 			ArrayType arrT = (ArrayType) t;
 			for (int i = ignoreDimensions; i < arrT.dimensions().size(); i++) {
-				arrDimContainer.getArrayDimensionsBefore()
-						.add(toArrayDimensionAfterAndSetConverter.convertToArrayDimension((Dimension) arrT.dimensions().get(i)));
+				arrDimContainer.getArrayDimensionsBefore().add(toArrayDimensionAfterAndSetConverter
+						.convertToArrayDimension((Dimension) arrT.dimensions().get(i)));
 			}
 		}
 	}
-	
+
 }

@@ -5,19 +5,20 @@ import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 
-public class ToModifierOrAnnotationInstanceConverter {
+class ToModifierOrAnnotationInstanceConverter {
 
-	private final UtilBaseConverter utilBaseConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
+	private final ToModifierConverter toModifierConverter;
 
-	public ToModifierOrAnnotationInstanceConverter(UtilBaseConverter utilBaseConverter, ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
-		this.utilBaseConverter = utilBaseConverter;
+	ToModifierOrAnnotationInstanceConverter(ToModifierConverter toModifierConverter,
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
+		this.toModifierConverter = toModifierConverter;
 	}
 
 	AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
 		if (mod.isModifier()) {
-			return utilBaseConverter.convertToModifier((Modifier) mod);
+			return toModifierConverter.convertToModifier((Modifier) mod);
 		}
 		return toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) mod);
 	}

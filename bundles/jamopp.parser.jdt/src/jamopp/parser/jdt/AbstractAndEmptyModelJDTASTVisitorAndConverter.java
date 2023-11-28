@@ -41,7 +41,7 @@ abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor
 
 	protected final UtilLayout layoutInformationConverter;
 	protected final UtilJDTResolver jdtResolverUtility;
-	protected final UtilBaseConverter utilBaseConverter;
+	protected final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
 	protected final UtilNamedElement utilNamedElement;
@@ -49,7 +49,7 @@ abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor
 	protected final UtilClassifierConverter ClassifierConverterUtility;
 
 	AbstractAndEmptyModelJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility, UtilBaseConverter utilBaseConverter, ModifiersFactory modifiersFactory,
+			UtilJDTResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
 			ImportsFactory importsFactory, UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter, UtilClassifierConverter classifierConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

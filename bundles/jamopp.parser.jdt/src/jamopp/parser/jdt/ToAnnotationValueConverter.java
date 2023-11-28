@@ -9,13 +9,13 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 
 class ToAnnotationValueConverter {
 
-	private final UtilBaseConverter utilBaseConverter;
+	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final ToArrayInitialisierConverter toArrayInitialisierComverter;
 	private final UtilExpressionConverter utilExpressionConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
 	public ToAnnotationValueConverter(UtilExpressionConverter utilExpressionConverter,
-			UtilBaseConverter utilBaseConverter, ToArrayInitialisierConverter toArrayInitialisierComverter,
+			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ToArrayInitialisierConverter toArrayInitialisierComverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.utilBaseConverter = utilBaseConverter;
 		this.toArrayInitialisierComverter = toArrayInitialisierComverter;

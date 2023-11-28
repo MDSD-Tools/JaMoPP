@@ -30,7 +30,7 @@ class ToExpressionConverter {
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilJDTBindingConverter jdtBindingConverterUtility;
 	private final UtilClassifierConverter classifierConverterUtility;
-	private final UtilBaseConverter utilBaseConverter;
+	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final ExpressionsFactory expressionsFactory;
 
 	private ToAssignmentConverter toAssignmentOperatorConverter;
@@ -50,7 +50,7 @@ class ToExpressionConverter {
 	ToExpressionConverter(ExpressionsFactory expressionsFactory, UtilStatementConverter statementConverterUtility,
 			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
 			UtilJDTBindingConverter jdtBindingConverterUtility, UtilClassifierConverter classifierConverterUtility,
-			UtilBaseConverter utilBaseConverter, ToTypeReferenceConverter toTypeReferenceConverter,
+			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.statementConverterUtility = statementConverterUtility;

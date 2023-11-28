@@ -52,7 +52,7 @@ class UtilReferenceConverter {
 	private final UtilJDTResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
 	private final UtilClassifierConverter classifierConverterUtility;
-	private final UtilBaseConverter utilBaseConverter;
+	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayInitialisierConverter toArrayInitialisierConverter;
@@ -60,7 +60,7 @@ class UtilReferenceConverter {
 
 	UtilReferenceConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility, UtilClassifierConverter classifierConverterUtility,
-			UtilBaseConverter utilBaseConverter, UtilNamedElement utilNamedElement,
+			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToArrayInitialisierConverter toArrayInitialisierConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {

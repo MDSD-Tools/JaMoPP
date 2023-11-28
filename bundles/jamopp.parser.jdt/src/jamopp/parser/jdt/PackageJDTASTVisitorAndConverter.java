@@ -21,7 +21,7 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 abstract class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
 
 	PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
-			UtilBaseConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
+			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
 			UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter,
 			UtilClassifierConverter classifierConverterUtility) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
