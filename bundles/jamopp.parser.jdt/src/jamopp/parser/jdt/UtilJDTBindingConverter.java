@@ -70,7 +70,7 @@ import org.emftext.language.java.types.TypesFactory;
 @SuppressWarnings("restriction")
 class UtilJDTBindingConverter {
 
-	private UtilJDTResolver jdtTResolverUtility;
+	private UtilJdtResolver jdtTResolverUtility;
 	
 	UtilJDTBindingConverter() {
 	}
@@ -750,7 +750,7 @@ class UtilJDTBindingConverter {
 		Collections.addAll(ele.getNamespaces(), singleNamespaces);
 	}
 	
-	void setJDTResolverUtility(UtilJDTResolver jDTResolverUtility) {
+	void setJDTResolverUtility(UtilJdtResolver jDTResolverUtility) {
 		jdtTResolverUtility = jDTResolverUtility;
 	}
 }

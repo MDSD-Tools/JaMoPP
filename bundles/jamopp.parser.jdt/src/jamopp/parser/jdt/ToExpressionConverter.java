@@ -27,7 +27,7 @@ class ToExpressionConverter {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilStatementConverter statementConverterUtility;
-	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilJDTBindingConverter jdtBindingConverterUtility;
 	private final ExpressionsFactory expressionsFactory;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
@@ -46,7 +46,7 @@ class ToExpressionConverter {
 
 	ToExpressionConverter(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter, UtilStatementConverter statementConverterUtility,
-			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			UtilJDTBindingConverter jdtBindingConverterUtility, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.statementConverterUtility = statementConverterUtility;

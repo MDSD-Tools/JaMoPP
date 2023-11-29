@@ -8,9 +8,9 @@ import org.emftext.language.java.types.TypesFactory;
 
 class ToClassifierReferenceConverter {
 
-	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 
-	public ToClassifierReferenceConverter(UtilJDTResolver jdtResolverUtility) {
+	public ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility) {
 		this.jdtResolverUtility = jdtResolverUtility;
 	}
 

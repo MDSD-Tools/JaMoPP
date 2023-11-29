@@ -40,17 +40,17 @@ import org.emftext.language.java.references.ReferenceableElement;
 abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
 	protected final UtilLayout layoutInformationConverter;
-	protected final UtilJDTResolver jdtResolverUtility;
+	protected final UtilJdtResolver jdtResolverUtility;
 	protected final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
 	protected final UtilNamedElement utilNamedElement;
 	protected final ToAnnotationInstanceConverter annotationInstanceConverter;
-	protected final UtilClassifierConverter ClassifierConverterUtility;
+	protected final ToConcreteClassifierConverter ClassifierConverterUtility;
 
 	AbstractAndEmptyModelJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
-			ImportsFactory importsFactory, UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter, UtilClassifierConverter classifierConverterUtility) {
+			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
+			ImportsFactory importsFactory, UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter, ToConcreteClassifierConverter classifierConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilBaseConverter = utilBaseConverter;

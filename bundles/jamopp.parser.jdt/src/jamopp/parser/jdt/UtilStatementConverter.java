@@ -53,9 +53,9 @@ class UtilStatementConverter {
 
 	private final UtilReferenceConverter referenceConverterUtility;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
-	private final UtilClassifierConverter classifierConverterUtility;
+	private final ToConcreteClassifierConverter classifierConverterUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
@@ -69,8 +69,8 @@ class UtilStatementConverter {
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
 			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility, UtilExpressionConverter expressionConverterUtility,
-			UtilClassifierConverter classifierConverterUtility,
+			UtilJdtResolver jdtResolverUtility, UtilExpressionConverter expressionConverterUtility,
+			ToConcreteClassifierConverter classifierConverterUtility,
 			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter) {
 		this.referenceConverterUtility = referenceConverterUtility;

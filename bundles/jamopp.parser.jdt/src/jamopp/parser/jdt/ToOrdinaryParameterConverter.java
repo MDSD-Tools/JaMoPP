@@ -8,7 +8,7 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 public class ToOrdinaryParameterConverter {
 
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
@@ -17,7 +17,7 @@ public class ToOrdinaryParameterConverter {
 	ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility) {
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;

@@ -15,12 +15,12 @@ import org.emftext.language.java.members.InterfaceMethod;
 public class ToAnnotationInstanceConverter {
 
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	public ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
-			UtilJDTResolver jdtResolverUtility) {
+			UtilJdtResolver jdtResolverUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;

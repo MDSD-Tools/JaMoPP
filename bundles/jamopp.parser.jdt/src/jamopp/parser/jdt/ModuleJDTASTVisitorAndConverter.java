@@ -31,10 +31,10 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
-	ModuleJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
+	ModuleJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
 			UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter,
-			UtilClassifierConverter classifierConverterUtility) {
+			ToConcreteClassifierConverter classifierConverterUtility) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement, annotationInstanceConverter, classifierConverterUtility);
 		// TODO Auto-generated constructor stub

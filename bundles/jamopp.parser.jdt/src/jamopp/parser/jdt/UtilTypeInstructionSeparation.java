@@ -12,7 +12,7 @@ import org.eclipse.jdt.core.dom.Statement;
 class UtilTypeInstructionSeparation {
 
 	private UtilStatementConverter statementConverterUtility;
-	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
 	private final ToAnnotationValueConverter toAnnotationValueConverter;
 
@@ -26,7 +26,7 @@ class UtilTypeInstructionSeparation {
 	private final HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
-	UtilTypeInstructionSeparation(UtilJDTResolver jdtResolverUtility,
+	UtilTypeInstructionSeparation(UtilJdtResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility, ToAnnotationValueConverter toAnnotationValueConverter) {
 
 		this.jdtResolverUtility = jdtResolverUtility;

@@ -49,17 +49,17 @@ import org.eclipse.jdt.core.dom.TypeLiteral;
 class UtilReferenceConverter {
 
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJDTResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
-	private final UtilClassifierConverter classifierConverterUtility;
+	private final ToConcreteClassifierConverter classifierConverterUtility;
 	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayInitialisierConverter toArrayInitialisierConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
-	UtilReferenceConverter(UtilLayout layoutInformationConverter, UtilJDTResolver jdtResolverUtility,
-			UtilExpressionConverter expressionConverterUtility, UtilClassifierConverter classifierConverterUtility,
+	UtilReferenceConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			UtilExpressionConverter expressionConverterUtility, ToConcreteClassifierConverter classifierConverterUtility,
 			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToArrayInitialisierConverter toArrayInitialisierConverter,
