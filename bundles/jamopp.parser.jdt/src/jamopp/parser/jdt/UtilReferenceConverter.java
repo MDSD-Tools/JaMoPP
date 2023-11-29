@@ -51,28 +51,26 @@ class UtilReferenceConverter {
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
-	private final ToConcreteClassifierConverter classifierConverterUtility;
-	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayInitialisierConverter toArrayInitialisierConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
+	private final ToAnonymousClassConverter toAnonymousClassConverter;
 
 	UtilReferenceConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			UtilExpressionConverter expressionConverterUtility, ToConcreteClassifierConverter classifierConverterUtility,
-			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, UtilNamedElement utilNamedElement,
+			UtilExpressionConverter expressionConverterUtility, UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToArrayInitialisierConverter toArrayInitialisierConverter,
-			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter,
+			ToAnonymousClassConverter toAnonymousClassConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
-		this.classifierConverterUtility = classifierConverterUtility;
-		this.utilBaseConverter = utilBaseConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toArrayInitialisierConverter = toArrayInitialisierConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
+		this.toAnonymousClassConverter = toAnonymousClassConverter;
 	}
 
 	org.emftext.language.java.references.Reference convertToReference(Expression expr) {
@@ -149,7 +147,7 @@ class UtilReferenceConverter {
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			if (arr.getAnonymousClassDeclaration() != null) {
 				result.setAnonymousClass(
-						classifierConverterUtility.convertToAnonymousClass(arr.getAnonymousClassDeclaration()));
+						toAnonymousClassConverter.convertToAnonymousClass(arr.getAnonymousClassDeclaration()));
 			}
 			if (arr.getExpression() != null) {
 				org.emftext.language.java.references.Reference parent = internalConvertToReference(arr.getExpression());
