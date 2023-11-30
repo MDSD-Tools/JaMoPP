@@ -8,6 +8,8 @@ import org.eclipse.jdt.core.dom.SuperMethodReference;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
 
+import com.google.inject.Inject;
+
 class ToMethodReferenceExpressionConverter {
 
 	private final UtilReferenceConverter referenceConverterUtility;
@@ -15,6 +17,7 @@ class ToMethodReferenceExpressionConverter {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 
+	@Inject
 	ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter,
 			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter,
 			ToTypeReferenceConverter toTypeReferenceConverter) {

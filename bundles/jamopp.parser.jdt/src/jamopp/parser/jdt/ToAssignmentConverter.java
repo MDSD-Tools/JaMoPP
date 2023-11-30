@@ -4,10 +4,13 @@ import org.eclipse.jdt.core.dom.Assignment;
 import org.emftext.language.java.operators.AssignmentOperator;
 import org.emftext.language.java.operators.OperatorsFactory;
 
+import com.google.inject.Inject;
+
 class ToAssignmentConverter {
 
 	private final OperatorsFactory operatorsFactory;
 
+	@Inject
 	ToAssignmentConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}

@@ -11,6 +11,8 @@ import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.statements.StatementsFactory;
 
+import com.google.inject.Inject;
+
 public class ToInterfaceMethodOrConstructorConverter {
 
 	private final ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter;
@@ -26,7 +28,8 @@ public class ToInterfaceMethodOrConstructorConverter {
 	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
 
-	public ToInterfaceMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	@Inject
+	ToInterfaceMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter, ToTypeParameterConverter toTypeParameterConverter,
 			ToReceiverParameterConverter toReceiverParameterConverter, ToParameterConverter toParameterConverter,

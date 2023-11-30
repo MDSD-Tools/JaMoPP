@@ -18,10 +18,13 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.operators.OperatorsFactory;
 
+import com.google.inject.Inject;
+
 class UtilExpressionConverter {
 
 	private ToExpressionConverter toExpressionConverter;
 
+	@Inject
 	UtilExpressionConverter() {
 	}
 

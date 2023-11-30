@@ -17,6 +17,8 @@ import java.math.BigInteger;
 
 import org.eclipse.jdt.core.dom.NumberLiteral;
 
+import com.google.inject.Inject;
+
 class ToNumberLiteralConverter {
 	
 	private final UtilLayout layoutInformationConverter ;
@@ -35,6 +37,7 @@ class ToNumberLiteralConverter {
 	private static final int OCT_BASE = 8;
 	private static final String UNDER_SCORE = "_";
 	
+	@Inject
 	ToNumberLiteralConverter(UtilLayout layoutInformationConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 	}

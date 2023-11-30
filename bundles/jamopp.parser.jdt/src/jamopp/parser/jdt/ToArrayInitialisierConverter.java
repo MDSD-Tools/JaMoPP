@@ -5,13 +5,16 @@ import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Expression;
 import org.emftext.language.java.arrays.ArraysFactory;
 
+import com.google.inject.Inject;
+
 public class ToArrayInitialisierConverter {
 
 	private final UtilExpressionConverter utilExpressionConverter;
 	private final UtilLayout utilLayout;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
-	public ToArrayInitialisierConverter(UtilExpressionConverter utilExpressionConverter, UtilLayout utilLayout,
+	@Inject
+	ToArrayInitialisierConverter(UtilExpressionConverter utilExpressionConverter, UtilLayout utilLayout,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.utilExpressionConverter = utilExpressionConverter;
 		this.utilLayout = utilLayout;

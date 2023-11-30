@@ -6,12 +6,15 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
+import com.google.inject.Inject;
+
 class ToEqualityExpressionConverter {
 
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToEqualityOperatorConverter toEqualityOperatorConverter;
 
+	@Inject
 	ToEqualityExpressionConverter(ToExpressionConverter toExpressionConverter,
 			ToEqualityOperatorConverter toEqualityOperatorConverter,
 			UtilLayout layoutInformationConverter) {

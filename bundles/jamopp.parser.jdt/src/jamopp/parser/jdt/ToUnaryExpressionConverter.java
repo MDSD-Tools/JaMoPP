@@ -6,6 +6,8 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 
+import com.google.inject.Inject;
+
 class ToUnaryExpressionConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -13,6 +15,7 @@ class ToUnaryExpressionConverter {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToUnaryOperatorConverter toUnaryOperatorConverter;
 
+	@Inject
 	ToUnaryExpressionConverter(ToUnaryOperatorConverter toUnaryOperatorConverter,
 			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
 			ExpressionsFactory expressionsFactory) {

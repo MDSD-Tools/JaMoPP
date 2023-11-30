@@ -7,6 +7,8 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.emftext.language.java.members.Field;
 
+import com.google.inject.Inject;
+
 class ToFieldConverter {
 
 	private final UtilJdtResolver utilJdtResolver;
@@ -18,7 +20,8 @@ class ToFieldConverter {
 	private final ToAdditionalFieldConverter toAdditionalFieldConverter;
 	private final UtilLayout utilLayout;
 
-	public ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+	@Inject
+	ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			UtilTypeInstructionSeparation toInstructionSeparation,

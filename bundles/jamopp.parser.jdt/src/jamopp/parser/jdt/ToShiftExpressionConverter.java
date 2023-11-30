@@ -6,6 +6,8 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.ShiftExpression;
 import org.emftext.language.java.expressions.ShiftExpressionChild;
 
+import com.google.inject.Inject;
+
 class ToShiftExpressionConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -13,6 +15,7 @@ class ToShiftExpressionConverter {
 	private final ToShiftOperatorConverter toShiftOperatorConverter;
 	private final ExpressionsFactory expressionsFactory;
 
+	@Inject
 	ToShiftExpressionConverter(ToShiftOperatorConverter toShiftOperatorConverter,
 			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;

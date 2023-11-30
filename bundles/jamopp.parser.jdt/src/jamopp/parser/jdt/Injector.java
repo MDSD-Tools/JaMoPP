@@ -46,9 +46,7 @@ class Injector {
 
 		ToArrayInitialisierConverter toArrayInitialisierConverter = new ToArrayInitialisierConverter(
 				expressionConverterUtility, layoutInformationConverter, toAnnotationInstanceConverter);
-		ToAnnotationValueConverter toAnnotationValueConverter = new ToAnnotationValueConverter(
-				expressionConverterUtility, toClassifierOrNamespaceClassifierReferenceConverter,
-				toArrayInitialisierConverter, toAnnotationInstanceConverter);
+		ToAnnotationValueConverter toAnnotationValueConverter = new ToAnnotationValueConverter(expressionConverterUtility, toArrayInitialisierConverter, toAnnotationInstanceConverter);
 		ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter = new ToArrayDimensionAfterAndSetConverter(
 				layoutInformationConverter, toAnnotationInstanceConverter);
 		ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter = new ToModifierOrAnnotationInstanceConverter(

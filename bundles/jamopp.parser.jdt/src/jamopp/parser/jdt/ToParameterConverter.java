@@ -7,6 +7,8 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.VariableLengthParameter;
 
+import com.google.inject.Inject;
+
 class ToParameterConverter {
 
 	private final UtilJdtResolver utilJDTResolver;
@@ -18,7 +20,8 @@ class ToParameterConverter {
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 
-	public ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+	@Inject
+	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			UtilJdtResolver utilJDTResolver, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,

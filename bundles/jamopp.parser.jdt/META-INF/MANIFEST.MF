@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.jdt.core,
  org.eclipse.core.resources,
  org.emftext.language.java,
  org.eclipse.emf.ecore,
- jamopp.parser
+ jamopp.parser,
+ com.google.inject
 Export-Package: jamopp.parser.jdt
 Import-Package: org.apache.log4j

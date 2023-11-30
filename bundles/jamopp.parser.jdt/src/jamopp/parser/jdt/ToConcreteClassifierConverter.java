@@ -21,6 +21,8 @@ import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 
+import com.google.inject.Inject;
+
 class ToConcreteClassifierConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -31,6 +33,7 @@ class ToConcreteClassifierConverter {
 	private final ToEnumConverter toEnumConverter;
 	private final UtilNamedElement utilNamedElement;
 
+	@Inject
 	ToConcreteClassifierConverter(ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			UtilNamedElement utilNamedElement, ToInterfaceMemberConverter toInterfaceMember,

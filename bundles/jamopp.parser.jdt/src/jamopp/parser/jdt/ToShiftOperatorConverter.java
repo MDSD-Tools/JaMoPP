@@ -4,10 +4,13 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.operators.ShiftOperator;
 
+import com.google.inject.Inject;
+
 class ToShiftOperatorConverter {
 
 	private final OperatorsFactory operatorsFactory;
 	
+	@Inject
 	ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;	
 	}

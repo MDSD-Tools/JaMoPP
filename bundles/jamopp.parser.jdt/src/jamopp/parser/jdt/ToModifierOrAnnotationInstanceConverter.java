@@ -5,11 +5,14 @@ import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 
+import com.google.inject.Inject;
+
 class ToModifierOrAnnotationInstanceConverter {
 
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToModifierConverter toModifierConverter;
 
+	@Inject
 	ToModifierOrAnnotationInstanceConverter(ToModifierConverter toModifierConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;

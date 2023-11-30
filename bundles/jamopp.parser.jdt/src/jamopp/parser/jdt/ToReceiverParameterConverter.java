@@ -5,11 +5,14 @@ import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.parameters.ParametersFactory;
 import org.emftext.language.java.parameters.ReceiverParameter;
 
+import com.google.inject.Inject;
+
 class ToReceiverParameterConverter {
 
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 
+	@Inject
 	ToReceiverParameterConverter(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToClassifierReferenceConverter toClassifierReferenceConverter) {
 		this.toTypeReferenceConverter = toTypeReferenceConverter;

@@ -8,6 +8,7 @@ import org.emftext.language.java.commons.NamespaceAwareElement;
 
 public class UtilNamedElement {
 
+	
 	void addNameToNameSpaceAndElement(Name name, NamespaceAwareElement namespaceElement, NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			namedElement.setName(((SimpleName) name).getIdentifier());

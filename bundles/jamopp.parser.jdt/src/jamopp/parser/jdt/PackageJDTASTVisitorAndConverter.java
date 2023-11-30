@@ -18,8 +18,11 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 
+import com.google.inject.Inject;
+
 abstract class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
 
+	@Inject
 	PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
 			UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter,

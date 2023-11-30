@@ -5,6 +5,8 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.emftext.language.java.members.AdditionalField;
 
+import com.google.inject.Inject;
+
 class ToAdditionalFieldConverter {
 
 	private final UtilJdtResolver utilJdtResolver;
@@ -13,6 +15,7 @@ class ToAdditionalFieldConverter {
 	private final UtilTypeInstructionSeparation toInstructionSeparation;
 	private final UtilLayout utilLayout;
 
+	@Inject
 	ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			UtilJdtResolver utilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {

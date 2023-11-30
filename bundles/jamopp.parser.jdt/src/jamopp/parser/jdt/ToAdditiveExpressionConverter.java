@@ -6,12 +6,15 @@ import org.emftext.language.java.expressions.AdditiveExpression;
 import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
+import com.google.inject.Inject;
+
 class ToAdditiveExpressionConverter {
 
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToAdditiveOperatorConverter toAdditiveOperatorConverter;
 
+	@Inject
 	ToAdditiveExpressionConverter(ToExpressionConverter toExpressionConverter,
 			ToAdditiveOperatorConverter toAdditiveOperatorConverter,
 			UtilLayout layoutInformationConverter) {

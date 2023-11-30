@@ -9,6 +9,8 @@ import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.emftext.language.java.members.Member;
 
+import com.google.inject.Inject;
+
 class ToClassMemberConverter {
 
 	private ToConcreteClassifierConverter toConcreteClassifierConverter;
@@ -17,7 +19,8 @@ class ToClassMemberConverter {
 	private final ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter;
 	private final ToInterfaceMethodConverter toInterfaceMethodConverter;
 
-	public ToClassMemberConverter(ToBlockConverter toBlockConverter,
+	@Inject
+	ToClassMemberConverter(ToBlockConverter toBlockConverter,
 			ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter,
 			ToInterfaceMethodConverter toInterfaceMethodConverter, ToFieldConverter toFieldConverter) {
 		this.toBlockConverter = toBlockConverter;

@@ -6,11 +6,14 @@ import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.arrays.ArrayTypeable;
 import org.emftext.language.java.arrays.ArraysFactory;
 
+import com.google.inject.Inject;
+
 class ToArrayDimensionAfterAndSetConverter {
 
 	private final UtilLayout utilLayout;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
+	@Inject
 	ToArrayDimensionAfterAndSetConverter(UtilLayout utilLayout,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.utilLayout = utilLayout;

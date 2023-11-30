@@ -4,10 +4,13 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.operators.AdditiveOperator;
 import org.emftext.language.java.operators.OperatorsFactory;
 
+import com.google.inject.Inject;
+
 class ToAdditiveOperatorConverter {
 
 	private final OperatorsFactory operatorsFactory;
-	
+
+	@Inject
 	ToAdditiveOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}

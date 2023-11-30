@@ -49,6 +49,8 @@ import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.YieldStatement;
 
+import com.google.inject.Inject;
+
 class UtilStatementConverter {
 
 	private final UtilReferenceConverter referenceConverterUtility;
@@ -65,6 +67,7 @@ class UtilStatementConverter {
 
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
+	@Inject
 	UtilStatementConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,

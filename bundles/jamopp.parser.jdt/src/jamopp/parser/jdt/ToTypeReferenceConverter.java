@@ -25,6 +25,8 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
+import com.google.inject.Inject;
+
 class ToTypeReferenceConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -34,7 +36,8 @@ class ToTypeReferenceConverter {
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 
-	public ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+	@Inject
+	ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, UtilJDTBindingConverter jdtBindingConverterUtility,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter,

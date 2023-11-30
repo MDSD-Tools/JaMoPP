@@ -8,6 +8,8 @@ import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.emftext.language.java.expressions.PrimaryExpression;
 import org.emftext.language.java.literals.LiteralsFactory;
 
+import com.google.inject.Inject;
+
 class ToPrimaryExpressionConverter {
 
 	private final ToNumberLiteralConverter toNumberLiteralConverter;
@@ -15,6 +17,7 @@ class ToPrimaryExpressionConverter {
 	private final UtilLayout layoutInformationConverter;
 	private final LiteralsFactory literalsFactory ;
 	
+	@Inject
 	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter) {
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
 		this.referenceConverterUtility = referenceConverterUtility;

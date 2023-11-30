@@ -23,6 +23,8 @@ import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
+import com.google.inject.Inject;
+
 class ToExpressionConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -44,6 +46,7 @@ class ToExpressionConverter {
 	private ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 	private ToPrimaryExpressionConverter toPrimaryExpressionConverter;
 
+	@Inject
 	ToExpressionConverter(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter, UtilStatementConverter statementConverterUtility,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,

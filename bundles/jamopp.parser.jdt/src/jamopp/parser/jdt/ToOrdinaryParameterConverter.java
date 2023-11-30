@@ -5,6 +5,8 @@ import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 
+import com.google.inject.Inject;
+
 public class ToOrdinaryParameterConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -14,6 +16,7 @@ public class ToOrdinaryParameterConverter {
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 
+	@Inject
 	ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,

@@ -4,11 +4,14 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+import com.google.inject.Inject;
+
 class ToInterfaceMemberConverter {
 
 	private final ToInterfaceMethodOrConstructorConverter toInterfaceMethodOrConstructorConverter;
 	private final ToClassMemberConverter toClassMemberConverter;
 
+	@Inject
 	ToInterfaceMemberConverter(ToInterfaceMethodOrConstructorConverter toInterfaceMethodOrConstructorConverter,
 			ToClassMemberConverter toClassMemberConverter) {
 		this.toInterfaceMethodOrConstructorConverter = toInterfaceMethodOrConstructorConverter;

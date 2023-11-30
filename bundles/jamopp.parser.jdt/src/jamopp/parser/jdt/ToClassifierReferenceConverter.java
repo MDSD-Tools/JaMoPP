@@ -6,11 +6,14 @@ import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 
+import com.google.inject.Inject;
+
 class ToClassifierReferenceConverter {
 
 	private final UtilJdtResolver jdtResolverUtility;
 
-	public ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility) {
+	@Inject
+	ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility) {
 		this.jdtResolverUtility = jdtResolverUtility;
 	}
 

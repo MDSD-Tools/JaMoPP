@@ -3,10 +3,13 @@ package jamopp.parser.jdt;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 
+import com.google.inject.Inject;
+
 class ToModifierConverter {
 	
 	private final UtilLayout layoutInformationConverter;
 	
+	@Inject
 	ToModifierConverter(UtilLayout layoutInformationConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 	}

@@ -46,6 +46,8 @@ import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 
+import com.google.inject.Inject;
+
 class UtilReferenceConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -57,6 +59,7 @@ class UtilReferenceConverter {
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToAnonymousClassConverter toAnonymousClassConverter;
 
+	@Inject
 	UtilReferenceConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility, UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter,

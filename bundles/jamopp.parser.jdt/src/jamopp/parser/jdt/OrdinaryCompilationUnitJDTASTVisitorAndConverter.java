@@ -18,13 +18,14 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 
+import com.google.inject.Inject;
+
 class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisitorAndConverter {
 
-
-
+	@Inject
 	OrdinaryCompilationUnitJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
-			ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,
 			ToConcreteClassifierConverter classifierConverterUtility) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,

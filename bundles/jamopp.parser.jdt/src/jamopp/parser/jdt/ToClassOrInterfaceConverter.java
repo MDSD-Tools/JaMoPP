@@ -7,6 +7,8 @@ import org.eclipse.jdt.core.dom.TypeParameter;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Interface;
 
+import com.google.inject.Inject;
+
 class ToClassOrInterfaceConverter {
 
 	private final ToTypeParameterConverter toTypeParameterConverter;
@@ -15,6 +17,7 @@ class ToClassOrInterfaceConverter {
 	private final ToInterfaceMemberConverter toInterfaceMemberConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 
+	@Inject
 	ToClassOrInterfaceConverter(UtilJdtResolver utilJdtResolver, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToTypeParameterConverter toTypeParameterConverter, ToInterfaceMemberConverter toInterfaceMemberConverter,
 			ToClassMemberConverter toClassMemberConverter) {

@@ -25,11 +25,14 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
+import com.google.inject.Inject;
+
 class ToClassifierOrNamespaceClassifierReferenceConverter {
 
 	private final UtilNamedElement utilNamedElement;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 
+	@Inject
 	ToClassifierOrNamespaceClassifierReferenceConverter(UtilNamedElement utilNamedElement,
 			ToClassifierReferenceConverter toClassifierReferenceConverter) {
 		this.utilNamedElement = utilNamedElement;

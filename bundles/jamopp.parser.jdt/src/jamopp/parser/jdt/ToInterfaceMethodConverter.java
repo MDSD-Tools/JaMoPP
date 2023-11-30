@@ -6,6 +6,8 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.statements.StatementsFactory;
 
+import com.google.inject.Inject;
+
 public class ToInterfaceMethodConverter {
 
 	private final UtilJdtResolver utilJdtResolver;
@@ -15,7 +17,8 @@ public class ToInterfaceMethodConverter {
 	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
 
-	public ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	@Inject
+	ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter) {

@@ -12,6 +12,8 @@ import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.annotations.SingleAnnotationParameter;
 import org.emftext.language.java.members.InterfaceMethod;
 
+import com.google.inject.Inject;
+
 public class ToAnnotationInstanceConverter {
 
 	private final UtilLayout layoutInformationConverter;
@@ -19,6 +21,7 @@ public class ToAnnotationInstanceConverter {
 	private final UtilNamedElement utilNamedElement;
 	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
+	@Inject
 	public ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;

@@ -4,6 +4,8 @@ import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeParameter;
 
+import com.google.inject.Inject;
+
 class ToTypeParameterConverter {
 
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
@@ -12,7 +14,8 @@ class ToTypeParameterConverter {
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilLayout utilLayout;
 
-	public ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+	@Inject
+	ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			UtilJdtResolver utilJDTResolver, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;

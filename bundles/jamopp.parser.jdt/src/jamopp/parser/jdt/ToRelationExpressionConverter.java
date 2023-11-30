@@ -3,12 +3,15 @@ package jamopp.parser.jdt;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
 
+import com.google.inject.Inject;
+
 class ToRelationExpressionConverter {
 	
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToRelationOperatorConverter toRelationOperatorConverter;
 
+	@Inject
 	ToRelationExpressionConverter(ToRelationOperatorConverter toRelationOperatorConverter,
 			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;

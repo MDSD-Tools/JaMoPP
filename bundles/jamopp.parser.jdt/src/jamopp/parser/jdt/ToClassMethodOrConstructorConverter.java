@@ -12,7 +12,9 @@ import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.statements.StatementsFactory;
 
-public class ToClassMethodOrConstructorConverter {
+import com.google.inject.Inject;
+
+class ToClassMethodOrConstructorConverter {
 
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
@@ -26,7 +28,8 @@ public class ToClassMethodOrConstructorConverter {
 	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
 
-	public ToClassMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	@Inject
+	ToClassMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToTypeParameterConverter toTypeParameterConverter,
 			ToReceiverParameterConverter toReceiverParameterConverter, ToParameterConverter toParameterConverter,

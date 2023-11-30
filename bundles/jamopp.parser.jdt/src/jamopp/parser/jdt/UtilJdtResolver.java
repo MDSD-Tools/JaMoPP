@@ -17,6 +17,8 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.emftext.language.java.JavaClasspath;
 
+import com.google.inject.Inject;
+
 class UtilJdtResolver {
 	
 	private final UtilJDTBindingConverter jdtBindingConverterUtility;
@@ -53,6 +55,7 @@ class UtilJdtResolver {
 	private final static String SYNTH_CLASS = "SyntheticContainerClass";
 	private final static boolean extractAdditionalInformationFromTypeBindings = true;
 
+	@Inject
 	UtilJdtResolver(UtilJDTBindingConverter jdtBindingConverterUtility) {
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 	}

@@ -3,10 +3,13 @@ package jamopp.parser.jdt;
 import org.eclipse.jdt.core.dom.PrefixExpression;
 import org.emftext.language.java.operators.OperatorsFactory;
 
+import com.google.inject.Inject;
+
 class ToUnaryOperatorConverter {
 
 	private final OperatorsFactory operatorsFactory;
 
+	@Inject
 	ToUnaryOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 

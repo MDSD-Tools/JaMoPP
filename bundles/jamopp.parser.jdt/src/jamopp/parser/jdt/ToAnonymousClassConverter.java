@@ -5,13 +5,16 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.classifiers.AnonymousClass;
 
+import com.google.inject.Inject;
+
 class ToAnonymousClassConverter {
 
 	private final UtilJdtResolver utilJDTResolver;
 	private final UtilLayout utilLayout;
 	private final ToClassMemberConverter toClassMemberConverter;
 
-	public ToAnonymousClassConverter(UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
+	@Inject
+	ToAnonymousClassConverter(UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
 			ToClassMemberConverter toClassMemberConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.utilLayout = utilLayout;

@@ -9,6 +9,8 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 
+import com.google.inject.Inject;
+
 class UtilTypeInstructionSeparation {
 
 	private UtilStatementConverter statementConverterUtility;
@@ -26,6 +28,7 @@ class UtilTypeInstructionSeparation {
 	private final HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
+	@Inject
 	UtilTypeInstructionSeparation(UtilJdtResolver jdtResolverUtility,
 			UtilExpressionConverter expressionConverterUtility, ToAnnotationValueConverter toAnnotationValueConverter) {
 

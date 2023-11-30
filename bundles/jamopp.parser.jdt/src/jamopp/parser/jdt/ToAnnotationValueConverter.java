@@ -7,17 +7,18 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.expressions.AssignmentExpressionChild;
 
+import com.google.inject.Inject;
+
 class ToAnnotationValueConverter {
 
-	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final ToArrayInitialisierConverter toArrayInitialisierComverter;
 	private final UtilExpressionConverter utilExpressionConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
-	public ToAnnotationValueConverter(UtilExpressionConverter utilExpressionConverter,
-			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ToArrayInitialisierConverter toArrayInitialisierComverter,
+	@Inject
+	ToAnnotationValueConverter(UtilExpressionConverter utilExpressionConverter,
+			ToArrayInitialisierConverter toArrayInitialisierComverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
-		this.utilBaseConverter = utilBaseConverter;
 		this.toArrayInitialisierComverter = toArrayInitialisierComverter;
 		this.utilExpressionConverter = utilExpressionConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;

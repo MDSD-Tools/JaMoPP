@@ -29,8 +29,11 @@ import org.eclipse.jdt.core.dom.UsesDirective;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 
+import com.google.inject.Inject;
+
 class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
 
+	@Inject
 	ModuleJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
 			UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter,

@@ -67,11 +67,14 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
+import com.google.inject.Inject;
+
 @SuppressWarnings("restriction")
 class UtilJDTBindingConverter {
 
 	private UtilJdtResolver jdtTResolverUtility;
 	
+	@Inject
 	UtilJDTBindingConverter() {
 	}
 

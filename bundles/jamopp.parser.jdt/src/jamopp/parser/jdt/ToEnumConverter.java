@@ -6,6 +6,8 @@ import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.emftext.language.java.classifiers.Enumeration;
 
+import com.google.inject.Inject;
+
 class ToEnumConverter {
 
 	private final UtilJdtResolver utilJdtResolver;
@@ -13,6 +15,7 @@ class ToEnumConverter {
 	private final ToEnumConstantConverter toEnumConstantConverter;
 	private final ToClassMemberConverter toClassMemberConverter;
 
+	@Inject
 	ToEnumConverter(UtilJdtResolver utilJdtResolver, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToEnumConstantConverter toEnumConstantConverter, ToClassMemberConverter toClassMemberConverter) {
 		this.utilJdtResolver = utilJdtResolver;

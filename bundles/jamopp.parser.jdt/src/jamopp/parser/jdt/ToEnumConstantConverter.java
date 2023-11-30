@@ -6,6 +6,8 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.emftext.language.java.members.EnumConstant;
 
+import com.google.inject.Inject;
+
 class ToEnumConstantConverter {
 
 	private final UtilJdtResolver utilJdtResolver;
@@ -15,6 +17,7 @@ class ToEnumConstantConverter {
 	private final ToAnonymousClassConverter toAnonymousClassConverter;
 	private final UtilLayout utilLayout;
 
+	@Inject
 	ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			UtilJdtResolver utilJdtResolver, UtilExpressionConverter utilExpressionConverter,
 			ToAnonymousClassConverter toAnonymousClassConverter,
