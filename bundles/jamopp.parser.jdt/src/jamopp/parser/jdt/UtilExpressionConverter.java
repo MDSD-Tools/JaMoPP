@@ -13,13 +13,11 @@
 
 package jamopp.parser.jdt;
 
-import org.eclipse.jdt.core.dom.ConditionalExpression;
 import org.eclipse.jdt.core.dom.Expression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.operators.OperatorsFactory;
-
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 class UtilExpressionConverter {
 
 	private ToExpressionConverter toExpressionConverter;

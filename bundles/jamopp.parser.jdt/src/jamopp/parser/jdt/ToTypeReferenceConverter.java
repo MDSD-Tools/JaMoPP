@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 class ToTypeReferenceConverter {
 
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJDTBindingConverter jdtBindingConverterUtility;
+	private final UtilJdtBindingConverter jdtBindingConverterUtility;
 	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
@@ -39,7 +39,7 @@ class ToTypeReferenceConverter {
 	@Inject
 	ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, UtilJDTBindingConverter jdtBindingConverterUtility,
+			UtilLayout layoutInformationConverter, UtilJdtBindingConverter jdtBindingConverterUtility,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter,
 			ToClassifierReferenceConverter toClassifierReferenceConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;

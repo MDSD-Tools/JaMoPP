@@ -24,13 +24,15 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 class ToExpressionConverter {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilStatementConverter statementConverterUtility;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilJDTBindingConverter jdtBindingConverterUtility;
+	private final UtilJdtBindingConverter jdtBindingConverterUtility;
 	private final ExpressionsFactory expressionsFactory;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
@@ -50,7 +52,7 @@ class ToExpressionConverter {
 	ToExpressionConverter(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter, UtilStatementConverter statementConverterUtility,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			UtilJDTBindingConverter jdtBindingConverterUtility, ExpressionsFactory expressionsFactory) {
+			UtilJdtBindingConverter jdtBindingConverterUtility, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.statementConverterUtility = statementConverterUtility;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -338,7 +340,7 @@ class ToExpressionConverter {
 		return result;
 	}
 
-	void setToAssignmentOperatorConverter(ToAssignmentConverter toAssignmentOperatorConverter) {
+	void setToAssignmentConverter(ToAssignmentConverter toAssignmentOperatorConverter) {
 		this.toAssignmentOperatorConverter = toAssignmentOperatorConverter;
 	}
 

@@ -13,8 +13,10 @@ import org.emftext.language.java.annotations.SingleAnnotationParameter;
 import org.emftext.language.java.members.InterfaceMethod;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-public class ToAnnotationInstanceConverter {
+@Singleton
+class ToAnnotationInstanceConverter {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
@@ -22,7 +24,7 @@ public class ToAnnotationInstanceConverter {
 	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	@Inject
-	public ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
+	ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

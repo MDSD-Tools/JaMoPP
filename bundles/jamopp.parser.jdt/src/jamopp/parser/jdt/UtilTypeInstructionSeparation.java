@@ -10,7 +10,9 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 class UtilTypeInstructionSeparation {
 
 	private UtilStatementConverter statementConverterUtility;

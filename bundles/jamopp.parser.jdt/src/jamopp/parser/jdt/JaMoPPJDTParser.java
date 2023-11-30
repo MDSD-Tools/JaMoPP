@@ -46,9 +46,9 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter;
 	
 	static {
-		typeInstructionSeparationUtility = Injector.getTypeInstructionSeparationUtility();
-		jdtResolverUtility = Injector.getJDTResolverUtility();
-		converter = Injector.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
+		typeInstructionSeparationUtility = InjectorMine.getTypeInstructionSeparationUtility();
+		jdtResolverUtility = InjectorMine.getJDTResolverUtility();
+		converter = InjectorMine.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
 	}
 
 	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();

@@ -10,7 +10,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.emftext.language.java.members.Member;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 class ToClassMemberConverter {
 
 	private ToConcreteClassifierConverter toConcreteClassifierConverter;

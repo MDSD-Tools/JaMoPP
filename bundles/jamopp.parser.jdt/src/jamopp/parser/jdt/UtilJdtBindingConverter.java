@@ -68,14 +68,16 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 @SuppressWarnings("restriction")
-class UtilJDTBindingConverter {
+@Singleton
+class UtilJdtBindingConverter {
 
 	private UtilJdtResolver jdtTResolverUtility;
 	
 	@Inject
-	UtilJDTBindingConverter() {
+	UtilJdtBindingConverter() {
 	}
 
 	List<TypeReference> convertToTypeReferences(ITypeBinding binding) {
