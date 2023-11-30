@@ -39,40 +39,6 @@ class UtilTypeInstructionSeparation {
 		this.toAnnotationValueConverter = toAnnotationValueConverter;
 	}
 
-	void addMethod(Block block, org.emftext.language.java.members.Method method) {
-		methods.put(block, method);
-	}
-
-	void addConstructor(Block block, org.emftext.language.java.members.Constructor constructor) {
-		constructors.put(block, constructor);
-	}
-
-	void addField(Expression initializer, org.emftext.language.java.members.Field field) {
-		fields.put(initializer, field);
-	}
-
-	void addAdditionalField(Expression initializer, org.emftext.language.java.members.AdditionalField field) {
-		addFields.put(initializer, field);
-	}
-
-	void addInitializer(Block block, org.emftext.language.java.statements.Block correspondingBlock) {
-		initializers.put(block, correspondingBlock);
-	}
-
-	void addAnnotationMethod(Expression value, org.emftext.language.java.members.InterfaceMethod method) {
-		annotationMethods.put(value, method);
-	}
-
-	void addSingleAnnotationParameter(Expression value,
-			org.emftext.language.java.annotations.SingleAnnotationParameter param) {
-		singleAnnotations.put(value, param);
-	}
-
-	void addAnnotationAttributeSetting(Expression value,
-			org.emftext.language.java.annotations.AnnotationAttributeSetting setting) {
-		annotationSetting.put(value, setting);
-	}
-
 	@SuppressWarnings("unchecked")
 	void convertAll() {
 		int oldSize;
@@ -191,6 +157,40 @@ class UtilTypeInstructionSeparation {
 		singleAnnotations.clear();
 		annotationSetting.clear();
 		visitedObjects.clear();
+	}
+
+	void addMethod(Block block, org.emftext.language.java.members.Method method) {
+		methods.put(block, method);
+	}
+
+	void addConstructor(Block block, org.emftext.language.java.members.Constructor constructor) {
+		constructors.put(block, constructor);
+	}
+
+	void addField(Expression initializer, org.emftext.language.java.members.Field field) {
+		fields.put(initializer, field);
+	}
+
+	void addAdditionalField(Expression initializer, org.emftext.language.java.members.AdditionalField field) {
+		addFields.put(initializer, field);
+	}
+
+	void addInitializer(Block block, org.emftext.language.java.statements.Block correspondingBlock) {
+		initializers.put(block, correspondingBlock);
+	}
+
+	void addAnnotationMethod(Expression value, org.emftext.language.java.members.InterfaceMethod method) {
+		annotationMethods.put(value, method);
+	}
+
+	void addSingleAnnotationParameter(Expression value,
+			org.emftext.language.java.annotations.SingleAnnotationParameter param) {
+		singleAnnotations.put(value, param);
+	}
+
+	void addAnnotationAttributeSetting(Expression value,
+			org.emftext.language.java.annotations.AnnotationAttributeSetting setting) {
+		annotationSetting.put(value, setting);
 	}
 
 	void setStatementConverterUtility(UtilStatementConverter statementConverterUtility) {
