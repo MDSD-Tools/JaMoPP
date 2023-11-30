@@ -10,26 +10,14 @@ class InjectorMine {
 	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	static {
-
-
 		Injector injector = Guice.createInjector(new InjectorGuice());
-		
 		
 		ordinaryCompilationUnitJDTASTVisitorAndConverter  = injector.getInstance(OrdinaryCompilationUnitJDTASTVisitorAndConverter.class);
 		jdtResolverUtility= injector.getInstance(UtilJdtResolver.class);
 		typeInstructionSeparationUtility= injector.getInstance(UtilTypeInstructionSeparation.class);
 		
-		ToExpressionConverter toExpressionConverter= injector.getInstance(ToExpressionConverter.class);
-		ToClassMemberConverter toClassMemberConverter= injector.getInstance(ToClassMemberConverter.class);
-		UtilExpressionConverter utilExpressionConverter= injector.getInstance(UtilExpressionConverter.class);
-		UtilJdtBindingConverter utilJdtBindingConverter= injector.getInstance(UtilJdtBindingConverter.class);
-		ToAnnotationInstanceConverter toAnnotationInstanceConverter= injector.getInstance(ToAnnotationInstanceConverter.class);
-		
-		
-		typeInstructionSeparationUtility.setStatementConverterUtility(injector.getInstance(UtilStatementConverter.class));
-		
 			
-		
+		ToExpressionConverter toExpressionConverter= injector.getInstance(ToExpressionConverter.class);
 		toExpressionConverter.setToPrimaryExpressionConverter(injector.getInstance(ToPrimaryExpressionConverter.class));
 		toExpressionConverter.setToAssignmentConverter(injector.getInstance(ToAssignmentConverter.class));
 		toExpressionConverter.setToConditionalExpressionConverter(injector.getInstance(ToConditionalExpressionConverter.class));
@@ -40,13 +28,12 @@ class InjectorMine {
 		toExpressionConverter.setToMultiplicativeExpressionConverter(injector.getInstance(ToMultiplicativeExpressionConverter.class));
 		toExpressionConverter.setToUnaryExpressionConverter(injector.getInstance(ToUnaryExpressionConverter.class));
 		toExpressionConverter.setToMethodReferenceExpressionConverter(injector.getInstance(ToMethodReferenceExpressionConverter.class));
-		toClassMemberConverter.setToConcreteClassifierConverter(injector.getInstance(ToConcreteClassifierConverter.class));
 		
-		
-		utilExpressionConverter.setToExpressionConverter(toExpressionConverter);
-		utilJdtBindingConverter.setJDTResolverUtility(jdtResolverUtility);
-		toAnnotationInstanceConverter.setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
-
+		injector.getInstance(ToClassMemberConverter.class).setToConcreteClassifierConverter(injector.getInstance(ToConcreteClassifierConverter.class));
+		injector.getInstance(UtilExpressionConverter.class).setToExpressionConverter(toExpressionConverter);
+		injector.getInstance(UtilJdtBindingConverter.class).setJDTResolverUtility(jdtResolverUtility);
+		injector.getInstance(ToAnnotationInstanceConverter.class).setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
+		injector.getInstance(UtilTypeInstructionSeparation.class).setStatementConverterUtility(injector.getInstance(UtilStatementConverter.class));
 	}
 
 	static OrdinaryCompilationUnitJDTASTVisitorAndConverter getOrdinaryCompilationUnitJDTASTVisitorAndConverter() {
