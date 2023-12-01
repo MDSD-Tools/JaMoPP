@@ -10,12 +10,14 @@ import com.google.inject.Inject;
 
 class ToArrayDimensionAfterAndSetConverter {
 
+	private final ArraysFactory arraysFactory;
 	private final UtilLayout utilLayout;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
 	@Inject
 	ToArrayDimensionAfterAndSetConverter(UtilLayout utilLayout,
-			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
+		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
@@ -26,7 +28,7 @@ class ToArrayDimensionAfterAndSetConverter {
 
 	@SuppressWarnings("unchecked")
 	ArrayDimension convertToArrayDimension(Dimension dim) {
-		ArrayDimension result = ArraysFactory.eINSTANCE.createArrayDimension();
+		ArrayDimension result = arraysFactory.createArrayDimension();
 		dim.annotations().forEach(annot -> result.getAnnotations()
 				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) annot)));
 		utilLayout.convertToMinimalLayoutInformation(result, dim);

@@ -9,18 +9,20 @@ import com.google.inject.Inject;
 
 class ToBlockConverter {
 
+	private final StatementsFactory statementsFactory;
 	private final UtilTypeInstructionSeparation toInstructionSeparation;
 	private final ToModifierConverter toModifierConverter;
 
 	@Inject
-	ToBlockConverter(ToModifierConverter toModifierConverter, UtilTypeInstructionSeparation toInstructionSeparation) {
+	ToBlockConverter(ToModifierConverter toModifierConverter, UtilTypeInstructionSeparation toInstructionSeparation, StatementsFactory statementsFactory) {
+		this.statementsFactory = statementsFactory;
 		this.toInstructionSeparation = toInstructionSeparation;
 		this.toModifierConverter = toModifierConverter;
 	}
 
 	@SuppressWarnings("unchecked")
 	Block convertToBlock(Initializer init) {
-		Block result = StatementsFactory.eINSTANCE.createBlock();
+		Block result = statementsFactory.createBlock();
 		result.setName("");
 		toInstructionSeparation.addInitializer(init.getBody(), result);
 		init.modifiers()

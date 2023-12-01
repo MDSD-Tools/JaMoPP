@@ -8,17 +8,20 @@ import com.google.inject.Inject;
 
 class ToConditionalExpressionConverter {
 
+	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 
 	@Inject
-	ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter) {
+	ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
+			ExpressionsFactory expressionsFactory) {
+		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 	}
 
 	ConditionalExpression convertToConditionalExpression(org.eclipse.jdt.core.dom.ConditionalExpression expr) {
-		ConditionalExpression result = ExpressionsFactory.eINSTANCE.createConditionalExpression();
+		ConditionalExpression result = expressionsFactory.createConditionalExpression();
 		result.setChild((ConditionalExpressionChild) toExpressionConverter.convertToExpression(expr.getExpression()));
 		result.setExpressionIf(toExpressionConverter.convertToExpression(expr.getThenExpression()));
 		result.setGeneralExpressionElse(toExpressionConverter.convertToExpression(expr.getElseExpression()));

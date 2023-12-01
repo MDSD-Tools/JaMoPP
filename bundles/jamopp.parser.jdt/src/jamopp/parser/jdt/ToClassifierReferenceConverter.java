@@ -10,15 +10,17 @@ import com.google.inject.Inject;
 
 class ToClassifierReferenceConverter {
 
+	private final TypesFactory typesFactory;
 	private final UtilJdtResolver jdtResolverUtility;
 
 	@Inject
-	ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility) {
+	ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility, TypesFactory typesFactory) {
+		this.typesFactory = typesFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 	}
 
 	ClassifierReference convertToClassifierReference(SimpleName simpleName) {
-		ClassifierReference ref = TypesFactory.eINSTANCE.createClassifierReference();
+		ClassifierReference ref = typesFactory.createClassifierReference();
 		ITypeBinding binding = (ITypeBinding) simpleName.resolveBinding();
 		Classifier proxy;
 		if (binding == null || binding.isRecovered()) {

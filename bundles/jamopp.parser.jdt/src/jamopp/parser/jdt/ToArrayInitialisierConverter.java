@@ -9,13 +9,15 @@ import com.google.inject.Inject;
 
 public class ToArrayInitialisierConverter {
 
+	private final ArraysFactory arraysFactory;
 	private final UtilExpressionConverter utilExpressionConverter;
 	private final UtilLayout utilLayout;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
 	@Inject
 	ToArrayInitialisierConverter(UtilExpressionConverter utilExpressionConverter, UtilLayout utilLayout,
-			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
+		this.arraysFactory = arraysFactory;
 		this.utilExpressionConverter = utilExpressionConverter;
 		this.utilLayout = utilLayout;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
@@ -23,7 +25,7 @@ public class ToArrayInitialisierConverter {
 
 	@SuppressWarnings("unchecked")
 	org.emftext.language.java.arrays.ArrayInitializer convertToArrayInitializer(ArrayInitializer arr) {
-		org.emftext.language.java.arrays.ArrayInitializer result = ArraysFactory.eINSTANCE.createArrayInitializer();
+		org.emftext.language.java.arrays.ArrayInitializer result = arraysFactory.createArrayInitializer();
 		arr.expressions().forEach(obj -> {
 			org.emftext.language.java.arrays.ArrayInitializationValue value = null;
 			Expression expr = (Expression) obj;

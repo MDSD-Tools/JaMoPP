@@ -16,6 +16,7 @@ import com.google.inject.Inject;
 
 class ToClassMethodOrConstructorConverter {
 
+	private final StatementsFactory statementsFactory;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final ToReceiverParameterConverter toReceiverParameterConverter;
@@ -36,7 +37,9 @@ class ToClassMethodOrConstructorConverter {
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
 			UtilJdtResolver jdtResolverUtility,
-			InNamespaceClassifierReferenceWrapper inNamespaceClassifierReferenceWrapper) {
+			InNamespaceClassifierReferenceWrapper inNamespaceClassifierReferenceWrapper,
+			StatementsFactory statementsFactory) {
+		this.statementsFactory = statementsFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
 		this.toReceiverParameterConverter = toReceiverParameterConverter;
@@ -50,7 +53,8 @@ class ToClassMethodOrConstructorConverter {
 		this.utilLayout = utilLayout;
 	}
 
-	@SuppressWarnings("unchecked") Member convertToClassMethodOrConstructor(MethodDeclaration methodDecl) {
+	@SuppressWarnings("unchecked")
+	Member convertToClassMethodOrConstructor(MethodDeclaration methodDecl) {
 		if (methodDecl.isConstructor()) {
 			Constructor result;
 			IMethodBinding binding = methodDecl.resolveBinding();
@@ -106,7 +110,7 @@ class ToClassMethodOrConstructorConverter {
 		if (methodDecl.getBody() != null) {
 			utilTypeInstructionSeparation.addMethod(methodDecl.getBody(), result);
 		} else {
-			result.setStatement(StatementsFactory.eINSTANCE.createEmptyStatement());
+			result.setStatement(statementsFactory.createEmptyStatement());
 		}
 		utilLayout.convertToMinimalLayoutInformation(result, methodDecl);
 		return result;

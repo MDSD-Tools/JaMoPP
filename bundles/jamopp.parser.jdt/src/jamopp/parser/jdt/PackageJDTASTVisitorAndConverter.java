@@ -15,8 +15,10 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
+import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
@@ -24,12 +26,14 @@ abstract class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDT
 
 	@Inject
 	PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory, ImportsFactory importsFactory,
-			UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter,
-			ToConcreteClassifierConverter classifierConverterUtility) {
+			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
+			ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			ToAnnotationInstanceConverter annotationInstanceConverter,
+			ToConcreteClassifierConverter classifierConverterUtility, ContainersFactory containersFactory,
+			ModulesFactory modulesFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
-				utilNamedElement, annotationInstanceConverter, classifierConverterUtility);
-		// TODO Auto-generated constructor stub
+				utilNamedElement, annotationInstanceConverter, classifierConverterUtility, containersFactory,
+				modulesFactory);
 	}
 
 	@SuppressWarnings("unchecked")

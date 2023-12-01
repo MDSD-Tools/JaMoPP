@@ -17,6 +17,7 @@ import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationValue;
+import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.Annotation;
 import org.emftext.language.java.classifiers.Classifier;
@@ -74,10 +75,33 @@ import com.google.inject.Singleton;
 @Singleton
 class UtilJdtBindingConverter {
 
+	private final ModulesFactory modulesFactory;
+	private final StatementsFactory statementsFactory;
+	private final ArraysFactory arraysFactory;
+	private final ReferencesFactory referencesFactory;
+	private final AnnotationsFactory annotationsFactory;
+	private final LiteralsFactory literalsFactory;
+	private final ModifiersFactory modifiersFactory;
+	private final ParametersFactory parametersFactory;
+	private final GenericsFactory genericsFactory;
+	private final TypesFactory typesFactory;
 	private UtilJdtResolver jdtTResolverUtility;
-	
+
 	@Inject
-	UtilJdtBindingConverter() {
+	UtilJdtBindingConverter(TypesFactory typesFactory, GenericsFactory genericsFactory,
+			ParametersFactory parametersFactory, ModifiersFactory modifiersFactory, ReferencesFactory referencesFactory,
+			LiteralsFactory literalsFactory, AnnotationsFactory annotationsFactory, StatementsFactory statementsFactory,
+			ModulesFactory modulesFactory, ArraysFactory arraysFactory) {
+		this.modulesFactory = modulesFactory;
+		this.statementsFactory = statementsFactory;
+		this.arraysFactory = arraysFactory;
+		this.referencesFactory = referencesFactory;
+		this.annotationsFactory = annotationsFactory;
+		this.literalsFactory = literalsFactory;
+		this.modifiersFactory = modifiersFactory;
+		this.parametersFactory = parametersFactory;
+		this.genericsFactory = genericsFactory;
+		this.typesFactory = typesFactory;
 	}
 
 	List<TypeReference> convertToTypeReferences(ITypeBinding binding) {
@@ -93,7 +117,7 @@ class UtilJdtBindingConverter {
 		} else {
 			Classifier classifier = jdtTResolverUtility.getClassifier(binding);
 			convertToNameAndSet(binding, classifier);
-			ClassifierReference ref = TypesFactory.eINSTANCE.createClassifierReference();
+			ClassifierReference ref = typesFactory.createClassifierReference();
 			if (binding.isParameterizedType()) {
 				for (ITypeBinding b : binding.getTypeArguments()) {
 					ref.getTypeArguments().add(convertToTypeArgument(b));
@@ -107,23 +131,23 @@ class UtilJdtBindingConverter {
 
 	private void handlePrimitive(ITypeBinding binding, List<TypeReference> result) {
 		if ("int".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createInt());
+			result.add(typesFactory.createInt());
 		} else if ("byte".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createByte());
+			result.add(typesFactory.createByte());
 		} else if ("short".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createShort());
+			result.add(typesFactory.createShort());
 		} else if ("long".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createLong());
+			result.add(typesFactory.createLong());
 		} else if ("boolean".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createBoolean());
+			result.add(typesFactory.createBoolean());
 		} else if ("double".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createDouble());
+			result.add(typesFactory.createDouble());
 		} else if ("float".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createFloat());
+			result.add(typesFactory.createFloat());
 		} else if ("void".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createVoid());
+			result.add(typesFactory.createVoid());
 		} else if ("char".equals(binding.getName())) {
-			result.add(TypesFactory.eINSTANCE.createChar());
+			result.add(typesFactory.createChar());
 		}
 	}
 
@@ -139,21 +163,21 @@ class UtilJdtBindingConverter {
 
 	TypeArgument convertToTypeArgument(ITypeBinding binding) {
 		if (!binding.isWildcardType()) {
-			QualifiedTypeArgument result = GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
+			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 			result.setTypeReference(convertToTypeReferences(binding).get(0));
 			convertToArrayDimensionsAndSet(binding, result);
 			return result;
 		}
 		if (binding.getBound() == null) {
-			return GenericsFactory.eINSTANCE.createUnknownTypeArgument();
+			return genericsFactory.createUnknownTypeArgument();
 		}
 		if (binding.isUpperbound()) {
-			ExtendsTypeArgument result = GenericsFactory.eINSTANCE.createExtendsTypeArgument();
+			ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
 			result.setExtendType(convertToTypeReferences(binding.getBound()).get(0));
 			convertToArrayDimensionsAndSet(binding, result);
 			return result;
 		}
-		SuperTypeArgument result = GenericsFactory.eINSTANCE.createSuperTypeArgument();
+		SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
 		result.setSuperType(convertToTypeReferences(binding.getBound()).get(0));
 		convertToArrayDimensionsAndSet(binding, result);
 		return result;
@@ -163,7 +187,7 @@ class UtilJdtBindingConverter {
 			org.emftext.language.java.arrays.ArrayTypeable arrDimContainer) {
 		if (binding.isArray()) {
 			for (int i = 0; i < binding.getDimensions(); i++) {
-				arrDimContainer.getArrayDimensionsBefore().add(ArraysFactory.eINSTANCE.createArrayDimension());
+				arrDimContainer.getArrayDimensionsBefore().add(arraysFactory.createArrayDimension());
 			}
 		}
 	}
@@ -326,7 +350,7 @@ class UtilJdtBindingConverter {
 	}
 
 	private Reference internalConvertToReference(ITypeBinding binding) {
-		IdentifierReference idRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
+		IdentifierReference idRef = referencesFactory.createIdentifierReference();
 		idRef.setTarget(jdtTResolverUtility.getClassifier(binding));
 		if (binding.isNested()) {
 			Reference parentRef = internalConvertToReference(binding.getDeclaringClass());
@@ -405,20 +429,20 @@ class UtilJdtBindingConverter {
 		} catch (AbortCompilation e) {
 		}
 		if (binding.getDeclaredReceiverType() != null) {
-			ReceiverParameter param = ParametersFactory.eINSTANCE.createReceiverParameter();
+			ReceiverParameter param = parametersFactory.createReceiverParameter();
 			param.setName("");
 			param.setTypeReference(convertToTypeReferences(binding.getDeclaredReceiverType()).get(0));
 			param.setOuterTypeReference(param.getTypeReference());
-			param.setThisReference(LiteralsFactory.eINSTANCE.createThis());
+			param.setThisReference(literalsFactory.createThis());
 			result.getParameters().add(param);
 		}
 		for (int index = 0; index < binding.getParameterTypes().length; index++) {
 			ITypeBinding typeBind = binding.getParameterTypes()[index];
 			Parameter param;
 			if (binding.isVarargs() && index == binding.getParameterTypes().length - 1) {
-				param = ParametersFactory.eINSTANCE.createVariableLengthParameter();
+				param = parametersFactory.createVariableLengthParameter();
 			} else {
-				param = ParametersFactory.eINSTANCE.createOrdinaryParameter();
+				param = parametersFactory.createOrdinaryParameter();
 			}
 			param.setName("param" + index);
 			param.setTypeReference(convertToTypeReferences(typeBind).get(0));
@@ -460,19 +484,19 @@ class UtilJdtBindingConverter {
 		} catch (AbortCompilation e) {
 		}
 		if (binding.getDeclaredReceiverType() != null) {
-			ReceiverParameter param = ParametersFactory.eINSTANCE.createReceiverParameter();
+			ReceiverParameter param = parametersFactory.createReceiverParameter();
 			param.setTypeReference(convertToTypeReferences(binding.getDeclaredReceiverType()).get(0));
 			param.setName("");
-			param.setThisReference(LiteralsFactory.eINSTANCE.createThis());
+			param.setThisReference(literalsFactory.createThis());
 			result.getParameters().add(param);
 		}
 		for (int index = 0; index < binding.getParameterTypes().length; index++) {
 			ITypeBinding typeBind = binding.getParameterTypes()[index];
 			Parameter param;
 			if (binding.isVarargs() && index == binding.getParameterTypes().length - 1) {
-				param = ParametersFactory.eINSTANCE.createVariableLengthParameter();
+				param = parametersFactory.createVariableLengthParameter();
 			} else {
-				param = ParametersFactory.eINSTANCE.createOrdinaryParameter();
+				param = parametersFactory.createOrdinaryParameter();
 			}
 			param.setName("param" + index);
 			param.setTypeReference(convertToTypeReferences(typeBind).get(0));
@@ -504,31 +528,30 @@ class UtilJdtBindingConverter {
 				}
 			}
 			if (!hasDefaultImpl) {
-				result.setStatement(StatementsFactory.eINSTANCE.createEmptyStatement());
+				result.setStatement(statementsFactory.createEmptyStatement());
 			}
 		}
 		return result;
 	}
 
 	private NamespaceClassifierReference convertToNamespaceClassifierReference(ITypeBinding binding) {
-		NamespaceClassifierReference ref = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+		NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 		if (binding.getPackage() != null) {
 			Collections.addAll(ref.getNamespaces(), binding.getPackage().getNameComponents());
 		}
-		ClassifierReference classRef = TypesFactory.eINSTANCE.createClassifierReference();
+		ClassifierReference classRef = typesFactory.createClassifierReference();
 		classRef.setTarget(jdtTResolverUtility.getClassifier(binding));
 		ref.getClassifierReferences().add(classRef);
 		return ref;
 	}
 
 	private AnnotationInstance convertToAnnotationInstance(IAnnotationBinding binding) {
-		AnnotationInstance result = org.emftext.language.java.annotations.AnnotationsFactory.eINSTANCE
-				.createAnnotationInstance();
+		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
 		Annotation resultClass = jdtTResolverUtility.getAnnotation(binding.getAnnotationType());
 		convertToNameAndSet(binding.getAnnotationType(), resultClass);
 		result.setAnnotation(resultClass);
 		if (binding.getDeclaredMemberValuePairs().length > 0) {
-			org.emftext.language.java.annotations.AnnotationParameterList params = org.emftext.language.java.annotations.AnnotationsFactory.eINSTANCE
+			org.emftext.language.java.annotations.AnnotationParameterList params = annotationsFactory
 					.createAnnotationParameterList();
 			for (IMemberValuePairBinding memBind : binding.getDeclaredMemberValuePairs()) {
 				params.getSettings().add(convertToAnnotationAttributeSetting(memBind));
@@ -540,8 +563,7 @@ class UtilJdtBindingConverter {
 
 	private org.emftext.language.java.annotations.AnnotationAttributeSetting convertToAnnotationAttributeSetting(
 			IMemberValuePairBinding binding) {
-		AnnotationAttributeSetting result = org.emftext.language.java.annotations.AnnotationsFactory.eINSTANCE
-				.createAnnotationAttributeSetting();
+		AnnotationAttributeSetting result = annotationsFactory.createAnnotationAttributeSetting();
 		result.setAttribute(jdtTResolverUtility.getInterfaceMethod(binding.getMethodBinding()));
 		result.setValue(convertToAnnotationValue(binding.getValue()));
 		return result;
@@ -550,7 +572,7 @@ class UtilJdtBindingConverter {
 	private AnnotationValue convertToAnnotationValue(Object value) {
 		if (value instanceof IVariableBinding varBind) {
 			Reference parentRef = internalConvertToReference(varBind.getDeclaringClass());
-			IdentifierReference varRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
+			IdentifierReference varRef = referencesFactory.createIdentifierReference();
 			varRef.setTarget(jdtTResolverUtility.getEnumConstant(varBind));
 			parentRef.setNext(varRef);
 			return getTopReference(varRef);
@@ -559,8 +581,7 @@ class UtilJdtBindingConverter {
 			return convertToAnnotationInstance((IAnnotationBinding) value);
 		}
 		if (value instanceof Object[] values) {
-			org.emftext.language.java.arrays.ArrayInitializer initializer = ArraysFactory.eINSTANCE
-					.createArrayInitializer();
+			org.emftext.language.java.arrays.ArrayInitializer initializer = arraysFactory.createArrayInitializer();
 			for (Object value2 : values) {
 				initializer.getInitialValues().add(
 						(org.emftext.language.java.arrays.ArrayInitializationValue) convertToAnnotationValue(value2));
@@ -569,7 +590,7 @@ class UtilJdtBindingConverter {
 		}
 		if (value instanceof ITypeBinding) {
 			Reference parentRef = internalConvertToReference((ITypeBinding) value);
-			ReflectiveClassReference classRef = ReferencesFactory.eINSTANCE.createReflectiveClassReference();
+			ReflectiveClassReference classRef = referencesFactory.createReflectiveClassReference();
 			parentRef.setNext(classRef);
 			return getTopReference(classRef);
 		}
@@ -578,90 +599,90 @@ class UtilJdtBindingConverter {
 
 	private org.emftext.language.java.expressions.PrimaryExpression convertToPrimaryExpression(Object value) {
 		if (value instanceof String) {
-			StringReference ref = ReferencesFactory.eINSTANCE.createStringReference();
+			StringReference ref = referencesFactory.createStringReference();
 			ref.setValue((String) value);
 			return ref;
 		}
 		if (value instanceof Boolean) {
-			BooleanLiteral literal = LiteralsFactory.eINSTANCE.createBooleanLiteral();
+			BooleanLiteral literal = literalsFactory.createBooleanLiteral();
 			literal.setValue((boolean) value);
 			return literal;
 		}
 		if (value instanceof Character) {
-			CharacterLiteral literal = LiteralsFactory.eINSTANCE.createCharacterLiteral();
+			CharacterLiteral literal = literalsFactory.createCharacterLiteral();
 			literal.setValue("\\u" + Integer.toHexString((Character) value));
 			return literal;
 		}
 		if (value instanceof Byte) {
-			DecimalIntegerLiteral literal = LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
+			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((byte) value));
 			return literal;
 		}
 		if (value instanceof Short) {
-			DecimalIntegerLiteral literal = LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
+			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((short) value));
 			return literal;
 		}
 		if (value instanceof Integer) {
-			DecimalIntegerLiteral literal = LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
+			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((int) value));
 			return literal;
 		}
 		if (value instanceof Long) {
-			DecimalLongLiteral literal = LiteralsFactory.eINSTANCE.createDecimalLongLiteral();
+			DecimalLongLiteral literal = literalsFactory.createDecimalLongLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((long) value));
 			return literal;
 		}
 		if (value instanceof Float) {
-			DecimalFloatLiteral literal = LiteralsFactory.eINSTANCE.createDecimalFloatLiteral();
+			DecimalFloatLiteral literal = literalsFactory.createDecimalFloatLiteral();
 			literal.setDecimalValue((float) value);
 			return literal;
 		}
 		if (value instanceof Double) {
-			DecimalDoubleLiteral literal = LiteralsFactory.eINSTANCE.createDecimalDoubleLiteral();
+			DecimalDoubleLiteral literal = literalsFactory.createDecimalDoubleLiteral();
 			literal.setDecimalValue((double) value);
 			return literal;
 		}
-		return LiteralsFactory.eINSTANCE.createNullLiteral();
+		return literalsFactory.createNullLiteral();
 	}
 
 	private List<org.emftext.language.java.modifiers.Modifier> convertToModifiers(int modifiers) {
 		ArrayList<org.emftext.language.java.modifiers.Modifier> result = new ArrayList<>();
 		if (Modifier.isAbstract(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createAbstract());
+			result.add(modifiersFactory.createAbstract());
 		}
 		if (Modifier.isDefault(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createDefault());
+			result.add(modifiersFactory.createDefault());
 		}
 		if (Modifier.isFinal(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createFinal());
+			result.add(modifiersFactory.createFinal());
 		}
 		if (Modifier.isNative(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createNative());
+			result.add(modifiersFactory.createNative());
 		}
 		if (Modifier.isPrivate(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createPrivate());
+			result.add(modifiersFactory.createPrivate());
 		}
 		if (Modifier.isProtected(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createProtected());
+			result.add(modifiersFactory.createProtected());
 		}
 		if (Modifier.isPublic(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createPublic());
+			result.add(modifiersFactory.createPublic());
 		}
 		if (Modifier.isStatic(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createStatic());
+			result.add(modifiersFactory.createStatic());
 		}
 		if (Modifier.isStrictfp(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createStrictfp());
+			result.add(modifiersFactory.createStrictfp());
 		}
 		if (Modifier.isSynchronized(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createSynchronized());
+			result.add(modifiersFactory.createSynchronized());
 		}
 		if (Modifier.isTransient(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createTransient());
+			result.add(modifiersFactory.createTransient());
 		}
 		if (Modifier.isVolatile(modifiers)) {
-			result.add(ModifiersFactory.eINSTANCE.createVolatile());
+			result.add(modifiersFactory.createVolatile());
 		}
 		return result;
 	}
@@ -696,48 +717,48 @@ class UtilJdtBindingConverter {
 		} catch (AbortCompilation e) {
 		}
 		if (binding.isOpen()) {
-			result.setOpen(ModifiersFactory.eINSTANCE.createOpen());
+			result.setOpen(modifiersFactory.createOpen());
 		}
 		convertToNamespacesAndSet(binding.getName(), result);
 		result.setName("");
 		try {
 			for (IPackageBinding packBind : binding.getExportedPackages()) {
-				ExportsModuleDirective dir = ModulesFactory.eINSTANCE.createExportsModuleDirective();
+				ExportsModuleDirective dir = modulesFactory.createExportsModuleDirective();
 				dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
 				String[] mods = binding.getExportedTo(packBind);
 				for (String modName : mods) {
-					ModuleReference ref = ModulesFactory.eINSTANCE.createModuleReference();
+					ModuleReference ref = modulesFactory.createModuleReference();
 					ref.setTarget(jdtTResolverUtility.getModule(modName));
 					dir.getModules().add(ref);
 				}
 				result.getTarget().add(dir);
 			}
 			for (IPackageBinding packBind : binding.getOpenedPackages()) {
-				OpensModuleDirective dir = ModulesFactory.eINSTANCE.createOpensModuleDirective();
+				OpensModuleDirective dir = modulesFactory.createOpensModuleDirective();
 				dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
 				String[] mods = binding.getOpenedTo(packBind);
 				for (String modName : mods) {
-					ModuleReference ref = ModulesFactory.eINSTANCE.createModuleReference();
+					ModuleReference ref = modulesFactory.createModuleReference();
 					ref.setTarget(jdtTResolverUtility.getModule(modName));
 					dir.getModules().add(ref);
 				}
 				result.getTarget().add(dir);
 			}
 			for (IModuleBinding modBind : binding.getRequiredModules()) {
-				RequiresModuleDirective dir = ModulesFactory.eINSTANCE.createRequiresModuleDirective();
+				RequiresModuleDirective dir = modulesFactory.createRequiresModuleDirective();
 				org.emftext.language.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
-				ModuleReference ref = ModulesFactory.eINSTANCE.createModuleReference();
+				ModuleReference ref = modulesFactory.createModuleReference();
 				ref.setTarget(reqMod);
 				dir.setRequiredModule(ref);
 				result.getTarget().add(dir);
 			}
 			for (ITypeBinding typeBind : binding.getUses()) {
-				UsesModuleDirective dir = ModulesFactory.eINSTANCE.createUsesModuleDirective();
+				UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
 				dir.setTypeReference(convertToTypeReferences(typeBind).get(0));
 				result.getTarget().add(dir);
 			}
 			for (ITypeBinding typeBind : binding.getServices()) {
-				ProvidesModuleDirective dir = ModulesFactory.eINSTANCE.createProvidesModuleDirective();
+				ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
 				dir.setTypeReference(convertToTypeReferences(typeBind).get(0));
 				for (ITypeBinding service : binding.getImplementations(typeBind)) {
 					dir.getServiceProviders().addAll(convertToTypeReferences(service));
@@ -754,7 +775,7 @@ class UtilJdtBindingConverter {
 		String[] singleNamespaces = namespaces.split("\\.");
 		Collections.addAll(ele.getNamespaces(), singleNamespaces);
 	}
-	
+
 	void setJDTResolverUtility(UtilJdtResolver jDTResolverUtility) {
 		jdtTResolverUtility = jDTResolverUtility;
 	}

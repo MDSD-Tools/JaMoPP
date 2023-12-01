@@ -2,18 +2,22 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
 class ToMultiplicativeExpressionConverter {
 
+	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter;
 
 	@Inject
 	ToMultiplicativeExpressionConverter(ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter,
-			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter) {
+			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
+			ExpressionsFactory expressionsFactory) {
+		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toMultiplicativeOperatorConverter = toMultiplicativeOperatorConverter;
@@ -22,7 +26,7 @@ class ToMultiplicativeExpressionConverter {
 	@SuppressWarnings("unchecked")
 	org.emftext.language.java.expressions.MultiplicativeExpression convertToMultiplicativeExpression(
 			InfixExpression expr) {
-		org.emftext.language.java.expressions.MultiplicativeExpression result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+		org.emftext.language.java.expressions.MultiplicativeExpression result = expressionsFactory
 				.createMultiplicativeExpression();
 		mergeMultiplicativeExpressionAndExpression(result,
 				toExpressionConverter.convertToExpression(expr.getLeftOperand()));

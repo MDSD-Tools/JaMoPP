@@ -1,18 +1,29 @@
 package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.emftext.language.java.operators.OperatorsFactory;
+
+import com.google.inject.Inject;
 
 class ToMultiplicativeOperatorConverter {
-	
-	org.emftext.language.java.operators.MultiplicativeOperator convertToMultiplicativeOperator(InfixExpression.Operator op) {
+
+	private final OperatorsFactory operatorsFactory;
+
+	@Inject
+	public ToMultiplicativeOperatorConverter(OperatorsFactory operatorsFactory) {
+		this.operatorsFactory = operatorsFactory;
+	}
+
+	org.emftext.language.java.operators.MultiplicativeOperator convertToMultiplicativeOperator(
+			InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.TIMES) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createMultiplication();
+			return operatorsFactory.createMultiplication();
 		}
 		if (op == InfixExpression.Operator.DIVIDE) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createDivision();
+			return operatorsFactory.createDivision();
 		}
 		if (op == InfixExpression.Operator.REMAINDER) {
-			return org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createRemainder();
+			return operatorsFactory.createRemainder();
 		}
 		return null;
 	}

@@ -29,12 +29,14 @@ import com.google.inject.Inject;
 
 class ToClassifierOrNamespaceClassifierReferenceConverter {
 
+	private final TypesFactory typesFactory;
 	private final UtilNamedElement utilNamedElement;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 
 	@Inject
 	ToClassifierOrNamespaceClassifierReferenceConverter(UtilNamedElement utilNamedElement,
-			ToClassifierReferenceConverter toClassifierReferenceConverter) {
+			ToClassifierReferenceConverter toClassifierReferenceConverter, TypesFactory typesFactory) {
+		this.typesFactory = typesFactory;
 		this.utilNamedElement = utilNamedElement;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 	}
@@ -44,7 +46,7 @@ class ToClassifierOrNamespaceClassifierReferenceConverter {
 			return toClassifierReferenceConverter.convertToClassifierReference((SimpleName) name);
 		}
 		QualifiedName qualifiedName = (QualifiedName) name;
-		NamespaceClassifierReference ref = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+		NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 		if (name.resolveBinding() == null) {
 			ref.getClassifierReferences()
 					.add(toClassifierReferenceConverter.convertToClassifierReference(qualifiedName.getName()));

@@ -10,14 +10,16 @@ import com.google.inject.Inject;
 
 class ToEqualityExpressionConverter {
 
+	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToEqualityOperatorConverter toEqualityOperatorConverter;
 
 	@Inject
 	ToEqualityExpressionConverter(ToExpressionConverter toExpressionConverter,
-			ToEqualityOperatorConverter toEqualityOperatorConverter,
-			UtilLayout layoutInformationConverter) {
+			ToEqualityOperatorConverter toEqualityOperatorConverter, UtilLayout layoutInformationConverter,
+			ExpressionsFactory expressionsFactory) {
+		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toEqualityOperatorConverter = toEqualityOperatorConverter;
@@ -25,7 +27,7 @@ class ToEqualityExpressionConverter {
 
 	@SuppressWarnings("unchecked")
 	EqualityExpression convertToEqualityExpression(InfixExpression expr) {
-		EqualityExpression result = ExpressionsFactory.eINSTANCE.createEqualityExpression();
+		EqualityExpression result = expressionsFactory.createEqualityExpression();
 		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getLeftOperand()));
 		result.getEqualityOperators().add(toEqualityOperatorConverter.convertToEqualityOperator(expr.getOperator()));
 		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getRightOperand()));

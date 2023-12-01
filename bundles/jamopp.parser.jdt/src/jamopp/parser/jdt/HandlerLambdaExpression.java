@@ -7,11 +7,13 @@ import org.eclipse.jdt.core.dom.LambdaExpression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
 class HandlerLambdaExpression {
 
+	private final TypesFactory typesFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
@@ -24,7 +26,8 @@ class HandlerLambdaExpression {
 	HandlerLambdaExpression(UtilStatementConverter utilStatementConverter, UtilLayout utilLayout,
 			UtilJdtResolver utilJdtResolver, UtilJdtBindingConverter utilJdtBindingConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter, ToExpressionConverter toExpressionConverter,
-			ExpressionsFactory expressionsFactory) {
+			ExpressionsFactory expressionsFactory, TypesFactory typesFactory) {
+		this.typesFactory = typesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;
@@ -55,7 +58,7 @@ class HandlerLambdaExpression {
 							utilJdtBindingConverter.convertToTypeReferences(binding.getType()).get(0));
 				} else {
 					nextParam = utilJdtResolver.getOrdinaryParameter(frag.getName().getIdentifier() + frag.hashCode());
-					nextParam.setTypeReference(org.emftext.language.java.types.TypesFactory.eINSTANCE.createVoid());
+					nextParam.setTypeReference(typesFactory.createVoid());
 				}
 				nextParam.setName(frag.getName().getIdentifier());
 				param.getParameters().add(nextParam);

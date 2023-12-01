@@ -10,14 +10,16 @@ import com.google.inject.Inject;
 
 class ToAdditiveExpressionConverter {
 
+	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToAdditiveOperatorConverter toAdditiveOperatorConverter;
 
 	@Inject
 	ToAdditiveExpressionConverter(ToExpressionConverter toExpressionConverter,
-			ToAdditiveOperatorConverter toAdditiveOperatorConverter,
-			UtilLayout layoutInformationConverter) {
+			ToAdditiveOperatorConverter toAdditiveOperatorConverter, UtilLayout layoutInformationConverter,
+			ExpressionsFactory expressionsFactory) {
+		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toAdditiveOperatorConverter = toAdditiveOperatorConverter;
@@ -25,7 +27,7 @@ class ToAdditiveExpressionConverter {
 
 	@SuppressWarnings("unchecked")
 	AdditiveExpression convertToAdditiveExpression(InfixExpression expr) {
-		AdditiveExpression result = ExpressionsFactory.eINSTANCE.createAdditiveExpression();
+		AdditiveExpression result = expressionsFactory.createAdditiveExpression();
 		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getLeftOperand()));
 		result.getAdditiveOperators().add(toAdditiveOperatorConverter.convertToAdditiveOperator(expr.getOperator()));
 		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getRightOperand()));

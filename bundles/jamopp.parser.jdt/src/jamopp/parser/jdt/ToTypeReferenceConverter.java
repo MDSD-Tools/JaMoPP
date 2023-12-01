@@ -29,6 +29,8 @@ import com.google.inject.Inject;
 
 class ToTypeReferenceConverter {
 
+	private final GenericsFactory genericsFactory;
+	private final TypesFactory typesFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtBindingConverter jdtBindingConverterUtility;
 	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
@@ -41,7 +43,10 @@ class ToTypeReferenceConverter {
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, UtilJdtBindingConverter jdtBindingConverterUtility,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter,
-			ToClassifierReferenceConverter toClassifierReferenceConverter) {
+			ToClassifierReferenceConverter toClassifierReferenceConverter, TypesFactory typesFactory,
+			GenericsFactory genericsFactory) {
+		this.genericsFactory = genericsFactory;
+		this.typesFactory = typesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 		this.utilBaseConverter = utilBaseConverter;
@@ -56,23 +61,23 @@ class ToTypeReferenceConverter {
 			PrimitiveType primType = (PrimitiveType) t;
 			org.emftext.language.java.types.PrimitiveType convertedType;
 			if (primType.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
-				convertedType = TypesFactory.eINSTANCE.createBoolean();
+				convertedType = typesFactory.createBoolean();
 			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.BYTE) {
-				convertedType = TypesFactory.eINSTANCE.createByte();
+				convertedType = typesFactory.createByte();
 			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.CHAR) {
-				convertedType = TypesFactory.eINSTANCE.createChar();
+				convertedType = typesFactory.createChar();
 			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.DOUBLE) {
-				convertedType = TypesFactory.eINSTANCE.createDouble();
+				convertedType = typesFactory.createDouble();
 			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.FLOAT) {
-				convertedType = TypesFactory.eINSTANCE.createFloat();
+				convertedType = typesFactory.createFloat();
 			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.INT) {
-				convertedType = TypesFactory.eINSTANCE.createInt();
+				convertedType = typesFactory.createInt();
 			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.LONG) {
-				convertedType = TypesFactory.eINSTANCE.createLong();
+				convertedType = typesFactory.createLong();
 			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.SHORT) {
-				convertedType = TypesFactory.eINSTANCE.createShort();
+				convertedType = typesFactory.createShort();
 			} else { // primType.getPrimitiveTypeCode() == PrimitiveType.VOID
-				convertedType = TypesFactory.eINSTANCE.createVoid();
+				convertedType = typesFactory.createVoid();
 			}
 			primType.annotations().forEach(obj -> convertedType.getAnnotations()
 					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
@@ -80,7 +85,7 @@ class ToTypeReferenceConverter {
 			return convertedType;
 		}
 		if (t.isVar()) {
-			InferableType ref = TypesFactory.eINSTANCE.createInferableType();
+			InferableType ref = typesFactory.createInferableType();
 			ITypeBinding binding = t.resolveBinding();
 			if (binding != null) {
 				ref.getActualTargets().addAll(jdtBindingConverterUtility.convertToTypeReferences(binding));
@@ -117,7 +122,7 @@ class ToTypeReferenceConverter {
 			NamespaceClassifierReference result;
 			TypeReference parentRef = convertToTypeReference(qualType.getQualifier());
 			if (parentRef instanceof ClassifierReference) {
-				result = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+				result = typesFactory.createNamespaceClassifierReference();
 				result.getClassifierReferences().add((ClassifierReference) parentRef);
 			} else {
 				// parentRef instanceof NamespaceClassifierReference
@@ -137,7 +142,7 @@ class ToTypeReferenceConverter {
 			TypeReference parentRef = utilBaseConverter
 					.convertToClassifierOrNamespaceClassifierReference(nqT.getQualifier());
 			if (parentRef instanceof ClassifierReference) {
-				result = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+				result = typesFactory.createNamespaceClassifierReference();
 				result.getClassifierReferences().add((ClassifierReference) parentRef);
 			} else {
 				result = (NamespaceClassifierReference) parentRef;
@@ -169,7 +174,7 @@ class ToTypeReferenceConverter {
 	@SuppressWarnings("unchecked")
 	TypeArgument convertToTypeArgument(Type t) {
 		if (!t.isWildcardType()) {
-			QualifiedTypeArgument result = GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
+			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 			result.setTypeReference(convertToTypeReference(t));
 			convertToArrayDimensionsAndSet(t, result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, t);
@@ -177,14 +182,14 @@ class ToTypeReferenceConverter {
 		}
 		WildcardType wildType = (WildcardType) t;
 		if (wildType.getBound() == null) {
-			UnknownTypeArgument result = GenericsFactory.eINSTANCE.createUnknownTypeArgument();
+			UnknownTypeArgument result = genericsFactory.createUnknownTypeArgument();
 			wildType.annotations().forEach(obj -> result.getAnnotations()
 					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		if (wildType.isUpperBound()) {
-			ExtendsTypeArgument result = GenericsFactory.eINSTANCE.createExtendsTypeArgument();
+			ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
 			wildType.annotations().forEach(obj -> result.getAnnotations()
 					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			result.setExtendType(convertToTypeReference(wildType.getBound()));
@@ -192,7 +197,7 @@ class ToTypeReferenceConverter {
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
-		SuperTypeArgument result = GenericsFactory.eINSTANCE.createSuperTypeArgument();
+		SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
 		wildType.annotations().forEach(obj -> result.getAnnotations()
 				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		result.setSuperType(convertToTypeReference(wildType.getBound()));

@@ -9,25 +9,30 @@ import com.google.inject.Inject;
 
 class ToReceiverParameterConverter {
 
+	private final LiteralsFactory literalsFactory;
+	private final ParametersFactory parametersFactory;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 
 	@Inject
 	ToReceiverParameterConverter(ToTypeReferenceConverter toTypeReferenceConverter,
-			ToClassifierReferenceConverter toClassifierReferenceConverter) {
+			ToClassifierReferenceConverter toClassifierReferenceConverter, ParametersFactory parametersFactory,
+			LiteralsFactory literalsFactory) {
+		this.literalsFactory = literalsFactory;
+		this.parametersFactory = parametersFactory;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 	}
 
 	ReceiverParameter convertToReceiverParameter(MethodDeclaration methodDecl) {
-		ReceiverParameter result = ParametersFactory.eINSTANCE.createReceiverParameter();
+		ReceiverParameter result = parametersFactory.createReceiverParameter();
 		result.setName("");
 		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(methodDecl.getReceiverType()));
 		if (methodDecl.getReceiverQualifier() != null) {
 			result.setOuterTypeReference(
 					toClassifierReferenceConverter.convertToClassifierReference(methodDecl.getReceiverQualifier()));
 		}
-		result.setThisReference(LiteralsFactory.eINSTANCE.createThis());
+		result.setThisReference(literalsFactory.createThis());
 		return result;
 	}
 

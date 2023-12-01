@@ -6,43 +6,45 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 
 class ToModifierConverter {
-	
+
+	private final ModifiersFactory modifiersFactory;
 	private final UtilLayout layoutInformationConverter;
-	
+
 	@Inject
-	ToModifierConverter(UtilLayout layoutInformationConverter) {
+	ToModifierConverter(UtilLayout layoutInformationConverter, ModifiersFactory modifiersFactory) {
+		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 	}
 
 	org.emftext.language.java.modifiers.Modifier convertToModifier(Modifier mod) {
 		org.emftext.language.java.modifiers.Modifier result = null;
 		if (mod.isAbstract()) {
-			result = ModifiersFactory.eINSTANCE.createAbstract();
+			result = modifiersFactory.createAbstract();
 		} else if (mod.isDefault()) {
-			result = ModifiersFactory.eINSTANCE.createDefault();
+			result = modifiersFactory.createDefault();
 		} else if (mod.isFinal()) {
-			result = ModifiersFactory.eINSTANCE.createFinal();
+			result = modifiersFactory.createFinal();
 		} else if (mod.isNative()) {
-			result = ModifiersFactory.eINSTANCE.createNative();
+			result = modifiersFactory.createNative();
 		} else if (mod.isPrivate()) {
-			result = ModifiersFactory.eINSTANCE.createPrivate();
+			result = modifiersFactory.createPrivate();
 		} else if (mod.isProtected()) {
-			result = ModifiersFactory.eINSTANCE.createProtected();
+			result = modifiersFactory.createProtected();
 		} else if (mod.isPublic()) {
-			result = ModifiersFactory.eINSTANCE.createPublic();
+			result = modifiersFactory.createPublic();
 		} else if (mod.isStatic()) {
-			result = ModifiersFactory.eINSTANCE.createStatic();
+			result = modifiersFactory.createStatic();
 		} else if (mod.isStrictfp()) {
-			result = ModifiersFactory.eINSTANCE.createStrictfp();
+			result = modifiersFactory.createStrictfp();
 		} else if (mod.isSynchronized()) {
-			result = ModifiersFactory.eINSTANCE.createSynchronized();
+			result = modifiersFactory.createSynchronized();
 		} else if (mod.isTransient()) {
-			result = ModifiersFactory.eINSTANCE.createTransient();
+			result = modifiersFactory.createTransient();
 		} else { // mod.isVolatile()
-			result = ModifiersFactory.eINSTANCE.createVolatile();
+			result = modifiersFactory.createVolatile();
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, mod);
 		return result;
 	}
-	
+
 }

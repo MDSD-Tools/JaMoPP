@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 @Singleton
 class ToAnnotationInstanceConverter {
 
+	private final AnnotationsFactory annotationsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
@@ -25,16 +26,16 @@ class ToAnnotationInstanceConverter {
 
 	@Inject
 	ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility) {
+			UtilJdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
+		this.annotationsFactory = annotationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
-		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 
 	@SuppressWarnings("unchecked")
 	AnnotationInstance convertToAnnotationInstance(Annotation annot) {
-		AnnotationInstance result = AnnotationsFactory.eINSTANCE.createAnnotationInstance();
+		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
 		utilNamedElement.addNameToNameSpace(annot.getTypeName(), result);
 		org.emftext.language.java.classifiers.Annotation proxyClass;
 		IAnnotationBinding binding = annot.resolveAnnotationBinding();
@@ -45,17 +46,17 @@ class ToAnnotationInstanceConverter {
 		}
 		result.setAnnotation(proxyClass);
 		if (annot.isSingleMemberAnnotation()) {
-			SingleAnnotationParameter param = AnnotationsFactory.eINSTANCE.createSingleAnnotationParameter();
+			SingleAnnotationParameter param = annotationsFactory.createSingleAnnotationParameter();
 			result.setParameter(param);
 			SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
 			typeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
 		} else if (annot.isNormalAnnotation()) {
-			AnnotationParameterList param = AnnotationsFactory.eINSTANCE.createAnnotationParameterList();
+			AnnotationParameterList param = annotationsFactory.createAnnotationParameterList();
 			result.setParameter(param);
 			NormalAnnotation normalAnnot = (NormalAnnotation) annot;
 			normalAnnot.values().forEach(obj -> {
 				MemberValuePair memVal = (MemberValuePair) obj;
-				AnnotationAttributeSetting attrSet = AnnotationsFactory.eINSTANCE.createAnnotationAttributeSetting();
+				AnnotationAttributeSetting attrSet = annotationsFactory.createAnnotationAttributeSetting();
 				InterfaceMethod methodProxy;
 				if (memVal.resolveMemberValuePairBinding() != null) {
 					methodProxy = jdtResolverUtility
@@ -76,7 +77,7 @@ class ToAnnotationInstanceConverter {
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, annot);
 		return result;
 	}
-	
+
 	public void setTypeInstructionSeparationUtility(UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}

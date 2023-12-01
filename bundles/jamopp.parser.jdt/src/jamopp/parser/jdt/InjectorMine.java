@@ -1,5 +1,7 @@
 package jamopp.parser.jdt;
 
+import org.emftext.language.java.containers.ContainersFactory;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -8,6 +10,7 @@ class InjectorMine {
 	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	private static final UtilJdtResolver jdtResolverUtility;
 	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
+	private static final ContainersFactory containersFactory;
 
 	static {
 		Injector injector = Guice.createInjector(new InjectorGuice());
@@ -15,7 +18,7 @@ class InjectorMine {
 		ordinaryCompilationUnitJDTASTVisitorAndConverter  = injector.getInstance(OrdinaryCompilationUnitJDTASTVisitorAndConverter.class);
 		jdtResolverUtility= injector.getInstance(UtilJdtResolver.class);
 		typeInstructionSeparationUtility= injector.getInstance(UtilTypeInstructionSeparation.class);
-		
+		containersFactory = injector.getInstance(ContainersFactory.class);
 		
 		injector.getInstance(ToClassMemberConverter.class).setToConcreteClassifierConverter(injector.getInstance(ToConcreteClassifierConverter.class));
 		injector.getInstance(UtilExpressionConverter.class).setToExpressionConverter(injector.getInstance(ToExpressionConverter.class));
@@ -34,6 +37,10 @@ class InjectorMine {
 
 	static UtilTypeInstructionSeparation getTypeInstructionSeparationUtility() {
 		return typeInstructionSeparationUtility;
+	}
+
+	public static ContainersFactory getContainersFactory() {
+		return containersFactory;
 	}
 
 }

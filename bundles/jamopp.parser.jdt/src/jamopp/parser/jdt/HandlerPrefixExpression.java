@@ -3,11 +3,13 @@ package jamopp.parser.jdt;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.PrefixExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
 class HandlerPrefixExpression {
 
+	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final ToUnaryExpressionConverter toUnaryExpressionConverter;
 	private final ToExpressionConverter toExpressionConverter;
@@ -15,7 +17,9 @@ class HandlerPrefixExpression {
 
 	@Inject
 	HandlerPrefixExpression(UtilLayout utilLayout, ToUnaryExpressionConverter toUnaryExpressionConverter,
-			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory) {
+			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory,
+			OperatorsFactory operatorsFactory) {
+		this.operatorsFactory = operatorsFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toUnaryExpressionConverter = toUnaryExpressionConverter;
 		this.toExpressionConverter = toExpressionConverter;
@@ -35,9 +39,9 @@ class HandlerPrefixExpression {
 			org.emftext.language.java.expressions.PrefixUnaryModificationExpression result = expressionsFactory
 					.createPrefixUnaryModificationExpression();
 			if (prefixExpr.getOperator() == PrefixExpression.Operator.DECREMENT) {
-				result.setOperator(org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createMinusMinus());
+				result.setOperator(operatorsFactory.createMinusMinus());
 			} else {
-				result.setOperator(org.emftext.language.java.operators.OperatorsFactory.eINSTANCE.createPlusPlus());
+				result.setOperator(operatorsFactory.createPlusPlus());
 			}
 			result.setChild(
 					(org.emftext.language.java.expressions.UnaryModificationExpressionChild) toExpressionConverter

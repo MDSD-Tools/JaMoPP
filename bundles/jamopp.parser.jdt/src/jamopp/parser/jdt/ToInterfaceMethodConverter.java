@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 
 public class ToInterfaceMethodConverter {
 
+	private final StatementsFactory statementsFactory;
 	private final UtilJdtResolver utilJdtResolver;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
@@ -21,7 +22,9 @@ public class ToInterfaceMethodConverter {
 	ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter,
-			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter) {
+			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
+			StatementsFactory statementsFactory) {
+		this.statementsFactory = statementsFactory;
 		this.utilJdtResolver = utilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
@@ -47,7 +50,7 @@ public class ToInterfaceMethodConverter {
 		if (annDecl.getDefault() != null) {
 			utilTypeInstructionSeparation.addAnnotationMethod(annDecl.getDefault(), result);
 		}
-		result.setStatement(StatementsFactory.eINSTANCE.createEmptyStatement());
+		result.setStatement(statementsFactory.createEmptyStatement());
 		utilLayout.convertToMinimalLayoutInformation(result, annDecl);
 		return result;
 	}

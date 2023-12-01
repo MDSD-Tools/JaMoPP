@@ -2,18 +2,21 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
 class ToRelationExpressionConverter {
 	
+	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToRelationOperatorConverter toRelationOperatorConverter;
 
 	@Inject
 	ToRelationExpressionConverter(ToRelationOperatorConverter toRelationOperatorConverter,
-			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter) {
+			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toRelationOperatorConverter = toRelationOperatorConverter;
@@ -21,7 +24,7 @@ class ToRelationExpressionConverter {
 
 	@SuppressWarnings("unchecked")
 	org.emftext.language.java.expressions.RelationExpression convertToRelationExpression(InfixExpression expr) {
-		org.emftext.language.java.expressions.RelationExpression result = org.emftext.language.java.expressions.ExpressionsFactory.eINSTANCE
+		org.emftext.language.java.expressions.RelationExpression result = expressionsFactory
 				.createRelationExpression();
 		mergeRelationExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getLeftOperand()));
 		result.getRelationOperators().add(toRelationOperatorConverter.convertToRelationOperator(expr.getOperator()));

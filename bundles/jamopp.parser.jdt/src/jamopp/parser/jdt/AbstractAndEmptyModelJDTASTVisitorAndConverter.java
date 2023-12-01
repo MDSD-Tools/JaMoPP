@@ -35,12 +35,15 @@ import org.emftext.language.java.imports.StaticMemberImport;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.modifiers.ModifiersFactory;
+import org.emftext.language.java.modules.ModulesFactory;
 import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
 abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
 
+	protected final ContainersFactory containersFactory;
+	protected final ModulesFactory modulesFactory;
 	protected final UtilLayout layoutInformationConverter;
 	protected final UtilJdtResolver jdtResolverUtility;
 	protected final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
@@ -52,8 +55,13 @@ abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor
 
 	@Inject
 	AbstractAndEmptyModelJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
-			ImportsFactory importsFactory, UtilNamedElement utilNamedElement, ToAnnotationInstanceConverter annotationInstanceConverter, ToConcreteClassifierConverter classifierConverterUtility) {
+			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			ToAnnotationInstanceConverter annotationInstanceConverter,
+			ToConcreteClassifierConverter classifierConverterUtility, ContainersFactory containersFactory,
+			ModulesFactory modulesFactory) {
+		this.containersFactory = containersFactory;
+		this.modulesFactory = modulesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilBaseConverter = utilBaseConverter;
@@ -86,7 +94,7 @@ abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor
 	@Override
 	public boolean visit(CompilationUnit node) {
 		if (convertedRootElement == null) {
-			convertedRootElement = ContainersFactory.eINSTANCE.createEmptyModel();
+			convertedRootElement = containersFactory.createEmptyModel();
 			convertedRootElement.setName("");
 		}
 		for (Object obj : node.imports()) {

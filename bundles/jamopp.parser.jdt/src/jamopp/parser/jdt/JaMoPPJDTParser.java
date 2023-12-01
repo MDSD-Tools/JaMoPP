@@ -41,14 +41,16 @@ import jamopp.parser.api.JaMoPPParserAPI;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
+	private static final ContainersFactory containersFactory;
 	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private static final UtilJdtResolver jdtResolverUtility;
 	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter;
-	
+
 	static {
 		typeInstructionSeparationUtility = InjectorMine.getTypeInstructionSeparationUtility();
 		jdtResolverUtility = InjectorMine.getJDTResolverUtility();
 		converter = InjectorMine.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
+		containersFactory = InjectorMine.getContainersFactory();
 	}
 
 	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
@@ -187,7 +189,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private ResourceSet resourceSet;
 
 	public JaMoPPJDTParser() {
-		ContainersFactory.eINSTANCE.createEmptyModel();
+		containersFactory.createEmptyModel();
 		this.resourceSet = new ResourceSetImpl();
 		jdtResolverUtility.setResourceSet(this.resourceSet);
 	}

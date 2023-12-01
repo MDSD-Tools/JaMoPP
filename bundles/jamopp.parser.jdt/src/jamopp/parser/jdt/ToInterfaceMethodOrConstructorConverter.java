@@ -15,6 +15,7 @@ import com.google.inject.Inject;
 
 public class ToInterfaceMethodOrConstructorConverter {
 
+	private final StatementsFactory statementsFactory;
 	private final ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter;
 	private final UtilJdtResolver utilJdtResolver;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
@@ -36,7 +37,8 @@ public class ToInterfaceMethodOrConstructorConverter {
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			InNamespaceClassifierReferenceWrapper inNamespaceClassifierReferenceWrapper) {
+			InNamespaceClassifierReferenceWrapper inNamespaceClassifierReferenceWrapper, StatementsFactory statementsFactory) {
+		this.statementsFactory = statementsFactory;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
 		this.utilJdtResolver = utilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -84,7 +86,7 @@ public class ToInterfaceMethodOrConstructorConverter {
 		if (methodDecl.getBody() != null) {
 			utilTypeInstructionSeparation.addMethod(methodDecl.getBody(), result);
 		} else {
-			result.setStatement(StatementsFactory.eINSTANCE.createEmptyStatement());
+			result.setStatement(statementsFactory.createEmptyStatement());
 		}
 		utilLayout.convertToMinimalLayoutInformation(result, methodDecl);
 		return result;

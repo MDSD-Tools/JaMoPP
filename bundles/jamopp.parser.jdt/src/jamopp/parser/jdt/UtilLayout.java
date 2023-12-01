@@ -19,14 +19,22 @@ import org.emftext.commons.layout.MinimalLayoutInformation;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.JavaRoot;
 
+import com.google.inject.Inject;
+
 class UtilLayout {
 	
+	private final LayoutFactory layoutFactory;
 	private static MinimalLayoutInformation currentRootLayout;
+	
+	@Inject
+	public UtilLayout(LayoutFactory layoutFactory) {
+		this.layoutFactory = layoutFactory;
+	}
 
 	void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode) {
 		currentRootLayout = null;
 		if (sourceCode != null) {
-			currentRootLayout = LayoutFactory.eINSTANCE.createMinimalLayoutInformation();
+			currentRootLayout = layoutFactory.createMinimalLayoutInformation();
 			currentRootLayout.setVisibleTokenText(sourceCode);
 			currentRootLayout.setStartOffset(rootSource.getStartPosition());
 			currentRootLayout.setLength(rootSource.getLength());
@@ -38,7 +46,7 @@ class UtilLayout {
 
 	void convertToMinimalLayoutInformation(Commentable target, ASTNode source) {
 		if (currentRootLayout != null) {
-			MinimalLayoutInformation li = LayoutFactory.eINSTANCE.createMinimalLayoutInformation();
+			MinimalLayoutInformation li = layoutFactory.createMinimalLayoutInformation();
 			li.setStartOffset(source.getStartPosition());
 			li.setLength(source.getLength());
 			li.setObject(target);

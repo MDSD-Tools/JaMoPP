@@ -16,11 +16,27 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.emftext.language.java.JavaClasspath;
+import org.emftext.language.java.classifiers.ClassifiersFactory;
+import org.emftext.language.java.containers.ContainersFactory;
+import org.emftext.language.java.generics.GenericsFactory;
+import org.emftext.language.java.members.MembersFactory;
+import org.emftext.language.java.parameters.ParametersFactory;
+import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.types.TypesFactory;
+import org.emftext.language.java.variables.VariablesFactory;
 
 import com.google.inject.Inject;
 
 class UtilJdtResolver {
 
+	private final ParametersFactory parametersFactory;
+	private final VariablesFactory variablesFactory;
+	private final GenericsFactory genericsFactory;
+	private final StatementsFactory statementsFactory;
+	private final TypesFactory typesFactory;
+	private final MembersFactory membersFactory;
+	private final ClassifiersFactory classifiersFactory;
+	private final ContainersFactory containersFactory;
 	private final UtilJdtBindingConverter jdtBindingConverterUtility;
 
 	private static ResourceSet resourceSet;
@@ -56,7 +72,17 @@ class UtilJdtResolver {
 	private final static boolean extractAdditionalInformationFromTypeBindings = true;
 
 	@Inject
-	UtilJdtResolver(UtilJdtBindingConverter jdtBindingConverterUtility) {
+	UtilJdtResolver(UtilJdtBindingConverter jdtBindingConverterUtility, ContainersFactory containersFactory,
+			ClassifiersFactory classifiersFactory, TypesFactory typesFactory, StatementsFactory statementsFactory,
+			MembersFactory membersFactory, VariablesFactory variablesFactory, ParametersFactory parametersFactory, GenericsFactory genericsFactory) {
+		this.parametersFactory = parametersFactory;
+		this.variablesFactory = variablesFactory;
+		this.genericsFactory = genericsFactory;
+		this.statementsFactory = statementsFactory;
+		this.typesFactory = typesFactory;
+		this.membersFactory = membersFactory;
+		this.classifiersFactory = classifiersFactory;
+		this.containersFactory = containersFactory;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
 	}
 
@@ -75,7 +101,7 @@ class UtilJdtResolver {
 		}
 		org.emftext.language.java.containers.Module result = JavaClasspath.get().getModule(modName);
 		if (result == null) {
-			result = org.emftext.language.java.containers.ContainersFactory.eINSTANCE.createModule();
+			result = containersFactory.createModule();
 		}
 		modBindToMod.put(modName, result);
 		return result;
@@ -92,7 +118,7 @@ class UtilJdtResolver {
 		}
 		org.emftext.language.java.containers.Package result = JavaClasspath.get().getPackage(packageName);
 		if (result == null) {
-			result = org.emftext.language.java.containers.ContainersFactory.eINSTANCE.createPackage();
+			result = containersFactory.createPackage();
 		}
 		nameToPackage.put(packageName, result);
 		return result;
@@ -147,7 +173,7 @@ class UtilJdtResolver {
 		if (potClass instanceof org.emftext.language.java.classifiers.Annotation) {
 			result = (org.emftext.language.java.classifiers.Annotation) potClass;
 		} else {
-			result = org.emftext.language.java.classifiers.ClassifiersFactory.eINSTANCE.createAnnotation();
+			result = classifiersFactory.createAnnotation();
 		}
 		typeBindToAnnot.put(annotName, result);
 		return result;
@@ -165,7 +191,7 @@ class UtilJdtResolver {
 		if (classifier instanceof org.emftext.language.java.classifiers.Enumeration) {
 			result = (org.emftext.language.java.classifiers.Enumeration) classifier;
 		} else {
-			result = org.emftext.language.java.classifiers.ClassifiersFactory.eINSTANCE.createEnumeration();
+			result = classifiersFactory.createEnumeration();
 		}
 		typeBindToEnum.put(enumName, result);
 		return result;
@@ -188,7 +214,7 @@ class UtilJdtResolver {
 		if (classifier instanceof org.emftext.language.java.classifiers.Interface) {
 			result = (org.emftext.language.java.classifiers.Interface) classifier;
 		} else {
-			result = org.emftext.language.java.classifiers.ClassifiersFactory.eINSTANCE.createInterface();
+			result = classifiersFactory.createInterface();
 		}
 		typeBindToInterface.put(interName, result);
 		return result;
@@ -218,8 +244,7 @@ class UtilJdtResolver {
 			return typeBindToTP.get(paramName);
 		}
 		typeBindings.add(binding);
-		org.emftext.language.java.generics.TypeParameter result = org.emftext.language.java.generics.GenericsFactory.eINSTANCE
-				.createTypeParameter();
+		org.emftext.language.java.generics.TypeParameter result = genericsFactory.createTypeParameter();
 		typeBindToTP.put(paramName, result);
 		return result;
 	}
@@ -296,10 +321,9 @@ class UtilJdtResolver {
 	}
 
 	private org.emftext.language.java.members.InterfaceMethod createNewInterfaceMethod() {
-		org.emftext.language.java.members.InterfaceMethod result = org.emftext.language.java.members.MembersFactory.eINSTANCE
-				.createInterfaceMethod();
-		result.setTypeReference(org.emftext.language.java.types.TypesFactory.eINSTANCE.createVoid());
-		result.setStatement(org.emftext.language.java.statements.StatementsFactory.eINSTANCE.createEmptyStatement());
+		org.emftext.language.java.members.InterfaceMethod result = membersFactory.createInterfaceMethod();
+		result.setTypeReference(typesFactory.createVoid());
+		result.setStatement(statementsFactory.createEmptyStatement());
 		return result;
 	}
 
@@ -340,11 +364,9 @@ class UtilJdtResolver {
 	}
 
 	private org.emftext.language.java.members.ClassMethod createNewClassMethod() {
-		org.emftext.language.java.members.ClassMethod result = org.emftext.language.java.members.MembersFactory.eINSTANCE
-				.createClassMethod();
-		result.setTypeReference(org.emftext.language.java.types.TypesFactory.eINSTANCE.createVoid());
-		org.emftext.language.java.statements.Block block = org.emftext.language.java.statements.StatementsFactory.eINSTANCE
-				.createBlock();
+		org.emftext.language.java.members.ClassMethod result = membersFactory.createClassMethod();
+		result.setTypeReference(typesFactory.createVoid());
+		org.emftext.language.java.statements.Block block = statementsFactory.createBlock();
 		block.setName("");
 		result.setStatement(block);
 		return result;
@@ -498,9 +520,8 @@ class UtilJdtResolver {
 			}
 		}
 		if (result == null) {
-			result = org.emftext.language.java.members.MembersFactory.eINSTANCE.createConstructor();
-			org.emftext.language.java.statements.Block block = org.emftext.language.java.statements.StatementsFactory.eINSTANCE
-					.createBlock();
+			result = membersFactory.createConstructor();
+			org.emftext.language.java.statements.Block block = statementsFactory.createBlock();
 			block.setName("");
 			result.setBlock(block);
 		}
@@ -512,10 +533,8 @@ class UtilJdtResolver {
 		if (methBindToConstr.containsKey(methName)) {
 			return methBindToConstr.get(methName);
 		}
-		org.emftext.language.java.members.Constructor result = org.emftext.language.java.members.MembersFactory.eINSTANCE
-				.createConstructor();
-		org.emftext.language.java.statements.Block block = org.emftext.language.java.statements.StatementsFactory.eINSTANCE
-				.createBlock();
+		org.emftext.language.java.members.Constructor result = membersFactory.createConstructor();
+		org.emftext.language.java.statements.Block block = statementsFactory.createBlock();
 		block.setName("");
 		result.setBlock(block);
 		methBindToConstr.put(methName, result);
@@ -539,7 +558,7 @@ class UtilJdtResolver {
 		if (potClass instanceof org.emftext.language.java.classifiers.Class) {
 			result = (org.emftext.language.java.classifiers.Class) potClass;
 		} else {
-			result = org.emftext.language.java.classifiers.ClassifiersFactory.eINSTANCE.createClass();
+			result = classifiersFactory.createClass();
 		}
 		typeBindToClass.put(typeName, result);
 		return result;
@@ -549,8 +568,7 @@ class UtilJdtResolver {
 		if (nameToAnonymousClass.containsKey(typeName)) {
 			return nameToAnonymousClass.get(typeName);
 		}
-		org.emftext.language.java.classifiers.AnonymousClass result = org.emftext.language.java.classifiers.ClassifiersFactory.eINSTANCE
-				.createAnonymousClass();
+		org.emftext.language.java.classifiers.AnonymousClass result = classifiersFactory.createAnonymousClass();
 		nameToAnonymousClass.put(typeName, result);
 		return result;
 	}
@@ -576,8 +594,7 @@ class UtilJdtResolver {
 		if (nameToField.containsKey(name)) {
 			return nameToField.get(name);
 		}
-		org.emftext.language.java.members.Field result = org.emftext.language.java.members.MembersFactory.eINSTANCE
-				.createField();
+		org.emftext.language.java.members.Field result = membersFactory.createField();
 		nameToField.put(name, result);
 		return result;
 	}
@@ -603,8 +620,8 @@ class UtilJdtResolver {
 			}
 		}
 		if (result == null) {
-			result = org.emftext.language.java.members.MembersFactory.eINSTANCE.createField();
-			result.setTypeReference(org.emftext.language.java.types.TypesFactory.eINSTANCE.createInt());
+			result = membersFactory.createField();
+			result.setTypeReference(typesFactory.createInt());
 		}
 		nameToField.put(varName, result);
 		return result;
@@ -627,7 +644,7 @@ class UtilJdtResolver {
 			}
 		}
 		if (result == null) {
-			result = org.emftext.language.java.members.MembersFactory.eINSTANCE.createEnumConstant();
+			result = membersFactory.createEnumConstant();
 		}
 		nameToEnumConst.put(enumCN, result);
 		return result;
@@ -637,8 +654,7 @@ class UtilJdtResolver {
 		if (nameToEnumConst.containsKey(enumCN)) {
 			return nameToEnumConst.get(enumCN);
 		}
-		org.emftext.language.java.members.EnumConstant result = org.emftext.language.java.members.MembersFactory.eINSTANCE
-				.createEnumConstant();
+		org.emftext.language.java.members.EnumConstant result = membersFactory.createEnumConstant();
 		nameToEnumConst.put(enumCN, result);
 		return result;
 	}
@@ -647,8 +663,7 @@ class UtilJdtResolver {
 		if (nameToAddField.containsKey(name)) {
 			return nameToAddField.get(name);
 		}
-		org.emftext.language.java.members.AdditionalField result = org.emftext.language.java.members.MembersFactory.eINSTANCE
-				.createAdditionalField();
+		org.emftext.language.java.members.AdditionalField result = membersFactory.createAdditionalField();
 		nameToAddField.put(name, result);
 		return result;
 	}
@@ -675,7 +690,7 @@ class UtilJdtResolver {
 			}
 		}
 		if (result == null) {
-			result = org.emftext.language.java.members.MembersFactory.eINSTANCE.createAdditionalField();
+			result = membersFactory.createAdditionalField();
 		}
 		nameToAddField.put(varName, result);
 		return result;
@@ -713,8 +728,7 @@ class UtilJdtResolver {
 		if (nameToLocVar.containsKey(varName)) {
 			return nameToLocVar.get(varName);
 		}
-		org.emftext.language.java.variables.LocalVariable result = org.emftext.language.java.variables.VariablesFactory.eINSTANCE
-				.createLocalVariable();
+		org.emftext.language.java.variables.LocalVariable result = variablesFactory.createLocalVariable();
 		nameToLocVar.put(varName, result);
 		return result;
 	}
@@ -728,7 +742,7 @@ class UtilJdtResolver {
 		if (nameToAddLocVar.containsKey(varName)) {
 			return nameToAddLocVar.get(varName);
 		}
-		org.emftext.language.java.variables.AdditionalLocalVariable result = org.emftext.language.java.variables.VariablesFactory.eINSTANCE
+		org.emftext.language.java.variables.AdditionalLocalVariable result = variablesFactory
 				.createAdditionalLocalVariable();
 		nameToAddLocVar.put(varName, result);
 		return result;
@@ -744,8 +758,7 @@ class UtilJdtResolver {
 		if (nameToOrdParam.containsKey(paramName)) {
 			return nameToOrdParam.get(paramName);
 		}
-		org.emftext.language.java.parameters.OrdinaryParameter result = org.emftext.language.java.parameters.ParametersFactory.eINSTANCE
-				.createOrdinaryParameter();
+		org.emftext.language.java.parameters.OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
 		nameToOrdParam.put(paramName, result);
 		return result;
 	}
@@ -756,7 +769,7 @@ class UtilJdtResolver {
 			return nameToVarLenParam.get(paramName);
 		}
 		variableBindings.add(binding);
-		org.emftext.language.java.parameters.VariableLengthParameter result = org.emftext.language.java.parameters.ParametersFactory.eINSTANCE
+		org.emftext.language.java.parameters.VariableLengthParameter result = parametersFactory
 				.createVariableLengthParameter();
 		nameToVarLenParam.put(paramName, result);
 		return result;
@@ -771,8 +784,7 @@ class UtilJdtResolver {
 		if (nameToCatchParam.containsKey(paramName)) {
 			return nameToCatchParam.get(paramName);
 		}
-		org.emftext.language.java.parameters.CatchParameter result = org.emftext.language.java.parameters.ParametersFactory.eINSTANCE
-				.createCatchParameter();
+		org.emftext.language.java.parameters.CatchParameter result = parametersFactory.createCatchParameter();
 		nameToCatchParam.put(paramName, result);
 		return result;
 	}
@@ -1105,8 +1117,7 @@ class UtilJdtResolver {
 			}
 		}
 		if (classifier.eContainer() == null) {
-			org.emftext.language.java.containers.CompilationUnit cu = org.emftext.language.java.containers.ContainersFactory.eINSTANCE
-					.createCompilationUnit();
+			org.emftext.language.java.containers.CompilationUnit cu = containersFactory.createCompilationUnit();
 			cu.setName("");
 			cu.getClassifiers().add(classifier);
 			String[] namespaces = typeName.strip().split("\\.");
