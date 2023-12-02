@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -25,13 +24,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.FileASTRequestor;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
@@ -52,8 +48,7 @@ class JamoppJdtParserAdapter implements JaMoPPParserAPI {
 	private final JamoppJavaParserFactory jamoppJavaParserFactory;
 	private final JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory;
 	private final JamoppFileWithJDTParser jamoppFileWithJDTParser;
-
-	private final Logger logger = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
+	private final Logger logger;
 
 	String[] getClasspathEntries(Path dir) {
 		return jamoppClasspathEntriesSearcher.getClasspathEntries(dir);
@@ -70,23 +65,28 @@ class JamoppJdtParserAdapter implements JaMoPPParserAPI {
 
 	private ResourceSet resourceSet;
 
-	JamoppJdtParserAdapter(String javaVersion, String encoding) {
+	JamoppJdtParserAdapter(String javaVersion, String encoding, JamoppJavaParserFactory jamoppJavaParserFactory,
+			JamoppFileWithJDTParser jamoppFileWithJDTParser,
+			JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory,
+			JamoppClasspathEntriesSearcher jamoppClasspathEntriesSearcher, Logger logger) {
 
 		this.encoding = encoding;
 		this.javaVersion = javaVersion;
+
 		typeInstructionSeparationUtility = InjectorMine.getTypeInstructionSeparationUtility();
 		jdtResolverUtility = InjectorMine.getJDTResolverUtility();
 		converter = InjectorMine.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
 		containersFactory = InjectorMine.getContainersFactory();
 
-		jamoppClasspathEntriesSearcher = new JamoppClasspathEntriesSearcher(logger);
-		jamoppJavaParserFactory = new JamoppJavaParserFactory(logger);
-		jamoppCompilationUnitsFactory = new JamoppCompilationUnitsFactory(logger);
-		jamoppFileWithJDTParser = new JamoppFileWithJDTParser(jamoppJavaParserFactory, javaVersion);
-
 		containersFactory.createEmptyModel();
-		this.resourceSet = new ResourceSetImpl();
 		jdtResolverUtility.setResourceSet(this.resourceSet);
+		
+		this.resourceSet = new ResourceSetImpl();
+		this.jamoppClasspathEntriesSearcher = jamoppClasspathEntriesSearcher;
+		this.jamoppJavaParserFactory = jamoppJavaParserFactory;
+		this.jamoppCompilationUnitsFactory = jamoppCompilationUnitsFactory;
+		this.jamoppFileWithJDTParser = jamoppFileWithJDTParser;
+		this.logger = logger;
 	}
 
 	List<JavaRoot> convertCompilationUnits(Map<String, CompilationUnit> compilationUnits) {
