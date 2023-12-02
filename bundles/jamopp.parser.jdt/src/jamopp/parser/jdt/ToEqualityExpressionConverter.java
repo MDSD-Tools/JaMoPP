@@ -8,7 +8,7 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-class ToEqualityExpressionConverter {
+class ToEqualityExpressionConverter extends ToConverter<InfixExpression, EqualityExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -26,22 +26,21 @@ class ToEqualityExpressionConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	EqualityExpression convertToEqualityExpression(InfixExpression expr) {
+	EqualityExpression convert(InfixExpression expr) {
 		EqualityExpression result = expressionsFactory.createEqualityExpression();
-		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getLeftOperand()));
-		result.getEqualityOperators().add(toEqualityOperatorConverter.convertToEqualityOperator(expr.getOperator()));
-		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getRightOperand()));
+		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
+		result.getEqualityOperators().add(toEqualityOperatorConverter.convert(expr.getOperator()));
+		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
 		expr.extendedOperands().forEach(obj -> {
-			result.getEqualityOperators()
-					.add(toEqualityOperatorConverter.convertToEqualityOperator(expr.getOperator()));
+			result.getEqualityOperators().add(toEqualityOperatorConverter.convert(expr.getOperator()));
 			mergeEqualityExpressionAndExpression(result,
-					toExpressionConverter.convertToExpression((org.eclipse.jdt.core.dom.Expression) obj));
+					toExpressionConverter.convert((org.eclipse.jdt.core.dom.Expression) obj));
 		});
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 
-	void mergeEqualityExpressionAndExpression(EqualityExpression eqExpr, Expression potChild) {
+	private void mergeEqualityExpressionAndExpression(EqualityExpression eqExpr, Expression potChild) {
 		if (potChild instanceof EqualityExpressionChild) {
 			eqExpr.getChildren().add((EqualityExpressionChild) potChild);
 		} else {

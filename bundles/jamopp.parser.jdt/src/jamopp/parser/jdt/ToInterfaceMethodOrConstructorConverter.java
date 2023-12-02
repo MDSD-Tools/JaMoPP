@@ -13,7 +13,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-public class ToInterfaceMethodOrConstructorConverter {
+public class ToInterfaceMethodOrConstructorConverter extends ToConverter<MethodDeclaration, Member> {
 
 	private final StatementsFactory statementsFactory;
 	private final ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter;
@@ -37,7 +37,8 @@ public class ToInterfaceMethodOrConstructorConverter {
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			InNamespaceClassifierReferenceWrapper inNamespaceClassifierReferenceWrapper, StatementsFactory statementsFactory) {
+			InNamespaceClassifierReferenceWrapper inNamespaceClassifierReferenceWrapper,
+			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
 		this.utilJdtResolver = utilJdtResolver;
@@ -54,7 +55,8 @@ public class ToInterfaceMethodOrConstructorConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	Member convertToInterfaceMethodOrConstructor(MethodDeclaration methodDecl) {
+	@Override
+	Member convert(MethodDeclaration methodDecl) {
 		if (methodDecl.isConstructor()) {
 			return toClassMethodOrConstructorConverter.convertToClassMethodOrConstructor(methodDecl);
 		}
@@ -66,23 +68,23 @@ public class ToInterfaceMethodOrConstructorConverter {
 			result = utilJdtResolver.getInterfaceMethod(binding);
 		}
 		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+				toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		methodDecl.typeParameters().forEach(obj -> result.getTypeParameters()
-				.add(toTypeParameterConverter.convertToTypeParameter((TypeParameter) obj)));
-		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(methodDecl.getReturnType2()));
+				.add(toTypeParameterConverter.convert((TypeParameter) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReturnType2()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
 		methodDecl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
 				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
-			result.getParameters().add(toReceiverParameterConverter.convertToReceiverParameter(methodDecl));
+			result.getParameters().add(toReceiverParameterConverter.convert(methodDecl));
 		}
 		methodDecl.parameters().forEach(obj -> result.getParameters()
-				.add(toParameterConverter.convertToParameter((SingleVariableDeclaration) obj)));
+				.add(toParameterConverter.convert((SingleVariableDeclaration) obj)));
 		methodDecl.thrownExceptionTypes()
 				.forEach(obj -> result.getExceptions()
 						.add(inNamespaceClassifierReferenceWrapper.wrapInNamespaceClassifierReference(
-								toTypeReferenceConverter.convertToTypeReference((Type) obj))));
+								toTypeReferenceConverter.convert((Type) obj))));
 		if (methodDecl.getBody() != null) {
 			utilTypeInstructionSeparation.addMethod(methodDecl.getBody(), result);
 		} else {

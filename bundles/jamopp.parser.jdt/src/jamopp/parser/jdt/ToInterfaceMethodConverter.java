@@ -8,7 +8,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-public class ToInterfaceMethodConverter {
+public class ToInterfaceMethodConverter extends ToConverter<AnnotationTypeMemberDeclaration, InterfaceMethod> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilJdtResolver utilJdtResolver;
@@ -34,7 +34,7 @@ public class ToInterfaceMethodConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	InterfaceMethod convertToInterfaceMethod(AnnotationTypeMemberDeclaration annDecl) {
+	InterfaceMethod convert(AnnotationTypeMemberDeclaration annDecl) {
 		IMethodBinding binding = annDecl.resolveBinding();
 		InterfaceMethod result;
 		if (binding != null) {
@@ -43,8 +43,8 @@ public class ToInterfaceMethodConverter {
 			result = utilJdtResolver.getInterfaceMethod(annDecl.getName().getIdentifier());
 		}
 		annDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(annDecl.getType()));
+				toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convert(annDecl.getType()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(annDecl.getType(), result);
 		utilNamedElement.setNameOfElement(annDecl.getName(), result);
 		if (annDecl.getDefault() != null) {

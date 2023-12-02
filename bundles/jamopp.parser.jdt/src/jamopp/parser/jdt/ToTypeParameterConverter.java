@@ -6,7 +6,7 @@ import org.eclipse.jdt.core.dom.TypeParameter;
 
 import com.google.inject.Inject;
 
-class ToTypeParameterConverter {
+class ToTypeParameterConverter extends ToConverter<TypeParameter, org.emftext.language.java.generics.TypeParameter> {
 
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final UtilNamedElement utilNamedElement;
@@ -15,8 +15,8 @@ class ToTypeParameterConverter {
 	private final UtilLayout utilLayout;
 
 	@Inject
-	ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			UtilJdtResolver utilJDTResolver, ToTypeReferenceConverter toTypeReferenceConverter,
+	ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
+			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;
@@ -26,14 +26,14 @@ class ToTypeParameterConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.generics.TypeParameter convertToTypeParameter(TypeParameter param) {
+	org.emftext.language.java.generics.TypeParameter convert(TypeParameter param) {
 		org.emftext.language.java.generics.TypeParameter result = utilJDTResolver
 				.getTypeParameter(param.resolveBinding());
 		param.modifiers().forEach(obj -> result.getAnnotations()
 				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 		utilNamedElement.setNameOfElement(param.getName(), result);
 		param.typeBounds().forEach(
-				obj -> result.getExtendTypes().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
+				obj -> result.getExtendTypes().add(toTypeReferenceConverter.convert((Type) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, param);
 		return result;
 	}

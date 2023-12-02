@@ -33,21 +33,21 @@ class ToClassOrInterfaceConverter {
 		if (typeDecl.isInterface()) {
 			Interface interfaceObj = utilJdtResolver.getInterface(typeDecl.resolveBinding());
 			typeDecl.typeParameters().forEach(obj -> interfaceObj.getTypeParameters()
-					.add(toTypeParameterConverter.convertToTypeParameter((TypeParameter) obj)));
+					.add(toTypeParameterConverter.convert((TypeParameter) obj)));
 			typeDecl.superInterfaceTypes().forEach(
-					obj -> interfaceObj.getExtends().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
+					obj -> interfaceObj.getExtends().add(toTypeReferenceConverter.convert((Type) obj)));
 			typeDecl.bodyDeclarations().forEach(obj -> interfaceObj.getMembers()
-					.add(toInterfaceMemberConverter.convertToInterfaceMember((BodyDeclaration) obj)));
+					.add(toInterfaceMemberConverter.convert((BodyDeclaration) obj)));
 			return interfaceObj;
 		}
 		org.emftext.language.java.classifiers.Class classObj = utilJdtResolver.getClass(typeDecl.resolveBinding());
 		typeDecl.typeParameters().forEach(obj -> classObj.getTypeParameters()
-				.add(toTypeParameterConverter.convertToTypeParameter((TypeParameter) obj)));
+				.add(toTypeParameterConverter.convert((TypeParameter) obj)));
 		if (typeDecl.getSuperclassType() != null) {
-			classObj.setExtends(toTypeReferenceConverter.convertToTypeReference(typeDecl.getSuperclassType()));
+			classObj.setExtends(toTypeReferenceConverter.convert(typeDecl.getSuperclassType()));
 		}
 		typeDecl.superInterfaceTypes().forEach(
-				obj -> classObj.getImplements().add(toTypeReferenceConverter.convertToTypeReference((Type) obj)));
+				obj -> classObj.getImplements().add(toTypeReferenceConverter.convert((Type) obj)));
 		typeDecl.bodyDeclarations().forEach(
 				obj -> classObj.getMembers().add(toClassMemberConverter.convertToClassMember((BodyDeclaration) obj)));
 		return classObj;

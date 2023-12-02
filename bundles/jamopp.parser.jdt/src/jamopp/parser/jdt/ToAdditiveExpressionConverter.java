@@ -28,13 +28,13 @@ class ToAdditiveExpressionConverter {
 	@SuppressWarnings("unchecked")
 	AdditiveExpression convertToAdditiveExpression(InfixExpression expr) {
 		AdditiveExpression result = expressionsFactory.createAdditiveExpression();
-		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getLeftOperand()));
+		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getAdditiveOperators().add(toAdditiveOperatorConverter.convertToAdditiveOperator(expr.getOperator()));
-		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getRightOperand()));
+		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
 		expr.extendedOperands().forEach(obj -> {
 			result.getAdditiveOperators()
 					.add(toAdditiveOperatorConverter.convertToAdditiveOperator(expr.getOperator()));
-			mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convertToExpression((Expression) obj));
+			mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert((Expression) obj));
 		});
 
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);

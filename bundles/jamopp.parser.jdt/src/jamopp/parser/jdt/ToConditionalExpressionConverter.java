@@ -22,9 +22,9 @@ class ToConditionalExpressionConverter {
 
 	ConditionalExpression convertToConditionalExpression(org.eclipse.jdt.core.dom.ConditionalExpression expr) {
 		ConditionalExpression result = expressionsFactory.createConditionalExpression();
-		result.setChild((ConditionalExpressionChild) toExpressionConverter.convertToExpression(expr.getExpression()));
-		result.setExpressionIf(toExpressionConverter.convertToExpression(expr.getThenExpression()));
-		result.setGeneralExpressionElse(toExpressionConverter.convertToExpression(expr.getElseExpression()));
+		result.setChild((ConditionalExpressionChild) toExpressionConverter.convert(expr.getExpression()));
+		result.setExpressionIf(toExpressionConverter.convert(expr.getThenExpression()));
+		result.setGeneralExpressionElse(toExpressionConverter.convert(expr.getElseExpression()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}

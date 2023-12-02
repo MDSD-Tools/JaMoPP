@@ -33,7 +33,7 @@ class HandlerPrefixExpression extends Handler {
 				|| prefixExpr.getOperator() == PrefixExpression.Operator.NOT
 				|| prefixExpr.getOperator() == PrefixExpression.Operator.PLUS
 				|| prefixExpr.getOperator() == PrefixExpression.Operator.MINUS) {
-			return toUnaryExpressionConverter.convertToUnaryExpression(prefixExpr);
+			return toUnaryExpressionConverter.convert(prefixExpr);
 		}
 		if (prefixExpr.getOperator() == PrefixExpression.Operator.DECREMENT
 				|| prefixExpr.getOperator() == PrefixExpression.Operator.INCREMENT) {
@@ -46,7 +46,7 @@ class HandlerPrefixExpression extends Handler {
 			}
 			result.setChild(
 					(org.emftext.language.java.expressions.UnaryModificationExpressionChild) toExpressionConverter
-							.convertToExpression(prefixExpr.getOperand()));
+							.convert(prefixExpr.getOperand()));
 			utilLayout.convertToMinimalLayoutInformation(result, prefixExpr);
 			return result;
 		}

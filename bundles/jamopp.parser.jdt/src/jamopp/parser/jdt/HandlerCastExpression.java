@@ -30,17 +30,17 @@ class HandlerCastExpression extends Handler {
 		org.emftext.language.java.expressions.CastExpression result = expressionsFactory.createCastExpression();
 		if (castExpr.getType().isIntersectionType()) {
 			IntersectionType interType = (IntersectionType) castExpr.getType();
-			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference((Type) interType.types().get(0)));
+			result.setTypeReference(toTypeReferenceConverter.convert((Type) interType.types().get(0)));
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
 			for (int index = 1; index < interType.types().size(); index++) {
 				result.getAdditionalBounds()
-						.add(toTypeReferenceConverter.convertToTypeReference((Type) interType.types().get(index)));
+						.add(toTypeReferenceConverter.convert((Type) interType.types().get(index)));
 			}
 		} else {
-			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(castExpr.getType()));
+			result.setTypeReference(toTypeReferenceConverter.convert(castExpr.getType()));
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet(castExpr.getType(), result);
 		}
-		result.setGeneralChild(toExpressionConverter.convertToExpression(castExpr.getExpression()));
+		result.setGeneralChild(toExpressionConverter.convert(castExpr.getExpression()));
 		utilLayout.convertToMinimalLayoutInformation(result, castExpr);
 		return result;
 	}

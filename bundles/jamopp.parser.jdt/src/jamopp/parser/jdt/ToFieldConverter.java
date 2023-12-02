@@ -9,7 +9,7 @@ import org.emftext.language.java.members.Field;
 
 import com.google.inject.Inject;
 
-class ToFieldConverter {
+class ToFieldConverter extends ToConverter<FieldDeclaration, Field> {
 
 	private final UtilJdtResolver utilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
@@ -38,7 +38,7 @@ class ToFieldConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	Field convertToField(FieldDeclaration fieldDecl) {
+	Field convert(FieldDeclaration fieldDecl) {
 		VariableDeclarationFragment firstFragment = (VariableDeclarationFragment) fieldDecl.fragments().get(0);
 		Field result;
 		IVariableBinding binding = firstFragment.resolveBinding();
@@ -49,8 +49,8 @@ class ToFieldConverter {
 		}
 		utilNamedElement.setNameOfElement(firstFragment.getName(), result);
 		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(fieldDecl.getType()));
+				toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convert(fieldDecl.getType()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
 		firstFragment.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
 				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
@@ -58,8 +58,8 @@ class ToFieldConverter {
 			toInstructionSeparation.addField(firstFragment.getInitializer(), result);
 		}
 		for (int index = 1; index < fieldDecl.fragments().size(); index++) {
-			result.getAdditionalFields().add(toAdditionalFieldConverter
-					.convertToAdditionalField((VariableDeclarationFragment) fieldDecl.fragments().get(index)));
+			result.getAdditionalFields().add(
+					toAdditionalFieldConverter.convert((VariableDeclarationFragment) fieldDecl.fragments().get(index)));
 		}
 		utilLayout.convertToMinimalLayoutInformation(result, fieldDecl);
 		return result;

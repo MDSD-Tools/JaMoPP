@@ -6,16 +6,17 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-class ToEqualityOperatorConverter {
+class ToEqualityOperatorConverter extends ToConverter<InfixExpression.Operator, EqualityOperator> {
 
 	private final OperatorsFactory operatorsFactory;
-	
+
 	@Inject
 	ToEqualityOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
-	EqualityOperator convertToEqualityOperator(InfixExpression.Operator op) {
+	@Override
+	EqualityOperator convert(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.EQUALS) {
 			return operatorsFactory.createEqual();
 		}

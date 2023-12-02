@@ -27,7 +27,7 @@ class UtilExpressionConverter {
 	}
 
 	org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
-		return toExpressionConverter.convertToExpression(expr);
+		return toExpressionConverter.convert(expr);
 	}
 
 	void setToExpressionConverter(ToExpressionConverter toExpressionConverter) {

@@ -69,11 +69,11 @@ class HandlerLambdaExpression extends Handler {
 			org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters param = expressionsFactory
 					.createExplicitlyTypedLambdaParameters();
 			lambda.parameters().forEach(obj -> param.getParameters()
-					.add(toOrdinaryParameterConverter.convertToOrdinaryParameter((SingleVariableDeclaration) obj)));
+					.add(toOrdinaryParameterConverter.convert((SingleVariableDeclaration) obj)));
 			result.setParameters(param);
 		}
 		if (lambda.getBody() instanceof Expression) {
-			result.setBody(toExpressionConverter.convertToExpression((Expression) lambda.getBody()));
+			result.setBody(toExpressionConverter.convert((Expression) lambda.getBody()));
 		} else {
 			result.setBody(utilStatementConverter.convertToBlock((Block) lambda.getBody()));
 		}

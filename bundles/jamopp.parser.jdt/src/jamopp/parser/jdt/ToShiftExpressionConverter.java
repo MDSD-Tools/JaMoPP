@@ -8,7 +8,7 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 
 import com.google.inject.Inject;
 
-class ToShiftExpressionConverter {
+class ToShiftExpressionConverter extends ToConverter<InfixExpression, ShiftExpression> {
 
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
@@ -17,7 +17,8 @@ class ToShiftExpressionConverter {
 
 	@Inject
 	ToShiftExpressionConverter(ToShiftOperatorConverter toShiftOperatorConverter,
-			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
+			ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toShiftOperatorConverter = toShiftOperatorConverter;
@@ -25,14 +26,15 @@ class ToShiftExpressionConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.expressions.ShiftExpression convertToShiftExpression(InfixExpression expr) {
+	@Override
+	ShiftExpression convert(InfixExpression expr) {
 		ShiftExpression result = expressionsFactory.createShiftExpression();
-		mergeShiftExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getLeftOperand()));
-		result.getShiftOperators().add(toShiftOperatorConverter.convertToShiftOperator(expr.getOperator()));
-		mergeShiftExpressionAndExpression(result, toExpressionConverter.convertToExpression(expr.getRightOperand()));
+		mergeShiftExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
+		result.getShiftOperators().add(toShiftOperatorConverter.convert(expr.getOperator()));
+		mergeShiftExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
 		expr.extendedOperands().forEach(obj -> {
-			result.getShiftOperators().add(toShiftOperatorConverter.convertToShiftOperator(expr.getOperator()));
-			mergeShiftExpressionAndExpression(result, toExpressionConverter.convertToExpression((Expression) obj));
+			result.getShiftOperators().add(toShiftOperatorConverter.convert(expr.getOperator()));
+			mergeShiftExpressionAndExpression(result, toExpressionConverter.convert((Expression) obj));
 		});
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;

@@ -20,7 +20,7 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
-class ToNumberLiteralConverter {
+class ToNumberLiteralConverter extends ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal> {
 
 	private final LiteralsFactory lieteralsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -45,6 +45,7 @@ class ToNumberLiteralConverter {
 		this.layoutInformationConverter = layoutInformationConverter;
 	}
 
+	@Override
 	org.emftext.language.java.literals.Literal convert(NumberLiteral literal) {
 		org.emftext.language.java.literals.Literal result = null;
 		String string = literal.getToken();

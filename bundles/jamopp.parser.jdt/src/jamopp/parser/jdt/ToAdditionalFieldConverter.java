@@ -7,7 +7,7 @@ import org.emftext.language.java.members.AdditionalField;
 
 import com.google.inject.Inject;
 
-class ToAdditionalFieldConverter {
+class ToAdditionalFieldConverter extends ToConverter<VariableDeclarationFragment, AdditionalField> {
 
 	private final UtilJdtResolver utilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
@@ -27,7 +27,8 @@ class ToAdditionalFieldConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	AdditionalField convertToAdditionalField(VariableDeclarationFragment frag) {
+	@Override
+	AdditionalField convert(VariableDeclarationFragment frag) {
 		AdditionalField result;
 		IVariableBinding binding = frag.resolveBinding();
 		if (binding != null) {

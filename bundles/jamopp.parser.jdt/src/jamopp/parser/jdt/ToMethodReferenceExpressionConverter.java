@@ -8,12 +8,13 @@ import org.eclipse.jdt.core.dom.SuperMethodReference;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.expressions.MethodReferenceExpression;
 import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-class ToMethodReferenceExpressionConverter {
+class ToMethodReferenceExpressionConverter extends ToConverter<MethodReference, MethodReferenceExpression> {
 
 	private final LiteralsFactory literalsFactory;
 	private final ReferencesFactory referencesFactory;
@@ -38,21 +39,20 @@ class ToMethodReferenceExpressionConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.expressions.MethodReferenceExpression convertToMethodReferenceExpression(
-			MethodReference ref) {
+	MethodReferenceExpression convert(MethodReference ref) {
 		if (ref.getNodeType() == ASTNode.CREATION_REFERENCE) {
 			CreationReference crRef = (CreationReference) ref;
 			if (crRef.getType().isArrayType()) {
 				org.emftext.language.java.expressions.ArrayConstructorReferenceExpression result = expressionsFactory
 						.createArrayConstructorReferenceExpression();
-				result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(crRef.getType()));
+				result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
 				toTypeReferenceConverter.convertToArrayDimensionsAndSet(crRef.getType(), result);
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
 				return result;
 			}
 			org.emftext.language.java.expressions.ClassTypeConstructorReferenceExpression result = expressionsFactory
 					.createClassTypeConstructorReferenceExpression();
-			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(crRef.getType()));
+			result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
 			crRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
@@ -92,7 +92,7 @@ class ToMethodReferenceExpressionConverter {
 		} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
 			ExpressionMethodReference exprRef = (ExpressionMethodReference) ref;
 			result.setChild((org.emftext.language.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
-					.convertToExpression(exprRef.getExpression()));
+					.convert(exprRef.getExpression()));
 			exprRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 			result.setMethodReference(referenceConverterUtility.convertToReference(exprRef.getName()));

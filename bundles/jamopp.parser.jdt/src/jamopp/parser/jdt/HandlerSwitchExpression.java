@@ -26,7 +26,7 @@ class HandlerSwitchExpression extends Handler {
 	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		SwitchExpression switchExpr = (SwitchExpression) expr;
 		org.emftext.language.java.statements.Switch result = statementsFactory.createSwitch();
-		result.setVariable(toExpressionConverter.convertToExpression(switchExpr.getExpression()));
+		result.setVariable(toExpressionConverter.convert(switchExpr.getExpression()));
 		utilStatementConverter.convertToSwitchCasesAndSet(result, switchExpr.statements());
 		utilLayout.convertToMinimalLayoutInformation(result, switchExpr);
 		return result;

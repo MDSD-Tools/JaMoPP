@@ -8,7 +8,7 @@ import org.emftext.language.java.members.EnumConstant;
 
 import com.google.inject.Inject;
 
-class ToEnumConstantConverter {
+class ToEnumConstantConverter extends ToConverter<EnumConstantDeclaration, EnumConstant> {
 
 	private final UtilJdtResolver utilJdtResolver;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
@@ -18,9 +18,8 @@ class ToEnumConstantConverter {
 	private final UtilLayout utilLayout;
 
 	@Inject
-	ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			UtilJdtResolver utilJdtResolver, UtilExpressionConverter utilExpressionConverter,
-			ToAnonymousClassConverter toAnonymousClassConverter,
+	ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+			UtilExpressionConverter utilExpressionConverter, ToAnonymousClassConverter toAnonymousClassConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.utilJdtResolver = utilJdtResolver;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
@@ -31,7 +30,8 @@ class ToEnumConstantConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	EnumConstant convertToEnumConstant(EnumConstantDeclaration enDecl) {
+	@Override
+	EnumConstant convert(EnumConstantDeclaration enDecl) {
 		EnumConstant result;
 		IVariableBinding binding = enDecl.resolveVariable();
 		if (binding == null) {
@@ -51,5 +51,4 @@ class ToEnumConstantConverter {
 		utilLayout.convertToMinimalLayoutInformation(result, enDecl);
 		return result;
 	}
-
 }

@@ -56,13 +56,13 @@ class ToConcreteClassifierConverter {
 			result = jdtResolverUtility.getAnnotation(typeDecl.resolveBinding());
 			ConcreteClassifier fR = result;
 			typeDecl.bodyDeclarations().forEach(
-					obj -> fR.getMembers().add(toInterfaceMember.convertToInterfaceMember((BodyDeclaration) obj)));
+					obj -> fR.getMembers().add(toInterfaceMember.convert((BodyDeclaration) obj)));
 		} else {
-			result = toEnumConverter.convertToEnum((EnumDeclaration) typeDecl);
+			result = toEnumConverter.convert((EnumDeclaration) typeDecl);
 		}
 		ConcreteClassifier finalResult = result;
 		typeDecl.modifiers().forEach(obj -> finalResult.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+				toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		utilNamedElement.setNameOfElement(typeDecl.getName(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, typeDecl);
 		return result;

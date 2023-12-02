@@ -1,11 +1,12 @@
 package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.emftext.language.java.operators.MultiplicativeOperator;
 import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-class ToMultiplicativeOperatorConverter {
+class ToMultiplicativeOperatorConverter extends ToConverter<InfixExpression.Operator, MultiplicativeOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 
@@ -14,8 +15,8 @@ class ToMultiplicativeOperatorConverter {
 		this.operatorsFactory = operatorsFactory;
 	}
 
-	org.emftext.language.java.operators.MultiplicativeOperator convertToMultiplicativeOperator(
-			InfixExpression.Operator op) {
+	@Override
+	MultiplicativeOperator convert(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.TIMES) {
 			return operatorsFactory.createMultiplication();
 		}

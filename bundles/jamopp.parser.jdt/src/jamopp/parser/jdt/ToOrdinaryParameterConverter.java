@@ -7,7 +7,7 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 
 import com.google.inject.Inject;
 
-public class ToOrdinaryParameterConverter {
+public class ToOrdinaryParameterConverter extends ToConverter<SingleVariableDeclaration, OrdinaryParameter> {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
@@ -30,11 +30,12 @@ public class ToOrdinaryParameterConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	OrdinaryParameter convertToOrdinaryParameter(SingleVariableDeclaration decl) {
+	@Override
+	OrdinaryParameter convert(SingleVariableDeclaration decl) {
 		OrdinaryParameter result = jdtResolverUtility.getOrdinaryParameter(decl.resolveBinding());
-		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(decl.getType()));
+		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 		utilNamedElement.setNameOfElement(decl.getName(), result);
 		decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter

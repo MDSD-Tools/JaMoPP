@@ -9,7 +9,7 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 
 import com.google.inject.Inject;
 
-class ToParameterConverter {
+class ToParameterConverter extends ToConverter<SingleVariableDeclaration, Parameter> {
 
 	private final UtilJdtResolver utilJDTResolver;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
@@ -21,8 +21,8 @@ class ToParameterConverter {
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 
 	@Inject
-	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			UtilJdtResolver utilJDTResolver, ToTypeReferenceConverter toTypeReferenceConverter,
+	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
+			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
@@ -38,13 +38,13 @@ class ToParameterConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	Parameter convertToParameter(SingleVariableDeclaration decl) {
+	@Override
+	Parameter convert(SingleVariableDeclaration decl) {
 		if (decl.isVarargs()) {
 			VariableLengthParameter result = utilJDTResolver.getVariableLengthParameter(decl.resolveBinding());
-			decl.modifiers()
-					.forEach(obj -> result.getAnnotationsAndModifiers().add(toModifierOrAnnotationInstanceConverter
-							.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(decl.getType()));
+			decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
+					.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
+			result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 			utilNamedElement.setNameOfElement(decl.getName(), result);
 			decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
@@ -54,7 +54,7 @@ class ToParameterConverter {
 			utilLayout.convertToMinimalLayoutInformation(result, decl);
 			return result;
 		}
-		return toOrdinaryParameterConverter.convertToOrdinaryParameter(decl);
+		return toOrdinaryParameterConverter.convert(decl);
 	}
 
 }

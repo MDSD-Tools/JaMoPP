@@ -39,13 +39,13 @@ class ToClassMemberConverter {
 			return toBlockConverter.convertToBlock((Initializer) body);
 		}
 		if (body.getNodeType() == ASTNode.FIELD_DECLARATION) {
-			return toFieldConverter.convertToField((FieldDeclaration) body);
+			return toFieldConverter.convert((FieldDeclaration) body);
 		}
 		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
 			return toClassMethodOrConstructorConverter.convertToClassMethodOrConstructor((MethodDeclaration) body);
 		}
 		if (body.getNodeType() == ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION) {
-			return toInterfaceMethodConverter.convertToInterfaceMethod((AnnotationTypeMemberDeclaration) body);
+			return toInterfaceMethodConverter.convert((AnnotationTypeMemberDeclaration) body);
 		}
 		return null;
 	}

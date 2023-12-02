@@ -7,7 +7,7 @@ import org.emftext.language.java.parameters.ReceiverParameter;
 
 import com.google.inject.Inject;
 
-class ToReceiverParameterConverter {
+class ToReceiverParameterConverter extends ToConverter<MethodDeclaration, ReceiverParameter> {
 
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
@@ -24,10 +24,11 @@ class ToReceiverParameterConverter {
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 	}
 
-	ReceiverParameter convertToReceiverParameter(MethodDeclaration methodDecl) {
+	@Override
+	ReceiverParameter convert(MethodDeclaration methodDecl) {
 		ReceiverParameter result = parametersFactory.createReceiverParameter();
 		result.setName("");
-		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(methodDecl.getReceiverType()));
+		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReceiverType()));
 		if (methodDecl.getReceiverQualifier() != null) {
 			result.setOuterTypeReference(
 					toClassifierReferenceConverter.convertToClassifierReference(methodDecl.getReceiverQualifier()));

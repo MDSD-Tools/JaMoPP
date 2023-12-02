@@ -8,7 +8,7 @@ import org.emftext.language.java.expressions.UnaryExpressionChild;
 
 import com.google.inject.Inject;
 
-class ToUnaryExpressionConverter {
+class ToUnaryExpressionConverter extends ToConverter<PrefixExpression, UnaryExpression> {
 
 	private final UtilLayout layoutInformationConverter;
 	private final ExpressionsFactory expressionsFactory;
@@ -25,10 +25,11 @@ class ToUnaryExpressionConverter {
 		this.toUnaryOperatorConverter = toUnaryOperatorConverter;
 	}
 
-	UnaryExpression convertToUnaryExpression(PrefixExpression expr) {
+	@Override
+	UnaryExpression convert(PrefixExpression expr) {
 		UnaryExpression result = expressionsFactory.createUnaryExpression();
-		result.getOperators().add(toUnaryOperatorConverter.convertToUnaryOperator(expr.getOperator()));
-		Expression potChild = toExpressionConverter.convertToExpression(expr.getOperand());
+		result.getOperators().add(toUnaryOperatorConverter.convert(expr.getOperator()));
+		Expression potChild = toExpressionConverter.convert(expr.getOperand());
 		if (potChild instanceof UnaryExpressionChild) {
 			result.setChild((UnaryExpressionChild) potChild);
 		} else {

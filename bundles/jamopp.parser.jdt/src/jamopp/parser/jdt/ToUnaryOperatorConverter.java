@@ -2,10 +2,11 @@ package jamopp.parser.jdt;
 
 import org.eclipse.jdt.core.dom.PrefixExpression;
 import org.emftext.language.java.operators.OperatorsFactory;
+import org.emftext.language.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 
-class ToUnaryOperatorConverter {
+class ToUnaryOperatorConverter extends ToConverter<PrefixExpression.Operator, UnaryOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 
@@ -15,7 +16,7 @@ class ToUnaryOperatorConverter {
 
 	}
 
-	org.emftext.language.java.operators.UnaryOperator convertToUnaryOperator(PrefixExpression.Operator op) {
+	UnaryOperator convert(PrefixExpression.Operator op) {
 		if (op == PrefixExpression.Operator.COMPLEMENT) {
 			return operatorsFactory.createComplement();
 		}

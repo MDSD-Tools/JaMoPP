@@ -125,7 +125,7 @@ class UtilReferenceConverter {
 			if (arr.getInitializer() != null) {
 				org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped result = arraysFactory
 						.createArrayInstantiationByValuesTyped();
-				result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(arr.getType()));
+				result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
 				toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr.getType(), result);
 				result.setArrayInitializer(
 						toArrayInitialisierConverter.convertToArrayInitializer(arr.getInitializer()));
@@ -134,7 +134,7 @@ class UtilReferenceConverter {
 			}
 			org.emftext.language.java.arrays.ArrayInstantiationBySize result = arraysFactory
 					.createArrayInstantiationBySize();
-			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(arr.getType()));
+			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr.getType(), result, arr.dimensions().size());
 			arr.dimensions().forEach(
 					obj -> result.getSizes().add(expressionConverterUtility.convertToExpression((Expression) obj)));
@@ -158,7 +158,7 @@ class UtilReferenceConverter {
 			}
 			arr.typeArguments().forEach(obj -> result.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
-			result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(arr.getType()));
+			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
 			arr.arguments().forEach(
 					obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
@@ -374,7 +374,7 @@ class UtilReferenceConverter {
 			return result;
 		}
 		if (t.isPrimitiveType()) {
-			org.emftext.language.java.types.TypeReference typeRef = toTypeReferenceConverter.convertToTypeReference(t);
+			org.emftext.language.java.types.TypeReference typeRef = toTypeReferenceConverter.convert(t);
 			org.emftext.language.java.references.PrimitiveTypeReference temp = referencesFactory
 					.createPrimitiveTypeReference();
 			temp.setPrimitiveType((org.emftext.language.java.types.PrimitiveType) typeRef);

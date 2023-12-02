@@ -17,7 +17,7 @@ class HandlerMethodReference extends Handler {
 
 	@Override
 	org.emftext.language.java.expressions.Expression handle(Expression expr) {
-		return toMethodReferenceExpressionConverter.convertToMethodReferenceExpression((MethodReference) expr);
+		return toMethodReferenceExpressionConverter.convert((MethodReference) expr);
 	}
 
 }

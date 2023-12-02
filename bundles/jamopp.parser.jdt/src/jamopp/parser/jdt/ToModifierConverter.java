@@ -5,7 +5,7 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 import com.google.inject.Inject;
 
-class ToModifierConverter {
+class ToModifierConverter extends ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> {
 
 	private final ModifiersFactory modifiersFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -16,7 +16,8 @@ class ToModifierConverter {
 		this.layoutInformationConverter = layoutInformationConverter;
 	}
 
-	org.emftext.language.java.modifiers.Modifier convertToModifier(Modifier mod) {
+	@Override
+	org.emftext.language.java.modifiers.Modifier convert(Modifier mod) {
 		org.emftext.language.java.modifiers.Modifier result = null;
 		if (mod.isAbstract()) {
 			result = modifiersFactory.createAbstract();

@@ -158,7 +158,7 @@ class UtilStatementConverter {
 		if (statement.getNodeType() == ASTNode.ENHANCED_FOR_STATEMENT) {
 			EnhancedForStatement forSt = (EnhancedForStatement) statement;
 			org.emftext.language.java.statements.ForEachLoop result = statementsFactory.createForEachLoop();
-			result.setNext(toOrdinaryParameterConverter.convertToOrdinaryParameter(forSt.getParameter()));
+			result.setNext(toOrdinaryParameterConverter.convert(forSt.getParameter()));
 			result.setCollection(expressionConverterUtility.convertToExpression(forSt.getExpression()));
 			result.setStatement(convertToStatement(forSt.getBody()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
@@ -287,8 +287,8 @@ class UtilStatementConverter {
 			}
 			utilNamedElement.setNameOfElement(frag.getName(), locVar);
 			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
-					.add(annotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-			locVar.setTypeReference(toTypeReferenceConverter.convertToTypeReference(varSt.getType()));
+					.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
+			locVar.setTypeReference(toTypeReferenceConverter.convert(varSt.getType()));
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
 			frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
 					.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
@@ -400,16 +400,16 @@ class UtilStatementConverter {
 			param = jdtResolverUtility.getCatchParameter(binding);
 		}
 		decl.modifiers().forEach(obj -> param.getAnnotationsAndModifiers()
-				.add(annotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
+				.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
 		if (decl.getType().isUnionType()) {
 			UnionType un = (UnionType) decl.getType();
-			param.setTypeReference(toTypeReferenceConverter.convertToTypeReference((Type) un.types().get(0)));
+			param.setTypeReference(toTypeReferenceConverter.convert((Type) un.types().get(0)));
 			for (int index = 1; index < un.types().size(); index++) {
 				param.getTypeReferences()
-						.add(toTypeReferenceConverter.convertToTypeReference((Type) un.types().get(index)));
+						.add(toTypeReferenceConverter.convert((Type) un.types().get(index)));
 			}
 		} else {
-			param.setTypeReference(toTypeReferenceConverter.convertToTypeReference(decl.getType()));
+			param.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
 		}
 		utilNamedElement.setNameOfElement(decl.getName(), param);
 		result.setParameter(param);
@@ -452,8 +452,8 @@ class UtilStatementConverter {
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), loc);
 		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.converToModifierOrAnnotationInstance((IExtendedModifier) obj)));
-		loc.setTypeReference(toTypeReferenceConverter.convertToTypeReference(expr.getType()));
+				toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
+		loc.setTypeReference(toTypeReferenceConverter.convert(expr.getType()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(expr.getType(), loc);
 		frag.extraDimensions().forEach(
 				obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, loc));

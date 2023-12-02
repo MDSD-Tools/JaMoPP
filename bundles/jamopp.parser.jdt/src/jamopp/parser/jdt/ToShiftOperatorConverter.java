@@ -6,16 +6,17 @@ import org.emftext.language.java.operators.ShiftOperator;
 
 import com.google.inject.Inject;
 
-class ToShiftOperatorConverter {
+class ToShiftOperatorConverter extends ToConverter<InfixExpression.Operator, ShiftOperator> {
 
 	private final OperatorsFactory operatorsFactory;
-	
+
 	@Inject
 	ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
-		this.operatorsFactory = operatorsFactory;	
+		this.operatorsFactory = operatorsFactory;
 	}
 
-	ShiftOperator convertToShiftOperator(InfixExpression.Operator op) {
+	@Override
+	ShiftOperator convert(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.LEFT_SHIFT) {
 			return operatorsFactory.createLeftShift();
 		}
@@ -27,5 +28,5 @@ class ToShiftOperatorConverter {
 		}
 		return null;
 	}
-	
+
 }

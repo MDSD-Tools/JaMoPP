@@ -7,7 +7,8 @@ import org.eclipse.jdt.core.dom.MethodReference;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class ToExpressionConverterImpl implements ToExpressionConverter {
+class ToExpressionConverterImpl extends ToConverter<Expression, org.emftext.language.java.expressions.Expression>
+		implements ToExpressionConverter {
 
 	private final Provider<HandlerPrimaryExpression> handlerPrimaryExpression;
 	private final Provider<HandlerAssignment> handlerAssignment;
@@ -44,7 +45,8 @@ public class ToExpressionConverterImpl implements ToExpressionConverter {
 		this.handlerLambdaExpression = handlerLambdaExpression;
 	}
 
-	public org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
+	@Override
+	public org.emftext.language.java.expressions.Expression convert(Expression expr) {
 		if (expr.getNodeType() == ASTNode.ASSIGNMENT) {
 			return handlerAssignment.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {

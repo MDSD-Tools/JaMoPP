@@ -34,7 +34,7 @@ class HandlerPostfixExpression extends Handler {
 			result.setOperator(operatorsFactory.createPlusPlus());
 		}
 		result.setChild((org.emftext.language.java.expressions.UnaryModificationExpressionChild) toExpressionConverter
-				.convertToExpression(postfixExpr.getOperand()));
+				.convert(postfixExpr.getOperand()));
 		utilLayout.convertToMinimalLayoutInformation(result, postfixExpr);
 		return result;
 	}

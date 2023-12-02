@@ -26,7 +26,7 @@ class ToBlockConverter {
 		result.setName("");
 		toInstructionSeparation.addInitializer(init.getBody(), result);
 		init.modifiers()
-				.forEach(obj -> result.getModifiers().add(toModifierConverter.convertToModifier((Modifier) obj)));
+				.forEach(obj -> result.getModifiers().add(toModifierConverter.convert((Modifier) obj)));
 		return result;
 	}
 

@@ -10,22 +10,23 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
-class ToPrimaryExpressionConverter {
+class ToPrimaryExpressionConverter extends ToConverter<Expression, PrimaryExpression> {
 
 	private final ToNumberLiteralConverter toNumberLiteralConverter;
-	private final UtilReferenceConverter referenceConverterUtility ;
+	private final UtilReferenceConverter referenceConverterUtility;
 	private final UtilLayout layoutInformationConverter;
-	private final LiteralsFactory literalsFactory ;
-	
+	private final LiteralsFactory literalsFactory;
+
 	@Inject
-	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter, UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter) {
+	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter,
+			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter) {
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
 		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.literalsFactory = literalsFactory;
 	}
 
-	PrimaryExpression convertToPrimaryExpression(Expression expr) {
+	PrimaryExpression convert(Expression expr) {
 		if (expr.getNodeType() == ASTNode.BOOLEAN_LITERAL) {
 			return createBooleanLiteral(expr);
 		} else if (expr.getNodeType() == ASTNode.NULL_LITERAL) {

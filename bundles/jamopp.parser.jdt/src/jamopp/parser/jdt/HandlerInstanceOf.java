@@ -29,8 +29,8 @@ class HandlerInstanceOf extends Handler {
 		org.emftext.language.java.expressions.InstanceOfExpression result = expressionsFactory
 				.createInstanceOfExpression();
 		result.setChild(
-				(InstanceOfExpressionChild) toExpressionConverter.convertToExpression(castedExpr.getLeftOperand()));
-		result.setTypeReference(toTypeReferenceConverter.convertToTypeReference(castedExpr.getRightOperand()));
+				(InstanceOfExpressionChild) toExpressionConverter.convert(castedExpr.getLeftOperand()));
+		result.setTypeReference(toTypeReferenceConverter.convert(castedExpr.getRightOperand()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
 		utilLayout.convertToMinimalLayoutInformation(result, castedExpr);
 		return result;

@@ -27,7 +27,7 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-class ToTypeReferenceConverter {
+class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 
 	private final GenericsFactory genericsFactory;
 	private final TypesFactory typesFactory;
@@ -56,7 +56,8 @@ class ToTypeReferenceConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	TypeReference convertToTypeReference(Type t) {
+	@Override
+	TypeReference convert(Type t) {
 		if (t.isPrimitiveType()) {
 			PrimitiveType primType = (PrimitiveType) t;
 			org.emftext.language.java.types.PrimitiveType convertedType;
@@ -100,7 +101,7 @@ class ToTypeReferenceConverter {
 		}
 		if (t.isArrayType()) {
 			ArrayType arrT = (ArrayType) t;
-			return convertToTypeReference(arrT.getElementType());
+			return convert(arrT.getElementType());
 		}
 		if (t.isSimpleType()) {
 			SimpleType simT = (SimpleType) t;
@@ -120,7 +121,7 @@ class ToTypeReferenceConverter {
 		if (t.isQualifiedType()) {
 			QualifiedType qualType = (QualifiedType) t;
 			NamespaceClassifierReference result;
-			TypeReference parentRef = convertToTypeReference(qualType.getQualifier());
+			TypeReference parentRef = convert(qualType.getQualifier());
 			if (parentRef instanceof ClassifierReference) {
 				result = typesFactory.createNamespaceClassifierReference();
 				result.getClassifierReferences().add((ClassifierReference) parentRef);
@@ -156,7 +157,7 @@ class ToTypeReferenceConverter {
 		}
 		if (t.isParameterizedType()) {
 			ParameterizedType paramT = (ParameterizedType) t;
-			TypeReference ref = convertToTypeReference(paramT.getType());
+			TypeReference ref = convert(paramT.getType());
 			ClassifierReference container;
 			if (ref instanceof ClassifierReference) {
 				container = (ClassifierReference) ref;
@@ -175,7 +176,7 @@ class ToTypeReferenceConverter {
 	TypeArgument convertToTypeArgument(Type t) {
 		if (!t.isWildcardType()) {
 			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
-			result.setTypeReference(convertToTypeReference(t));
+			result.setTypeReference(convert(t));
 			convertToArrayDimensionsAndSet(t, result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, t);
 			return result;
@@ -192,7 +193,7 @@ class ToTypeReferenceConverter {
 			ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
 			wildType.annotations().forEach(obj -> result.getAnnotations()
 					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
-			result.setExtendType(convertToTypeReference(wildType.getBound()));
+			result.setExtendType(convert(wildType.getBound()));
 			convertToArrayDimensionsAndSet(wildType.getBound(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
@@ -200,7 +201,7 @@ class ToTypeReferenceConverter {
 		SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
 		wildType.annotations().forEach(obj -> result.getAnnotations()
 				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
-		result.setSuperType(convertToTypeReference(wildType.getBound()));
+		result.setSuperType(convert(wildType.getBound()));
 		convertToArrayDimensionsAndSet(wildType.getBound(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 		return result;

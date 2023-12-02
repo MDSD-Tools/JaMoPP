@@ -7,7 +7,7 @@ import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 
 import com.google.inject.Inject;
 
-class ToModifierOrAnnotationInstanceConverter {
+class ToModifierOrAnnotationInstanceConverter extends ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> {
 
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToModifierConverter toModifierConverter;
@@ -19,9 +19,10 @@ class ToModifierOrAnnotationInstanceConverter {
 		this.toModifierConverter = toModifierConverter;
 	}
 
-	AnnotationInstanceOrModifier converToModifierOrAnnotationInstance(IExtendedModifier mod) {
+	@Override
+	AnnotationInstanceOrModifier convert(IExtendedModifier mod) {
 		if (mod.isModifier()) {
-			return toModifierConverter.convertToModifier((Modifier) mod);
+			return toModifierConverter.convert((Modifier) mod);
 		}
 		return toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) mod);
 	}

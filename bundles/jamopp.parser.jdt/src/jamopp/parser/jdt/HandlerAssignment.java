@@ -28,9 +28,9 @@ public class HandlerAssignment extends Handler {
 		org.emftext.language.java.expressions.AssignmentExpression result = expressionsFactory
 				.createAssignmentExpression();
 		result.setChild((org.emftext.language.java.expressions.AssignmentExpressionChild) toExpressionConverter
-				.convertToExpression(assign.getLeftHandSide()));
+				.convert(assign.getLeftHandSide()));
 		result.setAssignmentOperator(toAssignmentOperatorConverter.convertToAssignmentOperator(assign.getOperator()));
-		result.setValue(toExpressionConverter.convertToExpression(assign.getRightHandSide()));
+		result.setValue(toExpressionConverter.convert(assign.getRightHandSide()));
 		utilLayout.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}

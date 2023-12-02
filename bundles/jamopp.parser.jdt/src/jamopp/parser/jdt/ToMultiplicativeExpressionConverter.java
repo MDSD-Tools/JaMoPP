@@ -3,10 +3,11 @@ package jamopp.parser.jdt;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.expressions.MultiplicativeExpression;
 
 import com.google.inject.Inject;
 
-class ToMultiplicativeExpressionConverter {
+class ToMultiplicativeExpressionConverter extends ToConverter<InfixExpression, MultiplicativeExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -24,27 +25,24 @@ class ToMultiplicativeExpressionConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.expressions.MultiplicativeExpression convertToMultiplicativeExpression(
-			InfixExpression expr) {
+	@Override
+	MultiplicativeExpression convert(InfixExpression expr) {
 		org.emftext.language.java.expressions.MultiplicativeExpression result = expressionsFactory
 				.createMultiplicativeExpression();
-		mergeMultiplicativeExpressionAndExpression(result,
-				toExpressionConverter.convertToExpression(expr.getLeftOperand()));
+		mergeMultiplicativeExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getMultiplicativeOperators()
-				.add(toMultiplicativeOperatorConverter.convertToMultiplicativeOperator(expr.getOperator()));
-		mergeMultiplicativeExpressionAndExpression(result,
-				toExpressionConverter.convertToExpression(expr.getRightOperand()));
+				.add(toMultiplicativeOperatorConverter.convert(expr.getOperator()));
+		mergeMultiplicativeExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
 		expr.extendedOperands().forEach(obj -> {
 			result.getMultiplicativeOperators()
-					.add(toMultiplicativeOperatorConverter.convertToMultiplicativeOperator(expr.getOperator()));
-			mergeMultiplicativeExpressionAndExpression(result,
-					toExpressionConverter.convertToExpression((Expression) obj));
+					.add(toMultiplicativeOperatorConverter.convert(expr.getOperator()));
+			mergeMultiplicativeExpressionAndExpression(result, toExpressionConverter.convert((Expression) obj));
 		});
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 
-	void mergeMultiplicativeExpressionAndExpression(
+	private void mergeMultiplicativeExpressionAndExpression(
 			org.emftext.language.java.expressions.MultiplicativeExpression mulExpr,
 			org.emftext.language.java.expressions.Expression potChild) {
 		if (potChild instanceof org.emftext.language.java.expressions.MultiplicativeExpressionChild) {
