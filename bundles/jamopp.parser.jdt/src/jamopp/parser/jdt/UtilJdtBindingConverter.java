@@ -20,16 +20,10 @@ import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.Annotation;
-import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Interface;
-import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.NamespaceAwareElement;
-import org.emftext.language.java.generics.ExtendsTypeArgument;
 import org.emftext.language.java.generics.GenericsFactory;
-import org.emftext.language.java.generics.QualifiedTypeArgument;
-import org.emftext.language.java.generics.SuperTypeArgument;
-import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.literals.BooleanLiteral;
 import org.emftext.language.java.literals.CharacterLiteral;
@@ -65,10 +59,10 @@ import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
-import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @SuppressWarnings("restriction")
@@ -83,15 +77,19 @@ class UtilJdtBindingConverter {
 	private final LiteralsFactory literalsFactory;
 	private final ModifiersFactory modifiersFactory;
 	private final ParametersFactory parametersFactory;
-	private final GenericsFactory genericsFactory;
 	private final TypesFactory typesFactory;
-	private UtilJdtResolver jdtTResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+
+	private final Provider<ToTypeReferencesConverter> toTypeReferencesConverter;
+	private final Provider<UtilJdtResolver> jdtTResolverUtility;
 
 	@Inject
 	UtilJdtBindingConverter(TypesFactory typesFactory, GenericsFactory genericsFactory,
 			ParametersFactory parametersFactory, ModifiersFactory modifiersFactory, ReferencesFactory referencesFactory,
 			LiteralsFactory literalsFactory, AnnotationsFactory annotationsFactory, StatementsFactory statementsFactory,
-			ModulesFactory modulesFactory, ArraysFactory arraysFactory) {
+			ModulesFactory modulesFactory, ArraysFactory arraysFactory, UtilNamedElement utilNamedElement,
+			Provider<ToTypeReferencesConverter> toTypeReferencesConverter,
+			Provider<UtilJdtResolver> jdtTResolverUtility) {
 		this.modulesFactory = modulesFactory;
 		this.statementsFactory = statementsFactory;
 		this.arraysFactory = arraysFactory;
@@ -100,87 +98,10 @@ class UtilJdtBindingConverter {
 		this.literalsFactory = literalsFactory;
 		this.modifiersFactory = modifiersFactory;
 		this.parametersFactory = parametersFactory;
-		this.genericsFactory = genericsFactory;
 		this.typesFactory = typesFactory;
-	}
-
-	List<TypeReference> convertToTypeReferences(ITypeBinding binding) {
-		List<TypeReference> result = new ArrayList<>();
-		if (binding.isPrimitive()) {
-			handlePrimitive(binding, result);
-		} else if (binding.isArray()) {
-			return convertToTypeReferences(binding.getElementType());
-		} else if (binding.isIntersectionType()) {
-			for (ITypeBinding b : binding.getTypeBounds()) {
-				result.addAll(convertToTypeReferences(b));
-			}
-		} else {
-			Classifier classifier = jdtTResolverUtility.getClassifier(binding);
-			convertToNameAndSet(binding, classifier);
-			ClassifierReference ref = typesFactory.createClassifierReference();
-			if (binding.isParameterizedType()) {
-				for (ITypeBinding b : binding.getTypeArguments()) {
-					ref.getTypeArguments().add(convertToTypeArgument(b));
-				}
-			}
-			ref.setTarget(classifier);
-			result.add(ref);
-		}
-		return result;
-	}
-
-	private void handlePrimitive(ITypeBinding binding, List<TypeReference> result) {
-		if ("int".equals(binding.getName())) {
-			result.add(typesFactory.createInt());
-		} else if ("byte".equals(binding.getName())) {
-			result.add(typesFactory.createByte());
-		} else if ("short".equals(binding.getName())) {
-			result.add(typesFactory.createShort());
-		} else if ("long".equals(binding.getName())) {
-			result.add(typesFactory.createLong());
-		} else if ("boolean".equals(binding.getName())) {
-			result.add(typesFactory.createBoolean());
-		} else if ("double".equals(binding.getName())) {
-			result.add(typesFactory.createDouble());
-		} else if ("float".equals(binding.getName())) {
-			result.add(typesFactory.createFloat());
-		} else if ("void".equals(binding.getName())) {
-			result.add(typesFactory.createVoid());
-		} else if ("char".equals(binding.getName())) {
-			result.add(typesFactory.createChar());
-		}
-	}
-
-	void convertToNameAndSet(ITypeBinding binding, NamedElement element) {
-		String name = binding.getName();
-		if (binding.isParameterizedType()) {
-			name = name.substring(0, name.indexOf("<"));
-		} else if (binding.isArray()) {
-			name = name.substring(0, name.indexOf("["));
-		}
-		element.setName(name);
-	}
-
-	TypeArgument convertToTypeArgument(ITypeBinding binding) {
-		if (!binding.isWildcardType()) {
-			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
-			result.setTypeReference(convertToTypeReferences(binding).get(0));
-			convertToArrayDimensionsAndSet(binding, result);
-			return result;
-		}
-		if (binding.getBound() == null) {
-			return genericsFactory.createUnknownTypeArgument();
-		}
-		if (binding.isUpperbound()) {
-			ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
-			result.setExtendType(convertToTypeReferences(binding.getBound()).get(0));
-			convertToArrayDimensionsAndSet(binding, result);
-			return result;
-		}
-		SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
-		result.setSuperType(convertToTypeReferences(binding.getBound()).get(0));
-		convertToArrayDimensionsAndSet(binding, result);
-		return result;
+		this.utilNamedElement = utilNamedElement;
+		this.toTypeReferencesConverter = toTypeReferencesConverter;
+		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 
 	void convertToArrayDimensionsAndSet(ITypeBinding binding,
@@ -197,7 +118,7 @@ class UtilJdtBindingConverter {
 
 		ConcreteClassifier result = getConcreteClassifier(binding, extractAdditionalInformation);
 
-		result.setPackage(jdtTResolverUtility.getPackage(binding.getPackage()));
+		result.setPackage(jdtTResolverUtility.get().getPackage(binding.getPackage()));
 		if (result.eContainer() == null) {
 			handleEmptyContainer(binding, extractAdditionalInformation, result);
 		}
@@ -222,7 +143,7 @@ class UtilJdtBindingConverter {
 			}
 		}
 		result.getAnnotationsAndModifiers().addAll(convertToModifiers(binding.getModifiers()));
-		convertToNameAndSet(binding, result);
+		utilNamedElement.convertToNameAndSet(binding, result);
 	}
 
 	private void extractAdditionalInformation(ITypeBinding binding, ConcreteClassifier result) {
@@ -264,7 +185,7 @@ class UtilJdtBindingConverter {
 	private ConcreteClassifier getConcreteClassifier(ITypeBinding binding, boolean extractAdditionalInformation) {
 		ConcreteClassifier result = null;
 		if (binding.isAnnotation()) {
-			result = jdtTResolverUtility.getAnnotation(binding);
+			result = jdtTResolverUtility.get().getAnnotation(binding);
 		} else if (binding.isClass()) {
 			result = handleClass(binding);
 		} else if (binding.isInterface()) {
@@ -277,11 +198,12 @@ class UtilJdtBindingConverter {
 
 	private ConcreteClassifier handleElse(ITypeBinding binding, boolean extractAdditionalInformation) {
 		ConcreteClassifier result;
-		org.emftext.language.java.classifiers.Enumeration resultEnum = jdtTResolverUtility.getEnumeration(binding);
+		org.emftext.language.java.classifiers.Enumeration resultEnum = jdtTResolverUtility.get()
+				.getEnumeration(binding);
 		if (resultEnum.eContainer() == null) {
 			try {
 				for (ITypeBinding typeBind : binding.getInterfaces()) {
-					resultEnum.getImplements().addAll(convertToTypeReferences(typeBind));
+					resultEnum.getImplements().addAll(toTypeReferencesConverter.get().convert(typeBind));
 				}
 				if (extractAdditionalInformation) {
 					for (IVariableBinding varBind : binding.getDeclaredFields()) {
@@ -300,11 +222,11 @@ class UtilJdtBindingConverter {
 
 	private ConcreteClassifier handleInterface(ITypeBinding binding) {
 		ConcreteClassifier result;
-		Interface resultInterface = jdtTResolverUtility.getInterface(binding);
+		Interface resultInterface = jdtTResolverUtility.get().getInterface(binding);
 		if (resultInterface.eContainer() == null) {
 			try {
 				for (ITypeBinding typeBind : binding.getInterfaces()) {
-					resultInterface.getExtends().addAll(convertToTypeReferences(typeBind));
+					resultInterface.getExtends().addAll(toTypeReferencesConverter.get().convert(typeBind));
 				}
 			} catch (AbortCompilation e) {
 			}
@@ -315,14 +237,14 @@ class UtilJdtBindingConverter {
 
 	private ConcreteClassifier handleClass(ITypeBinding binding) {
 		ConcreteClassifier result;
-		org.emftext.language.java.classifiers.Class resultClass = jdtTResolverUtility.getClass(binding);
+		org.emftext.language.java.classifiers.Class resultClass = jdtTResolverUtility.get().getClass(binding);
 		if (resultClass.eContainer() == null) {
 			try {
 				if (binding.getSuperclass() != null) {
-					resultClass.setExtends(convertToTypeReferences(binding.getSuperclass()).get(0));
+					resultClass.setExtends(toTypeReferencesConverter.get().convert(binding.getSuperclass()).get(0));
 				}
 				for (ITypeBinding typeBind : binding.getInterfaces()) {
-					resultClass.getImplements().addAll(convertToTypeReferences(typeBind));
+					resultClass.getImplements().addAll(toTypeReferencesConverter.get().convert(typeBind));
 				}
 			} catch (AbortCompilation e) {
 			}
@@ -332,7 +254,7 @@ class UtilJdtBindingConverter {
 	}
 
 	private TypeParameter convertToTypeParameter(ITypeBinding binding) {
-		TypeParameter result = jdtTResolverUtility.getTypeParameter(binding);
+		TypeParameter result = jdtTResolverUtility.get().getTypeParameter(binding);
 		if (result.eContainer() != null) {
 			return result;
 		}
@@ -341,17 +263,17 @@ class UtilJdtBindingConverter {
 				result.getAnnotations().add(convertToAnnotationInstance(annotBind));
 			}
 			for (ITypeBinding typeBind : binding.getTypeBounds()) {
-				result.getExtendTypes().addAll(convertToTypeReferences(typeBind));
+				result.getExtendTypes().addAll(toTypeReferencesConverter.get().convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
 		}
-		convertToNameAndSet(binding, result);
+		utilNamedElement.convertToNameAndSet(binding, result);
 		return result;
 	}
 
 	private Reference internalConvertToReference(ITypeBinding binding) {
 		IdentifierReference idRef = referencesFactory.createIdentifierReference();
-		idRef.setTarget(jdtTResolverUtility.getClassifier(binding));
+		idRef.setTarget(jdtTResolverUtility.get().getClassifier(binding));
 		if (binding.isNested()) {
 			Reference parentRef = internalConvertToReference(binding.getDeclaringClass());
 			parentRef.setNext(idRef);
@@ -370,7 +292,7 @@ class UtilJdtBindingConverter {
 	}
 
 	private Field convertToField(IVariableBinding binding) {
-		ReferenceableElement refElement = jdtTResolverUtility.getReferencableElement(binding);
+		ReferenceableElement refElement = jdtTResolverUtility.get().getReferencableElement(binding);
 		if (refElement.eContainer() != null) {
 			if (refElement instanceof AdditionalField) {
 				return (Field) ((AdditionalField) refElement).eContainer();
@@ -386,7 +308,7 @@ class UtilJdtBindingConverter {
 		} catch (AbortCompilation e) {
 		}
 		result.setName(binding.getName());
-		result.setTypeReference(convertToTypeReferences(binding.getType()).get(0));
+		result.setTypeReference(toTypeReferencesConverter.get().convert(binding.getType()).get(0));
 		convertToArrayDimensionsAndSet(binding.getType(), result);
 		if (binding.getConstantValue() != null) {
 			result.setInitialValue(convertToPrimaryExpression(binding.getConstantValue()));
@@ -395,7 +317,7 @@ class UtilJdtBindingConverter {
 	}
 
 	private EnumConstant convertToEnumConstant(IVariableBinding binding) {
-		EnumConstant result = jdtTResolverUtility.getEnumConstant(binding);
+		EnumConstant result = jdtTResolverUtility.get().getEnumConstant(binding);
 		if (result.eContainer() != null) {
 			return result;
 		}
@@ -410,7 +332,7 @@ class UtilJdtBindingConverter {
 	}
 
 	private Constructor convertToConstructor(IMethodBinding binding) {
-		Constructor result = jdtTResolverUtility.getConstructor(binding);
+		Constructor result = jdtTResolverUtility.get().getConstructor(binding);
 		if (result.eContainer() != null) {
 			return result;
 		}
@@ -431,7 +353,7 @@ class UtilJdtBindingConverter {
 		if (binding.getDeclaredReceiverType() != null) {
 			ReceiverParameter param = parametersFactory.createReceiverParameter();
 			param.setName("");
-			param.setTypeReference(convertToTypeReferences(binding.getDeclaredReceiverType()).get(0));
+			param.setTypeReference(toTypeReferencesConverter.get().convert(binding.getDeclaredReceiverType()).get(0));
 			param.setOuterTypeReference(param.getTypeReference());
 			param.setThisReference(literalsFactory.createThis());
 			result.getParameters().add(param);
@@ -445,7 +367,7 @@ class UtilJdtBindingConverter {
 				param = parametersFactory.createOrdinaryParameter();
 			}
 			param.setName("param" + index);
-			param.setTypeReference(convertToTypeReferences(typeBind).get(0));
+			param.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
 			convertToArrayDimensionsAndSet(typeBind, param);
 			IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
 			try {
@@ -463,7 +385,7 @@ class UtilJdtBindingConverter {
 	}
 
 	private Method convertToMethod(IMethodBinding binding) {
-		Method result = jdtTResolverUtility.getMethod(binding);
+		Method result = jdtTResolverUtility.get().getMethod(binding);
 		if (result.eContainer() != null) {
 			return result;
 		}
@@ -475,7 +397,7 @@ class UtilJdtBindingConverter {
 		} catch (AbortCompilation e) {
 		}
 		result.setName(binding.getName());
-		result.setTypeReference(convertToTypeReferences(binding.getReturnType()).get(0));
+		result.setTypeReference(toTypeReferencesConverter.get().convert(binding.getReturnType()).get(0));
 		convertToArrayDimensionsAndSet(binding.getReturnType(), result);
 		try {
 			for (ITypeBinding typeBind : binding.getTypeParameters()) {
@@ -485,7 +407,7 @@ class UtilJdtBindingConverter {
 		}
 		if (binding.getDeclaredReceiverType() != null) {
 			ReceiverParameter param = parametersFactory.createReceiverParameter();
-			param.setTypeReference(convertToTypeReferences(binding.getDeclaredReceiverType()).get(0));
+			param.setTypeReference(toTypeReferencesConverter.get().convert(binding.getDeclaredReceiverType()).get(0));
 			param.setName("");
 			param.setThisReference(literalsFactory.createThis());
 			result.getParameters().add(param);
@@ -499,7 +421,7 @@ class UtilJdtBindingConverter {
 				param = parametersFactory.createOrdinaryParameter();
 			}
 			param.setName("param" + index);
-			param.setTypeReference(convertToTypeReferences(typeBind).get(0));
+			param.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
 			convertToArrayDimensionsAndSet(typeBind, param);
 			try {
 				IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
@@ -540,15 +462,15 @@ class UtilJdtBindingConverter {
 			Collections.addAll(ref.getNamespaces(), binding.getPackage().getNameComponents());
 		}
 		ClassifierReference classRef = typesFactory.createClassifierReference();
-		classRef.setTarget(jdtTResolverUtility.getClassifier(binding));
+		classRef.setTarget(jdtTResolverUtility.get().getClassifier(binding));
 		ref.getClassifierReferences().add(classRef);
 		return ref;
 	}
 
 	private AnnotationInstance convertToAnnotationInstance(IAnnotationBinding binding) {
 		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
-		Annotation resultClass = jdtTResolverUtility.getAnnotation(binding.getAnnotationType());
-		convertToNameAndSet(binding.getAnnotationType(), resultClass);
+		Annotation resultClass = jdtTResolverUtility.get().getAnnotation(binding.getAnnotationType());
+		utilNamedElement.convertToNameAndSet(binding.getAnnotationType(), resultClass);
 		result.setAnnotation(resultClass);
 		if (binding.getDeclaredMemberValuePairs().length > 0) {
 			org.emftext.language.java.annotations.AnnotationParameterList params = annotationsFactory
@@ -564,7 +486,7 @@ class UtilJdtBindingConverter {
 	private org.emftext.language.java.annotations.AnnotationAttributeSetting convertToAnnotationAttributeSetting(
 			IMemberValuePairBinding binding) {
 		AnnotationAttributeSetting result = annotationsFactory.createAnnotationAttributeSetting();
-		result.setAttribute(jdtTResolverUtility.getInterfaceMethod(binding.getMethodBinding()));
+		result.setAttribute(jdtTResolverUtility.get().getInterfaceMethod(binding.getMethodBinding()));
 		result.setValue(convertToAnnotationValue(binding.getValue()));
 		return result;
 	}
@@ -573,7 +495,7 @@ class UtilJdtBindingConverter {
 		if (value instanceof IVariableBinding varBind) {
 			Reference parentRef = internalConvertToReference(varBind.getDeclaringClass());
 			IdentifierReference varRef = referencesFactory.createIdentifierReference();
-			varRef.setTarget(jdtTResolverUtility.getEnumConstant(varBind));
+			varRef.setTarget(jdtTResolverUtility.get().getEnumConstant(varBind));
 			parentRef.setNext(varRef);
 			return getTopReference(varRef);
 		}
@@ -688,8 +610,8 @@ class UtilJdtBindingConverter {
 	}
 
 	org.emftext.language.java.containers.Package convertToPackage(IPackageBinding binding) {
-		org.emftext.language.java.containers.Package pack = jdtTResolverUtility.getPackage(binding);
-		pack.setModule(jdtTResolverUtility.getModule(binding.getModule()));
+		org.emftext.language.java.containers.Package pack = jdtTResolverUtility.get().getPackage(binding);
+		pack.setModule(jdtTResolverUtility.get().getModule(binding.getModule()));
 		if (!pack.getAnnotations().isEmpty()) {
 			return pack;
 		}
@@ -706,7 +628,7 @@ class UtilJdtBindingConverter {
 	}
 
 	org.emftext.language.java.containers.Module convertToModule(IModuleBinding binding) {
-		org.emftext.language.java.containers.Module result = jdtTResolverUtility.getModule(binding);
+		org.emftext.language.java.containers.Module result = jdtTResolverUtility.get().getModule(binding);
 		if (!result.eContents().isEmpty()) {
 			return result;
 		}
@@ -724,29 +646,29 @@ class UtilJdtBindingConverter {
 		try {
 			for (IPackageBinding packBind : binding.getExportedPackages()) {
 				ExportsModuleDirective dir = modulesFactory.createExportsModuleDirective();
-				dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
+				dir.setAccessablePackage(jdtTResolverUtility.get().getPackage(packBind));
 				String[] mods = binding.getExportedTo(packBind);
 				for (String modName : mods) {
 					ModuleReference ref = modulesFactory.createModuleReference();
-					ref.setTarget(jdtTResolverUtility.getModule(modName));
+					ref.setTarget(jdtTResolverUtility.get().getModule(modName));
 					dir.getModules().add(ref);
 				}
 				result.getTarget().add(dir);
 			}
 			for (IPackageBinding packBind : binding.getOpenedPackages()) {
 				OpensModuleDirective dir = modulesFactory.createOpensModuleDirective();
-				dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
+				dir.setAccessablePackage(jdtTResolverUtility.get().getPackage(packBind));
 				String[] mods = binding.getOpenedTo(packBind);
 				for (String modName : mods) {
 					ModuleReference ref = modulesFactory.createModuleReference();
-					ref.setTarget(jdtTResolverUtility.getModule(modName));
+					ref.setTarget(jdtTResolverUtility.get().getModule(modName));
 					dir.getModules().add(ref);
 				}
 				result.getTarget().add(dir);
 			}
 			for (IModuleBinding modBind : binding.getRequiredModules()) {
 				RequiresModuleDirective dir = modulesFactory.createRequiresModuleDirective();
-				org.emftext.language.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
+				org.emftext.language.java.containers.Module reqMod = jdtTResolverUtility.get().getModule(modBind);
 				ModuleReference ref = modulesFactory.createModuleReference();
 				ref.setTarget(reqMod);
 				dir.setRequiredModule(ref);
@@ -754,14 +676,14 @@ class UtilJdtBindingConverter {
 			}
 			for (ITypeBinding typeBind : binding.getUses()) {
 				UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
-				dir.setTypeReference(convertToTypeReferences(typeBind).get(0));
+				dir.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
 				result.getTarget().add(dir);
 			}
 			for (ITypeBinding typeBind : binding.getServices()) {
 				ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
-				dir.setTypeReference(convertToTypeReferences(typeBind).get(0));
+				dir.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
 				for (ITypeBinding service : binding.getImplementations(typeBind)) {
-					dir.getServiceProviders().addAll(convertToTypeReferences(service));
+					dir.getServiceProviders().addAll(toTypeReferencesConverter.get().convert(service));
 				}
 				result.getTarget().add(dir);
 			}
@@ -776,7 +698,4 @@ class UtilJdtBindingConverter {
 		Collections.addAll(ele.getNamespaces(), singleNamespaces);
 	}
 
-	void setJDTResolverUtility(UtilJdtResolver jDTResolverUtility) {
-		jdtTResolverUtility = jDTResolverUtility;
-	}
 }

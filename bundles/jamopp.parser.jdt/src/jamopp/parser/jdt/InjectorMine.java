@@ -22,7 +22,6 @@ class InjectorMine {
 		
 		injector.getInstance(ToClassMemberConverter.class).setToConcreteClassifierConverter(injector.getInstance(ToConcreteClassifierConverter.class));
 		injector.getInstance(UtilExpressionConverter.class).setToExpressionConverter(injector.getInstance(ToExpressionConverter.class));
-		injector.getInstance(UtilJdtBindingConverter.class).setJDTResolverUtility(jdtResolverUtility);
 		injector.getInstance(ToAnnotationInstanceConverter.class).setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
 		injector.getInstance(UtilTypeInstructionSeparation.class).setStatementConverterUtility(injector.getInstance(UtilStatementConverter.class));
 	}

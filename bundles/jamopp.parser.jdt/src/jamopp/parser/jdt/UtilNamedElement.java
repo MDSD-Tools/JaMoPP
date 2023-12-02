@@ -1,5 +1,6 @@
 package jamopp.parser.jdt;
 
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
@@ -38,6 +39,16 @@ public class UtilNamedElement {
 			QualifiedName qualifiedName = (QualifiedName) name;
 			namedElement.setName(qualifiedName.getName().getIdentifier());
 		}
+	}
+	
+	void convertToNameAndSet(ITypeBinding binding, NamedElement element) {
+		String name = binding.getName();
+		if (binding.isParameterizedType()) {
+			name = name.substring(0, name.indexOf("<"));
+		} else if (binding.isArray()) {
+			name = name.substring(0, name.indexOf("["));
+		}
+		element.setName(name);
 	}
 
 }

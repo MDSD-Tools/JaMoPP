@@ -21,12 +21,14 @@ class HandlerLambdaExpression extends Handler {
 	private final UtilJdtBindingConverter utilJdtBindingConverter;
 	private final UtilStatementConverter utilStatementConverter;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
+	private final ToTypeReferencesConverter toTypeReferencesConverter;
 
 	@Inject
 	HandlerLambdaExpression(UtilStatementConverter utilStatementConverter, UtilLayout utilLayout,
 			UtilJdtResolver utilJdtResolver, UtilJdtBindingConverter utilJdtBindingConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter, ToExpressionConverter toExpressionConverter,
-			ExpressionsFactory expressionsFactory, TypesFactory typesFactory) {
+			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
+			ToTypeReferencesConverter toTypeReferencesConverter) {
 		this.typesFactory = typesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -35,6 +37,7 @@ class HandlerLambdaExpression extends Handler {
 		this.utilJdtBindingConverter = utilJdtBindingConverter;
 		this.utilStatementConverter = utilStatementConverter;
 		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
+		this.toTypeReferencesConverter = toTypeReferencesConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -55,8 +58,7 @@ class HandlerLambdaExpression extends Handler {
 				org.emftext.language.java.parameters.OrdinaryParameter nextParam;
 				if (binding != null) {
 					nextParam = utilJdtResolver.getOrdinaryParameter(binding);
-					nextParam.setTypeReference(
-							utilJdtBindingConverter.convertToTypeReferences(binding.getType()).get(0));
+					nextParam.setTypeReference(toTypeReferencesConverter.convert(binding.getType()).get(0));
 				} else {
 					nextParam = utilJdtResolver.getOrdinaryParameter(frag.getName().getIdentifier() + frag.hashCode());
 					nextParam.setTypeReference(typesFactory.createVoid());

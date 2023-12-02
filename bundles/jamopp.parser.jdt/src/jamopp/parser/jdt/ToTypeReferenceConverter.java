@@ -37,6 +37,7 @@ class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
+	private final ToTypeReferencesConverter toTypeReferencesConverter;
 
 	@Inject
 	ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
@@ -44,7 +45,7 @@ class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 			UtilLayout layoutInformationConverter, UtilJdtBindingConverter jdtBindingConverterUtility,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter,
 			ToClassifierReferenceConverter toClassifierReferenceConverter, TypesFactory typesFactory,
-			GenericsFactory genericsFactory) {
+			GenericsFactory genericsFactory, ToTypeReferencesConverter toTypeReferencesConverter) {
 		this.genericsFactory = genericsFactory;
 		this.typesFactory = typesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -53,6 +54,7 @@ class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
+		this.toTypeReferencesConverter = toTypeReferencesConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -89,7 +91,7 @@ class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 			InferableType ref = typesFactory.createInferableType();
 			ITypeBinding binding = t.resolveBinding();
 			if (binding != null) {
-				ref.getActualTargets().addAll(jdtBindingConverterUtility.convertToTypeReferences(binding));
+				ref.getActualTargets().addAll(toTypeReferencesConverter.convert(binding));
 				if (binding.isArray()) {
 					jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding, ref);
 				} else if (binding.isIntersectionType() && binding.getTypeBounds()[0].isArray()) {
