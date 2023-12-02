@@ -9,7 +9,7 @@ import com.google.inject.Provider;
 
 public class ToExpressionConverterImpl implements ToExpressionConverter {
 
-	private final Provider<ToPrimaryExpressionConverter> toPrimaryExpressionConverter;
+	private final Provider<HandlerPrimaryExpression> handlerPrimaryExpression;
 	private final Provider<HandlerAssignment> handlerAssignment;
 	private final Provider<HandlerConditionalExpression> handlerConditionalExpression;
 	private final Provider<HandlerInfixExpression> handlerInfixExpression;
@@ -30,8 +30,8 @@ public class ToExpressionConverterImpl implements ToExpressionConverter {
 			Provider<HandlerInfixExpression> handlerInfixExpression,
 			Provider<HandlerConditionalExpression> handlerConditionalExpression,
 			Provider<HandlerCastExpression> handlerCastExpression, Provider<HandlerAssignment> handlerAssignment,
-			Provider<ToPrimaryExpressionConverter> toPrimaryExpressionConverter) {
-		this.toPrimaryExpressionConverter = toPrimaryExpressionConverter;
+			Provider<HandlerPrimaryExpression> toPrimaryExpressionConverter) {
+		this.handlerPrimaryExpression = toPrimaryExpressionConverter;
 		this.handlerAssignment = handlerAssignment;
 		this.handlerConditionalExpression = handlerConditionalExpression;
 		this.handlerInfixExpression = handlerInfixExpression;
@@ -66,8 +66,8 @@ public class ToExpressionConverterImpl implements ToExpressionConverter {
 		} else if (expr.getNodeType() == ASTNode.LAMBDA_EXPRESSION) {
 			return handlerLambdaExpression.get().handle(expr);
 		} else {
-			return toPrimaryExpressionConverter.get().convertToPrimaryExpression(expr);
+			return handlerPrimaryExpression.get().handle(expr);
 		}
 	}
-	
+
 }
