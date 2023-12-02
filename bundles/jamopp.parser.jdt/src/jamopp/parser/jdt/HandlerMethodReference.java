@@ -6,7 +6,7 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-class HandlerMethodReference {
+class HandlerMethodReference extends Handler {
 
 	private final ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 
@@ -15,7 +15,8 @@ class HandlerMethodReference {
 		this.toMethodReferenceExpressionConverter = toMethodReferenceExpressionConverter;
 	}
 
-	org.emftext.language.java.expressions.Expression handleMethodReference(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		return toMethodReferenceExpressionConverter.convertToMethodReferenceExpression((MethodReference) expr);
 	}
 

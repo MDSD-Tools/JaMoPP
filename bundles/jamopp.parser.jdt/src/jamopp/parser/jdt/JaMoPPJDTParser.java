@@ -37,20 +37,22 @@ import jamopp.parser.api.JaMoPPParserAPI;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
-	private static final Logger LOGGER;
 	public static final String DEFAULT_ENCODING;
 	public static final String DEFAULT_JAVA_VERSION;
-	private static final ContainersFactory containersFactory;
-	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
+
+	private static final Logger logger;
+
 	private static final UtilJdtResolver jdtResolverUtility;
+	private static final ContainersFactory containersFactory;
 	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST converter;
+	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
+
 	private static final JamoppClasspathEntriesSearcher jamoppClasspathEntriesSearcher;
 	private static final JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory;
 	private static final JamoppFileWithJDTParser jamoppFileWithJDTParser;
 	private static final JamoppJavaParserFactory jamoppJavaParserFactory;
 
 	static {
-		LOGGER = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
 		DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
 		DEFAULT_JAVA_VERSION = "14";
 
@@ -59,9 +61,10 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		converter = InjectorMine.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
 		containersFactory = InjectorMine.getContainersFactory();
 
-		jamoppClasspathEntriesSearcher = new JamoppClasspathEntriesSearcher(LOGGER);
-		jamoppCompilationUnitsFactory = new JamoppCompilationUnitsFactory(LOGGER);
-		jamoppJavaParserFactory = new JamoppJavaParserFactory(LOGGER);
+		logger = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
+		jamoppClasspathEntriesSearcher = new JamoppClasspathEntriesSearcher(logger);
+		jamoppCompilationUnitsFactory = new JamoppCompilationUnitsFactory(logger);
+		jamoppJavaParserFactory = new JamoppJavaParserFactory(logger);
 		jamoppFileWithJDTParser = new JamoppFileWithJDTParser(jamoppJavaParserFactory, DEFAULT_JAVA_VERSION);
 	}
 
@@ -111,7 +114,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 				try {
 					res.delete(this.resourceSet.getLoadOptions());
 				} catch (final IOException e) {
-					LOGGER.error(res.getURI(), e);
+					logger.error(res.getURI(), e);
 				}
 			}
 		}
@@ -155,7 +158,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 						return true;
 					}).toArray(i -> new String[i]);
 		} catch (final IOException e) {
-			LOGGER.error(dir, e);
+			logger.error(dir, e);
 			return new String[0];
 		}
 	}
@@ -176,7 +179,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(input))) {
 			buffReader.lines().forEach(line -> builder.append(line + lineSep));
 		} catch (final IOException e) {
-			LOGGER.error(input, e);
+			logger.error(input, e);
 		}
 		final String src = builder.toString();
 		final ASTNode ast = jamoppFileWithJDTParser.parseFileWithJDT(src, fileName);
@@ -236,7 +239,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 			}
 		} catch (final JavaModelException e) {
-			LOGGER.error(javaPackage, e);
+			logger.error(javaPackage, e);
 		}
 
 		this.convertCompilationUnits(compilationUnits);
@@ -258,7 +261,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 				}
 			}
 		} catch (final JavaModelException e) {
-			LOGGER.error(javaProject, e);
+			logger.error(javaProject, e);
 		}
 
 		this.convertCompilationUnits(compilationUnits);

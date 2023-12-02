@@ -7,7 +7,7 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-class HandlerPostfixExpression {
+class HandlerPostfixExpression extends Handler {
 
 	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;
@@ -23,7 +23,8 @@ class HandlerPostfixExpression {
 		this.utilLayout = utilLayout;
 	}
 
-	org.emftext.language.java.expressions.Expression handlePostfixExpression(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		PostfixExpression postfixExpr = (PostfixExpression) expr;
 		org.emftext.language.java.expressions.SuffixUnaryModificationExpression result = expressionsFactory
 				.createSuffixUnaryModificationExpression();

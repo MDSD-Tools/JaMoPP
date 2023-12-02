@@ -5,7 +5,7 @@ import org.eclipse.jdt.core.dom.Expression;
 
 import com.google.inject.Inject;
 
-class HandlerConditionalExpression {
+class HandlerConditionalExpression extends Handler {
 
 	private final ToConditionalExpressionConverter toConditionalExpressionConverter;
 
@@ -14,7 +14,8 @@ class HandlerConditionalExpression {
 		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
 	}
 
-	org.emftext.language.java.expressions.Expression handleConditionalExpression(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		return toConditionalExpressionConverter.convertToConditionalExpression((ConditionalExpression) expr);
 	}
 

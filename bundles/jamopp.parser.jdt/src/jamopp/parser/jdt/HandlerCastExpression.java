@@ -8,22 +8,24 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-class HandlerCastExpression {
+class HandlerCastExpression extends Handler {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilLayout utilLayout;
-	
+
 	@Inject
-	HandlerCastExpression(UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter, ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory) {
+	HandlerCastExpression(UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
+			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.utilLayout = utilLayout;
 	}
-	
-	org.emftext.language.java.expressions.Expression handleCastExpression(Expression expr) {
+
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		CastExpression castExpr = (CastExpression) expr;
 		org.emftext.language.java.expressions.CastExpression result = expressionsFactory.createCastExpression();
 		if (castExpr.getType().isIntersectionType()) {
@@ -42,5 +44,5 @@ class HandlerCastExpression {
 		utilLayout.convertToMinimalLayoutInformation(result, castExpr);
 		return result;
 	}
-	
+
 }

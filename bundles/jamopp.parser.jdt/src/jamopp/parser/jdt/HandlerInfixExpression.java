@@ -8,7 +8,7 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-class HandlerInfixExpression {
+class HandlerInfixExpression extends Handler {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final ToEqualityExpressionConverter toEqualityExpressionConverter;
@@ -36,7 +36,8 @@ class HandlerInfixExpression {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.expressions.Expression handleInfixExpression(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		InfixExpression infix = (InfixExpression) expr;
 		if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_OR) {
 			org.emftext.language.java.expressions.ConditionalOrExpression result;

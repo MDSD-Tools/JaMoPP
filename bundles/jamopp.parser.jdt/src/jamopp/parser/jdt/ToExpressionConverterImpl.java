@@ -46,25 +46,25 @@ public class ToExpressionConverterImpl implements ToExpressionConverter {
 
 	public org.emftext.language.java.expressions.Expression convertToExpression(Expression expr) {
 		if (expr.getNodeType() == ASTNode.ASSIGNMENT) {
-			return handlerAssignment.get().handleAssignment(expr);
+			return handlerAssignment.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {
-			return handlerConditionalExpression.get().handleConditionalExpression(expr);
+			return handlerConditionalExpression.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.INFIX_EXPRESSION) {
-			return handlerInfixExpression.get().handleInfixExpression(expr);
+			return handlerInfixExpression.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.INSTANCEOF_EXPRESSION) {
-			return handlerInstanceOf.get().handleInstanceOf(expr);
+			return handlerInstanceOf.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.PREFIX_EXPRESSION) {
-			return handlerPrefixExpression.get().handlePrefixExpression(expr);
+			return handlerPrefixExpression.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.POSTFIX_EXPRESSION) {
-			return handlerPostfixExpression.get().handlePostfixExpression(expr);
+			return handlerPostfixExpression.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.CAST_EXPRESSION) {
-			return handlerCastExpression.get().handleCastExpression(expr);
+			return handlerCastExpression.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.SWITCH_EXPRESSION) {
-			return handlerSwitchExpression.get().handleSwitchExpression(expr);
+			return handlerSwitchExpression.get().handle(expr);
 		} else if (expr instanceof MethodReference) {
-			return handlerMethodReference.get().handleMethodReference(expr);
+			return handlerMethodReference.get().handle(expr);
 		} else if (expr.getNodeType() == ASTNode.LAMBDA_EXPRESSION) {
-			return handlerLambdaExpression.get().handleLambdaExpression(expr);
+			return handlerLambdaExpression.get().handle(expr);
 		} else {
 			return toPrimaryExpressionConverter.get().convertToPrimaryExpression(expr);
 		}

@@ -11,7 +11,7 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-class HandlerLambdaExpression {
+class HandlerLambdaExpression extends Handler {
 
 	private final TypesFactory typesFactory;
 	private final ExpressionsFactory expressionsFactory;
@@ -38,7 +38,8 @@ class HandlerLambdaExpression {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.expressions.Expression handleLambdaExpression(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		LambdaExpression lambda = (LambdaExpression) expr;
 		org.emftext.language.java.expressions.LambdaExpression result = expressionsFactory.createLambdaExpression();
 		if (!lambda.parameters().isEmpty() && lambda.parameters().get(0) instanceof VariableDeclarationFragment) {

@@ -6,7 +6,7 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-public class HandlerAssignment {
+public class HandlerAssignment extends Handler {
 
 	private final ToAssignmentConverter toAssignmentOperatorConverter;
 	private final UtilLayout utilLayout;
@@ -22,7 +22,8 @@ public class HandlerAssignment {
 		this.expressionsFactory = expressionsFactory;
 	}
 
-	org.emftext.language.java.expressions.Expression handleAssignment(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		Assignment assign = (Assignment) expr;
 		org.emftext.language.java.expressions.AssignmentExpression result = expressionsFactory
 				.createAssignmentExpression();

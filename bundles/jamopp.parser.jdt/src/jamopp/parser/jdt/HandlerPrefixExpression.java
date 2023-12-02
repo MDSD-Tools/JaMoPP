@@ -7,7 +7,7 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-class HandlerPrefixExpression {
+class HandlerPrefixExpression extends Handler {
 
 	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;
@@ -26,7 +26,8 @@ class HandlerPrefixExpression {
 		this.utilLayout = utilLayout;
 	}
 
-	org.emftext.language.java.expressions.Expression handlePrefixExpression(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		PrefixExpression prefixExpr = (PrefixExpression) expr;
 		if (prefixExpr.getOperator() == PrefixExpression.Operator.COMPLEMENT
 				|| prefixExpr.getOperator() == PrefixExpression.Operator.NOT

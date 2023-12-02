@@ -7,7 +7,7 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 import com.google.inject.Inject;
 
-class HandlerInstanceOf {
+class HandlerInstanceOf extends Handler {
 
 	private final UtilLayout utilLayout;
 	private final ToExpressionConverter toExpressionConverter;
@@ -23,7 +23,8 @@ class HandlerInstanceOf {
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 	}
 
-	org.emftext.language.java.expressions.Expression handleInstanceOf(Expression expr) {
+	@Override
+	org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		InstanceofExpression castedExpr = (InstanceofExpression) expr;
 		org.emftext.language.java.expressions.InstanceOfExpression result = expressionsFactory
 				.createInstanceOfExpression();
