@@ -37,21 +37,23 @@ import jamopp.parser.api.JaMoPPParserAPI;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
-	private static final Logger LOGGER = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
-	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
-	public static final String DEFAULT_JAVA_VERSION = "14";
-
+	private static final Logger LOGGER;
+	public static final String DEFAULT_ENCODING;
+	public static final String DEFAULT_JAVA_VERSION;
 	private static final ContainersFactory containersFactory;
 	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private static final UtilJdtResolver jdtResolverUtility;
 	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST converter;
-
-	private static JamoppClasspathEntriesSearcher jamoppClasspathEntriesSearcher;
-	private static JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory;
-	private static JamoppFileWithJDTParser jamoppFileWithJDTParser;
-	private static JamoppJavaParserFactory jamoppJavaParserFactory;
+	private static final JamoppClasspathEntriesSearcher jamoppClasspathEntriesSearcher;
+	private static final JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory;
+	private static final JamoppFileWithJDTParser jamoppFileWithJDTParser;
+	private static final JamoppJavaParserFactory jamoppJavaParserFactory;
 
 	static {
+		LOGGER = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
+		DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
+		DEFAULT_JAVA_VERSION = "14";
+
 		typeInstructionSeparationUtility = InjectorMine.getTypeInstructionSeparationUtility();
 		jdtResolverUtility = InjectorMine.getJDTResolverUtility();
 		converter = InjectorMine.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
@@ -135,9 +137,6 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 				.collect(Collectors.toSet());
 	}
 
-	/**
-	 * @return the resourceSet
-	 */
 	public ResourceSet getResourceSet() {
 		return resourceSet;
 	}
