@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -26,13 +25,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.FileASTRequestor;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
@@ -76,13 +72,8 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		return jamoppCompilationUnitsFactory.getCompilationUnits(parser, classpathEntries, sources, encodings);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static ASTParser getJavaParser(String version) {
 		return jamoppJavaParserFactory.getJavaParser(version);
-	}
-
-	private static ASTNode parseFileWithJDT(String fileContent, String fileName) {
-		return jamoppFileWithJDTParser.parseFileWithJDT(fileContent, fileName);
 	}
 
 	private ResourceSet resourceSet;
@@ -189,7 +180,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 			LOGGER.error(input, e);
 		}
 		final String src = builder.toString();
-		final ASTNode ast = parseFileWithJDT(src, fileName);
+		final ASTNode ast = jamoppFileWithJDTParser.parseFileWithJDT(src, fileName);
 		converter.setSource(src);
 		ast.accept(converter);
 		typeInstructionSeparationUtility.convertAll();
