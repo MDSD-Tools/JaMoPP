@@ -40,7 +40,7 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
-abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor {
+abstract class VisitorAndConverterAbstractAndEmptyModelJDTAST extends ASTVisitor {
 
 	protected final ContainersFactory containersFactory;
 	protected final ModulesFactory modulesFactory;
@@ -54,7 +54,7 @@ abstract class AbstractAndEmptyModelJDTASTVisitorAndConverter extends ASTVisitor
 	protected final ToConcreteClassifierConverter ClassifierConverterUtility;
 
 	@Inject
-	AbstractAndEmptyModelJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
+	VisitorAndConverterAbstractAndEmptyModelJDTAST(UtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,

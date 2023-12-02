@@ -7,7 +7,7 @@ import com.google.inject.Injector;
 
 class InjectorMine {
 
-	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter ordinaryCompilationUnitJDTASTVisitorAndConverter;
+	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	private static final UtilJdtResolver jdtResolverUtility;
 	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private static final ContainersFactory containersFactory;
@@ -15,7 +15,7 @@ class InjectorMine {
 	static {
 		Injector injector = Guice.createInjector(new InjectorGuice());
 		
-		ordinaryCompilationUnitJDTASTVisitorAndConverter  = injector.getInstance(OrdinaryCompilationUnitJDTASTVisitorAndConverter.class);
+		ordinaryCompilationUnitJDTASTVisitorAndConverter  = injector.getInstance(VisitorAndConverterOrdinaryCompilationUnitJDTAST.class);
 		jdtResolverUtility= injector.getInstance(UtilJdtResolver.class);
 		typeInstructionSeparationUtility= injector.getInstance(UtilTypeInstructionSeparation.class);
 		containersFactory = injector.getInstance(ContainersFactory.class);
@@ -27,7 +27,7 @@ class InjectorMine {
 		injector.getInstance(UtilTypeInstructionSeparation.class).setStatementConverterUtility(injector.getInstance(UtilStatementConverter.class));
 	}
 
-	static OrdinaryCompilationUnitJDTASTVisitorAndConverter getOrdinaryCompilationUnitJDTASTVisitorAndConverter() {
+	static VisitorAndConverterOrdinaryCompilationUnitJDTAST getOrdinaryCompilationUnitJDTASTVisitorAndConverter() {
 		return ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	}
 

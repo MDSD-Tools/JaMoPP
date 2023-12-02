@@ -33,10 +33,10 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
-class ModuleJDTASTVisitorAndConverter extends PackageJDTASTVisitorAndConverter {
+class VisitorAndConverterModuleJDTAST extends PackageJDTASTVisitorAndConverter {
 
 	@Inject
-	ModuleJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+	VisitorAndConverterModuleJDTAST(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
 			ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,

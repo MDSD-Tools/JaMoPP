@@ -44,7 +44,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private static final ContainersFactory containersFactory;
 	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private static final UtilJdtResolver jdtResolverUtility;
-	private static final OrdinaryCompilationUnitJDTASTVisitorAndConverter converter;
+	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST converter;
 
 	static {
 		typeInstructionSeparationUtility = InjectorMine.getTypeInstructionSeparationUtility();

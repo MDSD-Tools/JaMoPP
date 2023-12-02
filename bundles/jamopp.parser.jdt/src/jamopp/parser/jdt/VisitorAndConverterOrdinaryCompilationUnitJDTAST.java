@@ -22,10 +22,10 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
-class OrdinaryCompilationUnitJDTASTVisitorAndConverter extends ModuleJDTASTVisitorAndConverter {
+class VisitorAndConverterOrdinaryCompilationUnitJDTAST extends VisitorAndConverterModuleJDTAST {
 
 	@Inject
-	OrdinaryCompilationUnitJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
+	VisitorAndConverterOrdinaryCompilationUnitJDTAST(UtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,

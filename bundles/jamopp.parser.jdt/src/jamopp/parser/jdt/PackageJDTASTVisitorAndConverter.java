@@ -22,7 +22,7 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
-abstract class PackageJDTASTVisitorAndConverter extends AbstractAndEmptyModelJDTASTVisitorAndConverter {
+abstract class PackageJDTASTVisitorAndConverter extends VisitorAndConverterAbstractAndEmptyModelJDTAST {
 
 	@Inject
 	PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
