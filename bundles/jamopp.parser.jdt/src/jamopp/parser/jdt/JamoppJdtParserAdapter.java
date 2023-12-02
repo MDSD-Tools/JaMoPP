@@ -40,10 +40,9 @@ import jamopp.parser.api.JaMoPPParserAPI;
 
 class JamoppJdtParserAdapter implements JaMoPPParserAPI {
 
-
 	public final String encoding;
 	public final String javaVersion;
-	
+
 	private final ContainersFactory containersFactory;
 	private final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private final UtilJdtResolver jdtResolverUtility;
@@ -54,9 +53,7 @@ class JamoppJdtParserAdapter implements JaMoPPParserAPI {
 	private final JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory;
 	private final JamoppFileWithJDTParser jamoppFileWithJDTParser;
 
-
-
-	private  final Logger logger = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
+	private final Logger logger = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
 
 	String[] getClasspathEntries(Path dir) {
 		return jamoppClasspathEntriesSearcher.getClasspathEntries(dir);
@@ -284,6 +281,10 @@ class JamoppJdtParserAdapter implements JaMoPPParserAPI {
 	@Override
 	public String toString() {
 		return "JaMoPPJDTParser [resourceSet=" + resourceSet + "]";
+	}
+
+	ASTNode parseFileWithJDT(String src, String fileName) {
+		return jamoppFileWithJDTParser.parseFileWithJDT(src, fileName);
 	}
 
 }

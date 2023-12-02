@@ -50,10 +50,8 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private static final UtilJdtResolver jdtResolverUtility;
 	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST converter;
 
-	private static JamoppClasspathEntriesSearcher jamoppClasspathEntriesSearcher;
-	private static JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory;
-	private static JamoppFileWithJDTParser jamoppFileWithJDTParser;
-	private static JamoppJavaParserFactory jamoppJavaParserFactory;
+	private static JamoppJdtParserAdapter jamoppJdtParserAdapterStatic;
+	private final JamoppJdtParserAdapter jamoppJdtParserAdapter;
 
 	static {
 		typeInstructionSeparationUtility = InjectorMine.getTypeInstructionSeparationUtility();
@@ -61,23 +59,20 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		converter = InjectorMine.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
 		containersFactory = InjectorMine.getContainersFactory();
 
-		jamoppClasspathEntriesSearcher = new JamoppClasspathEntriesSearcher(LOGGER);
-		jamoppCompilationUnitsFactory = new JamoppCompilationUnitsFactory(LOGGER);
-		jamoppJavaParserFactory = new JamoppJavaParserFactory(LOGGER);
-		jamoppFileWithJDTParser = new JamoppFileWithJDTParser(jamoppJavaParserFactory, DEFAULT_JAVA_VERSION);
+		jamoppJdtParserAdapterStatic = new JamoppJdtParserAdapter(DEFAULT_JAVA_VERSION, DEFAULT_ENCODING);
 	}
 
 	public static String[] getClasspathEntries(Path dir) {
-		return jamoppClasspathEntriesSearcher.getClasspathEntries(dir);
+		return jamoppJdtParserAdapterStatic.getClasspathEntries(dir);
 	}
 
 	public static Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries,
 			String[] sources, String[] encodings) {
-		return jamoppCompilationUnitsFactory.getCompilationUnits(parser, classpathEntries, sources, encodings);
+		return jamoppJdtParserAdapterStatic.getCompilationUnits(parser, classpathEntries, sources, encodings);
 	}
 
 	public static ASTParser getJavaParser(String version) {
-		return jamoppJavaParserFactory.getJavaParser(version);
+		return jamoppJdtParserAdapterStatic.getJavaParser(version);
 	}
 
 	private ResourceSet resourceSet;
@@ -86,6 +81,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		containersFactory.createEmptyModel();
 		this.resourceSet = new ResourceSetImpl();
 		jdtResolverUtility.setResourceSet(this.resourceSet);
+		jamoppJdtParserAdapter = new JamoppJdtParserAdapter(DEFAULT_JAVA_VERSION, DEFAULT_ENCODING);
 	}
 
 	public List<JavaRoot> convertCompilationUnits(Map<String, CompilationUnit> compilationUnits) {
@@ -184,7 +180,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 			LOGGER.error(input, e);
 		}
 		final String src = builder.toString();
-		final ASTNode ast = jamoppFileWithJDTParser.parseFileWithJDT(src, fileName);
+		final ASTNode ast = jamoppJdtParserAdapterStatic.parseFileWithJDT(src, fileName);
 		converter.setSource(src);
 		ast.accept(converter);
 		typeInstructionSeparationUtility.convertAll();
