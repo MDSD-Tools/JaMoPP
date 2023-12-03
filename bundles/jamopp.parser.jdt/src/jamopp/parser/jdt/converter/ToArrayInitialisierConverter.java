@@ -7,18 +7,17 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilExpressionConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToArrayInitialisierConverter {
 
 	private final ArraysFactory arraysFactory;
-	private final UtilExpressionConverter utilExpressionConverter;
+	private final ToExpressionConverter utilExpressionConverter;
 	private final UtilLayout utilLayout;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 
 	@Inject
-	ToArrayInitialisierConverter(UtilExpressionConverter utilExpressionConverter, UtilLayout utilLayout,
+	ToArrayInitialisierConverter(ToExpressionConverter utilExpressionConverter, UtilLayout utilLayout,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilExpressionConverter = utilExpressionConverter;
@@ -27,8 +26,7 @@ public class ToArrayInitialisierConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	public
-	org.emftext.language.java.arrays.ArrayInitializer convertToArrayInitializer(ArrayInitializer arr) {
+	public org.emftext.language.java.arrays.ArrayInitializer convertToArrayInitializer(ArrayInitializer arr) {
 		org.emftext.language.java.arrays.ArrayInitializer result = arraysFactory.createArrayInitializer();
 		arr.expressions().forEach(obj -> {
 			org.emftext.language.java.arrays.ArrayInitializationValue value = null;
@@ -38,7 +36,7 @@ public class ToArrayInitialisierConverter {
 			} else if (expr instanceof Annotation) {
 				value = toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) expr);
 			} else {
-				value = utilExpressionConverter.convertToExpression(expr);
+				value = utilExpressionConverter.convert(expr);
 			}
 			result.getInitialValues().add(value);
 		});

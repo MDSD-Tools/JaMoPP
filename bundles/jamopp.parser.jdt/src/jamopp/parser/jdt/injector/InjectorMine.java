@@ -9,7 +9,6 @@ import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToClassMemberConverter;
 import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.other.UtilExpressionConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
 import jamopp.parser.jdt.other.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.reference.UtilStatementConverter;
@@ -31,7 +30,6 @@ public class InjectorMine {
 		containersFactory = injector.getInstance(ContainersFactory.class);
 		
 		injector.getInstance(ToClassMemberConverter.class).setToConcreteClassifierConverter(injector.getInstance(ToConcreteClassifierConverter.class));
-		injector.getInstance(UtilExpressionConverter.class).setToExpressionConverter(injector.getInstance(ToExpressionConverter.class));
 		injector.getInstance(ToAnnotationInstanceConverter.class).setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
 		injector.getInstance(UtilTypeInstructionSeparation.class).setStatementConverterUtility(injector.getInstance(UtilStatementConverter.class));
 	}

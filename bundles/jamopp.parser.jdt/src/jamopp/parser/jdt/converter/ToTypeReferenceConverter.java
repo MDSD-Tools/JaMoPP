@@ -27,8 +27,8 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilArrays;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilArrays;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 

@@ -14,7 +14,7 @@ import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToMultiplicativeExpressionConverter;
 import jamopp.parser.jdt.converter.ToRelationExpressionConverter;
 import jamopp.parser.jdt.converter.ToShiftExpressionConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerInfixExpression extends Handler {
 

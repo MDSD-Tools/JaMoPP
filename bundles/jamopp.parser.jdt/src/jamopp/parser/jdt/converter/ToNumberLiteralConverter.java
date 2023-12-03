@@ -20,7 +20,7 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToNumberLiteralConverter extends ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal> {
 

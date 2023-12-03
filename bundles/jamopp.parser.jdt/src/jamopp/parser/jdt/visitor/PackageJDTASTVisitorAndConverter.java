@@ -26,8 +26,8 @@ import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
-import jamopp.parser.jdt.other.UtilLayout;
-import jamopp.parser.jdt.other.UtilNamedElement;
+import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.util.UtilNamedElement;
 
 public abstract class PackageJDTASTVisitorAndConverter extends VisitorAndConverterAbstractAndEmptyModelJDTAST {
 

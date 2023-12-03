@@ -7,7 +7,7 @@ import org.emftext.language.java.expressions.RelationExpression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToRelationExpressionConverter extends ToConverter<InfixExpression, RelationExpression> {
 

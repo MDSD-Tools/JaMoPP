@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToConverter;
 import jamopp.parser.jdt.converter.ToNumberLiteralConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToPrimaryExpressionConverter extends ToConverter<Expression, PrimaryExpression> {
 

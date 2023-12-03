@@ -9,18 +9,18 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.other.UtilExpressionConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
-import jamopp.parser.jdt.other.UtilLayout;
-import jamopp.parser.jdt.other.UtilNamedElement;
+import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToReferenceConverterFromMethodInvocation implements ReferenceConverter<MethodInvocation> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilExpressionConverter expressionConverterUtility;
+	private final ToExpressionConverter expressionConverterUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
@@ -29,7 +29,7 @@ public class ToReferenceConverterFromMethodInvocation implements ReferenceConver
 	ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter, ReferencesFactory referencesFactory,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			UtilExpressionConverter expressionConverterUtility,
+			ToExpressionConverter expressionConverterUtility,
 			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -50,7 +50,7 @@ public class ToReferenceConverterFromMethodInvocation implements ReferenceConver
 		arr.typeArguments().forEach(
 				obj -> result.getCallTypeArguments().add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 		arr.arguments().forEach(
-				obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
+				obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 		IMethodBinding methBind = arr.resolveMethodBinding();
 		org.emftext.language.java.members.Method methodProxy = null;
 		if (methBind != null) {

@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.other;
+package jamopp.parser.jdt.util;
 
 import java.util.Collections;
 

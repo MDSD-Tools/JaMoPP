@@ -9,7 +9,7 @@ import org.emftext.language.java.generics.TypeArgument;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilArrays;
+import jamopp.parser.jdt.util.UtilArrays;
 
 public class ToTypeArgumentConverter extends ToConverter<ITypeBinding, TypeArgument> {
 

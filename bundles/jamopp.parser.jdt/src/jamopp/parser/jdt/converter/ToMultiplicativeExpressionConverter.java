@@ -7,7 +7,7 @@ import org.emftext.language.java.expressions.MultiplicativeExpression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToMultiplicativeExpressionConverter extends ToConverter<InfixExpression, MultiplicativeExpression> {
 

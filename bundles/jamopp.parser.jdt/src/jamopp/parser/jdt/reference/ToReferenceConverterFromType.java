@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 

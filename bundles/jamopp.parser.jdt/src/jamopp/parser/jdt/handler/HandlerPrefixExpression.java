@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToUnaryExpressionConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerPrefixExpression extends Handler {
 

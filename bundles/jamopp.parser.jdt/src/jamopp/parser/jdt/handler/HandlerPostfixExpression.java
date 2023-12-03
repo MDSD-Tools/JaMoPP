@@ -8,7 +8,7 @@ import org.emftext.language.java.operators.OperatorsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerPostfixExpression extends Handler {
 

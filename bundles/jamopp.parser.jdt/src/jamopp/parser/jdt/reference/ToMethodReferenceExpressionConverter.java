@@ -17,7 +17,7 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.ToConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToMethodReferenceExpressionConverter extends ToConverter<MethodReference, MethodReferenceExpression> {
 

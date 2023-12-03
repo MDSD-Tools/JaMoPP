@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToAssignmentConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerAssignment extends Handler {
 

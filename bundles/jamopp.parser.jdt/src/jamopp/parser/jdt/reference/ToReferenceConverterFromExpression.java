@@ -32,11 +32,11 @@ import com.google.inject.Provider;
 import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToAnonymousClassConverter;
 import jamopp.parser.jdt.converter.ToArrayInitialisierConverter;
+import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.other.UtilExpressionConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
-import jamopp.parser.jdt.other.UtilLayout;
-import jamopp.parser.jdt.other.UtilNamedElement;
+import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToReferenceConverterFromExpression implements ReferenceConverter<Expression> {
 
@@ -47,7 +47,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 	private final ArraysFactory arraysFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilExpressionConverter expressionConverterUtility;
+	private final ToExpressionConverter expressionConverterUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayInitialisierConverter toArrayInitialisierConverter;
@@ -69,7 +69,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
 			ReferenceWalker referenceWalker, LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, InstantiationsFactory instantiationsFactory,
-			ExpressionsFactory expressionsFactory, UtilExpressionConverter expressionConverterUtility,
+			ExpressionsFactory expressionsFactory, ToExpressionConverter expressionConverterUtility,
 			ArraysFactory arraysFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.literalsFactory = literalsFactory;
@@ -104,7 +104,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			ArrayAccess arr = (ArrayAccess) expr;
 			org.emftext.language.java.references.Reference parent = convert(arr.getArray());
 			org.emftext.language.java.arrays.ArraySelector selector = arraysFactory.createArraySelector();
-			selector.setPosition(expressionConverterUtility.convertToExpression(arr.getIndex()));
+			selector.setPosition(expressionConverterUtility.convert(arr.getIndex()));
 			parent.getArraySelectors().add(selector);
 			return parent;
 		}
@@ -125,7 +125,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr.getType(), result, arr.dimensions().size());
 			arr.dimensions().forEach(
-					obj -> result.getSizes().add(expressionConverterUtility.convertToExpression((Expression) obj)));
+					obj -> result.getSizes().add(expressionConverterUtility.convert((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;
 		}
@@ -148,7 +148,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
 			arr.arguments().forEach(
-					obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
+					obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			if (arr.getAnonymousClassDeclaration() != null) {
 				result.setAnonymousClass(
@@ -186,7 +186,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 		if (expr.getNodeType() == ASTNode.PARENTHESIZED_EXPRESSION) {
 			ParenthesizedExpression arr = (ParenthesizedExpression) expr;
 			org.emftext.language.java.expressions.NestedExpression result = expressionsFactory.createNestedExpression();
-			result.setExpression(expressionConverterUtility.convertToExpression(arr.getExpression()));
+			result.setExpression(expressionConverterUtility.convert(arr.getExpression()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;
 		}
@@ -222,7 +222,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			arr.typeArguments().forEach(obj -> partTwo.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 			arr.arguments().forEach(obj -> partTwo.getArguments()
-					.add(expressionConverterUtility.convertToExpression((Expression) obj)));
+					.add(expressionConverterUtility.convert((Expression) obj)));
 			org.emftext.language.java.members.Method proxy;
 			if (arr.getName().resolveBinding() != null) {
 				proxy = jdtResolverUtility.getMethod((IMethodBinding) arr.getName().resolveBinding());

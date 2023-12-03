@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.converter.ToAnnotationValueConverter;
+import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.reference.UtilStatementConverter;
 
 @Singleton
@@ -20,7 +21,7 @@ public class UtilTypeInstructionSeparation {
 
 	private UtilStatementConverter statementConverterUtility;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilExpressionConverter expressionConverterUtility;
+	private final ToExpressionConverter expressionConverterUtility;
 	private final ToAnnotationValueConverter toAnnotationValueConverter;
 
 	private final HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
@@ -35,7 +36,7 @@ public class UtilTypeInstructionSeparation {
 
 	@Inject
 	UtilTypeInstructionSeparation(UtilJdtResolver jdtResolverUtility,
-			UtilExpressionConverter expressionConverterUtility, ToAnnotationValueConverter toAnnotationValueConverter) {
+			ToExpressionConverter expressionConverterUtility, ToAnnotationValueConverter toAnnotationValueConverter) {
 
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -83,7 +84,7 @@ public class UtilTypeInstructionSeparation {
 			}
 			clonedFields.forEach((expr, f) -> {
 				visitedObjects.add(f);
-				f.setInitialValue(expressionConverterUtility.convertToExpression(expr));
+				f.setInitialValue(expressionConverterUtility.convert(expr));
 			});
 			HashMap<Expression, org.emftext.language.java.members.AdditionalField> clonedAddFields = (HashMap<Expression, org.emftext.language.java.members.AdditionalField>) addFields
 					.clone();
@@ -95,7 +96,7 @@ public class UtilTypeInstructionSeparation {
 			}
 			clonedAddFields.forEach((expr, f) -> {
 				visitedObjects.add(f);
-				f.setInitialValue(expressionConverterUtility.convertToExpression(expr));
+				f.setInitialValue(expressionConverterUtility.convert(expr));
 			});
 			HashMap<Block, org.emftext.language.java.statements.Block> clonedInitializers = (HashMap<Block, org.emftext.language.java.statements.Block>) initializers
 					.clone();

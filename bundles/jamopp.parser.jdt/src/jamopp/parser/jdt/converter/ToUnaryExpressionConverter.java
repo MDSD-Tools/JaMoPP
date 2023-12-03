@@ -8,7 +8,7 @@ import org.emftext.language.java.expressions.UnaryExpressionChild;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToUnaryExpressionConverter extends ToConverter<PrefixExpression, UnaryExpression> {
 

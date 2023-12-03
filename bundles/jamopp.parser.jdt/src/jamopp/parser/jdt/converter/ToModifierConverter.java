@@ -5,7 +5,7 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToModifierConverter extends ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> {
 

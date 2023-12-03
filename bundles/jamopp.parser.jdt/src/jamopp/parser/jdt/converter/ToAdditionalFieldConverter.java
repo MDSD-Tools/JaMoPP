@@ -8,9 +8,9 @@ import org.emftext.language.java.members.AdditionalField;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.other.UtilJdtResolver;
-import jamopp.parser.jdt.other.UtilLayout;
-import jamopp.parser.jdt.other.UtilNamedElement;
 import jamopp.parser.jdt.other.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToAdditionalFieldConverter extends ToConverter<VariableDeclarationFragment, AdditionalField> {
 

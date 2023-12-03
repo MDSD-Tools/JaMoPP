@@ -8,7 +8,7 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToShiftExpressionConverter extends ToConverter<InfixExpression, ShiftExpression> {
 

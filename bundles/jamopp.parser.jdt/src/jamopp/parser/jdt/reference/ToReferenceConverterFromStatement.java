@@ -10,16 +10,16 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.other.UtilExpressionConverter;
-import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToReferenceConverterFromStatement implements ReferenceConverter<Statement> {
 
 	private final LiteralsFactory literalsFactory;
 	private final InstantiationsFactory instantiationsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilExpressionConverter expressionConverterUtility;
+	private final ToExpressionConverter expressionConverterUtility;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ReferenceWalker referenceWalker;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
@@ -27,7 +27,7 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 	@Inject
 	ToReferenceConverterFromStatement(ToTypeReferenceConverter toTypeReferenceConverter,
 			ReferenceWalker referenceWalker, LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
-			InstantiationsFactory instantiationsFactory, UtilExpressionConverter expressionConverterUtility,
+			InstantiationsFactory instantiationsFactory, ToExpressionConverter expressionConverterUtility,
 			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
 		this.literalsFactory = literalsFactory;
 		this.instantiationsFactory = instantiationsFactory;
@@ -52,7 +52,7 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 			result.setCallTarget(literalsFactory.createThis());
 			invoc.arguments().forEach(
-					obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
+					obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, invoc);
 			return result;
 		}
@@ -64,7 +64,7 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 			result.setCallTarget(literalsFactory.createSuper());
 			invoc.arguments().forEach(
-					obj -> result.getArguments().add(expressionConverterUtility.convertToExpression((Expression) obj)));
+					obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, invoc);
 			if (invoc.getExpression() != null) {
 				org.emftext.language.java.references.Reference parent = toReferenceConverterFromExpression

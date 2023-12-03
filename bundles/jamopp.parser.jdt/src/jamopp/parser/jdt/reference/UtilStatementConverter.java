@@ -56,13 +56,13 @@ import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.ToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToModifierOrAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.other.UtilExpressionConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
-import jamopp.parser.jdt.other.UtilLayout;
-import jamopp.parser.jdt.other.UtilNamedElement;
+import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class UtilStatementConverter {
 
@@ -70,7 +70,7 @@ public class UtilStatementConverter {
 	private final StatementsFactory statementsFactory;;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilExpressionConverter expressionConverterUtility;
+	private final ToExpressionConverter expressionConverterUtility;
 	private final ToConcreteClassifierConverter classifierConverterUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
@@ -88,8 +88,7 @@ public class UtilStatementConverter {
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			UtilExpressionConverter expressionConverterUtility,
-			ToConcreteClassifierConverter classifierConverterUtility,
+			ToExpressionConverter expressionConverterUtility, ToConcreteClassifierConverter classifierConverterUtility,
 			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter, StatementsFactory statementsFactory,
 			ExpressionsFactory expressionsFactory,
@@ -125,9 +124,9 @@ public class UtilStatementConverter {
 		if (statement.getNodeType() == ASTNode.ASSERT_STATEMENT) {
 			AssertStatement assertSt = (AssertStatement) statement;
 			org.emftext.language.java.statements.Assert result = statementsFactory.createAssert();
-			result.setCondition(expressionConverterUtility.convertToExpression(assertSt.getExpression()));
+			result.setCondition(expressionConverterUtility.convert(assertSt.getExpression()));
 			if (assertSt.getMessage() != null) {
-				result.setErrorMessage(expressionConverterUtility.convertToExpression(assertSt.getMessage()));
+				result.setErrorMessage(expressionConverterUtility.convert(assertSt.getMessage()));
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, assertSt);
 			return result;
@@ -160,7 +159,7 @@ public class UtilStatementConverter {
 		if (statement.getNodeType() == ASTNode.DO_STATEMENT) {
 			DoStatement doSt = (DoStatement) statement;
 			org.emftext.language.java.statements.DoWhileLoop result = statementsFactory.createDoWhileLoop();
-			result.setCondition(expressionConverterUtility.convertToExpression(doSt.getExpression()));
+			result.setCondition(expressionConverterUtility.convert(doSt.getExpression()));
 			result.setStatement(convertToStatement(doSt.getBody()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, doSt);
 			return result;
@@ -174,7 +173,7 @@ public class UtilStatementConverter {
 			EnhancedForStatement forSt = (EnhancedForStatement) statement;
 			org.emftext.language.java.statements.ForEachLoop result = statementsFactory.createForEachLoop();
 			result.setNext(toOrdinaryParameterConverter.convert(forSt.getParameter()));
-			result.setCollection(expressionConverterUtility.convertToExpression(forSt.getExpression()));
+			result.setCollection(expressionConverterUtility.convert(forSt.getExpression()));
 			result.setStatement(convertToStatement(forSt.getBody()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
 			return result;
@@ -190,7 +189,7 @@ public class UtilStatementConverter {
 			}
 			org.emftext.language.java.statements.ExpressionStatement result = statementsFactory
 					.createExpressionStatement();
-			result.setExpression(expressionConverterUtility.convertToExpression(exprSt.getExpression()));
+			result.setExpression(expressionConverterUtility.convert(exprSt.getExpression()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 			return result;
 		}
@@ -202,15 +201,15 @@ public class UtilStatementConverter {
 				result.setInit(convertToLocalVariable((VariableDeclarationExpression) forSt.initializers().get(0)));
 			} else {
 				org.emftext.language.java.expressions.ExpressionList ini = expressionsFactory.createExpressionList();
-				forSt.initializers().forEach(obj -> ini.getExpressions()
-						.add(expressionConverterUtility.convertToExpression((Expression) obj)));
+				forSt.initializers()
+						.forEach(obj -> ini.getExpressions().add(expressionConverterUtility.convert((Expression) obj)));
 				result.setInit(ini);
 			}
 			if (forSt.getExpression() != null) {
-				result.setCondition(expressionConverterUtility.convertToExpression(forSt.getExpression()));
+				result.setCondition(expressionConverterUtility.convert(forSt.getExpression()));
 			}
-			forSt.updaters().forEach(
-					obj -> result.getUpdates().add(expressionConverterUtility.convertToExpression((Expression) obj)));
+			forSt.updaters()
+					.forEach(obj -> result.getUpdates().add(expressionConverterUtility.convert((Expression) obj)));
 			result.setStatement(convertToStatement(forSt.getBody()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
 			return result;
@@ -218,7 +217,7 @@ public class UtilStatementConverter {
 		if (statement.getNodeType() == ASTNode.IF_STATEMENT) {
 			IfStatement ifSt = (IfStatement) statement;
 			org.emftext.language.java.statements.Condition result = statementsFactory.createCondition();
-			result.setCondition(expressionConverterUtility.convertToExpression(ifSt.getExpression()));
+			result.setCondition(expressionConverterUtility.convert(ifSt.getExpression()));
 			result.setStatement(convertToStatement(ifSt.getThenStatement()));
 			if (ifSt.getElseStatement() != null) {
 				result.setElseStatement(convertToStatement(ifSt.getElseStatement()));
@@ -240,7 +239,7 @@ public class UtilStatementConverter {
 			ReturnStatement retSt = (ReturnStatement) statement;
 			org.emftext.language.java.statements.Return result = statementsFactory.createReturn();
 			if (retSt.getExpression() != null) {
-				result.setReturnValue(expressionConverterUtility.convertToExpression(retSt.getExpression()));
+				result.setReturnValue(expressionConverterUtility.convert(retSt.getExpression()));
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, retSt);
 			return result;
@@ -251,7 +250,7 @@ public class UtilStatementConverter {
 		if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
 			SynchronizedStatement synSt = (SynchronizedStatement) statement;
 			org.emftext.language.java.statements.SynchronizedBlock result = statementsFactory.createSynchronizedBlock();
-			result.setLockProvider(expressionConverterUtility.convertToExpression(synSt.getExpression()));
+			result.setLockProvider(expressionConverterUtility.convert(synSt.getExpression()));
 			result.setBlock(convertToBlock(synSt.getBody()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, synSt);
 			return result;
@@ -259,7 +258,7 @@ public class UtilStatementConverter {
 		if (statement.getNodeType() == ASTNode.THROW_STATEMENT) {
 			ThrowStatement throwSt = (ThrowStatement) statement;
 			org.emftext.language.java.statements.Throw result = statementsFactory.createThrow();
-			result.setThrowable(expressionConverterUtility.convertToExpression(throwSt.getExpression()));
+			result.setThrowable(expressionConverterUtility.convert(throwSt.getExpression()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, throwSt);
 			return result;
 		}
@@ -308,7 +307,7 @@ public class UtilStatementConverter {
 			frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
 					.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
 			if (frag.getInitializer() != null) {
-				locVar.setInitialValue(expressionConverterUtility.convertToExpression(frag.getInitializer()));
+				locVar.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 			}
 			for (int index = 1; index < varSt.fragments().size(); index++) {
 				locVar.getAdditionalLocalVariables().add(
@@ -321,7 +320,7 @@ public class UtilStatementConverter {
 		if (statement.getNodeType() == ASTNode.WHILE_STATEMENT) {
 			WhileStatement whileSt = (WhileStatement) statement;
 			org.emftext.language.java.statements.WhileLoop result = statementsFactory.createWhileLoop();
-			result.setCondition(expressionConverterUtility.convertToExpression(whileSt.getExpression()));
+			result.setCondition(expressionConverterUtility.convert(whileSt.getExpression()));
 			result.setStatement(convertToStatement(whileSt.getBody()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, whileSt);
 			return result;
@@ -336,7 +335,7 @@ public class UtilStatementConverter {
 
 		org.emftext.language.java.statements.YieldStatement result = statementsFactory.createYieldStatement();
 		if (yieldSt.getExpression() != null) {
-			result.setYieldExpression(expressionConverterUtility.convertToExpression(yieldSt.getExpression()));
+			result.setYieldExpression(expressionConverterUtility.convert(yieldSt.getExpression()));
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, yieldSt);
 		return result;
@@ -344,7 +343,7 @@ public class UtilStatementConverter {
 
 	private org.emftext.language.java.statements.Switch convertToSwitch(SwitchStatement switchSt) {
 		org.emftext.language.java.statements.Switch result = statementsFactory.createSwitch();
-		result.setVariable(expressionConverterUtility.convertToExpression(switchSt.getExpression()));
+		result.setVariable(expressionConverterUtility.convert(switchSt.getExpression()));
 		convertToSwitchCasesAndSet(result, switchSt.statements());
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, switchSt);
 		return result;
@@ -364,7 +363,7 @@ public class UtilStatementConverter {
 				YieldStatement ys = (YieldStatement) st;
 				org.emftext.language.java.statements.ExpressionStatement exprSt = statementsFactory
 						.createExpressionStatement();
-				exprSt.setExpression(expressionConverterUtility.convertToExpression(ys.getExpression()));
+				exprSt.setExpression(expressionConverterUtility.convert(ys.getExpression()));
 				currentCase.getStatements().add(exprSt);
 			} else {
 				currentCase.getStatements().add(convertToStatement(st));
@@ -379,11 +378,10 @@ public class UtilStatementConverter {
 		} else if (switchCase.isSwitchLabeledRule() && !switchCase.isDefault()) {
 			org.emftext.language.java.statements.NormalSwitchRule normalRule = statementsFactory
 					.createNormalSwitchRule();
-			normalRule.setCondition(
-					expressionConverterUtility.convertToExpression((Expression) switchCase.expressions().get(0)));
+			normalRule.setCondition(expressionConverterUtility.convert((Expression) switchCase.expressions().get(0)));
 			for (int index = 1; index < switchCase.expressions().size(); index++) {
 				Expression expr = (Expression) switchCase.expressions().get(index);
-				normalRule.getAdditionalConditions().add(expressionConverterUtility.convertToExpression(expr));
+				normalRule.getAdditionalConditions().add(expressionConverterUtility.convert(expr));
 			}
 			result = normalRule;
 		} else if (!switchCase.isSwitchLabeledRule() && switchCase.isDefault()) {
@@ -391,11 +389,10 @@ public class UtilStatementConverter {
 		} else { // !switchCase.isSwitchLabeledRule() && !switchCase.isDefault()
 			org.emftext.language.java.statements.NormalSwitchCase normalCase = statementsFactory
 					.createNormalSwitchCase();
-			normalCase.setCondition(
-					expressionConverterUtility.convertToExpression((Expression) switchCase.expressions().get(0)));
+			normalCase.setCondition(expressionConverterUtility.convert((Expression) switchCase.expressions().get(0)));
 			for (int index = 1; index < switchCase.expressions().size(); index++) {
 				Expression expr = (Expression) switchCase.expressions().get(index);
-				normalCase.getAdditionalConditions().add(expressionConverterUtility.convertToExpression(expr));
+				normalCase.getAdditionalConditions().add(expressionConverterUtility.convert(expr));
 			}
 			result = normalCase;
 		}
@@ -447,7 +444,7 @@ public class UtilStatementConverter {
 		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
 				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
-			result.setInitialValue(expressionConverterUtility.convertToExpression(frag.getInitializer()));
+			result.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, frag);
 		return result;
@@ -472,7 +469,7 @@ public class UtilStatementConverter {
 		frag.extraDimensions().forEach(
 				obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, loc));
 		if (frag.getInitializer() != null) {
-			loc.setInitialValue(expressionConverterUtility.convertToExpression(frag.getInitializer()));
+			loc.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}
 		for (int index = 1; index < expr.fragments().size(); index++) {
 			loc.getAdditionalLocalVariables()
