@@ -10,8 +10,8 @@ import jamopp.parser.jdt.converter.ToClassMemberConverter;
 import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
+import jamopp.parser.jdt.other.UtilStatementConverter;
 import jamopp.parser.jdt.other.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.reference.UtilStatementConverter;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 
 public class InjectorMine {

@@ -7,7 +7,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.reference.UtilStatementConverter;
+import jamopp.parser.jdt.other.UtilStatementConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerSwitchExpression extends Handler {

@@ -15,7 +15,7 @@ import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
-import jamopp.parser.jdt.reference.UtilStatementConverter;
+import jamopp.parser.jdt.other.UtilStatementConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 import jamopp.parser.jdt.util.UtilLayout;
 

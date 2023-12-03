@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.other;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CreationReference;
@@ -17,6 +17,8 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.ToConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
+import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
+import jamopp.parser.jdt.reference.ToReferenceConverterFromType;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToMethodReferenceExpressionConverter extends ToConverter<MethodReference, MethodReferenceExpression> {

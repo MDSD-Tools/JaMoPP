@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.other;
 
 import java.util.HashSet;
 import java.util.List;
@@ -60,7 +60,8 @@ import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToModifierOrAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.other.UtilJdtResolver;
+import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
+import jamopp.parser.jdt.reference.ToReferenceConverterFromStatement;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.other;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToConverter;
 import jamopp.parser.jdt.converter.ToNumberLiteralConverter;
+import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToPrimaryExpressionConverter extends ToConverter<Expression, PrimaryExpression> {
