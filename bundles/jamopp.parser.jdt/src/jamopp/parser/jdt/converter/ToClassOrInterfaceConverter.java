@@ -9,7 +9,7 @@ import org.emftext.language.java.classifiers.Interface;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.util.UtilJdtResolver;
 
 public class ToClassOrInterfaceConverter {
 
@@ -31,25 +31,25 @@ public class ToClassOrInterfaceConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	ConcreteClassifier convertToClassOrInterface(TypeDeclaration typeDecl) {
+	public ConcreteClassifier convertToClassOrInterface(TypeDeclaration typeDecl) {
 		if (typeDecl.isInterface()) {
 			Interface interfaceObj = utilJdtResolver.getInterface(typeDecl.resolveBinding());
-			typeDecl.typeParameters().forEach(obj -> interfaceObj.getTypeParameters()
-					.add(toTypeParameterConverter.convert((TypeParameter) obj)));
-			typeDecl.superInterfaceTypes().forEach(
-					obj -> interfaceObj.getExtends().add(toTypeReferenceConverter.convert((Type) obj)));
-			typeDecl.bodyDeclarations().forEach(obj -> interfaceObj.getMembers()
-					.add(toInterfaceMemberConverter.convert((BodyDeclaration) obj)));
+			typeDecl.typeParameters().forEach(
+					obj -> interfaceObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
+			typeDecl.superInterfaceTypes()
+					.forEach(obj -> interfaceObj.getExtends().add(toTypeReferenceConverter.convert((Type) obj)));
+			typeDecl.bodyDeclarations().forEach(
+					obj -> interfaceObj.getMembers().add(toInterfaceMemberConverter.convert((BodyDeclaration) obj)));
 			return interfaceObj;
 		}
 		org.emftext.language.java.classifiers.Class classObj = utilJdtResolver.getClass(typeDecl.resolveBinding());
-		typeDecl.typeParameters().forEach(obj -> classObj.getTypeParameters()
-				.add(toTypeParameterConverter.convert((TypeParameter) obj)));
+		typeDecl.typeParameters().forEach(
+				obj -> classObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
 		if (typeDecl.getSuperclassType() != null) {
 			classObj.setExtends(toTypeReferenceConverter.convert(typeDecl.getSuperclassType()));
 		}
-		typeDecl.superInterfaceTypes().forEach(
-				obj -> classObj.getImplements().add(toTypeReferenceConverter.convert((Type) obj)));
+		typeDecl.superInterfaceTypes()
+				.forEach(obj -> classObj.getImplements().add(toTypeReferenceConverter.convert((Type) obj)));
 		typeDecl.bodyDeclarations().forEach(
 				obj -> classObj.getMembers().add(toClassMemberConverter.convertToClassMember((BodyDeclaration) obj)));
 		return classObj;

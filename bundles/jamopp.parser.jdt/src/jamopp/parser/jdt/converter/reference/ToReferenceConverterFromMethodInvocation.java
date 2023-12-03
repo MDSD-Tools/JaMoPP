@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.util.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

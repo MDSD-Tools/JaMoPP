@@ -29,6 +29,8 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.util.UtilArrays;
 import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.visitorhelper.ToClassifierOrNamespaceClassifierReferenceConverter;
 
 public class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 

@@ -18,7 +18,7 @@ import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.ToConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.util.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class BindingToModuleConverter extends ToConverter<IModuleBinding, org.emftext.language.java.containers.Module> {

@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter;
+package jamopp.parser.jdt.visitorhelper;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
@@ -15,7 +15,8 @@ import org.emftext.language.java.members.InterfaceMethod;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.util.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

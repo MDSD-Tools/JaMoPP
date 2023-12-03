@@ -5,14 +5,14 @@ import org.emftext.language.java.containers.ContainersFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToClassMemberConverter;
-import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.UtilStatementConverter;
 import jamopp.parser.jdt.converter.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.util.UtilJdtResolver;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
+import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.visitorhelper.ToConcreteClassifierConverter;
 
 public class InjectorMine {
 

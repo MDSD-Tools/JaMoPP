@@ -15,8 +15,8 @@ import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
 import jamopp.parser.jdt.converter.UtilStatementConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilArrays;
+import jamopp.parser.jdt.util.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerLambdaExpression extends Handler {

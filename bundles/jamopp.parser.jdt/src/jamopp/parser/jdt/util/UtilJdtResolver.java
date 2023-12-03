@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.resolver;
+package jamopp.parser.jdt.util;
 
 import java.util.Collections;
 import java.util.HashMap;

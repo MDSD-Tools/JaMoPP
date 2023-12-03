@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.converter;
+package jamopp.parser.jdt.visitorhelper;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
@@ -23,7 +23,11 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.ToClassOrInterfaceConverter;
+import jamopp.parser.jdt.converter.ToEnumConverter;
+import jamopp.parser.jdt.converter.ToInterfaceMemberConverter;
+import jamopp.parser.jdt.converter.ToModifierOrAnnotationInstanceConverter;
+import jamopp.parser.jdt.util.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
