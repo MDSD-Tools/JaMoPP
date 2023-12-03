@@ -52,12 +52,12 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 class UtilStatementConverter {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;;
-	private final UtilReferenceConverter referenceConverterUtility;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilExpressionConverter expressionConverterUtility;
@@ -68,6 +68,8 @@ class UtilStatementConverter {
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToModifierOrAnnotationInstanceConverter annotationInstanceConverter;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
+	private final Provider<ToReferenceConverterFromStatement> toReferenceConverterFromStatement;
+	private final Provider<ToReferenceConverterFromExpression> toReferenceConverterFromExpression;
 
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
@@ -75,14 +77,16 @@ class UtilStatementConverter {
 	UtilStatementConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility, UtilExpressionConverter expressionConverterUtility,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			UtilExpressionConverter expressionConverterUtility,
 			ToConcreteClassifierConverter classifierConverterUtility,
 			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter,
-			ToOrdinaryParameterConverter toOrdinaryParameterConverter, StatementsFactory statementsFactory, ExpressionsFactory expressionsFactory) {
+			ToOrdinaryParameterConverter toOrdinaryParameterConverter, StatementsFactory statementsFactory,
+			ExpressionsFactory expressionsFactory,
+			Provider<ToReferenceConverterFromStatement> toReferenceConverterFromStatement,
+			Provider<ToReferenceConverterFromExpression> toReferenceConverterFromExpression) {
 		this.expressionsFactory = expressionsFactory;
 		this.statementsFactory = statementsFactory;
-		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -93,7 +97,8 @@ class UtilStatementConverter {
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.annotationInstanceConverter = annotationInstanceConverter;
 		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
-
+		this.toReferenceConverterFromStatement = toReferenceConverterFromStatement;
+		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -256,8 +261,8 @@ class UtilStatementConverter {
 				if (resExpr instanceof VariableDeclarationExpression) {
 					result.getResources().add(convertToLocalVariable((VariableDeclarationExpression) resExpr));
 				} else {
-					result.getResources()
-							.add((org.emftext.language.java.references.ElementReference) referenceConverterUtility
+					result.getResources().add(
+							(org.emftext.language.java.references.ElementReference) toReferenceConverterFromExpression.get()
 									.convertToReference(resExpr));
 				}
 			});
@@ -314,7 +319,7 @@ class UtilStatementConverter {
 		if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
 			org.emftext.language.java.statements.ExpressionStatement result = statementsFactory
 					.createExpressionStatement();
-			result.setExpression(referenceConverterUtility.convertToReference(statement));
+			result.setExpression(toReferenceConverterFromStatement.get().convertToReference(statement));
 			return result;
 		}
 		YieldStatement yieldSt = (YieldStatement) statement;
@@ -405,8 +410,7 @@ class UtilStatementConverter {
 			UnionType un = (UnionType) decl.getType();
 			param.setTypeReference(toTypeReferenceConverter.convert((Type) un.types().get(0)));
 			for (int index = 1; index < un.types().size(); index++) {
-				param.getTypeReferences()
-						.add(toTypeReferenceConverter.convert((Type) un.types().get(index)));
+				param.getTypeReferences().add(toTypeReferenceConverter.convert((Type) un.types().get(index)));
 			}
 		} else {
 			param.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
@@ -451,8 +455,8 @@ class UtilStatementConverter {
 			loc = jdtResolverUtility.getLocalVariable(binding);
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), loc);
-		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers().add(
-				toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
+		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers()
+				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		loc.setTypeReference(toTypeReferenceConverter.convert(expr.getType()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(expr.getType(), loc);
 		frag.extraDimensions().forEach(

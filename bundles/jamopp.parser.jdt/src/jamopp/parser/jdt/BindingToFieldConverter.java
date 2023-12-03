@@ -13,14 +13,14 @@ class BindingToFieldConverter {
 
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
 	private final UtilJdtResolver jdtTResolverUtility;
-	private final UtilJdtBindingConverter utilJdtBindingConverter;
+	private final UtilArrays utilJdtBindingConverter;
 	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
 	private final ObjectToPrimaryExpressionConverter objectToPrimaryExpressionConverter;
 	private final ToModifiersConverter toModifiersConverter;
 
 	@Inject
-	BindingToFieldConverter(UtilJdtBindingConverter utilJdtBindingConverter,
-			UtilJdtBindingConverter utilJdtBindingConverter2, ToTypeReferencesConverter toTypeReferencesConverter,
+	BindingToFieldConverter(UtilArrays utilJdtBindingConverter,
+			UtilArrays utilJdtBindingConverter2, ToTypeReferencesConverter toTypeReferencesConverter,
 			ToModifiersConverter toModifiersConverter, ToModifiersConverter toModifiersConverter2,
 			ObjectToPrimaryExpressionConverter objectToPrimaryExpressionConverter, UtilJdtResolver jdtTResolverUtility,
 			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {

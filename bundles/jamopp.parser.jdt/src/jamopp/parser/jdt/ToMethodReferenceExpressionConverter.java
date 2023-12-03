@@ -19,23 +19,26 @@ class ToMethodReferenceExpressionConverter extends ToConverter<MethodReference, 
 	private final LiteralsFactory literalsFactory;
 	private final ReferencesFactory referencesFactory;
 	private final ExpressionsFactory expressionsFactory;
-	private final UtilReferenceConverter referenceConverterUtility;
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
+	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
+	private final ToReferenceConverterFromType toReferenceConverterFromType;
 
 	@Inject
 	ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter,
-			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter,
-			ToTypeReferenceConverter toTypeReferenceConverter, ExpressionsFactory expressionsFactory,
-			ReferencesFactory referencesFactory, LiteralsFactory literalsFactory) {
+			UtilLayout layoutInformationConverter, ToTypeReferenceConverter toTypeReferenceConverter,
+			ExpressionsFactory expressionsFactory, ReferencesFactory referencesFactory, LiteralsFactory literalsFactory,
+			ToReferenceConverterFromType toReferenceConverterFromType,
+			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
 		this.expressionsFactory = expressionsFactory;
-		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
+		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
+		this.toReferenceConverterFromType = toReferenceConverterFromType;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,14 +65,14 @@ class ToMethodReferenceExpressionConverter extends ToConverter<MethodReference, 
 				.createPrimaryExpressionReferenceExpression();
 		if (ref.getNodeType() == ASTNode.TYPE_METHOD_REFERENCE) {
 			TypeMethodReference typeRef = (TypeMethodReference) ref;
-			result.setChild(referenceConverterUtility.convertToReference(typeRef.getType()));
+			result.setChild(toReferenceConverterFromType.convertToReference(typeRef.getType()));
 			typeRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
-			result.setMethodReference(referenceConverterUtility.convertToReference(typeRef.getName()));
+			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(typeRef.getName()));
 		} else if (ref.getNodeType() == ASTNode.SUPER_METHOD_REFERENCE) {
 			SuperMethodReference superRef = (SuperMethodReference) ref;
 			if (superRef.getQualifier() != null) {
-				org.emftext.language.java.references.Reference child = referenceConverterUtility
+				org.emftext.language.java.references.Reference child = toReferenceConverterFromExpression
 						.convertToReference(superRef.getQualifier());
 				org.emftext.language.java.references.SelfReference lastPart = referencesFactory.createSelfReference();
 				lastPart.setSelf(literalsFactory.createSuper());
@@ -88,14 +91,14 @@ class ToMethodReferenceExpressionConverter extends ToConverter<MethodReference, 
 			}
 			superRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
-			result.setMethodReference(referenceConverterUtility.convertToReference(superRef.getName()));
+			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(superRef.getName()));
 		} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
 			ExpressionMethodReference exprRef = (ExpressionMethodReference) ref;
 			result.setChild((org.emftext.language.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
 					.convert(exprRef.getExpression()));
 			exprRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
-			result.setMethodReference(referenceConverterUtility.convertToReference(exprRef.getName()));
+			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(exprRef.getName()));
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, ref);
 		return result;

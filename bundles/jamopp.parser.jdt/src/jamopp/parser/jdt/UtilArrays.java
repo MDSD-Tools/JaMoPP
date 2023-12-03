@@ -4,12 +4,12 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.arrays.ArraysFactory;
 import com.google.inject.Inject;
 
-class UtilJdtBindingConverter {
+class UtilArrays {
 
 	private final ArraysFactory arraysFactory;
 
 	@Inject
-	UtilJdtBindingConverter(ArraysFactory arraysFactory) {
+	UtilArrays(ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 	}
 

@@ -27,7 +27,7 @@ class BindingToMethodConverter {
 	private final ParametersFactory parametersFactory;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
 	private final UtilJdtResolver jdtTResolverUtility;
-	private final UtilJdtBindingConverter utilJdtBindingConverter;
+	private final UtilArrays utilJdtBindingConverter;
 	private final BindingToTypeParameterConverter bindingToTypeParameterConverter;
 	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
 	private final ObjectToAnnotationValueConverter objectToAnnotationValueConverter;
@@ -35,7 +35,7 @@ class BindingToMethodConverter {
 	private final ToModifiersConverter toModifiersConverter;
 
 	@Inject
-	BindingToMethodConverter(UtilJdtBindingConverter utilJdtBindingConverter,
+	BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
 			ToTypeReferencesConverter toTypeReferencesConverter, ToModifiersConverter toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
 			ObjectToAnnotationValueConverter objectToAnnotationValueConverter, LiteralsFactory literalsFactory,

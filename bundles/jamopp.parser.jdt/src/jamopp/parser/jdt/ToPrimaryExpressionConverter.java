@@ -13,17 +13,18 @@ import com.google.inject.Inject;
 class ToPrimaryExpressionConverter extends ToConverter<Expression, PrimaryExpression> {
 
 	private final ToNumberLiteralConverter toNumberLiteralConverter;
-	private final UtilReferenceConverter referenceConverterUtility;
 	private final UtilLayout layoutInformationConverter;
 	private final LiteralsFactory literalsFactory;
+	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 
 	@Inject
 	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter,
-			UtilReferenceConverter referenceConverterUtility, UtilLayout layoutInformationConverter) {
+			UtilLayout layoutInformationConverter,
+			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
-		this.referenceConverterUtility = referenceConverterUtility;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.literalsFactory = literalsFactory;
+		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
 
 	PrimaryExpression convert(Expression expr) {
@@ -36,7 +37,7 @@ class ToPrimaryExpressionConverter extends ToConverter<Expression, PrimaryExpres
 		} else if (expr.getNodeType() == ASTNode.NUMBER_LITERAL) {
 			return toNumberLiteralConverter.convert((NumberLiteral) expr);
 		}
-		return referenceConverterUtility.convertToReference(expr);
+		return toReferenceConverterFromExpression.convertToReference(expr);
 	}
 
 	private PrimaryExpression createCharacterLiteral(Expression expr) {

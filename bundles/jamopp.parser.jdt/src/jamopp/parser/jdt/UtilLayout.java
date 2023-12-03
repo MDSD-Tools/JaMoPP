@@ -22,10 +22,10 @@ import org.emftext.language.java.containers.JavaRoot;
 import com.google.inject.Inject;
 
 class UtilLayout {
-	
+
 	private final LayoutFactory layoutFactory;
 	private static MinimalLayoutInformation currentRootLayout;
-	
+
 	@Inject
 	public UtilLayout(LayoutFactory layoutFactory) {
 		this.layoutFactory = layoutFactory;
@@ -54,6 +54,5 @@ class UtilLayout {
 			target.getLayoutInformations().add(li);
 		}
 	}
-	
-	
+
 }

@@ -18,14 +18,14 @@ class HandlerLambdaExpression extends Handler {
 	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
 	private final UtilJdtResolver utilJdtResolver;
-	private final UtilJdtBindingConverter utilJdtBindingConverter;
+	private final UtilArrays utilJdtBindingConverter;
 	private final UtilStatementConverter utilStatementConverter;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
 
 	@Inject
 	HandlerLambdaExpression(UtilStatementConverter utilStatementConverter, UtilLayout utilLayout,
-			UtilJdtResolver utilJdtResolver, UtilJdtBindingConverter utilJdtBindingConverter,
+			UtilJdtResolver utilJdtResolver, UtilArrays utilJdtBindingConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter, ToExpressionConverter toExpressionConverter,
 			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
 			ToTypeReferencesConverter toTypeReferencesConverter) {

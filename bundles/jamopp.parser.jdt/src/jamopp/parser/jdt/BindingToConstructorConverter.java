@@ -27,12 +27,12 @@ class BindingToConstructorConverter {
 	private final UtilJdtResolver jdtTResolverUtility;
 	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
 	private final BindingToNamespaceClassifierReferenceConverter bindingToNamespaceClassifierReferenceConverter;
-	private final UtilJdtBindingConverter utilJdtBindingConverter;
+	private final UtilArrays utilJdtBindingConverter;
 	private final BindingToTypeParameterConverter bindingToTypeParameterConverter;
 	private final ToModifiersConverter toModifiersConverter;
 
 	@Inject
-	BindingToConstructorConverter(UtilJdtBindingConverter utilJdtBindingConverter,
+	BindingToConstructorConverter(UtilArrays utilJdtBindingConverter,
 			ToTypeReferencesConverter toTypeReferencesConverter, ToModifiersConverter toModifiersConverter,
 			ParametersFactory parametersFactory, LiteralsFactory literalsFactory, UtilJdtResolver jdtTResolverUtility,
 			BindingToTypeParameterConverter bindingToTypeParameterConverter,

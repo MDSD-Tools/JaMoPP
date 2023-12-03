@@ -35,7 +35,8 @@ class BindingToAnnotationInstanceConverter {
 			org.emftext.language.java.annotations.AnnotationParameterList params = annotationsFactory
 					.createAnnotationParameterList();
 			for (IMemberValuePairBinding memBind : binding.getDeclaredMemberValuePairs()) {
-				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.get()git .convertToAnnotationAttributeSetting(memBind));
+				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.get()
+						.convertToAnnotationAttributeSetting(memBind));
 			}
 			result.setParameter(params);
 		}

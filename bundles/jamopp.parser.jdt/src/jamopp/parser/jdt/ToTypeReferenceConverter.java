@@ -32,7 +32,7 @@ class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 	private final GenericsFactory genericsFactory;
 	private final TypesFactory typesFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJdtBindingConverter jdtBindingConverterUtility;
+	private final UtilArrays jdtBindingConverterUtility;
 	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
@@ -42,7 +42,7 @@ class ToTypeReferenceConverter extends ToConverter<Type, TypeReference> {
 	@Inject
 	ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, UtilJdtBindingConverter jdtBindingConverterUtility,
+			UtilLayout layoutInformationConverter, UtilArrays jdtBindingConverterUtility,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter,
 			ToClassifierReferenceConverter toClassifierReferenceConverter, TypesFactory typesFactory,
 			GenericsFactory genericsFactory, ToTypeReferencesConverter toTypeReferencesConverter) {

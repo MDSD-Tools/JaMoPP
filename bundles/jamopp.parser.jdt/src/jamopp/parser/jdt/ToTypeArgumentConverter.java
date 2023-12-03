@@ -12,11 +12,11 @@ import com.google.inject.Inject;
 class ToTypeArgumentConverter extends ToConverter<ITypeBinding, TypeArgument> {
 
 	private final GenericsFactory genericsFactory;
-	private final UtilJdtBindingConverter utilJdtBindingConverter;
+	private final UtilArrays utilJdtBindingConverter;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
 
 	@Inject
-	ToTypeArgumentConverter(UtilJdtBindingConverter utilJdtBindingConverter,
+	ToTypeArgumentConverter(UtilArrays utilJdtBindingConverter,
 			ToTypeReferencesConverter toTypeReferencesConverter, GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.utilJdtBindingConverter = utilJdtBindingConverter;
