@@ -327,7 +327,7 @@ public class UtilStatementConverter {
 		if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
 			org.emftext.language.java.statements.ExpressionStatement result = statementsFactory
 					.createExpressionStatement();
-			result.setExpression(toReferenceConverterFromStatement.get().convertToReference(statement));
+			result.setExpression(toReferenceConverterFromStatement.get().convert(statement));
 			return result;
 		}
 		YieldStatement yieldSt = (YieldStatement) statement;

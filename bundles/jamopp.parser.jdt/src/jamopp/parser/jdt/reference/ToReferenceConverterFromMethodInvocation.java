@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Type;
+import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
@@ -14,7 +15,7 @@ import jamopp.parser.jdt.other.UtilJdtResolver;
 import jamopp.parser.jdt.other.UtilLayout;
 import jamopp.parser.jdt.other.UtilNamedElement;
 
-public class ToReferenceConverterFromMethodInvocation {
+public class ToReferenceConverterFromMethodInvocation implements ReferenceConverter<MethodInvocation> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -40,10 +41,10 @@ public class ToReferenceConverterFromMethodInvocation {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.references.MethodCall convertToMethodCall(MethodInvocation arr) {
+	public MethodCall convert(MethodInvocation arr) {
 		org.emftext.language.java.references.Reference parent = null;
 		if (arr.getExpression() != null) {
-			parent = toReferenceConverterFromExpression.internalConvertToReference(arr.getExpression());
+			parent = toReferenceConverterFromExpression.convert(arr.getExpression());
 		}
 		org.emftext.language.java.references.MethodCall result = referencesFactory.createMethodCall();
 		arr.typeArguments().forEach(

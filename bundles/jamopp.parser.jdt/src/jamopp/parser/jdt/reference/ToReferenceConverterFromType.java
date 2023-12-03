@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.dom.NameQualifiedType;
 import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
+import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
@@ -14,7 +15,7 @@ import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
 import jamopp.parser.jdt.other.UtilLayout;
 
-public class ToReferenceConverterFromType {
+public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -36,7 +37,7 @@ public class ToReferenceConverterFromType {
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
 	}
 
-	public org.emftext.language.java.references.Reference convertToReference(Type t) {
+	public Reference convert(Type t) {
 		return referenceWalker.walkUp(internalConvertToReference(t));
 	}
 
@@ -47,7 +48,7 @@ public class ToReferenceConverterFromType {
 			org.emftext.language.java.references.IdentifierReference parent = toReferenceConverterFromName
 					.convertToIdentifierReference(nqType.getQualifier());
 			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromName
-					.convertToIdentifierReference(nqType.getName());
+					.convert(nqType.getName());
 			parent.setNext(child);
 			nqType.annotations().forEach(obj -> child.getAnnotations()
 					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
@@ -58,7 +59,7 @@ public class ToReferenceConverterFromType {
 			QualifiedType qType = (QualifiedType) t;
 			org.emftext.language.java.references.Reference parent = internalConvertToReference(qType.getQualifier());
 			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromName
-					.convertToIdentifierReference(qType.getName());
+					.convert(qType.getName());
 			qType.annotations().forEach(obj -> child.getAnnotations()
 					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
 			parent.setNext(child);

@@ -9,7 +9,6 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ObjectToPrimaryExpressionConverter;
 import jamopp.parser.jdt.converter.ToModifiersConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
 import jamopp.parser.jdt.other.UtilArrays;

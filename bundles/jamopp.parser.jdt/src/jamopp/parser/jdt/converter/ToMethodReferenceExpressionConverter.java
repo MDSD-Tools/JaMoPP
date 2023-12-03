@@ -69,7 +69,7 @@ public class ToMethodReferenceExpressionConverter extends ToConverter<MethodRefe
 				.createPrimaryExpressionReferenceExpression();
 		if (ref.getNodeType() == ASTNode.TYPE_METHOD_REFERENCE) {
 			TypeMethodReference typeRef = (TypeMethodReference) ref;
-			result.setChild(toReferenceConverterFromType.convertToReference(typeRef.getType()));
+			result.setChild(toReferenceConverterFromType.convert(typeRef.getType()));
 			typeRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
 					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
 			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(typeRef.getName()));

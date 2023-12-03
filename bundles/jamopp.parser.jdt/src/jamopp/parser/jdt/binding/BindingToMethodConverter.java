@@ -20,7 +20,6 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.converter.ObjectToAnnotationValueConverter;
 import jamopp.parser.jdt.converter.ToModifiersConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
 import jamopp.parser.jdt.other.UtilArrays;

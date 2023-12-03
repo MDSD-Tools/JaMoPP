@@ -14,7 +14,7 @@ import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
 import jamopp.parser.jdt.other.UtilExpressionConverter;
 import jamopp.parser.jdt.other.UtilLayout;
 
-public class ToReferenceConverterFromStatement {
+public class ToReferenceConverterFromStatement implements ReferenceConverter<Statement> {
 
 	private final LiteralsFactory literalsFactory;
 	private final InstantiationsFactory instantiationsFactory;
@@ -38,7 +38,7 @@ public class ToReferenceConverterFromStatement {
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
 
-	public org.emftext.language.java.references.Reference convertToReference(Statement st) {
+	public org.emftext.language.java.references.Reference convert(Statement st) {
 		return referenceWalker.walkUp(internalConvertToReference(st));
 	}
 
@@ -68,7 +68,7 @@ public class ToReferenceConverterFromStatement {
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, invoc);
 			if (invoc.getExpression() != null) {
 				org.emftext.language.java.references.Reference parent = toReferenceConverterFromExpression
-						.internalConvertToReference(invoc.getExpression());
+						.convert(invoc.getExpression());
 				parent.setNext(result);
 			}
 			return result;

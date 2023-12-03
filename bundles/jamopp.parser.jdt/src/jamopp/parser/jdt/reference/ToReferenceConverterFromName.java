@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
@@ -15,7 +16,7 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.other.UtilJdtResolver;
 import jamopp.parser.jdt.other.UtilLayout;
 
-public class ToReferenceConverterFromName {
+public class ToReferenceConverterFromName implements ReferenceConverter<SimpleName> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -31,18 +32,18 @@ public class ToReferenceConverterFromName {
 
 	org.emftext.language.java.references.IdentifierReference convertToIdentifierReference(Name name) {
 		if (name.isSimpleName()) {
-			return convertToIdentifierReference((SimpleName) name);
+			return convert((SimpleName) name);
 		}
 		QualifiedName qualifiedName = (QualifiedName) name;
 		org.emftext.language.java.references.IdentifierReference parent = convertToIdentifierReference(
 				qualifiedName.getQualifier());
-		org.emftext.language.java.references.IdentifierReference child = convertToIdentifierReference(
-				qualifiedName.getName());
+		org.emftext.language.java.references.IdentifierReference child = convert(qualifiedName.getName());
 		parent.setNext(child);
 		return child;
 	}
 
-	org.emftext.language.java.references.IdentifierReference convertToIdentifierReference(SimpleName name) {
+	@Override
+	public IdentifierReference convert(SimpleName name) {
 		org.emftext.language.java.references.IdentifierReference result = referencesFactory.createIdentifierReference();
 		IBinding b = name.resolveBinding();
 		org.emftext.language.java.references.ReferenceableElement target = null;

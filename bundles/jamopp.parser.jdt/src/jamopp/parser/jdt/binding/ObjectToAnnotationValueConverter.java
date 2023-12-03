@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter;
+package jamopp.parser.jdt.binding;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -11,8 +11,6 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.ReflectiveClassReference;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.binding.BindingToAnnotationInstanceConverter;
-import jamopp.parser.jdt.binding.BindingToInternalReferenceConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
 
 public class ObjectToAnnotationValueConverter {

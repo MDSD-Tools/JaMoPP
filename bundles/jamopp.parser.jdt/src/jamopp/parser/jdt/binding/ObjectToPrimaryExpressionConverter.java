@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter;
+package jamopp.parser.jdt.binding;
 
 import java.math.BigInteger;
 
