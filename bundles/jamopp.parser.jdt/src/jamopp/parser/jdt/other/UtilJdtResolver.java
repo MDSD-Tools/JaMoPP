@@ -731,12 +731,12 @@ public class UtilJdtResolver {
 		return name;
 	}
 
-	org.emftext.language.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
+	public org.emftext.language.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getLocalVariable(convertToParameterName(binding, true));
 	}
 
-	org.emftext.language.java.variables.LocalVariable getLocalVariable(String varName) {
+	public org.emftext.language.java.variables.LocalVariable getLocalVariable(String varName) {
 		if (nameToLocVar.containsKey(varName)) {
 			return nameToLocVar.get(varName);
 		}
@@ -745,12 +745,12 @@ public class UtilJdtResolver {
 		return result;
 	}
 
-	org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(IVariableBinding binding) {
+	public org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getAdditionalLocalVariable(convertToParameterName(binding, true));
 	}
 
-	org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
+	public org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
 		if (nameToAddLocVar.containsKey(varName)) {
 			return nameToAddLocVar.get(varName);
 		}
@@ -787,12 +787,12 @@ public class UtilJdtResolver {
 		return result;
 	}
 
-	org.emftext.language.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
+	public org.emftext.language.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getCatchParameter(convertToParameterName(binding, true));
 	}
 
-	org.emftext.language.java.parameters.CatchParameter getCatchParameter(String paramName) {
+	public org.emftext.language.java.parameters.CatchParameter getCatchParameter(String paramName) {
 		if (nameToCatchParam.containsKey(paramName)) {
 			return nameToCatchParam.get(paramName);
 		}

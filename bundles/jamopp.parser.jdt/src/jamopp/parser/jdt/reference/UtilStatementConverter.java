@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.other;
+package jamopp.parser.jdt.reference;
 
 import java.util.HashSet;
 import java.util.List;
@@ -59,8 +59,10 @@ import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.ToModifierOrAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
-import jamopp.parser.jdt.reference.ToReferenceConverterFromStatement;
+import jamopp.parser.jdt.other.UtilExpressionConverter;
+import jamopp.parser.jdt.other.UtilJdtResolver;
+import jamopp.parser.jdt.other.UtilLayout;
+import jamopp.parser.jdt.other.UtilNamedElement;
 
 public class UtilStatementConverter {
 
@@ -119,7 +121,7 @@ public class UtilStatementConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.statements.Statement convertToStatement(Statement statement) {
+	public org.emftext.language.java.statements.Statement convertToStatement(Statement statement) {
 		if (statement.getNodeType() == ASTNode.ASSERT_STATEMENT) {
 			AssertStatement assertSt = (AssertStatement) statement;
 			org.emftext.language.java.statements.Assert result = statementsFactory.createAssert();

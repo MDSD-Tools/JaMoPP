@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.converter.ToAnnotationValueConverter;
+import jamopp.parser.jdt.reference.UtilStatementConverter;
 
 @Singleton
 public class UtilTypeInstructionSeparation {
