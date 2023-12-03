@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.converter;
+package jamopp.parser.jdt.visitor;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -22,18 +22,19 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
+import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.other.UtilJdtResolver;
 import jamopp.parser.jdt.other.UtilLayout;
 import jamopp.parser.jdt.other.UtilNamedElement;
-import jamopp.parser.jdt.visitor.VisitorAndConverterAbstractAndEmptyModelJDTAST;
 
 public abstract class PackageJDTASTVisitorAndConverter extends VisitorAndConverterAbstractAndEmptyModelJDTAST {
 
 	@Inject
-	protected
-	PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
-			ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+	protected PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
+			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,
 			ToConcreteClassifierConverter classifierConverterUtility, ContainersFactory containersFactory,
 			ModulesFactory modulesFactory) {

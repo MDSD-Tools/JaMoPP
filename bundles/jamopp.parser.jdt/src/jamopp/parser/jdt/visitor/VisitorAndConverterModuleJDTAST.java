@@ -33,7 +33,6 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.PackageJDTASTVisitorAndConverter;
 import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
