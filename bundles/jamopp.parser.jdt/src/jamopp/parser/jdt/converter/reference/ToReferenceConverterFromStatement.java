@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.converter.reference;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ConstructorInvocation;

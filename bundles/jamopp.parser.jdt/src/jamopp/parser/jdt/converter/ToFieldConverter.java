@@ -9,7 +9,7 @@ import org.emftext.language.java.members.Field;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

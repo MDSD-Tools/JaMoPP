@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.converter.reference;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Annotation;
@@ -34,7 +34,7 @@ import jamopp.parser.jdt.converter.ToAnonymousClassConverter;
 import jamopp.parser.jdt.converter.ToArrayInitialisierConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

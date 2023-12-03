@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.converter.reference;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayType;

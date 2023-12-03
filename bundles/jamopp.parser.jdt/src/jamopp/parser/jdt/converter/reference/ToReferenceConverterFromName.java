@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.converter.reference;
 
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
@@ -13,7 +13,7 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToReferenceConverterFromName implements ReferenceConverter<SimpleName> {

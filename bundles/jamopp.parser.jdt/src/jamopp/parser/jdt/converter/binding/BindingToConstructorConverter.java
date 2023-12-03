@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.binding;
+package jamopp.parser.jdt.converter.binding;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
@@ -21,7 +21,7 @@ import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.ToModifiersConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilArrays;
 
 public class BindingToConstructorConverter {

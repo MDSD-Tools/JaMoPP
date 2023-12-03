@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.binding;
+package jamopp.parser.jdt.converter.binding;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -7,7 +7,7 @@ import org.emftext.language.java.generics.TypeParameter;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class BindingToTypeParameterConverter {

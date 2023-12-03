@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.reference;
+package jamopp.parser.jdt.converter.reference;
 
 import org.emftext.language.java.references.Reference;
 import com.google.inject.Inject;

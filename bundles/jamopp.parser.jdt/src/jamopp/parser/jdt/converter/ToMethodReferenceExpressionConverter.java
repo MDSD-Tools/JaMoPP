@@ -14,8 +14,8 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
-import jamopp.parser.jdt.reference.ToReferenceConverterFromType;
+import jamopp.parser.jdt.converter.reference.ToReferenceConverterFromExpression;
+import jamopp.parser.jdt.converter.reference.ToReferenceConverterFromType;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToMethodReferenceExpressionConverter extends ToConverter<MethodReference, MethodReferenceExpression> {

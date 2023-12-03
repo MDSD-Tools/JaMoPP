@@ -15,7 +15,7 @@ import org.emftext.language.java.members.InterfaceMethod;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.binding;
+package jamopp.parser.jdt.converter.binding;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
@@ -6,7 +6,7 @@ import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
 import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 
 public class BindingToEnumConstantConverter {
 
