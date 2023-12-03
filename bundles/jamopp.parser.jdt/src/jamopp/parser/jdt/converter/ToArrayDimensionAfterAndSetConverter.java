@@ -9,7 +9,6 @@ import org.emftext.language.java.arrays.ArraysFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.util.UtilLayout;
-import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
 
 public class ToArrayDimensionAfterAndSetConverter {
 

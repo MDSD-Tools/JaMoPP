@@ -9,8 +9,6 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
-
 public class ToAnnotationValueConverter {
 
 	private final ToArrayInitialisierConverter toArrayInitialisierComverter;

@@ -11,9 +11,9 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
 import jamopp.parser.jdt.util.UtilLayout;
-import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
 
 public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 

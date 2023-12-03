@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToModifiersConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.util.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class BindingInfoToConcreteClassifierConverter {

@@ -7,8 +7,6 @@ import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
-
 public class ToModifierOrAnnotationInstanceConverter extends ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> {
 
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;

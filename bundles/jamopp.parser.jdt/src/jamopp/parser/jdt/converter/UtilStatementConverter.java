@@ -56,10 +56,9 @@ import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.reference.ToReferenceConverterFromExpression;
 import jamopp.parser.jdt.converter.reference.ToReferenceConverterFromStatement;
-import jamopp.parser.jdt.util.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
-import jamopp.parser.jdt.visitorhelper.ToConcreteClassifierConverter;
 
 public class UtilStatementConverter {
 

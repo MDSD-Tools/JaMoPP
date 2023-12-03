@@ -6,7 +6,7 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.util.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 
 public class BindingToInternalReferenceConverter {
 

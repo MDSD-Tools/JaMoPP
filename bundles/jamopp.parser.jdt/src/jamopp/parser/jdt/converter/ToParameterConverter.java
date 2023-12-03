@@ -9,10 +9,9 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.util.UtilJdtResolver;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
-import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
 
 public class ToParameterConverter extends ToConverter<SingleVariableDeclaration, Parameter> {
 

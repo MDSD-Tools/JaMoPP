@@ -12,8 +12,6 @@ import org.emftext.language.java.members.Member;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.visitorhelper.ToConcreteClassifierConverter;
-
 @Singleton
 public class ToClassMemberConverter {
 

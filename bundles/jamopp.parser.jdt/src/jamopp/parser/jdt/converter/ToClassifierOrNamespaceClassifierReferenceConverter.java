@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.visitorhelper;
+package jamopp.parser.jdt.converter;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Modifier;
@@ -27,7 +27,6 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToClassifierReferenceConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToClassifierOrNamespaceClassifierReferenceConverter {

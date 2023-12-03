@@ -40,12 +40,12 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.util.UtilJdtResolver;
+import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
+import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
-import jamopp.parser.jdt.visitorhelper.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.visitorhelper.ToClassifierOrNamespaceClassifierReferenceConverter;
-import jamopp.parser.jdt.visitorhelper.ToConcreteClassifierConverter;
 
 public abstract class VisitorAndConverterAbstractAndEmptyModelJDTAST extends ASTVisitor {
 
