@@ -54,6 +54,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.binding.UtilJdtResolver;
 import jamopp.parser.jdt.converter.ToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.ToExpressionConverter;

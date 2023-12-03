@@ -9,7 +9,7 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilJdtResolver;
+import jamopp.parser.jdt.binding.UtilJdtResolver;
 
 public class ToEnumConverter extends ToConverter<EnumDeclaration, Enumeration> {
 

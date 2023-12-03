@@ -7,7 +7,7 @@ import org.emftext.language.java.members.AdditionalField;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilJdtResolver;
+import jamopp.parser.jdt.binding.UtilJdtResolver;
 import jamopp.parser.jdt.other.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;

@@ -6,8 +6,6 @@ import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
 import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilJdtResolver;
-
 public class BindingToEnumConstantConverter {
 
 	private final UtilJdtResolver utilJdtResolver;

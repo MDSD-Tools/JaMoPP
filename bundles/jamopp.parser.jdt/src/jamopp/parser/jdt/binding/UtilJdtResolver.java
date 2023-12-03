@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.other;
+package jamopp.parser.jdt.binding;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,10 +27,6 @@ import org.emftext.language.java.variables.VariablesFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import jamopp.parser.jdt.binding.BindingInfoToConcreteClassifierConverter;
-import jamopp.parser.jdt.binding.BindingToModuleConverter;
-import jamopp.parser.jdt.binding.BindingToPackageConverter;
 
 public class UtilJdtResolver {
 
@@ -801,7 +797,7 @@ public class UtilJdtResolver {
 		return result;
 	}
 
-	void prepareNextUid() {
+	public void prepareNextUid() {
 		uid++;
 	}
 

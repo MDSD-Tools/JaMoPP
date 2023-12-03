@@ -34,12 +34,12 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 
 import jamopp.parser.api.JaMoPPParserAPI;
+import jamopp.parser.jdt.binding.UtilJdtResolver;
 import jamopp.parser.jdt.injector.InjectorMine;
 import jamopp.parser.jdt.other.JamoppClasspathEntriesSearcher;
 import jamopp.parser.jdt.other.JamoppCompilationUnitsFactory;
 import jamopp.parser.jdt.other.JamoppFileWithJDTParser;
 import jamopp.parser.jdt.other.JamoppJavaParserFactory;
-import jamopp.parser.jdt.other.UtilJdtResolver;
 import jamopp.parser.jdt.other.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 

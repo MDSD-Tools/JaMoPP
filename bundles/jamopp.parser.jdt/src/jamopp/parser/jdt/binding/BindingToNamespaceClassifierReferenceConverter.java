@@ -9,8 +9,6 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilJdtResolver;
-
 public class BindingToNamespaceClassifierReferenceConverter {
 
 	private final TypesFactory typesFactory;
