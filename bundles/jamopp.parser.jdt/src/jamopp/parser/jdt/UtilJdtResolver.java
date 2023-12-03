@@ -26,6 +26,7 @@ import org.emftext.language.java.types.TypesFactory;
 import org.emftext.language.java.variables.VariablesFactory;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 class UtilJdtResolver {
 
@@ -37,7 +38,9 @@ class UtilJdtResolver {
 	private final MembersFactory membersFactory;
 	private final ClassifiersFactory classifiersFactory;
 	private final ContainersFactory containersFactory;
-	private final UtilJdtBindingConverter jdtBindingConverterUtility;
+	private final Provider<BindingToPackageConverter> bindingToPackageConverter;
+	private final Provider<BindingToModuleConverter> bindingToModuleConverter;
+	private final Provider<BindingInfoToConcreteClassifierConverter> bindingInfoToConcreteClassifierConverter;
 
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
@@ -72,9 +75,12 @@ class UtilJdtResolver {
 	private final static boolean extractAdditionalInformationFromTypeBindings = true;
 
 	@Inject
-	UtilJdtResolver(UtilJdtBindingConverter jdtBindingConverterUtility, ContainersFactory containersFactory,
-			ClassifiersFactory classifiersFactory, TypesFactory typesFactory, StatementsFactory statementsFactory,
-			MembersFactory membersFactory, VariablesFactory variablesFactory, ParametersFactory parametersFactory, GenericsFactory genericsFactory) {
+	UtilJdtResolver(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
+			TypesFactory typesFactory, StatementsFactory statementsFactory, MembersFactory membersFactory,
+			VariablesFactory variablesFactory, ParametersFactory parametersFactory, GenericsFactory genericsFactory,
+			Provider<BindingToPackageConverter> bindingToPackageConverter,
+			Provider<BindingToModuleConverter> bindingToModuleConverter,
+			Provider<BindingInfoToConcreteClassifierConverter> bindingInfoToConcreteClassifierConverter) {
 		this.parametersFactory = parametersFactory;
 		this.variablesFactory = variablesFactory;
 		this.genericsFactory = genericsFactory;
@@ -83,7 +89,9 @@ class UtilJdtResolver {
 		this.membersFactory = membersFactory;
 		this.classifiersFactory = classifiersFactory;
 		this.containersFactory = containersFactory;
-		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
+		this.bindingToPackageConverter = bindingToPackageConverter;
+		this.bindingToModuleConverter = bindingToModuleConverter;
+		this.bindingInfoToConcreteClassifierConverter = bindingInfoToConcreteClassifierConverter;
 	}
 
 	void setResourceSet(ResourceSet set) {
@@ -967,23 +975,16 @@ class UtilJdtResolver {
 		});
 
 		methBindToConstr.forEach(this::completeMethod);
-
 		methBindToInter.forEach(this::completeMethod);
-
 		methBindToCM.forEach(this::completeMethod);
 
 		convertPureTypeBindings();
 
 		modBindToMod.values().forEach(module -> JavaClasspath.get().registerModule(module));
-
 		nameToPackage.values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
-
 		typeBindToAnnot.values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
-
 		typeBindToEnum.values().forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
-
 		typeBindToInterface.values().forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
-
 		typeBindToClass.values().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
 
 		escapeAllIdentifiers();
@@ -1102,7 +1103,7 @@ class UtilJdtResolver {
 				return;
 			}
 		} else if (typeBind.isTopLevel()) {
-			jdtBindingConverterUtility.convertToConcreteClassifier(typeBind,
+			bindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
 					extractAdditionalInformationFromTypeBindings);
 		} else if (typeBind.isNested()) {
 			org.emftext.language.java.classifiers.ConcreteClassifier parentClassifier = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
@@ -1146,7 +1147,7 @@ class UtilJdtResolver {
 			pack.setName("");
 			pack.setModule(getModule(""));
 		} else {
-			jdtBindingConverterUtility.convertToPackage(binding);
+			bindingToPackageConverter.get().convertToPackage(binding);
 		}
 		if (pack.eResource() != null) {
 			return;
@@ -1173,7 +1174,7 @@ class UtilJdtResolver {
 			Collections.addAll(module.getNamespaces(), parts);
 			module.setName("");
 		} else {
-			jdtBindingConverterUtility.convertToModule(binding);
+			bindingToModuleConverter.get().convert(binding);
 		}
 		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Module", null,
 				new String[] { modName, "module-info.java" }, null, null));

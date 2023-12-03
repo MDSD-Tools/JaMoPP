@@ -1,5 +1,7 @@
 package jamopp.parser.jdt;
 
+import java.util.Collections;
+
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
@@ -49,6 +51,12 @@ public class UtilNamedElement {
 			name = name.substring(0, name.indexOf("["));
 		}
 		element.setName(name);
+	}
+	
+	void convertToNamespacesAndSet(String namespaces, NamespaceAwareElement ele) {
+		ele.getNamespaces().clear();
+		String[] singleNamespaces = namespaces.split("\\.");
+		Collections.addAll(ele.getNamespaces(), singleNamespaces);
 	}
 
 }
