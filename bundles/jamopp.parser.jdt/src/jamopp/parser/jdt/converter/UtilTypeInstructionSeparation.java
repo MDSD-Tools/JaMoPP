@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.other;
+package jamopp.parser.jdt.converter;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,8 +13,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.binding.UtilJdtResolver;
-import jamopp.parser.jdt.converter.ToAnnotationValueConverter;
-import jamopp.parser.jdt.converter.ToExpressionConverter;
 
 @Singleton
 public class UtilTypeInstructionSeparation {

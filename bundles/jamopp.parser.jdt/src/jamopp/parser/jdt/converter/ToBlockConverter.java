@@ -7,8 +7,6 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.UtilTypeInstructionSeparation;
-
 public class ToBlockConverter {
 
 	private final StatementsFactory statementsFactory;

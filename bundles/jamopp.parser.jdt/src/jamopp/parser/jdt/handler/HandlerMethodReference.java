@@ -6,7 +6,7 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.other.ToMethodReferenceExpressionConverter;
+import jamopp.parser.jdt.converter.ToMethodReferenceExpressionConverter;
 
 public class HandlerMethodReference extends Handler {
 

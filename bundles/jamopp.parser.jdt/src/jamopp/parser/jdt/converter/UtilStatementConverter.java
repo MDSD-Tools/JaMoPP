@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.other;
+package jamopp.parser.jdt.converter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -55,12 +55,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import jamopp.parser.jdt.binding.UtilJdtResolver;
-import jamopp.parser.jdt.converter.ToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.converter.ToModifierOrAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
-import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
 import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
 import jamopp.parser.jdt.reference.ToReferenceConverterFromStatement;
 import jamopp.parser.jdt.util.UtilLayout;

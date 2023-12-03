@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.other;
+package jamopp.parser.jdt.converter;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
@@ -10,8 +10,6 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToConverter;
-import jamopp.parser.jdt.converter.ToNumberLiteralConverter;
 import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
 import jamopp.parser.jdt.util.UtilLayout;
 
