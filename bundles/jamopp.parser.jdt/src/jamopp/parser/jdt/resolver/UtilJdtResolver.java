@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.binding;
+package jamopp.parser.jdt.resolver;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +27,10 @@ import org.emftext.language.java.variables.VariablesFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import jamopp.parser.jdt.binding.BindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.binding.BindingToModuleConverter;
+import jamopp.parser.jdt.binding.BindingToPackageConverter;
 
 public class UtilJdtResolver {
 

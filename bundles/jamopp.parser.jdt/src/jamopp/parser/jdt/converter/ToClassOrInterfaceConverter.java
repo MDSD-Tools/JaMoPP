@@ -9,7 +9,7 @@ import org.emftext.language.java.classifiers.Interface;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.binding.UtilJdtResolver;
+import jamopp.parser.jdt.resolver.UtilJdtResolver;
 
 public class ToClassOrInterfaceConverter {
 

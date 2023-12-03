@@ -12,7 +12,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.binding.UtilJdtResolver;
+import jamopp.parser.jdt.resolver.UtilJdtResolver;
 
 @Singleton
 public class UtilTypeInstructionSeparation {

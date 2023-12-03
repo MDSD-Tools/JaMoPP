@@ -11,11 +11,11 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.binding.UtilJdtResolver;
 import jamopp.parser.jdt.converter.ToExpressionConverter;
 import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
 import jamopp.parser.jdt.converter.UtilStatementConverter;
+import jamopp.parser.jdt.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilArrays;
 import jamopp.parser.jdt.util.UtilLayout;
 

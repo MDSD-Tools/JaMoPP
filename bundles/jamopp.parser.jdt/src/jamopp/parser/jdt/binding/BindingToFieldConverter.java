@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.ToModifiersConverter;
 import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
+import jamopp.parser.jdt.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilArrays;
 
 public class BindingToFieldConverter {

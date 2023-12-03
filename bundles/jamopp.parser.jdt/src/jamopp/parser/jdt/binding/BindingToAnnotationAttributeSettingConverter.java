@@ -14,6 +14,8 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.resolver.UtilJdtResolver;
+
 public class BindingToAnnotationAttributeSettingConverter {
 
 	private final AnnotationsFactory annotationsFactory;

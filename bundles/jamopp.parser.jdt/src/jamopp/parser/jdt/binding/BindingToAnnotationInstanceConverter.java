@@ -8,6 +8,7 @@ import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class BindingToAnnotationInstanceConverter {

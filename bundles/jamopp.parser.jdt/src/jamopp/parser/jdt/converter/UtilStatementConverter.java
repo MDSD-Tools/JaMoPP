@@ -54,9 +54,9 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.binding.UtilJdtResolver;
 import jamopp.parser.jdt.reference.ToReferenceConverterFromExpression;
 import jamopp.parser.jdt.reference.ToReferenceConverterFromStatement;
+import jamopp.parser.jdt.resolver.UtilJdtResolver;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
