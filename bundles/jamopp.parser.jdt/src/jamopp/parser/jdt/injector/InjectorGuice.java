@@ -24,7 +24,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.converter.ToExpressionConverterImpl;
+import jamopp.parser.jdt.handler.ToExpressionConverterImpl;
 
 public class InjectorGuice extends AbstractModule {
 

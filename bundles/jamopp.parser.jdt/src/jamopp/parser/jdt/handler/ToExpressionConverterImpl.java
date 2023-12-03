@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter;
+package jamopp.parser.jdt.handler;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
@@ -7,17 +7,8 @@ import org.eclipse.jdt.core.dom.MethodReference;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.handler.HandlerAssignment;
-import jamopp.parser.jdt.handler.HandlerCastExpression;
-import jamopp.parser.jdt.handler.HandlerConditionalExpression;
-import jamopp.parser.jdt.handler.HandlerInfixExpression;
-import jamopp.parser.jdt.handler.HandlerInstanceOf;
-import jamopp.parser.jdt.handler.HandlerLambdaExpression;
-import jamopp.parser.jdt.handler.HandlerMethodReference;
-import jamopp.parser.jdt.handler.HandlerPostfixExpression;
-import jamopp.parser.jdt.handler.HandlerPrefixExpression;
-import jamopp.parser.jdt.handler.HandlerPrimaryExpression;
-import jamopp.parser.jdt.handler.HandlerSwitchExpression;
+import jamopp.parser.jdt.converter.ToConverter;
+import jamopp.parser.jdt.converter.ToExpressionConverter;
 
 public class ToExpressionConverterImpl extends ToConverter<Expression, org.emftext.language.java.expressions.Expression>
 		implements ToExpressionConverter {
