@@ -16,12 +16,12 @@ import org.emftext.language.java.modules.UsesModuleDirective;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.converter.ToConverter;
-import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+import jamopp.parser.jdt.converter.other.ToTypeReferencesConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class BindingToModuleConverter extends ToConverter<IModuleBinding, org.emftext.language.java.containers.Module> {
+public class BindingToModuleConverter implements ToConverter<IModuleBinding, org.emftext.language.java.containers.Module> {
 
 	private final ModulesFactory modulesFactory;
 	private final ModifiersFactory modifiersFactory;

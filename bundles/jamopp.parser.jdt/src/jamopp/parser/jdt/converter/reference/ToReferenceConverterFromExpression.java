@@ -29,12 +29,12 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.ToAnonymousClassConverter;
-import jamopp.parser.jdt.converter.ToArrayInitialisierConverter;
-import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.other.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.other.ToAnonymousClassConverter;
+import jamopp.parser.jdt.converter.other.ToArrayInitialisierConverter;
+import jamopp.parser.jdt.converter.other.ToTypeReferenceConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

@@ -6,8 +6,8 @@ import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
 import org.emftext.language.java.generics.TypeParameter;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
+import jamopp.parser.jdt.converter.other.ToTypeReferencesConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class BindingToTypeParameterConverter {

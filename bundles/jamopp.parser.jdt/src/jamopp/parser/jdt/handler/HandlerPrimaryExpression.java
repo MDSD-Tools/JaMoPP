@@ -4,7 +4,7 @@ import org.emftext.language.java.expressions.Expression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToPrimaryExpressionConverter;
+import jamopp.parser.jdt.converter.other.ToPrimaryExpressionConverter;
 
 public class HandlerPrimaryExpression extends Handler {
 

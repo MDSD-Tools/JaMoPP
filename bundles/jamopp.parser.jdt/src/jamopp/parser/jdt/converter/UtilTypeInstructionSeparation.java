@@ -12,15 +12,20 @@ import org.eclipse.jdt.core.dom.Statement;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.other.StatementToStatementConverter;
+import jamopp.parser.jdt.converter.other.ToAnnotationValueConverter;
+import jamopp.parser.jdt.converter.other.UtilToSwitchCasesAndSetConverter;
 
 @Singleton
 public class UtilTypeInstructionSeparation {
 
-	private UtilStatementConverter statementConverterUtility;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final ToExpressionConverter expressionConverterUtility;
 	private final ToAnnotationValueConverter toAnnotationValueConverter;
+	private final BlockToBlockConverter blockToBlockConverter;
+	private final StatementToStatementConverter statementToStatementConverter;
 
 	private final HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
 	private final HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();
@@ -33,12 +38,14 @@ public class UtilTypeInstructionSeparation {
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
 	@Inject
-	UtilTypeInstructionSeparation(UtilJdtResolver jdtResolverUtility,
-			ToExpressionConverter expressionConverterUtility, ToAnnotationValueConverter toAnnotationValueConverter) {
-
+	UtilTypeInstructionSeparation(ToAnnotationValueConverter toAnnotationValueConverter,
+			StatementToStatementConverter statementToStatementConverter, UtilJdtResolver jdtResolverUtility,
+			ToExpressionConverter expressionConverterUtility, BlockToBlockConverter blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.toAnnotationValueConverter = toAnnotationValueConverter;
+		this.blockToBlockConverter = blockToBlockConverter;
+		this.statementToStatementConverter = statementToStatementConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -58,7 +65,7 @@ public class UtilTypeInstructionSeparation {
 			}
 			clonedMethods.forEach((b, m) -> {
 				visitedObjects.add(m);
-				m.setStatement(statementConverterUtility.convertToBlock(b));
+				m.setStatement(blockToBlockConverter.convert(b));
 			});
 			HashMap<Block, org.emftext.language.java.members.Constructor> clonedConstructors = (HashMap<Block, org.emftext.language.java.members.Constructor>) constructors
 					.clone();
@@ -70,7 +77,7 @@ public class UtilTypeInstructionSeparation {
 			}
 			clonedConstructors.forEach((b, c) -> {
 				visitedObjects.add(c);
-				c.setBlock(statementConverterUtility.convertToBlock(b));
+				c.setBlock(blockToBlockConverter.convert(b));
 			});
 			HashMap<Expression, org.emftext.language.java.members.Field> clonedFields = (HashMap<Expression, org.emftext.language.java.members.Field>) fields
 					.clone();
@@ -107,8 +114,8 @@ public class UtilTypeInstructionSeparation {
 			clonedInitializers.forEach((b1, b2) -> {
 				visitedObjects.add(b2);
 				jdtResolverUtility.prepareNextUid();
-				b1.statements().forEach(
-						obj -> b2.getStatements().add(statementConverterUtility.convertToStatement((Statement) obj)));
+				b1.statements().forEach(obj -> b2.getStatements()
+						.add(statementToStatementConverter.convert((Statement) obj)));
 			});
 			HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> clonedAnnotationMethods = (HashMap<Expression, org.emftext.language.java.members.InterfaceMethod>) annotationMethods
 					.clone();
@@ -195,7 +202,6 @@ public class UtilTypeInstructionSeparation {
 		annotationSetting.put(value, setting);
 	}
 
-	public void setStatementConverterUtility(UtilStatementConverter statementConverterUtility) {
-		this.statementConverterUtility = statementConverterUtility;
+	public void setStatementConverterUtility(UtilToSwitchCasesAndSetConverter statementConverterUtility) {
 	}
 }

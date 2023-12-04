@@ -23,7 +23,15 @@ import org.emftext.language.java.variables.VariablesFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
-import jamopp.parser.jdt.converter.ToExpressionConverter;
+import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.other.BlockToBlockConverterImpl;
+import jamopp.parser.jdt.converter.other.StatementToStatementConverter;
+import jamopp.parser.jdt.converter.other.StatementToStatementConverterImpl;
+import jamopp.parser.jdt.converter.other.ToConcreteClassifierConverterImpl;
+import jamopp.parser.jdt.converter.other.UtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.converter.other.UtilToSwitchCasesAndSetConverterImpl;
 import jamopp.parser.jdt.handler.ToExpressionConverterImpl;
 
 public class InjectorGuice extends AbstractModule {
@@ -32,6 +40,10 @@ public class InjectorGuice extends AbstractModule {
 	protected void configure() {
 		super.configure();
 		bind(ToExpressionConverter.class).to(ToExpressionConverterImpl.class);
+		bind(BlockToBlockConverter.class).to(BlockToBlockConverterImpl.class);
+		bind(StatementToStatementConverter.class).to(StatementToStatementConverterImpl.class);
+		bind(ToConcreteClassifierConverter.class).to(ToConcreteClassifierConverterImpl.class);
+		bind(UtilToSwitchCasesAndSetConverter.class).to(UtilToSwitchCasesAndSetConverterImpl.class);
 	}
 
 	@Provides
@@ -123,7 +135,7 @@ public class InjectorGuice extends AbstractModule {
 	VariablesFactory provideVariablesFactory() {
 		return VariablesFactory.eINSTANCE;
 	}
-	
+
 	@Provides
 	InstantiationsFactory provideInstantiationsFactory() {
 		return InstantiationsFactory.eINSTANCE;

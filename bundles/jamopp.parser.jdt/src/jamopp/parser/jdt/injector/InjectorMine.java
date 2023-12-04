@@ -5,13 +5,13 @@ import org.emftext.language.java.containers.ContainersFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.ToClassMemberConverter;
-import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.converter.UtilStatementConverter;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
 import jamopp.parser.jdt.converter.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.other.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.other.ToClassMemberConverter;
+import jamopp.parser.jdt.converter.other.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 
 public class InjectorMine {
@@ -31,7 +31,7 @@ public class InjectorMine {
 		
 		injector.getInstance(ToClassMemberConverter.class).setToConcreteClassifierConverter(injector.getInstance(ToConcreteClassifierConverter.class));
 		injector.getInstance(ToAnnotationInstanceConverter.class).setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
-		injector.getInstance(UtilTypeInstructionSeparation.class).setStatementConverterUtility(injector.getInstance(UtilStatementConverter.class));
+		injector.getInstance(UtilTypeInstructionSeparation.class).setStatementConverterUtility(injector.getInstance(UtilToSwitchCasesAndSetConverter.class));
 	}
 
 	public static VisitorAndConverterOrdinaryCompilationUnitJDTAST getOrdinaryCompilationUnitJDTASTVisitorAndConverter() {

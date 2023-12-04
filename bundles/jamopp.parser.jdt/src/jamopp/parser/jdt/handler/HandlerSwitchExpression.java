@@ -6,8 +6,8 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.converter.UtilStatementConverter;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.other.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerSwitchExpression extends Handler {
@@ -15,10 +15,10 @@ public class HandlerSwitchExpression extends Handler {
 	private final StatementsFactory statementsFactory;
 	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
-	private final UtilStatementConverter utilStatementConverter;
+	private final UtilToSwitchCasesAndSetConverter utilStatementConverter;
 
 	@Inject
-	HandlerSwitchExpression(UtilStatementConverter utilStatementConverter, UtilLayout utilLayout,
+	HandlerSwitchExpression(UtilToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
 			ToExpressionConverter toExpressionConverter, StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -32,7 +32,7 @@ public class HandlerSwitchExpression extends Handler {
 		SwitchExpression switchExpr = (SwitchExpression) expr;
 		org.emftext.language.java.statements.Switch result = statementsFactory.createSwitch();
 		result.setVariable(toExpressionConverter.convert(switchExpr.getExpression()));
-		utilStatementConverter.convertToSwitchCasesAndSet(result, switchExpr.statements());
+		utilStatementConverter.convert(result, switchExpr.statements());
 		utilLayout.convertToMinimalLayoutInformation(result, switchExpr);
 		return result;
 	}

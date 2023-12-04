@@ -7,11 +7,9 @@ import org.eclipse.jdt.core.dom.MethodReference;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.converter.ToConverter;
-import jamopp.parser.jdt.converter.ToExpressionConverter;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
-public class ToExpressionConverterImpl extends ToConverter<Expression, org.emftext.language.java.expressions.Expression>
-		implements ToExpressionConverter {
+public class ToExpressionConverterImpl implements ToExpressionConverter {
 
 	private final Provider<HandlerPrimaryExpression> handlerPrimaryExpression;
 	private final Provider<HandlerAssignment> handlerAssignment;

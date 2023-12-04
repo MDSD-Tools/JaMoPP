@@ -11,11 +11,12 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.converter.ToOrdinaryParameterConverter;
-import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.converter.UtilStatementConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.other.ToOrdinaryParameterConverter;
+import jamopp.parser.jdt.converter.other.UtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.converter.other.ToTypeReferencesConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 import jamopp.parser.jdt.util.UtilLayout;
 
@@ -26,32 +27,31 @@ public class HandlerLambdaExpression extends Handler {
 	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
 	private final UtilJdtResolver utilJdtResolver;
-	private final UtilArrays utilJdtBindingConverter;
-	private final UtilStatementConverter utilStatementConverter;
+	private final UtilToSwitchCasesAndSetConverter utilStatementConverter;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
+	private final BlockToBlockConverter blockToBlockConverter;
 
 	@Inject
-	HandlerLambdaExpression(UtilStatementConverter utilStatementConverter, UtilLayout utilLayout,
-			UtilJdtResolver utilJdtResolver, UtilArrays utilJdtBindingConverter,
-			ToOrdinaryParameterConverter toOrdinaryParameterConverter, ToExpressionConverter toExpressionConverter,
-			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
-			ToTypeReferencesConverter toTypeReferencesConverter) {
+	HandlerLambdaExpression(UtilToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
+			UtilJdtResolver utilJdtResolver, ToOrdinaryParameterConverter toOrdinaryParameterConverter,
+			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory,
+			TypesFactory typesFactory, ToTypeReferencesConverter toTypeReferencesConverter,
+			BlockToBlockConverter blockToBlockConverter) {
 		this.typesFactory = typesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;
 		this.utilJdtResolver = utilJdtResolver;
-		this.utilJdtBindingConverter = utilJdtBindingConverter;
 		this.utilStatementConverter = utilStatementConverter;
 		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
+		this.blockToBlockConverter = blockToBlockConverter;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public
-	org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		LambdaExpression lambda = (LambdaExpression) expr;
 		org.emftext.language.java.expressions.LambdaExpression result = expressionsFactory.createLambdaExpression();
 		if (!lambda.parameters().isEmpty() && lambda.parameters().get(0) instanceof VariableDeclarationFragment) {
@@ -86,7 +86,7 @@ public class HandlerLambdaExpression extends Handler {
 		if (lambda.getBody() instanceof Expression) {
 			result.setBody(toExpressionConverter.convert((Expression) lambda.getBody()));
 		} else {
-			result.setBody(utilStatementConverter.convertToBlock((Block) lambda.getBody()));
+			result.setBody(blockToBlockConverter.convert((Block) lambda.getBody()));
 		}
 		utilLayout.convertToMinimalLayoutInformation(result, lambda);
 		return result;

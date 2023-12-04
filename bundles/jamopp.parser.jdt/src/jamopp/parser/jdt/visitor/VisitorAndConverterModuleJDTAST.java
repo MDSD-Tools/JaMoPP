@@ -33,10 +33,10 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
-import jamopp.parser.jdt.converter.ToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.other.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.other.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 

@@ -11,7 +11,7 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.ReflectiveClassReference;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
 
 public class ObjectToAnnotationValueConverter {
 

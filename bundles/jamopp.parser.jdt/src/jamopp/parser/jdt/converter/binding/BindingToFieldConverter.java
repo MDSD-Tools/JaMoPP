@@ -9,9 +9,9 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToModifiersConverter;
-import jamopp.parser.jdt.converter.ToTypeReferencesConverter;
-import jamopp.parser.jdt.converter.resolver.UtilJdtResolver;
+import jamopp.parser.jdt.converter.UtilJdtResolver;
+import jamopp.parser.jdt.converter.other.ToModifiersConverter;
+import jamopp.parser.jdt.converter.other.ToTypeReferencesConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 
 public class BindingToFieldConverter {

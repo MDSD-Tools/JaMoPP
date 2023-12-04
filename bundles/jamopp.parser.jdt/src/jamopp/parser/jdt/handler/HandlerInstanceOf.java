@@ -7,8 +7,8 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.ToExpressionConverter;
-import jamopp.parser.jdt.converter.ToTypeReferenceConverter;
+import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.other.ToTypeReferenceConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerInstanceOf extends Handler {
