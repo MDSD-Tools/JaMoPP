@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
@@ -25,6 +26,7 @@ public class ToLocalVariableConverter
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToAdditionalLocalVariableConverter toAdditionalLocalVariableConverter;
+	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
 
 	@Inject
 	ToLocalVariableConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
@@ -32,7 +34,7 @@ public class ToLocalVariableConverter
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ToExpressionConverter expressionConverterUtility,
-			ToAdditionalLocalVariableConverter toAdditionalLocalVariableConverter) {
+			ToAdditionalLocalVariableConverter toAdditionalLocalVariableConverter, ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -41,6 +43,7 @@ public class ToLocalVariableConverter
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toAdditionalLocalVariableConverter = toAdditionalLocalVariableConverter;
+		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -58,8 +61,8 @@ public class ToLocalVariableConverter
 		expr.modifiers().forEach(obj -> loc.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		loc.setTypeReference(toTypeReferenceConverter.convert(expr.getType()));
-		toTypeReferenceConverter.convertToArrayDimensionsAndSet(expr.getType(), loc);
-		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter.convert((Dimension) obj, loc));
+		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(expr.getType(), loc);
+		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, loc));
 		if (frag.getInitializer() != null) {
 			loc.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}

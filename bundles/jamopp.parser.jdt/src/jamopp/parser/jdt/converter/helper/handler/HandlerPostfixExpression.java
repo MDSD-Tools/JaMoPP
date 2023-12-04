@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.handler;
+package jamopp.parser.jdt.converter.helper.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.PostfixExpression;
@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class HandlerPostfixExpression extends Handler {
+public class HandlerPostfixExpression implements ExpressionHandler {
 
 	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;

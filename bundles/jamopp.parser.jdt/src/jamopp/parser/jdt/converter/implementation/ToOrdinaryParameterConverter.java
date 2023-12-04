@@ -8,6 +8,7 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -21,18 +22,21 @@ public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableD
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
 
 	@Inject
 	ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility) {
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
+		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -42,10 +46,9 @@ public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableD
 		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
-		toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
+		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 		utilNamedElement.setNameOfElement(decl.getName(), result);
-		decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, result));
+		decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 		return result;
 	}

@@ -28,11 +28,11 @@ import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverterImpl;
 import jamopp.parser.jdt.converter.implementation.BlockToBlockConverterImpl;
 import jamopp.parser.jdt.converter.implementation.StatementToStatementConverterImpl;
 import jamopp.parser.jdt.converter.implementation.ToConcreteClassifierConverterImpl;
+import jamopp.parser.jdt.converter.implementation.ToExpressionConverterImpl;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.handler.ToExpressionConverterImpl;
 
 public class InjectorGuice extends AbstractModule {
 

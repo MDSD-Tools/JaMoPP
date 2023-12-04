@@ -10,6 +10,7 @@ import org.emftext.language.java.members.Field;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
@@ -26,6 +27,7 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
 	private final ToAdditionalFieldConverter toAdditionalFieldConverter;
 	private final UtilLayout utilLayout;
+	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
 
 	@Inject
 	ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
@@ -33,7 +35,8 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			UtilTypeInstructionSeparation toInstructionSeparation,
 			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			ToAdditionalFieldConverter toAdditionalFieldConverter) {
+			ToAdditionalFieldConverter toAdditionalFieldConverter,
+			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
 		this.utilJdtResolver = utilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -42,6 +45,7 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 		this.toAdditionalFieldConverter = toAdditionalFieldConverter;
 		this.utilLayout = utilLayout;
+		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -58,9 +62,9 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(fieldDecl.getType()));
-		toTypeReferenceConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
-		firstFragment.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, result));
+		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
+		firstFragment.extraDimensions()
+				.forEach(obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (firstFragment.getInitializer() != null) {
 			toInstructionSeparation.addField(firstFragment.getInitializer(), result);
 		}

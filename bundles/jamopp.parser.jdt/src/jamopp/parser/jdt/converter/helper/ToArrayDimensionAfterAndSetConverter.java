@@ -9,7 +9,6 @@ import org.emftext.language.java.arrays.ArraysFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToArrayDimensionAfterAndSetConverter {
@@ -26,7 +25,7 @@ public class ToArrayDimensionAfterAndSetConverter {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
-	public void convert(Dimension dim, ArrayTypeable arrDimContainer) {
+	public void convertToArrayDimensionAfterAndSet(Dimension dim, ArrayTypeable arrDimContainer) {
 		arrDimContainer.getArrayDimensionsAfter().add(convertToArrayDimension(dim));
 	}
 

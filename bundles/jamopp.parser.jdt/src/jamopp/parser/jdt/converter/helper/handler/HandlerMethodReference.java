@@ -1,14 +1,12 @@
-package jamopp.parser.jdt.handler;
+package jamopp.parser.jdt.converter.helper.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.MethodReference;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.ToMethodReferenceExpressionConverter;
 
-public class HandlerMethodReference extends Handler {
+public class HandlerMethodReference implements ExpressionHandler {
 
 	private final ToMethodReferenceExpressionConverter toMethodReferenceExpressionConverter;
 
@@ -18,8 +16,7 @@ public class HandlerMethodReference extends Handler {
 	}
 
 	@Override
-	public
-	org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		return toMethodReferenceExpressionConverter.convert((MethodReference) expr);
 	}
 

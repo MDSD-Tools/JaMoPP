@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.handler;
+package jamopp.parser.jdt.converter.helper.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InstanceofExpression;
@@ -7,36 +7,38 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.implementation.ToTypeReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class HandlerInstanceOf extends Handler {
+public class HandlerInstanceOf implements ExpressionHandler {
 
 	private final UtilLayout utilLayout;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ExpressionsFactory expressionsFactory;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
+	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
 
 	@Inject
 	HandlerInstanceOf(UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory) {
+			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory,
+			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
 		this.utilLayout = utilLayout;
 		this.toExpressionConverter = toExpressionConverter;
 		this.expressionsFactory = expressionsFactory;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
+		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
 	}
 
 	@Override
-	public
-	org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		InstanceofExpression castedExpr = (InstanceofExpression) expr;
 		org.emftext.language.java.expressions.InstanceOfExpression result = expressionsFactory
 				.createInstanceOfExpression();
-		result.setChild(
-				(InstanceOfExpressionChild) toExpressionConverter.convert(castedExpr.getLeftOperand()));
+		result.setChild((InstanceOfExpressionChild) toExpressionConverter.convert(castedExpr.getLeftOperand()));
 		result.setTypeReference(toTypeReferenceConverter.convert(castedExpr.getRightOperand()));
-		toTypeReferenceConverter.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
+		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(castedExpr.getRightOperand(), result);
 		utilLayout.convertToMinimalLayoutInformation(result, castedExpr);
 		return result;
 	}

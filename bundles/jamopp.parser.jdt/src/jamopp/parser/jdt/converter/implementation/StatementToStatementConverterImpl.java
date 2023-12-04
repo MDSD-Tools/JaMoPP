@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
@@ -48,7 +49,7 @@ import jamopp.parser.jdt.util.UtilNamedElement;
 public class StatementToStatementConverterImpl implements StatementToStatementConverter {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final StatementsFactory statementsFactory;;
+	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final ToExpressionConverter expressionConverterUtility;
@@ -65,6 +66,7 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 	private final SwitchToSwitchConverter switchToSwitchConverter;
 	private final ToCatchblockConverter toCatchblockConverter;
 	private final ToAdditionalLocalVariableConverter toAdditionalLocalVariableConverter;
+	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
 
 	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
@@ -81,7 +83,8 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ExpressionsFactory expressionsFactory, ToExpressionConverter expressionConverterUtility,
 			ToConcreteClassifierConverter classifierConverterUtility, BlockToBlockConverter blockToBlockConverter,
-			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter) {
+			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter,
+			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -100,6 +103,7 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 		this.switchToSwitchConverter = switchToSwitchConverter;
 		this.toCatchblockConverter = toCatchblockConverter;
 		this.toAdditionalLocalVariableConverter = toAdditionalLocalVariableConverter;
+		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -166,8 +170,8 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {
 				org.emftext.language.java.statements.LocalVariableStatement result = statementsFactory
 						.createLocalVariableStatement();
-				result.setVariable(toLocalVariableConverter
-						.convert((VariableDeclarationExpression) exprSt.getExpression()));
+				result.setVariable(
+						toLocalVariableConverter.convert((VariableDeclarationExpression) exprSt.getExpression()));
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 				return result;
 			}
@@ -182,8 +186,8 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			org.emftext.language.java.statements.ForLoop result = statementsFactory.createForLoop();
 			if (forSt.initializers().size() == 1
 					&& forSt.initializers().get(0) instanceof VariableDeclarationExpression) {
-				result.setInit(toLocalVariableConverter
-						.convert((VariableDeclarationExpression) forSt.initializers().get(0)));
+				result.setInit(
+						toLocalVariableConverter.convert((VariableDeclarationExpression) forSt.initializers().get(0)));
 			} else {
 				org.emftext.language.java.expressions.ExpressionList ini = expressionsFactory.createExpressionList();
 				forSt.initializers()
@@ -253,8 +257,8 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			trySt.resources().forEach(obj -> {
 				Expression resExpr = (Expression) obj;
 				if (resExpr instanceof VariableDeclarationExpression) {
-					result.getResources().add(
-							toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
+					result.getResources()
+							.add(toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
 				} else {
 					result.getResources().add(
 							(org.emftext.language.java.references.ElementReference) toReferenceConverterFromExpression
@@ -262,8 +266,8 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 				}
 			});
 			result.setBlock(blockToBlockConverter.convert(trySt.getBody()));
-			trySt.catchClauses().forEach(
-					obj -> result.getCatchBlocks().add(toCatchblockConverter.convert((CatchClause) obj)));
+			trySt.catchClauses()
+					.forEach(obj -> result.getCatchBlocks().add(toCatchblockConverter.convert((CatchClause) obj)));
 			if (trySt.getFinally() != null) {
 				result.setFinallyBlock(blockToBlockConverter.convert(trySt.getFinally()));
 			}
@@ -290,9 +294,9 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
 					.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
 			locVar.setTypeReference(toTypeReferenceConverter.convert(varSt.getType()));
-			toTypeReferenceConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
-			frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-					.convert((Dimension) obj, locVar));
+			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
+			frag.extraDimensions()
+					.forEach(obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
 			if (frag.getInitializer() != null) {
 				locVar.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 			}

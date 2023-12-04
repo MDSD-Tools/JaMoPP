@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.handler;
+package jamopp.parser.jdt.converter.helper.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
@@ -16,7 +16,7 @@ import jamopp.parser.jdt.converter.implementation.ToShiftExpressionConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class HandlerInfixExpression extends Handler {
+public class HandlerInfixExpression implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final ToEqualityExpressionConverter toEqualityExpressionConverter;
@@ -45,45 +45,41 @@ public class HandlerInfixExpression extends Handler {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public
-	org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		InfixExpression infix = (InfixExpression) expr;
 		if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_OR) {
 			org.emftext.language.java.expressions.ConditionalOrExpression result;
-			org.emftext.language.java.expressions.Expression ex = toExpressionConverter
-					.convert(infix.getLeftOperand());
+			org.emftext.language.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 			if (ex instanceof org.emftext.language.java.expressions.ConditionalOrExpression) {
 				result = (org.emftext.language.java.expressions.ConditionalOrExpression) ex;
 			} else {
 				result = expressionsFactory.createConditionalOrExpression();
 				result.getChildren().add((ConditionalOrExpressionChild) ex);
 			}
-			result.getChildren().add(
-					(ConditionalOrExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
+			result.getChildren()
+					.add((ConditionalOrExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
 			infix.extendedOperands().forEach(obj -> result.getChildren()
 					.add((ConditionalOrExpressionChild) toExpressionConverter.convert((Expression) obj)));
 			utilLayout.convertToMinimalLayoutInformation(result, infix);
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_AND) {
 			org.emftext.language.java.expressions.ConditionalAndExpression result;
-			org.emftext.language.java.expressions.Expression ex = toExpressionConverter
-					.convert(infix.getLeftOperand());
+			org.emftext.language.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 			if (ex instanceof org.emftext.language.java.expressions.ConditionalAndExpression) {
 				result = (org.emftext.language.java.expressions.ConditionalAndExpression) ex;
 			} else {
 				result = expressionsFactory.createConditionalAndExpression();
 				result.getChildren().add((ConditionalAndExpressionChild) ex);
 			}
-			result.getChildren().add(
-					(ConditionalAndExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
+			result.getChildren()
+					.add((ConditionalAndExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
 			infix.extendedOperands().forEach(obj -> result.getChildren()
 					.add((ConditionalAndExpressionChild) toExpressionConverter.convert((Expression) obj)));
 			utilLayout.convertToMinimalLayoutInformation(result, infix);
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.OR) {
 			org.emftext.language.java.expressions.InclusiveOrExpression result;
-			org.emftext.language.java.expressions.Expression ex = toExpressionConverter
-					.convert(infix.getLeftOperand());
+			org.emftext.language.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 			if (ex instanceof org.emftext.language.java.expressions.InclusiveOrExpression) {
 				result = (org.emftext.language.java.expressions.InclusiveOrExpression) ex;
 			} else {
@@ -101,8 +97,7 @@ public class HandlerInfixExpression extends Handler {
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.XOR) {
 			org.emftext.language.java.expressions.ExclusiveOrExpression result;
-			org.emftext.language.java.expressions.Expression ex = toExpressionConverter
-					.convert(infix.getLeftOperand());
+			org.emftext.language.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 			if (ex instanceof org.emftext.language.java.expressions.ExclusiveOrExpression) {
 				result = (org.emftext.language.java.expressions.ExclusiveOrExpression) ex;
 			} else {
@@ -120,8 +115,7 @@ public class HandlerInfixExpression extends Handler {
 			return result;
 		} else if (infix.getOperator() == InfixExpression.Operator.AND) {
 			org.emftext.language.java.expressions.AndExpression result;
-			org.emftext.language.java.expressions.Expression ex = toExpressionConverter
-					.convert(infix.getLeftOperand());
+			org.emftext.language.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 			if (ex instanceof org.emftext.language.java.expressions.AndExpression) {
 				result = (org.emftext.language.java.expressions.AndExpression) ex;
 			} else {

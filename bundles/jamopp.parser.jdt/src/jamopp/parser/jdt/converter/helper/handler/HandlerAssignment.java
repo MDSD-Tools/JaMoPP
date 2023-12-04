@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.handler;
+package jamopp.parser.jdt.converter.helper.handler;
 
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Expression;
@@ -10,7 +10,7 @@ import jamopp.parser.jdt.converter.implementation.ToAssignmentConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class HandlerAssignment extends Handler {
+public class HandlerAssignment implements ExpressionHandler {
 
 	private final ToAssignmentConverter toAssignmentOperatorConverter;
 	private final UtilLayout utilLayout;
@@ -27,8 +27,7 @@ public class HandlerAssignment extends Handler {
 	}
 
 	@Override
-	public
-	org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		Assignment assign = (Assignment) expr;
 		org.emftext.language.java.expressions.AssignmentExpression result = expressionsFactory
 				.createAssignmentExpression();

@@ -12,6 +12,7 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.ReferenceWalker;
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
@@ -23,18 +24,21 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ReferenceWalker referenceWalker;
 	private final ToReferenceConverterFromName toReferenceConverterFromName;
+	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
 
 	@Inject
 	ToReferenceConverterFromType(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToReferenceConverterFromName toReferenceConverterFromName,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
-			ReferenceWalker referenceWalker, UtilLayout layoutInformationConverter) {
+			ReferenceWalker referenceWalker, UtilLayout layoutInformationConverter,
+			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.referenceWalker = referenceWalker;
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
+		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
 	}
 
 	public Reference convert(Type t) {
@@ -50,8 +54,8 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromName
 					.convert(nqType.getName());
 			parent.setNext(child);
-			nqType.annotations().forEach(obj -> child.getAnnotations()
-					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+			nqType.annotations().forEach(
+					obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, nqType);
 			return child;
 		}
@@ -60,8 +64,8 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 			org.emftext.language.java.references.Reference parent = internalConvertToReference(qType.getQualifier());
 			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromName
 					.convert(qType.getName());
-			qType.annotations().forEach(obj -> child.getAnnotations()
-					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+			qType.annotations().forEach(
+					obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			parent.setNext(child);
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, qType);
 			return child;
@@ -70,8 +74,8 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 			SimpleType sType = (SimpleType) t;
 			org.emftext.language.java.references.IdentifierReference result = toReferenceConverterFromName
 					.convertToIdentifierReference(sType.getName());
-			sType.annotations().forEach(obj -> result.getAnnotations()
-					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+			sType.annotations().forEach(
+					obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, sType);
 			return result;
 		}
@@ -88,10 +92,10 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 			org.emftext.language.java.references.Reference result = internalConvertToReference(arr.getElementType());
 			if (arr.getElementType().isPrimitiveType()) {
 				org.emftext.language.java.references.PrimitiveTypeReference primRef = (org.emftext.language.java.references.PrimitiveTypeReference) result;
-				toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr, primRef);
+				toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, primRef);
 			} else {
 				org.emftext.language.java.references.IdentifierReference idRef = (org.emftext.language.java.references.IdentifierReference) result;
-				toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr, idRef);
+				toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, idRef);
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;

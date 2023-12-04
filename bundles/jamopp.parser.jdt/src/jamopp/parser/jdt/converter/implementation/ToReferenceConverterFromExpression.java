@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.helper.ReferenceWalker;
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
@@ -55,6 +56,8 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 	private final Provider<ToReferenceConverterFromName> toReferenceConverterFromName;
 	private final Provider<ToReferenceConverterFromMethodInvocation> toReferenceConverterFromMethodInvocation;
 	private final Provider<ToReferenceConverterFromType> toReferenceConverterFromType;
+	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final TypeToTypeArgumentConverter typeToTypeArgumentConverter;
 
 	@Inject
 	ToReferenceConverterFromExpression(UtilNamedElement utilNamedElement,
@@ -68,7 +71,8 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			ReferenceWalker referenceWalker, LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, InstantiationsFactory instantiationsFactory,
 			ExpressionsFactory expressionsFactory, ToExpressionConverter expressionConverterUtility,
-			ArraysFactory arraysFactory) {
+			ArraysFactory arraysFactory, TypeToTypeArgumentConverter typeArgumentConverter,
+			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
@@ -86,6 +90,8 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
 		this.toReferenceConverterFromMethodInvocation = toReferenceConverterFromMethodInvocation;
 		this.toReferenceConverterFromType = toReferenceConverterFromType;
+		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.typeToTypeArgumentConverter = typeArgumentConverter;
 	}
 
 	public org.emftext.language.java.references.Reference convertToReference(Expression expr) {
@@ -112,18 +118,18 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 				org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped result = arraysFactory
 						.createArrayInstantiationByValuesTyped();
 				result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
-				toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr.getType(), result);
-				result.setArrayInitializer(
-						toArrayInitialisierConverter.convert(arr.getInitializer()));
+				toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result);
+				result.setArrayInitializer(toArrayInitialisierConverter.convert(arr.getInitializer()));
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 				return result;
 			}
 			org.emftext.language.java.arrays.ArrayInstantiationBySize result = arraysFactory
 					.createArrayInstantiationBySize();
 			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
-			toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr.getType(), result, arr.dimensions().size());
-			arr.dimensions().forEach(
-					obj -> result.getSizes().add(expressionConverterUtility.convert((Expression) obj)));
+			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result,
+					arr.dimensions().size());
+			arr.dimensions()
+					.forEach(obj -> result.getSizes().add(expressionConverterUtility.convert((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;
 		}
@@ -142,15 +148,14 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			} else {
 				result = instantiationsFactory.createNewConstructorCall();
 			}
-			arr.typeArguments().forEach(obj -> result.getCallTypeArguments()
-					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
+			arr.typeArguments().forEach(
+					obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
 			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
-			arr.arguments().forEach(
-					obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
+			arr.arguments()
+					.forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			if (arr.getAnonymousClassDeclaration() != null) {
-				result.setAnonymousClass(
-						toAnonymousClassConverter.convert(arr.getAnonymousClassDeclaration()));
+				result.setAnonymousClass(toAnonymousClassConverter.convert(arr.getAnonymousClassDeclaration()));
 			}
 			if (arr.getExpression() != null) {
 				org.emftext.language.java.references.Reference parent = convert(arr.getExpression());
@@ -218,9 +223,9 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			}
 			org.emftext.language.java.references.MethodCall partTwo = referencesFactory.createMethodCall();
 			arr.typeArguments().forEach(obj -> partTwo.getCallTypeArguments()
-					.add(toTypeReferenceConverter.convertToTypeArgument((Type) obj)));
-			arr.arguments().forEach(obj -> partTwo.getArguments()
-					.add(expressionConverterUtility.convert((Expression) obj)));
+					.add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
+			arr.arguments()
+					.forEach(obj -> partTwo.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 			org.emftext.language.java.members.Method proxy;
 			if (arr.getName().resolveBinding() != null) {
 				proxy = jdtResolverUtility.getMethod((IMethodBinding) arr.getName().resolveBinding());

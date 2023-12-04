@@ -19,10 +19,9 @@ import jamopp.parser.jdt.converter.implementation.BindingToMethodConverter;
 import jamopp.parser.jdt.converter.implementation.BindingToTypeParameterConverter;
 import jamopp.parser.jdt.converter.implementation.ToModifiersConverter;
 import jamopp.parser.jdt.converter.implementation.ToTypeReferencesConverter;
-import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
+@SuppressWarnings("restriction")
 public class BindingInfoToConcreteClassifierConverter{
 
 	private final UtilNamedElement utilNamedElement;

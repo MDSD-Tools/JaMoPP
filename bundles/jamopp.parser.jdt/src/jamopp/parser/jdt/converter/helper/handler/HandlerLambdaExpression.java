@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.handler;
+package jamopp.parser.jdt.converter.helper.handler;
 
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
@@ -12,38 +12,33 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.implementation.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.implementation.ToTypeReferencesConverter;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilArrays;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class HandlerLambdaExpression extends Handler {
+public class HandlerLambdaExpression implements ExpressionHandler {
 
 	private final TypesFactory typesFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
 	private final UtilJdtResolver utilJdtResolver;
-	private final UtilToSwitchCasesAndSetConverter utilStatementConverter;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
 	private final BlockToBlockConverter blockToBlockConverter;
 
 	@Inject
-	HandlerLambdaExpression(UtilToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
-			UtilJdtResolver utilJdtResolver, ToOrdinaryParameterConverter toOrdinaryParameterConverter,
-			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory,
-			TypesFactory typesFactory, ToTypeReferencesConverter toTypeReferencesConverter,
-			BlockToBlockConverter blockToBlockConverter) {
+	HandlerLambdaExpression(UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+			ToOrdinaryParameterConverter toOrdinaryParameterConverter, ToExpressionConverter toExpressionConverter,
+			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
+			ToTypeReferencesConverter toTypeReferencesConverter, BlockToBlockConverter blockToBlockConverter) {
 		this.typesFactory = typesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;
 		this.utilJdtResolver = utilJdtResolver;
-		this.utilStatementConverter = utilStatementConverter;
 		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.blockToBlockConverter = blockToBlockConverter;

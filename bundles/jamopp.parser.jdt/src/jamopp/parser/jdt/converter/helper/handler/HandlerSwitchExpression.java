@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.handler;
+package jamopp.parser.jdt.converter.helper.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SwitchExpression;
@@ -10,7 +10,7 @@ import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class HandlerSwitchExpression extends Handler {
+public class HandlerSwitchExpression implements ExpressionHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final ToExpressionConverter toExpressionConverter;
@@ -27,8 +27,7 @@ public class HandlerSwitchExpression extends Handler {
 	}
 
 	@Override
-	public
-	org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
 		SwitchExpression switchExpr = (SwitchExpression) expr;
 		org.emftext.language.java.statements.Switch result = statementsFactory.createSwitch();
 		result.setVariable(toExpressionConverter.convert(switchExpr.getExpression()));

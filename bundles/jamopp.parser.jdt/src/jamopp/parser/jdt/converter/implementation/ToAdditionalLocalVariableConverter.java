@@ -47,7 +47,7 @@ public class ToAdditionalLocalVariableConverter
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, result));
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			result.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}
