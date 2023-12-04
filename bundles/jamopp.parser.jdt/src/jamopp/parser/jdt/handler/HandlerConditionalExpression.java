@@ -5,7 +5,7 @@ import org.eclipse.jdt.core.dom.Expression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.other.ToConditionalExpressionConverter;
+import jamopp.parser.jdt.converter.implementation.ToConditionalExpressionConverter;
 
 public class HandlerConditionalExpression extends Handler {
 

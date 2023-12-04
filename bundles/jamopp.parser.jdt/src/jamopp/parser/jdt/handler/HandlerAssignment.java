@@ -6,8 +6,8 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.implementation.ToAssignmentConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.converter.other.ToAssignmentConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerAssignment extends Handler {

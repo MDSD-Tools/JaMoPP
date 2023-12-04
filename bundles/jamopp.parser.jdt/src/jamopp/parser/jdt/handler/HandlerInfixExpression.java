@@ -8,12 +8,12 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.implementation.ToAdditiveExpressionConverter;
+import jamopp.parser.jdt.converter.implementation.ToEqualityExpressionConverter;
+import jamopp.parser.jdt.converter.implementation.ToMultiplicativeExpressionConverter;
+import jamopp.parser.jdt.converter.implementation.ToRelationExpressionConverter;
+import jamopp.parser.jdt.converter.implementation.ToShiftExpressionConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.converter.other.ToAdditiveExpressionConverter;
-import jamopp.parser.jdt.converter.other.ToEqualityExpressionConverter;
-import jamopp.parser.jdt.converter.other.ToMultiplicativeExpressionConverter;
-import jamopp.parser.jdt.converter.other.ToRelationExpressionConverter;
-import jamopp.parser.jdt.converter.other.ToShiftExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class HandlerInfixExpression extends Handler {

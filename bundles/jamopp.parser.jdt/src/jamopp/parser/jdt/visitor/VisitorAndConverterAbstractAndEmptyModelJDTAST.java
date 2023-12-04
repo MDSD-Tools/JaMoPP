@@ -40,10 +40,10 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.UtilJdtResolver;
+import jamopp.parser.jdt.converter.implementation.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.implementation.ToClassifierOrNamespaceClassifierReferenceConverter;
+import jamopp.parser.jdt.converter.implementation.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.other.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.other.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
