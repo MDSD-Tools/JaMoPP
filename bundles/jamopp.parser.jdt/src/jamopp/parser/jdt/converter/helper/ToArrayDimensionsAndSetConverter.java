@@ -7,13 +7,15 @@ import org.emftext.language.java.arrays.ArrayTypeable;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.implementation.ToArrayDimensionConverter;
+
 public class ToArrayDimensionsAndSetConverter {
 
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
+	private final ToArrayDimensionConverter toArrayDimensionConverter;
 
 	@Inject
-	public ToArrayDimensionsAndSetConverter(ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
+	public ToArrayDimensionsAndSetConverter(ToArrayDimensionConverter toArrayDimensionConverter) {
+		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 
 	public void convertToArrayDimensionsAndSet(Type t, ArrayTypeable arrDimContainer) {
@@ -24,8 +26,8 @@ public class ToArrayDimensionsAndSetConverter {
 		if (t.isArrayType()) {
 			ArrayType arrT = (ArrayType) t;
 			for (int i = ignoreDimensions; i < arrT.dimensions().size(); i++) {
-				arrDimContainer.getArrayDimensionsBefore().add(toArrayDimensionAfterAndSetConverter
-						.convertToArrayDimension((Dimension) arrT.dimensions().get(i)));
+				arrDimContainer.getArrayDimensionsBefore()
+						.add(toArrayDimensionConverter.convert((Dimension) arrT.dimensions().get(i)));
 			}
 		}
 	}
