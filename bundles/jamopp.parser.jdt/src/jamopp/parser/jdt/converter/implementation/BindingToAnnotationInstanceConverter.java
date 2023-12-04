@@ -8,9 +8,11 @@ import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class BindingToAnnotationInstanceConverter {
+public class BindingToAnnotationInstanceConverter implements ToConverter<IAnnotationBinding, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
 	private final UtilNamedElement utilNamedElement;
@@ -28,7 +30,7 @@ public class BindingToAnnotationInstanceConverter {
 		this.bindingToAnnotationAttributeSettingConverter = bindingToAnnotationAttributeSettingConverter;
 	}
 
-	public AnnotationInstance convertToAnnotationInstance(IAnnotationBinding binding) {
+	public AnnotationInstance convert(IAnnotationBinding binding) {
 		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
 		Annotation resultClass = jdtTResolverUtility.get().getAnnotation(binding.getAnnotationType());
 		utilNamedElement.convertToNameAndSet(binding.getAnnotationType(), resultClass);
@@ -37,8 +39,7 @@ public class BindingToAnnotationInstanceConverter {
 			org.emftext.language.java.annotations.AnnotationParameterList params = annotationsFactory
 					.createAnnotationParameterList();
 			for (IMemberValuePairBinding memBind : binding.getDeclaredMemberValuePairs()) {
-				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.get()
-						.convertToAnnotationAttributeSetting(memBind));
+				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.get().convert(memBind));
 			}
 			result.setParameter(params);
 		}

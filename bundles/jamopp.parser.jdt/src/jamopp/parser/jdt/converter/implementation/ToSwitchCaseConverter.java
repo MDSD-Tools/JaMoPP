@@ -10,58 +10,30 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToSwitchCaseConverter {
+public class ToSwitchCaseConverter implements ToConverter<SwitchCase, org.emftext.language.java.statements.SwitchCase> {
 
-	private final ExpressionsFactory expressionsFactory;
-	private final StatementsFactory statementsFactory;;
+	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
 	private final ToExpressionConverter expressionConverterUtility;
-	private final ToConcreteClassifierConverter classifierConverterUtility;
-	private final UtilNamedElement utilNamedElement;
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
-	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
-	private final ToModifierOrAnnotationInstanceConverter annotationInstanceConverter;
-	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
-	private final Provider<ToReferenceConverterFromStatement> toReferenceConverterFromStatement;
-	private final Provider<ToReferenceConverterFromExpression> toReferenceConverterFromExpression;
-
-	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
 	@Inject
-	ToSwitchCaseConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
-			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			ToExpressionConverter expressionConverterUtility, ToConcreteClassifierConverter classifierConverterUtility,
-			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter,
-			ToOrdinaryParameterConverter toOrdinaryParameterConverter, StatementsFactory statementsFactory,
-			ExpressionsFactory expressionsFactory,
-			Provider<ToReferenceConverterFromStatement> toReferenceConverterFromStatement,
-			Provider<ToReferenceConverterFromExpression> toReferenceConverterFromExpression) {
-		this.expressionsFactory = expressionsFactory;
+	ToSwitchCaseConverter(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
+			ToExpressionConverter expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
-		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
-		this.classifierConverterUtility = classifierConverterUtility;
-		this.utilNamedElement = utilNamedElement;
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
-		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
-		this.toTypeReferenceConverter = toTypeReferenceConverter;
-		this.annotationInstanceConverter = annotationInstanceConverter;
-		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
-		this.toReferenceConverterFromStatement = toReferenceConverterFromStatement;
-		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
-	
-	org.emftext.language.java.statements.SwitchCase convertToSwitchCase(SwitchCase switchCase) {
+
+	@Override
+	public org.emftext.language.java.statements.SwitchCase convert(SwitchCase switchCase) {
 		org.emftext.language.java.statements.SwitchCase result = null;
 		if (switchCase.isSwitchLabeledRule() && switchCase.isDefault()) {
 			result = statementsFactory.createDefaultSwitchRule();
@@ -89,5 +61,5 @@ public class ToSwitchCaseConverter {
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, switchCase);
 		return result;
 	}
-	
+
 }

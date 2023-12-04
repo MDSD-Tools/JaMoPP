@@ -9,6 +9,7 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class ToEnumConverter implements ToConverter<EnumDeclaration, Enumeration> {
@@ -36,7 +37,7 @@ public class ToEnumConverter implements ToConverter<EnumDeclaration, Enumeration
 		enumDecl.enumConstants().forEach(
 				obj -> result.getConstants().add(toEnumConstantConverter.convert((EnumConstantDeclaration) obj)));
 		enumDecl.bodyDeclarations().forEach(
-				obj -> result.getMembers().add(toClassMemberConverter.convertToClassMember((BodyDeclaration) obj)));
+				obj -> result.getMembers().add(toClassMemberConverter.convert((BodyDeclaration) obj)));
 		return result;
 	}
 

@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.implementation;
+package jamopp.parser.jdt.converter.helper;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,7 +12,9 @@ import org.eclipse.jdt.core.dom.Statement;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import jamopp.parser.jdt.converter.implementation.ToAnnotationValueConverter;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
 @Singleton
@@ -124,7 +126,7 @@ public class UtilTypeInstructionSeparation {
 			}
 			clonedAnnotationMethods.forEach((expr, m) -> {
 				visitedObjects.add(m);
-				m.setDefaultValue(toAnnotationValueConverter.convertToAnnotationValue(expr));
+				m.setDefaultValue(toAnnotationValueConverter.convert(expr));
 			});
 			HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations = (HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter>) singleAnnotations
 					.clone();
@@ -136,7 +138,7 @@ public class UtilTypeInstructionSeparation {
 			}
 			clonedSingleAnnotations.forEach((expr, sap) -> {
 				visitedObjects.add(sap);
-				sap.setValue(toAnnotationValueConverter.convertToAnnotationValue(expr));
+				sap.setValue(toAnnotationValueConverter.convert(expr));
 			});
 			HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting = (HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting>) annotationSetting
 					.clone();
@@ -148,7 +150,7 @@ public class UtilTypeInstructionSeparation {
 			}
 			clonedAnnotationSetting.forEach((expr, aas) -> {
 				visitedObjects.add(aas);
-				aas.setValue(toAnnotationValueConverter.convertToAnnotationValue(expr));
+				aas.setValue(toAnnotationValueConverter.convert(expr));
 			});
 			newSize = methods.size() + constructors.size() + fields.size() + addFields.size() + initializers.size()
 					+ annotationMethods.size() + singleAnnotations.size() + annotationSetting.size();

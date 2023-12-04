@@ -10,6 +10,8 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ReferenceWalker;
+import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 

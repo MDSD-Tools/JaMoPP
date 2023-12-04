@@ -3,13 +3,19 @@ package jamopp.parser.jdt.converter.implementation;
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.emftext.language.java.variables.AdditionalLocalVariable;
+
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToAdditionalLocalVariableConverter {
+public class ToAdditionalLocalVariableConverter
+		implements ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
@@ -30,9 +36,8 @@ public class ToAdditionalLocalVariableConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.variables.AdditionalLocalVariable convertToAdditionalLocalVariable(
-			VariableDeclarationFragment frag) {
-		org.emftext.language.java.variables.AdditionalLocalVariable result;
+	public AdditionalLocalVariable convert(VariableDeclarationFragment frag) {
+		AdditionalLocalVariable result;
 		IVariableBinding binding = frag.resolveBinding();
 		if (binding == null) {
 			result = jdtResolverUtility
@@ -42,7 +47,7 @@ public class ToAdditionalLocalVariableConverter {
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			result.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}

@@ -3,18 +3,13 @@ package jamopp.parser.jdt.converter.implementation;
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationsFactory;
-import org.emftext.language.java.arrays.ArraysFactory;
-import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.modules.ModulesFactory;
-import org.emftext.language.java.parameters.ParametersFactory;
-import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.TypesFactory;
-
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
-public class BindingToAnnotationAttributeSettingConverter {
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class BindingToAnnotationAttributeSettingConverter
+		implements ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting> {
 
 	private final AnnotationsFactory annotationsFactory;
 	private final UtilJdtResolver jdtTResolverUtility;
@@ -28,11 +23,11 @@ public class BindingToAnnotationAttributeSettingConverter {
 		this.objectToAnnotationValueConverter = objectToAnnotationValueConverter;
 	}
 
-	org.emftext.language.java.annotations.AnnotationAttributeSetting convertToAnnotationAttributeSetting(
-			IMemberValuePairBinding binding) {
+	@Override
+	public AnnotationAttributeSetting convert(IMemberValuePairBinding binding) {
 		AnnotationAttributeSetting result = annotationsFactory.createAnnotationAttributeSetting();
 		result.setAttribute(jdtTResolverUtility.getInterfaceMethod(binding.getMethodBinding()));
-		result.setValue(objectToAnnotationValueConverter.convertToAnnotationValue(binding.getValue()));
+		result.setValue(objectToAnnotationValueConverter.convert(binding.getValue()));
 		return result;
 	}
 

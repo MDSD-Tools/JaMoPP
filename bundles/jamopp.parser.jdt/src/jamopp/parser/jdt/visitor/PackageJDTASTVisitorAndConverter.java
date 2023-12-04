@@ -22,9 +22,9 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.ToClassifierOrNamespaceClassifierReferenceConverter;
-import jamopp.parser.jdt.converter.implementation.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -56,7 +56,7 @@ public abstract class PackageJDTASTVisitorAndConverter extends VisitorAndConvert
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
 			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
-					.add(annotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(annotationInstanceConverter.convert((Annotation) obj)));
 			root.getNamespaces().clear();
 			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), root);
 		}

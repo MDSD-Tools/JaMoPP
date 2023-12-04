@@ -9,6 +9,8 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -52,9 +54,9 @@ public class ToParameterConverter implements ToConverter<SingleVariableDeclarati
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 			utilNamedElement.setNameOfElement(decl.getName(), result);
 			decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-					.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+					.convert((Dimension) obj, result));
 			decl.varargsAnnotations().forEach(obj -> result.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			utilLayout.convertToMinimalLayoutInformation(result, decl);
 			return result;
 		}

@@ -7,6 +7,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class BlockToBlockConverterImpl implements BlockToBlockConverter {

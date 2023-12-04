@@ -20,9 +20,11 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 
-public class BindingToMethodConverter {
+public class BindingToMethodConverter implements ToConverter<IMethodBinding, Method> {
 
 	private final StatementsFactory statementsFactory;
 	private final LiteralsFactory literalsFactory;
@@ -37,11 +39,11 @@ public class BindingToMethodConverter {
 	private final ToModifiersConverter toModifiersConverter;
 
 	@Inject
-	BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
-			ToTypeReferencesConverter toTypeReferencesConverter, ToModifiersConverter toModifiersConverter,
-			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
-			ObjectToAnnotationValueConverter objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
-			UtilJdtResolver jdtTResolverUtility, BindingToTypeParameterConverter bindingToTypeParameterConverter,
+	BindingToMethodConverter(UtilArrays utilJdtBindingConverter, ToTypeReferencesConverter toTypeReferencesConverter,
+			ToModifiersConverter toModifiersConverter, StatementsFactory statementsFactory,
+			ParametersFactory parametersFactory, ObjectToAnnotationValueConverter objectToAnnotationValueConverter,
+			LiteralsFactory literalsFactory, UtilJdtResolver jdtTResolverUtility,
+			BindingToTypeParameterConverter bindingToTypeParameterConverter,
 			BindingToNamespaceClassifierReferenceConverter bindingToNamespaceClassifierReferenceConverter,
 			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {
 		this.statementsFactory = statementsFactory;
@@ -57,7 +59,8 @@ public class BindingToMethodConverter {
 		this.toModifiersConverter = toModifiersConverter;
 	}
 
-	Method convertToMethod(IMethodBinding binding) {
+	@Override
+	public Method convert(IMethodBinding binding) {
 		Method result = jdtTResolverUtility.getMethod(binding);
 		if (result.eContainer() != null) {
 			return result;
@@ -65,8 +68,7 @@ public class BindingToMethodConverter {
 		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotationsAndModifiers()
-						.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
 		}
@@ -75,7 +77,7 @@ public class BindingToMethodConverter {
 		utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getReturnType(), result);
 		try {
 			for (ITypeBinding typeBind : binding.getTypeParameters()) {
-				result.getTypeParameters().add(bindingToTypeParameterConverter.convertToTypeParameter(typeBind));
+				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
 		}
@@ -100,8 +102,7 @@ public class BindingToMethodConverter {
 			try {
 				IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
 				for (IAnnotationBinding annotBind : binds) {
-					param.getAnnotationsAndModifiers()
-							.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+					param.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
 			} catch (AbortCompilation e) {
 			}
@@ -109,12 +110,12 @@ public class BindingToMethodConverter {
 		}
 		if (binding.getDefaultValue() != null) {
 			((InterfaceMethod) result).setDefaultValue(
-					objectToAnnotationValueConverter.convertToAnnotationValue(binding.getDefaultValue()));
+					objectToAnnotationValueConverter.convert(binding.getDefaultValue()));
 		}
 		try {
 			for (ITypeBinding typeBind : binding.getExceptionTypes()) {
 				result.getExceptions().add(
-						bindingToNamespaceClassifierReferenceConverter.convertToNamespaceClassifierReference(typeBind));
+						bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
 		}

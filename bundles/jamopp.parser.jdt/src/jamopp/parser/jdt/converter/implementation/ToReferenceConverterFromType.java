@@ -11,6 +11,8 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ReferenceWalker;
+import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
@@ -49,7 +51,7 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 					.convert(nqType.getName());
 			parent.setNext(child);
 			nqType.annotations().forEach(obj -> child.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, nqType);
 			return child;
 		}
@@ -59,7 +61,7 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromName
 					.convert(qType.getName());
 			qType.annotations().forEach(obj -> child.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			parent.setNext(child);
 			layoutInformationConverter.convertToMinimalLayoutInformation(child, qType);
 			return child;
@@ -69,7 +71,7 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
 			org.emftext.language.java.references.IdentifierReference result = toReferenceConverterFromName
 					.convertToIdentifierReference(sType.getName());
 			sType.annotations().forEach(obj -> result.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, sType);
 			return result;
 		}

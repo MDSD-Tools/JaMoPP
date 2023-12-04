@@ -27,7 +27,7 @@ public class ToModifierOrAnnotationInstanceConverter implements ToConverter<IExt
 		if (mod.isModifier()) {
 			return toModifierConverter.convert((Modifier) mod);
 		}
-		return toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) mod);
+		return toAnnotationInstanceConverter.convert((Annotation) mod);
 	}
 
 }

@@ -6,7 +6,9 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-public class ToAssignmentConverter {
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class ToAssignmentConverter implements ToConverter<Assignment.Operator, AssignmentOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 
@@ -15,7 +17,8 @@ public class ToAssignmentConverter {
 		this.operatorsFactory = operatorsFactory;
 	}
 
-	public AssignmentOperator convertToAssignmentOperator(Assignment.Operator op) {
+	@Override
+	public AssignmentOperator convert(Assignment.Operator op) {
 		if (op == Assignment.Operator.ASSIGN) {
 			return operatorsFactory.createAssignment();
 		}

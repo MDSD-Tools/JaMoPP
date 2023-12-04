@@ -6,7 +6,10 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
-public class BindingToInternalReferenceConverter {
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class BindingToInternalReferenceConverter implements ToConverter<ITypeBinding, Reference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilJdtResolver jdtTResolverUtility;
@@ -17,11 +20,11 @@ public class BindingToInternalReferenceConverter {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 
-	public Reference internalConvertToReference(ITypeBinding binding) {
+	public Reference convert(ITypeBinding binding) {
 		IdentifierReference idRef = referencesFactory.createIdentifierReference();
 		idRef.setTarget(jdtTResolverUtility.getClassifier(binding));
 		if (binding.isNested()) {
-			Reference parentRef = internalConvertToReference(binding.getDeclaringClass());
+			Reference parentRef = convert(binding.getDeclaringClass());
 			parentRef.setNext(idRef);
 		}
 		return idRef;

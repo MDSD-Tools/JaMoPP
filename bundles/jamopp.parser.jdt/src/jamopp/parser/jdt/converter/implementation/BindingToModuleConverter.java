@@ -16,6 +16,7 @@ import org.emftext.language.java.modules.UsesModuleDirective;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
@@ -50,7 +51,7 @@ public class BindingToModuleConverter implements ToConverter<IModuleBinding, org
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
 				result.getAnnotations()
-						.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+						.add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
 		}

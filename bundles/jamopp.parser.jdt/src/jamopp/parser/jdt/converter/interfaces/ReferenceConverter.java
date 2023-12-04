@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.implementation;
+package jamopp.parser.jdt.converter.interfaces;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.emftext.language.java.references.Reference;

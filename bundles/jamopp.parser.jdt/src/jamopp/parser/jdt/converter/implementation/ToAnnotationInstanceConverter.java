@@ -15,11 +15,14 @@ import org.emftext.language.java.members.InterfaceMethod;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
 @Singleton
-public class ToAnnotationInstanceConverter {
+public class ToAnnotationInstanceConverter implements ToConverter<Annotation, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -37,8 +40,8 @@ public class ToAnnotationInstanceConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	public
-	AnnotationInstance convertToAnnotationInstance(Annotation annot) {
+	@Override
+	public AnnotationInstance convert(Annotation annot) {
 		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
 		utilNamedElement.addNameToNameSpace(annot.getTypeName(), result);
 		org.emftext.language.java.classifiers.Annotation proxyClass;

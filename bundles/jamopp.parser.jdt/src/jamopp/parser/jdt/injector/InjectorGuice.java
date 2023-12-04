@@ -23,13 +23,13 @@ import org.emftext.language.java.variables.VariablesFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
+import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverterImpl;
 import jamopp.parser.jdt.converter.implementation.BlockToBlockConverterImpl;
-import jamopp.parser.jdt.converter.implementation.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.implementation.StatementToStatementConverterImpl;
 import jamopp.parser.jdt.converter.implementation.ToConcreteClassifierConverterImpl;
-import jamopp.parser.jdt.converter.implementation.UtilToSwitchCasesAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.UtilToSwitchCasesAndSetConverterImpl;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.handler.ToExpressionConverterImpl;

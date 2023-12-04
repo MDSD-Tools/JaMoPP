@@ -7,11 +7,15 @@ import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToLocalVariableConverter {
+public class ToLocalVariableConverter
+		implements ToConverter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
@@ -40,7 +44,8 @@ public class ToLocalVariableConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.variables.LocalVariable convertToLocalVariable(VariableDeclarationExpression expr) {
+	@Override
+	public org.emftext.language.java.variables.LocalVariable convert(VariableDeclarationExpression expr) {
 		VariableDeclarationFragment frag = (VariableDeclarationFragment) expr.fragments().get(0);
 		org.emftext.language.java.variables.LocalVariable loc;
 		IVariableBinding binding = frag.resolveBinding();
@@ -54,14 +59,13 @@ public class ToLocalVariableConverter {
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		loc.setTypeReference(toTypeReferenceConverter.convert(expr.getType()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(expr.getType(), loc);
-		frag.extraDimensions().forEach(
-				obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, loc));
+		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter.convert((Dimension) obj, loc));
 		if (frag.getInitializer() != null) {
 			loc.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}
 		for (int index = 1; index < expr.fragments().size(); index++) {
 			loc.getAdditionalLocalVariables().add(toAdditionalLocalVariableConverter
-					.convertToAdditionalLocalVariable((VariableDeclarationFragment) expr.fragments().get(index)));
+					.convert((VariableDeclarationFragment) expr.fragments().get(index)));
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(loc, expr);
 		return loc;

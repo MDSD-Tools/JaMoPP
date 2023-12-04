@@ -33,7 +33,7 @@ public class ToReceiverParameterConverter implements ToConverter<MethodDeclarati
 		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReceiverType()));
 		if (methodDecl.getReceiverQualifier() != null) {
 			result.setOuterTypeReference(
-					toClassifierReferenceConverter.convertToClassifierReference(methodDecl.getReceiverQualifier()));
+					toClassifierReferenceConverter.convert(methodDecl.getReceiverQualifier()));
 		}
 		result.setThisReference(literalsFactory.createThis());
 		return result;

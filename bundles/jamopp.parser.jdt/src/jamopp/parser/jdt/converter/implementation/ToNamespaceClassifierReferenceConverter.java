@@ -7,7 +7,10 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-public class ToNamespaceClassifierReferenceConverter {
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class ToNamespaceClassifierReferenceConverter
+		implements ToConverter<TypeReference, NamespaceClassifierReference> {
 
 	private final TypesFactory typesFactory;
 
@@ -16,7 +19,8 @@ public class ToNamespaceClassifierReferenceConverter {
 		this.typesFactory = typesFactory;
 	}
 
-	public NamespaceClassifierReference convertToNamespaceClassifierReference(TypeReference ref) {
+	@Override
+	public NamespaceClassifierReference convert(TypeReference ref) {
 		if (ref instanceof NamespaceClassifierReference) {
 			return (NamespaceClassifierReference) ref;
 		}

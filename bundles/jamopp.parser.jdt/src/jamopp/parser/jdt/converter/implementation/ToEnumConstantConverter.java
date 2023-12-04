@@ -8,6 +8,7 @@ import org.emftext.language.java.members.EnumConstant;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -45,12 +46,12 @@ public class ToEnumConstantConverter implements ToConverter<EnumConstantDeclarat
 			result = utilJdtResolver.getEnumConstant(binding);
 		}
 		enDecl.modifiers().forEach(obj -> result.getAnnotations()
-				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+				.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		utilNamedElement.setNameOfElement(enDecl.getName(), result);
 		enDecl.arguments().forEach(obj -> result.getArguments().add(utilExpressionConverter.convert((Expression) obj)));
 		if (enDecl.getAnonymousClassDeclaration() != null) {
 			result.setAnonymousClass(
-					toAnonymousClassConverter.convertToAnonymousClass(enDecl.getAnonymousClassDeclaration()));
+					toAnonymousClassConverter.convert(enDecl.getAnonymousClassDeclaration()));
 		}
 		utilLayout.convertToMinimalLayoutInformation(result, enDecl);
 		return result;

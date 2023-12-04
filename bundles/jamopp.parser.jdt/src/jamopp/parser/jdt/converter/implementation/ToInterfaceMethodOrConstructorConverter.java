@@ -13,6 +13,9 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -62,7 +65,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 	@Override
 	public Member convert(MethodDeclaration methodDecl) {
 		if (methodDecl.isConstructor()) {
-			return toClassMethodOrConstructorConverter.convertToClassMethodOrConstructor(methodDecl);
+			return toClassMethodOrConstructorConverter.convert(methodDecl);
 		}
 		InterfaceMethod result;
 		IMethodBinding binding = methodDecl.resolveBinding();
@@ -78,7 +81,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReturnType2()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
 		methodDecl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(toReceiverParameterConverter.convert(methodDecl));
@@ -87,7 +90,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 				obj -> result.getParameters().add(toParameterConverter.convert((SingleVariableDeclaration) obj)));
 		methodDecl.thrownExceptionTypes()
 				.forEach(obj -> result.getExceptions().add(inNamespaceClassifierReferenceWrapper
-						.convertToNamespaceClassifierReference(toTypeReferenceConverter.convert((Type) obj))));
+						.convert(toTypeReferenceConverter.convert((Type) obj))));
 		if (methodDecl.getBody() != null) {
 			utilTypeInstructionSeparation.addMethod(methodDecl.getBody(), result);
 		} else {

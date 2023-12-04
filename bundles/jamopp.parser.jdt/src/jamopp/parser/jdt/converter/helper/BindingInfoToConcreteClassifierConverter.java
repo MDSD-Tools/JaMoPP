@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.implementation;
+package jamopp.parser.jdt.converter.helper;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
@@ -11,9 +11,19 @@ import org.emftext.language.java.members.Member;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.implementation.BindingToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.implementation.BindingToConstructorConverter;
+import jamopp.parser.jdt.converter.implementation.BindingToEnumConstantConverter;
+import jamopp.parser.jdt.converter.implementation.BindingToFieldConverter;
+import jamopp.parser.jdt.converter.implementation.BindingToMethodConverter;
+import jamopp.parser.jdt.converter.implementation.BindingToTypeParameterConverter;
+import jamopp.parser.jdt.converter.implementation.ToModifiersConverter;
+import jamopp.parser.jdt.converter.implementation.ToTypeReferencesConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class BindingInfoToConcreteClassifierConverter {
+public class BindingInfoToConcreteClassifierConverter{
 
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
@@ -67,10 +77,10 @@ public class BindingInfoToConcreteClassifierConverter {
 			try {
 				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
 					result.getAnnotationsAndModifiers()
-							.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+							.add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
 				for (ITypeBinding typeBind : binding.getTypeParameters()) {
-					result.getTypeParameters().add(bindingToTypeParameterConverter.convertToTypeParameter(typeBind));
+					result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 				}
 			} catch (AbortCompilation e) {
 				// Ignore
@@ -87,7 +97,7 @@ public class BindingInfoToConcreteClassifierConverter {
 				if (varBind.isEnumConstant()) {
 					continue;
 				}
-				member = bindingToFieldConverter.convertToField(varBind);
+				member = bindingToFieldConverter.convert(varBind);
 				if (!result.getMembers().contains(member)) {
 					result.getMembers().add(member);
 				}
@@ -97,9 +107,9 @@ public class BindingInfoToConcreteClassifierConverter {
 					continue;
 				}
 				if (methBind.isConstructor()) {
-					member = bindingToConstructorConverter.convertToConstructor(methBind);
+					member = bindingToConstructorConverter.convert(methBind);
 				} else {
-					member = bindingToMethodConverter.convertToMethod(methBind);
+					member = bindingToMethodConverter.convert(methBind);
 				}
 				if (!result.getMembers().contains(member)) {
 					result.getMembers().add(member);
@@ -142,7 +152,7 @@ public class BindingInfoToConcreteClassifierConverter {
 					for (IVariableBinding varBind : binding.getDeclaredFields()) {
 						if (varBind.isEnumConstant()) {
 							resultEnum.getConstants()
-									.add(bindingToEnumConstantConverter.convertToEnumConstant(varBind));
+									.add(bindingToEnumConstantConverter.convert(varBind));
 						}
 					}
 				}

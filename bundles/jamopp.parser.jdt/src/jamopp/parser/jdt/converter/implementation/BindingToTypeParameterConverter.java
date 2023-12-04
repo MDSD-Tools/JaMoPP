@@ -6,9 +6,11 @@ import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
 import org.emftext.language.java.generics.TypeParameter;
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class BindingToTypeParameterConverter {
+public class BindingToTypeParameterConverter implements ToConverter<ITypeBinding, TypeParameter> {
 
 	private final UtilNamedElement utilNamedElement;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
@@ -25,15 +27,15 @@ public class BindingToTypeParameterConverter {
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}
 
-	TypeParameter convertToTypeParameter(ITypeBinding binding) {
+	@Override
+	public TypeParameter convert(ITypeBinding binding) {
 		TypeParameter result = jdtTResolverUtility.getTypeParameter(binding);
 		if (result.eContainer() != null) {
 			return result;
 		}
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotations()
-						.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+				result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 			for (ITypeBinding typeBind : binding.getTypeBounds()) {
 				result.getExtendTypes().addAll(toTypeReferencesConverter.convert(typeBind));

@@ -6,6 +6,7 @@ import org.eclipse.jdt.core.dom.TypeParameter;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -35,7 +36,7 @@ implements ToConverter<TypeParameter, org.emftext.language.java.generics.TypePar
 		org.emftext.language.java.generics.TypeParameter result = utilJDTResolver
 				.getTypeParameter(param.resolveBinding());
 		param.modifiers().forEach(obj -> result.getAnnotations()
-				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+				.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		utilNamedElement.setNameOfElement(param.getName(), result);
 		param.typeBounds().forEach(obj -> result.getExtendTypes().add(toTypeReferenceConverter.convert((Type) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, param);

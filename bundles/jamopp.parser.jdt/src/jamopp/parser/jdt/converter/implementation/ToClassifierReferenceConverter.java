@@ -8,7 +8,10 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-public class ToClassifierReferenceConverter {
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class ToClassifierReferenceConverter implements ToConverter<SimpleName, ClassifierReference> {
 
 	private final TypesFactory typesFactory;
 	private final UtilJdtResolver jdtResolverUtility;
@@ -19,7 +22,8 @@ public class ToClassifierReferenceConverter {
 		this.jdtResolverUtility = jdtResolverUtility;
 	}
 
-	ClassifierReference convertToClassifierReference(SimpleName simpleName) {
+	@Override
+	public ClassifierReference convert(SimpleName simpleName) {
 		ClassifierReference ref = typesFactory.createClassifierReference();
 		ITypeBinding binding = (ITypeBinding) simpleName.resolveBinding();
 		Classifier proxy;

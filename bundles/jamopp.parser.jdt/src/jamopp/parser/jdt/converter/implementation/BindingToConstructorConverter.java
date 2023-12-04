@@ -4,24 +4,18 @@ import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-import org.emftext.language.java.annotations.AnnotationsFactory;
-import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.members.Constructor;
-import org.emftext.language.java.modules.ModulesFactory;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.ParametersFactory;
 import org.emftext.language.java.parameters.ReceiverParameter;
-import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.TypesFactory;
-
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 
-public class BindingToConstructorConverter {
+public class BindingToConstructorConverter implements ToConverter<IMethodBinding, Constructor> {
 
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
@@ -52,7 +46,8 @@ public class BindingToConstructorConverter {
 		this.toModifiersConverter = toModifiersConverter;
 	}
 
-	Constructor convertToConstructor(IMethodBinding binding) {
+	@Override
+	public Constructor convert(IMethodBinding binding) {
 		Constructor result = jdtTResolverUtility.getConstructor(binding);
 		if (result.eContainer() != null) {
 			return result;
@@ -60,15 +55,14 @@ public class BindingToConstructorConverter {
 		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotationsAndModifiers()
-						.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
 		}
 		result.setName(binding.getName());
 		try {
 			for (ITypeBinding typeBind : binding.getTypeParameters()) {
-				result.getTypeParameters().add(bindingToTypeParameterConverter.convertToTypeParameter(typeBind));
+				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
 		}
@@ -94,8 +88,7 @@ public class BindingToConstructorConverter {
 			IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
 			try {
 				for (IAnnotationBinding annotBind : binds) {
-					param.getAnnotationsAndModifiers()
-							.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+					param.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
 			} catch (AbortCompilation e) {
 			}
@@ -103,7 +96,7 @@ public class BindingToConstructorConverter {
 		}
 		for (ITypeBinding typeBind : binding.getExceptionTypes()) {
 			result.getExceptions().add(
-					bindingToNamespaceClassifierReferenceConverter.convertToNamespaceClassifierReference(typeBind));
+					bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
 		}
 		return result;
 	}

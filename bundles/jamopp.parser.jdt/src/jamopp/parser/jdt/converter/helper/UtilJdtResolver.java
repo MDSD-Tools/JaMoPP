@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.implementation;
+package jamopp.parser.jdt.converter.helper;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +27,9 @@ import org.emftext.language.java.variables.VariablesFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import jamopp.parser.jdt.converter.implementation.BindingToModuleConverter;
+import jamopp.parser.jdt.converter.implementation.BindingToPackageConverter;
 
 public class UtilJdtResolver {
 
@@ -1148,7 +1151,7 @@ public class UtilJdtResolver {
 			pack.setName("");
 			pack.setModule(getModule(""));
 		} else {
-			bindingToPackageConverter.get().convertToPackage(binding);
+			bindingToPackageConverter.get().convert(binding);
 		}
 		if (pack.eResource() != null) {
 			return;

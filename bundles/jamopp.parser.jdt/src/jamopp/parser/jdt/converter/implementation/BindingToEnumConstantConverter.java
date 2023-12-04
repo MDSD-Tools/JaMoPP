@@ -6,7 +6,10 @@ import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
 import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
-public class BindingToEnumConstantConverter {
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class BindingToEnumConstantConverter implements ToConverter<IVariableBinding, EnumConstant> {
 
 	private final UtilJdtResolver utilJdtResolver;
 	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
@@ -18,15 +21,15 @@ public class BindingToEnumConstantConverter {
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}
 
-	EnumConstant convertToEnumConstant(IVariableBinding binding) {
+	@Override
+	public EnumConstant convert(IVariableBinding binding) {
 		EnumConstant result = utilJdtResolver.getEnumConstant(binding);
 		if (result.eContainer() != null) {
 			return result;
 		}
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotations()
-						.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+				result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
 		}

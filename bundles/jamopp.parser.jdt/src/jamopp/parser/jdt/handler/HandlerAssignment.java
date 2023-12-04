@@ -34,7 +34,7 @@ public class HandlerAssignment extends Handler {
 				.createAssignmentExpression();
 		result.setChild((org.emftext.language.java.expressions.AssignmentExpressionChild) toExpressionConverter
 				.convert(assign.getLeftHandSide()));
-		result.setAssignmentOperator(toAssignmentOperatorConverter.convertToAssignmentOperator(assign.getOperator()));
+		result.setAssignmentOperator(toAssignmentOperatorConverter.convert(assign.getOperator()));
 		result.setValue(toExpressionConverter.convert(assign.getRightHandSide()));
 		utilLayout.convertToMinimalLayoutInformation(result, expr);
 		return result;

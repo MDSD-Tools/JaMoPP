@@ -2,13 +2,16 @@ package jamopp.parser.jdt.converter.implementation;
 
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.statements.Switch;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class SwitchToSwitchConverter {
+public class SwitchToSwitchConverter implements ToConverter<SwitchStatement, Switch> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -25,7 +28,8 @@ public class SwitchToSwitchConverter {
 		this.toSwitchCasesAndSetConverter = toSwitchCasesAndSetConverter;
 	}
 
-	org.emftext.language.java.statements.Switch convertToSwitch(SwitchStatement switchSt) {
+	@Override
+	public Switch convert(SwitchStatement switchSt) {
 		org.emftext.language.java.statements.Switch result = statementsFactory.createSwitch();
 		result.setVariable(expressionConverterUtility.convert(switchSt.getExpression()));
 		toSwitchCasesAndSetConverter.convert(result, switchSt.statements());

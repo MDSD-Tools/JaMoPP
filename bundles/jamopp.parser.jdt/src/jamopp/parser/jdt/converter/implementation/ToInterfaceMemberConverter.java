@@ -25,7 +25,7 @@ public class ToInterfaceMemberConverter implements ToConverter<BodyDeclaration, 
 		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
 			return toInterfaceMethodOrConstructorConverter.convert((MethodDeclaration) body);
 		}
-		return toClassMemberConverter.convertToClassMember(body);
+		return toClassMemberConverter.convert(body);
 	}
 
 }

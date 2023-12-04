@@ -29,6 +29,9 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.ReferenceWalker;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -93,7 +96,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 	@Override
 	public org.emftext.language.java.references.Reference convert(Expression expr) {
 		if (expr instanceof Annotation) {
-			return toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) expr);
+			return toAnnotationInstanceConverter.convert((Annotation) expr);
 		}
 		if (expr.getNodeType() == ASTNode.ARRAY_ACCESS) {
 			ArrayAccess arr = (ArrayAccess) expr;
@@ -111,7 +114,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 				result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
 				toTypeReferenceConverter.convertToArrayDimensionsAndSet(arr.getType(), result);
 				result.setArrayInitializer(
-						toArrayInitialisierConverter.convertToArrayInitializer(arr.getInitializer()));
+						toArrayInitialisierConverter.convert(arr.getInitializer()));
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 				return result;
 			}
@@ -127,7 +130,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 		if (expr.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
 			org.emftext.language.java.arrays.ArrayInstantiationByValuesUntyped result = arraysFactory
 					.createArrayInstantiationByValuesUntyped();
-			result.setArrayInitializer(toArrayInitialisierConverter.convertToArrayInitializer((ArrayInitializer) expr));
+			result.setArrayInitializer(toArrayInitialisierConverter.convert((ArrayInitializer) expr));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 			return result;
 		}
@@ -147,7 +150,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			if (arr.getAnonymousClassDeclaration() != null) {
 				result.setAnonymousClass(
-						toAnonymousClassConverter.convertToAnonymousClass(arr.getAnonymousClassDeclaration()));
+						toAnonymousClassConverter.convert(arr.getAnonymousClassDeclaration()));
 			}
 			if (arr.getExpression() != null) {
 				org.emftext.language.java.references.Reference parent = convert(arr.getExpression());

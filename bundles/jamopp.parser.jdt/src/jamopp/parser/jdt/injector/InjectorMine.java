@@ -5,11 +5,11 @@ import org.emftext.language.java.containers.ContainersFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.implementation.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.ToClassMemberConverter;
-import jamopp.parser.jdt.converter.implementation.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.UtilToSwitchCasesAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;

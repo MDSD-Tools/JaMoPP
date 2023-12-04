@@ -13,9 +13,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 @Singleton
-public class ToClassMemberConverter {
+public class ToClassMemberConverter implements ToConverter<BodyDeclaration, Member> {
 
 	private ToConcreteClassifierConverter toConcreteClassifierConverter;
 	private final ToBlockConverter toBlockConverter;
@@ -33,18 +34,19 @@ public class ToClassMemberConverter {
 		this.toInterfaceMethodConverter = toInterfaceMethodConverter;
 	}
 
-	Member convertToClassMember(BodyDeclaration body) {
+	@Override
+	public Member convert(BodyDeclaration body) {
 		if (body instanceof AbstractTypeDeclaration) {
 			return toConcreteClassifierConverter.convert((AbstractTypeDeclaration) body);
 		}
 		if (body.getNodeType() == ASTNode.INITIALIZER) {
-			return toBlockConverter.convertToBlock((Initializer) body);
+			return toBlockConverter.convert((Initializer) body);
 		}
 		if (body.getNodeType() == ASTNode.FIELD_DECLARATION) {
 			return toFieldConverter.convert((FieldDeclaration) body);
 		}
 		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
-			return toClassMethodOrConstructorConverter.convertToClassMethodOrConstructor((MethodDeclaration) body);
+			return toClassMethodOrConstructorConverter.convert((MethodDeclaration) body);
 		}
 		if (body.getNodeType() == ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION) {
 			return toInterfaceMethodConverter.convert((AnnotationTypeMemberDeclaration) body);

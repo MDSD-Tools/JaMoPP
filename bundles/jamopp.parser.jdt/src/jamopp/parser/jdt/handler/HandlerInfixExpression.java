@@ -150,7 +150,7 @@ public class HandlerInfixExpression extends Handler {
 			return toShiftExpressionConverter.convert(infix);
 		} else if (infix.getOperator() == InfixExpression.Operator.PLUS
 				|| infix.getOperator() == InfixExpression.Operator.MINUS) {
-			return toAdditiveExpressionConverter.convertToAdditiveExpression(infix);
+			return toAdditiveExpressionConverter.convert(infix);
 		} else if (infix.getOperator() == InfixExpression.Operator.TIMES
 				|| infix.getOperator() == InfixExpression.Operator.DIVIDE
 				|| infix.getOperator() == InfixExpression.Operator.REMAINDER) {

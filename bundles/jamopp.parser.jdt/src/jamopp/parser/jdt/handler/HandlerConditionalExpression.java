@@ -19,7 +19,7 @@ public class HandlerConditionalExpression extends Handler {
 	@Override
 	public
 	org.emftext.language.java.expressions.Expression handle(Expression expr) {
-		return toConditionalExpressionConverter.convertToConditionalExpression((ConditionalExpression) expr);
+		return toConditionalExpressionConverter.convert((ConditionalExpression) expr);
 	}
 
 }

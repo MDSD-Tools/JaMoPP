@@ -9,9 +9,10 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
-public class ToAnnotationValueConverter {
+public class ToAnnotationValueConverter implements ToConverter<Expression, AnnotationValue> {
 
 	private final ToArrayInitialisierConverter toArrayInitialisierComverter;
 	private final ToExpressionConverter utilExpressionConverter;
@@ -26,12 +27,13 @@ public class ToAnnotationValueConverter {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
-	public AnnotationValue convertToAnnotationValue(Expression expr) {
+	@Override
+	public AnnotationValue convert(Expression expr) {
 		if (expr instanceof Annotation) {
-			return toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) expr);
+			return toAnnotationInstanceConverter.convert((Annotation) expr);
 		}
 		if (expr.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
-			return toArrayInitialisierComverter.convertToArrayInitializer((ArrayInitializer) expr);
+			return toArrayInitialisierComverter.convert((ArrayInitializer) expr);
 		}
 		return (AssignmentExpressionChild) utilExpressionConverter.convert(expr);
 	}

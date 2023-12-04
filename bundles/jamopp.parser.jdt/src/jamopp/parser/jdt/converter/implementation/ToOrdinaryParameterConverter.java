@@ -7,6 +7,8 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -43,7 +45,7 @@ public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableD
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 		utilNamedElement.setNameOfElement(decl.getName(), result);
 		decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 		return result;
 	}

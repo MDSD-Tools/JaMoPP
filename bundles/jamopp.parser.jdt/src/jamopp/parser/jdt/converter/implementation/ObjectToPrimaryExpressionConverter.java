@@ -2,6 +2,7 @@ package jamopp.parser.jdt.converter.implementation;
 
 import java.math.BigInteger;
 
+import org.emftext.language.java.expressions.PrimaryExpression;
 import org.emftext.language.java.literals.BooleanLiteral;
 import org.emftext.language.java.literals.CharacterLiteral;
 import org.emftext.language.java.literals.DecimalDoubleLiteral;
@@ -13,7 +14,9 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
 import com.google.inject.Inject;
 
-public class ObjectToPrimaryExpressionConverter {
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class ObjectToPrimaryExpressionConverter implements ToConverter<Object, PrimaryExpression> {
 
 	private final ReferencesFactory referencesFactory;
 	private final LiteralsFactory literalsFactory;
@@ -24,7 +27,8 @@ public class ObjectToPrimaryExpressionConverter {
 		this.literalsFactory = literalsFactory;
 	}
 
-	public org.emftext.language.java.expressions.PrimaryExpression convertToPrimaryExpression(Object value) {
+	@Override
+	public PrimaryExpression convert(Object value) {
 		if (value instanceof String) {
 			StringReference ref = referencesFactory.createStringReference();
 			ref.setValue((String) value);

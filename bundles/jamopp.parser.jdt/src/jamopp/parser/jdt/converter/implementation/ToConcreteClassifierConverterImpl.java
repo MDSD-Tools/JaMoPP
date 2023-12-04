@@ -10,6 +10,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -42,7 +43,7 @@ public class ToConcreteClassifierConverterImpl implements ToConcreteClassifierCo
 	public ConcreteClassifier convert(AbstractTypeDeclaration typeDecl) {
 		ConcreteClassifier result = null;
 		if (typeDecl.getNodeType() == ASTNode.TYPE_DECLARATION) {
-			result = toClassOrInterface.convertToClassOrInterface((TypeDeclaration) typeDecl);
+			result = toClassOrInterface.convert((TypeDeclaration) typeDecl);
 		} else if (typeDecl.getNodeType() == ASTNode.ANNOTATION_TYPE_DECLARATION) {
 			result = jdtResolverUtility.getAnnotation(typeDecl.resolveBinding());
 			ConcreteClassifier fR = result;

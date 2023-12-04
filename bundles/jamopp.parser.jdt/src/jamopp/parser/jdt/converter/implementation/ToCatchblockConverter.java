@@ -6,15 +6,18 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.UnionType;
+import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToCatchblockConverter {
+public class ToCatchblockConverter implements ToConverter<CatchClause, CatchBlock> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -39,7 +42,8 @@ public class ToCatchblockConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.statements.CatchBlock convertToCatchBlock(CatchClause block) {
+	@Override
+	public CatchBlock convert(CatchClause block) {
 		org.emftext.language.java.statements.CatchBlock result = statementsFactory.createCatchBlock();
 		SingleVariableDeclaration decl = block.getException();
 		org.emftext.language.java.parameters.CatchParameter param;

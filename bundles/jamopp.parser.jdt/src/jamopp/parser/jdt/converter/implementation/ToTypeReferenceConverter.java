@@ -27,6 +27,7 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -87,7 +88,7 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 				convertedType = typesFactory.createVoid();
 			}
 			primType.annotations().forEach(obj -> convertedType.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
 			return convertedType;
 		}
@@ -114,12 +115,12 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 			TypeReference ref;
 			if (!simT.annotations().isEmpty()) {
 				ClassifierReference tempRef = toClassifierReferenceConverter
-						.convertToClassifierReference((SimpleName) simT.getName());
+						.convert((SimpleName) simT.getName());
 				simT.annotations().forEach(obj -> tempRef.getAnnotations()
-						.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+						.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 				ref = tempRef;
 			} else {
-				ref = utilBaseConverter.convertToClassifierOrNamespaceClassifierReference(simT.getName());
+				ref = utilBaseConverter.convert(simT.getName());
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
 			return ref;
@@ -136,9 +137,9 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 				result = (NamespaceClassifierReference) parentRef;
 			}
 			ClassifierReference childRef = toClassifierReferenceConverter
-					.convertToClassifierReference(qualType.getName());
+					.convert(qualType.getName());
 			qualType.annotations().forEach(obj -> childRef.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			result.getClassifierReferences().add(childRef);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
 			return result;
@@ -147,16 +148,16 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 			NameQualifiedType nqT = (NameQualifiedType) t;
 			NamespaceClassifierReference result;
 			TypeReference parentRef = utilBaseConverter
-					.convertToClassifierOrNamespaceClassifierReference(nqT.getQualifier());
+					.convert(nqT.getQualifier());
 			if (parentRef instanceof ClassifierReference) {
 				result = typesFactory.createNamespaceClassifierReference();
 				result.getClassifierReferences().add((ClassifierReference) parentRef);
 			} else {
 				result = (NamespaceClassifierReference) parentRef;
 			}
-			ClassifierReference child = toClassifierReferenceConverter.convertToClassifierReference(nqT.getName());
+			ClassifierReference child = toClassifierReferenceConverter.convert(nqT.getName());
 			nqT.annotations().forEach(obj -> child.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			result.getClassifierReferences().add(child);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
 			return result;
@@ -191,14 +192,14 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 		if (wildType.getBound() == null) {
 			UnknownTypeArgument result = genericsFactory.createUnknownTypeArgument();
 			wildType.annotations().forEach(obj -> result.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
 		if (wildType.isUpperBound()) {
 			ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
 			wildType.annotations().forEach(obj -> result.getAnnotations()
-					.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+					.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			result.setExtendType(convert(wildType.getBound()));
 			convertToArrayDimensionsAndSet(wildType.getBound(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
@@ -206,7 +207,7 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 		}
 		SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
 		wildType.annotations().forEach(obj -> result.getAnnotations()
-				.add(toAnnotationInstanceConverter.convertToAnnotationInstance((Annotation) obj)));
+				.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.setSuperType(convert(wildType.getBound()));
 		convertToArrayDimensionsAndSet(wildType.getBound(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);

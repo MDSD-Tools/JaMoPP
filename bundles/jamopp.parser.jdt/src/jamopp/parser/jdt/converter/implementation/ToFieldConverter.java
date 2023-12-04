@@ -9,6 +9,9 @@ import org.emftext.language.java.members.Field;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -57,7 +60,7 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 		result.setTypeReference(toTypeReferenceConverter.convert(fieldDecl.getType()));
 		toTypeReferenceConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
 		firstFragment.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		if (firstFragment.getInitializer() != null) {
 			toInstructionSeparation.addField(firstFragment.getInitializer(), result);
 		}

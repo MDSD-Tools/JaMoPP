@@ -7,6 +7,9 @@ import org.emftext.language.java.members.AdditionalField;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -42,7 +45,7 @@ public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarati
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			toInstructionSeparation.addAdditionalField(frag.getInitializer(), result);
 		}

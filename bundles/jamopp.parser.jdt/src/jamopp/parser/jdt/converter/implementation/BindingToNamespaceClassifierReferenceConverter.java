@@ -9,7 +9,11 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-public class BindingToNamespaceClassifierReferenceConverter {
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class BindingToNamespaceClassifierReferenceConverter
+		implements ToConverter<ITypeBinding, NamespaceClassifierReference> {
 
 	private final TypesFactory typesFactory;
 	private final UtilJdtResolver jdtTResolverUtility;
@@ -20,7 +24,8 @@ public class BindingToNamespaceClassifierReferenceConverter {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 
-	NamespaceClassifierReference convertToNamespaceClassifierReference(ITypeBinding binding) {
+	@Override
+	public NamespaceClassifierReference convert(ITypeBinding binding) {
 		NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 		if (binding.getPackage() != null) {
 			Collections.addAll(ref.getNamespaces(), binding.getPackage().getNameComponents());

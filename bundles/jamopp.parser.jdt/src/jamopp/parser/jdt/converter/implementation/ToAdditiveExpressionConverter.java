@@ -8,10 +8,11 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class ToAdditiveExpressionConverter {
+public class ToAdditiveExpressionConverter implements ToConverter<InfixExpression, AdditiveExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -29,15 +30,15 @@ public class ToAdditiveExpressionConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	public
-	AdditiveExpression convertToAdditiveExpression(InfixExpression expr) {
+	@Override
+	public AdditiveExpression convert(InfixExpression expr) {
 		AdditiveExpression result = expressionsFactory.createAdditiveExpression();
 		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
-		result.getAdditiveOperators().add(toAdditiveOperatorConverter.convertToAdditiveOperator(expr.getOperator()));
+		result.getAdditiveOperators().add(toAdditiveOperatorConverter.convert(expr.getOperator()));
 		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
 		expr.extendedOperands().forEach(obj -> {
 			result.getAdditiveOperators()
-					.add(toAdditiveOperatorConverter.convertToAdditiveOperator(expr.getOperator()));
+					.add(toAdditiveOperatorConverter.convert(expr.getOperator()));
 			mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert((Expression) obj));
 		});
 

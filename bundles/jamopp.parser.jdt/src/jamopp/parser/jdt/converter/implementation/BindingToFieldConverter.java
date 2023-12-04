@@ -9,9 +9,11 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 
-public class BindingToFieldConverter {
+public class BindingToFieldConverter implements ToConverter<IVariableBinding, Field> {
 
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
 	private final UtilJdtResolver jdtTResolverUtility;
@@ -21,9 +23,9 @@ public class BindingToFieldConverter {
 	private final ToModifiersConverter toModifiersConverter;
 
 	@Inject
-	BindingToFieldConverter(UtilArrays utilJdtBindingConverter,
-			UtilArrays utilJdtBindingConverter2, ToTypeReferencesConverter toTypeReferencesConverter,
-			ToModifiersConverter toModifiersConverter, ToModifiersConverter toModifiersConverter2,
+	BindingToFieldConverter(UtilArrays utilJdtBindingConverter, UtilArrays utilJdtBindingConverter2,
+			ToTypeReferencesConverter toTypeReferencesConverter, ToModifiersConverter toModifiersConverter,
+			ToModifiersConverter toModifiersConverter2,
 			ObjectToPrimaryExpressionConverter objectToPrimaryExpressionConverter, UtilJdtResolver jdtTResolverUtility,
 			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
@@ -34,7 +36,8 @@ public class BindingToFieldConverter {
 		this.toModifiersConverter = toModifiersConverter;
 	}
 
-	Field convertToField(IVariableBinding binding) {
+	@Override
+	public Field convert(IVariableBinding binding) {
 		ReferenceableElement refElement = jdtTResolverUtility.getReferencableElement(binding);
 		if (refElement.eContainer() != null) {
 			if (refElement instanceof AdditionalField) {
@@ -46,8 +49,7 @@ public class BindingToFieldConverter {
 		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotationsAndModifiers()
-						.add(bindingToAnnotationInstanceConverter.convertToAnnotationInstance(annotBind));
+				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
 		}
@@ -56,7 +58,7 @@ public class BindingToFieldConverter {
 		utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getType(), result);
 		if (binding.getConstantValue() != null) {
 			result.setInitialValue(
-					objectToPrimaryExpressionConverter.convertToPrimaryExpression(binding.getConstantValue()));
+					objectToPrimaryExpressionConverter.convert(binding.getConstantValue()));
 		}
 		return result;
 	}

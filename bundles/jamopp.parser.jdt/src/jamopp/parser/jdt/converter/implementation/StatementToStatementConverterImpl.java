@@ -36,7 +36,10 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -164,7 +167,7 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 				org.emftext.language.java.statements.LocalVariableStatement result = statementsFactory
 						.createLocalVariableStatement();
 				result.setVariable(toLocalVariableConverter
-						.convertToLocalVariable((VariableDeclarationExpression) exprSt.getExpression()));
+						.convert((VariableDeclarationExpression) exprSt.getExpression()));
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 				return result;
 			}
@@ -180,7 +183,7 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			if (forSt.initializers().size() == 1
 					&& forSt.initializers().get(0) instanceof VariableDeclarationExpression) {
 				result.setInit(toLocalVariableConverter
-						.convertToLocalVariable((VariableDeclarationExpression) forSt.initializers().get(0)));
+						.convert((VariableDeclarationExpression) forSt.initializers().get(0)));
 			} else {
 				org.emftext.language.java.expressions.ExpressionList ini = expressionsFactory.createExpressionList();
 				forSt.initializers()
@@ -227,7 +230,7 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			return result;
 		}
 		if (statement.getNodeType() == ASTNode.SWITCH_STATEMENT) {
-			return switchToSwitchConverter.convertToSwitch((SwitchStatement) statement);
+			return switchToSwitchConverter.convert((SwitchStatement) statement);
 		}
 		if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
 			SynchronizedStatement synSt = (SynchronizedStatement) statement;
@@ -251,7 +254,7 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 				Expression resExpr = (Expression) obj;
 				if (resExpr instanceof VariableDeclarationExpression) {
 					result.getResources().add(
-							toLocalVariableConverter.convertToLocalVariable((VariableDeclarationExpression) resExpr));
+							toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
 				} else {
 					result.getResources().add(
 							(org.emftext.language.java.references.ElementReference) toReferenceConverterFromExpression
@@ -260,7 +263,7 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			});
 			result.setBlock(blockToBlockConverter.convert(trySt.getBody()));
 			trySt.catchClauses().forEach(
-					obj -> result.getCatchBlocks().add(toCatchblockConverter.convertToCatchBlock((CatchClause) obj)));
+					obj -> result.getCatchBlocks().add(toCatchblockConverter.convert((CatchClause) obj)));
 			if (trySt.getFinally() != null) {
 				result.setFinallyBlock(blockToBlockConverter.convert(trySt.getFinally()));
 			}
@@ -289,13 +292,13 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 			locVar.setTypeReference(toTypeReferenceConverter.convert(varSt.getType()));
 			toTypeReferenceConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
 			frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
-					.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
+					.convert((Dimension) obj, locVar));
 			if (frag.getInitializer() != null) {
 				locVar.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 			}
 			for (int index = 1; index < varSt.fragments().size(); index++) {
 				locVar.getAdditionalLocalVariables().add(toAdditionalLocalVariableConverter
-						.convertToAdditionalLocalVariable((VariableDeclarationFragment) varSt.fragments().get(index)));
+						.convert((VariableDeclarationFragment) varSt.fragments().get(index)));
 			}
 			result.setVariable(locVar);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, varSt);

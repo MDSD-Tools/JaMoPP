@@ -7,9 +7,11 @@ import org.emftext.language.java.classifiers.AnonymousClass;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class ToAnonymousClassConverter {
+public class ToAnonymousClassConverter implements ToConverter<AnonymousClassDeclaration, AnonymousClass> {
 
 	private final UtilJdtResolver utilJDTResolver;
 	private final UtilLayout utilLayout;
@@ -24,7 +26,8 @@ public class ToAnonymousClassConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	public AnonymousClass convertToAnonymousClass(AnonymousClassDeclaration anon) {
+	@Override
+	public AnonymousClass convert(AnonymousClassDeclaration anon) {
 		ITypeBinding binding = anon.resolveBinding();
 		AnonymousClass result;
 		if (binding != null) {
@@ -33,7 +36,7 @@ public class ToAnonymousClassConverter {
 			result = utilJDTResolver.getAnonymousClass("" + anon.hashCode());
 		}
 		anon.bodyDeclarations().forEach(
-				obj -> result.getMembers().add(toClassMemberConverter.convertToClassMember((BodyDeclaration) obj)));
+				obj -> result.getMembers().add(toClassMemberConverter.convert((BodyDeclaration) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, anon);
 		return result;
 	}

@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.implementation;
+package jamopp.parser.jdt.converter.helper;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.implementation.ToSwitchCaseConverter;
+import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
 public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAndSetConverter{
@@ -36,7 +38,7 @@ public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAn
 		for (Object element : switchStatementList) {
 			Statement st = (Statement) element;
 			if (st.getNodeType() == ASTNode.SWITCH_CASE) {
-				currentCase = toSwitchCaseConverter.convertToSwitchCase((SwitchCase) st);
+				currentCase = toSwitchCaseConverter.convert((SwitchCase) st);
 				switchExprSt.getCases().add(currentCase);
 			} else if (currentCase instanceof org.emftext.language.java.statements.SwitchRule
 					&& st.getNodeType() == ASTNode.YIELD_STATEMENT) {

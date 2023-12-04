@@ -11,7 +11,10 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.ReflectiveClassReference;
 import com.google.inject.Inject;
 
-public class ObjectToAnnotationValueConverter {
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
+
+public class ObjectToAnnotationValueConverter implements ToConverter<Object, AnnotationValue> {
 
 	private final ArraysFactory arraysFactory;
 	private final ReferencesFactory referencesFactory;
@@ -33,33 +36,33 @@ public class ObjectToAnnotationValueConverter {
 		this.objectToPrimaryExpressionConverter = objectToPrimaryExpressionConverter;
 	}
 
-	public AnnotationValue convertToAnnotationValue(Object value) {
+	@Override
+	public AnnotationValue convert(Object value) {
 		if (value instanceof IVariableBinding varBind) {
-			Reference parentRef = bindingToInternalReferenceConverter
-					.internalConvertToReference(varBind.getDeclaringClass());
+			Reference parentRef = bindingToInternalReferenceConverter.convert(varBind.getDeclaringClass());
 			IdentifierReference varRef = referencesFactory.createIdentifierReference();
 			varRef.setTarget(jdtTResolverUtility.getEnumConstant(varBind));
 			parentRef.setNext(varRef);
 			return getTopReference(varRef);
 		}
 		if (value instanceof IAnnotationBinding) {
-			return bindingToAnnotationInstanceConverter.convertToAnnotationInstance((IAnnotationBinding) value);
+			return bindingToAnnotationInstanceConverter.convert((IAnnotationBinding) value);
 		}
 		if (value instanceof Object[] values) {
 			org.emftext.language.java.arrays.ArrayInitializer initializer = arraysFactory.createArrayInitializer();
 			for (Object value2 : values) {
-				initializer.getInitialValues().add(
-						(org.emftext.language.java.arrays.ArrayInitializationValue) convertToAnnotationValue(value2));
+				initializer.getInitialValues()
+						.add((org.emftext.language.java.arrays.ArrayInitializationValue) convert(value2));
 			}
 			return initializer;
 		}
 		if (value instanceof ITypeBinding) {
-			Reference parentRef = bindingToInternalReferenceConverter.internalConvertToReference((ITypeBinding) value);
+			Reference parentRef = bindingToInternalReferenceConverter.convert((ITypeBinding) value);
 			ReflectiveClassReference classRef = referencesFactory.createReflectiveClassReference();
 			parentRef.setNext(classRef);
 			return getTopReference(classRef);
 		}
-		return objectToPrimaryExpressionConverter.convertToPrimaryExpression(value);
+		return objectToPrimaryExpressionConverter.convert(value);
 	}
 
 	private Reference getTopReference(Reference ref) {

@@ -27,9 +27,10 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToClassifierOrNamespaceClassifierReferenceConverter {
+public class ToClassifierOrNamespaceClassifierReferenceConverter implements ToConverter<Name, TypeReference> {
 
 	private final TypesFactory typesFactory;
 	private final UtilNamedElement utilNamedElement;
@@ -43,15 +44,16 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter {
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 	}
 
-	public TypeReference convertToClassifierOrNamespaceClassifierReference(Name name) {
+	@Override
+	public TypeReference convert(Name name) {
 		if (name.isSimpleName()) {
-			return toClassifierReferenceConverter.convertToClassifierReference((SimpleName) name);
+			return toClassifierReferenceConverter.convert((SimpleName) name);
 		}
 		QualifiedName qualifiedName = (QualifiedName) name;
 		NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 		if (name.resolveBinding() == null) {
 			ref.getClassifierReferences()
-					.add(toClassifierReferenceConverter.convertToClassifierReference(qualifiedName.getName()));
+					.add(toClassifierReferenceConverter.convert(qualifiedName.getName()));
 			utilNamedElement.addNameToNameSpace(qualifiedName.getQualifier(), ref);
 			return ref;
 		}
@@ -59,7 +61,7 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter {
 		SimpleName simpleName = qualifiedName.getName();
 		while (simpleName != null && simpleName.resolveBinding() instanceof ITypeBinding) {
 			ref.getClassifierReferences().add(0,
-					toClassifierReferenceConverter.convertToClassifierReference(simpleName));
+					toClassifierReferenceConverter.convert(simpleName));
 			if (qualifier == null) {
 				simpleName = null;
 			} else if (qualifier.isSimpleName()) {
