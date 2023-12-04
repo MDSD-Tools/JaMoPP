@@ -1,6 +1,8 @@
 package jamopp.parser.jdt.injector;
 
+import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
 import org.emftext.commons.layout.LayoutFactory;
+import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
@@ -22,9 +24,11 @@ import org.emftext.language.java.variables.VariablesFactory;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
 
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverterImpl;
+import jamopp.parser.jdt.converter.implementation.BindingToAnnotationAttributeSettingConverter;
 import jamopp.parser.jdt.converter.implementation.BlockToBlockConverterImpl;
 import jamopp.parser.jdt.converter.implementation.StatementToStatementConverterImpl;
 import jamopp.parser.jdt.converter.implementation.ToConcreteClassifierConverterImpl;
@@ -32,6 +36,7 @@ import jamopp.parser.jdt.converter.implementation.ToExpressionConverterImpl;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
 public class InjectorGuice extends AbstractModule {
@@ -44,6 +49,10 @@ public class InjectorGuice extends AbstractModule {
 		bind(StatementToStatementConverter.class).to(StatementToStatementConverterImpl.class);
 		bind(ToConcreteClassifierConverter.class).to(ToConcreteClassifierConverterImpl.class);
 		bind(UtilToSwitchCasesAndSetConverter.class).to(UtilToSwitchCasesAndSetConverterImpl.class);
+
+		bind(new TypeLiteral<ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
+		}).to(BindingToAnnotationAttributeSettingConverter.class);
+
 	}
 
 	@Provides

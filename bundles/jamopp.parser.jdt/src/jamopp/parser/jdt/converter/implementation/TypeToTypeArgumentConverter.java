@@ -9,6 +9,9 @@ import org.emftext.language.java.generics.QualifiedTypeArgument;
 import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.UnknownTypeArgument;
+
+import com.google.inject.Inject;
+
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
@@ -20,6 +23,7 @@ public class TypeToTypeArgumentConverter {
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
 
+	@Inject
 	public TypeToTypeArgumentConverter(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, UtilLayout layoutInformationConverter,

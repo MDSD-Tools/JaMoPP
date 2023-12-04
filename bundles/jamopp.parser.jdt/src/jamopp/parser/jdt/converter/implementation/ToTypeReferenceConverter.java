@@ -17,6 +17,7 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilArrays;
@@ -31,11 +32,11 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
-	private final TypeToTypeArgumentConverter typeToTypeArgumentConverter;
+	private final Provider<TypeToTypeArgumentConverter> typeToTypeArgumentConverter;
 
 	@Inject
 	ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
-			TypesFactory typesFactory, TypeToTypeArgumentConverter typeToTypeArgumentConverter,
+			TypesFactory typesFactory, Provider<TypeToTypeArgumentConverter> typeToTypeArgumentConverter,
 			ToTypeReferencesConverter toTypeReferencesConverter,
 			ToClassifierReferenceConverter toClassifierReferenceConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, UtilLayout layoutInformationConverter,
@@ -159,7 +160,7 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 						.get(containerContainer.getClassifierReferences().size() - 1);
 			}
 			paramT.typeArguments().forEach(obj -> container.getTypeArguments()
-					.add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
+					.add(typeToTypeArgumentConverter.get().convertToTypeArgument((Type) obj)));
 			return ref;
 		}
 		return null;
