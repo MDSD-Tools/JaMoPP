@@ -11,11 +11,13 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToReferenceConverterFromMethodInvocation implements ReferenceConverter<MethodInvocation> {
+public class ToReferenceConverterFromMethodInvocation
+		implements ReferenceConverter<MethodInvocation>, ToConverter<MethodInvocation, MethodCall> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -49,7 +51,7 @@ public class ToReferenceConverterFromMethodInvocation implements ReferenceConver
 		}
 		org.emftext.language.java.references.MethodCall result = referencesFactory.createMethodCall();
 		arr.typeArguments().forEach(obj -> result.getCallTypeArguments()
-				.add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
+				.add(typeToTypeArgumentConverter.convert((Type) obj)));
 		arr.arguments().forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 		IMethodBinding methBind = arr.resolveMethodBinding();
 		org.emftext.language.java.members.Method methodProxy = null;

@@ -42,11 +42,13 @@ import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class StatementToStatementConverterImpl implements StatementToStatementConverter {
+public class StatementToStatementConverterImpl implements
+		ToConverter<Statement, org.emftext.language.java.statements.Statement>, StatementToStatementConverter {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
@@ -295,8 +297,8 @@ public class StatementToStatementConverterImpl implements StatementToStatementCo
 					.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
 			locVar.setTypeReference(toTypeReferenceConverter.convert(varSt.getType()));
 			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
-			frag.extraDimensions()
-					.forEach(obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
+			frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+					.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
 			if (frag.getInitializer() != null) {
 				locVar.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 			}

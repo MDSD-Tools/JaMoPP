@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
-public class ObjectToAnnotationValueConverter implements ToConverter<Object, AnnotationValue> {
+public class ObjectToAnnotationValueConverter implements  ToConverter<Object, AnnotationValue> {
 
 	private final ArraysFactory arraysFactory;
 	private final ReferencesFactory referencesFactory;

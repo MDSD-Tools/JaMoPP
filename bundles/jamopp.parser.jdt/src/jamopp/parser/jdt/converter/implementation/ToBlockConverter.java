@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
-public class ToBlockConverter implements ToConverter<Initializer, Block> {
+public class ToBlockConverter implements ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilTypeInstructionSeparation toInstructionSeparation;

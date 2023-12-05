@@ -18,9 +18,11 @@ import jamopp.parser.jdt.converter.helper.handler.HandlerPostfixExpression;
 import jamopp.parser.jdt.converter.helper.handler.HandlerPrefixExpression;
 import jamopp.parser.jdt.converter.helper.handler.HandlerPrimaryExpression;
 import jamopp.parser.jdt.converter.helper.handler.HandlerSwitchExpression;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
-public class ToExpressionConverterImpl implements ToExpressionConverter {
+public class ToExpressionConverterImpl
+		implements ToExpressionConverter, ToConverter<Expression, org.emftext.language.java.expressions.Expression> {
 
 	private final Provider<HandlerPrimaryExpression> handlerPrimaryExpression;
 	private final Provider<HandlerAssignment> handlerAssignment;

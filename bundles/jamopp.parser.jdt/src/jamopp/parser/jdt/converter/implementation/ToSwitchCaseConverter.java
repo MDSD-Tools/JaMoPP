@@ -1,22 +1,13 @@
 package jamopp.parser.jdt.converter.implementation;
 
-import java.util.HashSet;
-
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SwitchCase;
-import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToSwitchCaseConverter implements ToConverter<SwitchCase, org.emftext.language.java.statements.SwitchCase> {
 

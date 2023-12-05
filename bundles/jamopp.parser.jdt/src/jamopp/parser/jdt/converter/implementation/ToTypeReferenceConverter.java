@@ -160,7 +160,7 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 						.get(containerContainer.getClassifierReferences().size() - 1);
 			}
 			paramT.typeArguments().forEach(obj -> container.getTypeArguments()
-					.add(typeToTypeArgumentConverter.get().convertToTypeArgument((Type) obj)));
+					.add(typeToTypeArgumentConverter.get().convert((Type) obj)));
 			return ref;
 		}
 		return null;

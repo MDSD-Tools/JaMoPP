@@ -15,9 +15,10 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class ToReferenceConverterFromName implements ReferenceConverter<SimpleName> {
+public class ToReferenceConverterFromName implements ReferenceConverter<SimpleName>, ToConverter<SimpleName, IdentifierReference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;

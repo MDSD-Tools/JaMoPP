@@ -13,9 +13,10 @@ import org.emftext.language.java.generics.UnknownTypeArgument;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class TypeToTypeArgumentConverter {
+public class TypeToTypeArgumentConverter implements ToConverter<Type, TypeArgument> {
 
 	private final GenericsFactory genericsFactory;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
@@ -36,7 +37,7 @@ public class TypeToTypeArgumentConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	public TypeArgument convertToTypeArgument(Type t) {
+	public TypeArgument convert(Type t) {
 		if (!t.isWildcardType()) {
 			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 			result.setTypeReference(toTypeReferenceConverter.convert(t));

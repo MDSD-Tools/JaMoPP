@@ -11,8 +11,8 @@ import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToTypeParameterConverter
-implements ToConverter<TypeParameter, org.emftext.language.java.generics.TypeParameter> {
+public class ToTypeParameterConverter implements
+		ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> {
 
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final UtilNamedElement utilNamedElement;
@@ -35,8 +35,8 @@ implements ToConverter<TypeParameter, org.emftext.language.java.generics.TypePar
 	public org.emftext.language.java.generics.TypeParameter convert(TypeParameter param) {
 		org.emftext.language.java.generics.TypeParameter result = utilJDTResolver
 				.getTypeParameter(param.resolveBinding());
-		param.modifiers().forEach(obj -> result.getAnnotations()
-				.add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+		param.modifiers()
+				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		utilNamedElement.setNameOfElement(param.getName(), result);
 		param.typeBounds().forEach(obj -> result.getExtendTypes().add(toTypeReferenceConverter.convert((Type) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, param);

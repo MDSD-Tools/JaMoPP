@@ -12,10 +12,11 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.ReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class ToReferenceConverterFromStatement implements ReferenceConverter<Statement> {
+public class ToReferenceConverterFromStatement implements ReferenceConverter<Statement>, ToConverter<Statement, org.emftext.language.java.references.Reference> {
 
 	private final LiteralsFactory literalsFactory;
 	private final InstantiationsFactory instantiationsFactory;
@@ -52,7 +53,7 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 			org.emftext.language.java.instantiations.ExplicitConstructorCall result = instantiationsFactory
 					.createExplicitConstructorCall();
 			invoc.typeArguments().forEach(obj -> result.getCallTypeArguments()
-					.add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
+					.add(typeToTypeArgumentConverter.convert((Type) obj)));
 			result.setCallTarget(literalsFactory.createThis());
 			invoc.arguments()
 					.forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
@@ -64,7 +65,7 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 			org.emftext.language.java.instantiations.ExplicitConstructorCall result = instantiationsFactory
 					.createExplicitConstructorCall();
 			invoc.typeArguments().forEach(obj -> result.getCallTypeArguments()
-					.add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
+					.add(typeToTypeArgumentConverter.convert((Type) obj)));
 			result.setCallTarget(literalsFactory.createSuper());
 			invoc.arguments()
 					.forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));

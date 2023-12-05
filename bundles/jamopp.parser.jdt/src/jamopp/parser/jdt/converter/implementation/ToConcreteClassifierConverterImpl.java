@@ -12,10 +12,12 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToConcreteClassifierConverterImpl implements ToConcreteClassifierConverter {
+public class ToConcreteClassifierConverterImpl
+		implements ToConcreteClassifierConverter, ToConverter<AbstractTypeDeclaration, ConcreteClassifier> {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;

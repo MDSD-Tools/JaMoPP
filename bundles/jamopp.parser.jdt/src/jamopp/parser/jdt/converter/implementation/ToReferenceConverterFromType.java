@@ -14,9 +14,10 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.helper.ReferenceWalker;
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class ToReferenceConverterFromType implements ReferenceConverter<Type> {
+public class ToReferenceConverterFromType implements ReferenceConverter<Type>, ToConverter<Type, Reference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;

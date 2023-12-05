@@ -8,9 +8,11 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
-public class BlockToBlockConverterImpl implements BlockToBlockConverter {
+public class BlockToBlockConverterImpl
+		implements BlockToBlockConverter, ToConverter<Block, org.emftext.language.java.statements.Block> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -28,8 +30,8 @@ public class BlockToBlockConverterImpl implements BlockToBlockConverter {
 	public org.emftext.language.java.statements.Block convert(Block block) {
 		org.emftext.language.java.statements.Block result = statementsFactory.createBlock();
 		result.setName("");
-		block.statements().forEach(
-				obj -> result.getStatements().add(statementToStatementConverter.convert((Statement) obj)));
+		block.statements()
+				.forEach(obj -> result.getStatements().add(statementToStatementConverter.convert((Statement) obj)));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, block);
 		return result;
 	}

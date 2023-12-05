@@ -33,11 +33,13 @@ import jamopp.parser.jdt.converter.helper.ReferenceWalker;
 import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
-public class ToReferenceConverterFromExpression implements ReferenceConverter<Expression> {
+public class ToReferenceConverterFromExpression implements ReferenceConverter<Expression>,
+		ToConverter<Expression, org.emftext.language.java.references.Reference> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final LiteralsFactory literalsFactory;
@@ -148,8 +150,8 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			} else {
 				result = instantiationsFactory.createNewConstructorCall();
 			}
-			arr.typeArguments().forEach(
-					obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
+			arr.typeArguments().forEach(obj -> result.getCallTypeArguments()
+					.add(typeToTypeArgumentConverter.convert((Type) obj)));
 			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
 			arr.arguments()
 					.forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
@@ -223,7 +225,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			}
 			org.emftext.language.java.references.MethodCall partTwo = referencesFactory.createMethodCall();
 			arr.typeArguments().forEach(obj -> partTwo.getCallTypeArguments()
-					.add(typeToTypeArgumentConverter.convertToTypeArgument((Type) obj)));
+					.add(typeToTypeArgumentConverter.convert((Type) obj)));
 			arr.arguments()
 					.forEach(obj -> partTwo.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 			org.emftext.language.java.members.Method proxy;
