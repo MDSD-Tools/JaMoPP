@@ -9,10 +9,10 @@ import org.emftext.language.java.members.Field;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -23,29 +23,29 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 	private final UtilNamedElement utilNamedElement;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
-	private final UtilTypeInstructionSeparation toInstructionSeparation;
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
+	private final IUtilTypeInstructionSeparation toInstructionSeparation;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToAdditionalFieldConverter toAdditionalFieldConverter;
 	private final UtilLayout utilLayout;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
 	@Inject
 	ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
-			UtilTypeInstructionSeparation toInstructionSeparation,
-			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
+			IUtilTypeInstructionSeparation toInstructionSeparation,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToAdditionalFieldConverter toAdditionalFieldConverter,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilJdtResolver = utilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toInstructionSeparation = toInstructionSeparation;
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
+		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 		this.toAdditionalFieldConverter = toAdditionalFieldConverter;
 		this.utilLayout = utilLayout;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,9 +62,9 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(fieldDecl.getType()));
-		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
+		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
 		firstFragment.extraDimensions()
-				.forEach(obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (firstFragment.getInitializer() != null) {
 			toInstructionSeparation.addField(firstFragment.getInitializer(), result);
 		}

@@ -6,12 +6,12 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.ToArrayDimensionConverter;
 
-public class ToArrayDimensionAfterAndSetConverter {
+public class UtilToArrayDimensionAfterAndSetConverter {
 
 	private final ToArrayDimensionConverter toArrayDimensionConverter;
 
 	@Inject
-	ToArrayDimensionAfterAndSetConverter(ToArrayDimensionConverter toArrayDimensionConverter) {
+	UtilToArrayDimensionAfterAndSetConverter(ToArrayDimensionConverter toArrayDimensionConverter) {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 

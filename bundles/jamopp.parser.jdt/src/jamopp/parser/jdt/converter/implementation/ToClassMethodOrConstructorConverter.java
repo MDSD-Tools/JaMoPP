@@ -14,10 +14,10 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -32,22 +32,22 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 	private final ToTypeParameterConverter toTypeParameterConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToParameterConverter toParameterConverter;
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToNamespaceClassifierReferenceConverter inNamespaceClassifierReferenceWrapper;
-	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
+	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
 	@Inject
-	ToClassMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	ToClassMethodOrConstructorConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToTypeParameterConverter toTypeParameterConverter,
 			ToReceiverParameterConverter toReceiverParameterConverter, ToParameterConverter toParameterConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
-			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilJdtResolver jdtResolverUtility,
 			ToNamespaceClassifierReferenceConverter inNamespaceClassifierReferenceWrapper,
-			StatementsFactory statementsFactory, ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			StatementsFactory statementsFactory, UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
@@ -56,11 +56,11 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 		this.toTypeParameterConverter = toTypeParameterConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toParameterConverter = toParameterConverter;
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
+		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 		this.inNamespaceClassifierReferenceWrapper = inNamespaceClassifierReferenceWrapper;
 		this.utilTypeInstructionSeparation = utilTypeInstructionSeparation;
 		this.utilLayout = utilLayout;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -102,9 +102,9 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 		methodDecl.typeParameters()
 				.forEach(obj -> result.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReturnType2()));
-		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
+		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
 		methodDecl.extraDimensions()
-				.forEach(obj -> toArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(toReceiverParameterConverter.convert(methodDecl));

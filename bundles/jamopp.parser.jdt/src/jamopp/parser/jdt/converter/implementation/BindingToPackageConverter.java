@@ -5,20 +5,23 @@ import java.util.Collections;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+import org.emftext.language.java.annotations.AnnotationInstance;
+
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
+@SuppressWarnings("restriction")
 public class BindingToPackageConverter
 		implements ToConverter<IPackageBinding, org.emftext.language.java.containers.Package> {
 
 	private final UtilJdtResolver jdtTResolverUtility;
-	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
+	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
 	BindingToPackageConverter(UtilJdtResolver jdtTResolverUtility,
-			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {
+			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}

@@ -5,24 +5,25 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.expressions.AdditiveExpression;
 import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.operators.AdditiveOperator;
 
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToAdditiveExpressionConverter implements ToConverter<InfixExpression, AdditiveExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final ToExpressionConverter toExpressionConverter;
-	private final ToAdditiveOperatorConverter toAdditiveOperatorConverter;
+	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final ToConverter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter;
 
 	@Inject
-	ToAdditiveExpressionConverter(ToExpressionConverter toExpressionConverter,
-			ToAdditiveOperatorConverter toAdditiveOperatorConverter, UtilLayout layoutInformationConverter,
-			ExpressionsFactory expressionsFactory) {
+	ToAdditiveExpressionConverter(
+			ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			ToConverter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter,
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
@@ -37,8 +38,7 @@ public class ToAdditiveExpressionConverter implements ToConverter<InfixExpressio
 		result.getAdditiveOperators().add(toAdditiveOperatorConverter.convert(expr.getOperator()));
 		mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
 		expr.extendedOperands().forEach(obj -> {
-			result.getAdditiveOperators()
-					.add(toAdditiveOperatorConverter.convert(expr.getOperator()));
+			result.getAdditiveOperators().add(toAdditiveOperatorConverter.convert(expr.getOperator()));
 			mergeAdditiveExpressionAndExpression(result, toExpressionConverter.convert((Expression) obj));
 		});
 

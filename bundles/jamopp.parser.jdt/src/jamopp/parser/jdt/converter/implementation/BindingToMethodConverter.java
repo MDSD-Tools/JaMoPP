@@ -1,11 +1,17 @@
 package jamopp.parser.jdt.converter.implementation;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+import org.emftext.language.java.annotations.AnnotationInstance;
+import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.arrays.ArraysFactory;
+import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Method;
@@ -15,6 +21,8 @@ import org.emftext.language.java.parameters.ParametersFactory;
 import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.types.NamespaceClassifierReference;
+import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
@@ -29,23 +37,25 @@ public class BindingToMethodConverter implements ToConverter<IMethodBinding, Met
 	private final StatementsFactory statementsFactory;
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
-	private final ToTypeReferencesConverter toTypeReferencesConverter;
 	private final UtilJdtResolver jdtTResolverUtility;
 	private final UtilArrays utilJdtBindingConverter;
-	private final BindingToTypeParameterConverter bindingToTypeParameterConverter;
-	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
-	private final ObjectToAnnotationValueConverter objectToAnnotationValueConverter;
-	private final BindingToNamespaceClassifierReferenceConverter bindingToNamespaceClassifierReferenceConverter;
-	private final ToModifiersConverter toModifiersConverter;
+	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
+	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final ToConverter<Object, AnnotationValue> objectToAnnotationValueConverter;
+	private final ToConverter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter;
+	private final ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	BindingToMethodConverter(UtilArrays utilJdtBindingConverter, ToTypeReferencesConverter toTypeReferencesConverter,
-			ToModifiersConverter toModifiersConverter, StatementsFactory statementsFactory,
-			ParametersFactory parametersFactory, ObjectToAnnotationValueConverter objectToAnnotationValueConverter,
-			LiteralsFactory literalsFactory, UtilJdtResolver jdtTResolverUtility,
-			BindingToTypeParameterConverter bindingToTypeParameterConverter,
-			BindingToNamespaceClassifierReferenceConverter bindingToNamespaceClassifierReferenceConverter,
-			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {
+	BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
+			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
+			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
+			ToConverter<Object, AnnotationValue> objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
+			UtilJdtResolver jdtTResolverUtility,
+			ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			ToConverter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
+			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.statementsFactory = statementsFactory;
 		this.literalsFactory = literalsFactory;
 		this.parametersFactory = parametersFactory;
@@ -109,13 +119,12 @@ public class BindingToMethodConverter implements ToConverter<IMethodBinding, Met
 			result.getParameters().add(param);
 		}
 		if (binding.getDefaultValue() != null) {
-			((InterfaceMethod) result).setDefaultValue(
-					objectToAnnotationValueConverter.convert(binding.getDefaultValue()));
+			((InterfaceMethod) result)
+					.setDefaultValue(objectToAnnotationValueConverter.convert(binding.getDefaultValue()));
 		}
 		try {
 			for (ITypeBinding typeBind : binding.getExceptionTypes()) {
-				result.getExceptions().add(
-						bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
+				result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
 		}

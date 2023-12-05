@@ -2,6 +2,7 @@ package jamopp.parser.jdt.converter.implementation;
 
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
+import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import com.google.inject.Inject;
 
@@ -13,10 +14,10 @@ public class BindingToAnnotationAttributeSettingConverter
 
 	private final AnnotationsFactory annotationsFactory;
 	private final UtilJdtResolver jdtTResolverUtility;
-	private final ObjectToAnnotationValueConverter objectToAnnotationValueConverter;
+	private final ToConverter<Object, AnnotationValue> objectToAnnotationValueConverter;
 
 	@Inject
-	BindingToAnnotationAttributeSettingConverter(ObjectToAnnotationValueConverter objectToAnnotationValueConverter,
+	BindingToAnnotationAttributeSettingConverter(ToConverter<Object, AnnotationValue> objectToAnnotationValueConverter,
 			UtilJdtResolver jdtTResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;

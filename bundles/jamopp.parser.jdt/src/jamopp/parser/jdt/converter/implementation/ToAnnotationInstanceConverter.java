@@ -15,8 +15,8 @@ import org.emftext.language.java.members.InterfaceMethod;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -28,7 +28,7 @@ public class ToAnnotationInstanceConverter implements ToConverter<Annotation, An
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
-	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
+	private IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	@Inject
 	ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
@@ -85,7 +85,8 @@ public class ToAnnotationInstanceConverter implements ToConverter<Annotation, An
 		return result;
 	}
 
-	public void setTypeInstructionSeparationUtility(UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
+	@Inject
+	public void setTypeInstructionSeparationUtility(IUtilTypeInstructionSeparation typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 

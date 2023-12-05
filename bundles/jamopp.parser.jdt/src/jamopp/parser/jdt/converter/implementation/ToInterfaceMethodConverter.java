@@ -8,9 +8,9 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -22,16 +22,16 @@ public class ToInterfaceMethodConverter implements ToConverter<AnnotationTypeMem
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilNamedElement utilNamedElement;
-	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
+	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
 	@Inject
-	ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	ToInterfaceMethodConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
-			StatementsFactory statementsFactory, ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			StatementsFactory statementsFactory, UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.utilJdtResolver = utilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -39,7 +39,7 @@ public class ToInterfaceMethodConverter implements ToConverter<AnnotationTypeMem
 		this.utilNamedElement = utilNamedElement;
 		this.utilTypeInstructionSeparation = utilTypeInstructionSeparation;
 		this.utilLayout = utilLayout;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -54,7 +54,7 @@ public class ToInterfaceMethodConverter implements ToConverter<AnnotationTypeMem
 		annDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(annDecl.getType()));
-		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(annDecl.getType(), result);
+		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(annDecl.getType(), result);
 		utilNamedElement.setNameOfElement(annDecl.getName(), result);
 		if (annDecl.getDefault() != null) {
 			utilTypeInstructionSeparation.addAnnotationMethod(annDecl.getDefault(), result);

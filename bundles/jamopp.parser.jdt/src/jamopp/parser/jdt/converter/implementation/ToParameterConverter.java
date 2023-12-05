@@ -9,8 +9,8 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -24,27 +24,27 @@ public class ToParameterConverter implements ToConverter<SingleVariableDeclarati
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final UtilLayout utilLayout;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
 	@Inject
 	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToOrdinaryParameterConverter toOrdinaryParameterConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
-			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilLayout = utilLayout;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
+		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -55,9 +55,9 @@ public class ToParameterConverter implements ToConverter<SingleVariableDeclarati
 			decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 					.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 			result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
-			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 			utilNamedElement.setNameOfElement(decl.getName(), result);
-			decl.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+			decl.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
 					.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 			decl.varargsAnnotations().forEach(
 					obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));

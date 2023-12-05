@@ -8,7 +8,7 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.implementation.ToTypeReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -19,17 +19,17 @@ public class HandlerCastExpression implements ExpressionHandler {
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilLayout utilLayout;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
 	@Inject
 	HandlerCastExpression(UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.utilLayout = utilLayout;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	@Override
@@ -39,13 +39,13 @@ public class HandlerCastExpression implements ExpressionHandler {
 		if (castExpr.getType().isIntersectionType()) {
 			IntersectionType interType = (IntersectionType) castExpr.getType();
 			result.setTypeReference(toTypeReferenceConverter.convert((Type) interType.types().get(0)));
-			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
 			for (int index = 1; index < interType.types().size(); index++) {
 				result.getAdditionalBounds().add(toTypeReferenceConverter.convert((Type) interType.types().get(index)));
 			}
 		} else {
 			result.setTypeReference(toTypeReferenceConverter.convert(castExpr.getType()));
-			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(castExpr.getType(), result);
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(castExpr.getType(), result);
 		}
 		result.setGeneralChild(toExpressionConverter.convert(castExpr.getExpression()));
 		utilLayout.convertToMinimalLayoutInformation(result, castExpr);

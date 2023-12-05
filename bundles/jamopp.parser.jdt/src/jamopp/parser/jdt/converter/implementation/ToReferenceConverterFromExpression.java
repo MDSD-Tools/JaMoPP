@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.helper.ReferenceWalker;
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
@@ -58,7 +58,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 	private final Provider<ToReferenceConverterFromName> toReferenceConverterFromName;
 	private final Provider<ToReferenceConverterFromMethodInvocation> toReferenceConverterFromMethodInvocation;
 	private final Provider<ToReferenceConverterFromType> toReferenceConverterFromType;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final TypeToTypeArgumentConverter typeToTypeArgumentConverter;
 
 	@Inject
@@ -74,7 +74,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			UtilJdtResolver jdtResolverUtility, InstantiationsFactory instantiationsFactory,
 			ExpressionsFactory expressionsFactory, ToExpressionConverter expressionConverterUtility,
 			ArraysFactory arraysFactory, TypeToTypeArgumentConverter typeArgumentConverter,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
@@ -92,7 +92,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
 		this.toReferenceConverterFromMethodInvocation = toReferenceConverterFromMethodInvocation;
 		this.toReferenceConverterFromType = toReferenceConverterFromType;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 		this.typeToTypeArgumentConverter = typeArgumentConverter;
 	}
 
@@ -120,7 +120,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 				org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped result = arraysFactory
 						.createArrayInstantiationByValuesTyped();
 				result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
-				toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result);
+				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result);
 				result.setArrayInitializer(toArrayInitialisierConverter.convert(arr.getInitializer()));
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 				return result;
@@ -128,7 +128,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			org.emftext.language.java.arrays.ArrayInstantiationBySize result = arraysFactory
 					.createArrayInstantiationBySize();
 			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
-			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result,
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result,
 					arr.dimensions().size());
 			arr.dimensions()
 					.forEach(obj -> result.getSizes().add(expressionConverterUtility.convert((Expression) obj)));

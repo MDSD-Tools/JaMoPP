@@ -3,8 +3,10 @@ package jamopp.parser.jdt.converter.implementation;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.arrays.ArraysFactory;
+import org.emftext.language.java.expressions.PrimaryExpression;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
@@ -14,20 +16,22 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
-public class ObjectToAnnotationValueConverter implements  ToConverter<Object, AnnotationValue> {
+public class ObjectToAnnotationValueConverter implements ToConverter<Object, AnnotationValue> {
 
 	private final ArraysFactory arraysFactory;
 	private final ReferencesFactory referencesFactory;
 	private final UtilJdtResolver jdtTResolverUtility;
-	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
-	private final BindingToInternalReferenceConverter bindingToInternalReferenceConverter;
-	private final ObjectToPrimaryExpressionConverter objectToPrimaryExpressionConverter;
+	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final ToConverter<ITypeBinding, Reference> bindingToInternalReferenceConverter;
+	private final ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
 
 	@Inject
 	public ObjectToAnnotationValueConverter(ReferencesFactory referencesFactory,
-			ObjectToPrimaryExpressionConverter objectToPrimaryExpressionConverter, UtilJdtResolver jdtTResolverUtility,
-			BindingToInternalReferenceConverter bindingToInternalReferenceConverter,
-			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter, ArraysFactory arraysFactory) {
+			ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
+			UtilJdtResolver jdtTResolverUtility,
+			ToConverter<ITypeBinding, Reference> bindingToInternalReferenceConverter,
+			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
+			ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.referencesFactory = referencesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;

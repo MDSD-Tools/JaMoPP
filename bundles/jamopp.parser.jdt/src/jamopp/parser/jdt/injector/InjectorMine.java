@@ -5,33 +5,27 @@ import org.emftext.language.java.containers.ContainersFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.converter.implementation.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.implementation.ToClassMemberConverter;
-import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 
 public class InjectorMine {
 
 	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	private static final UtilJdtResolver jdtResolverUtility;
-	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
+	private static final IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private static final ContainersFactory containersFactory;
 
 	static {
 		Injector injector = Guice.createInjector(new InjectorGuice());
-		
-		ordinaryCompilationUnitJDTASTVisitorAndConverter  = injector.getInstance(VisitorAndConverterOrdinaryCompilationUnitJDTAST.class);
-		jdtResolverUtility= injector.getInstance(UtilJdtResolver.class);
-		typeInstructionSeparationUtility= injector.getInstance(UtilTypeInstructionSeparation.class);
+
+		ordinaryCompilationUnitJDTASTVisitorAndConverter = injector
+				.getInstance(VisitorAndConverterOrdinaryCompilationUnitJDTAST.class);
+		jdtResolverUtility = injector.getInstance(UtilJdtResolver.class);
+		typeInstructionSeparationUtility = injector.getInstance(UtilTypeInstructionSeparation.class);
 		containersFactory = injector.getInstance(ContainersFactory.class);
-		
-		injector.getInstance(ToClassMemberConverter.class).setToConcreteClassifierConverter(injector.getInstance(ToConcreteClassifierConverter.class));
-		injector.getInstance(ToAnnotationInstanceConverter.class).setTypeInstructionSeparationUtility(typeInstructionSeparationUtility);
-		injector.getInstance(UtilTypeInstructionSeparation.class).setStatementConverterUtility(injector.getInstance(UtilToSwitchCasesAndSetConverter.class));
+
 	}
 
 	public static VisitorAndConverterOrdinaryCompilationUnitJDTAST getOrdinaryCompilationUnitJDTASTVisitorAndConverter() {
@@ -42,7 +36,7 @@ public class InjectorMine {
 		return jdtResolverUtility;
 	}
 
-	public static UtilTypeInstructionSeparation getTypeInstructionSeparationUtility() {
+	public static IUtilTypeInstructionSeparation getTypeInstructionSeparationUtility() {
 		return typeInstructionSeparationUtility;
 	}
 

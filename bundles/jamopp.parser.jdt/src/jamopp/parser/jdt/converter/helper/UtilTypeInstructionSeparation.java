@@ -18,7 +18,7 @@ import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
 @Singleton
-public class UtilTypeInstructionSeparation {
+public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSeparation {
 
 	private final UtilJdtResolver jdtResolverUtility;
 	private final ToExpressionConverter expressionConverterUtility;
@@ -47,6 +47,7 @@ public class UtilTypeInstructionSeparation {
 		this.statementToStatementConverter = statementToStatementConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void convertAll() {
 		int oldSize;
@@ -113,8 +114,8 @@ public class UtilTypeInstructionSeparation {
 			clonedInitializers.forEach((b1, b2) -> {
 				visitedObjects.add(b2);
 				jdtResolverUtility.prepareNextUid();
-				b1.statements().forEach(obj -> b2.getStatements()
-						.add(statementToStatementConverter.convert((Statement) obj)));
+				b1.statements()
+						.forEach(obj -> b2.getStatements().add(statementToStatementConverter.convert((Statement) obj)));
 			});
 			HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> clonedAnnotationMethods = (HashMap<Expression, org.emftext.language.java.members.InterfaceMethod>) annotationMethods
 					.clone();
@@ -167,40 +168,46 @@ public class UtilTypeInstructionSeparation {
 		visitedObjects.clear();
 	}
 
+	@Override
 	public void addMethod(Block block, org.emftext.language.java.members.Method method) {
 		methods.put(block, method);
 	}
 
+	@Override
 	public void addConstructor(Block block, org.emftext.language.java.members.Constructor constructor) {
 		constructors.put(block, constructor);
 	}
 
+	@Override
 	public void addField(Expression initializer, org.emftext.language.java.members.Field field) {
 		fields.put(initializer, field);
 	}
 
+	@Override
 	public void addAdditionalField(Expression initializer, org.emftext.language.java.members.AdditionalField field) {
 		addFields.put(initializer, field);
 	}
 
+	@Override
 	public void addInitializer(Block block, org.emftext.language.java.statements.Block correspondingBlock) {
 		initializers.put(block, correspondingBlock);
 	}
 
+	@Override
 	public void addAnnotationMethod(Expression value, org.emftext.language.java.members.InterfaceMethod method) {
 		annotationMethods.put(value, method);
 	}
 
+	@Override
 	public void addSingleAnnotationParameter(Expression value,
 			org.emftext.language.java.annotations.SingleAnnotationParameter param) {
 		singleAnnotations.put(value, param);
 	}
 
+	@Override
 	public void addAnnotationAttributeSetting(Expression value,
 			org.emftext.language.java.annotations.AnnotationAttributeSetting setting) {
 		annotationSetting.put(value, setting);
 	}
 
-	public void setStatementConverterUtility(UtilToSwitchCasesAndSetConverter statementConverterUtility) {
-	}
 }

@@ -3,6 +3,7 @@ package jamopp.parser.jdt.converter.implementation;
 import java.util.HashSet;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.AssertStatement;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.BreakStatement;
@@ -19,31 +20,35 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.LabeledStatement;
 import org.eclipse.jdt.core.dom.ReturnStatement;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
 import org.eclipse.jdt.core.dom.ThrowStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclarationStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.YieldStatement;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
+import org.emftext.language.java.parameters.OrdinaryParameter;
+import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.statements.Switch;
+import org.emftext.language.java.types.TypeReference;
+import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
-import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
@@ -54,58 +59,57 @@ public class StatementToStatementConverterImpl implements
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final ToExpressionConverter expressionConverterUtility;
-	private final ToConcreteClassifierConverter classifierConverterUtility;
 	private final UtilNamedElement utilNamedElement;
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
-	private final ToModifierOrAnnotationInstanceConverter annotationInstanceConverter;
-	private final ToOrdinaryParameterConverter toOrdinaryParameterConverter;
-	private final Provider<ToReferenceConverterFromStatement> toReferenceConverterFromStatement;
-	private final Provider<ToReferenceConverterFromExpression> toReferenceConverterFromExpression;
-	private final BlockToBlockConverter blockToBlockConverter;
-	private final ToLocalVariableConverter toLocalVariableConverter;
-	private final SwitchToSwitchConverter switchToSwitchConverter;
-	private final ToCatchblockConverter toCatchblockConverter;
-	private final ToAdditionalLocalVariableConverter toAdditionalLocalVariableConverter;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
+	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
+	private final ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
+	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
+	private final ToConverter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> toLocalVariableConverter;
+	private final ToConverter<SwitchStatement, Switch> switchToSwitchConverter;
+	private final ToConverter<CatchClause, CatchBlock> toCatchblockConverter;
+	private final ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter;
 
-	private HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
+	private final HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
+
+	private ToReferenceConverterFromStatement toReferenceConverterFromStatement;
+	private ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 
 	@Inject
-	StatementToStatementConverterImpl(UtilNamedElement utilNamedElement,
-			ToTypeReferenceConverter toTypeReferenceConverter,
-			Provider<ToReferenceConverterFromStatement> toReferenceConverterFromStatement,
-			Provider<ToReferenceConverterFromExpression> toReferenceConverterFromExpression,
-			ToOrdinaryParameterConverter toOrdinaryParameterConverter,
-			ToLocalVariableConverter toLocalVariableConverter, ToCatchblockConverter toCatchblockConverter,
-			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter,
-			ToAdditionalLocalVariableConverter toAdditionalLocalVariableConverter,
-			SwitchToSwitchConverter switchToSwitchConverter, StatementsFactory statementsFactory,
+	StatementToStatementConverterImpl(UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			UtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
+			ToConverter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> toLocalVariableConverter,
+			ToConverter<CatchClause, CatchBlock> toCatchblockConverter,
+			ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
+			ToConverter<SwitchStatement, Switch> switchToSwitchConverter, StatementsFactory statementsFactory,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			ExpressionsFactory expressionsFactory, ToExpressionConverter expressionConverterUtility,
-			ToConcreteClassifierConverter classifierConverterUtility, BlockToBlockConverter blockToBlockConverter,
-			ToModifierOrAnnotationInstanceConverter annotationInstanceConverter,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			ExpressionsFactory expressionsFactory,
+			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
+			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
+			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter,
+			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
+		this.utilNamedElement = utilNamedElement;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.classifierConverterUtility = classifierConverterUtility;
-		this.utilNamedElement = utilNamedElement;
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.annotationInstanceConverter = annotationInstanceConverter;
 		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
-		this.toReferenceConverterFromStatement = toReferenceConverterFromStatement;
-		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 		this.blockToBlockConverter = blockToBlockConverter;
 		this.toLocalVariableConverter = toLocalVariableConverter;
 		this.switchToSwitchConverter = switchToSwitchConverter;
 		this.toCatchblockConverter = toCatchblockConverter;
 		this.toAdditionalLocalVariableConverter = toAdditionalLocalVariableConverter;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -264,7 +268,7 @@ public class StatementToStatementConverterImpl implements
 				} else {
 					result.getResources().add(
 							(org.emftext.language.java.references.ElementReference) toReferenceConverterFromExpression
-									.get().convertToReference(resExpr));
+									.convertToReference(resExpr));
 				}
 			});
 			result.setBlock(blockToBlockConverter.convert(trySt.getBody()));
@@ -296,8 +300,8 @@ public class StatementToStatementConverterImpl implements
 			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
 					.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
 			locVar.setTypeReference(toTypeReferenceConverter.convert(varSt.getType()));
-			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
-			frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
+			frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
 					.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
 			if (frag.getInitializer() != null) {
 				locVar.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
@@ -321,7 +325,7 @@ public class StatementToStatementConverterImpl implements
 		if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
 			org.emftext.language.java.statements.ExpressionStatement result = statementsFactory
 					.createExpressionStatement();
-			result.setExpression(toReferenceConverterFromStatement.get().convert(statement));
+			result.setExpression(toReferenceConverterFromStatement.convert(statement));
 			return result;
 		}
 		YieldStatement yieldSt = (YieldStatement) statement;
@@ -332,6 +336,18 @@ public class StatementToStatementConverterImpl implements
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, yieldSt);
 		return result;
+	}
+
+	@Inject
+	public void setToReferenceConverterFromExpression(
+			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
+		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
+	}
+
+	@Inject
+	public void setToReferenceConverterFromStatement(
+			ToReferenceConverterFromStatement toReferenceConverterFromStatement) {
+		this.toReferenceConverterFromStatement = toReferenceConverterFromStatement;
 	}
 
 }

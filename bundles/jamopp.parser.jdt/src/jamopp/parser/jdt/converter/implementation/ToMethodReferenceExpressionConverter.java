@@ -14,7 +14,7 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -29,7 +29,7 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 	private final ToReferenceConverterFromType toReferenceConverterFromType;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final TypeToTypeArgumentConverter typeToTypeArgumentConverter;
 
 	@Inject
@@ -39,7 +39,7 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 			ToReferenceConverterFromType toReferenceConverterFromType,
 			ToReferenceConverterFromExpression toReferenceConverterFromExpression,
 			TypeToTypeArgumentConverter typeToTypeArgumentConverter,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
 		this.expressionsFactory = expressionsFactory;
@@ -48,7 +48,7 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 		this.toReferenceConverterFromType = toReferenceConverterFromType;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
@@ -60,7 +60,7 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 				org.emftext.language.java.expressions.ArrayConstructorReferenceExpression result = expressionsFactory
 						.createArrayConstructorReferenceExpression();
 				result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
-				toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(crRef.getType(), result);
+				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(crRef.getType(), result);
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
 				return result;
 			}

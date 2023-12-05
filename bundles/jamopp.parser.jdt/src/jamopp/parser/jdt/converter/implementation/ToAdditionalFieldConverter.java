@@ -7,9 +7,9 @@ import org.emftext.language.java.members.AdditionalField;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -18,17 +18,17 @@ public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarati
 
 	private final UtilJdtResolver utilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
-	private final ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter;
-	private final UtilTypeInstructionSeparation toInstructionSeparation;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilTypeInstructionSeparation toInstructionSeparation;
 	private final UtilLayout utilLayout;
 
 	@Inject
 	ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			UtilJdtResolver utilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
-			ToArrayDimensionAfterAndSetConverter toArrayDimensionAfterAndSetConverter) {
+			UtilJdtResolver utilJdtResolver, IUtilTypeInstructionSeparation toInstructionSeparation,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.utilJdtResolver = utilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
-		this.toArrayDimensionAfterAndSetConverter = toArrayDimensionAfterAndSetConverter;
+		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 		this.toInstructionSeparation = toInstructionSeparation;
 		this.utilLayout = utilLayout;
 	}
@@ -44,7 +44,7 @@ public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarati
 			result = utilJdtResolver.getAdditionalField(frag.getName().getIdentifier());
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
-		frag.extraDimensions().forEach(obj -> toArrayDimensionAfterAndSetConverter
+		frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
 				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			toInstructionSeparation.addAdditionalField(frag.getInitializer(), result);

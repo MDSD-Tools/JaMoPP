@@ -26,7 +26,6 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.InfixExpression;
-import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.MethodReference;
@@ -112,8 +111,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverterImpl;
+import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.implementation.BindingToAnnotationAttributeSettingConverter;
 import jamopp.parser.jdt.converter.implementation.BindingToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.BindingToConstructorConverter;
@@ -155,9 +156,7 @@ import jamopp.parser.jdt.converter.implementation.ToEqualityExpressionConverter;
 import jamopp.parser.jdt.converter.implementation.ToEqualityOperatorConverter;
 import jamopp.parser.jdt.converter.implementation.ToExpressionConverterImpl;
 import jamopp.parser.jdt.converter.implementation.ToFieldConverter;
-import jamopp.parser.jdt.converter.implementation.ToInterfaceMemberConverter;
 import jamopp.parser.jdt.converter.implementation.ToInterfaceMethodConverter;
-import jamopp.parser.jdt.converter.implementation.ToInterfaceMethodOrConstructorConverter;
 import jamopp.parser.jdt.converter.implementation.ToLocalVariableConverter;
 import jamopp.parser.jdt.converter.implementation.ToMethodReferenceExpressionConverter;
 import jamopp.parser.jdt.converter.implementation.ToModifierConverter;
@@ -204,6 +203,7 @@ public class InjectorGuice extends AbstractModule {
 		bind(StatementToStatementConverter.class).to(StatementToStatementConverterImpl.class);
 		bind(ToConcreteClassifierConverter.class).to(ToConcreteClassifierConverterImpl.class);
 		bind(UtilToSwitchCasesAndSetConverter.class).to(UtilToSwitchCasesAndSetConverterImpl.class);
+		bind(IUtilTypeInstructionSeparation.class).to(UtilTypeInstructionSeparation.class);
 
 		bind(new TypeLiteral<ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
 		}).to(BindingToAnnotationAttributeSettingConverter.class);
@@ -287,12 +287,12 @@ public class InjectorGuice extends AbstractModule {
 		}).to(ToExpressionConverterImpl.class);
 		bind(new TypeLiteral<ToConverter<FieldDeclaration, Field>>() {
 		}).to(ToFieldConverter.class);
-		//bind(new TypeLiteral<ToConverter<BodyDeclaration, Member>>() {
-		//}).to(ToInterfaceMemberConverter.class);
+		// bind(new TypeLiteral<ToConverter<BodyDeclaration, Member>>() {
+		// }).to(ToInterfaceMemberConverter.class);
 		bind(new TypeLiteral<ToConverter<AnnotationTypeMemberDeclaration, InterfaceMethod>>() {
 		}).to(ToInterfaceMethodConverter.class);
-		//bind(new TypeLiteral<ToConverter<MethodDeclaration, Member>>() {
-		//}).to(ToInterfaceMethodOrConstructorConverter.class);
+		// bind(new TypeLiteral<ToConverter<MethodDeclaration, Member>>() {
+		// }).to(ToInterfaceMethodOrConstructorConverter.class);
 		bind(new TypeLiteral<ToConverter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable>>() {
 		}).to(ToLocalVariableConverter.class);
 		bind(new TypeLiteral<ToConverter<MethodReference, MethodReferenceExpression>>() {

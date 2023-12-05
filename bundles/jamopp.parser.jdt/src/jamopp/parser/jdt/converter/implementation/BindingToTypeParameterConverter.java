@@ -1,26 +1,33 @@
 package jamopp.parser.jdt.converter.implementation;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.generics.TypeParameter;
+import org.emftext.language.java.types.TypeReference;
+
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
 
+@SuppressWarnings("restriction")
 public class BindingToTypeParameterConverter implements ToConverter<ITypeBinding, TypeParameter> {
 
 	private final UtilNamedElement utilNamedElement;
-	private final ToTypeReferencesConverter toTypeReferencesConverter;
 	private final UtilJdtResolver jdtTResolverUtility;
-	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
+	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
 	BindingToTypeParameterConverter(UtilNamedElement utilNamedElement,
-			ToTypeReferencesConverter toTypeReferencesConverter, UtilJdtResolver jdtTResolverUtility,
-			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {
+			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			UtilJdtResolver jdtTResolverUtility,
+			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;

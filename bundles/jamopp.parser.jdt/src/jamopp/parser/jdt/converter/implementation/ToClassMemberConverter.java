@@ -54,6 +54,7 @@ public class ToClassMemberConverter implements ToConverter<BodyDeclaration, Memb
 		return null;
 	}
 
+	@Inject
 	public void setToConcreteClassifierConverter(ToConcreteClassifierConverter toConcreteClassifierConverter) {
 		this.toConcreteClassifierConverter = toConcreteClassifierConverter;
 	}

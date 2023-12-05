@@ -7,17 +7,17 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class ToBlockConverter implements ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> {
 
 	private final StatementsFactory statementsFactory;
-	private final UtilTypeInstructionSeparation toInstructionSeparation;
+	private final IUtilTypeInstructionSeparation toInstructionSeparation;
 	private final ToModifierConverter toModifierConverter;
 
 	@Inject
-	ToBlockConverter(ToModifierConverter toModifierConverter, UtilTypeInstructionSeparation toInstructionSeparation,
+	ToBlockConverter(ToModifierConverter toModifierConverter, IUtilTypeInstructionSeparation toInstructionSeparation,
 			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toInstructionSeparation = toInstructionSeparation;

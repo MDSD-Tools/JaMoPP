@@ -3,6 +3,7 @@ package jamopp.parser.jdt.converter.implementation;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
@@ -12,11 +13,11 @@ import jamopp.parser.jdt.converter.interfaces.ToConverter;
 public class BindingToEnumConstantConverter implements ToConverter<IVariableBinding, EnumConstant> {
 
 	private final UtilJdtResolver utilJdtResolver;
-	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
+	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
 	BindingToEnumConstantConverter(UtilJdtResolver utilJdtResolver,
-			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {
+			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilJdtResolver = utilJdtResolver;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}

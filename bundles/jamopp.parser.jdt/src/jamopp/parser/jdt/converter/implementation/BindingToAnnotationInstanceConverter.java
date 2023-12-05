@@ -7,8 +7,6 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -17,34 +15,40 @@ public class BindingToAnnotationInstanceConverter implements ToConverter<IAnnota
 
 	private final AnnotationsFactory annotationsFactory;
 	private final UtilNamedElement utilNamedElement;
-	private final Provider<UtilJdtResolver> jdtTResolverUtility;
-	private final Provider<ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting>> bindingToAnnotationAttributeSettingConverter;
+	private UtilJdtResolver jdtTResolverUtility;
+	private ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
 
 	@Inject
-	BindingToAnnotationInstanceConverter(UtilNamedElement utilNamedElement,
-			Provider<UtilJdtResolver> jdtTResolverUtility,
-			Provider<ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting>> bindingToAnnotationAttributeSettingConverter,
-			AnnotationsFactory annotationsFactory) {
+	BindingToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.utilNamedElement = utilNamedElement;
-		this.jdtTResolverUtility = jdtTResolverUtility;
-		this.bindingToAnnotationAttributeSettingConverter = bindingToAnnotationAttributeSettingConverter;
 	}
 
 	public AnnotationInstance convert(IAnnotationBinding binding) {
 		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
-		Annotation resultClass = jdtTResolverUtility.get().getAnnotation(binding.getAnnotationType());
+		Annotation resultClass = jdtTResolverUtility.getAnnotation(binding.getAnnotationType());
 		utilNamedElement.convertToNameAndSet(binding.getAnnotationType(), resultClass);
 		result.setAnnotation(resultClass);
 		if (binding.getDeclaredMemberValuePairs().length > 0) {
 			org.emftext.language.java.annotations.AnnotationParameterList params = annotationsFactory
 					.createAnnotationParameterList();
 			for (IMemberValuePairBinding memBind : binding.getDeclaredMemberValuePairs()) {
-				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.get().convert(memBind));
+				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.convert(memBind));
 			}
 			result.setParameter(params);
 		}
 		return result;
+	}
+
+	@Inject
+	public void setBindingToAnnotationAttributeSettingConverter(
+			ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter) {
+		this.bindingToAnnotationAttributeSettingConverter = bindingToAnnotationAttributeSettingConverter;
+	}
+
+	@Inject
+	public void setJdtTResolverUtility(UtilJdtResolver jdtTResolverUtility) {
+		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 
 }

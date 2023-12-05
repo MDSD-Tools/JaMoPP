@@ -12,7 +12,7 @@ import org.emftext.language.java.generics.UnknownTypeArgument;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
@@ -22,18 +22,18 @@ public class TypeToTypeArgumentConverter implements ToConverter<Type, TypeArgume
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilLayout layoutInformationConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
 	@Inject
 	public TypeToTypeArgumentConverter(ToTypeReferenceConverter toTypeReferenceConverter,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter,
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, UtilLayout layoutInformationConverter,
 			GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -41,7 +41,7 @@ public class TypeToTypeArgumentConverter implements ToConverter<Type, TypeArgume
 		if (!t.isWildcardType()) {
 			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 			result.setTypeReference(toTypeReferenceConverter.convert(t));
-			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(t, result);
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(t, result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, t);
 			return result;
 		}
@@ -58,7 +58,7 @@ public class TypeToTypeArgumentConverter implements ToConverter<Type, TypeArgume
 			wildType.annotations().forEach(
 					obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			result.setExtendType(toTypeReferenceConverter.convert(wildType.getBound()));
-			toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(wildType.getBound(), result);
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(wildType.getBound(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
@@ -66,7 +66,7 @@ public class TypeToTypeArgumentConverter implements ToConverter<Type, TypeArgume
 		wildType.annotations()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.setSuperType(toTypeReferenceConverter.convert(wildType.getBound()));
-		toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(wildType.getBound(), result);
+		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(wildType.getBound(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 		return result;
 	}

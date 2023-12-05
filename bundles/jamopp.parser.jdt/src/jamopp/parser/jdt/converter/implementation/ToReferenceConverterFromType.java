@@ -12,7 +12,7 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.ReferenceWalker;
-import jamopp.parser.jdt.converter.helper.ToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -25,21 +25,21 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
 	private final ReferenceWalker referenceWalker;
 	private final ToReferenceConverterFromName toReferenceConverterFromName;
-	private final ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
 	@Inject
 	ToReferenceConverterFromType(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToReferenceConverterFromName toReferenceConverterFromName,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
 			ReferenceWalker referenceWalker, UtilLayout layoutInformationConverter,
-			ToArrayDimensionsAndSetConverter toArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.referenceWalker = referenceWalker;
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
-		this.toArrayDimensionsAndSetConverter = toArrayDimensionsAndSetConverter;
+		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	public Reference convert(Type t) {
@@ -93,10 +93,10 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 			org.emftext.language.java.references.Reference result = internalConvertToReference(arr.getElementType());
 			if (arr.getElementType().isPrimitiveType()) {
 				org.emftext.language.java.references.PrimitiveTypeReference primRef = (org.emftext.language.java.references.PrimitiveTypeReference) result;
-				toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, primRef);
+				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, primRef);
 			} else {
 				org.emftext.language.java.references.IdentifierReference idRef = (org.emftext.language.java.references.IdentifierReference) result;
-				toArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, idRef);
+				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, idRef);
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;
