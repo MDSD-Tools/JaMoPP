@@ -7,6 +7,7 @@ import org.eclipse.jdt.core.dom.TypeParameter;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -16,15 +17,16 @@ import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class ToClassOrInterfaceConverter implements ToConverter<TypeDeclaration, ConcreteClassifier> {
 
-	private final ToTypeParameterConverter toTypeParameterConverter;
 	private final UtilJdtResolver utilJdtResolver;
 	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
 	private final ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
 
 	@Inject
-	ToClassOrInterfaceConverter(UtilJdtResolver utilJdtResolver, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToTypeParameterConverter toTypeParameterConverter,
+	ToClassOrInterfaceConverter(UtilJdtResolver utilJdtResolver,
+			ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
 			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter,
 			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toTypeParameterConverter = toTypeParameterConverter;

@@ -10,7 +10,12 @@ import org.eclipse.jdt.core.dom.TypeParameter;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
+import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.types.NamespaceClassifierReference;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -26,28 +31,31 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 
 	private final StatementsFactory statementsFactory;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilNamedElement utilNamedElement;
-	private final ToReceiverParameterConverter toReceiverParameterConverter;
-	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToTypeParameterConverter toTypeParameterConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
-	private final ToParameterConverter toParameterConverter;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final ToNamespaceClassifierReferenceConverter inNamespaceClassifierReferenceWrapper;
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilNamedElement utilNamedElement;
+	private final ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
+	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
+	private final ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter;
+	private final ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
 	ToClassMethodOrConstructorConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			UtilNamedElement utilNamedElement, UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToTypeParameterConverter toTypeParameterConverter,
-			ToReceiverParameterConverter toReceiverParameterConverter, ToParameterConverter toParameterConverter,
-			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
+			UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+			ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
+			ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
+			ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter,
+			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilJdtResolver jdtResolverUtility,
-			ToNamespaceClassifierReferenceConverter inNamespaceClassifierReferenceWrapper,
-			StatementsFactory statementsFactory, UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
+			StatementsFactory statementsFactory,
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
@@ -103,8 +111,8 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 				.forEach(obj -> result.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReturnType2()));
 		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
-		methodDecl.extraDimensions()
-				.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		methodDecl.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(toReceiverParameterConverter.convert(methodDecl));

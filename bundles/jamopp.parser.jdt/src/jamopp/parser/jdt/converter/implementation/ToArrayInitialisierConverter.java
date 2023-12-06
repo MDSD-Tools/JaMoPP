@@ -16,18 +16,13 @@ public class ToArrayInitialisierConverter
 
 	private final ArraysFactory arraysFactory;
 	private final UtilLayout utilLayout;
-	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
-	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
+	private ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToArrayInitialisierConverter(
-			ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
-			UtilLayout utilLayout, ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			ArraysFactory arraysFactory) {
+	ToArrayInitialisierConverter(UtilLayout utilLayout, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
-		this.utilExpressionConverter = utilExpressionConverter;
 		this.utilLayout = utilLayout;
-		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -48,6 +43,18 @@ public class ToArrayInitialisierConverter
 		});
 		utilLayout.convertToMinimalLayoutInformation(result, arr);
 		return result;
+	}
+
+	@Inject
+	public void setToAnnotationInstanceConverter(
+			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
+		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
+	}
+
+	@Inject
+	public void setUtilExpressionConverter(
+			ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter) {
+		this.utilExpressionConverter = utilExpressionConverter;
 	}
 
 }

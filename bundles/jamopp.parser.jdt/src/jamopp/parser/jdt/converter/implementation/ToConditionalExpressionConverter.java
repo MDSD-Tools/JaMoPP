@@ -1,5 +1,6 @@
 package jamopp.parser.jdt.converter.implementation;
 
+import org.eclipse.jdt.core.dom.Expression;
 import org.emftext.language.java.expressions.ConditionalExpression;
 import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsFactory;
@@ -7,7 +8,6 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToConditionalExpressionConverter
@@ -15,11 +15,12 @@ public class ToConditionalExpressionConverter
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final ToExpressionConverter toExpressionConverter;
+	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	ToConditionalExpressionConverter(ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
-			ExpressionsFactory expressionsFactory) {
+	ToConditionalExpressionConverter(
+			ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;

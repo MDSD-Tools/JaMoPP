@@ -5,8 +5,8 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.MethodReference;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
+import jamopp.parser.jdt.converter.helper.handler.ExpressionHandler;
 import jamopp.parser.jdt.converter.helper.handler.HandlerAssignment;
 import jamopp.parser.jdt.converter.helper.handler.HandlerCastExpression;
 import jamopp.parser.jdt.converter.helper.handler.HandlerConditionalExpression;
@@ -24,66 +24,102 @@ import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 public class ToExpressionConverterImpl
 		implements ToExpressionConverter, ToConverter<Expression, org.emftext.language.java.expressions.Expression> {
 
-	private final Provider<HandlerPrimaryExpression> handlerPrimaryExpression;
-	private final Provider<HandlerAssignment> handlerAssignment;
-	private final Provider<HandlerConditionalExpression> handlerConditionalExpression;
-	private final Provider<HandlerInfixExpression> handlerInfixExpression;
-	private final Provider<HandlerInstanceOf> handlerInstanceOf;
-	private final Provider<HandlerPrefixExpression> handlerPrefixExpression;
-	private final Provider<HandlerPostfixExpression> handlerPostfixExpression;
-	private final Provider<HandlerCastExpression> handlerCastExpression;
-	private final Provider<HandlerSwitchExpression> handlerSwitchExpression;
-	private final Provider<HandlerMethodReference> handlerMethodReference;
-	private final Provider<HandlerLambdaExpression> handlerLambdaExpression;
+	private ExpressionHandler handlerPrimaryExpression;
+	private ExpressionHandler handlerAssignment;
+	private ExpressionHandler handlerConditionalExpression;
+	private ExpressionHandler handlerInfixExpression;
+	private ExpressionHandler handlerInstanceOf;
+	private ExpressionHandler handlerPrefixExpression;
+	private ExpressionHandler handlerPostfixExpression;
+	private ExpressionHandler handlerCastExpression;
+	private ExpressionHandler handlerSwitchExpression;
+	private ExpressionHandler handlerMethodReference;
+	private ExpressionHandler handlerLambdaExpression;
 
 	@Inject
-	ToExpressionConverterImpl(Provider<HandlerSwitchExpression> handlerSwitchExpression,
-			Provider<HandlerPrefixExpression> handlerPrefixExpression,
-			Provider<HandlerPostfixExpression> handlerPostfixExpression,
-			Provider<HandlerMethodReference> handlerMethodReference,
-			Provider<HandlerLambdaExpression> handlerLambdaExpression, Provider<HandlerInstanceOf> handlerInstanceOf,
-			Provider<HandlerInfixExpression> handlerInfixExpression,
-			Provider<HandlerConditionalExpression> handlerConditionalExpression,
-			Provider<HandlerCastExpression> handlerCastExpression, Provider<HandlerAssignment> handlerAssignment,
-			Provider<HandlerPrimaryExpression> toPrimaryExpressionConverter) {
-		this.handlerPrimaryExpression = toPrimaryExpressionConverter;
-		this.handlerAssignment = handlerAssignment;
-		this.handlerConditionalExpression = handlerConditionalExpression;
-		this.handlerInfixExpression = handlerInfixExpression;
-		this.handlerInstanceOf = handlerInstanceOf;
-		this.handlerPrefixExpression = handlerPrefixExpression;
-		this.handlerPostfixExpression = handlerPostfixExpression;
-		this.handlerCastExpression = handlerCastExpression;
-		this.handlerSwitchExpression = handlerSwitchExpression;
-		this.handlerMethodReference = handlerMethodReference;
-		this.handlerLambdaExpression = handlerLambdaExpression;
+	ToExpressionConverterImpl() {
 	}
 
 	@Override
 	public org.emftext.language.java.expressions.Expression convert(Expression expr) {
 		if (expr.getNodeType() == ASTNode.ASSIGNMENT) {
-			return handlerAssignment.get().handle(expr);
+			return handlerAssignment.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {
-			return handlerConditionalExpression.get().handle(expr);
+			return handlerConditionalExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.INFIX_EXPRESSION) {
-			return handlerInfixExpression.get().handle(expr);
+			return handlerInfixExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.INSTANCEOF_EXPRESSION) {
-			return handlerInstanceOf.get().handle(expr);
+			return handlerInstanceOf.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.PREFIX_EXPRESSION) {
-			return handlerPrefixExpression.get().handle(expr);
+			return handlerPrefixExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.POSTFIX_EXPRESSION) {
-			return handlerPostfixExpression.get().handle(expr);
+			return handlerPostfixExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.CAST_EXPRESSION) {
-			return handlerCastExpression.get().handle(expr);
+			return handlerCastExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.SWITCH_EXPRESSION) {
-			return handlerSwitchExpression.get().handle(expr);
+			return handlerSwitchExpression.handle(expr);
 		} else if (expr instanceof MethodReference) {
-			return handlerMethodReference.get().handle(expr);
+			return handlerMethodReference.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.LAMBDA_EXPRESSION) {
-			return handlerLambdaExpression.get().handle(expr);
+			return handlerLambdaExpression.handle(expr);
 		} else {
-			return handlerPrimaryExpression.get().handle(expr);
+			return handlerPrimaryExpression.handle(expr);
 		}
+	}
+
+	@Inject
+	public void setHandlerPrimaryExpression(HandlerPrimaryExpression handlerPrimaryExpression) {
+		this.handlerPrimaryExpression = handlerPrimaryExpression;
+	}
+
+	@Inject
+	public void setHandlerAssignment(HandlerAssignment handlerAssignment) {
+		this.handlerAssignment = handlerAssignment;
+	}
+
+	@Inject
+	public void setHandlerConditionalExpression(HandlerConditionalExpression handlerConditionalExpression) {
+		this.handlerConditionalExpression = handlerConditionalExpression;
+	}
+
+	@Inject
+	public void setHandlerInfixExpression(HandlerInfixExpression handlerInfixExpression) {
+		this.handlerInfixExpression = handlerInfixExpression;
+	}
+
+	@Inject
+	public void setHandlerInstanceOf(HandlerInstanceOf handlerInstanceOf) {
+		this.handlerInstanceOf = handlerInstanceOf;
+	}
+
+	@Inject
+	public void setHandlerPrefixExpression(HandlerPrefixExpression handlerPrefixExpression) {
+		this.handlerPrefixExpression = handlerPrefixExpression;
+	}
+
+	@Inject
+	public void setHandlerPostfixExpression(HandlerPostfixExpression handlerPostfixExpression) {
+		this.handlerPostfixExpression = handlerPostfixExpression;
+	}
+
+	@Inject
+	public void setHandlerCastExpression(HandlerCastExpression handlerCastExpression) {
+		this.handlerCastExpression = handlerCastExpression;
+	}
+
+	@Inject
+	public void setHandlerSwitchExpression(HandlerSwitchExpression handlerSwitchExpression) {
+		this.handlerSwitchExpression = handlerSwitchExpression;
+	}
+
+	@Inject
+	public void setHandlerMethodReference(HandlerMethodReference handlerMethodReference) {
+		this.handlerMethodReference = handlerMethodReference;
+	}
+
+	@Inject
+	public void setHandlerLambdaExpression(HandlerLambdaExpression handlerLambdaExpression) {
+		this.handlerLambdaExpression = handlerLambdaExpression;
 	}
 
 }

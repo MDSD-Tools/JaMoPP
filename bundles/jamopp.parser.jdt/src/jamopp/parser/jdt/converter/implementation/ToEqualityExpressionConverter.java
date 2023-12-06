@@ -5,24 +5,24 @@ import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.operators.EqualityOperator;
 
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToEqualityExpressionConverter implements ToConverter<InfixExpression, EqualityExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final ToExpressionConverter toExpressionConverter;
-	private final ToEqualityOperatorConverter toEqualityOperatorConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter;
+	private final ToConverter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter;
 
 	@Inject
-	ToEqualityExpressionConverter(ToExpressionConverter toExpressionConverter,
-			ToEqualityOperatorConverter toEqualityOperatorConverter, UtilLayout layoutInformationConverter,
-			ExpressionsFactory expressionsFactory) {
+	ToEqualityExpressionConverter(ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
+			ToConverter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter,
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;

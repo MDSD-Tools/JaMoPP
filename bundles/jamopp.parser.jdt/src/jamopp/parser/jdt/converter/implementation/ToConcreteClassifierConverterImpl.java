@@ -7,7 +7,9 @@ import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -23,18 +25,20 @@ public class ToConcreteClassifierConverterImpl
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToConverter<BodyDeclaration, Member> toInterfaceMember;
-	private final ToClassOrInterfaceConverter toClassOrInterface;
-	private final ToEnumConverter toEnumConverter;
 	private final UtilNamedElement utilNamedElement;
+	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final ToConverter<BodyDeclaration, Member> toInterfaceMember;
+	private final ToConverter<TypeDeclaration, ConcreteClassifier> toClassOrInterface;
+	private final ToConverter<EnumDeclaration, Enumeration> toEnumConverter;
 
 	@Inject
-	ToConcreteClassifierConverterImpl(ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
+	ToConcreteClassifierConverterImpl(
+			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			UtilNamedElement utilNamedElement,
 			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMember,
-			ToEnumConverter toEnumConverter, ToClassOrInterfaceConverter toClassOrInterface) {
+			ToConverter<EnumDeclaration, Enumeration> toEnumConverter,
+			ToConverter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
