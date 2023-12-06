@@ -10,19 +10,19 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToPrimaryExpressionConverter implements ToConverter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
 
 	private final LiteralsFactory literalsFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal> toNumberLiteralConverter;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 
 	@Inject
 	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter,
-			UtilLayout layoutInformationConverter,
+			IUtilLayout layoutInformationConverter,
 			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
 		this.layoutInformationConverter = layoutInformationConverter;

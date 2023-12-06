@@ -13,18 +13,18 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class ToTypeReferencesConverter implements ToConverter<ITypeBinding, List<TypeReference>> {
 
 	private final TypesFactory typesFactory;
 	private final UtilJdtResolver utilJdtResolver;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private ToConverter<ITypeBinding, TypeArgument> toTypeArgumentConverter;
 
 	@Inject
-	ToTypeReferencesConverter(TypesFactory typesFactory, UtilNamedElement utilNamedElement,
+	ToTypeReferencesConverter(TypesFactory typesFactory, IUtilNamedElement utilNamedElement,
 			UtilJdtResolver utilJdtResolver) {
 		this.typesFactory = typesFactory;
 		this.utilJdtResolver = utilJdtResolver;

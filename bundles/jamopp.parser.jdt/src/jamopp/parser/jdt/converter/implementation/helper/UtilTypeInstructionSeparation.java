@@ -13,7 +13,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationValueConverter;
-import jamopp.parser.jdt.converter.interfaces.converter.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
@@ -24,7 +23,7 @@ public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSepara
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToAnnotationValueConverter toAnnotationValueConverter;
 	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
-	private final StatementToStatementConverter statementToStatementConverter;
+	private final ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
 
 	private final HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
 	private final HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();
@@ -38,7 +37,8 @@ public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSepara
 
 	@Inject
 	UtilTypeInstructionSeparation(ToAnnotationValueConverter toAnnotationValueConverter,
-			StatementToStatementConverter statementToStatementConverter, UtilJdtResolver jdtResolverUtility,
+			ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter,
+			UtilJdtResolver jdtResolverUtility,
 			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;

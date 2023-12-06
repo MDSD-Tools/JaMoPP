@@ -16,22 +16,22 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 @Singleton
 public class ToAnnotationInstanceConverter implements ToConverter<Annotation, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	@Inject
-	ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
+	ToAnnotationInstanceConverter(IUtilNamedElement utilNamedElement, IUtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

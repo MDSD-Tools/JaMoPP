@@ -18,7 +18,7 @@ public class InjectorMine {
 	private static final ContainersFactory containersFactory;
 
 	static {
-		Injector injector = Guice.createInjector(new InjectorGuice(), new FactoryModule(), new ConverterModule());
+		Injector injector = Guice.createInjector(new UtilModule(), new FactoryModule(), new ConverterModule());
 
 		ordinaryCompilationUnitJDTASTVisitorAndConverter = injector
 				.getInstance(VisitorAndConverterOrdinaryCompilationUnitJDTAST.class);

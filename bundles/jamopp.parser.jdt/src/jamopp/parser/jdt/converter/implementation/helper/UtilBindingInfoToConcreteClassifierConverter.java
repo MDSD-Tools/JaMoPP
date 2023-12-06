@@ -19,11 +19,12 @@ import jamopp.parser.jdt.converter.implementation.converter.BindingToMethodConve
 import jamopp.parser.jdt.converter.implementation.converter.BindingToTypeParameterConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToModifiersConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToTypeReferencesConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 @SuppressWarnings("restriction")
 public class UtilBindingInfoToConcreteClassifierConverter{
 
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private final ToTypeReferencesConverter toTypeReferencesConverter;
 	private final UtilJdtResolver jdtTResolverUtility;
 	private final BindingToEnumConstantConverter bindingToEnumConstantConverter;
@@ -35,7 +36,7 @@ public class UtilBindingInfoToConcreteClassifierConverter{
 	private final ToModifiersConverter toModifiersConverter;
 
 	@Inject
-	UtilBindingInfoToConcreteClassifierConverter(UtilNamedElement utilNamedElement,
+	UtilBindingInfoToConcreteClassifierConverter(IUtilNamedElement utilNamedElement,
 			ToTypeReferencesConverter toTypeReferencesConverter, ToModifiersConverter toModifiersConverter,
 			UtilJdtResolver jdtTResolverUtility, BindingToTypeParameterConverter bindingToTypeParameterConverter,
 			BindingToMethodConverter bindingToMethodConverter, BindingToFieldConverter bindingToFieldConverter,

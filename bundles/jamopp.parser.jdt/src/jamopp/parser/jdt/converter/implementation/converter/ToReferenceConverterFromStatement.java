@@ -11,25 +11,25 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 
 public class ToReferenceConverterFromStatement implements ReferenceConverter<Statement>,
 		ToConverter<Statement, org.emftext.language.java.references.Reference> {
 
 	private final LiteralsFactory literalsFactory;
 	private final InstantiationsFactory instantiationsFactory;
-	private final UtilLayout layoutInformationConverter;
-	private final UtilReferenceWalker utilReferenceWalker;
+	private final IUtilLayout layoutInformationConverter;
+	private final IUtilReferenceWalker utilReferenceWalker;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 	private final ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromStatement(UtilReferenceWalker utilReferenceWalker, LiteralsFactory literalsFactory,
-			UtilLayout layoutInformationConverter, InstantiationsFactory instantiationsFactory,
+	ToReferenceConverterFromStatement(IUtilReferenceWalker utilReferenceWalker, LiteralsFactory literalsFactory,
+			IUtilLayout layoutInformationConverter, InstantiationsFactory instantiationsFactory,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {

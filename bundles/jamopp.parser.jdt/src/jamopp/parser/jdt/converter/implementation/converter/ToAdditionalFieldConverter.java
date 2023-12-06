@@ -8,22 +8,22 @@ import org.emftext.language.java.members.AdditionalField;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarationFragment, AdditionalField> {
 
 	private final UtilJdtResolver utilJdtResolver;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilTypeInstructionSeparation toInstructionSeparation;
-	private final UtilLayout utilLayout;
+	private final IUtilLayout utilLayout;
 
 	@Inject
-	ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+	ToAdditionalFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout,
 			UtilJdtResolver utilJdtResolver, IUtilTypeInstructionSeparation toInstructionSeparation,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.utilJdtResolver = utilJdtResolver;

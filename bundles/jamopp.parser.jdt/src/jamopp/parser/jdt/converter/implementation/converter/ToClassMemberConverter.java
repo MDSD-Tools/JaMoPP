@@ -7,6 +7,7 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
@@ -15,13 +16,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 
 @Singleton
 public class ToClassMemberConverter implements ToConverter<BodyDeclaration, Member> {
 
-	private ToConcreteClassifierConverter toConcreteClassifierConverter;
+	private ToConverter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter;
 	private final ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> toBlockConverter;
 	private final ToConverter<FieldDeclaration, Field> toFieldConverter;
 	private final ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
@@ -60,7 +60,8 @@ public class ToClassMemberConverter implements ToConverter<BodyDeclaration, Memb
 	}
 
 	@Inject
-	public void setToConcreteClassifierConverter(ToConcreteClassifierConverter toConcreteClassifierConverter) {
+	public void setToConcreteClassifierConverter(
+			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter) {
 		this.toConcreteClassifierConverter = toConcreteClassifierConverter;
 	}
 

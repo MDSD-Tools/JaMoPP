@@ -11,13 +11,13 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.jdt.converter.interfaces.converter;
+package jamopp.parser.jdt.converter.interfaces.helper;
 
-import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
+import java.util.List;
 
-public interface ToConcreteClassifierConverter extends ToConverter<AbstractTypeDeclaration, ConcreteClassifier> {
+public interface IUtilToSwitchCasesAndSetConverter {
 
-	public ConcreteClassifier convert(AbstractTypeDeclaration typeDecl);
+	@SuppressWarnings("rawtypes")
+	public void convert(org.emftext.language.java.statements.Switch switchExprSt, List switchStatementList);
 
 }

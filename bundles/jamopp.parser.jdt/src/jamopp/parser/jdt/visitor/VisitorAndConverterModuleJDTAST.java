@@ -14,6 +14,7 @@
 package jamopp.parser.jdt.visitor;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IModuleBinding;
@@ -26,6 +27,7 @@ import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.ProvidesDirective;
 import org.eclipse.jdt.core.dom.RequiresDirective;
 import org.eclipse.jdt.core.dom.UsesDirective;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
@@ -36,19 +38,19 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
-import jamopp.parser.jdt.converter.interfaces.converter.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class VisitorAndConverterModuleJDTAST extends PackageJDTASTVisitorAndConverter {
 
 	@Inject
-	VisitorAndConverterModuleJDTAST(UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+	VisitorAndConverterModuleJDTAST(IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
-			ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,
-			ToConcreteClassifierConverter classifierConverterUtility, ContainersFactory containersFactory,
-			ModulesFactory modulesFactory) {
+			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
+			ContainersFactory containersFactory, ModulesFactory modulesFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement, annotationInstanceConverter, classifierConverterUtility, containersFactory,
 				modulesFactory);
@@ -73,8 +75,8 @@ public class VisitorAndConverterModuleJDTAST extends PackageJDTASTVisitorAndConv
 		layoutInformationConverter.convertJavaRootLayoutInformation(module, node, this.getSource());
 		utilNamedElement.addNameToNameSpace(node.getName(), module);
 		module.setName("");
-		node.annotations().forEach(obj -> module.getAnnotations()
-				.add(annotationInstanceConverter.convert((Annotation) obj)));
+		node.annotations()
+				.forEach(obj -> module.getAnnotations().add(annotationInstanceConverter.convert((Annotation) obj)));
 		node.moduleStatements().forEach(obj -> module.getTarget().add(this.convertToDirective((ModuleDirective) obj)));
 		return module;
 	}
@@ -116,10 +118,9 @@ public class VisitorAndConverterModuleJDTAST extends PackageJDTASTVisitorAndConv
 			ProvidesDirective provDir = (ProvidesDirective) directive;
 			org.emftext.language.java.modules.ProvidesModuleDirective result = modulesFactory
 					.createProvidesModuleDirective();
-			result.setTypeReference(
-					utilBaseConverter.convert(provDir.getName()));
-			provDir.implementations().forEach(obj -> result.getServiceProviders()
-					.add(utilBaseConverter.convert((Name) obj)));
+			result.setTypeReference(utilBaseConverter.convert(provDir.getName()));
+			provDir.implementations()
+					.forEach(obj -> result.getServiceProviders().add(utilBaseConverter.convert((Name) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 			return result;
 		}

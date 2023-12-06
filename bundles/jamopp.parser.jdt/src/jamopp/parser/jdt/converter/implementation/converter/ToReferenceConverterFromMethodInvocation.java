@@ -11,26 +11,26 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class ToReferenceConverterFromMethodInvocation
 		implements ReferenceConverter<MethodInvocation>, ToConverter<MethodInvocation, MethodCall> {
 
 	private final ReferencesFactory referencesFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 	private final ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement,
+	ToReferenceConverterFromMethodInvocation(IUtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter, ReferencesFactory referencesFactory,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {

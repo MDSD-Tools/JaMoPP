@@ -21,8 +21,8 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 @SuppressWarnings("restriction")
 public class BindingToModuleConverter
@@ -30,7 +30,7 @@ public class BindingToModuleConverter
 
 	private final ModulesFactory modulesFactory;
 	private final ModifiersFactory modifiersFactory;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	private UtilJdtResolver jdtTResolverUtility;
@@ -39,7 +39,7 @@ public class BindingToModuleConverter
 	@Inject
 	BindingToModuleConverter(ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			ModulesFactory modulesFactory, ModifiersFactory modifiersFactory, UtilJdtResolver jdtTResolverUtility,
-			UtilNamedElement utilNamedElement,
+			IUtilNamedElement utilNamedElement,
 			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;

@@ -5,8 +5,9 @@ import org.emftext.language.java.arrays.ArrayTypeable;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.converter.ToArrayDimensionConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 
-public class UtilToArrayDimensionAfterAndSetConverter {
+public class UtilToArrayDimensionAfterAndSetConverter implements IUtilToArrayDimensionAfterAndSetConverter {
 
 	private final ToArrayDimensionConverter toArrayDimensionConverter;
 

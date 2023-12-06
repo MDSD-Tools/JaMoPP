@@ -13,8 +13,10 @@
 
 package jamopp.parser.jdt.visitor;
 
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
@@ -25,19 +27,19 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
-import jamopp.parser.jdt.converter.interfaces.converter.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public abstract class PackageJDTASTVisitorAndConverter extends VisitorAndConverterAbstractAndEmptyModelJDTAST {
 
 	@Inject
-	protected PackageJDTASTVisitorAndConverter(UtilLayout layoutInformationConverter,
+	protected PackageJDTASTVisitorAndConverter(IUtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,
-			ToConcreteClassifierConverter classifierConverterUtility, ContainersFactory containersFactory,
-			ModulesFactory modulesFactory) {
+			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
+			ContainersFactory containersFactory, ModulesFactory modulesFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement, annotationInstanceConverter, classifierConverterUtility, containersFactory,
 				modulesFactory);
@@ -55,8 +57,8 @@ public abstract class PackageJDTASTVisitorAndConverter extends VisitorAndConvert
 		}
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
-			node.getPackage().annotations().forEach(obj -> finalRoot.getAnnotations()
-					.add(annotationInstanceConverter.convert((Annotation) obj)));
+			node.getPackage().annotations().forEach(
+					obj -> finalRoot.getAnnotations().add(annotationInstanceConverter.convert((Annotation) obj)));
 			root.getNamespaces().clear();
 			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), root);
 		}

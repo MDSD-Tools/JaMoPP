@@ -9,9 +9,12 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
-public class UtilNamedElement {
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+
+public class UtilNamedElement implements IUtilNamedElement {
 
 	
+	@Override
 	public void addNameToNameSpaceAndElement(Name name, NamespaceAwareElement namespaceElement, NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			namedElement.setName(((SimpleName) name).getIdentifier());
@@ -22,6 +25,7 @@ public class UtilNamedElement {
 		}
 	}
 
+	@Override
 	public void addNameToNameSpace(Name name, NamespaceAwareElement namespaceElement) {
 		if (name.isSimpleName()) {
 			SimpleName simpleName = (SimpleName) name;
@@ -33,6 +37,7 @@ public class UtilNamedElement {
 		}
 	}
 
+	@Override
 	public void setNameOfElement(Name name, NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			SimpleName simpleName = (SimpleName) name;
@@ -43,6 +48,7 @@ public class UtilNamedElement {
 		}
 	}
 	
+	@Override
 	public void convertToNameAndSet(ITypeBinding binding, NamedElement element) {
 		String name = binding.getName();
 		if (binding.isParameterizedType()) {
@@ -53,6 +59,7 @@ public class UtilNamedElement {
 		element.setName(name);
 	}
 	
+	@Override
 	public void convertToNamespacesAndSet(String namespaces, NamespaceAwareElement ele) {
 		ele.getNamespaces().clear();
 		String[] singleNamespaces = namespaces.split("\\.");

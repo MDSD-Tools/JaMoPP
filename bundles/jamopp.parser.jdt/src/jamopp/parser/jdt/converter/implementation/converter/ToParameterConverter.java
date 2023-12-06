@@ -15,32 +15,32 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class ToParameterConverter implements ToConverter<SingleVariableDeclaration, Parameter> {
 
 	private final UtilJdtResolver utilJDTResolver;
-	private final UtilNamedElement utilNamedElement;
-	private final UtilLayout utilLayout;
+	private final IUtilNamedElement utilNamedElement;
+	private final IUtilLayout utilLayout;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
+	ToParameterConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.utilNamedElement = utilNamedElement;

@@ -8,8 +8,9 @@ import org.emftext.language.java.arrays.ArrayTypeable;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.converter.ToArrayDimensionConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
-public class UtilToArrayDimensionsAndSetConverter {
+public class UtilToArrayDimensionsAndSetConverter implements IUtilToArrayDimensionsAndSetConverter {
 
 	private final ToArrayDimensionConverter toArrayDimensionConverter;
 
@@ -18,10 +19,12 @@ public class UtilToArrayDimensionsAndSetConverter {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 
+	@Override
 	public void convertToArrayDimensionsAndSet(Type t, ArrayTypeable arrDimContainer) {
 		convertToArrayDimensionsAndSet(t, arrDimContainer, 0);
 	}
 
+	@Override
 	public void convertToArrayDimensionsAndSet(Type t, ArrayTypeable arrDimContainer, int ignoreDimensions) {
 		if (t.isArrayType()) {
 			ArrayType arrT = (ArrayType) t;

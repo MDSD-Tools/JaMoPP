@@ -7,20 +7,20 @@ import org.emftext.language.java.statements.Switch;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
 
 public class SwitchToSwitchConverter implements ToConverter<SwitchStatement, Switch> {
 
 	private final StatementsFactory statementsFactory;
-	private final UtilLayout layoutInformationConverter;
-	private final UtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter;
+	private final IUtilLayout layoutInformationConverter;
+	private final IUtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	SwitchToSwitchConverter(UtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
-			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
+	SwitchToSwitchConverter(IUtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
+			StatementsFactory statementsFactory, IUtilLayout layoutInformationConverter,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

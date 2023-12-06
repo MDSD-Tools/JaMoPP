@@ -13,14 +13,14 @@ import org.emftext.language.java.expressions.ShiftExpression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class HandlerInfixExpression implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final UtilLayout utilLayout;
+	private final IUtilLayout utilLayout;
 	private final ToConverter<InfixExpression, EqualityExpression> toEqualityExpressionConverter;
 	private final ToConverter<InfixExpression, RelationExpression> toRelationExpressionConverter;
 	private final ToConverter<InfixExpression, ShiftExpression> toShiftExpressionConverter;
@@ -29,7 +29,7 @@ public class HandlerInfixExpression implements ExpressionHandler {
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerInfixExpression(UtilLayout utilLayout,
+	HandlerInfixExpression(IUtilLayout utilLayout,
 			ToConverter<InfixExpression, ShiftExpression> toShiftExpressionConverter,
 			ToConverter<InfixExpression, RelationExpression> toRelationExpressionConverter,
 			ToConverter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter,

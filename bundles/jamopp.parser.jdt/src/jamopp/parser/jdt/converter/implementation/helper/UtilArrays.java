@@ -4,7 +4,9 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.arrays.ArraysFactory;
 import com.google.inject.Inject;
 
-public class UtilArrays {
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
+
+public class UtilArrays implements IUtilArrays {
 
 	private final ArraysFactory arraysFactory;
 
@@ -13,6 +15,7 @@ public class UtilArrays {
 		this.arraysFactory = arraysFactory;
 	}
 
+	@Override
 	public void convertToArrayDimensionsAndSet(ITypeBinding binding,
 			org.emftext.language.java.arrays.ArrayTypeable arrDimContainer) {
 		if (binding.isArray()) {

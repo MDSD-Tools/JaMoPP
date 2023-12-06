@@ -21,7 +21,9 @@ import org.emftext.language.java.containers.JavaRoot;
 
 import com.google.inject.Inject;
 
-public class UtilLayout {
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+
+public class UtilLayout implements IUtilLayout {
 
 	private final LayoutFactory layoutFactory;
 	private static MinimalLayoutInformation currentRootLayout;
@@ -31,6 +33,7 @@ public class UtilLayout {
 		this.layoutFactory = layoutFactory;
 	}
 
+	@Override
 	public void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode) {
 		currentRootLayout = null;
 		if (sourceCode != null) {
@@ -44,6 +47,7 @@ public class UtilLayout {
 		}
 	}
 
+	@Override
 	public void convertToMinimalLayoutInformation(Commentable target, ASTNode source) {
 		if (currentRootLayout != null) {
 			MinimalLayoutInformation li = layoutFactory.createMinimalLayoutInformation();

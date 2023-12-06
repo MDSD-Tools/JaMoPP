@@ -23,15 +23,15 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilArrays;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference> {
 
 	private final TypesFactory typesFactory;
-	private final UtilLayout layoutInformationConverter;
-	private final UtilArrays jdtBindingConverterUtility;
+	private final IUtilLayout layoutInformationConverter;
+	private final IUtilArrays jdtBindingConverterUtility;
 	private final ToConverter<Name, TypeReference> utilBaseConverter;
 	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
@@ -43,7 +43,7 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
 			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, UtilArrays jdtBindingConverterUtility) {
+			IUtilLayout layoutInformationConverter, IUtilArrays jdtBindingConverterUtility) {
 		this.typesFactory = typesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;

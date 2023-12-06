@@ -20,11 +20,11 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDeclaration, Member> {
@@ -32,10 +32,10 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 	private final StatementsFactory statementsFactory;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
-	private final UtilLayout utilLayout;
+	private final IUtilLayout utilLayout;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
@@ -45,7 +45,7 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 
 	@Inject
 	ToClassMethodOrConstructorConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
 			ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
@@ -55,7 +55,7 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 			UtilJdtResolver jdtResolverUtility,
 			ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;

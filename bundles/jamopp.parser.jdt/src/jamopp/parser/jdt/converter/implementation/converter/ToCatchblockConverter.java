@@ -15,23 +15,23 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class ToCatchblockConverter implements ToConverter<CatchClause, CatchBlock> {
 
 	private final StatementsFactory statementsFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
 	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	ToCatchblockConverter(UtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
+	ToCatchblockConverter(IUtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			StatementsFactory statementsFactory, IUtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
 			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {

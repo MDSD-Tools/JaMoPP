@@ -13,18 +13,18 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilReferenceWalker;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class ToReferenceConverterFromType implements ReferenceConverter<Type>, ToConverter<Type, Reference> {
 
 	private final ReferencesFactory referencesFactory;
-	private final UtilLayout layoutInformationConverter;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilReferenceWalker utilReferenceWalker;
+	private final IUtilLayout layoutInformationConverter;
+	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final IUtilReferenceWalker utilReferenceWalker;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final ToReferenceConverterFromName toReferenceConverterFromName;
@@ -33,8 +33,8 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 	ToReferenceConverterFromType(ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToReferenceConverterFromName toReferenceConverterFromName,
 			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
-			UtilReferenceWalker utilReferenceWalker, UtilLayout layoutInformationConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			IUtilReferenceWalker utilReferenceWalker, IUtilLayout layoutInformationConverter,
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;

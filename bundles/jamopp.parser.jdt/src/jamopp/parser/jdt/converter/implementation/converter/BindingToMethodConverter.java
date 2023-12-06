@@ -28,9 +28,9 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilArrays;
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
 
 public class BindingToMethodConverter implements ToConverter<IMethodBinding, Method> {
 
@@ -38,7 +38,7 @@ public class BindingToMethodConverter implements ToConverter<IMethodBinding, Met
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
 	private final UtilJdtResolver jdtTResolverUtility;
-	private final UtilArrays utilJdtBindingConverter;
+	private final IUtilArrays utilJdtBindingConverter;
 	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
 	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
@@ -47,7 +47,7 @@ public class BindingToMethodConverter implements ToConverter<IMethodBinding, Met
 	private final ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
+	BindingToMethodConverter(IUtilArrays utilJdtBindingConverter,
 			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,

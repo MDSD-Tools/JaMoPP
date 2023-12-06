@@ -46,22 +46,21 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.converter.interfaces.converter.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
-public class StatementToStatementConverterImpl implements
-		ToConverter<Statement, org.emftext.language.java.statements.Statement>, StatementToStatementConverter {
+public class StatementToStatementConverterImpl
+		implements ToConverter<Statement, org.emftext.language.java.statements.Statement> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilNamedElement utilNamedElement;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final IUtilNamedElement utilNamedElement;
+	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
@@ -80,15 +79,15 @@ public class StatementToStatementConverterImpl implements
 	private ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 
 	@Inject
-	StatementToStatementConverterImpl(UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+	StatementToStatementConverterImpl(IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			UtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			IUtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			ToConverter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> toLocalVariableConverter,
 			ToConverter<CatchClause, CatchBlock> toCatchblockConverter,
 			ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
 			ToConverter<SwitchStatement, Switch> switchToSwitchConverter, StatementsFactory statementsFactory,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ExpressionsFactory expressionsFactory,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,

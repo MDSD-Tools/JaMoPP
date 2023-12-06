@@ -8,19 +8,19 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToArrayInitialisierConverter
 		implements ToConverter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> {
 
 	private final ArraysFactory arraysFactory;
-	private final UtilLayout utilLayout;
+	private final IUtilLayout utilLayout;
 	private ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
 	private ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToArrayInitialisierConverter(UtilLayout utilLayout, ArraysFactory arraysFactory) {
+	ToArrayInitialisierConverter(IUtilLayout utilLayout, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;
 	}

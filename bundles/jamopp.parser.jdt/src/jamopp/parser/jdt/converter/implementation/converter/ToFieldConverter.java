@@ -14,19 +14,19 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 
 	private final UtilJdtResolver utilJdtResolver;
-	private final UtilNamedElement utilNamedElement;
-	private final UtilLayout utilLayout;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final IUtilNamedElement utilNamedElement;
+	private final IUtilLayout utilLayout;
+	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final IUtilTypeInstructionSeparation toInstructionSeparation;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
@@ -34,13 +34,13 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 	private final ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
 
 	@Inject
-	ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+	ToFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			IUtilTypeInstructionSeparation toInstructionSeparation,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilJdtResolver = utilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;

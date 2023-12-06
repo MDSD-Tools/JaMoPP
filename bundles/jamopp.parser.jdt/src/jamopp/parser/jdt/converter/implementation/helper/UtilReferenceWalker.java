@@ -16,13 +16,16 @@ package jamopp.parser.jdt.converter.implementation.helper;
 import org.emftext.language.java.references.Reference;
 import com.google.inject.Inject;
 
-public class UtilReferenceWalker {
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
+
+public class UtilReferenceWalker implements IUtilReferenceWalker {
 
 	@Inject
 	UtilReferenceWalker() {
 
 	}
 
+	@Override
 	public Reference walkUp(Reference ref) {
 		Reference result = ref;
 		Reference parent = result.getPrevious();

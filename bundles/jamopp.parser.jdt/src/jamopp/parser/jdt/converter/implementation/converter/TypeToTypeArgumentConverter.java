@@ -14,23 +14,23 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class TypeToTypeArgumentConverter implements ToConverter<Type, TypeArgument> {
 
 	private final GenericsFactory genericsFactory;
-	private final UtilLayout layoutInformationConverter;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final IUtilLayout layoutInformationConverter;
+	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
 	public TypeToTypeArgumentConverter(ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
 			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, GenericsFactory genericsFactory) {
+			IUtilLayout layoutInformationConverter, GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.layoutInformationConverter = layoutInformationConverter;

@@ -14,18 +14,18 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToReferenceConverterFromName implements ReferenceConverter<SimpleName>, ToConverter<SimpleName, IdentifierReference> {
 
 	private final ReferencesFactory referencesFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 
 	@Inject
-	ToReferenceConverterFromName(ReferencesFactory referencesFactory, UtilLayout layoutInformationConverter,
+	ToReferenceConverterFromName(ReferencesFactory referencesFactory, IUtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

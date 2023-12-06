@@ -9,13 +9,13 @@ import org.emftext.language.java.operators.AdditiveOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToAdditiveExpressionConverter implements ToConverter<InfixExpression, AdditiveExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final ToConverter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter;
 
@@ -23,7 +23,7 @@ public class ToAdditiveExpressionConverter implements ToConverter<InfixExpressio
 	ToAdditiveExpressionConverter(
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ToConverter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;

@@ -15,6 +15,7 @@ package jamopp.parser.jdt.visitor;
 
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
@@ -25,18 +26,18 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
-import jamopp.parser.jdt.converter.interfaces.converter.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class VisitorAndConverterOrdinaryCompilationUnitJDTAST extends VisitorAndConverterModuleJDTAST {
 
 	@Inject
-	VisitorAndConverterOrdinaryCompilationUnitJDTAST(UtilLayout layoutInformationConverter,
+	VisitorAndConverterOrdinaryCompilationUnitJDTAST(IUtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,
-			ToConcreteClassifierConverter classifierConverterUtility, ContainersFactory containersFactory,
+			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility, ContainersFactory containersFactory,
 			ModulesFactory modulesFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement, annotationInstanceConverter, classifierConverterUtility, containersFactory,

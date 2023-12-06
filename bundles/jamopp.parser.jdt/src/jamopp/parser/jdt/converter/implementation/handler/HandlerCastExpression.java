@@ -10,24 +10,24 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.converter.ToTypeReferenceConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class HandlerCastExpression implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final UtilLayout utilLayout;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final IUtilLayout utilLayout;
+	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	HandlerCastExpression(UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
+	HandlerCastExpression(IUtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;

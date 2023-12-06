@@ -5,16 +5,16 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToModifierConverter implements ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> {
 
 	private final ModifiersFactory modifiersFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 
 	@Inject
-	ToModifierConverter(UtilLayout layoutInformationConverter, ModifiersFactory modifiersFactory) {
+	ToModifierConverter(IUtilLayout layoutInformationConverter, ModifiersFactory modifiersFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 	}

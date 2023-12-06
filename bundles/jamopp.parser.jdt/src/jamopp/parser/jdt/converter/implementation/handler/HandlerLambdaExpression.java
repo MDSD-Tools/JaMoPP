@@ -17,15 +17,15 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class HandlerLambdaExpression implements ExpressionHandler {
 
 	private final TypesFactory typesFactory;
 	private final ExpressionsFactory expressionsFactory;
-	private final UtilLayout utilLayout;
+	private final IUtilLayout utilLayout;
 	private final UtilJdtResolver utilJdtResolver;
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
@@ -33,7 +33,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	HandlerLambdaExpression(UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+	HandlerLambdaExpression(IUtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
 			ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,

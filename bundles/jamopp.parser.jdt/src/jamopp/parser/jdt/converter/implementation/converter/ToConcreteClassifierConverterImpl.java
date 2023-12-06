@@ -15,17 +15,15 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
-import jamopp.parser.jdt.converter.interfaces.converter.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
-public class ToConcreteClassifierConverterImpl
-		implements ToConcreteClassifierConverter, ToConverter<AbstractTypeDeclaration, ConcreteClassifier> {
+public class ToConcreteClassifierConverterImpl implements ToConverter<AbstractTypeDeclaration, ConcreteClassifier> {
 
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final ToConverter<BodyDeclaration, Member> toInterfaceMember;
 	private final ToConverter<TypeDeclaration, ConcreteClassifier> toClassOrInterface;
@@ -34,8 +32,8 @@ public class ToConcreteClassifierConverterImpl
 	@Inject
 	ToConcreteClassifierConverterImpl(
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			UtilNamedElement utilNamedElement,
+			IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			IUtilNamedElement utilNamedElement,
 			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMember,
 			ToConverter<EnumDeclaration, Enumeration> toEnumConverter,
 			ToConverter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {

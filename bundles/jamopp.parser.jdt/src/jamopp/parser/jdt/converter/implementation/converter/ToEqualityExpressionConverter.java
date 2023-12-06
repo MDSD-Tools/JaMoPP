@@ -9,20 +9,20 @@ import org.emftext.language.java.operators.EqualityOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToEqualityExpressionConverter implements ToConverter<InfixExpression, EqualityExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final UtilLayout layoutInformationConverter;
+	private final IUtilLayout layoutInformationConverter;
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter;
 	private final ToConverter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter;
 
 	@Inject
 	ToEqualityExpressionConverter(ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
 			ToConverter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;

@@ -46,9 +46,9 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public abstract class VisitorAndConverterAbstractAndEmptyModelJDTAST extends ASTVisitor {
 
@@ -56,17 +56,17 @@ public abstract class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AST
 	protected final ModulesFactory modulesFactory;
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
-	protected final UtilLayout layoutInformationConverter;
-	protected final UtilNamedElement utilNamedElement;
+	protected final IUtilLayout layoutInformationConverter;
+	protected final IUtilNamedElement utilNamedElement;
 	protected final UtilJdtResolver jdtResolverUtility;
 	protected final ToConverter<Name, TypeReference> utilBaseConverter;
 	protected final ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	protected final ToConverter<AbstractTypeDeclaration, ConcreteClassifier> ClassifierConverterUtility;
 
 	@Inject
-	protected VisitorAndConverterAbstractAndEmptyModelJDTAST(UtilLayout layoutInformationConverter,
+	protected VisitorAndConverterAbstractAndEmptyModelJDTAST(IUtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility, ToConverter<Name, TypeReference> utilBaseConverter,
-			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
 			ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter,
 			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
 			ContainersFactory containersFactory, ModulesFactory modulesFactory) {

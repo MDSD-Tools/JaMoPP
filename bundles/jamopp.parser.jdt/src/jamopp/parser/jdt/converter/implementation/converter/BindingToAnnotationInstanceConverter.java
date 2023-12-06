@@ -9,18 +9,18 @@ import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class BindingToAnnotationInstanceConverter implements ToConverter<IAnnotationBinding, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
-	private final UtilNamedElement utilNamedElement;
+	private final IUtilNamedElement utilNamedElement;
 	private UtilJdtResolver jdtTResolverUtility;
 	private ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
 
 	@Inject
-	BindingToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, AnnotationsFactory annotationsFactory) {
+	BindingToAnnotationInstanceConverter(IUtilNamedElement utilNamedElement, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.utilNamedElement = utilNamedElement;
 	}
