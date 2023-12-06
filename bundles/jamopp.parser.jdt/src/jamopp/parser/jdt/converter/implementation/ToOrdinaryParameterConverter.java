@@ -3,7 +3,10 @@ package jamopp.parser.jdt.converter.implementation;
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
+import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import org.emftext.language.java.parameters.OrdinaryParameter;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -19,14 +22,15 @@ public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableD
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
-	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
+	ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement,
+			ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
@@ -48,7 +52,8 @@ public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableD
 		result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
 		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(decl.getType(), result);
 		utilNamedElement.setNameOfElement(decl.getName(), result);
-		decl.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+		decl.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 		return result;
 	}

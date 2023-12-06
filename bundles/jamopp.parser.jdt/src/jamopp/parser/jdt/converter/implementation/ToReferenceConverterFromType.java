@@ -11,7 +11,7 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ReferenceWalker;
+import jamopp.parser.jdt.converter.helper.UtilReferenceWalker;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
@@ -23,7 +23,7 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 	private final UtilLayout layoutInformationConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
-	private final ReferenceWalker referenceWalker;
+	private final UtilReferenceWalker utilReferenceWalker;
 	private final ToReferenceConverterFromName toReferenceConverterFromName;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 
@@ -31,19 +31,19 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 	ToReferenceConverterFromType(ToTypeReferenceConverter toTypeReferenceConverter,
 			ToReferenceConverterFromName toReferenceConverterFromName,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
-			ReferenceWalker referenceWalker, UtilLayout layoutInformationConverter,
+			UtilReferenceWalker utilReferenceWalker, UtilLayout layoutInformationConverter,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
-		this.referenceWalker = referenceWalker;
+		this.utilReferenceWalker = utilReferenceWalker;
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
 		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
 	public Reference convert(Type t) {
-		return referenceWalker.walkUp(internalConvertToReference(t));
+		return utilReferenceWalker.walkUp(internalConvertToReference(t));
 	}
 
 	@SuppressWarnings("unchecked")

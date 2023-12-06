@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.Modifier;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 

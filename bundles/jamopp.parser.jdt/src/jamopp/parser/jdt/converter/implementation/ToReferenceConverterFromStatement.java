@@ -10,7 +10,7 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.ReferenceWalker;
+import jamopp.parser.jdt.converter.helper.UtilReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
@@ -22,12 +22,12 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 	private final InstantiationsFactory instantiationsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final ToExpressionConverter expressionConverterUtility;
-	private final ReferenceWalker referenceWalker;
+	private final UtilReferenceWalker utilReferenceWalker;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 	private final TypeToTypeArgumentConverter typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromStatement(ReferenceWalker referenceWalker, LiteralsFactory literalsFactory,
+	ToReferenceConverterFromStatement(UtilReferenceWalker utilReferenceWalker, LiteralsFactory literalsFactory,
 			UtilLayout layoutInformationConverter, InstantiationsFactory instantiationsFactory,
 			ToExpressionConverter expressionConverterUtility,
 			ToReferenceConverterFromExpression toReferenceConverterFromExpression,
@@ -37,13 +37,13 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 		this.instantiationsFactory = instantiationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
-		this.referenceWalker = referenceWalker;
+		this.utilReferenceWalker = utilReferenceWalker;
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
 	public org.emftext.language.java.references.Reference convert(Statement st) {
-		return referenceWalker.walkUp(internalConvertToReference(st));
+		return utilReferenceWalker.walkUp(internalConvertToReference(st));
 	}
 
 	@SuppressWarnings("unchecked")

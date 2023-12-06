@@ -15,9 +15,9 @@ import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToPrimaryExpressionConverter implements ToConverter<Expression, PrimaryExpression> {
 
-	private final ToNumberLiteralConverter toNumberLiteralConverter;
-	private final UtilLayout layoutInformationConverter;
 	private final LiteralsFactory literalsFactory;
+	private final UtilLayout layoutInformationConverter;
+	private final ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal> toNumberLiteralConverter;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 
 	@Inject

@@ -16,10 +16,10 @@ package jamopp.parser.jdt.converter.helper;
 import org.emftext.language.java.references.Reference;
 import com.google.inject.Inject;
 
-public class ReferenceWalker {
+public class UtilReferenceWalker {
 
 	@Inject
-	ReferenceWalker() {
+	UtilReferenceWalker() {
 
 	}
 

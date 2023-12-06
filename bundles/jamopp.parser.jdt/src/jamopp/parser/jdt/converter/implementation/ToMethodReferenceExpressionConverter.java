@@ -25,11 +25,11 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 	private final ReferencesFactory referencesFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final ToExpressionConverter toExpressionConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 	private final ToReferenceConverterFromType toReferenceConverterFromType;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final TypeToTypeArgumentConverter typeToTypeArgumentConverter;
 
 	@Inject

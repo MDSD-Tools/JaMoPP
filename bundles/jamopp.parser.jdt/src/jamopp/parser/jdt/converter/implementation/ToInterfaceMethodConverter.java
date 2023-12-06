@@ -3,8 +3,11 @@ package jamopp.parser.jdt.converter.implementation;
 import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.Type;
 import org.emftext.language.java.members.InterfaceMethod;
+import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -19,19 +22,20 @@ public class ToInterfaceMethodConverter implements ToConverter<AnnotationTypeMem
 
 	private final StatementsFactory statementsFactory;
 	private final UtilJdtResolver utilJdtResolver;
-	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
 	ToInterfaceMethodConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
-			ToTypeReferenceConverter toTypeReferenceConverter,
-			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
-			StatementsFactory statementsFactory, UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			StatementsFactory statementsFactory,
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.utilJdtResolver = utilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;

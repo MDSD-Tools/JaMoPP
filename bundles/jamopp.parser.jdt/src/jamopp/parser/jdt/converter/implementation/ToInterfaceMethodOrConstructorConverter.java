@@ -9,7 +9,12 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeParameter;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
+import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.types.NamespaceClassifierReference;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -25,29 +30,31 @@ import jamopp.parser.jdt.util.UtilNamedElement;
 public class ToInterfaceMethodOrConstructorConverter implements ToConverter<MethodDeclaration, Member> {
 
 	private final StatementsFactory statementsFactory;
-	private final ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
-	private final UtilJdtResolver utilJdtResolver;
-	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
-	private final ToTypeParameterConverter toTypeParameterConverter;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final UtilNamedElement utilNamedElement;
-	private final ToReceiverParameterConverter toReceiverParameterConverter;
-	private final ToParameterConverter toParameterConverter;
-	private final ToNamespaceClassifierReferenceConverter inNamespaceClassifierReferenceWrapper;
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilJdtResolver utilJdtResolver;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final UtilNamedElement utilNamedElement;
+	private final ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
+	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
+	private final ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
+	private final ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter;
+	private final ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
 	ToInterfaceMethodOrConstructorConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
-			ToTypeReferenceConverter toTypeReferenceConverter, ToTypeParameterConverter toTypeParameterConverter,
-			ToReceiverParameterConverter toReceiverParameterConverter, ToParameterConverter toParameterConverter,
-			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
+			ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
+			ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
+			ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter,
+			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			@Named("ToClassMethodOrConstructorConverter") ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			ToNamespaceClassifierReferenceConverter inNamespaceClassifierReferenceWrapper,
+			ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;

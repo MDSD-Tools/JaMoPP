@@ -4,24 +4,25 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.MultiplicativeExpression;
+import org.emftext.language.java.operators.MultiplicativeOperator;
 
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToMultiplicativeExpressionConverter implements ToConverter<InfixExpression, MultiplicativeExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final ToExpressionConverter toExpressionConverter;
-	private final ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter;
+	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final ToConverter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter;
 
 	@Inject
-	ToMultiplicativeExpressionConverter(ToMultiplicativeOperatorConverter toMultiplicativeOperatorConverter,
-			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
-			ExpressionsFactory expressionsFactory) {
+	ToMultiplicativeExpressionConverter(
+			ToConverter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter,
+			ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
