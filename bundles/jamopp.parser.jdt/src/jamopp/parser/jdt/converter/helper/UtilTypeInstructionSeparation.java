@@ -13,17 +13,17 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.converter.implementation.ToAnnotationValueConverter;
-import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 @Singleton
 public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSeparation {
 
 	private final UtilJdtResolver jdtResolverUtility;
-	private final ToExpressionConverter expressionConverterUtility;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToAnnotationValueConverter toAnnotationValueConverter;
-	private final BlockToBlockConverter blockToBlockConverter;
+	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
 	private final StatementToStatementConverter statementToStatementConverter;
 
 	private final HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
@@ -39,7 +39,8 @@ public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSepara
 	@Inject
 	UtilTypeInstructionSeparation(ToAnnotationValueConverter toAnnotationValueConverter,
 			StatementToStatementConverter statementToStatementConverter, UtilJdtResolver jdtResolverUtility,
-			ToExpressionConverter expressionConverterUtility, BlockToBlockConverter blockToBlockConverter) {
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
+			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.toAnnotationValueConverter = toAnnotationValueConverter;

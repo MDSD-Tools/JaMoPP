@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.util;
+package jamopp.parser.jdt.converter.helper;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.arrays.ArraysFactory;

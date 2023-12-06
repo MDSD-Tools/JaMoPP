@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.helper.handler;
+package jamopp.parser.jdt.converter.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.PostfixExpression;
@@ -7,18 +7,20 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
+import jamopp.parser.jdt.converter.interfaces.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class HandlerPostfixExpression implements ExpressionHandler {
 
 	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;
-	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerPostfixExpression(UtilLayout utilLayout, ToExpressionConverter toExpressionConverter,
+	HandlerPostfixExpression(UtilLayout utilLayout,
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		this.expressionsFactory = expressionsFactory;

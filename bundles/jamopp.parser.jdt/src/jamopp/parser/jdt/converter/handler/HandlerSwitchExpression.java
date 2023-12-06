@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.helper.handler;
+package jamopp.parser.jdt.converter.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SwitchExpression;
@@ -6,20 +6,22 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.converter.interfaces.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class HandlerSwitchExpression implements ExpressionHandler {
 
 	private final StatementsFactory statementsFactory;
-	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
 	private final UtilToSwitchCasesAndSetConverter utilStatementConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	HandlerSwitchExpression(UtilToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
-			ToExpressionConverter toExpressionConverter, StatementsFactory statementsFactory) {
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;

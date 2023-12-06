@@ -11,9 +11,10 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
+
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToTypeReferencesConverter implements ToConverter<ITypeBinding, List<TypeReference>> {
 

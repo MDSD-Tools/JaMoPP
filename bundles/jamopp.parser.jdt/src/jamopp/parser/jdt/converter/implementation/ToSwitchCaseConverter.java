@@ -5,8 +5,9 @@ import org.eclipse.jdt.core.dom.SwitchCase;
 import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
+
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToSwitchCaseConverter implements ToConverter<SwitchCase, org.emftext.language.java.statements.SwitchCase> {
 

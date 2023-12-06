@@ -10,10 +10,10 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
-public class ToPrimaryExpressionConverter implements ToConverter<Expression, PrimaryExpression> {
+public class ToPrimaryExpressionConverter implements ToConverter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
 
 	private final LiteralsFactory literalsFactory;
 	private final UtilLayout layoutInformationConverter;

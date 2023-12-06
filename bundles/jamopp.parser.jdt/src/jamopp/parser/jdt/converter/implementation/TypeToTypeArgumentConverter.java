@@ -14,9 +14,9 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class TypeToTypeArgumentConverter implements ToConverter<Type, TypeArgument> {
 

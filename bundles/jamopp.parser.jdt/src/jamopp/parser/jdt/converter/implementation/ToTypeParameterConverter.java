@@ -9,9 +9,9 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToTypeParameterConverter implements
 		ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> {

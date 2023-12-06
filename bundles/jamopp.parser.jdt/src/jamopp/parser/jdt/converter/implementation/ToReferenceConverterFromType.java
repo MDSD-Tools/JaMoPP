@@ -13,11 +13,11 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilReferenceWalker;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToReferenceConverterFromType implements ReferenceConverter<Type>, ToConverter<Type, Reference> {
 

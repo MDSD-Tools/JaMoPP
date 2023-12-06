@@ -7,11 +7,11 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToConditionalExpressionConverter
-		implements ToConverter<org.eclipse.jdt.core.dom.ConditionalExpression, ConditionalExpression> {
+		implements ToConverter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;

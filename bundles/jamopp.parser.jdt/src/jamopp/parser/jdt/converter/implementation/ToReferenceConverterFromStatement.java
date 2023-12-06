@@ -11,10 +11,10 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToReferenceConverterFromStatement implements ReferenceConverter<Statement>,
 		ToConverter<Statement, org.emftext.language.java.references.Reference> {

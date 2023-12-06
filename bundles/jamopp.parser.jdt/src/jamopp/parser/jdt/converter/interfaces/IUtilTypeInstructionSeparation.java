@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.converter.helper;
+package jamopp.parser.jdt.converter.interfaces;
 
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;

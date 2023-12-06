@@ -22,9 +22,10 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
+
+import jamopp.parser.jdt.converter.helper.UtilArrays;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilArrays;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference> {
 

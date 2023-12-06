@@ -8,11 +8,11 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
+import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToAdditionalLocalVariableConverter
 		implements ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> {

@@ -1,25 +1,28 @@
-package jamopp.parser.jdt.converter.helper.handler;
+package jamopp.parser.jdt.converter.handler;
 
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.operators.AssignmentOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.ToAssignmentConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
+import jamopp.parser.jdt.converter.interfaces.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class HandlerAssignment implements ExpressionHandler {
 
-	private final ToAssignmentConverter toAssignmentOperatorConverter;
-	private final UtilLayout utilLayout;
-	private final ToExpressionConverter toExpressionConverter;
 	private final ExpressionsFactory expressionsFactory;
+	private final UtilLayout utilLayout;
+	private final ToConverter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerAssignment(UtilLayout utilLayout, ToExpressionConverter toExpressionConverter,
-			ToAssignmentConverter toAssignmentOperatorConverter, ExpressionsFactory expressionsFactory) {
+	HandlerAssignment(UtilLayout utilLayout,
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			ToConverter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter,
+			ExpressionsFactory expressionsFactory) {
 		this.toAssignmentOperatorConverter = toAssignmentOperatorConverter;
 		this.utilLayout = utilLayout;
 		this.toExpressionConverter = toExpressionConverter;

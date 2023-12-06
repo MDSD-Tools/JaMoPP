@@ -5,8 +5,8 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToModifierConverter implements ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> {
 

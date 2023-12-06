@@ -24,8 +24,8 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToClassifierOrNamespaceClassifierReferenceConverter implements ToConverter<Name, TypeReference> {
 

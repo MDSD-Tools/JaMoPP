@@ -9,8 +9,8 @@ import org.emftext.language.java.operators.AdditiveOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToAdditiveExpressionConverter implements ToConverter<InfixExpression, AdditiveExpression> {
 

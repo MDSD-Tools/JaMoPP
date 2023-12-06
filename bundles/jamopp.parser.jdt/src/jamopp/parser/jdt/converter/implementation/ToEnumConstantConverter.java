@@ -12,10 +12,9 @@ import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class ToEnumConstantConverter implements ToConverter<EnumConstantDeclaration, EnumConstant> {
 

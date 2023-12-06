@@ -8,8 +8,8 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToArrayDimensionConverter implements ToConverter<Dimension, ArrayDimension> {
 

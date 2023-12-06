@@ -34,8 +34,8 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.injector.InjectorMine;
 import jamopp.parser.jdt.other.JamoppClasspathEntriesSearcher;
 import jamopp.parser.jdt.other.JamoppCompilationUnitsFactory;

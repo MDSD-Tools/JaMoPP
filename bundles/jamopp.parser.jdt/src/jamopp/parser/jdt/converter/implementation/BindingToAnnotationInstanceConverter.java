@@ -7,9 +7,10 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
+
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class BindingToAnnotationInstanceConverter implements ToConverter<IAnnotationBinding, AnnotationInstance> {
 

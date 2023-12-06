@@ -8,8 +8,8 @@ import org.emftext.language.java.operators.RelationOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToRelationExpressionConverter implements ToConverter<InfixExpression, RelationExpression> {
 

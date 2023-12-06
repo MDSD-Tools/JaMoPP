@@ -5,9 +5,9 @@ import org.emftext.language.java.containers.ContainersFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.converter.interfaces.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 
 public class InjectorMine {

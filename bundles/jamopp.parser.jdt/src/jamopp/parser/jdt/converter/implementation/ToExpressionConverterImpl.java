@@ -6,23 +6,22 @@ import org.eclipse.jdt.core.dom.MethodReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.handler.ExpressionHandler;
-import jamopp.parser.jdt.converter.helper.handler.HandlerAssignment;
-import jamopp.parser.jdt.converter.helper.handler.HandlerCastExpression;
-import jamopp.parser.jdt.converter.helper.handler.HandlerConditionalExpression;
-import jamopp.parser.jdt.converter.helper.handler.HandlerInfixExpression;
-import jamopp.parser.jdt.converter.helper.handler.HandlerInstanceOf;
-import jamopp.parser.jdt.converter.helper.handler.HandlerLambdaExpression;
-import jamopp.parser.jdt.converter.helper.handler.HandlerMethodReference;
-import jamopp.parser.jdt.converter.helper.handler.HandlerPostfixExpression;
-import jamopp.parser.jdt.converter.helper.handler.HandlerPrefixExpression;
-import jamopp.parser.jdt.converter.helper.handler.HandlerPrimaryExpression;
-import jamopp.parser.jdt.converter.helper.handler.HandlerSwitchExpression;
+import jamopp.parser.jdt.converter.handler.HandlerAssignment;
+import jamopp.parser.jdt.converter.handler.HandlerCastExpression;
+import jamopp.parser.jdt.converter.handler.HandlerConditionalExpression;
+import jamopp.parser.jdt.converter.handler.HandlerInfixExpression;
+import jamopp.parser.jdt.converter.handler.HandlerInstanceOf;
+import jamopp.parser.jdt.converter.handler.HandlerLambdaExpression;
+import jamopp.parser.jdt.converter.handler.HandlerMethodReference;
+import jamopp.parser.jdt.converter.handler.HandlerPostfixExpression;
+import jamopp.parser.jdt.converter.handler.HandlerPrefixExpression;
+import jamopp.parser.jdt.converter.handler.HandlerPrimaryExpression;
+import jamopp.parser.jdt.converter.handler.HandlerSwitchExpression;
+import jamopp.parser.jdt.converter.interfaces.ExpressionHandler;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
 public class ToExpressionConverterImpl
-		implements ToExpressionConverter, ToConverter<Expression, org.emftext.language.java.expressions.Expression> {
+		implements ToConverter<Expression, org.emftext.language.java.expressions.Expression> {
 
 	private ExpressionHandler handlerPrimaryExpression;
 	private ExpressionHandler handlerAssignment;

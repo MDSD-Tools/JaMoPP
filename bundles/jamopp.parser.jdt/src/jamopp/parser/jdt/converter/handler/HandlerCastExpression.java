@@ -1,29 +1,32 @@
-package jamopp.parser.jdt.converter.helper.handler;
+package jamopp.parser.jdt.converter.handler;
 
 import org.eclipse.jdt.core.dom.CastExpression;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IntersectionType;
 import org.eclipse.jdt.core.dom.Type;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.implementation.ToTypeReferenceConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.converter.interfaces.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class HandlerCastExpression implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final ToExpressionConverter toExpressionConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
 	private final UtilLayout utilLayout;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
 	HandlerCastExpression(UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory,
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			ExpressionsFactory expressionsFactory,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -39,7 +42,8 @@ public class HandlerCastExpression implements ExpressionHandler {
 		if (castExpr.getType().isIntersectionType()) {
 			IntersectionType interType = (IntersectionType) castExpr.getType();
 			result.setTypeReference(toTypeReferenceConverter.convert((Type) interType.types().get(0)));
-			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet((Type) interType.types().get(0), result);
+			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet((Type) interType.types().get(0),
+					result);
 			for (int index = 1; index < interType.types().size(); index++) {
 				result.getAdditionalBounds().add(toTypeReferenceConverter.convert((Type) interType.types().get(index)));
 			}

@@ -19,9 +19,9 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilArrays;
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilArrays;
 
 @SuppressWarnings("restriction")
 public class BindingToConstructorConverter implements ToConverter<IMethodBinding, Constructor> {

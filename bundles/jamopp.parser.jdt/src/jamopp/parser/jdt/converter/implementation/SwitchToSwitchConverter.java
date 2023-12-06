@@ -7,9 +7,9 @@ import org.emftext.language.java.statements.Switch;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class SwitchToSwitchConverter implements ToConverter<SwitchStatement, Switch> {
 

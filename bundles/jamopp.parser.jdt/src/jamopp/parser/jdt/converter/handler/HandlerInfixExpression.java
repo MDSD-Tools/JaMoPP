@@ -1,38 +1,42 @@
-package jamopp.parser.jdt.converter.helper.handler;
+package jamopp.parser.jdt.converter.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.emftext.language.java.expressions.AdditiveExpression;
 import org.emftext.language.java.expressions.ConditionalAndExpressionChild;
 import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
+import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.expressions.MultiplicativeExpression;
+import org.emftext.language.java.expressions.RelationExpression;
+import org.emftext.language.java.expressions.ShiftExpression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.ToAdditiveExpressionConverter;
-import jamopp.parser.jdt.converter.implementation.ToEqualityExpressionConverter;
-import jamopp.parser.jdt.converter.implementation.ToMultiplicativeExpressionConverter;
-import jamopp.parser.jdt.converter.implementation.ToRelationExpressionConverter;
-import jamopp.parser.jdt.converter.implementation.ToShiftExpressionConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
+import jamopp.parser.jdt.converter.interfaces.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class HandlerInfixExpression implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final ToEqualityExpressionConverter toEqualityExpressionConverter;
-	private final ToRelationExpressionConverter toRelationExpressionConverter;
-	private final ToShiftExpressionConverter toShiftExpressionConverter;
-	private final ToAdditiveExpressionConverter toAdditiveExpressionConverter;
-	private final ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter;
-	private final ToExpressionConverter toExpressionConverter;
 	private final UtilLayout utilLayout;
+	private final ToConverter<InfixExpression, EqualityExpression> toEqualityExpressionConverter;
+	private final ToConverter<InfixExpression, RelationExpression> toRelationExpressionConverter;
+	private final ToConverter<InfixExpression, ShiftExpression> toShiftExpressionConverter;
+	private final ToConverter<InfixExpression, AdditiveExpression> toAdditiveExpressionConverter;
+	private final ToConverter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerInfixExpression(UtilLayout utilLayout, ToShiftExpressionConverter toShiftExpressionConverter,
-			ToRelationExpressionConverter toRelationExpressionConverter,
-			ToMultiplicativeExpressionConverter toMultiplicativeExpressionConverter,
-			ToExpressionConverter toExpressionConverter, ToEqualityExpressionConverter toEqualityExpressionConverter,
-			ToAdditiveExpressionConverter toAdditiveExpressionConverter, ExpressionsFactory expressionsFactory) {
+	HandlerInfixExpression(UtilLayout utilLayout,
+			ToConverter<InfixExpression, ShiftExpression> toShiftExpressionConverter,
+			ToConverter<InfixExpression, RelationExpression> toRelationExpressionConverter,
+			ToConverter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter,
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			ToConverter<InfixExpression, EqualityExpression> toEqualityExpressionConverter,
+			ToConverter<InfixExpression, AdditiveExpression> toAdditiveExpressionConverter,
+			ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.toEqualityExpressionConverter = toEqualityExpressionConverter;
 		this.toRelationExpressionConverter = toRelationExpressionConverter;

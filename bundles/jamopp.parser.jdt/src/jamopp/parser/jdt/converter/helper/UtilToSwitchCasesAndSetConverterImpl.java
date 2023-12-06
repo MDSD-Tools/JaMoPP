@@ -12,18 +12,19 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.ToSwitchCaseConverter;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
-public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAndSetConverter{
+public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAndSetConverter {
 
 	private final StatementsFactory statementsFactory;
-	private final ToExpressionConverter expressionConverterUtility;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToSwitchCaseConverter toSwitchCaseConverter;
 	private final StatementToStatementConverter statementToStatementConverter;
 
 	@Inject
-	UtilToSwitchCasesAndSetConverterImpl(ToSwitchCaseConverter toSwitchCaseConverter, StatementsFactory statementsFactory,
-			ToExpressionConverter expressionConverterUtility,
+	UtilToSwitchCasesAndSetConverterImpl(ToSwitchCaseConverter toSwitchCaseConverter,
+			StatementsFactory statementsFactory,
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			StatementToStatementConverter statementToStatementConverter) {
 		this.statementsFactory = statementsFactory;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -32,8 +33,7 @@ public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAn
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void convert(org.emftext.language.java.statements.Switch switchExprSt,
-			List switchStatementList) {
+	public void convert(org.emftext.language.java.statements.Switch switchExprSt, List switchStatementList) {
 		org.emftext.language.java.statements.SwitchCase currentCase = null;
 		for (Object element : switchStatementList) {
 			Statement st = (Statement) element;
@@ -52,5 +52,5 @@ public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAn
 			}
 		}
 	}
-	
+
 }

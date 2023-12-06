@@ -19,9 +19,10 @@ import org.emftext.language.java.modules.UsesModuleDirective;
 import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
+
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 @SuppressWarnings("restriction")
 public class BindingToModuleConverter

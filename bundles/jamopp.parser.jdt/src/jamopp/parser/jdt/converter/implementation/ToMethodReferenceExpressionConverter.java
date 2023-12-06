@@ -9,15 +9,16 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.MethodReferenceExpression;
+import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.references.ReferencesFactory;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToMethodReferenceExpressionConverter implements ToConverter<MethodReference, MethodReferenceExpression> {
 
@@ -26,19 +27,20 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final ToExpressionConverter toExpressionConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
 	private final ToReferenceConverterFromType toReferenceConverterFromType;
-	private final TypeToTypeArgumentConverter typeToTypeArgumentConverter;
+	private final ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToMethodReferenceExpressionConverter(ToExpressionConverter toExpressionConverter,
-			UtilLayout layoutInformationConverter, ToTypeReferenceConverter toTypeReferenceConverter,
+	ToMethodReferenceExpressionConverter(
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			UtilLayout layoutInformationConverter, ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ExpressionsFactory expressionsFactory, ReferencesFactory referencesFactory, LiteralsFactory literalsFactory,
 			ToReferenceConverterFromType toReferenceConverterFromType,
 			ToReferenceConverterFromExpression toReferenceConverterFromExpression,
-			TypeToTypeArgumentConverter typeToTypeArgumentConverter,
+			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
@@ -67,8 +69,8 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 			org.emftext.language.java.expressions.ClassTypeConstructorReferenceExpression result = expressionsFactory
 					.createClassTypeConstructorReferenceExpression();
 			result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
-			crRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
-					.add(typeToTypeArgumentConverter.convert((Type) obj)));
+			crRef.typeArguments()
+					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
 			return result;
 		}
@@ -77,8 +79,8 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 		if (ref.getNodeType() == ASTNode.TYPE_METHOD_REFERENCE) {
 			TypeMethodReference typeRef = (TypeMethodReference) ref;
 			result.setChild(toReferenceConverterFromType.convert(typeRef.getType()));
-			typeRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
-					.add(typeToTypeArgumentConverter.convert((Type) obj)));
+			typeRef.typeArguments()
+					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(typeRef.getName()));
 		} else if (ref.getNodeType() == ASTNode.SUPER_METHOD_REFERENCE) {
 			SuperMethodReference superRef = (SuperMethodReference) ref;
@@ -100,15 +102,15 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 				child.setSelf(literalsFactory.createSuper());
 				result.setChild(child);
 			}
-			superRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
-					.add(typeToTypeArgumentConverter.convert((Type) obj)));
+			superRef.typeArguments()
+					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(superRef.getName()));
 		} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
 			ExpressionMethodReference exprRef = (ExpressionMethodReference) ref;
 			result.setChild((org.emftext.language.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
 					.convert(exprRef.getExpression()));
-			exprRef.typeArguments().forEach(obj -> result.getCallTypeArguments()
-					.add(typeToTypeArgumentConverter.convert((Type) obj)));
+			exprRef.typeArguments()
+					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(exprRef.getName()));
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, ref);

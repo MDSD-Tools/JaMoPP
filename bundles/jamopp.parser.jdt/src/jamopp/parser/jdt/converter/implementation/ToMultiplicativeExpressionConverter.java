@@ -8,8 +8,8 @@ import org.emftext.language.java.operators.MultiplicativeOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToMultiplicativeExpressionConverter implements ToConverter<InfixExpression, MultiplicativeExpression> {
 

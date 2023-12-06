@@ -1,28 +1,31 @@
-package jamopp.parser.jdt.converter.helper.handler;
+package jamopp.parser.jdt.converter.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InstanceofExpression;
+import org.eclipse.jdt.core.dom.Type;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.ToTypeReferenceConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
-import jamopp.parser.jdt.util.UtilLayout;
+import jamopp.parser.jdt.converter.interfaces.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
 public class HandlerInstanceOf implements ExpressionHandler {
 
-	private final UtilLayout utilLayout;
-	private final ToExpressionConverter toExpressionConverter;
 	private final ExpressionsFactory expressionsFactory;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
+	private final UtilLayout utilLayout;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	HandlerInstanceOf(UtilLayout utilLayout, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToExpressionConverter toExpressionConverter, ExpressionsFactory expressionsFactory,
+	HandlerInstanceOf(UtilLayout utilLayout, ToConverter<Type, TypeReference> toTypeReferenceConverter,
+			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			ExpressionsFactory expressionsFactory,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilLayout = utilLayout;
 		this.toExpressionConverter = toExpressionConverter;

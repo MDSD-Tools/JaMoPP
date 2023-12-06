@@ -113,7 +113,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
-import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilToSwitchCasesAndSetConverterImpl;
 import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
@@ -191,19 +190,16 @@ import jamopp.parser.jdt.converter.implementation.ToTypeReferencesConverter;
 import jamopp.parser.jdt.converter.implementation.ToUnaryExpressionConverter;
 import jamopp.parser.jdt.converter.implementation.ToUnaryOperatorConverter;
 import jamopp.parser.jdt.converter.implementation.TypeToTypeArgumentConverter;
-import jamopp.parser.jdt.converter.interfaces.BlockToBlockConverter;
+import jamopp.parser.jdt.converter.interfaces.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
 public class InjectorGuice extends AbstractModule {
 
 	@Override
 	protected void configure() {
 		super.configure();
-		bind(ToExpressionConverter.class).to(ToExpressionConverterImpl.class);
-		bind(BlockToBlockConverter.class).to(BlockToBlockConverterImpl.class);
 		bind(StatementToStatementConverter.class).to(StatementToStatementConverterImpl.class);
 		bind(ToConcreteClassifierConverter.class).to(ToConcreteClassifierConverterImpl.class);
 		bind(UtilToSwitchCasesAndSetConverter.class).to(UtilToSwitchCasesAndSetConverterImpl.class);

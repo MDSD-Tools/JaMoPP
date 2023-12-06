@@ -44,13 +44,14 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
+
+import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
+import jamopp.parser.jdt.converter.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.StatementToStatementConverter;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
-import jamopp.parser.jdt.util.UtilNamedElement;
 
 public class StatementToStatementConverterImpl implements
 		ToConverter<Statement, org.emftext.language.java.statements.Statement>, StatementToStatementConverter {

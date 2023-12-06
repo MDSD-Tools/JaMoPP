@@ -10,8 +10,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.helper.UtilLayout;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToAnonymousClassConverter implements ToConverter<AnonymousClassDeclaration, AnonymousClass> {
 

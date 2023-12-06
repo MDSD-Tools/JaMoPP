@@ -43,7 +43,7 @@ public class UtilJdtResolver {
 	private final ContainersFactory containersFactory;
 	private final Provider<BindingToPackageConverter> bindingToPackageConverter;
 	private final Provider<BindingToModuleConverter> bindingToModuleConverter;
-	private final Provider<BindingInfoToConcreteClassifierConverter> bindingInfoToConcreteClassifierConverter;
+	private final Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter;
 
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
@@ -83,7 +83,7 @@ public class UtilJdtResolver {
 			VariablesFactory variablesFactory, ParametersFactory parametersFactory, GenericsFactory genericsFactory,
 			Provider<BindingToPackageConverter> bindingToPackageConverter,
 			Provider<BindingToModuleConverter> bindingToModuleConverter,
-			Provider<BindingInfoToConcreteClassifierConverter> bindingInfoToConcreteClassifierConverter) {
+			Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter) {
 		this.parametersFactory = parametersFactory;
 		this.variablesFactory = variablesFactory;
 		this.genericsFactory = genericsFactory;
@@ -94,7 +94,7 @@ public class UtilJdtResolver {
 		this.containersFactory = containersFactory;
 		this.bindingToPackageConverter = bindingToPackageConverter;
 		this.bindingToModuleConverter = bindingToModuleConverter;
-		this.bindingInfoToConcreteClassifierConverter = bindingInfoToConcreteClassifierConverter;
+		this.utilBindingInfoToConcreteClassifierConverter = utilBindingInfoToConcreteClassifierConverter;
 	}
 
 	public void setResourceSet(ResourceSet set) {
@@ -1107,7 +1107,7 @@ public class UtilJdtResolver {
 				return;
 			}
 		} else if (typeBind.isTopLevel()) {
-			bindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
+			utilBindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
 					extractAdditionalInformationFromTypeBindings);
 		} else if (typeBind.isNested()) {
 			org.emftext.language.java.classifiers.ConcreteClassifier parentClassifier = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
