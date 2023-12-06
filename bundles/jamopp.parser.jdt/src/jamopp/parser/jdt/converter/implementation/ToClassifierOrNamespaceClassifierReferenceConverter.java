@@ -14,12 +14,9 @@
 package jamopp.parser.jdt.converter.implementation;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
@@ -34,11 +31,11 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter implements ToCo
 
 	private final TypesFactory typesFactory;
 	private final UtilNamedElement utilNamedElement;
-	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
+	private final ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
 
 	@Inject
 	ToClassifierOrNamespaceClassifierReferenceConverter(UtilNamedElement utilNamedElement,
-			ToClassifierReferenceConverter toClassifierReferenceConverter, TypesFactory typesFactory) {
+			ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter, TypesFactory typesFactory) {
 		this.typesFactory = typesFactory;
 		this.utilNamedElement = utilNamedElement;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
@@ -52,16 +49,14 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter implements ToCo
 		QualifiedName qualifiedName = (QualifiedName) name;
 		NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 		if (name.resolveBinding() == null) {
-			ref.getClassifierReferences()
-					.add(toClassifierReferenceConverter.convert(qualifiedName.getName()));
+			ref.getClassifierReferences().add(toClassifierReferenceConverter.convert(qualifiedName.getName()));
 			utilNamedElement.addNameToNameSpace(qualifiedName.getQualifier(), ref);
 			return ref;
 		}
 		Name qualifier = qualifiedName.getQualifier();
 		SimpleName simpleName = qualifiedName.getName();
 		while (simpleName != null && simpleName.resolveBinding() instanceof ITypeBinding) {
-			ref.getClassifierReferences().add(0,
-					toClassifierReferenceConverter.convert(simpleName));
+			ref.getClassifierReferences().add(0, toClassifierReferenceConverter.convert(simpleName));
 			if (qualifier == null) {
 				simpleName = null;
 			} else if (qualifier.isSimpleName()) {

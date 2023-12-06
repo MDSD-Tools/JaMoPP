@@ -4,26 +4,27 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Expression;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.expressions.AssignmentExpressionChild;
 
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 
 public class ToAnnotationValueConverter implements ToConverter<Expression, AnnotationValue> {
 
-	private final ToArrayInitialisierConverter toArrayInitialisierComverter;
-	private final ToExpressionConverter utilExpressionConverter;
-	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
+	private final ToConverter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierComverter;
+	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToAnnotationValueConverter(ToExpressionConverter utilExpressionConverter,
-			ToArrayInitialisierConverter toArrayInitialisierComverter,
-			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+	ToAnnotationValueConverter(
+			ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
+			ToConverter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierComverter,
+			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toArrayInitialisierComverter = toArrayInitialisierComverter;
-		this.utilExpressionConverter = utilExpressionConverter;
+		this.toExpressionConverter = utilExpressionConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
@@ -35,7 +36,7 @@ public class ToAnnotationValueConverter implements ToConverter<Expression, Annot
 		if (expr.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
 			return toArrayInitialisierComverter.convert((ArrayInitializer) expr);
 		}
-		return (AssignmentExpressionChild) utilExpressionConverter.convert(expr);
+		return (AssignmentExpressionChild) toExpressionConverter.convert(expr);
 	}
 
 }

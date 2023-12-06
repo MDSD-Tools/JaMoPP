@@ -4,8 +4,10 @@ import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.classifiers.AnonymousClass;
+import org.emftext.language.java.members.Member;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
@@ -15,11 +17,11 @@ public class ToAnonymousClassConverter implements ToConverter<AnonymousClassDecl
 
 	private final UtilJdtResolver utilJDTResolver;
 	private final UtilLayout utilLayout;
-	private final ToClassMemberConverter toClassMemberConverter;
+	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
 	ToAnonymousClassConverter(UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
-			ToClassMemberConverter toClassMemberConverter) {
+			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.utilLayout = utilLayout;
 		this.toClassMemberConverter = toClassMemberConverter;
@@ -35,8 +37,8 @@ public class ToAnonymousClassConverter implements ToConverter<AnonymousClassDecl
 		} else {
 			result = utilJDTResolver.getAnonymousClass("" + anon.hashCode());
 		}
-		anon.bodyDeclarations().forEach(
-				obj -> result.getMembers().add(toClassMemberConverter.convert((BodyDeclaration) obj)));
+		anon.bodyDeclarations()
+				.forEach(obj -> result.getMembers().add(toClassMemberConverter.convert((BodyDeclaration) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, anon);
 		return result;
 	}

@@ -12,6 +12,7 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.helper.UtilToArrayDimensionsAndSetConverter;
@@ -24,7 +25,7 @@ import jamopp.parser.jdt.util.UtilNamedElement;
 public class ToInterfaceMethodOrConstructorConverter implements ToConverter<MethodDeclaration, Member> {
 
 	private final StatementsFactory statementsFactory;
-	private final ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter;
+	private final ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
 	private final UtilJdtResolver utilJdtResolver;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
@@ -44,10 +45,11 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 			ToTypeReferenceConverter toTypeReferenceConverter, ToTypeParameterConverter toTypeParameterConverter,
 			ToReceiverParameterConverter toReceiverParameterConverter, ToParameterConverter toParameterConverter,
 			ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
-			ToClassMethodOrConstructorConverter toClassMethodOrConstructorConverter,
+			@Named("ToClassMethodOrConstructorConverter") ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToNamespaceClassifierReferenceConverter inNamespaceClassifierReferenceWrapper,
-			StatementsFactory statementsFactory, UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			StatementsFactory statementsFactory,
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
 		this.utilJdtResolver = utilJdtResolver;
@@ -91,9 +93,8 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 		}
 		methodDecl.parameters().forEach(
 				obj -> result.getParameters().add(toParameterConverter.convert((SingleVariableDeclaration) obj)));
-		methodDecl.thrownExceptionTypes()
-				.forEach(obj -> result.getExceptions().add(inNamespaceClassifierReferenceWrapper
-						.convert(toTypeReferenceConverter.convert((Type) obj))));
+		methodDecl.thrownExceptionTypes().forEach(obj -> result.getExceptions()
+				.add(inNamespaceClassifierReferenceWrapper.convert(toTypeReferenceConverter.convert((Type) obj))));
 		if (methodDecl.getBody() != null) {
 			utilTypeInstructionSeparation.addMethod(methodDecl.getBody(), result);
 		} else {

@@ -10,15 +10,16 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 
-public class ToBlockConverter implements ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> {
+public class ToBlockConverter
+		implements ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> {
 
 	private final StatementsFactory statementsFactory;
 	private final IUtilTypeInstructionSeparation toInstructionSeparation;
-	private final ToModifierConverter toModifierConverter;
+	private final ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter;
 
 	@Inject
-	ToBlockConverter(ToModifierConverter toModifierConverter, IUtilTypeInstructionSeparation toInstructionSeparation,
-			StatementsFactory statementsFactory) {
+	ToBlockConverter(ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter,
+			IUtilTypeInstructionSeparation toInstructionSeparation, StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toInstructionSeparation = toInstructionSeparation;
 		this.toModifierConverter = toModifierConverter;

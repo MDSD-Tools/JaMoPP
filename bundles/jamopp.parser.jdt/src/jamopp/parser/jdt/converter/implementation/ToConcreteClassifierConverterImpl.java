@@ -7,8 +7,10 @@ import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.members.Member;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
@@ -22,7 +24,7 @@ public class ToConcreteClassifierConverterImpl
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter;
-	private final ToInterfaceMemberConverter toInterfaceMember;
+	private final ToConverter<BodyDeclaration, Member> toInterfaceMember;
 	private final ToClassOrInterfaceConverter toClassOrInterface;
 	private final ToEnumConverter toEnumConverter;
 	private final UtilNamedElement utilNamedElement;
@@ -30,7 +32,8 @@ public class ToConcreteClassifierConverterImpl
 	@Inject
 	ToConcreteClassifierConverterImpl(ToModifierOrAnnotationInstanceConverter toModifierOrAnnotationInstanceConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			UtilNamedElement utilNamedElement, ToInterfaceMemberConverter toInterfaceMember,
+			UtilNamedElement utilNamedElement,
+			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMember,
 			ToEnumConverter toEnumConverter, ToClassOrInterfaceConverter toClassOrInterface) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

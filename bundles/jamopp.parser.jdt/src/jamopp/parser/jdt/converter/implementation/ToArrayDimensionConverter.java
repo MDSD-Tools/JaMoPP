@@ -2,6 +2,7 @@ package jamopp.parser.jdt.converter.implementation;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Dimension;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.arrays.ArraysFactory;
 
@@ -14,11 +15,11 @@ public class ToArrayDimensionConverter implements ToConverter<Dimension, ArrayDi
 
 	private final ArraysFactory arraysFactory;
 	private final UtilLayout utilLayout;
-	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
+	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToArrayDimensionConverter(UtilLayout utilLayout, ToAnnotationInstanceConverter toAnnotationInstanceConverter,
-			ArraysFactory arraysFactory) {
+	ToArrayDimensionConverter(UtilLayout utilLayout,
+			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;

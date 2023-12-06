@@ -6,8 +6,10 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.TypeParameter;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Interface;
+import org.emftext.language.java.members.Member;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
@@ -16,14 +18,15 @@ public class ToClassOrInterfaceConverter implements ToConverter<TypeDeclaration,
 
 	private final ToTypeParameterConverter toTypeParameterConverter;
 	private final UtilJdtResolver utilJdtResolver;
-	private final ToClassMemberConverter toClassMemberConverter;
-	private final ToInterfaceMemberConverter toInterfaceMemberConverter;
+	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
+	private final ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter;
 	private final ToTypeReferenceConverter toTypeReferenceConverter;
 
 	@Inject
 	ToClassOrInterfaceConverter(UtilJdtResolver utilJdtResolver, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToTypeParameterConverter toTypeParameterConverter, ToInterfaceMemberConverter toInterfaceMemberConverter,
-			ToClassMemberConverter toClassMemberConverter) {
+			ToTypeParameterConverter toTypeParameterConverter,
+			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter,
+			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toTypeParameterConverter = toTypeParameterConverter;
 		this.utilJdtResolver = utilJdtResolver;
 		this.toClassMemberConverter = toClassMemberConverter;
