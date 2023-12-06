@@ -1,11 +1,14 @@
 package jamopp.parser.jdt.converter.implementation;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.generics.ExtendsTypeArgument;
 import org.emftext.language.java.generics.GenericsFactory;
 import org.emftext.language.java.generics.QualifiedTypeArgument;
 import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.generics.TypeArgument;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -16,11 +19,11 @@ public class ToTypeArgumentConverter implements ToConverter<ITypeBinding, TypeAr
 
 	private final GenericsFactory genericsFactory;
 	private final UtilArrays utilJdtBindingConverter;
-	private final ToTypeReferencesConverter toTypeReferencesConverter;
+	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	ToTypeArgumentConverter(UtilArrays utilJdtBindingConverter, ToTypeReferencesConverter toTypeReferencesConverter,
-			GenericsFactory genericsFactory) {
+	ToTypeArgumentConverter(UtilArrays utilJdtBindingConverter,
+			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.utilJdtBindingConverter = utilJdtBindingConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;

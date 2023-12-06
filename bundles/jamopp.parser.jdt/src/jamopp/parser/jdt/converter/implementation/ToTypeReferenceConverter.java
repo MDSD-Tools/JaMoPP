@@ -1,8 +1,11 @@
 package jamopp.parser.jdt.converter.implementation;
 
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NameQualifiedType;
 import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
@@ -10,6 +13,8 @@ import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
+import org.emftext.language.java.annotations.AnnotationInstance;
+import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.InferableType;
 import org.emftext.language.java.types.NamespaceClassifierReference;
@@ -17,8 +22,6 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilArrays;
 import jamopp.parser.jdt.util.UtilLayout;
@@ -28,19 +31,18 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 	private final TypesFactory typesFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilArrays jdtBindingConverterUtility;
-	private final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
-	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
-	private final ToClassifierReferenceConverter toClassifierReferenceConverter;
-	private final ToTypeReferencesConverter toTypeReferencesConverter;
-	private final Provider<TypeToTypeArgumentConverter> typeToTypeArgumentConverter;
+	private final ToConverter<Name, TypeReference> utilBaseConverter;
+	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
+	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToTypeReferenceConverter(ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
-			TypesFactory typesFactory, Provider<TypeToTypeArgumentConverter> typeToTypeArgumentConverter,
-			ToTypeReferencesConverter toTypeReferencesConverter,
-			ToClassifierReferenceConverter toClassifierReferenceConverter,
-			ToAnnotationInstanceConverter toAnnotationInstanceConverter, UtilLayout layoutInformationConverter,
-			UtilArrays jdtBindingConverterUtility) {
+	ToTypeReferenceConverter(ToConverter<Name, TypeReference> utilBaseConverter, TypesFactory typesFactory,
+			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
+			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+			UtilLayout layoutInformationConverter, UtilArrays jdtBindingConverterUtility) {
 		this.typesFactory = typesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
@@ -48,7 +50,6 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
-		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -159,11 +160,16 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 				container = containerContainer.getClassifierReferences()
 						.get(containerContainer.getClassifierReferences().size() - 1);
 			}
-			paramT.typeArguments().forEach(obj -> container.getTypeArguments()
-					.add(typeToTypeArgumentConverter.get().convert((Type) obj)));
+			paramT.typeArguments()
+					.forEach(obj -> container.getTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 			return ref;
 		}
 		return null;
+	}
+
+	@Inject
+	public void setTypeToTypeArgumentConverter(ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {
+		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
 }

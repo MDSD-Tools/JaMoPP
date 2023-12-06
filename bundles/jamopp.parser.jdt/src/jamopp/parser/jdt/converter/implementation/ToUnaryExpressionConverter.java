@@ -5,24 +5,24 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
+import org.emftext.language.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToUnaryExpressionConverter implements ToConverter<PrefixExpression, UnaryExpression> {
 
-	private final UtilLayout layoutInformationConverter;
 	private final ExpressionsFactory expressionsFactory;
-	private final ToExpressionConverter toExpressionConverter;
-	private final ToUnaryOperatorConverter toUnaryOperatorConverter;
+	private final UtilLayout layoutInformationConverter;
+	private final ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter;
+	private final ToConverter<PrefixExpression.Operator, UnaryOperator> toUnaryOperatorConverter;
 
 	@Inject
 	ToUnaryExpressionConverter(ToUnaryOperatorConverter toUnaryOperatorConverter,
-			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
-			ExpressionsFactory expressionsFactory) {
+			ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;

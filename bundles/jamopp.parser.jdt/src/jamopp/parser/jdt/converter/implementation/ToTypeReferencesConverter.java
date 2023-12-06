@@ -5,13 +5,12 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.classifiers.Classifier;
+import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
 import jamopp.parser.jdt.util.UtilNamedElement;
@@ -19,15 +18,14 @@ import jamopp.parser.jdt.util.UtilNamedElement;
 public class ToTypeReferencesConverter implements ToConverter<ITypeBinding, List<TypeReference>> {
 
 	private final TypesFactory typesFactory;
-	private final Provider<ToTypeArgumentConverter> toTypeArgumentConverter;
 	private final UtilJdtResolver utilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
+	private ToConverter<ITypeBinding, TypeArgument> toTypeArgumentConverter;
 
 	@Inject
 	ToTypeReferencesConverter(TypesFactory typesFactory, UtilNamedElement utilNamedElement,
-			UtilJdtResolver utilJdtResolver, Provider<ToTypeArgumentConverter> toTypeArgumentConverter) {
+			UtilJdtResolver utilJdtResolver) {
 		this.typesFactory = typesFactory;
-		this.toTypeArgumentConverter = toTypeArgumentConverter;
 		this.utilJdtResolver = utilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 	}
@@ -48,7 +46,7 @@ public class ToTypeReferencesConverter implements ToConverter<ITypeBinding, List
 			ClassifierReference ref = typesFactory.createClassifierReference();
 			if (binding.isParameterizedType()) {
 				for (ITypeBinding b : binding.getTypeArguments()) {
-					ref.getTypeArguments().add(toTypeArgumentConverter.get().convert(b));
+					ref.getTypeArguments().add(toTypeArgumentConverter.convert(b));
 				}
 			}
 			ref.setTarget(classifier);
@@ -77,6 +75,11 @@ public class ToTypeReferencesConverter implements ToConverter<ITypeBinding, List
 		} else if ("char".equals(binding.getName())) {
 			result.add(typesFactory.createChar());
 		}
+	}
+
+	@Inject
+	public void setToTypeArgumentConverter(ToConverter<ITypeBinding, TypeArgument> toTypeArgumentConverter) {
+		this.toTypeArgumentConverter = toTypeArgumentConverter;
 	}
 
 }

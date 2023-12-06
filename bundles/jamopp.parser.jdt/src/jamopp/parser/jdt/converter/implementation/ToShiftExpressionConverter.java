@@ -5,24 +5,24 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.ShiftExpression;
 import org.emftext.language.java.expressions.ShiftExpressionChild;
+import org.emftext.language.java.operators.ShiftOperator;
 
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.ToExpressionConverter;
 import jamopp.parser.jdt.util.UtilLayout;
 
 public class ToShiftExpressionConverter implements ToConverter<InfixExpression, ShiftExpression> {
 
-	private final UtilLayout layoutInformationConverter;
-	private final ToExpressionConverter toExpressionConverter;
-	private final ToShiftOperatorConverter toShiftOperatorConverter;
 	private final ExpressionsFactory expressionsFactory;
+	private final UtilLayout layoutInformationConverter;
+	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final ToConverter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter;
 
 	@Inject
-	ToShiftExpressionConverter(ToShiftOperatorConverter toShiftOperatorConverter,
-			ToExpressionConverter toExpressionConverter, UtilLayout layoutInformationConverter,
-			ExpressionsFactory expressionsFactory) {
+	ToShiftExpressionConverter(ToConverter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter,
+			ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toShiftOperatorConverter = toShiftOperatorConverter;

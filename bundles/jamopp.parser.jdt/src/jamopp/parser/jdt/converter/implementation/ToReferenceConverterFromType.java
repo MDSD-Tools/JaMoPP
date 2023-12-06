@@ -6,8 +6,10 @@ import org.eclipse.jdt.core.dom.NameQualifiedType;
 import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -21,16 +23,16 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final ToTypeReferenceConverter toTypeReferenceConverter;
-	private final ToAnnotationInstanceConverter toAnnotationInstanceConverter;
-	private final UtilReferenceWalker utilReferenceWalker;
-	private final ToReferenceConverterFromName toReferenceConverterFromName;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilReferenceWalker utilReferenceWalker;
+	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
+	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final ToReferenceConverterFromName toReferenceConverterFromName;
 
 	@Inject
-	ToReferenceConverterFromType(ToTypeReferenceConverter toTypeReferenceConverter,
+	ToReferenceConverterFromType(ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToReferenceConverterFromName toReferenceConverterFromName,
-			ToAnnotationInstanceConverter toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
+			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
 			UtilReferenceWalker utilReferenceWalker, UtilLayout layoutInformationConverter,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.referencesFactory = referencesFactory;
