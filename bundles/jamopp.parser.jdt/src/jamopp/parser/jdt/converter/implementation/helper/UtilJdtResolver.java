@@ -28,8 +28,7 @@ import org.emftext.language.java.variables.VariablesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.converter.implementation.converter.BindingToModuleConverter;
-import jamopp.parser.jdt.converter.implementation.converter.BindingToPackageConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
@@ -43,9 +42,9 @@ public class UtilJdtResolver implements IUtilJdtResolver {
 	private final MembersFactory membersFactory;
 	private final ClassifiersFactory classifiersFactory;
 	private final ContainersFactory containersFactory;
-	private final Provider<BindingToPackageConverter> bindingToPackageConverter;
-	private final Provider<BindingToModuleConverter> bindingToModuleConverter;
 	private final Provider<IUtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter;
+	private final Provider<ToConverter<IPackageBinding, org.emftext.language.java.containers.Package>> bindingToPackageConverter;
+	private final Provider<ToConverter<IModuleBinding, org.emftext.language.java.containers.Module>> bindingToModuleConverter;
 
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
@@ -83,8 +82,8 @@ public class UtilJdtResolver implements IUtilJdtResolver {
 	UtilJdtResolver(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
 			TypesFactory typesFactory, StatementsFactory statementsFactory, MembersFactory membersFactory,
 			VariablesFactory variablesFactory, ParametersFactory parametersFactory, GenericsFactory genericsFactory,
-			Provider<BindingToPackageConverter> bindingToPackageConverter,
-			Provider<BindingToModuleConverter> bindingToModuleConverter,
+			Provider<ToConverter<IPackageBinding, org.emftext.language.java.containers.Package>> bindingToPackageConverter,
+			Provider<ToConverter<IModuleBinding, org.emftext.language.java.containers.Module>> bindingToModuleConverter,
 			Provider<IUtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter) {
 		this.parametersFactory = parametersFactory;
 		this.variablesFactory = variablesFactory;

@@ -8,11 +8,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
+import org.emftext.language.java.annotations.AnnotationValue;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationValueConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
@@ -22,7 +22,7 @@ public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSepara
 
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
-	private final ToAnnotationValueConverter toAnnotationValueConverter;
+	private final ToConverter<Expression, AnnotationValue> toAnnotationValueConverter;
 	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
 	private final ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
 
@@ -37,7 +37,7 @@ public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSepara
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
 	@Inject
-	UtilTypeInstructionSeparation(ToAnnotationValueConverter toAnnotationValueConverter,
+	UtilTypeInstructionSeparation(ToConverter<Expression, AnnotationValue> toAnnotationValueConverter,
 			ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter,
 			IUtilJdtResolver jdtResolverUtility,
 			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,

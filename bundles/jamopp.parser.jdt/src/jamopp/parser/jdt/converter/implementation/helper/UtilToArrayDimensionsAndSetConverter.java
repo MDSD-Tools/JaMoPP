@@ -3,19 +3,20 @@ package jamopp.parser.jdt.converter.implementation.helper;
 import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.Type;
+import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.arrays.ArrayTypeable;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.converter.ToArrayDimensionConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class UtilToArrayDimensionsAndSetConverter implements IUtilToArrayDimensionsAndSetConverter {
 
-	private final ToArrayDimensionConverter toArrayDimensionConverter;
+	private final ToConverter<Dimension, ArrayDimension> toArrayDimensionConverter;
 
 	@Inject
-	public UtilToArrayDimensionsAndSetConverter(ToArrayDimensionConverter toArrayDimensionConverter) {
+	public UtilToArrayDimensionsAndSetConverter(ToConverter<Dimension, ArrayDimension> toArrayDimensionConverter) {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 
