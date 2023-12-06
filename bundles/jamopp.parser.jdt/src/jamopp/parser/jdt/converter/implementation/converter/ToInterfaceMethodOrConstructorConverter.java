@@ -19,11 +19,11 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
@@ -34,7 +34,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 	private final IUtilLayout utilLayout;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final IUtilJdtResolver iUtilJdtResolver;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
@@ -53,7 +53,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 			ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			@Named("ToClassMethodOrConstructorConverter") ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {

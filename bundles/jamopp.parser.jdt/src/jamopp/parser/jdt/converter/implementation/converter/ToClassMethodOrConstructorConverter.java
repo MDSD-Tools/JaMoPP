@@ -19,11 +19,11 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
@@ -33,7 +33,7 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final IUtilLayout utilLayout;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
@@ -51,7 +51,7 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 			ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
 			ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			IUtilJdtResolver jdtResolverUtility,
 			ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,

@@ -13,11 +13,11 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
@@ -28,7 +28,7 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 	private final IUtilLayout utilLayout;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final IUtilTypeInstructionSeparation toInstructionSeparation;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
@@ -38,7 +38,7 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			IUtilTypeInstructionSeparation toInstructionSeparation,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;

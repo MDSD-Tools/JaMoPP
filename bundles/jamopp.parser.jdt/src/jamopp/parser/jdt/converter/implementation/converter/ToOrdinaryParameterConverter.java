@@ -10,11 +10,11 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableDeclaration, OrdinaryParameter> {
@@ -22,7 +22,7 @@ public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableD
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
@@ -31,7 +31,7 @@ public class ToOrdinaryParameterConverter implements ToConverter<SingleVariableD
 	ToOrdinaryParameterConverter(IUtilNamedElement utilNamedElement,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;

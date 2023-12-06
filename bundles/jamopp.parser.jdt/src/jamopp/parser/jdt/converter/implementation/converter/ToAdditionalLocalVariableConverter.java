@@ -8,11 +8,11 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 
 public class ToAdditionalLocalVariableConverter
 		implements ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> {
@@ -20,12 +20,12 @@ public class ToAdditionalLocalVariableConverter
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
 	ToAdditionalLocalVariableConverter(IUtilNamedElement utilNamedElement,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;

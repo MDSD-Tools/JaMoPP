@@ -45,11 +45,11 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class StatementToStatementConverterImpl
@@ -61,7 +61,7 @@ public class StatementToStatementConverterImpl
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
@@ -80,7 +80,7 @@ public class StatementToStatementConverterImpl
 
 	@Inject
 	StatementToStatementConverterImpl(IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			IUtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			ToConverter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> toLocalVariableConverter,

@@ -13,11 +13,11 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class ToLocalVariableConverter
@@ -27,7 +27,7 @@ public class ToLocalVariableConverter
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter;
@@ -37,7 +37,7 @@ public class ToLocalVariableConverter
 	ToLocalVariableConverter(IUtilNamedElement utilNamedElement,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,

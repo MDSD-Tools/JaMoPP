@@ -7,25 +7,25 @@ import org.emftext.language.java.members.AdditionalField;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarationFragment, AdditionalField> {
 
 	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilNamedElement utilNamedElement;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilTypeInstructionSeparation toInstructionSeparation;
 	private final IUtilLayout utilLayout;
 
 	@Inject
 	ToAdditionalFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout,
 			IUtilJdtResolver iUtilJdtResolver, IUtilTypeInstructionSeparation toInstructionSeparation,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
+			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
