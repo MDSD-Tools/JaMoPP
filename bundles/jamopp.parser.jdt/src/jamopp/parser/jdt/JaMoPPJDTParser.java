@@ -36,7 +36,7 @@ import org.emftext.language.java.containers.JavaRoot;
 import jamopp.parser.api.JaMoPPParserAPI;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
-import jamopp.parser.jdt.injector.InjectorMine;
+import jamopp.parser.jdt.injector.Injector;
 import jamopp.parser.jdt.other.JamoppClasspathEntriesSearcher;
 import jamopp.parser.jdt.other.JamoppCompilationUnitsFactory;
 import jamopp.parser.jdt.other.JamoppFileWithJDTParser;
@@ -64,10 +64,10 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
 		DEFAULT_JAVA_VERSION = "14";
 
-		typeInstructionSeparationUtility = InjectorMine.getTypeInstructionSeparationUtility();
-		jdtResolverUtility = InjectorMine.getJDTResolverUtility();
-		converter = InjectorMine.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
-		containersFactory = InjectorMine.getContainersFactory();
+		typeInstructionSeparationUtility = Injector.getTypeInstructionSeparationUtility();
+		jdtResolverUtility = Injector.getJDTResolverUtility();
+		converter = Injector.getOrdinaryCompilationUnitJDTASTVisitorAndConverter();
+		containersFactory = Injector.getContainersFactory();
 
 		logger = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
 		jamoppClasspathEntriesSearcher = new JamoppClasspathEntriesSearcher(logger);

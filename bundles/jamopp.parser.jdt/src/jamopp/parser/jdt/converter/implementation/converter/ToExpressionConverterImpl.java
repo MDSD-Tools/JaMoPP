@@ -5,18 +5,8 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.MethodReference;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.implementation.handler.HandlerAssignment;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerCastExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerConditionalExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerInfixExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerInstanceOf;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerLambdaExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerMethodReference;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerPostfixExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerPrefixExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerPrimaryExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerSwitchExpression;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 
@@ -67,57 +57,63 @@ public class ToExpressionConverterImpl
 	}
 
 	@Inject
-	public void setHandlerPrimaryExpression(HandlerPrimaryExpression handlerPrimaryExpression) {
+	public void setHandlerPrimaryExpression(
+			@Named("HandlerPrimaryExpression") ExpressionHandler handlerPrimaryExpression) {
 		this.handlerPrimaryExpression = handlerPrimaryExpression;
 	}
 
 	@Inject
-	public void setHandlerAssignment(HandlerAssignment handlerAssignment) {
+	public void setHandlerAssignment(@Named("HandlerAssignment") ExpressionHandler handlerAssignment) {
 		this.handlerAssignment = handlerAssignment;
 	}
 
 	@Inject
-	public void setHandlerConditionalExpression(HandlerConditionalExpression handlerConditionalExpression) {
+	public void setHandlerConditionalExpression(
+			@Named("HandlerConditionalExpression") ExpressionHandler handlerConditionalExpression) {
 		this.handlerConditionalExpression = handlerConditionalExpression;
 	}
 
 	@Inject
-	public void setHandlerInfixExpression(HandlerInfixExpression handlerInfixExpression) {
+	public void setHandlerInfixExpression(@Named("HandlerInfixExpression") ExpressionHandler handlerInfixExpression) {
 		this.handlerInfixExpression = handlerInfixExpression;
 	}
 
 	@Inject
-	public void setHandlerInstanceOf(HandlerInstanceOf handlerInstanceOf) {
+	public void setHandlerInstanceOf(@Named("HandlerInstanceOf") ExpressionHandler handlerInstanceOf) {
 		this.handlerInstanceOf = handlerInstanceOf;
 	}
 
 	@Inject
-	public void setHandlerPrefixExpression(HandlerPrefixExpression handlerPrefixExpression) {
+	public void setHandlerPrefixExpression(
+			@Named("HandlerPrefixExpression") ExpressionHandler handlerPrefixExpression) {
 		this.handlerPrefixExpression = handlerPrefixExpression;
 	}
 
 	@Inject
-	public void setHandlerPostfixExpression(HandlerPostfixExpression handlerPostfixExpression) {
+	public void setHandlerPostfixExpression(
+			@Named("HandlerPostfixExpression") ExpressionHandler handlerPostfixExpression) {
 		this.handlerPostfixExpression = handlerPostfixExpression;
 	}
 
 	@Inject
-	public void setHandlerCastExpression(HandlerCastExpression handlerCastExpression) {
+	public void setHandlerCastExpression(@Named("HandlerCastExpression") ExpressionHandler handlerCastExpression) {
 		this.handlerCastExpression = handlerCastExpression;
 	}
 
 	@Inject
-	public void setHandlerSwitchExpression(HandlerSwitchExpression handlerSwitchExpression) {
+	public void setHandlerSwitchExpression(
+			@Named("HandlerSwitchExpression") ExpressionHandler handlerSwitchExpression) {
 		this.handlerSwitchExpression = handlerSwitchExpression;
 	}
 
 	@Inject
-	public void setHandlerMethodReference(HandlerMethodReference handlerMethodReference) {
+	public void setHandlerMethodReference(@Named("HandlerMethodReference") ExpressionHandler handlerMethodReference) {
 		this.handlerMethodReference = handlerMethodReference;
 	}
 
 	@Inject
-	public void setHandlerLambdaExpression(HandlerLambdaExpression handlerLambdaExpression) {
+	public void setHandlerLambdaExpression(
+			@Named("HandlerLambdaExpression") ExpressionHandler handlerLambdaExpression) {
 		this.handlerLambdaExpression = handlerLambdaExpression;
 	}
 

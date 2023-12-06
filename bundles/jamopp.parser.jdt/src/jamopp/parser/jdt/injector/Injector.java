@@ -3,14 +3,13 @@ package jamopp.parser.jdt.injector;
 import org.emftext.language.java.containers.ContainersFactory;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 
-public class InjectorMine {
+public class Injector {
 
 	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	private static final IUtilJdtResolver jdtResolverUtility;
@@ -18,7 +17,8 @@ public class InjectorMine {
 	private static final ContainersFactory containersFactory;
 
 	static {
-		Injector injector = Guice.createInjector(new UtilModule(), new FactoryModule(), new ConverterModule());
+		com.google.inject.Injector injector = Guice.createInjector(new UtilModule(), new FactoryModule(),
+				new ConverterModule(), new HandlerModule());
 
 		ordinaryCompilationUnitJDTASTVisitorAndConverter = injector
 				.getInstance(VisitorAndConverterOrdinaryCompilationUnitJDTAST.class);
