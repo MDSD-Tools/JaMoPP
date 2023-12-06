@@ -14,6 +14,8 @@
 package jamopp.parser.jdt.visitor;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
+import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
@@ -21,7 +23,9 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.ContainersFactory;
@@ -37,37 +41,35 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modules.ModulesFactory;
 import org.emftext.language.java.references.ReferenceableElement;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilLayout;
-import jamopp.parser.jdt.converter.helper.UtilNamedElement;
-import jamopp.parser.jdt.converter.implementation.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.implementation.ToClassifierOrNamespaceClassifierReferenceConverter;
-import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
+import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 
 public abstract class VisitorAndConverterAbstractAndEmptyModelJDTAST extends ASTVisitor {
 
 	protected final ContainersFactory containersFactory;
 	protected final ModulesFactory modulesFactory;
-	protected final UtilLayout layoutInformationConverter;
-	protected final UtilJdtResolver jdtResolverUtility;
-	protected final ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter;
 	protected final ModifiersFactory modifiersFactory;
 	protected final ImportsFactory importsFactory;
+	protected final UtilLayout layoutInformationConverter;
 	protected final UtilNamedElement utilNamedElement;
-	protected final ToAnnotationInstanceConverter annotationInstanceConverter;
-	protected final ToConcreteClassifierConverter ClassifierConverterUtility;
+	protected final UtilJdtResolver jdtResolverUtility;
+	protected final ToConverter<Name, TypeReference> utilBaseConverter;
+	protected final ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter;
+	protected final ToConverter<AbstractTypeDeclaration, ConcreteClassifier> ClassifierConverterUtility;
 
 	@Inject
-	protected
-	VisitorAndConverterAbstractAndEmptyModelJDTAST(UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+	protected VisitorAndConverterAbstractAndEmptyModelJDTAST(UtilLayout layoutInformationConverter,
+			UtilJdtResolver jdtResolverUtility, ToConverter<Name, TypeReference> utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, UtilNamedElement utilNamedElement,
-			ToAnnotationInstanceConverter annotationInstanceConverter,
-			ToConcreteClassifierConverter classifierConverterUtility, ContainersFactory containersFactory,
-			ModulesFactory modulesFactory) {
+			ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter,
+			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
+			ContainersFactory containersFactory, ModulesFactory modulesFactory) {
 		this.containersFactory = containersFactory;
 		this.modulesFactory = modulesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

@@ -5,9 +5,9 @@ import org.emftext.language.java.containers.ContainersFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.converter.interfaces.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 
 public class InjectorMine {
@@ -18,7 +18,7 @@ public class InjectorMine {
 	private static final ContainersFactory containersFactory;
 
 	static {
-		Injector injector = Guice.createInjector(new InjectorGuice());
+		Injector injector = Guice.createInjector(new InjectorGuice(), new FactoryModule(), new ConverterModule());
 
 		ordinaryCompilationUnitJDTASTVisitorAndConverter = injector
 				.getInstance(VisitorAndConverterOrdinaryCompilationUnitJDTAST.class);

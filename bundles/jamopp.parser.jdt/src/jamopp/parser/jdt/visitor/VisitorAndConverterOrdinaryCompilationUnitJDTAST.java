@@ -22,12 +22,12 @@ import org.emftext.language.java.modules.ModulesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.helper.UtilLayout;
-import jamopp.parser.jdt.converter.helper.UtilNamedElement;
-import jamopp.parser.jdt.converter.implementation.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.implementation.ToClassifierOrNamespaceClassifierReferenceConverter;
-import jamopp.parser.jdt.converter.interfaces.ToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
+import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
+import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConcreteClassifierConverter;
 
 public class VisitorAndConverterOrdinaryCompilationUnitJDTAST extends VisitorAndConverterModuleJDTAST {
 
