@@ -16,16 +16,17 @@ package jamopp.parser.jdt.visitor;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Name;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modules.ModulesFactory;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
@@ -35,14 +36,15 @@ public abstract class PackageJDTASTVisitorAndConverter extends VisitorAndConvert
 
 	@Inject
 	protected PackageJDTASTVisitorAndConverter(IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+			IUtilJdtResolver jdtResolverUtility, ToConverter<Name, TypeReference> utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
-			ToAnnotationInstanceConverter annotationInstanceConverter,
+			ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter,
 			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
 			ContainersFactory containersFactory, ModulesFactory modulesFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement, annotationInstanceConverter, classifierConverterUtility, containersFactory,
 				modulesFactory);
+		// TODO Auto-generated constructor stub
 	}
 
 	@SuppressWarnings("unchecked")

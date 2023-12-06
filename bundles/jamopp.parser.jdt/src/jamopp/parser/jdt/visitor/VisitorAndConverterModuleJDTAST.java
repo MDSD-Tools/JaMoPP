@@ -27,16 +27,16 @@ import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.ProvidesDirective;
 import org.eclipse.jdt.core.dom.RequiresDirective;
 import org.eclipse.jdt.core.dom.UsesDirective;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modules.ModulesFactory;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
@@ -45,15 +45,16 @@ import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 public class VisitorAndConverterModuleJDTAST extends PackageJDTASTVisitorAndConverter {
 
 	@Inject
-	VisitorAndConverterModuleJDTAST(IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
-			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
-			ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
-			ToAnnotationInstanceConverter annotationInstanceConverter,
+	protected VisitorAndConverterModuleJDTAST(IUtilLayout layoutInformationConverter,
+			IUtilJdtResolver jdtResolverUtility, ToConverter<Name, TypeReference> utilBaseConverter,
+			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
+			ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter,
 			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
 			ContainersFactory containersFactory, ModulesFactory modulesFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement, annotationInstanceConverter, classifierConverterUtility, containersFactory,
 				modulesFactory);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
