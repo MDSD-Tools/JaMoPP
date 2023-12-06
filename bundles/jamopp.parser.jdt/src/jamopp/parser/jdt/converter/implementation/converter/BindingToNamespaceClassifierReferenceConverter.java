@@ -9,17 +9,17 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class BindingToNamespaceClassifierReferenceConverter
 		implements ToConverter<ITypeBinding, NamespaceClassifierReference> {
 
 	private final TypesFactory typesFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final IUtilJdtResolver jdtTResolverUtility;
 
 	@Inject
-	BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, UtilJdtResolver jdtTResolverUtility) {
+	BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, IUtilJdtResolver jdtTResolverUtility) {
 		this.typesFactory = typesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}

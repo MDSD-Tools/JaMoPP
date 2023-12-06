@@ -30,8 +30,10 @@ import com.google.inject.Provider;
 
 import jamopp.parser.jdt.converter.implementation.converter.BindingToModuleConverter;
 import jamopp.parser.jdt.converter.implementation.converter.BindingToPackageConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
-public class UtilJdtResolver {
+public class UtilJdtResolver implements IUtilJdtResolver {
 
 	private final ParametersFactory parametersFactory;
 	private final VariablesFactory variablesFactory;
@@ -43,7 +45,7 @@ public class UtilJdtResolver {
 	private final ContainersFactory containersFactory;
 	private final Provider<BindingToPackageConverter> bindingToPackageConverter;
 	private final Provider<BindingToModuleConverter> bindingToModuleConverter;
-	private final Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter;
+	private final Provider<IUtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter;
 
 	private static ResourceSet resourceSet;
 	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
@@ -83,7 +85,7 @@ public class UtilJdtResolver {
 			VariablesFactory variablesFactory, ParametersFactory parametersFactory, GenericsFactory genericsFactory,
 			Provider<BindingToPackageConverter> bindingToPackageConverter,
 			Provider<BindingToModuleConverter> bindingToModuleConverter,
-			Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter) {
+			Provider<IUtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter) {
 		this.parametersFactory = parametersFactory;
 		this.variablesFactory = variablesFactory;
 		this.genericsFactory = genericsFactory;
@@ -94,7 +96,7 @@ public class UtilJdtResolver {
 		this.containersFactory = containersFactory;
 		this.bindingToPackageConverter = bindingToPackageConverter;
 		this.bindingToModuleConverter = bindingToModuleConverter;
-		this.utilBindingInfoToConcreteClassifierConverter = utilBindingInfoToConcreteClassifierConverter;
+		this.iUtilBindingInfoToConcreteClassifierConverter = iUtilBindingInfoToConcreteClassifierConverter;
 	}
 
 	public void setResourceSet(ResourceSet set) {
@@ -744,7 +746,8 @@ public class UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(IVariableBinding binding) {
+	public org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(
+			IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getAdditionalLocalVariable(convertToParameterName(binding, true));
 	}
@@ -774,7 +777,8 @@ public class UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.parameters.VariableLengthParameter getVariableLengthParameter(IVariableBinding binding) {
+	public org.emftext.language.java.parameters.VariableLengthParameter getVariableLengthParameter(
+			IVariableBinding binding) {
 		String paramName = convertToParameterName(binding, true);
 		if (nameToVarLenParam.containsKey(paramName)) {
 			return nameToVarLenParam.get(paramName);
@@ -1107,7 +1111,7 @@ public class UtilJdtResolver {
 				return;
 			}
 		} else if (typeBind.isTopLevel()) {
-			utilBindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
+			iUtilBindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
 					extractAdditionalInformationFromTypeBindings);
 		} else if (typeBind.isNested()) {
 			org.emftext.language.java.classifiers.ConcreteClassifier parentClassifier = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
@@ -1212,4 +1216,5 @@ public class UtilJdtResolver {
 			ele.setName(builder.toString());
 		}
 	}
+
 }

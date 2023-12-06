@@ -15,8 +15,8 @@ import org.emftext.language.java.members.InterfaceMethod;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
@@ -26,13 +26,13 @@ public class ToAnnotationInstanceConverter implements ToConverter<Annotation, An
 
 	private final AnnotationsFactory annotationsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
 	private IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	@Inject
 	ToAnnotationInstanceConverter(IUtilNamedElement utilNamedElement, IUtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
+			IUtilJdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

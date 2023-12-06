@@ -25,8 +25,8 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
@@ -34,7 +34,7 @@ public class VisitorAndConverterOrdinaryCompilationUnitJDTAST extends VisitorAnd
 
 	@Inject
 	VisitorAndConverterOrdinaryCompilationUnitJDTAST(IUtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
+			IUtilJdtResolver jdtResolverUtility, ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,
 			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility, ContainersFactory containersFactory,

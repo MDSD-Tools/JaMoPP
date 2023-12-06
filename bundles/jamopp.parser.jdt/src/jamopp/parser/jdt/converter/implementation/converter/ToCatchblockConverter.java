@@ -14,8 +14,8 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
@@ -23,7 +23,7 @@ public class ToCatchblockConverter implements ToConverter<CatchClause, CatchBloc
 
 	private final StatementsFactory statementsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
@@ -32,7 +32,7 @@ public class ToCatchblockConverter implements ToConverter<CatchClause, CatchBloc
 	@Inject
 	ToCatchblockConverter(IUtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			StatementsFactory statementsFactory, IUtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility,
+			IUtilJdtResolver jdtResolverUtility,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
 			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;

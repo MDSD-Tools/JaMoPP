@@ -11,14 +11,14 @@ import org.emftext.language.java.members.EnumConstant;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class ToEnumConstantConverter implements ToConverter<EnumConstantDeclaration, EnumConstant> {
 
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilLayout utilLayout;
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
@@ -26,11 +26,11 @@ public class ToEnumConstantConverter implements ToConverter<EnumConstantDeclarat
 	private final ToConverter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
 
 	@Inject
-	ToEnumConstantConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+	ToEnumConstantConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
 			ToConverter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.utilExpressionConverter = utilExpressionConverter;
@@ -44,9 +44,9 @@ public class ToEnumConstantConverter implements ToConverter<EnumConstantDeclarat
 		EnumConstant result;
 		IVariableBinding binding = enDecl.resolveVariable();
 		if (binding == null) {
-			result = utilJdtResolver.getEnumConstant(enDecl.getName().getIdentifier());
+			result = iUtilJdtResolver.getEnumConstant(enDecl.getName().getIdentifier());
 		} else {
-			result = utilJdtResolver.getEnumConstant(binding);
+			result = iUtilJdtResolver.getEnumConstant(binding);
 		}
 		enDecl.modifiers()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));

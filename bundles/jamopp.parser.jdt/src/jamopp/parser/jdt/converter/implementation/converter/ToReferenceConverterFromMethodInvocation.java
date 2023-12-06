@@ -10,9 +10,9 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
@@ -21,7 +21,7 @@ public class ToReferenceConverterFromMethodInvocation
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
@@ -30,7 +30,7 @@ public class ToReferenceConverterFromMethodInvocation
 	@Inject
 	ToReferenceConverterFromMethodInvocation(IUtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter, ReferencesFactory referencesFactory,
-			IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {

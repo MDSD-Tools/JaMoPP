@@ -3,6 +3,8 @@ package jamopp.parser.jdt.injector;
 import com.google.inject.AbstractModule;
 
 import jamopp.parser.jdt.converter.implementation.helper.UtilArrays;
+import jamopp.parser.jdt.converter.implementation.helper.UtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
 import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
 import jamopp.parser.jdt.converter.implementation.helper.UtilReferenceWalker;
@@ -11,6 +13,8 @@ import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAn
 import jamopp.parser.jdt.converter.implementation.helper.UtilToSwitchCasesAndSetConverter;
 import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
@@ -26,6 +30,9 @@ public class UtilModule extends AbstractModule {
 		super.configure();
 
 		bind(IUtilArrays.class).to(UtilArrays.class);
+		bind(IUtilBindingInfoToConcreteClassifierConverter.class)
+				.to(UtilBindingInfoToConcreteClassifierConverter.class);
+		bind(IUtilJdtResolver.class).to(UtilJdtResolver.class);
 		bind(IUtilLayout.class).to(UtilLayout.class);
 		bind(IUtilNamedElement.class).to(UtilNamedElement.class);
 		bind(IUtilReferenceWalker.class).to(UtilReferenceWalker.class);

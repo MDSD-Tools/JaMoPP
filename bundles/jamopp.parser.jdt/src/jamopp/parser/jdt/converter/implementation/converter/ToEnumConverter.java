@@ -12,21 +12,21 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class ToEnumConverter implements ToConverter<EnumDeclaration, Enumeration> {
 
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter;
 	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	ToEnumConverter(UtilJdtResolver utilJdtResolver, ToConverter<Type, TypeReference> toTypeReferenceConverter,
+	ToEnumConverter(IUtilJdtResolver iUtilJdtResolver, ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter,
 			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toEnumConstantConverter = toEnumConstantConverter;
 		this.toClassMemberConverter = toClassMemberConverter;
@@ -35,7 +35,7 @@ public class ToEnumConverter implements ToConverter<EnumDeclaration, Enumeration
 	@SuppressWarnings("unchecked")
 	@Override
 	public Enumeration convert(EnumDeclaration enumDecl) {
-		Enumeration result = utilJdtResolver.getEnumeration(enumDecl.resolveBinding());
+		Enumeration result = iUtilJdtResolver.getEnumeration(enumDecl.resolveBinding());
 		enumDecl.superInterfaceTypes()
 				.forEach(obj -> result.getImplements().add(toTypeReferenceConverter.convert((Type) obj)));
 		enumDecl.enumConstants().forEach(

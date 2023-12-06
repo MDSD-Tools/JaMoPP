@@ -14,12 +14,13 @@ import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationValueConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 @Singleton
 public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSeparation {
 
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToAnnotationValueConverter toAnnotationValueConverter;
 	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
@@ -38,7 +39,7 @@ public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSepara
 	@Inject
 	UtilTypeInstructionSeparation(ToAnnotationValueConverter toAnnotationValueConverter,
 			ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter,
-			UtilJdtResolver jdtResolverUtility,
+			IUtilJdtResolver jdtResolverUtility,
 			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;

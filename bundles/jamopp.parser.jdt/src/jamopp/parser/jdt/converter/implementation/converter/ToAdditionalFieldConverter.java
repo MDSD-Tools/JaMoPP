@@ -7,16 +7,16 @@ import org.emftext.language.java.members.AdditionalField;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarationFragment, AdditionalField> {
 
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilNamedElement utilNamedElement;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilTypeInstructionSeparation toInstructionSeparation;
@@ -24,9 +24,9 @@ public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarati
 
 	@Inject
 	ToAdditionalFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout,
-			UtilJdtResolver utilJdtResolver, IUtilTypeInstructionSeparation toInstructionSeparation,
+			IUtilJdtResolver iUtilJdtResolver, IUtilTypeInstructionSeparation toInstructionSeparation,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 		this.toInstructionSeparation = toInstructionSeparation;
@@ -39,9 +39,9 @@ public class ToAdditionalFieldConverter implements ToConverter<VariableDeclarati
 		AdditionalField result;
 		IVariableBinding binding = frag.resolveBinding();
 		if (binding != null) {
-			result = utilJdtResolver.getAdditionalField(binding);
+			result = iUtilJdtResolver.getAdditionalField(binding);
 		} else {
-			result = utilJdtResolver.getAdditionalField(frag.getName().getIdentifier());
+			result = iUtilJdtResolver.getAdditionalField(frag.getName().getIdentifier());
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter

@@ -45,9 +45,9 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
@@ -58,7 +58,7 @@ public class StatementToStatementConverterImpl
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
@@ -87,7 +87,7 @@ public class StatementToStatementConverterImpl
 			ToConverter<CatchClause, CatchBlock> toCatchblockConverter,
 			ToConverter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
 			ToConverter<SwitchStatement, Switch> switchToSwitchConverter, StatementsFactory statementsFactory,
-			IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			ExpressionsFactory expressionsFactory,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,

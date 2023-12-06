@@ -34,7 +34,7 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.injector.InjectorMine;
 import jamopp.parser.jdt.other.JamoppClasspathEntriesSearcher;
@@ -50,7 +50,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	private static final Logger logger;
 
-	private static final UtilJdtResolver jdtResolverUtility;
+	private static final IUtilJdtResolver jdtResolverUtility;
 	private static final ContainersFactory containersFactory;
 	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST converter;
 	private static final IUtilTypeInstructionSeparation typeInstructionSeparationUtility;

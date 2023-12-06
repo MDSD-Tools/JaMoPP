@@ -8,16 +8,16 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class ToClassifierReferenceConverter implements ToConverter<SimpleName, ClassifierReference> {
 
 	private final TypesFactory typesFactory;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 
 	@Inject
-	ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility, TypesFactory typesFactory) {
+	ToClassifierReferenceConverter(IUtilJdtResolver jdtResolverUtility, TypesFactory typesFactory) {
 		this.typesFactory = typesFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 	}

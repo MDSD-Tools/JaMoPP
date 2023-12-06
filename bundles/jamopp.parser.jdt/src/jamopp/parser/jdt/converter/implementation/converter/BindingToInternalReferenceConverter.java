@@ -6,16 +6,16 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class BindingToInternalReferenceConverter implements ToConverter<ITypeBinding, Reference> {
 
 	private final ReferencesFactory referencesFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final IUtilJdtResolver jdtTResolverUtility;
 
 	@Inject
-	BindingToInternalReferenceConverter(ReferencesFactory referencesFactory, UtilJdtResolver jdtTResolverUtility) {
+	BindingToInternalReferenceConverter(ReferencesFactory referencesFactory, IUtilJdtResolver jdtTResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}

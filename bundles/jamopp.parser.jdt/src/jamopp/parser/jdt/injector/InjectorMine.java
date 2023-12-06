@@ -5,15 +5,15 @@ import org.emftext.language.java.containers.ContainersFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.visitor.VisitorAndConverterOrdinaryCompilationUnitJDTAST;
 
 public class InjectorMine {
 
 	private static final VisitorAndConverterOrdinaryCompilationUnitJDTAST ordinaryCompilationUnitJDTASTVisitorAndConverter;
-	private static final UtilJdtResolver jdtResolverUtility;
+	private static final IUtilJdtResolver jdtResolverUtility;
 	private static final IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private static final ContainersFactory containersFactory;
 
@@ -22,7 +22,7 @@ public class InjectorMine {
 
 		ordinaryCompilationUnitJDTASTVisitorAndConverter = injector
 				.getInstance(VisitorAndConverterOrdinaryCompilationUnitJDTAST.class);
-		jdtResolverUtility = injector.getInstance(UtilJdtResolver.class);
+		jdtResolverUtility = injector.getInstance(IUtilJdtResolver.class);
 		typeInstructionSeparationUtility = injector.getInstance(UtilTypeInstructionSeparation.class);
 		containersFactory = injector.getInstance(ContainersFactory.class);
 
@@ -32,7 +32,7 @@ public class InjectorMine {
 		return ordinaryCompilationUnitJDTASTVisitorAndConverter;
 	}
 
-	public static UtilJdtResolver getJDTResolverUtility() {
+	public static IUtilJdtResolver getJDTResolverUtility() {
 		return jdtResolverUtility;
 	}
 

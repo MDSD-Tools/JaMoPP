@@ -13,20 +13,20 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToReferenceConverterFromName implements ReferenceConverter<SimpleName>, ToConverter<SimpleName, IdentifierReference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 
 	@Inject
 	ToReferenceConverterFromName(ReferencesFactory referencesFactory, IUtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility) {
+			IUtilJdtResolver jdtResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

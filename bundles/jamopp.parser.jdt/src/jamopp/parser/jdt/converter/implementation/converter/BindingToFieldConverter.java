@@ -16,13 +16,13 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class BindingToFieldConverter implements ToConverter<IVariableBinding, Field> {
 
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final IUtilJdtResolver jdtTResolverUtility;
 	private final IUtilArrays utilJdtBindingConverter;
 	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 	private final ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
@@ -34,7 +34,7 @@ public class BindingToFieldConverter implements ToConverter<IVariableBinding, Fi
 			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
 			ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
-			UtilJdtResolver jdtTResolverUtility,
+			IUtilJdtResolver jdtTResolverUtility,
 			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;

@@ -37,15 +37,15 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.implementation.converter.ToAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class VisitorAndConverterModuleJDTAST extends PackageJDTASTVisitorAndConverter {
 
 	@Inject
-	VisitorAndConverterModuleJDTAST(IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+	VisitorAndConverterModuleJDTAST(IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			ToClassifierOrNamespaceClassifierReferenceConverter utilBaseConverter, ModifiersFactory modifiersFactory,
 			ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
 			ToAnnotationInstanceConverter annotationInstanceConverter,

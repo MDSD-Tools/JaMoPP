@@ -35,9 +35,9 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
@@ -53,7 +53,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 	private ArraysFactory arraysFactory;
 	private IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private IUtilLayout layoutInformationConverter;
-	private UtilJdtResolver jdtResolverUtility;
+	private IUtilJdtResolver jdtResolverUtility;
 	private IUtilNamedElement utilNamedElement;
 	private IUtilReferenceWalker utilReferenceWalker;
 	private ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
@@ -76,7 +76,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			ToConverter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			ReferencesFactory referencesFactory, IUtilReferenceWalker utilReferenceWalker,
-			LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			InstantiationsFactory instantiationsFactory, ExpressionsFactory expressionsFactory,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ArraysFactory arraysFactory, ToConverter<Type, TypeArgument> typeArgumentConverter,

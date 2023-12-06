@@ -11,8 +11,8 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
@@ -21,7 +21,7 @@ import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparat
 public class ToInterfaceMethodConverter implements ToConverter<AnnotationTypeMemberDeclaration, InterfaceMethod> {
 
 	private final StatementsFactory statementsFactory;
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final IUtilLayout utilLayout;
@@ -31,13 +31,13 @@ public class ToInterfaceMethodConverter implements ToConverter<AnnotationTypeMem
 
 	@Inject
 	ToInterfaceMethodConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			StatementsFactory statementsFactory,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.utilNamedElement = utilNamedElement;
@@ -51,9 +51,9 @@ public class ToInterfaceMethodConverter implements ToConverter<AnnotationTypeMem
 		IMethodBinding binding = annDecl.resolveBinding();
 		InterfaceMethod result;
 		if (binding != null) {
-			result = utilJdtResolver.getInterfaceMethod(binding);
+			result = iUtilJdtResolver.getInterfaceMethod(binding);
 		} else {
-			result = utilJdtResolver.getInterfaceMethod(annDecl.getName().getIdentifier());
+			result = iUtilJdtResolver.getInterfaceMethod(annDecl.getName().getIdentifier());
 		}
 		annDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));

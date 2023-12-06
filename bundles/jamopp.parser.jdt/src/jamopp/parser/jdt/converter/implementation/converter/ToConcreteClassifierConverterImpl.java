@@ -14,15 +14,15 @@ import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class ToConcreteClassifierConverterImpl implements ToConverter<AbstractTypeDeclaration, ConcreteClassifier> {
 
 	private final IUtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final ToConverter<BodyDeclaration, Member> toInterfaceMember;
@@ -32,7 +32,7 @@ public class ToConcreteClassifierConverterImpl implements ToConverter<AbstractTy
 	@Inject
 	ToConcreteClassifierConverterImpl(
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			IUtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			IUtilNamedElement utilNamedElement,
 			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMember,
 			ToConverter<EnumDeclaration, Enumeration> toEnumConverter,

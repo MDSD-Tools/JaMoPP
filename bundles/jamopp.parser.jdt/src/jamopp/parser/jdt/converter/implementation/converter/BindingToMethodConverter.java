@@ -28,16 +28,16 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class BindingToMethodConverter implements ToConverter<IMethodBinding, Method> {
 
 	private final StatementsFactory statementsFactory;
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final IUtilJdtResolver jdtTResolverUtility;
 	private final IUtilArrays utilJdtBindingConverter;
 	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
@@ -52,7 +52,7 @@ public class BindingToMethodConverter implements ToConverter<IMethodBinding, Met
 			ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
 			ToConverter<Object, AnnotationValue> objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
-			UtilJdtResolver jdtTResolverUtility,
+			IUtilJdtResolver jdtTResolverUtility,
 			ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			ToConverter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
 			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {

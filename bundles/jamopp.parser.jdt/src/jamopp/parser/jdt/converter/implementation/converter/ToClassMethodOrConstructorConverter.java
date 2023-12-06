@@ -19,9 +19,9 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
@@ -30,7 +30,7 @@ import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparat
 public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDeclaration, Member> {
 
 	private final StatementsFactory statementsFactory;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final IUtilLayout utilLayout;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
@@ -52,7 +52,7 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 			ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			UtilJdtResolver jdtResolverUtility,
+			IUtilJdtResolver jdtResolverUtility,
 			ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {

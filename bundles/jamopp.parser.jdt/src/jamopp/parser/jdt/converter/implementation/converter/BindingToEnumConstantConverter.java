@@ -7,24 +7,24 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class BindingToEnumConstantConverter implements ToConverter<IVariableBinding, EnumConstant> {
 
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	BindingToEnumConstantConverter(UtilJdtResolver utilJdtResolver,
+	BindingToEnumConstantConverter(IUtilJdtResolver iUtilJdtResolver,
 			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}
 
 	@Override
 	public EnumConstant convert(IVariableBinding binding) {
-		EnumConstant result = utilJdtResolver.getEnumConstant(binding);
+		EnumConstant result = iUtilJdtResolver.getEnumConstant(binding);
 		if (result.eContainer() != null) {
 			return result;
 		}

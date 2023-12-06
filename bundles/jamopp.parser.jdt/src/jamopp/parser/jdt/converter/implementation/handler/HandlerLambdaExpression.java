@@ -16,9 +16,9 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class HandlerLambdaExpression implements ExpressionHandler {
@@ -26,14 +26,14 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	private final TypesFactory typesFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout utilLayout;
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
 	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	HandlerLambdaExpression(IUtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+	HandlerLambdaExpression(IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
 			ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
@@ -43,7 +43,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toOrdinaryParameterConverter = toOrdinaryParameterConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.blockToBlockConverter = blockToBlockConverter;
@@ -66,10 +66,10 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 				IVariableBinding binding = frag.resolveBinding();
 				org.emftext.language.java.parameters.OrdinaryParameter nextParam;
 				if (binding != null) {
-					nextParam = utilJdtResolver.getOrdinaryParameter(binding);
+					nextParam = iUtilJdtResolver.getOrdinaryParameter(binding);
 					nextParam.setTypeReference(toTypeReferencesConverter.convert(binding.getType()).get(0));
 				} else {
-					nextParam = utilJdtResolver.getOrdinaryParameter(frag.getName().getIdentifier() + frag.hashCode());
+					nextParam = iUtilJdtResolver.getOrdinaryParameter(frag.getName().getIdentifier() + frag.hashCode());
 					nextParam.setTypeReference(typesFactory.createVoid());
 				}
 				nextParam.setName(frag.getName().getIdentifier());

@@ -12,25 +12,25 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class ToClassOrInterfaceConverter implements ToConverter<TypeDeclaration, ConcreteClassifier> {
 
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
 	private final ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
 
 	@Inject
-	ToClassOrInterfaceConverter(UtilJdtResolver utilJdtResolver,
+	ToClassOrInterfaceConverter(IUtilJdtResolver iUtilJdtResolver,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
 			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter,
 			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toTypeParameterConverter = toTypeParameterConverter;
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toClassMemberConverter = toClassMemberConverter;
 		this.toInterfaceMemberConverter = toInterfaceMemberConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
@@ -40,7 +40,7 @@ public class ToClassOrInterfaceConverter implements ToConverter<TypeDeclaration,
 	@Override
 	public ConcreteClassifier convert(TypeDeclaration typeDecl) {
 		if (typeDecl.isInterface()) {
-			Interface interfaceObj = utilJdtResolver.getInterface(typeDecl.resolveBinding());
+			Interface interfaceObj = iUtilJdtResolver.getInterface(typeDecl.resolveBinding());
 			typeDecl.typeParameters().forEach(
 					obj -> interfaceObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
 			typeDecl.superInterfaceTypes()
@@ -49,7 +49,7 @@ public class ToClassOrInterfaceConverter implements ToConverter<TypeDeclaration,
 					obj -> interfaceObj.getMembers().add(toInterfaceMemberConverter.convert((BodyDeclaration) obj)));
 			return interfaceObj;
 		}
-		org.emftext.language.java.classifiers.Class classObj = utilJdtResolver.getClass(typeDecl.resolveBinding());
+		org.emftext.language.java.classifiers.Class classObj = iUtilJdtResolver.getClass(typeDecl.resolveBinding());
 		typeDecl.typeParameters().forEach(
 				obj -> classObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
 		if (typeDecl.getSuperclassType() != null) {

@@ -6,19 +6,19 @@ import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class BindingToAnnotationAttributeSettingConverter
 		implements ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting> {
 
 	private final AnnotationsFactory annotationsFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final IUtilJdtResolver jdtTResolverUtility;
 	private final ToConverter<Object, AnnotationValue> objectToAnnotationValueConverter;
 
 	@Inject
 	BindingToAnnotationAttributeSettingConverter(ToConverter<Object, AnnotationValue> objectToAnnotationValueConverter,
-			UtilJdtResolver jdtTResolverUtility, AnnotationsFactory annotationsFactory) {
+			IUtilJdtResolver jdtTResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.objectToAnnotationValueConverter = objectToAnnotationValueConverter;

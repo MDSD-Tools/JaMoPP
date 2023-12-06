@@ -13,9 +13,9 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
@@ -23,7 +23,7 @@ import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparat
 
 public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilLayout utilLayout;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
@@ -34,14 +34,14 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 	private final ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
 
 	@Inject
-	ToFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+	ToFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			IUtilTypeInstructionSeparation toInstructionSeparation,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
@@ -58,9 +58,9 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 		Field result;
 		IVariableBinding binding = firstFragment.resolveBinding();
 		if (binding != null) {
-			result = utilJdtResolver.getField(binding);
+			result = iUtilJdtResolver.getField(binding);
 		} else {
-			result = utilJdtResolver.getField(firstFragment.getName().getIdentifier());
+			result = iUtilJdtResolver.getField(firstFragment.getName().getIdentifier());
 		}
 		utilNamedElement.setNameOfElement(firstFragment.getName(), result);
 		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()

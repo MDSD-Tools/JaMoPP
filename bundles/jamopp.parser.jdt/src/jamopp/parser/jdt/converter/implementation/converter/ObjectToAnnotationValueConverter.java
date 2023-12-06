@@ -13,14 +13,14 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.ReflectiveClassReference;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class ObjectToAnnotationValueConverter implements ToConverter<Object, AnnotationValue> {
 
 	private final ArraysFactory arraysFactory;
 	private final ReferencesFactory referencesFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final IUtilJdtResolver jdtTResolverUtility;
 	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 	private final ToConverter<ITypeBinding, Reference> bindingToInternalReferenceConverter;
 	private final ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
@@ -28,7 +28,7 @@ public class ObjectToAnnotationValueConverter implements ToConverter<Object, Ann
 	@Inject
 	public ObjectToAnnotationValueConverter(ReferencesFactory referencesFactory,
 			ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
-			UtilJdtResolver jdtTResolverUtility,
+			IUtilJdtResolver jdtTResolverUtility,
 			ToConverter<ITypeBinding, Reference> bindingToInternalReferenceConverter,
 			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
 			ArraysFactory arraysFactory) {

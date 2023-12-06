@@ -20,8 +20,8 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 @SuppressWarnings("restriction")
@@ -33,12 +33,12 @@ public class BindingToModuleConverter
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
-	private UtilJdtResolver jdtTResolverUtility;
+	private IUtilJdtResolver jdtTResolverUtility;
 	private ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
 	BindingToModuleConverter(ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			ModulesFactory modulesFactory, ModifiersFactory modifiersFactory, UtilJdtResolver jdtTResolverUtility,
+			ModulesFactory modulesFactory, ModifiersFactory modifiersFactory, IUtilJdtResolver jdtTResolverUtility,
 			IUtilNamedElement utilNamedElement,
 			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.modulesFactory = modulesFactory;
@@ -116,7 +116,7 @@ public class BindingToModuleConverter
 	}
 
 	@Inject
-	public void setJdtTResolverUtility(UtilJdtResolver jdtTResolverUtility) {
+	public void setJdtTResolverUtility(IUtilJdtResolver jdtTResolverUtility) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 

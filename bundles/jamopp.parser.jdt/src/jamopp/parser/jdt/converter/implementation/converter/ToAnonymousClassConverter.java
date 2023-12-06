@@ -9,18 +9,18 @@ import org.emftext.language.java.members.Member;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToAnonymousClassConverter implements ToConverter<AnonymousClassDeclaration, AnonymousClass> {
 
-	private final UtilJdtResolver utilJDTResolver;
+	private final IUtilJdtResolver utilJDTResolver;
 	private final IUtilLayout utilLayout;
 	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	ToAnonymousClassConverter(IUtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
+	ToAnonymousClassConverter(IUtilLayout utilLayout, IUtilJdtResolver utilJDTResolver,
 			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.utilLayout = utilLayout;

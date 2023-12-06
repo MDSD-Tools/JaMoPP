@@ -19,9 +19,9 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
@@ -33,7 +33,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final IUtilLayout utilLayout;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilNamedElement utilNamedElement;
 	private final ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
@@ -46,7 +46,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 
 	@Inject
 	ToInterfaceMethodOrConstructorConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, UtilJdtResolver utilJdtResolver,
+			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
 			ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
@@ -59,7 +59,7 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toTypeParameterConverter = toTypeParameterConverter;
@@ -82,9 +82,9 @@ public class ToInterfaceMethodOrConstructorConverter implements ToConverter<Meth
 		InterfaceMethod result;
 		IMethodBinding binding = methodDecl.resolveBinding();
 		if (binding == null) {
-			result = utilJdtResolver.getInterfaceMethod(methodDecl.getName().getIdentifier());
+			result = iUtilJdtResolver.getInterfaceMethod(methodDecl.getName().getIdentifier());
 		} else {
-			result = utilJdtResolver.getInterfaceMethod(binding);
+			result = iUtilJdtResolver.getInterfaceMethod(binding);
 		}
 		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));

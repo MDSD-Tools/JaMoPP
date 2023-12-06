@@ -12,22 +12,22 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class ToTypeReferencesConverter implements ToConverter<ITypeBinding, List<TypeReference>> {
 
 	private final TypesFactory typesFactory;
-	private final UtilJdtResolver utilJdtResolver;
+	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilNamedElement utilNamedElement;
 	private ToConverter<ITypeBinding, TypeArgument> toTypeArgumentConverter;
 
 	@Inject
 	ToTypeReferencesConverter(TypesFactory typesFactory, IUtilNamedElement utilNamedElement,
-			UtilJdtResolver utilJdtResolver) {
+			IUtilJdtResolver iUtilJdtResolver) {
 		this.typesFactory = typesFactory;
-		this.utilJdtResolver = utilJdtResolver;
+		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 	}
 
@@ -42,7 +42,7 @@ public class ToTypeReferencesConverter implements ToConverter<ITypeBinding, List
 				result.addAll(convert(b));
 			}
 		} else {
-			Classifier classifier = utilJdtResolver.getClassifier(binding);
+			Classifier classifier = iUtilJdtResolver.getClassifier(binding);
 			utilNamedElement.convertToNameAndSet(binding, classifier);
 			ClassifierReference ref = typesFactory.createClassifierReference();
 			if (binding.isParameterizedType()) {

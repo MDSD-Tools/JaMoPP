@@ -1,48 +1,56 @@
 package jamopp.parser.jdt.converter.implementation.helper;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Interface;
+import org.emftext.language.java.generics.TypeParameter;
+import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.EnumConstant;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.converter.BindingToAnnotationInstanceConverter;
-import jamopp.parser.jdt.converter.implementation.converter.BindingToConstructorConverter;
-import jamopp.parser.jdt.converter.implementation.converter.BindingToEnumConstantConverter;
-import jamopp.parser.jdt.converter.implementation.converter.BindingToFieldConverter;
-import jamopp.parser.jdt.converter.implementation.converter.BindingToMethodConverter;
-import jamopp.parser.jdt.converter.implementation.converter.BindingToTypeParameterConverter;
-import jamopp.parser.jdt.converter.implementation.converter.ToModifiersConverter;
-import jamopp.parser.jdt.converter.implementation.converter.ToTypeReferencesConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 @SuppressWarnings("restriction")
-public class UtilBindingInfoToConcreteClassifierConverter{
+public class UtilBindingInfoToConcreteClassifierConverter implements IUtilBindingInfoToConcreteClassifierConverter {
 
 	private final IUtilNamedElement utilNamedElement;
-	private final ToTypeReferencesConverter toTypeReferencesConverter;
-	private final UtilJdtResolver jdtTResolverUtility;
-	private final BindingToEnumConstantConverter bindingToEnumConstantConverter;
-	private final BindingToMethodConverter bindingToMethodConverter;
-	private final BindingToConstructorConverter bindingToConstructorConverter;
-	private final BindingToFieldConverter bindingToFieldConverter;
-	private final BindingToTypeParameterConverter bindingToTypeParameterConverter;
-	private final BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter;
-	private final ToModifiersConverter toModifiersConverter;
+	private final IUtilJdtResolver jdtTResolverUtility;
+	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final ToConverter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter;
+	private final ToConverter<IMethodBinding, Method> bindingToMethodConverter;
+	private final ToConverter<IMethodBinding, Constructor> bindingToConstructorConverter;
+	private final ToConverter<IVariableBinding, Field> bindingToFieldConverter;
+	private final ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
+	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
 	UtilBindingInfoToConcreteClassifierConverter(IUtilNamedElement utilNamedElement,
-			ToTypeReferencesConverter toTypeReferencesConverter, ToModifiersConverter toModifiersConverter,
-			UtilJdtResolver jdtTResolverUtility, BindingToTypeParameterConverter bindingToTypeParameterConverter,
-			BindingToMethodConverter bindingToMethodConverter, BindingToFieldConverter bindingToFieldConverter,
-			BindingToEnumConstantConverter bindingToEnumConstantConverter,
-			BindingToConstructorConverter bindingToConstructorConverter,
-			BindingToAnnotationInstanceConverter bindingToAnnotationInstanceConverter) {
+			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
+			IUtilJdtResolver jdtTResolverUtility,
+			ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			ToConverter<IMethodBinding, Method> bindingToMethodConverter,
+			ToConverter<IVariableBinding, Field> bindingToFieldConverter,
+			ToConverter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter,
+			ToConverter<IMethodBinding, Constructor> bindingToConstructorConverter,
+			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;
@@ -75,8 +83,7 @@ public class UtilBindingInfoToConcreteClassifierConverter{
 		if (extractAdditionalInformation) {
 			try {
 				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-					result.getAnnotationsAndModifiers()
-							.add(bindingToAnnotationInstanceConverter.convert(annotBind));
+					result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
 				for (ITypeBinding typeBind : binding.getTypeParameters()) {
 					result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
@@ -150,8 +157,7 @@ public class UtilBindingInfoToConcreteClassifierConverter{
 				if (extractAdditionalInformation) {
 					for (IVariableBinding varBind : binding.getDeclaredFields()) {
 						if (varBind.isEnumConstant()) {
-							resultEnum.getConstants()
-									.add(bindingToEnumConstantConverter.convert(varBind));
+							resultEnum.getConstants().add(bindingToEnumConstantConverter.convert(varBind));
 						}
 					}
 				}
