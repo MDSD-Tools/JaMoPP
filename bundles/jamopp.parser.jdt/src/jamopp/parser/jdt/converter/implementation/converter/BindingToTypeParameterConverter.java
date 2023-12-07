@@ -11,23 +11,23 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 @SuppressWarnings("restriction")
-public class BindingToTypeParameterConverter implements ToConverter<ITypeBinding, TypeParameter> {
+public class BindingToTypeParameterConverter implements Converter<ITypeBinding, TypeParameter> {
 
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilJdtResolver jdtTResolverUtility;
-	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
-	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
 	BindingToTypeParameterConverter(IUtilNamedElement utilNamedElement,
-			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			IUtilJdtResolver jdtTResolverUtility,
-			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;

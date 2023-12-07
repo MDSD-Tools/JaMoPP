@@ -6,9 +6,9 @@ import org.emftext.language.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToUnaryOperatorConverter implements ToConverter<PrefixExpression.Operator, UnaryOperator> {
+public class ToUnaryOperatorConverter implements Converter<PrefixExpression.Operator, UnaryOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 

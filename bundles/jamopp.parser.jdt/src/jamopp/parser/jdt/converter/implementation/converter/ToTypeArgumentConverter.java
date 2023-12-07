@@ -12,18 +12,18 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
 
-public class ToTypeArgumentConverter implements ToConverter<ITypeBinding, TypeArgument> {
+public class ToTypeArgumentConverter implements Converter<ITypeBinding, TypeArgument> {
 
 	private final GenericsFactory genericsFactory;
 	private final IUtilArrays utilJdtBindingConverter;
-	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
 	ToTypeArgumentConverter(IUtilArrays utilJdtBindingConverter,
-			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, GenericsFactory genericsFactory) {
+			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.utilJdtBindingConverter = utilJdtBindingConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;

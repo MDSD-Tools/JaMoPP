@@ -8,18 +8,18 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToArrayDimensionConverter implements ToConverter<Dimension, ArrayDimension> {
+public class ToArrayDimensionConverter implements Converter<Dimension, ArrayDimension> {
 
 	private final ArraysFactory arraysFactory;
 	private final IUtilLayout utilLayout;
-	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
 	ToArrayDimensionConverter(IUtilLayout utilLayout,
-			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
+			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;

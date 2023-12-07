@@ -11,25 +11,25 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToReferenceConverterFromStatement
-		implements ToConverter<Statement, org.emftext.language.java.references.Reference> {
+		implements Converter<Statement, org.emftext.language.java.references.Reference> {
 
 	private final LiteralsFactory literalsFactory;
 	private final InstantiationsFactory instantiationsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
-	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
-	private final ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
+	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
+	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
 	ToReferenceConverterFromStatement(LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter,
 			InstantiationsFactory instantiationsFactory,
-			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
-			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
-			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {
+			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
+			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
+			Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
 		this.literalsFactory = literalsFactory;
 		this.instantiationsFactory = instantiationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

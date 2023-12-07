@@ -9,7 +9,7 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
@@ -19,12 +19,12 @@ public class HandlerInstanceOf implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout utilLayout;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	HandlerInstanceOf(IUtilLayout utilLayout, ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+	HandlerInstanceOf(IUtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilLayout = utilLayout;

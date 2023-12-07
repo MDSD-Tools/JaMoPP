@@ -14,29 +14,29 @@ import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
-public class ToConcreteClassifierConverterImpl implements ToConverter<AbstractTypeDeclaration, ConcreteClassifier> {
+public class ToConcreteClassifierConverterImpl implements Converter<AbstractTypeDeclaration, ConcreteClassifier> {
 
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
-	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
-	private final ToConverter<BodyDeclaration, Member> toInterfaceMember;
-	private final ToConverter<TypeDeclaration, ConcreteClassifier> toClassOrInterface;
-	private final ToConverter<EnumDeclaration, Enumeration> toEnumConverter;
+	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final Converter<BodyDeclaration, Member> toInterfaceMember;
+	private final Converter<TypeDeclaration, ConcreteClassifier> toClassOrInterface;
+	private final Converter<EnumDeclaration, Enumeration> toEnumConverter;
 
 	@Inject
 	ToConcreteClassifierConverterImpl(
-			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
 			IUtilNamedElement utilNamedElement,
-			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMember,
-			ToConverter<EnumDeclaration, Enumeration> toEnumConverter,
-			ToConverter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {
+			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMember,
+			Converter<EnumDeclaration, Enumeration> toEnumConverter,
+			Converter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;

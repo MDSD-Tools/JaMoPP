@@ -7,17 +7,17 @@ import org.emftext.language.java.members.Member;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToInterfaceMemberConverter implements ToConverter<BodyDeclaration, Member> {
+public class ToInterfaceMemberConverter implements Converter<BodyDeclaration, Member> {
 
-	private final ToConverter<MethodDeclaration, Member> toInterfaceMethodOrConstructorConverter;
-	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
+	private final Converter<MethodDeclaration, Member> toInterfaceMethodOrConstructorConverter;
+	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
 	ToInterfaceMemberConverter(
-			@Named("ToInterfaceMethodOrConstructorConverter") ToConverter<MethodDeclaration, Member> toInterfaceMethodOrConstructorConverter,
-			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
+			@Named("ToInterfaceMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toInterfaceMethodOrConstructorConverter,
+			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toInterfaceMethodOrConstructorConverter = toInterfaceMethodOrConstructorConverter;
 		this.toClassMemberConverter = toClassMemberConverter;
 	}

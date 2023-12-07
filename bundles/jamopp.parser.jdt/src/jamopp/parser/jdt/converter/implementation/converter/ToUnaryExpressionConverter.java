@@ -9,19 +9,19 @@ import org.emftext.language.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToUnaryExpressionConverter implements ToConverter<PrefixExpression, UnaryExpression> {
+public class ToUnaryExpressionConverter implements Converter<PrefixExpression, UnaryExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter;
-	private final ToConverter<PrefixExpression.Operator, UnaryOperator> toUnaryOperatorConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter;
+	private final Converter<PrefixExpression.Operator, UnaryOperator> toUnaryOperatorConverter;
 
 	@Inject
 	ToUnaryExpressionConverter(ToUnaryOperatorConverter toUnaryOperatorConverter,
-			ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
 			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionsFactory = expressionsFactory;

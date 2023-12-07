@@ -8,16 +8,16 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToArrayInitialisierConverter
-		implements ToConverter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> {
+		implements Converter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> {
 
 	private final ArraysFactory arraysFactory;
 	private final IUtilLayout utilLayout;
-	private ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
-	private ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
+	private Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
 	ToArrayInitialisierConverter(IUtilLayout utilLayout, ArraysFactory arraysFactory) {
@@ -47,13 +47,13 @@ public class ToArrayInitialisierConverter
 
 	@Inject
 	public void setToAnnotationInstanceConverter(
-			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
+			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	@Inject
 	public void setUtilExpressionConverter(
-			ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter) {
+			Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter) {
 		this.utilExpressionConverter = utilExpressionConverter;
 	}
 

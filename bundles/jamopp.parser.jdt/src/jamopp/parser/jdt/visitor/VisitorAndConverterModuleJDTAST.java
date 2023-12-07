@@ -37,7 +37,7 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
@@ -46,10 +46,10 @@ public class VisitorAndConverterModuleJDTAST extends PackageJDTASTVisitorAndConv
 
 	@Inject
 	protected VisitorAndConverterModuleJDTAST(IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility, ToConverter<Name, TypeReference> utilBaseConverter,
+			IUtilJdtResolver jdtResolverUtility, Converter<Name, TypeReference> utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
-			ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter,
-			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
+			Converter<Annotation, AnnotationInstance> annotationInstanceConverter,
+			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
 			ContainersFactory containersFactory, ModulesFactory modulesFactory) {
 		super(layoutInformationConverter, jdtResolverUtility, utilBaseConverter, modifiersFactory, importsFactory,
 				utilNamedElement, annotationInstanceConverter, classifierConverterUtility, containersFactory,

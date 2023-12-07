@@ -6,16 +6,16 @@ import org.emftext.language.java.expressions.MethodReferenceExpression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 
 public class HandlerMethodReference implements ExpressionHandler {
 
-	private final ToConverter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter;
+	private final Converter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter;
 
 	@Inject
 	HandlerMethodReference(
-			ToConverter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter) {
+			Converter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter) {
 		this.toMethodReferenceExpressionConverter = toMethodReferenceExpressionConverter;
 	}
 

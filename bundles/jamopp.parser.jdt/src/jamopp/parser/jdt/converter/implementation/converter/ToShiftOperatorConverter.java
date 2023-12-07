@@ -6,9 +6,9 @@ import org.emftext.language.java.operators.ShiftOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToShiftOperatorConverter implements ToConverter<InfixExpression.Operator, ShiftOperator> {
+public class ToShiftOperatorConverter implements Converter<InfixExpression.Operator, ShiftOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 

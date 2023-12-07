@@ -6,9 +6,9 @@ import org.emftext.language.java.operators.RelationOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToRelationOperatorConverter implements ToConverter<InfixExpression.Operator, RelationOperator> {
+public class ToRelationOperatorConverter implements Converter<InfixExpression.Operator, RelationOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 

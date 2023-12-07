@@ -6,10 +6,10 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
-public class BindingToInternalReferenceConverter implements ToConverter<ITypeBinding, Reference> {
+public class BindingToInternalReferenceConverter implements Converter<ITypeBinding, Reference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilJdtResolver jdtTResolverUtility;

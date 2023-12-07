@@ -8,19 +8,19 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 public class ToTypeParameterConverter implements
-		ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> {
+		Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> {
 
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilJdtResolver utilJDTResolver;
 	private final IUtilLayout utilLayout;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
 	ToTypeParameterConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver utilJDTResolver,

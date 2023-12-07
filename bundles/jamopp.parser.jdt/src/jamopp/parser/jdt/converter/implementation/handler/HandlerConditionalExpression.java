@@ -5,16 +5,16 @@ import org.eclipse.jdt.core.dom.Expression;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 
 public class HandlerConditionalExpression implements ExpressionHandler {
 
-	private final ToConverter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> toConditionalExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> toConditionalExpressionConverter;
 
 	@Inject
 	HandlerConditionalExpression(
-			ToConverter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> toConditionalExpressionConverter) {
+			Converter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> toConditionalExpressionConverter) {
 		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
 	}
 

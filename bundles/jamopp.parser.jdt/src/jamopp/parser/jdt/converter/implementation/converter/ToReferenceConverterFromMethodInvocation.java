@@ -10,28 +10,28 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
-public class ToReferenceConverterFromMethodInvocation implements ToConverter<MethodInvocation, MethodCall> {
+public class ToReferenceConverterFromMethodInvocation implements Converter<MethodInvocation, MethodCall> {
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
-	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
-	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
-	private final ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
+	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
+	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
 	ToReferenceConverterFromMethodInvocation(IUtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter, ReferencesFactory referencesFactory,
 			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
-			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
-			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
-			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {
+			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
+			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
+			Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

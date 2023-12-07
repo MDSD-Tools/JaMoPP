@@ -6,18 +6,18 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class BlockToBlockConverterImpl implements ToConverter<Block, org.emftext.language.java.statements.Block> {
+public class BlockToBlockConverterImpl implements Converter<Block, org.emftext.language.java.statements.Block> {
 
 	private final StatementsFactory statementsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
+	private final Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
 	BlockToBlockConverterImpl(StatementsFactory statementsFactory,
-			ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter,
+			Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter,
 			IUtilLayout layoutInformationConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

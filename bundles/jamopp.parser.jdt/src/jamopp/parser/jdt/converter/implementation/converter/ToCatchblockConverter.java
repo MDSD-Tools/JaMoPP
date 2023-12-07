@@ -14,27 +14,27 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
-public class ToCatchblockConverter implements ToConverter<CatchClause, CatchBlock> {
+public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock> {
 
 	private final StatementsFactory statementsFactory;
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
-	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
+	private final Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	ToCatchblockConverter(IUtilNamedElement utilNamedElement, ToConverter<Type, TypeReference> toTypeReferenceConverter,
+	ToCatchblockConverter(IUtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
 			StatementsFactory statementsFactory, IUtilLayout layoutInformationConverter,
 			IUtilJdtResolver jdtResolverUtility,
-			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
-			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
+			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
+			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

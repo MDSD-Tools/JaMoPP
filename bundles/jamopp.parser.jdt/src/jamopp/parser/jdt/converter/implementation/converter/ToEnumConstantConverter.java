@@ -11,25 +11,25 @@ import org.emftext.language.java.members.EnumConstant;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
-public class ToEnumConstantConverter implements ToConverter<EnumConstantDeclaration, EnumConstant> {
+public class ToEnumConstantConverter implements Converter<EnumConstantDeclaration, EnumConstant> {
 
 	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilLayout utilLayout;
 	private final IUtilNamedElement utilNamedElement;
-	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
-	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
-	private final ToConverter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
+	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
+	private final Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
 
 	@Inject
 	ToEnumConstantConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
-			ToConverter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
-			ToConverter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
-			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
+			Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
+			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
+			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;

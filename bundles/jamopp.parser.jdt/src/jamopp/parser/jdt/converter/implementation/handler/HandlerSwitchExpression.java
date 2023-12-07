@@ -6,7 +6,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
@@ -16,11 +16,11 @@ public class HandlerSwitchExpression implements ExpressionHandler {
 	private final StatementsFactory statementsFactory;
 	private final IUtilLayout utilLayout;
 	private final IUtilToSwitchCasesAndSetConverter utilStatementConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	HandlerSwitchExpression(IUtilToSwitchCasesAndSetConverter utilStatementConverter, IUtilLayout utilLayout,
-			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toExpressionConverter = toExpressionConverter;

@@ -10,22 +10,22 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
 
 public class UtilToSwitchCasesAndSetConverter implements IUtilToSwitchCasesAndSetConverter {
 
 	private final StatementsFactory statementsFactory;
-	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
-	private final ToConverter<SwitchCase, org.emftext.language.java.statements.SwitchCase> toSwitchCaseConverter;
-	private final ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<SwitchCase, org.emftext.language.java.statements.SwitchCase> toSwitchCaseConverter;
+	private final Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
 	UtilToSwitchCasesAndSetConverter(
-			ToConverter<SwitchCase, org.emftext.language.java.statements.SwitchCase> toSwitchCaseConverter,
+			Converter<SwitchCase, org.emftext.language.java.statements.SwitchCase> toSwitchCaseConverter,
 			StatementsFactory statementsFactory,
-			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
-			ToConverter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter) {
+			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
+			Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter) {
 		this.statementsFactory = statementsFactory;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.toSwitchCaseConverter = toSwitchCaseConverter;

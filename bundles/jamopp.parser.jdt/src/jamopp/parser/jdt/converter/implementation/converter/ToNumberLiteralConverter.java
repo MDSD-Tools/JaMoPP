@@ -20,10 +20,10 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToNumberLiteralConverter implements ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal> {
+public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.emftext.language.java.literals.Literal> {
 
 	private final LiteralsFactory lieteralsFactory;
 	private final IUtilLayout layoutInformationConverter;

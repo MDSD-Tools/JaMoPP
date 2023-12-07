@@ -15,14 +15,14 @@ import org.emftext.language.java.members.InterfaceMethod;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
 @Singleton
-public class ToAnnotationInstanceConverter implements ToConverter<Annotation, AnnotationInstance> {
+public class ToAnnotationInstanceConverter implements Converter<Annotation, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
 	private final IUtilLayout layoutInformationConverter;

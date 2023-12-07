@@ -10,23 +10,23 @@ import org.emftext.language.java.literals.LiteralsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 
 public class ToPrimaryExpressionConverter
-		implements ToConverter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
+		implements Converter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
 
 	private final LiteralsFactory literalsFactory;
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilReferenceWalker utilReferenceWalker;
-	private final ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal> toNumberLiteralConverter;
-	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
+	private final Converter<NumberLiteral, org.emftext.language.java.literals.Literal> toNumberLiteralConverter;
+	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
 	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter,
 			IUtilLayout layoutInformationConverter,
-			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
+			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			IUtilReferenceWalker utilReferenceWalker) {
 		this.utilReferenceWalker = utilReferenceWalker;
 		this.toNumberLiteralConverter = toNumberLiteralConverter;

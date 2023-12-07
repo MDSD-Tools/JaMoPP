@@ -45,7 +45,7 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
@@ -59,16 +59,16 @@ public abstract class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AST
 	protected final IUtilLayout layoutInformationConverter;
 	protected final IUtilNamedElement utilNamedElement;
 	protected final IUtilJdtResolver jdtResolverUtility;
-	protected final ToConverter<Name, TypeReference> utilBaseConverter;
-	protected final ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter;
-	protected final ToConverter<AbstractTypeDeclaration, ConcreteClassifier> ClassifierConverterUtility;
+	protected final Converter<Name, TypeReference> utilBaseConverter;
+	protected final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
+	protected final Converter<AbstractTypeDeclaration, ConcreteClassifier> ClassifierConverterUtility;
 
 	@Inject
 	protected VisitorAndConverterAbstractAndEmptyModelJDTAST(IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility, ToConverter<Name, TypeReference> utilBaseConverter,
+			IUtilJdtResolver jdtResolverUtility, Converter<Name, TypeReference> utilBaseConverter,
 			ModifiersFactory modifiersFactory, ImportsFactory importsFactory, IUtilNamedElement utilNamedElement,
-			ToConverter<Annotation, AnnotationInstance> annotationInstanceConverter,
-			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
+			Converter<Annotation, AnnotationInstance> annotationInstanceConverter,
+			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
 			ContainersFactory containersFactory, ModulesFactory modulesFactory) {
 		this.containersFactory = containersFactory;
 		this.modulesFactory = modulesFactory;

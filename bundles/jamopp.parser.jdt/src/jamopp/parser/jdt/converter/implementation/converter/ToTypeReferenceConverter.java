@@ -23,26 +23,26 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference> {
+public class ToTypeReferenceConverter implements Converter<Type, TypeReference> {
 
 	private final TypesFactory typesFactory;
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilArrays jdtBindingConverterUtility;
-	private final ToConverter<Name, TypeReference> utilBaseConverter;
-	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
-	private final ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
-	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
-	private ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
+	private final Converter<Name, TypeReference> utilBaseConverter;
+	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
+	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToTypeReferenceConverter(ToConverter<Name, TypeReference> utilBaseConverter, TypesFactory typesFactory,
-			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
-			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+	ToTypeReferenceConverter(Converter<Name, TypeReference> utilBaseConverter, TypesFactory typesFactory,
+			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
+			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			IUtilLayout layoutInformationConverter, IUtilArrays jdtBindingConverterUtility) {
 		this.typesFactory = typesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -169,7 +169,7 @@ public class ToTypeReferenceConverter implements ToConverter<Type, TypeReference
 	}
 
 	@Inject
-	public void setTypeToTypeArgumentConverter(ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {
+	public void setTypeToTypeArgumentConverter(Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
 		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 

@@ -8,15 +8,15 @@ import org.emftext.language.java.arrays.ArrayTypeable;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class UtilToArrayDimensionsAndSetConverter implements IUtilToArrayDimensionsAndSetConverter {
 
-	private final ToConverter<Dimension, ArrayDimension> toArrayDimensionConverter;
+	private final Converter<Dimension, ArrayDimension> toArrayDimensionConverter;
 
 	@Inject
-	public UtilToArrayDimensionsAndSetConverter(ToConverter<Dimension, ArrayDimension> toArrayDimensionConverter) {
+	public UtilToArrayDimensionsAndSetConverter(Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 

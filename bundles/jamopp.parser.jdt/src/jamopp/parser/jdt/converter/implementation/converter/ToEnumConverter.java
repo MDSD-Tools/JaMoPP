@@ -12,20 +12,20 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
-public class ToEnumConverter implements ToConverter<EnumDeclaration, Enumeration> {
+public class ToEnumConverter implements Converter<EnumDeclaration, Enumeration> {
 
 	private final IUtilJdtResolver iUtilJdtResolver;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter;
-	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter;
+	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	ToEnumConverter(IUtilJdtResolver iUtilJdtResolver, ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToConverter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter,
-			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
+	ToEnumConverter(IUtilJdtResolver iUtilJdtResolver, Converter<Type, TypeReference> toTypeReferenceConverter,
+			Converter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter,
+			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toEnumConstantConverter = toEnumConstantConverter;

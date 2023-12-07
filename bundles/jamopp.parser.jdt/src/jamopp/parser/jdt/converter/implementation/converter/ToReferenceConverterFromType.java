@@ -12,7 +12,7 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
@@ -20,23 +20,23 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.emftext.language.java.references.IdentifierReference;
 import org.eclipse.jdt.core.dom.Name;
 
-public class ToReferenceConverterFromType implements ToConverter<Type, org.emftext.language.java.references.Reference> {
+public class ToReferenceConverterFromType implements Converter<Type, org.emftext.language.java.references.Reference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	
-	private final ToConverter<Name, IdentifierReference> toReferenceConverterFromName;
-	private final ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
+	private final Converter<Name, IdentifierReference> toReferenceConverterFromName;
+	private final Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
 
 	@Inject
-	ToReferenceConverterFromType(ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToReferenceConverterFromName toReferenceConverterFromName,
-			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+	ToReferenceConverterFromType(Converter<Type, TypeReference> toTypeReferenceConverter,
+			Converter<Name, IdentifierReference> toReferenceConverterFromName,
+			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			ReferencesFactory referencesFactory, IUtilLayout layoutInformationConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;

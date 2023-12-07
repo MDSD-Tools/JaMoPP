@@ -13,7 +13,7 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
@@ -21,7 +21,7 @@ import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterA
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
-public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
+public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 
 	private final IUtilJdtResolver iUtilJdtResolver;
 	private final IUtilNamedElement utilNamedElement;
@@ -29,17 +29,17 @@ public class ToFieldConverter implements ToConverter<FieldDeclaration, Field> {
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final IUtilTypeInstructionSeparation toInstructionSeparation;
 	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
+	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
 
 	@Inject
 	ToFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
-			ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			Converter<Type, TypeReference> toTypeReferenceConverter,
+			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			IUtilTypeInstructionSeparation toInstructionSeparation,
 			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			ToConverter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
+			Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;

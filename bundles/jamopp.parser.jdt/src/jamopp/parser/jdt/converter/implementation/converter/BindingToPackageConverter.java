@@ -9,19 +9,19 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingToPackageConverter
-		implements ToConverter<IPackageBinding, org.emftext.language.java.containers.Package> {
+		implements Converter<IPackageBinding, org.emftext.language.java.containers.Package> {
 
 	private final IUtilJdtResolver jdtTResolverUtility;
-	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
 	BindingToPackageConverter(IUtilJdtResolver jdtTResolverUtility,
-			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}

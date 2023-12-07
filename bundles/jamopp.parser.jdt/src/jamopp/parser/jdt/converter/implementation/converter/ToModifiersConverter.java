@@ -8,9 +8,9 @@ import org.eclipse.jdt.core.dom.Modifier;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToModifiersConverter implements ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> {
+public class ToModifiersConverter implements Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> {
 
 	private final ModifiersFactory modifiersFactory;
 

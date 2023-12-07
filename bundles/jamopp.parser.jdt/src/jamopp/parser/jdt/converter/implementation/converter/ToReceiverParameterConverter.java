@@ -11,18 +11,18 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToReceiverParameterConverter implements ToConverter<MethodDeclaration, ReceiverParameter> {
+public class ToReceiverParameterConverter implements Converter<MethodDeclaration, ReceiverParameter> {
 
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
 
 	@Inject
-	ToReceiverParameterConverter(ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToConverter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
+	ToReceiverParameterConverter(Converter<Type, TypeReference> toTypeReferenceConverter,
+			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
 			ParametersFactory parametersFactory, LiteralsFactory literalsFactory) {
 		this.literalsFactory = literalsFactory;
 		this.parametersFactory = parametersFactory;

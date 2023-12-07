@@ -6,14 +6,14 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.emftext.language.java.references.IdentifierReference;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToReferenceConverterFromName implements ToConverter<Name, IdentifierReference> {
+public class ToReferenceConverterFromName implements Converter<Name, IdentifierReference> {
 
-	private final ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
+	private final Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
 
 	@Inject
-	ToReferenceConverterFromName(ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
+	ToReferenceConverterFromName(Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
 		this.toReferenceConverterFromSimpleName = toReferenceConverterFromSimpleName;
 	}
 

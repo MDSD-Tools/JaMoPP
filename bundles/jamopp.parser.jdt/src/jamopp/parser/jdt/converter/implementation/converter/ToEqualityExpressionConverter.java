@@ -9,19 +9,19 @@ import org.emftext.language.java.operators.EqualityOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToEqualityExpressionConverter implements ToConverter<InfixExpression, EqualityExpression> {
+public class ToEqualityExpressionConverter implements Converter<InfixExpression, EqualityExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter;
-	private final ToConverter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter;
+	private final Converter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter;
 
 	@Inject
-	ToEqualityExpressionConverter(ToConverter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
-			ToConverter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter,
+	ToEqualityExpressionConverter(Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
+			Converter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter,
 			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

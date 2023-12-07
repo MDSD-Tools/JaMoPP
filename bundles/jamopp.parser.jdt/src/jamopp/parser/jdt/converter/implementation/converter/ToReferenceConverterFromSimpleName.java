@@ -11,11 +11,11 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToReferenceConverterFromSimpleName implements ToConverter<SimpleName, IdentifierReference>{
+public class ToReferenceConverterFromSimpleName implements Converter<SimpleName, IdentifierReference>{
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilLayout layoutInformationConverter;

@@ -6,9 +6,9 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToEqualityOperatorConverter implements ToConverter<InfixExpression.Operator, EqualityOperator> {
+public class ToEqualityOperatorConverter implements Converter<InfixExpression.Operator, EqualityOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 

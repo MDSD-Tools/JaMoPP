@@ -8,20 +8,20 @@ import org.emftext.language.java.operators.MultiplicativeOperator;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToMultiplicativeExpressionConverter implements ToConverter<InfixExpression, MultiplicativeExpression> {
+public class ToMultiplicativeExpressionConverter implements Converter<InfixExpression, MultiplicativeExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
-	private final ToConverter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter;
+	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter;
 
 	@Inject
 	ToMultiplicativeExpressionConverter(
-			ToConverter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter,
-			ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter,
+			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

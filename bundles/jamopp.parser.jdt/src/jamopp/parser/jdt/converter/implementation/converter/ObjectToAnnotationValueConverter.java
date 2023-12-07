@@ -13,24 +13,24 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.ReflectiveClassReference;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
-public class ObjectToAnnotationValueConverter implements ToConverter<Object, AnnotationValue> {
+public class ObjectToAnnotationValueConverter implements Converter<Object, AnnotationValue> {
 
 	private final ArraysFactory arraysFactory;
 	private final ReferencesFactory referencesFactory;
 	private final IUtilJdtResolver jdtTResolverUtility;
-	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
-	private final ToConverter<ITypeBinding, Reference> bindingToInternalReferenceConverter;
-	private final ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
+	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final Converter<ITypeBinding, Reference> bindingToInternalReferenceConverter;
+	private final Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
 
 	@Inject
 	public ObjectToAnnotationValueConverter(ReferencesFactory referencesFactory,
-			ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
+			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
 			IUtilJdtResolver jdtTResolverUtility,
-			ToConverter<ITypeBinding, Reference> bindingToInternalReferenceConverter,
-			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
+			Converter<ITypeBinding, Reference> bindingToInternalReferenceConverter,
+			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
 			ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.referencesFactory = referencesFactory;

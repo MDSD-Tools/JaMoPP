@@ -8,16 +8,16 @@ import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
-public class BindingToAnnotationInstanceConverter implements ToConverter<IAnnotationBinding, AnnotationInstance> {
+public class BindingToAnnotationInstanceConverter implements Converter<IAnnotationBinding, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
 	private final IUtilNamedElement utilNamedElement;
 	private IUtilJdtResolver jdtTResolverUtility;
-	private ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
+	private Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
 
 	@Inject
 	BindingToAnnotationInstanceConverter(IUtilNamedElement utilNamedElement, AnnotationsFactory annotationsFactory) {
@@ -43,7 +43,7 @@ public class BindingToAnnotationInstanceConverter implements ToConverter<IAnnota
 
 	@Inject
 	public void setBindingToAnnotationAttributeSettingConverter(
-			ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter) {
+			Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter) {
 		this.bindingToAnnotationAttributeSettingConverter = bindingToAnnotationAttributeSettingConverter;
 	}
 

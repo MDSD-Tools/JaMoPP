@@ -16,23 +16,23 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
 @Singleton
-public class ToClassMemberConverter implements ToConverter<BodyDeclaration, Member> {
+public class ToClassMemberConverter implements Converter<BodyDeclaration, Member> {
 
-	private ToConverter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> toBlockConverter;
-	private final ToConverter<FieldDeclaration, Field> toFieldConverter;
-	private final ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
-	private final ToConverter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter;
+	private Converter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> toBlockConverter;
+	private final Converter<FieldDeclaration, Field> toFieldConverter;
+	private final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
+	private final Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter;
 
 	@Inject
 	ToClassMemberConverter(
-			ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> toBlockConverter,
-			@Named("ToClassMethodOrConstructorConverter") ToConverter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
-			ToConverter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter,
-			ToConverter<FieldDeclaration, Field> toFieldConverter) {
+			Converter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> toBlockConverter,
+			@Named("ToClassMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
+			Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter,
+			Converter<FieldDeclaration, Field> toFieldConverter) {
 		this.toBlockConverter = toBlockConverter;
 		this.toFieldConverter = toFieldConverter;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
@@ -61,7 +61,7 @@ public class ToClassMemberConverter implements ToConverter<BodyDeclaration, Memb
 
 	@Inject
 	public void setToConcreteClassifierConverter(
-			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter) {
+			Converter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter) {
 		this.toConcreteClassifierConverter = toConcreteClassifierConverter;
 	}
 

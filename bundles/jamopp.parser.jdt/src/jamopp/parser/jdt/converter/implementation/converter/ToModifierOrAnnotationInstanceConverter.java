@@ -8,18 +8,18 @@ import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
 public class ToModifierOrAnnotationInstanceConverter
-		implements ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> {
+		implements Converter<IExtendedModifier, AnnotationInstanceOrModifier> {
 
-	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
-	private final ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter;
+	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final Converter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter;
 
 	@Inject
 	ToModifierOrAnnotationInstanceConverter(
-			ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter,
-			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
+			Converter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter,
+			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.toModifierConverter = toModifierConverter;
 	}

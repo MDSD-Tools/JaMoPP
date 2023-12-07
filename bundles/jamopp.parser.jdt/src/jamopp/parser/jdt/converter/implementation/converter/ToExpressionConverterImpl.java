@@ -7,11 +7,11 @@ import org.eclipse.jdt.core.dom.MethodReference;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 
 public class ToExpressionConverterImpl
-		implements ToConverter<Expression, org.emftext.language.java.expressions.Expression> {
+		implements Converter<Expression, org.emftext.language.java.expressions.Expression> {
 
 	private ExpressionHandler handlerPrimaryExpression;
 	private ExpressionHandler handlerAssignment;

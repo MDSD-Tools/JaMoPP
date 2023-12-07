@@ -16,7 +16,7 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
@@ -27,18 +27,18 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout utilLayout;
 	private final IUtilJdtResolver iUtilJdtResolver;
-	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
-	private final ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
-	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
-	private final ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
+	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
 
 	@Inject
 	HandlerLambdaExpression(IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
-			ToConverter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
-			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
-			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
+			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
 		this.typesFactory = typesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;

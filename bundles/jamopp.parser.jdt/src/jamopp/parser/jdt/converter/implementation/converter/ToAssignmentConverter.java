@@ -6,9 +6,9 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ToAssignmentConverter implements ToConverter<Assignment.Operator, AssignmentOperator> {
+public class ToAssignmentConverter implements Converter<Assignment.Operator, AssignmentOperator> {
 
 	private final OperatorsFactory operatorsFactory;
 

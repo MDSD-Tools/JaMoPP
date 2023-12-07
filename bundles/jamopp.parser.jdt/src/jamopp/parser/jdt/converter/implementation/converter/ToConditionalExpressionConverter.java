@@ -7,19 +7,19 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
 public class ToConditionalExpressionConverter
-		implements ToConverter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> {
+		implements Converter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	ToConditionalExpressionConverter(
-			ToConverter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

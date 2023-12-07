@@ -12,23 +12,23 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
-public class ToClassOrInterfaceConverter implements ToConverter<TypeDeclaration, ConcreteClassifier> {
+public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, ConcreteClassifier> {
 
 	private final IUtilJdtResolver iUtilJdtResolver;
-	private final ToConverter<BodyDeclaration, Member> toClassMemberConverter;
-	private final ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
+	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
+	private final Converter<BodyDeclaration, Member> toInterfaceMemberConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
 
 	@Inject
 	ToClassOrInterfaceConverter(IUtilJdtResolver iUtilJdtResolver,
-			ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
-			@Named("ToInterfaceMemberConverter") ToConverter<BodyDeclaration, Member> toInterfaceMemberConverter,
-			@Named("ToClassMemberConverter") ToConverter<BodyDeclaration, Member> toClassMemberConverter) {
+			Converter<Type, TypeReference> toTypeReferenceConverter,
+			Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
+			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMemberConverter,
+			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toTypeParameterConverter = toTypeParameterConverter;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toClassMemberConverter = toClassMemberConverter;

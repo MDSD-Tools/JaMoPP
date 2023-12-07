@@ -21,7 +21,7 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
@@ -31,26 +31,26 @@ public class UtilBindingInfoToConcreteClassifierConverter implements IUtilBindin
 
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilJdtResolver jdtTResolverUtility;
-	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
-	private final ToConverter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter;
-	private final ToConverter<IMethodBinding, Method> bindingToMethodConverter;
-	private final ToConverter<IMethodBinding, Constructor> bindingToConstructorConverter;
-	private final ToConverter<IVariableBinding, Field> bindingToFieldConverter;
-	private final ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
-	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
-	private final ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
+	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final Converter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter;
+	private final Converter<IMethodBinding, Method> bindingToMethodConverter;
+	private final Converter<IMethodBinding, Constructor> bindingToConstructorConverter;
+	private final Converter<IVariableBinding, Field> bindingToFieldConverter;
+	private final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
+	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
 	UtilBindingInfoToConcreteClassifierConverter(IUtilNamedElement utilNamedElement,
-			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
+			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
 			IUtilJdtResolver jdtTResolverUtility,
-			ToConverter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
-			ToConverter<IMethodBinding, Method> bindingToMethodConverter,
-			ToConverter<IVariableBinding, Field> bindingToFieldConverter,
-			ToConverter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter,
-			ToConverter<IMethodBinding, Constructor> bindingToConstructorConverter,
-			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			Converter<IMethodBinding, Method> bindingToMethodConverter,
+			Converter<IVariableBinding, Field> bindingToFieldConverter,
+			Converter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter,
+			Converter<IMethodBinding, Constructor> bindingToConstructorConverter,
+			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;

@@ -9,11 +9,11 @@ import org.emftext.language.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
 public class BindingToNamespaceClassifierReferenceConverter
-		implements ToConverter<ITypeBinding, NamespaceClassifierReference> {
+		implements Converter<ITypeBinding, NamespaceClassifierReference> {
 
 	private final TypesFactory typesFactory;
 	private final IUtilJdtResolver jdtTResolverUtility;

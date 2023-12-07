@@ -16,26 +16,26 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
-public class BindingToFieldConverter implements ToConverter<IVariableBinding, Field> {
+public class BindingToFieldConverter implements Converter<IVariableBinding, Field> {
 
 	private final IUtilJdtResolver jdtTResolverUtility;
 	private final IUtilArrays utilJdtBindingConverter;
-	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
-	private final ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
-	private final ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
-	private final ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
+	private final Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
+	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
 	BindingToFieldConverter(IUtilArrays utilJdtBindingConverter,
-			ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
-			ToConverter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
+			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
+			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
 			IUtilJdtResolver jdtTResolverUtility,
-			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.utilJdtBindingConverter = utilJdtBindingConverter;

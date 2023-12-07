@@ -19,7 +19,7 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
@@ -27,7 +27,7 @@ import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterA
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 
-public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDeclaration, Member> {
+public class ToClassMethodOrConstructorConverter implements Converter<MethodDeclaration, Member> {
 
 	private final StatementsFactory statementsFactory;
 	private final IUtilJdtResolver jdtResolverUtility;
@@ -36,24 +36,24 @@ public class ToClassMethodOrConstructorConverter implements ToConverter<MethodDe
 	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final IUtilNamedElement utilNamedElement;
-	private final ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
-	private final ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
-	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter;
-	private final ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
+	private final Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
+	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
+	private final Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
+	private final Converter<Type, TypeReference> toTypeReferenceConverter;
+	private final Converter<SingleVariableDeclaration, Parameter> toParameterConverter;
+	private final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
 	ToClassMethodOrConstructorConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout,
-			ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
-			ToConverter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
-			ToConverter<SingleVariableDeclaration, Parameter> toParameterConverter,
-			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			Converter<Type, TypeReference> toTypeReferenceConverter,
+			Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
+			Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
+			Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
+			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			IUtilJdtResolver jdtResolverUtility,
-			ToConverter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
+			Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;

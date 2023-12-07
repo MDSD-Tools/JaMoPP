@@ -14,9 +14,9 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
-public class ObjectToPrimaryExpressionConverter implements ToConverter<Object, PrimaryExpression> {
+public class ObjectToPrimaryExpressionConverter implements Converter<Object, PrimaryExpression> {
 
 	private final ReferencesFactory referencesFactory;
 	private final LiteralsFactory literalsFactory;

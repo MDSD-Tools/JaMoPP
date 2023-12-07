@@ -8,7 +8,7 @@ import org.emftext.language.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
@@ -17,13 +17,13 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout utilLayout;
-	private final ToConverter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter;
-	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	HandlerPrefixExpression(IUtilLayout utilLayout,
-			ToConverter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter,
-			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		this.expressionsFactory = expressionsFactory;

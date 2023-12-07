@@ -167,7 +167,7 @@ import jamopp.parser.jdt.converter.implementation.converter.ToTypeReferencesConv
 import jamopp.parser.jdt.converter.implementation.converter.ToUnaryExpressionConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToUnaryOperatorConverter;
 import jamopp.parser.jdt.converter.implementation.converter.TypeToTypeArgumentConverter;
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 
 public class ConverterModule extends AbstractModule {
 
@@ -175,157 +175,157 @@ public class ConverterModule extends AbstractModule {
 	protected void configure() {
 		super.configure();
 
-		bind(new TypeLiteral<ToConverter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
+		bind(new TypeLiteral<Converter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
 		}).to(BindingToAnnotationAttributeSettingConverter.class);
-		bind(new TypeLiteral<ToConverter<IAnnotationBinding, AnnotationInstance>>() {
+		bind(new TypeLiteral<Converter<IAnnotationBinding, AnnotationInstance>>() {
 		}).to(BindingToAnnotationInstanceConverter.class);
-		bind(new TypeLiteral<ToConverter<IMethodBinding, Constructor>>() {
+		bind(new TypeLiteral<Converter<IMethodBinding, Constructor>>() {
 		}).to(BindingToConstructorConverter.class);
-		bind(new TypeLiteral<ToConverter<IVariableBinding, EnumConstant>>() {
+		bind(new TypeLiteral<Converter<IVariableBinding, EnumConstant>>() {
 		}).to(BindingToEnumConstantConverter.class);
-		bind(new TypeLiteral<ToConverter<IVariableBinding, Field>>() {
+		bind(new TypeLiteral<Converter<IVariableBinding, Field>>() {
 		}).to(BindingToFieldConverter.class);
-		bind(new TypeLiteral<ToConverter<ITypeBinding, Reference>>() {
+		bind(new TypeLiteral<Converter<ITypeBinding, Reference>>() {
 		}).to(BindingToInternalReferenceConverter.class);
-		bind(new TypeLiteral<ToConverter<IMethodBinding, Method>>() {
+		bind(new TypeLiteral<Converter<IMethodBinding, Method>>() {
 		}).to(BindingToMethodConverter.class);
-		bind(new TypeLiteral<ToConverter<IModuleBinding, org.emftext.language.java.containers.Module>>() {
+		bind(new TypeLiteral<Converter<IModuleBinding, org.emftext.language.java.containers.Module>>() {
 		}).to(BindingToModuleConverter.class);
-		bind(new TypeLiteral<ToConverter<ITypeBinding, NamespaceClassifierReference>>() {
+		bind(new TypeLiteral<Converter<ITypeBinding, NamespaceClassifierReference>>() {
 		}).to(BindingToNamespaceClassifierReferenceConverter.class);
-		bind(new TypeLiteral<ToConverter<IPackageBinding, org.emftext.language.java.containers.Package>>() {
+		bind(new TypeLiteral<Converter<IPackageBinding, org.emftext.language.java.containers.Package>>() {
 		}).to(BindingToPackageConverter.class);
-		bind(new TypeLiteral<ToConverter<ITypeBinding, TypeParameter>>() {
+		bind(new TypeLiteral<Converter<ITypeBinding, TypeParameter>>() {
 		}).to(BindingToTypeParameterConverter.class);
-		bind(new TypeLiteral<ToConverter<Block, org.emftext.language.java.statements.Block>>() {
+		bind(new TypeLiteral<Converter<Block, org.emftext.language.java.statements.Block>>() {
 		}).to(BlockToBlockConverterImpl.class);
-		bind(new TypeLiteral<ToConverter<Object, AnnotationValue>>() {
+		bind(new TypeLiteral<Converter<Object, AnnotationValue>>() {
 		}).to(ObjectToAnnotationValueConverter.class);
-		bind(new TypeLiteral<ToConverter<Object, PrimaryExpression>>() {
+		bind(new TypeLiteral<Converter<Object, PrimaryExpression>>() {
 		}).to(ObjectToPrimaryExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<Statement, org.emftext.language.java.statements.Statement>>() {
+		bind(new TypeLiteral<Converter<Statement, org.emftext.language.java.statements.Statement>>() {
 		}).to(StatementToStatementConverterImpl.class);
-		bind(new TypeLiteral<ToConverter<SwitchStatement, Switch>>() {
+		bind(new TypeLiteral<Converter<SwitchStatement, Switch>>() {
 		}).to(SwitchToSwitchConverter.class);
-		bind(new TypeLiteral<ToConverter<VariableDeclarationFragment, AdditionalField>>() {
+		bind(new TypeLiteral<Converter<VariableDeclarationFragment, AdditionalField>>() {
 		}).to(ToAdditionalFieldConverter.class);
-		bind(new TypeLiteral<ToConverter<VariableDeclarationFragment, AdditionalLocalVariable>>() {
+		bind(new TypeLiteral<Converter<VariableDeclarationFragment, AdditionalLocalVariable>>() {
 		}).to(ToAdditionalLocalVariableConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression, AdditiveExpression>>() {
+		bind(new TypeLiteral<Converter<InfixExpression, AdditiveExpression>>() {
 		}).to(ToAdditiveExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression.Operator, AdditiveOperator>>() {
+		bind(new TypeLiteral<Converter<InfixExpression.Operator, AdditiveOperator>>() {
 		}).to(ToAdditiveOperatorConverter.class);
-		bind(new TypeLiteral<ToConverter<Annotation, AnnotationInstance>>() {
+		bind(new TypeLiteral<Converter<Annotation, AnnotationInstance>>() {
 		}).to(ToAnnotationInstanceConverter.class);
-		bind(new TypeLiteral<ToConverter<Expression, AnnotationValue>>() {
+		bind(new TypeLiteral<Converter<Expression, AnnotationValue>>() {
 		}).to(ToAnnotationValueConverter.class);
-		bind(new TypeLiteral<ToConverter<AnonymousClassDeclaration, AnonymousClass>>() {
+		bind(new TypeLiteral<Converter<AnonymousClassDeclaration, AnonymousClass>>() {
 		}).to(ToAnonymousClassConverter.class);
-		bind(new TypeLiteral<ToConverter<Dimension, ArrayDimension>>() {
+		bind(new TypeLiteral<Converter<Dimension, ArrayDimension>>() {
 		}).to(ToArrayDimensionConverter.class);
-		bind(new TypeLiteral<ToConverter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer>>() {
+		bind(new TypeLiteral<Converter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer>>() {
 		}).to(ToArrayInitialisierConverter.class);
-		bind(new TypeLiteral<ToConverter<Assignment.Operator, AssignmentOperator>>() {
+		bind(new TypeLiteral<Converter<Assignment.Operator, AssignmentOperator>>() {
 		}).to(ToAssignmentConverter.class);
-		bind(new TypeLiteral<ToConverter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block>>() {
+		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block>>() {
 		}).to(ToBlockConverter.class);
-		bind(new TypeLiteral<ToConverter<CatchClause, CatchBlock>>() {
+		bind(new TypeLiteral<Converter<CatchClause, CatchBlock>>() {
 		}).to(ToCatchblockConverter.class);
-		bind(new TypeLiteral<ToConverter<Name, TypeReference>>() {
+		bind(new TypeLiteral<Converter<Name, TypeReference>>() {
 		}).to(ToClassifierOrNamespaceClassifierReferenceConverter.class);
-		bind(new TypeLiteral<ToConverter<SimpleName, ClassifierReference>>() {
+		bind(new TypeLiteral<Converter<SimpleName, ClassifierReference>>() {
 		}).to(ToClassifierReferenceConverter.class);
-		bind(new TypeLiteral<ToConverter<BodyDeclaration, Member>>() {
+		bind(new TypeLiteral<Converter<BodyDeclaration, Member>>() {
 		}).annotatedWith(Names.named("ToClassMemberConverter")).to(ToClassMemberConverter.class);
-		bind(new TypeLiteral<ToConverter<MethodDeclaration, Member>>() {
+		bind(new TypeLiteral<Converter<MethodDeclaration, Member>>() {
 		}).annotatedWith(Names.named("ToClassMethodOrConstructorConverter"))
 				.to(ToClassMethodOrConstructorConverter.class);
-		bind(new TypeLiteral<ToConverter<TypeDeclaration, ConcreteClassifier>>() {
+		bind(new TypeLiteral<Converter<TypeDeclaration, ConcreteClassifier>>() {
 		}).to(ToClassOrInterfaceConverter.class);
-		bind(new TypeLiteral<ToConverter<AbstractTypeDeclaration, ConcreteClassifier>>() {
+		bind(new TypeLiteral<Converter<AbstractTypeDeclaration, ConcreteClassifier>>() {
 		}).to(ToConcreteClassifierConverterImpl.class);
-		bind(new TypeLiteral<ToConverter<org.eclipse.jdt.core.dom.ConditionalExpression, ConditionalExpression>>() {
+		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.ConditionalExpression, ConditionalExpression>>() {
 		}).to(ToConditionalExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<EnumConstantDeclaration, EnumConstant>>() {
+		bind(new TypeLiteral<Converter<EnumConstantDeclaration, EnumConstant>>() {
 		}).to(ToEnumConstantConverter.class);
-		bind(new TypeLiteral<ToConverter<EnumDeclaration, Enumeration>>() {
+		bind(new TypeLiteral<Converter<EnumDeclaration, Enumeration>>() {
 		}).to(ToEnumConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression, EqualityExpression>>() {
+		bind(new TypeLiteral<Converter<InfixExpression, EqualityExpression>>() {
 		}).to(ToEqualityExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression.Operator, EqualityOperator>>() {
+		bind(new TypeLiteral<Converter<InfixExpression.Operator, EqualityOperator>>() {
 		}).to(ToEqualityOperatorConverter.class);
-		bind(new TypeLiteral<ToConverter<Expression, org.emftext.language.java.expressions.Expression>>() {
+		bind(new TypeLiteral<Converter<Expression, org.emftext.language.java.expressions.Expression>>() {
 		}).to(ToExpressionConverterImpl.class);
-		bind(new TypeLiteral<ToConverter<FieldDeclaration, Field>>() {
+		bind(new TypeLiteral<Converter<FieldDeclaration, Field>>() {
 		}).to(ToFieldConverter.class);
-		bind(new TypeLiteral<ToConverter<BodyDeclaration, Member>>() {
+		bind(new TypeLiteral<Converter<BodyDeclaration, Member>>() {
 		}).annotatedWith(Names.named("ToInterfaceMemberConverter")).to(ToInterfaceMemberConverter.class);
-		bind(new TypeLiteral<ToConverter<AnnotationTypeMemberDeclaration, InterfaceMethod>>() {
+		bind(new TypeLiteral<Converter<AnnotationTypeMemberDeclaration, InterfaceMethod>>() {
 		}).to(ToInterfaceMethodConverter.class);
-		bind(new TypeLiteral<ToConverter<MethodDeclaration, Member>>() {
+		bind(new TypeLiteral<Converter<MethodDeclaration, Member>>() {
 		}).annotatedWith(Names.named("ToInterfaceMethodOrConstructorConverter"))
 				.to(ToInterfaceMethodOrConstructorConverter.class);
-		bind(new TypeLiteral<ToConverter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable>>() {
+		bind(new TypeLiteral<Converter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable>>() {
 		}).to(ToLocalVariableConverter.class);
-		bind(new TypeLiteral<ToConverter<MethodReference, MethodReferenceExpression>>() {
+		bind(new TypeLiteral<Converter<MethodReference, MethodReferenceExpression>>() {
 		}).to(ToMethodReferenceExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<Modifier, org.emftext.language.java.modifiers.Modifier>>() {
+		bind(new TypeLiteral<Converter<Modifier, org.emftext.language.java.modifiers.Modifier>>() {
 		}).to(ToModifierConverter.class);
-		bind(new TypeLiteral<ToConverter<IExtendedModifier, AnnotationInstanceOrModifier>>() {
+		bind(new TypeLiteral<Converter<IExtendedModifier, AnnotationInstanceOrModifier>>() {
 		}).to(ToModifierOrAnnotationInstanceConverter.class);
-		bind(new TypeLiteral<ToConverter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>>>() {
+		bind(new TypeLiteral<Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>>>() {
 		}).to(ToModifiersConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression, MultiplicativeExpression>>() {
+		bind(new TypeLiteral<Converter<InfixExpression, MultiplicativeExpression>>() {
 		}).to(ToMultiplicativeExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression.Operator, MultiplicativeOperator>>() {
+		bind(new TypeLiteral<Converter<InfixExpression.Operator, MultiplicativeOperator>>() {
 		}).to(ToMultiplicativeOperatorConverter.class);
-		bind(new TypeLiteral<ToConverter<TypeReference, NamespaceClassifierReference>>() {
+		bind(new TypeLiteral<Converter<TypeReference, NamespaceClassifierReference>>() {
 		}).to(ToNamespaceClassifierReferenceConverter.class);
-		bind(new TypeLiteral<ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal>>() {
+		bind(new TypeLiteral<Converter<NumberLiteral, org.emftext.language.java.literals.Literal>>() {
 		}).to(ToNumberLiteralConverter.class);
-		bind(new TypeLiteral<ToConverter<SingleVariableDeclaration, OrdinaryParameter>>() {
+		bind(new TypeLiteral<Converter<SingleVariableDeclaration, OrdinaryParameter>>() {
 		}).to(ToOrdinaryParameterConverter.class);
-		bind(new TypeLiteral<ToConverter<SingleVariableDeclaration, Parameter>>() {
+		bind(new TypeLiteral<Converter<SingleVariableDeclaration, Parameter>>() {
 		}).to(ToParameterConverter.class);
-		bind(new TypeLiteral<ToConverter<Expression, PrimaryExpression>>() {
+		bind(new TypeLiteral<Converter<Expression, PrimaryExpression>>() {
 		}).to(ToPrimaryExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<MethodDeclaration, ReceiverParameter>>() {
+		bind(new TypeLiteral<Converter<MethodDeclaration, ReceiverParameter>>() {
 		}).to(ToReceiverParameterConverter.class);
-		bind(new TypeLiteral<ToConverter<Expression, org.emftext.language.java.references.Reference>>() {
+		bind(new TypeLiteral<Converter<Expression, org.emftext.language.java.references.Reference>>() {
 		}).to(ToReferenceConverterFromExpression.class);
-		bind(new TypeLiteral<ToConverter<MethodInvocation, MethodCall>>() {
+		bind(new TypeLiteral<Converter<MethodInvocation, MethodCall>>() {
 		}).to(ToReferenceConverterFromMethodInvocation.class);
-		bind(new TypeLiteral<ToConverter<Name, IdentifierReference>>() {
+		bind(new TypeLiteral<Converter<Name, IdentifierReference>>() {
 		}).to(ToReferenceConverterFromName.class);
-		bind(new TypeLiteral<ToConverter<SimpleName, IdentifierReference>>() {
+		bind(new TypeLiteral<Converter<SimpleName, IdentifierReference>>() {
 		}).to(ToReferenceConverterFromSimpleName.class);
-		bind(new TypeLiteral<ToConverter<Statement, org.emftext.language.java.references.Reference>>() {
+		bind(new TypeLiteral<Converter<Statement, org.emftext.language.java.references.Reference>>() {
 		}).to(ToReferenceConverterFromStatement.class);
-		bind(new TypeLiteral<ToConverter<Type, Reference>>() {
+		bind(new TypeLiteral<Converter<Type, Reference>>() {
 		}).to(ToReferenceConverterFromType.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression, RelationExpression>>() {
+		bind(new TypeLiteral<Converter<InfixExpression, RelationExpression>>() {
 		}).to(ToRelationExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression.Operator, RelationOperator>>() {
+		bind(new TypeLiteral<Converter<InfixExpression.Operator, RelationOperator>>() {
 		}).to(ToRelationOperatorConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression, ShiftExpression>>() {
+		bind(new TypeLiteral<Converter<InfixExpression, ShiftExpression>>() {
 		}).to(ToShiftExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<InfixExpression.Operator, ShiftOperator>>() {
+		bind(new TypeLiteral<Converter<InfixExpression.Operator, ShiftOperator>>() {
 		}).to(ToShiftOperatorConverter.class);
-		bind(new TypeLiteral<ToConverter<SwitchCase, org.emftext.language.java.statements.SwitchCase>>() {
+		bind(new TypeLiteral<Converter<SwitchCase, org.emftext.language.java.statements.SwitchCase>>() {
 		}).to(ToSwitchCaseConverter.class);
-		bind(new TypeLiteral<ToConverter<ITypeBinding, TypeArgument>>() {
+		bind(new TypeLiteral<Converter<ITypeBinding, TypeArgument>>() {
 		}).to(ToTypeArgumentConverter.class);
-		bind(new TypeLiteral<ToConverter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter>>() {
+		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter>>() {
 		}).to(ToTypeParameterConverter.class);
-		bind(new TypeLiteral<ToConverter<Type, TypeReference>>() {
+		bind(new TypeLiteral<Converter<Type, TypeReference>>() {
 		}).to(ToTypeReferenceConverter.class);
-		bind(new TypeLiteral<ToConverter<ITypeBinding, List<TypeReference>>>() {
+		bind(new TypeLiteral<Converter<ITypeBinding, List<TypeReference>>>() {
 		}).to(ToTypeReferencesConverter.class);
-		bind(new TypeLiteral<ToConverter<PrefixExpression, UnaryExpression>>() {
+		bind(new TypeLiteral<Converter<PrefixExpression, UnaryExpression>>() {
 		}).to(ToUnaryExpressionConverter.class);
-		bind(new TypeLiteral<ToConverter<PrefixExpression.Operator, UnaryOperator>>() {
+		bind(new TypeLiteral<Converter<PrefixExpression.Operator, UnaryOperator>>() {
 		}).to(ToUnaryOperatorConverter.class);
-		bind(new TypeLiteral<ToConverter<Type, TypeArgument>>() {
+		bind(new TypeLiteral<Converter<Type, TypeArgument>>() {
 		}).to(TypeToTypeArgumentConverter.class);
 
 	}

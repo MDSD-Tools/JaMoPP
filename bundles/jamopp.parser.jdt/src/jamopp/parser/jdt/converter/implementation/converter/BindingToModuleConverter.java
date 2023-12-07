@@ -20,27 +20,27 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
+import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
 @SuppressWarnings("restriction")
 public class BindingToModuleConverter
-		implements ToConverter<IModuleBinding, org.emftext.language.java.containers.Module> {
+		implements Converter<IModuleBinding, org.emftext.language.java.containers.Module> {
 
 	private final ModulesFactory modulesFactory;
 	private final ModifiersFactory modifiersFactory;
 	private final IUtilNamedElement utilNamedElement;
-	private final ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
+	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	private IUtilJdtResolver jdtTResolverUtility;
-	private ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	BindingToModuleConverter(ToConverter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+	BindingToModuleConverter(Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			ModulesFactory modulesFactory, ModifiersFactory modifiersFactory, IUtilJdtResolver jdtTResolverUtility,
 			IUtilNamedElement utilNamedElement,
-			ToConverter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
