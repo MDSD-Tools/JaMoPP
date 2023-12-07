@@ -1,71 +1,33 @@
 package jamopp.parser.jdt.converter.implementation.converter;
 
-import org.eclipse.jdt.core.dom.IBinding;
-import org.eclipse.jdt.core.dom.IMethodBinding;
-import org.eclipse.jdt.core.dom.IPackageBinding;
-import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.emftext.language.java.references.IdentifierReference;
-import org.emftext.language.java.references.ReferencesFactory;
-
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 
-public class ToReferenceConverterFromName implements ReferenceConverter<SimpleName>, ToConverter<SimpleName, IdentifierReference> {
+public class ToReferenceConverterFromName implements ToConverter<Name, IdentifierReference> {
 
-	private final ReferencesFactory referencesFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
 
 	@Inject
-	ToReferenceConverterFromName(ReferencesFactory referencesFactory, IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility) {
-		this.referencesFactory = referencesFactory;
-		this.layoutInformationConverter = layoutInformationConverter;
-		this.jdtResolverUtility = jdtResolverUtility;
-	}
-
-	org.emftext.language.java.references.IdentifierReference convertToIdentifierReference(Name name) {
-		if (name.isSimpleName()) {
-			return convert((SimpleName) name);
-		}
-		QualifiedName qualifiedName = (QualifiedName) name;
-		org.emftext.language.java.references.IdentifierReference parent = convertToIdentifierReference(
-				qualifiedName.getQualifier());
-		org.emftext.language.java.references.IdentifierReference child = convert(qualifiedName.getName());
-		parent.setNext(child);
-		return child;
+	ToReferenceConverterFromName(ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
+		this.toReferenceConverterFromSimpleName = toReferenceConverterFromSimpleName;
 	}
 
 	@Override
-	public IdentifierReference convert(SimpleName name) {
-		org.emftext.language.java.references.IdentifierReference result = referencesFactory.createIdentifierReference();
-		IBinding b = name.resolveBinding();
-		org.emftext.language.java.references.ReferenceableElement target = null;
-		if (b == null || b.isRecovered()) {
-			target = jdtResolverUtility.getReferenceableElementByNameMatching(name.getIdentifier());
-		} else if (b instanceof ITypeBinding) {
-			target = jdtResolverUtility.getClassifier((ITypeBinding) b);
-		} else if (b instanceof IVariableBinding) {
-			target = jdtResolverUtility.getReferencableElement((IVariableBinding) b);
-		} else if (b instanceof IMethodBinding) {
-			target = jdtResolverUtility.getMethod((IMethodBinding) b);
-		} else if (b instanceof IPackageBinding) {
-			target = jdtResolverUtility.getPackage((IPackageBinding) b);
-		} else {
-			target = jdtResolverUtility.getReferenceableElementByNameMatching(name.getIdentifier());
+	public org.emftext.language.java.references.IdentifierReference convert(Name name) {
+		if (name.isSimpleName()) {
+			return toReferenceConverterFromSimpleName.convert((SimpleName) name);
 		}
-		target.setName(name.getIdentifier());
-		result.setTarget(target);
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, name);
-		return result;
+		QualifiedName qualifiedName = (QualifiedName) name;
+		org.emftext.language.java.references.IdentifierReference parent = convert(qualifiedName.getQualifier());
+		org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
+				.convert(qualifiedName.getName());
+		parent.setNext(child);
+		return child;
 	}
 
 }

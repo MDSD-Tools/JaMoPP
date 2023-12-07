@@ -10,14 +10,12 @@ import org.emftext.language.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 
-public class ToReferenceConverterFromMethodInvocation
-		implements ReferenceConverter<MethodInvocation>, ToConverter<MethodInvocation, MethodCall> {
+public class ToReferenceConverterFromMethodInvocation implements ToConverter<MethodInvocation, MethodCall> {
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilLayout layoutInformationConverter;

@@ -35,7 +35,6 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
@@ -43,8 +42,8 @@ import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
-public class ToReferenceConverterFromExpression implements ReferenceConverter<Expression>,
-		ToConverter<Expression, org.emftext.language.java.references.Reference> {
+public class ToReferenceConverterFromExpression
+		implements ToConverter<Expression, org.emftext.language.java.references.Reference> {
 
 	private ExpressionsFactory expressionsFactory;
 	private LiteralsFactory literalsFactory;
@@ -55,7 +54,6 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 	private IUtilLayout layoutInformationConverter;
 	private IUtilJdtResolver jdtResolverUtility;
 	private IUtilNamedElement utilNamedElement;
-	private IUtilReferenceWalker utilReferenceWalker;
 	private ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private ToConverter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierConverter;
@@ -63,21 +61,22 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 	private ToConverter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
 	private ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromName;
 	private ToConverter<MethodInvocation, MethodCall> toReferenceConverterFromMethodInvocation;
-	private ToReferenceConverterFromType toReferenceConverterFromType;
+	private ToConverter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType;
 	private ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
 	void ToReferenceConverterFromExpression(IUtilNamedElement utilNamedElement,
 			ToConverter<Type, TypeReference> toTypeReferenceConverter,
-			ToReferenceConverterFromType toReferenceConverterFromType,
+			ToConverter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType,
 			ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromName,
 			ToConverter<MethodInvocation, MethodCall> toReferenceConverterFromMethodInvocation,
 			ToConverter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierConverter,
 			ToConverter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			ReferencesFactory referencesFactory, IUtilReferenceWalker utilReferenceWalker,
-			LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
-			InstantiationsFactory instantiationsFactory, ExpressionsFactory expressionsFactory,
+			LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter,
+			IUtilJdtResolver jdtResolverUtility, InstantiationsFactory instantiationsFactory,
+			ExpressionsFactory expressionsFactory,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ArraysFactory arraysFactory, ToConverter<Type, TypeArgument> typeArgumentConverter,
 			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
@@ -94,16 +93,11 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 		this.toArrayInitialisierConverter = toArrayInitialisierConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.toAnonymousClassConverter = toAnonymousClassConverter;
-		this.utilReferenceWalker = utilReferenceWalker;
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
 		this.toReferenceConverterFromMethodInvocation = toReferenceConverterFromMethodInvocation;
 		this.toReferenceConverterFromType = toReferenceConverterFromType;
 		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 		this.typeToTypeArgumentConverter = typeArgumentConverter;
-	}
-
-	public org.emftext.language.java.references.Reference convertToReference(Expression expr) {
-		return utilReferenceWalker.walkUp(convert(expr));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -262,8 +256,7 @@ public class ToReferenceConverterFromExpression implements ReferenceConverter<Ex
 			TypeLiteral arr = (TypeLiteral) expr;
 			org.emftext.language.java.references.ReflectiveClassReference result = referencesFactory
 					.createReflectiveClassReference();
-			org.emftext.language.java.references.Reference parent = toReferenceConverterFromType
-					.internalConvertToReference(arr.getType());
+			org.emftext.language.java.references.Reference parent = toReferenceConverterFromType.convert(arr.getType());
 			parent.setNext(result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;

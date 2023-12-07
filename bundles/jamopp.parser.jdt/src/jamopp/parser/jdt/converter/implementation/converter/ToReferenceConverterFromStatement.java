@@ -11,25 +11,22 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 
-public class ToReferenceConverterFromStatement implements ReferenceConverter<Statement>,
-		ToConverter<Statement, org.emftext.language.java.references.Reference> {
+public class ToReferenceConverterFromStatement
+		implements ToConverter<Statement, org.emftext.language.java.references.Reference> {
 
 	private final LiteralsFactory literalsFactory;
 	private final InstantiationsFactory instantiationsFactory;
 	private final IUtilLayout layoutInformationConverter;
-	private final IUtilReferenceWalker utilReferenceWalker;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 	private final ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromStatement(IUtilReferenceWalker utilReferenceWalker, LiteralsFactory literalsFactory,
-			IUtilLayout layoutInformationConverter, InstantiationsFactory instantiationsFactory,
+	ToReferenceConverterFromStatement(LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter,
+			InstantiationsFactory instantiationsFactory,
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter) {
@@ -37,17 +34,12 @@ public class ToReferenceConverterFromStatement implements ReferenceConverter<Sta
 		this.instantiationsFactory = instantiationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
-		this.utilReferenceWalker = utilReferenceWalker;
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
-	public org.emftext.language.java.references.Reference convert(Statement st) {
-		return utilReferenceWalker.walkUp(internalConvertToReference(st));
-	}
-
 	@SuppressWarnings("unchecked")
-	private org.emftext.language.java.references.Reference internalConvertToReference(Statement st) {
+	public org.emftext.language.java.references.Reference convert(Statement st) {
 		if (st.getNodeType() == ASTNode.CONSTRUCTOR_INVOCATION) {
 			ConstructorInvocation invoc = (ConstructorInvocation) st;
 			org.emftext.language.java.instantiations.ExplicitConstructorCall result = instantiationsFactory

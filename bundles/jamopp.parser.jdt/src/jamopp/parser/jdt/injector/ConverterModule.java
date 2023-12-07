@@ -152,6 +152,7 @@ import jamopp.parser.jdt.converter.implementation.converter.ToReceiverParameterC
 import jamopp.parser.jdt.converter.implementation.converter.ToReferenceConverterFromExpression;
 import jamopp.parser.jdt.converter.implementation.converter.ToReferenceConverterFromMethodInvocation;
 import jamopp.parser.jdt.converter.implementation.converter.ToReferenceConverterFromName;
+import jamopp.parser.jdt.converter.implementation.converter.ToReferenceConverterFromSimpleName;
 import jamopp.parser.jdt.converter.implementation.converter.ToReferenceConverterFromStatement;
 import jamopp.parser.jdt.converter.implementation.converter.ToReferenceConverterFromType;
 import jamopp.parser.jdt.converter.implementation.converter.ToRelationExpressionConverter;
@@ -294,8 +295,10 @@ public class ConverterModule extends AbstractModule {
 		}).to(ToReferenceConverterFromExpression.class);
 		bind(new TypeLiteral<ToConverter<MethodInvocation, MethodCall>>() {
 		}).to(ToReferenceConverterFromMethodInvocation.class);
-		bind(new TypeLiteral<ToConverter<SimpleName, IdentifierReference>>() {
+		bind(new TypeLiteral<ToConverter<Name, IdentifierReference>>() {
 		}).to(ToReferenceConverterFromName.class);
+		bind(new TypeLiteral<ToConverter<SimpleName, IdentifierReference>>() {
+		}).to(ToReferenceConverterFromSimpleName.class);
 		bind(new TypeLiteral<ToConverter<Statement, org.emftext.language.java.references.Reference>>() {
 		}).to(ToReferenceConverterFromStatement.class);
 		bind(new TypeLiteral<ToConverter<Type, Reference>>() {

@@ -7,54 +7,52 @@ import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
 import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.interfaces.converter.ReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
-public class ToReferenceConverterFromType implements ReferenceConverter<Type>, ToConverter<Type, Reference> {
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.emftext.language.java.references.IdentifierReference;
+import org.eclipse.jdt.core.dom.Name;
+
+public class ToReferenceConverterFromType implements ToConverter<Type, org.emftext.language.java.references.Reference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final IUtilReferenceWalker utilReferenceWalker;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
 	private final ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
-	private final ToReferenceConverterFromName toReferenceConverterFromName;
+	
+	private final ToConverter<Name, IdentifierReference> toReferenceConverterFromName;
+	private final ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
 
 	@Inject
 	ToReferenceConverterFromType(ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ToReferenceConverterFromName toReferenceConverterFromName,
-			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ReferencesFactory referencesFactory,
-			IUtilReferenceWalker utilReferenceWalker, IUtilLayout layoutInformationConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			ToConverter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+			ReferencesFactory referencesFactory, IUtilLayout layoutInformationConverter,
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, ToConverter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
-		this.utilReferenceWalker = utilReferenceWalker;
 		this.toReferenceConverterFromName = toReferenceConverterFromName;
 		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
-	}
-
-	public Reference convert(Type t) {
-		return utilReferenceWalker.walkUp(internalConvertToReference(t));
+		this.toReferenceConverterFromSimpleName = toReferenceConverterFromSimpleName;
 	}
 
 	@SuppressWarnings("unchecked")
-	org.emftext.language.java.references.Reference internalConvertToReference(Type t) {
+	public org.emftext.language.java.references.Reference convert(Type t) {
 		if (t.isNameQualifiedType()) {
 			NameQualifiedType nqType = (NameQualifiedType) t;
 			org.emftext.language.java.references.IdentifierReference parent = toReferenceConverterFromName
-					.convertToIdentifierReference(nqType.getQualifier());
-			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromName
+					.convert(nqType.getQualifier());
+			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
 					.convert(nqType.getName());
 			parent.setNext(child);
 			nqType.annotations().forEach(
@@ -64,8 +62,8 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 		}
 		if (t.isQualifiedType()) {
 			QualifiedType qType = (QualifiedType) t;
-			org.emftext.language.java.references.Reference parent = internalConvertToReference(qType.getQualifier());
-			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromName
+			org.emftext.language.java.references.Reference parent = convert(qType.getQualifier());
+			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
 					.convert(qType.getName());
 			qType.annotations().forEach(
 					obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
@@ -76,7 +74,7 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 		if (t.isSimpleType()) {
 			SimpleType sType = (SimpleType) t;
 			org.emftext.language.java.references.IdentifierReference result = toReferenceConverterFromName
-					.convertToIdentifierReference(sType.getName());
+					.convert(sType.getName());
 			sType.annotations().forEach(
 					obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, sType);
@@ -92,7 +90,7 @@ public class ToReferenceConverterFromType implements ReferenceConverter<Type>, T
 		}
 		if (t.isArrayType()) {
 			ArrayType arr = (ArrayType) t;
-			org.emftext.language.java.references.Reference result = internalConvertToReference(arr.getElementType());
+			org.emftext.language.java.references.Reference result = convert(arr.getElementType());
 			if (arr.getElementType().isPrimitiveType()) {
 				org.emftext.language.java.references.PrimitiveTypeReference primRef = (org.emftext.language.java.references.PrimitiveTypeReference) result;
 				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, primRef);

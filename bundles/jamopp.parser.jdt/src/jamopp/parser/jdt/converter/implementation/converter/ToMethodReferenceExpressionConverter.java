@@ -2,6 +2,7 @@ package jamopp.parser.jdt.converter.implementation.converter;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CreationReference;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionMethodReference;
 import org.eclipse.jdt.core.dom.MethodReference;
 import org.eclipse.jdt.core.dom.SuperMethodReference;
@@ -18,6 +19,7 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
 public class ToMethodReferenceExpressionConverter implements ToConverter<MethodReference, MethodReferenceExpression> {
@@ -26,11 +28,12 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 	private final ReferencesFactory referencesFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final IUtilLayout layoutInformationConverter;
+	private final IUtilReferenceWalker utilReferenceWalker;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final ToConverter<Type, TypeReference> toTypeReferenceConverter;
-	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
-	private final ToReferenceConverterFromType toReferenceConverterFromType;
+	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
+	private final ToConverter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType;
 	private final ToConverter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
@@ -38,14 +41,15 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 			ToConverter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			IUtilLayout layoutInformationConverter, ToConverter<Type, TypeReference> toTypeReferenceConverter,
 			ExpressionsFactory expressionsFactory, ReferencesFactory referencesFactory, LiteralsFactory literalsFactory,
-			ToReferenceConverterFromType toReferenceConverterFromType,
-			ToReferenceConverterFromExpression toReferenceConverterFromExpression,
+			ToConverter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType,
+			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			ToConverter<Type, TypeArgument> typeToTypeArgumentConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, IUtilReferenceWalker utilReferenceWalker) {
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
+		this.utilReferenceWalker = utilReferenceWalker;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
@@ -78,15 +82,14 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 				.createPrimaryExpressionReferenceExpression();
 		if (ref.getNodeType() == ASTNode.TYPE_METHOD_REFERENCE) {
 			TypeMethodReference typeRef = (TypeMethodReference) ref;
-			result.setChild(toReferenceConverterFromType.convert(typeRef.getType()));
+			result.setChild(utilReferenceWalker.walkUp(toReferenceConverterFromType.convert(typeRef.getType())));
 			typeRef.typeArguments()
 					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
-			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(typeRef.getName()));
+			result.setMethodReference(utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(typeRef.getName())));
 		} else if (ref.getNodeType() == ASTNode.SUPER_METHOD_REFERENCE) {
 			SuperMethodReference superRef = (SuperMethodReference) ref;
 			if (superRef.getQualifier() != null) {
-				org.emftext.language.java.references.Reference child = toReferenceConverterFromExpression
-						.convertToReference(superRef.getQualifier());
+				org.emftext.language.java.references.Reference child = utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(superRef.getQualifier()));
 				org.emftext.language.java.references.SelfReference lastPart = referencesFactory.createSelfReference();
 				lastPart.setSelf(literalsFactory.createSuper());
 				org.emftext.language.java.references.Reference part = child;
@@ -104,14 +107,14 @@ public class ToMethodReferenceExpressionConverter implements ToConverter<MethodR
 			}
 			superRef.typeArguments()
 					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
-			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(superRef.getName()));
+			result.setMethodReference(utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(superRef.getName())));
 		} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
 			ExpressionMethodReference exprRef = (ExpressionMethodReference) ref;
 			result.setChild((org.emftext.language.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
 					.convert(exprRef.getExpression()));
 			exprRef.typeArguments()
 					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
-			result.setMethodReference(toReferenceConverterFromExpression.convertToReference(exprRef.getName()));
+			result.setMethodReference(utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(exprRef.getName())));
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, ref);
 		return result;

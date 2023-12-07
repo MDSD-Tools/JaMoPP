@@ -49,6 +49,7 @@ import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
 
@@ -60,6 +61,7 @@ public class StatementToStatementConverterImpl
 	private final IUtilLayout layoutInformationConverter;
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final IUtilNamedElement utilNamedElement;
+	private final IUtilReferenceWalker utilReferenceWalker;
 	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
@@ -75,8 +77,8 @@ public class StatementToStatementConverterImpl
 
 	private final HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
-	private ToReferenceConverterFromStatement toReferenceConverterFromStatement;
-	private ToReferenceConverterFromExpression toReferenceConverterFromExpression;
+	private ToConverter<Statement, org.emftext.language.java.references.Reference> toReferenceConverterFromStatement;
+	private ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
 	StatementToStatementConverterImpl(IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
@@ -92,12 +94,14 @@ public class StatementToStatementConverterImpl
 			ToConverter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ToConverter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
 			ToConverter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter,
-			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter) {
+			ToConverter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
+			IUtilReferenceWalker utilReferenceWalker) {
 		this.expressionsFactory = expressionsFactory;
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
+		this.utilReferenceWalker = utilReferenceWalker;
 		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -266,9 +270,9 @@ public class StatementToStatementConverterImpl
 					result.getResources()
 							.add(toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
 				} else {
-					result.getResources().add(
-							(org.emftext.language.java.references.ElementReference) toReferenceConverterFromExpression
-									.convertToReference(resExpr));
+					result.getResources()
+							.add((org.emftext.language.java.references.ElementReference) utilReferenceWalker
+									.walkUp(toReferenceConverterFromExpression.convert(resExpr)));
 				}
 			});
 			result.setBlock(blockToBlockConverter.convert(trySt.getBody()));
@@ -325,7 +329,7 @@ public class StatementToStatementConverterImpl
 		if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
 			org.emftext.language.java.statements.ExpressionStatement result = statementsFactory
 					.createExpressionStatement();
-			result.setExpression(toReferenceConverterFromStatement.convert(statement));
+			result.setExpression(utilReferenceWalker.walkUp(toReferenceConverterFromStatement.convert(statement)));
 			return result;
 		}
 		YieldStatement yieldSt = (YieldStatement) statement;
@@ -340,13 +344,13 @@ public class StatementToStatementConverterImpl
 
 	@Inject
 	public void setToReferenceConverterFromExpression(
-			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
+			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression) {
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
 
 	@Inject
 	public void setToReferenceConverterFromStatement(
-			ToReferenceConverterFromStatement toReferenceConverterFromStatement) {
+			ToConverter<Statement, org.emftext.language.java.references.Reference> toReferenceConverterFromStatement) {
 		this.toReferenceConverterFromStatement = toReferenceConverterFromStatement;
 	}
 

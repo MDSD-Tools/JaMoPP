@@ -12,18 +12,23 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.converter.ToConverter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
 
-public class ToPrimaryExpressionConverter implements ToConverter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
+public class ToPrimaryExpressionConverter
+		implements ToConverter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
 
 	private final LiteralsFactory literalsFactory;
 	private final IUtilLayout layoutInformationConverter;
+	private final IUtilReferenceWalker utilReferenceWalker;
 	private final ToConverter<NumberLiteral, org.emftext.language.java.literals.Literal> toNumberLiteralConverter;
-	private final ToReferenceConverterFromExpression toReferenceConverterFromExpression;
+	private final ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
 	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter,
 			IUtilLayout layoutInformationConverter,
-			ToReferenceConverterFromExpression toReferenceConverterFromExpression) {
+			ToConverter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
+			IUtilReferenceWalker utilReferenceWalker) {
+		this.utilReferenceWalker = utilReferenceWalker;
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.literalsFactory = literalsFactory;
@@ -40,7 +45,7 @@ public class ToPrimaryExpressionConverter implements ToConverter<org.eclipse.jdt
 		} else if (expr.getNodeType() == ASTNode.NUMBER_LITERAL) {
 			return toNumberLiteralConverter.convert((NumberLiteral) expr);
 		}
-		return toReferenceConverterFromExpression.convertToReference(expr);
+		return utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(expr));
 	}
 
 	private PrimaryExpression createCharacterLiteral(Expression expr) {
