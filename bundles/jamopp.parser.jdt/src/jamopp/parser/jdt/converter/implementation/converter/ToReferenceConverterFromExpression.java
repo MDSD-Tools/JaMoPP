@@ -65,7 +65,7 @@ public class ToReferenceConverterFromExpression
 	private Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	void ToReferenceConverterFromExpression(IUtilNamedElement utilNamedElement,
+	void setMembers(IUtilNamedElement utilNamedElement,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType,
 			Converter<SimpleName, IdentifierReference> toReferenceConverterFromName,

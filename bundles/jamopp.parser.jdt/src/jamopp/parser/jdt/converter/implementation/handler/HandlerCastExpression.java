@@ -9,7 +9,6 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.converter.implementation.converter.ToTypeReferenceConverter;
 import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;

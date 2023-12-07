@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
+@SuppressWarnings("restriction")
 public class BindingToEnumConstantConverter implements Converter<IVariableBinding, EnumConstant> {
 
 	private final IUtilJdtResolver iUtilJdtResolver;

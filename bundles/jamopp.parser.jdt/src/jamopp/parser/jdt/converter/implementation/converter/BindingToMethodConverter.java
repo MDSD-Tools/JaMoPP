@@ -9,29 +9,22 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationValue;
-import org.emftext.language.java.annotations.AnnotationsFactory;
-import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Method;
-import org.emftext.language.java.modules.ModulesFactory;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.ParametersFactory;
 import org.emftext.language.java.parameters.ReceiverParameter;
-import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.TypesFactory;
-
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
+@SuppressWarnings("restriction")
 public class BindingToMethodConverter implements Converter<IMethodBinding, Method> {
 
 	private final StatementsFactory statementsFactory;

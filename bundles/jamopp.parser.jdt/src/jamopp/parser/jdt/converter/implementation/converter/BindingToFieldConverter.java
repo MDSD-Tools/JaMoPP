@@ -20,6 +20,7 @@ import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 
+@SuppressWarnings("restriction")
 public class BindingToFieldConverter implements Converter<IVariableBinding, Field> {
 
 	private final IUtilJdtResolver jdtTResolverUtility;
