@@ -12,6 +12,7 @@ import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CatchClause;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
@@ -25,11 +26,14 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.MethodReference;
 import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.ModuleDeclaration;
+import org.eclipse.jdt.core.dom.ModuleDirective;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.eclipse.jdt.core.dom.PrefixExpression;
@@ -60,6 +64,7 @@ import org.emftext.language.java.expressions.ShiftExpression;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.TypeParameter;
+import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.EnumConstant;
@@ -68,6 +73,7 @@ import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
+import org.emftext.language.java.modules.ModuleReference;
 import org.emftext.language.java.operators.AdditiveOperator;
 import org.emftext.language.java.operators.AssignmentOperator;
 import org.emftext.language.java.operators.EqualityOperator;
@@ -125,14 +131,17 @@ import jamopp.parser.jdt.converter.implementation.converter.ToClassMethodOrConst
 import jamopp.parser.jdt.converter.implementation.converter.ToClassOrInterfaceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToClassifierOrNamespaceClassifierReferenceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToClassifierReferenceConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToCompilationUnitConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToConcreteClassifierConverterImpl;
 import jamopp.parser.jdt.converter.implementation.converter.ToConditionalExpressionConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToDirectiveConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToEnumConstantConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToEnumConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToEqualityExpressionConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToEqualityOperatorConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToExpressionConverterImpl;
 import jamopp.parser.jdt.converter.implementation.converter.ToFieldConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToImportConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToInterfaceMemberConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToInterfaceMethodConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToInterfaceMethodOrConstructorConverter;
@@ -141,10 +150,16 @@ import jamopp.parser.jdt.converter.implementation.converter.ToMethodReferenceExp
 import jamopp.parser.jdt.converter.implementation.converter.ToModifierConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToModifierOrAnnotationInstanceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToModifiersConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToModuleConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToModuleReferenceConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToMultiplicativeExpressionConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToMultiplicativeOperatorConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToNamespaceClassifierReferenceConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToNonOnDemandNonStaticConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToNonOnDemandStaticConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToNumberLiteralConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToOnDemandNonStaticConverter;
+import jamopp.parser.jdt.converter.implementation.converter.ToOnDemandStaticConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToOrdinaryParameterConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToParameterConverter;
 import jamopp.parser.jdt.converter.implementation.converter.ToPrimaryExpressionConverter;
@@ -327,6 +342,25 @@ public class ConverterModule extends AbstractModule {
 		}).to(ToUnaryOperatorConverter.class);
 		bind(new TypeLiteral<Converter<Type, TypeArgument>>() {
 		}).to(TypeToTypeArgumentConverter.class);
+
+		bind(new TypeLiteral<Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit>>() {
+		}).to(ToCompilationUnitConverter.class);
+		bind(new TypeLiteral<Converter<Name, ModuleReference>>() {
+		}).to(ToModuleReferenceConverter.class);
+		bind(new TypeLiteral<Converter<ModuleDirective, org.emftext.language.java.modules.ModuleDirective>>() {
+		}).to(ToDirectiveConverter.class);
+		bind(new TypeLiteral<Converter<ModuleDeclaration, org.emftext.language.java.containers.Module>>() {
+		}).to(ToModuleConverter.class);
+		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
+		}).annotatedWith(Names.named("ToNonOnDemandNonStaticConverter")).to(ToNonOnDemandNonStaticConverter.class);
+		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
+		}).annotatedWith(Names.named("ToNonOnDemandStaticConverter")).to(ToNonOnDemandStaticConverter.class);
+		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
+		}).annotatedWith(Names.named("ToOnDemandNonStaticConverter")).to(ToOnDemandNonStaticConverter.class);
+		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
+		}).annotatedWith(Names.named("ToOnDemandStaticConverter")).to(ToOnDemandStaticConverter.class);
+		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
+		}).annotatedWith(Names.named("ToImportConverter")).to(ToImportConverter.class);
 
 	}
 

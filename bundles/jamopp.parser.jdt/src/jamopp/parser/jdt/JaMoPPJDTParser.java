@@ -41,7 +41,7 @@ import jamopp.parser.jdt.other.JamoppClasspathEntriesSearcher;
 import jamopp.parser.jdt.other.JamoppCompilationUnitsFactory;
 import jamopp.parser.jdt.other.JamoppFileWithJDTParser;
 import jamopp.parser.jdt.other.JamoppJavaParserFactory;
-import jamopp.parser.jdt.visitor.MyAbstractVisitor;
+import jamopp.parser.jdt.visitor.AbstractVisitor;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
@@ -52,7 +52,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	private static final IUtilJdtResolver jdtResolverUtility;
 	private static final ContainersFactory containersFactory;
-	private static final MyAbstractVisitor converter;
+	private static final AbstractVisitor converter;
 	private static final IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	private static final JamoppClasspathEntriesSearcher jamoppClasspathEntriesSearcher;

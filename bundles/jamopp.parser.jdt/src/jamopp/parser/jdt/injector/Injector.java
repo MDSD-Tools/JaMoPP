@@ -7,19 +7,19 @@ import com.google.inject.Guice;
 import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
-import jamopp.parser.jdt.visitor.MyAbstractVisitor;
+import jamopp.parser.jdt.visitor.AbstractVisitor;
 import jamopp.parser.jdt.visitor.VisitorAndConverterAbstractAndEmptyModelJDTAST;
 
 public class Injector {
 
-	private static final MyAbstractVisitor visitor;
+	private static final AbstractVisitor visitor;
 	private static final IUtilJdtResolver jdtResolverUtility;
 	private static final IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
 	private static final ContainersFactory containersFactory;
 
 	static {
 		com.google.inject.Injector injector = Guice.createInjector(new UtilModule(), new FactoryModule(),
-				new ConverterModule(), new HandlerModule());
+				new ConverterModule(), new HandlerModule(), new VisitorModule());
 
 		visitor = injector.getInstance(VisitorAndConverterAbstractAndEmptyModelJDTAST.class);
 		jdtResolverUtility = injector.getInstance(IUtilJdtResolver.class);
@@ -28,7 +28,7 @@ public class Injector {
 
 	}
 
-	public static MyAbstractVisitor getVisitor() {
+	public static AbstractVisitor getVisitor() {
 		return visitor;
 	}
 
