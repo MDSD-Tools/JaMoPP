@@ -39,9 +39,8 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	private final IUtilJdtResolver jdtResolverUtility;
 	private final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	private final Converter<ImportDeclaration, Import> toImportConverter;
-
-	private Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit> toCompilationUnitConverter;
-	private Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> toModuleConverter;
+	private final Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit> toCompilationUnitConverter;
+	private final Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> toModuleConverter;
 
 	private JavaRoot convertedRootElement;
 	private String originalSource;
@@ -50,14 +49,17 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	public VisitorAndConverterAbstractAndEmptyModelJDTAST(IUtilNamedElement utilNamedElement,
 			@Named("ToImportConverter") Converter<ImportDeclaration, Import> toImportConverter,
 			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
-			ContainersFactory containersFactory,
-			Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
+			ContainersFactory containersFactory, Converter<Annotation, AnnotationInstance> annotationInstanceConverter,
+			Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> toModuleConverter,
+			Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit> toCompilationUnitConverter) {
 		this.containersFactory = containersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.annotationInstanceConverter = annotationInstanceConverter;
 		this.toImportConverter = toImportConverter;
+		this.toCompilationUnitConverter = toCompilationUnitConverter;
+		this.toModuleConverter = toModuleConverter;
 	}
 
 	@Override
@@ -86,9 +88,11 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 		this.setConvertedElement(null);
 		if (!node.types().isEmpty()) {
 			this.setConvertedElement(toCompilationUnitConverter.convert(node));
+			layoutInformationConverter.convertJavaRootLayoutInformation(getConvertedElement(), node, getSource());
 		}
 		if (node.getModule() != null) {
 			org.emftext.language.java.containers.Module module = toModuleConverter.convert(node.getModule());
+			layoutInformationConverter.convertJavaRootLayoutInformation(module, node, getSource());
 			this.setConvertedElement(module);
 		}
 		org.emftext.language.java.containers.JavaRoot root = this.getConvertedElement();
@@ -113,18 +117,6 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			convertedRootElement.getImports().add(toImportConverter.convert((ImportDeclaration) obj));
 		}
 		return false;
-	}
-
-	@Inject
-	public void setToModuleConverter(
-			Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> toModuleConverter) {
-		this.toModuleConverter = toModuleConverter;
-	}
-
-	@Inject
-	public void setToCompilationUnitConverter(
-			Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit> toCompilationUnitConverter) {
-		this.toCompilationUnitConverter = toCompilationUnitConverter;
 	}
 
 }

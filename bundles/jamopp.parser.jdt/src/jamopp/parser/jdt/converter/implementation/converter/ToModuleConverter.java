@@ -10,33 +10,26 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.converter.interfaces.converter.Converter;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.visitor.AbstractVisitor;
 
 public class ToModuleConverter implements Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> {
 
 	private final ModifiersFactory modifiersFactory;
-	private final IUtilLayout layoutInformationConverter;
 	private final IUtilNamedElement utilNamedElement;
 	private final IUtilJdtResolver jdtResolverUtility;
-	private final AbstractVisitor visitor;
 	private final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	private final Converter<ModuleDirective, org.emftext.language.java.modules.ModuleDirective> toDirectiveConverter;
 
 	@Inject
-	public ToModuleConverter(AbstractVisitor visitor, IUtilNamedElement utilNamedElement,
+	public ToModuleConverter(IUtilNamedElement utilNamedElement,
 			Converter<ModuleDirective, org.emftext.language.java.modules.ModuleDirective> toDirectiveConverter,
-			ModifiersFactory modifiersFactory, IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility,
+			ModifiersFactory modifiersFactory, IUtilJdtResolver jdtResolverUtility,
 			Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
 		this.modifiersFactory = modifiersFactory;
-		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.annotationInstanceConverter = annotationInstanceConverter;
 		this.toDirectiveConverter = toDirectiveConverter;
-		this.visitor = visitor;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -46,7 +39,6 @@ public class ToModuleConverter implements Converter<ModuleDeclaration, org.emfte
 		if (node.isOpen()) {
 			module.setOpen(modifiersFactory.createOpen());
 		}
-		layoutInformationConverter.convertJavaRootLayoutInformation(module, node, visitor.getSource());
 		utilNamedElement.addNameToNameSpace(node.getName(), module);
 		module.setName("");
 		node.annotations()
