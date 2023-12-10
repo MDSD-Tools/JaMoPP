@@ -16,13 +16,12 @@ public class JamoppCompilationUnitsFactory {
 	private final Logger logger;
 
 	@Inject
-	public
-	JamoppCompilationUnitsFactory(Logger logger) {
+	public JamoppCompilationUnitsFactory(Logger logger) {
 		this.logger = logger;
 	}
 
-	public Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries, String[] sources,
-			String[] encodings) {
+	public Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries,
+			String[] sources, String[] encodings) {
 		final Map<String, CompilationUnit> compilationUnits = new HashMap<>();
 		try {
 			parser.setEnvironment(classpathEntries, new String[0], new String[0], true);

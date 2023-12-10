@@ -68,16 +68,6 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	}
 
 	@Override
-	public String getSource() {
-		return originalSource;
-	}
-
-	@Override
-	public void setConvertedElement(JavaRoot root) {
-		convertedRootElement = root;
-	}
-
-	@Override
 	public JavaRoot getConvertedElement() {
 		return convertedRootElement;
 	}
@@ -85,22 +75,22 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(CompilationUnit node) {
-		this.setConvertedElement(null);
+		convertedRootElement = null;
 		if (!node.types().isEmpty()) {
-			this.setConvertedElement(toCompilationUnitConverter.convert(node));
-			layoutInformationConverter.convertJavaRootLayoutInformation(getConvertedElement(), node, getSource());
+			convertedRootElement = toCompilationUnitConverter.convert(node);
+			layoutInformationConverter.convertJavaRootLayoutInformation(getConvertedElement(), node, originalSource);
 		}
 		if (node.getModule() != null) {
 			org.emftext.language.java.containers.Module module = toModuleConverter.convert(node.getModule());
-			layoutInformationConverter.convertJavaRootLayoutInformation(module, node, getSource());
-			this.setConvertedElement(module);
+			layoutInformationConverter.convertJavaRootLayoutInformation(module, node, originalSource);
+			convertedRootElement = module;
 		}
 		org.emftext.language.java.containers.JavaRoot root = this.getConvertedElement();
 		if (root == null && node.getPackage() != null) {
 			root = jdtResolverUtility.getPackage(node.getPackage().resolveBinding());
 			root.setName("");
-			layoutInformationConverter.convertJavaRootLayoutInformation(root, node, this.getSource());
-			this.setConvertedElement(root);
+			layoutInformationConverter.convertJavaRootLayoutInformation(root, node, originalSource);
+			convertedRootElement = root;
 		}
 		org.emftext.language.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {

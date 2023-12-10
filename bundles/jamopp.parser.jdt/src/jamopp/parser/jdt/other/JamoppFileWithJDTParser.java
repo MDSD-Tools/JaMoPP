@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 public class JamoppFileWithJDTParser {
 
@@ -11,8 +12,8 @@ public class JamoppFileWithJDTParser {
 	private final JamoppJavaParserFactory jamoppJavaParserFactory;
 
 	@Inject
-	public
-	JamoppFileWithJDTParser(JamoppJavaParserFactory jamoppJavaParserFactory, String javaVersion) {
+	public JamoppFileWithJDTParser(JamoppJavaParserFactory jamoppJavaParserFactory,
+			@Named("DEFAULT_JAVA_VERSION") String javaVersion) {
 		this.javaVersion = javaVersion;
 		this.jamoppJavaParserFactory = jamoppJavaParserFactory;
 	}

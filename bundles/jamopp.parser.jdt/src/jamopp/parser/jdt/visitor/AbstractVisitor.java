@@ -10,10 +10,6 @@ public abstract class AbstractVisitor extends ASTVisitor {
 
 	public abstract void setSource(String src);
 
-	public abstract String getSource();
-
-	public abstract void setConvertedElement(JavaRoot root);
-
 	public abstract JavaRoot getConvertedElement();
 
 }

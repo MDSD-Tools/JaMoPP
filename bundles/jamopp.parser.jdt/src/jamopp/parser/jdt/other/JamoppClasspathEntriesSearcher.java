@@ -14,8 +14,7 @@ public class JamoppClasspathEntriesSearcher {
 	private final Logger logger;
 
 	@Inject
-	public
-	JamoppClasspathEntriesSearcher(Logger logger) {
+	public JamoppClasspathEntriesSearcher(Logger logger) {
 		this.logger = logger;
 	}
 
