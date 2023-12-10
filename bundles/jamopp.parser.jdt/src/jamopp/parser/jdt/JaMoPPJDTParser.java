@@ -37,7 +37,6 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
 import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
 import jamopp.parser.jdt.injector.ConverterModule;
@@ -77,7 +76,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		DEFAULT_JAVA_VERSION = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_JAVA_VERSION")));
 		visitor = injector.getInstance(VisitorAndConverterAbstractAndEmptyModelJDTAST.class);
 		jdtResolverUtility = injector.getInstance(IUtilJdtResolver.class);
-		typeInstructionSeparationUtility = injector.getInstance(UtilTypeInstructionSeparation.class);
+		typeInstructionSeparationUtility = injector.getInstance(IUtilTypeInstructionSeparation.class);
 		containersFactory = injector.getInstance(ContainersFactory.class);
 		logger = injector.getInstance(Logger.class);
 		jamoppClasspathEntriesSearcher = injector.getInstance(JamoppClasspathEntriesSearcher.class);
