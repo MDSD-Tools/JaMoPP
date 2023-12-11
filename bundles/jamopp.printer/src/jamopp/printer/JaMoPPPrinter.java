@@ -10,6 +10,8 @@ import java.nio.file.Path;
 
 import org.emftext.language.java.containers.JavaRoot;
 
+import jamopp.printer.implementation.JavaRootPrinter;
+
 /**
  * This class provides methods to print JaMoPP model instances.
  */

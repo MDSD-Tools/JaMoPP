@@ -121,10 +121,7 @@ public class UtilJdtResolver implements IUtilJdtResolver {
 
 	public org.emftext.language.java.containers.Package getPackage(IPackageBinding binding) {
 		packageBindings.add(binding);
-		return getPackage(binding.getName());
-	}
-
-	private org.emftext.language.java.containers.Package getPackage(String packageName) {
+		String packageName = binding.getName();
 		if (nameToPackage.containsKey(packageName)) {
 			return nameToPackage.get(packageName);
 		}
@@ -1137,6 +1134,18 @@ public class UtilJdtResolver implements IUtilJdtResolver {
 					"JaMoPP-CompilationUnit", null, new String[] { typeName + ".java" }, null, null));
 			newResource.getContents().add(cu);
 		}
+	}
+
+	private org.emftext.language.java.containers.Package getPackage(String packageName) {
+		if (nameToPackage.containsKey(packageName)) {
+			return nameToPackage.get(packageName);
+		}
+		org.emftext.language.java.containers.Package result = JavaClasspath.get().getPackage(packageName);
+		if (result == null) {
+			result = containersFactory.createPackage();
+		}
+		nameToPackage.put(packageName, result);
+		return result;
 	}
 
 	private void convertPurePackageBinding(String packageName, org.emftext.language.java.containers.Package pack) {

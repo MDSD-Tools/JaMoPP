@@ -50,7 +50,6 @@ import jamopp.parser.jdt.other.JamoppCompilationUnitsFactory;
 import jamopp.parser.jdt.other.JamoppFileWithJDTParser;
 import jamopp.parser.jdt.other.JamoppJavaParserFactory;
 import jamopp.parser.jdt.visitor.AbstractVisitor;
-import jamopp.parser.jdt.visitor.VisitorAndConverterAbstractAndEmptyModelJDTAST;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
@@ -74,7 +73,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 		DEFAULT_ENCODING = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_ENCODING")));
 		DEFAULT_JAVA_VERSION = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_JAVA_VERSION")));
-		visitor = injector.getInstance(VisitorAndConverterAbstractAndEmptyModelJDTAST.class);
+		visitor = injector.getInstance(AbstractVisitor.class);
 		jdtResolverUtility = injector.getInstance(IUtilJdtResolver.class);
 		typeInstructionSeparationUtility = injector.getInstance(IUtilTypeInstructionSeparation.class);
 		containersFactory = injector.getInstance(ContainersFactory.class);
