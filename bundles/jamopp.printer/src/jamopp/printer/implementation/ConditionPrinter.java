@@ -5,13 +5,23 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.Condition;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ConditionPrinter implements Printer<Condition>{
+class ConditionPrinter implements Printer<Condition> {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;
-	
+
+	@Inject
+	public ConditionPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
+			jamopp.printer.implementation.StatementPrinter statementPrinter) {
+		super();
+		ExpressionPrinter = expressionPrinter;
+		StatementPrinter = statementPrinter;
+	}
+
 	public void print(Condition element, BufferedWriter writer) throws IOException {
 		writer.append("if (");
 		ExpressionPrinter.print(element.getCondition(), writer);

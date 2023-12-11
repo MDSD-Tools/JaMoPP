@@ -3,7 +3,6 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.modules.ExportsModuleDirective;
 import org.emftext.language.java.modules.ModuleDirective;
 import org.emftext.language.java.modules.OpensModuleDirective;
@@ -11,16 +10,32 @@ import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 import org.emftext.language.java.modules.UsesModuleDirective;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ModulePrinter implements Printer<org.emftext.language.java.containers.Module>{
+class ModulePrinter implements Printer<org.emftext.language.java.containers.Module> {
 
 	private final UsesModuleDirectivePrinter UsesModuleDirectivePrinter;
 	private final ProvidesModuleDirectivePrinter ProvidesModuleDirectivePrinter;
 	private final RequiresModuleDirectivePrinter RequiresModuleDirectivePrinter;
 	private final OpensModuleDirectivePrinter OpensModuleDirectivePrinter;
 	private final ExportsModuleDirectivePrinter ExportsModuleDirectivePrinter;
-	
+
+	@Inject
+	public ModulePrinter(jamopp.printer.implementation.UsesModuleDirectivePrinter usesModuleDirectivePrinter,
+			jamopp.printer.implementation.ProvidesModuleDirectivePrinter providesModuleDirectivePrinter,
+			jamopp.printer.implementation.RequiresModuleDirectivePrinter requiresModuleDirectivePrinter,
+			jamopp.printer.implementation.OpensModuleDirectivePrinter opensModuleDirectivePrinter,
+			jamopp.printer.implementation.ExportsModuleDirectivePrinter exportsModuleDirectivePrinter) {
+		super();
+		UsesModuleDirectivePrinter = usesModuleDirectivePrinter;
+		ProvidesModuleDirectivePrinter = providesModuleDirectivePrinter;
+		RequiresModuleDirectivePrinter = requiresModuleDirectivePrinter;
+		OpensModuleDirectivePrinter = opensModuleDirectivePrinter;
+		ExportsModuleDirectivePrinter = exportsModuleDirectivePrinter;
+	}
+
 	public void print(org.emftext.language.java.containers.Module element, BufferedWriter writer) throws IOException {
 		writer.append("module ");
 		if (element.getOpen() != null) {

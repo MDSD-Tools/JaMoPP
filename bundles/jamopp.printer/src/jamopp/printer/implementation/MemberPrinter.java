@@ -11,6 +11,8 @@ import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.statements.Block;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class MemberPrinter implements Printer<Member> {
@@ -22,7 +24,25 @@ class MemberPrinter implements Printer<Member> {
 	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
 	private final BlockPrinter BlockPrinter;
 	private final EmptyMemberPrinter EmptyMemberPrinter;
-	
+
+	@Inject
+	public MemberPrinter(jamopp.printer.implementation.FieldPrinter fieldPrinter,
+			jamopp.printer.implementation.ConstructorPrinter constructorPrinter,
+			jamopp.printer.implementation.ClassMethodPrinter classMethodPrinter,
+			jamopp.printer.implementation.InterfaceMethodPrinter interfaceMethodPrinter,
+			jamopp.printer.implementation.ConcreteClassifierPrinter concreteClassifierPrinter,
+			jamopp.printer.implementation.BlockPrinter blockPrinter,
+			jamopp.printer.implementation.EmptyMemberPrinter emptyMemberPrinter) {
+		super();
+		FieldPrinter = fieldPrinter;
+		ConstructorPrinter = constructorPrinter;
+		ClassMethodPrinter = classMethodPrinter;
+		InterfaceMethodPrinter = interfaceMethodPrinter;
+		ConcreteClassifierPrinter = concreteClassifierPrinter;
+		BlockPrinter = blockPrinter;
+		EmptyMemberPrinter = emptyMemberPrinter;
+	}
+
 	public void print(Member element, BufferedWriter writer) throws IOException {
 		if (element instanceof Field) {
 			FieldPrinter.print((Field) element, writer);

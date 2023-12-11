@@ -5,13 +5,23 @@ import java.io.IOException;
 
 import org.emftext.language.java.generics.TypeParameter;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class TypeParameterPrinter implements Printer<TypeParameter>{
+class TypeParameterPrinter implements Printer<TypeParameter> {
 
 	private final AnnotablePrinter AnnotablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
-	
+
+	@Inject
+	public TypeParameterPrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
+		super();
+		AnnotablePrinter = annotablePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+	}
+
 	public void print(TypeParameter element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		writer.append(element.getName());

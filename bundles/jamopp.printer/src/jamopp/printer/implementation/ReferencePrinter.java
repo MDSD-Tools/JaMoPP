@@ -16,9 +16,11 @@ import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.references.TextBlockReference;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ReferencePrinter implements Printer<Reference>{
+class ReferencePrinter implements Printer<Reference> {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final NestedExpressionPrinter NestedExpressionPrinter;
@@ -31,7 +33,33 @@ class ReferencePrinter implements Printer<Reference>{
 	private final TextBlockReferencePrinter TextBlockReferencePrinter;
 	private final ElementReferencePrinter ElementReferencePrinter;
 	private final ArraySelectorPrinter ArraySelectorPrinter;
-	
+
+	@Inject
+	public ReferencePrinter(jamopp.printer.implementation.AnnotationInstancePrinter annotationInstancePrinter,
+			jamopp.printer.implementation.NestedExpressionPrinter nestedExpressionPrinter,
+			jamopp.printer.implementation.ReflectiveClassReferencePrinter reflectiveClassReferencePrinter,
+			jamopp.printer.implementation.PrimitiveTypeReferencePrinter primitiveTypeReferencePrinter,
+			jamopp.printer.implementation.StringReferencePrinter stringReferencePrinter,
+			jamopp.printer.implementation.SelfReferencePrinter selfReferencePrinter,
+			jamopp.printer.implementation.ArrayInstantiationPrinter arrayInstantiationPrinter,
+			jamopp.printer.implementation.InstantiationPrinter instantiationPrinter,
+			jamopp.printer.implementation.TextBlockReferencePrinter textBlockReferencePrinter,
+			jamopp.printer.implementation.ElementReferencePrinter elementReferencePrinter,
+			jamopp.printer.implementation.ArraySelectorPrinter arraySelectorPrinter) {
+		super();
+		AnnotationInstancePrinter = annotationInstancePrinter;
+		NestedExpressionPrinter = nestedExpressionPrinter;
+		ReflectiveClassReferencePrinter = reflectiveClassReferencePrinter;
+		PrimitiveTypeReferencePrinter = primitiveTypeReferencePrinter;
+		StringReferencePrinter = stringReferencePrinter;
+		SelfReferencePrinter = selfReferencePrinter;
+		ArrayInstantiationPrinter = arrayInstantiationPrinter;
+		InstantiationPrinter = instantiationPrinter;
+		TextBlockReferencePrinter = textBlockReferencePrinter;
+		ElementReferencePrinter = elementReferencePrinter;
+		ArraySelectorPrinter = arraySelectorPrinter;
+	}
+
 	public void print(Reference element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);

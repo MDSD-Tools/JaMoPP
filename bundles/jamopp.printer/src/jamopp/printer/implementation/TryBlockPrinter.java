@@ -6,14 +6,26 @@ import java.io.IOException;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.TryBlock;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class TryBlockPrinter implements Printer<TryBlock>{
+class TryBlockPrinter implements Printer<TryBlock> {
 
 	private final ResourcePrinter ResourcePrinter;
 	private final BlockPrinter BlockPrinter;
 	private final CatchBlockPrinter CatchBlockPrinter;
-	
+
+	@Inject
+	public TryBlockPrinter(jamopp.printer.implementation.ResourcePrinter resourcePrinter,
+			jamopp.printer.implementation.BlockPrinter blockPrinter,
+			jamopp.printer.implementation.CatchBlockPrinter catchBlockPrinter) {
+		super();
+		ResourcePrinter = resourcePrinter;
+		BlockPrinter = blockPrinter;
+		CatchBlockPrinter = catchBlockPrinter;
+	}
+
 	public void print(TryBlock element, BufferedWriter writer) throws IOException {
 		writer.append("try");
 		if (!element.getResources().isEmpty()) {

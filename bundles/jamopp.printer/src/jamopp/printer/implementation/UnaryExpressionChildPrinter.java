@@ -8,16 +8,28 @@ import org.emftext.language.java.expressions.SuffixUnaryModificationExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class UnaryExpressionChildPrinter implements Printer<UnaryExpressionChild>{
+class UnaryExpressionChildPrinter implements Printer<UnaryExpressionChild> {
 
 	private final PrefixUnaryModificationExpressionPrinter PrefixUnaryModificationExpressionPrinter;
 	private final SuffixUnaryModificationExpressionPrinter SuffixUnaryModificationExpressionPrinter;
 	private final UnaryModificationExpressionChildPrinter UnaryModificationExpressionChildPrinter;
-	
-	public void print(UnaryExpressionChild element, BufferedWriter writer)
-			throws IOException {
+
+	@Inject
+	public UnaryExpressionChildPrinter(
+			jamopp.printer.implementation.PrefixUnaryModificationExpressionPrinter prefixUnaryModificationExpressionPrinter,
+			jamopp.printer.implementation.SuffixUnaryModificationExpressionPrinter suffixUnaryModificationExpressionPrinter,
+			jamopp.printer.implementation.UnaryModificationExpressionChildPrinter unaryModificationExpressionChildPrinter) {
+		super();
+		PrefixUnaryModificationExpressionPrinter = prefixUnaryModificationExpressionPrinter;
+		SuffixUnaryModificationExpressionPrinter = suffixUnaryModificationExpressionPrinter;
+		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
+	}
+
+	public void print(UnaryExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof PrefixUnaryModificationExpression) {
 			PrefixUnaryModificationExpressionPrinter.print((PrefixUnaryModificationExpression) element, writer);
 		} else if (element instanceof SuffixUnaryModificationExpression) {

@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.emftext.language.java.expressions.CastExpression;
 import org.emftext.language.java.types.TypeReference;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class CastExpressionPrinter implements Printer<CastExpression> {
@@ -13,7 +15,17 @@ class CastExpressionPrinter implements Printer<CastExpression> {
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 	private final ExpressionPrinter ExpressionPrinter;
-	
+
+	@Inject
+	public CastExpressionPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
+			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+		super();
+		TypeReferencePrinter = typeReferencePrinter;
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		ExpressionPrinter = expressionPrinter;
+	}
+
 	public void print(CastExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

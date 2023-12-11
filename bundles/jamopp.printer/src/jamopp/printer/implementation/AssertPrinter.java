@@ -5,12 +5,20 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.Assert;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class AssertPrinter implements Printer<Assert>{
+class AssertPrinter implements Printer<Assert> {
 
-	private final ExpressionPrinter ExpressionPrinter
-	
+	private final ExpressionPrinter ExpressionPrinter;
+
+	@Inject
+	public AssertPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+		super();
+		ExpressionPrinter = expressionPrinter;
+	}
+
 	public void print(Assert element, BufferedWriter writer) throws IOException {
 		writer.append("assert ");
 		ExpressionPrinter.print(element.getCondition(), writer);

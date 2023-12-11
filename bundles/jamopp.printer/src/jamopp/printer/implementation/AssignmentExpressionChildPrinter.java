@@ -7,15 +7,25 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.ConditionalExpression;
 import org.emftext.language.java.expressions.ConditionalExpressionChild;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class AssignmentExpressionChildPrinter implements Printer<AssignmentExpressionChild>{
+class AssignmentExpressionChildPrinter implements Printer<AssignmentExpressionChild> {
 
 	private final ConditionalExpressionPrinter ConditionalExpressionPrinter;
 	private final ConditionalExpressionChildPrinter ConditionalExpressionChildPrinter;
-	
-	public void print(AssignmentExpressionChild element, BufferedWriter writer)
-			throws IOException {
+
+	@Inject
+	public AssignmentExpressionChildPrinter(
+			jamopp.printer.implementation.ConditionalExpressionPrinter conditionalExpressionPrinter,
+			jamopp.printer.implementation.ConditionalExpressionChildPrinter conditionalExpressionChildPrinter) {
+		super();
+		ConditionalExpressionPrinter = conditionalExpressionPrinter;
+		ConditionalExpressionChildPrinter = conditionalExpressionChildPrinter;
+	}
+
+	public void print(AssignmentExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof ConditionalExpression) {
 			ConditionalExpressionPrinter.print((ConditionalExpression) element, writer);
 		} else {

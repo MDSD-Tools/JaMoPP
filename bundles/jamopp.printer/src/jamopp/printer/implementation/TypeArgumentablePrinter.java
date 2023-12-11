@@ -5,12 +5,20 @@ import java.io.IOException;
 
 import org.emftext.language.java.generics.TypeArgumentable;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class TypeArgumentablePrinter implements Printer<TypeArgumentable>{
+class TypeArgumentablePrinter implements Printer<TypeArgumentable> {
 
 	private final TypeArgumentPrinter TypeArgumentPrinter;
-	
+
+	@Inject
+	public TypeArgumentablePrinter(jamopp.printer.implementation.TypeArgumentPrinter typeArgumentPrinter) {
+		super();
+		TypeArgumentPrinter = typeArgumentPrinter;
+	}
+
 	public void print(TypeArgumentable element, BufferedWriter writer) throws IOException {
 		if (!element.getTypeArguments().isEmpty()) {
 			writer.append("<");

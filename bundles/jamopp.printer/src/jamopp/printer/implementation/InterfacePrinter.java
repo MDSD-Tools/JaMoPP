@@ -5,15 +5,29 @@ import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Interface;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class InterfacePrinter implements Printer<Interface>{
+class InterfacePrinter implements Printer<Interface> {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final MemberContainerPrinter MemberContainerPrinter;
-	
+
+	@Inject
+	public InterfacePrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			jamopp.printer.implementation.TypeParametrizablePrinter typeParametrizablePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
+		super();
+		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		TypeParametrizablePrinter = typeParametrizablePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+		MemberContainerPrinter = memberContainerPrinter;
+	}
+
 	public void print(Interface element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("interface " + element.getName());

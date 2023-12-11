@@ -7,13 +7,23 @@ import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Statement;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class BlockPrinter implements Printer<Block>{
+class BlockPrinter implements Printer<Block> {
 
 	private final ModifierPrinter ModifierPrinter;
 	private final StatementPrinter StatementPrinter;
-	
+
+	@Inject
+	public BlockPrinter(jamopp.printer.implementation.ModifierPrinter modifierPrinter,
+			jamopp.printer.implementation.StatementPrinter statementPrinter) {
+		super();
+		ModifierPrinter = modifierPrinter;
+		StatementPrinter = statementPrinter;
+	}
+
 	public void print(Block element, BufferedWriter writer) throws IOException {
 		for (Modifier m : element.getModifiers()) {
 			ModifierPrinter.print(m, writer);

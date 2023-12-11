@@ -10,13 +10,23 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.VariableLengthParameter;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class LambdaParametersPrinter implements Printer<LambdaParameters> {
 
 	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
 	private final VariableLengthParameterPrinter VariableLengthParameterPrinter;
-	
+
+	@Inject
+	public LambdaParametersPrinter(jamopp.printer.implementation.OrdinaryParameterPrinter ordinaryParameterPrinter,
+			jamopp.printer.implementation.VariableLengthParameterPrinter variableLengthParameterPrinter) {
+		super();
+		OrdinaryParameterPrinter = ordinaryParameterPrinter;
+		VariableLengthParameterPrinter = variableLengthParameterPrinter;
+	}
+
 	public void print(LambdaParameters element, BufferedWriter writer) throws IOException {
 		if (element instanceof SingleImplicitLambdaParameter) {
 			writer.append(element.getParameters().get(0).getName());

@@ -7,15 +7,24 @@ import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
 import org.emftext.language.java.literals.Literal;
 import org.emftext.language.java.references.Reference;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class MethodReferenceExpressionChildPrinter implements Printer<MethodReferenceExpressionChild> {
 
 	private final LiteralPrinter LiteralPrinter;
 	private final ReferencePrinter ReferencePrinter;
-	
-	public void print(MethodReferenceExpressionChild element,
-			BufferedWriter writer) throws IOException {
+
+	@Inject
+	public MethodReferenceExpressionChildPrinter(jamopp.printer.implementation.LiteralPrinter literalPrinter,
+			jamopp.printer.implementation.ReferencePrinter referencePrinter) {
+		super();
+		LiteralPrinter = literalPrinter;
+		ReferencePrinter = referencePrinter;
+	}
+
+	public void print(MethodReferenceExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof Literal) {
 			LiteralPrinter.print((Literal) element, writer);
 		} else {

@@ -4,10 +4,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Annotation;
-import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
+
+import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
@@ -17,7 +18,19 @@ class ConcreteClassifierPrinter implements Printer<ConcreteClassifier> {
 	private final InterfacePrinter InterfacePrinter;
 	private final EnumerationPrinter EnumerationPrinter;
 	private final AnnotationPrinter AnnotationPrinter;
-	
+
+	@Inject
+	public ConcreteClassifierPrinter(jamopp.printer.implementation.ClassPrinter classPrinter,
+			jamopp.printer.implementation.InterfacePrinter interfacePrinter,
+			jamopp.printer.implementation.EnumerationPrinter enumerationPrinter,
+			jamopp.printer.implementation.AnnotationPrinter annotationPrinter) {
+		super();
+		ClassPrinter = classPrinter;
+		InterfacePrinter = interfacePrinter;
+		EnumerationPrinter = enumerationPrinter;
+		AnnotationPrinter = annotationPrinter;
+	}
+
 	public void print(ConcreteClassifier element, BufferedWriter writer) throws IOException {
 		if (element instanceof org.emftext.language.java.classifiers.Class) {
 			ClassPrinter.print((org.emftext.language.java.classifiers.Class) element, writer);

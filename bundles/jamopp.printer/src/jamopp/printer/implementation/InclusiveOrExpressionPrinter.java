@@ -5,14 +5,22 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.InclusiveOrExpression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class InclusiveOrExpressionPrinter implements Printer<InclusiveOrExpression>{
+class InclusiveOrExpressionPrinter implements Printer<InclusiveOrExpression> {
 
 	private final InclusiveOrExpressionChildPrinter InclusiveOrExpressionChildPrinter;
-	
-	public void print(InclusiveOrExpression element, BufferedWriter writer)
-			throws IOException {
+
+	@Inject
+	public InclusiveOrExpressionPrinter(
+			jamopp.printer.implementation.InclusiveOrExpressionChildPrinter inclusiveOrExpressionChildPrinter) {
+		super();
+		InclusiveOrExpressionChildPrinter = inclusiveOrExpressionChildPrinter;
+	}
+
+	public void print(InclusiveOrExpression element, BufferedWriter writer) throws IOException {
 		InclusiveOrExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {
 			writer.append(" | ");

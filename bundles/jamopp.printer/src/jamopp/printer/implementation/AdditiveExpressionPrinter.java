@@ -5,13 +5,24 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.AdditiveExpression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class AdditiveExpressionPrinter implements Printer<AdditiveExpression> {
 
 	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;
 	private final AdditiveOperatorPrinter AdditiveOperatorPrinter;
-	
+
+	@Inject
+	public AdditiveExpressionPrinter(
+			jamopp.printer.implementation.AdditiveExpressionChildPrinter additiveExpressionChildPrinter,
+			jamopp.printer.implementation.AdditiveOperatorPrinter additiveOperatorPrinter) {
+		super();
+		AdditiveExpressionChildPrinter = additiveExpressionChildPrinter;
+		AdditiveOperatorPrinter = additiveOperatorPrinter;
+	}
+
 	public void print(AdditiveExpression element, BufferedWriter writer) throws IOException {
 		AdditiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

@@ -8,18 +8,34 @@ import org.emftext.language.java.expressions.ClassTypeConstructorReferenceExpres
 import org.emftext.language.java.expressions.MethodReferenceExpression;
 import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class MethodReferenceExpressionPrinter implements Printer<MethodReferenceExpression>{
+class MethodReferenceExpressionPrinter implements Printer<MethodReferenceExpression> {
 
 	private final MethodReferenceExpressionChildPrinter MethodReferenceExpressionChildPrinter;
 	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
 	private final ReferencePrinter ReferencePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	
-	public void print(MethodReferenceExpression element, BufferedWriter writer)
-			throws IOException {
+
+	@Inject
+	public MethodReferenceExpressionPrinter(
+			jamopp.printer.implementation.MethodReferenceExpressionChildPrinter methodReferenceExpressionChildPrinter,
+			jamopp.printer.implementation.CallTypeArgumentablePrinter callTypeArgumentablePrinter,
+			jamopp.printer.implementation.ReferencePrinter referencePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
+		super();
+		MethodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
+		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
+		ReferencePrinter = referencePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+	}
+
+	public void print(MethodReferenceExpression element, BufferedWriter writer) throws IOException {
 		if (element instanceof PrimaryExpressionReferenceExpression ref) {
 			MethodReferenceExpressionChildPrinter.print(ref.getChild(), writer);
 			if (ref.getMethodReference() != null) {

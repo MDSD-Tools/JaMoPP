@@ -9,14 +9,26 @@ import org.emftext.language.java.parameters.Parametrizable;
 import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.parameters.VariableLengthParameter;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ParametrizablePrinter implements Printer<Parametrizable>{
+class ParametrizablePrinter implements Printer<Parametrizable> {
 
 	private final ReceiverParameterPrinter ReceiverParameterPrinter;
 	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
 	private final VariableLengthParameterPrinter VariableLengthParameterPrinter;
-	
+
+	@Inject
+	public ParametrizablePrinter(jamopp.printer.implementation.ReceiverParameterPrinter receiverParameterPrinter,
+			jamopp.printer.implementation.OrdinaryParameterPrinter ordinaryParameterPrinter,
+			jamopp.printer.implementation.VariableLengthParameterPrinter variableLengthParameterPrinter) {
+		super();
+		ReceiverParameterPrinter = receiverParameterPrinter;
+		OrdinaryParameterPrinter = ordinaryParameterPrinter;
+		VariableLengthParameterPrinter = variableLengthParameterPrinter;
+	}
+
 	public void print(Parametrizable element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		for (int index = 0; index < element.getParameters().size(); index++) {

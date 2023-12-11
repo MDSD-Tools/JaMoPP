@@ -3,20 +3,33 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.classifiers.Class;
+import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class ClassPrinter implements Printer<org.emftext.language.java.classifiers.Class>{
+class ClassPrinter implements Printer<org.emftext.language.java.classifiers.Class> {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final ImplementorPrinter ImplementorPrinter;
 	private final MemberContainerPrinter MemberContainerPrinter;
-	
-	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer)
-			throws IOException {
+
+	@Inject
+	public ClassPrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			jamopp.printer.implementation.TypeParametrizablePrinter typeParametrizablePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.ImplementorPrinter implementorPrinter,
+			jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
+		super();
+		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		TypeParametrizablePrinter = typeParametrizablePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+		ImplementorPrinter = implementorPrinter;
+		MemberContainerPrinter = memberContainerPrinter;
+	}
+
+	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("class " + element.getName());
 		TypeParametrizablePrinter.print(element, writer);

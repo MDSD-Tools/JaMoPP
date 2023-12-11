@@ -6,15 +6,29 @@ import java.io.IOException;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.members.EnumConstant;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class EnumerationPrinter implements Printer<Enumeration>{
+class EnumerationPrinter implements Printer<Enumeration> {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final ImplementorPrinter ImplementorPrinter;
 	private final EnumConstantPrinter EnumConstantPrinter;
 	private final MemberContainerPrinter MemberContainerPrinter;
-	
+
+	@Inject
+	public EnumerationPrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			jamopp.printer.implementation.ImplementorPrinter implementorPrinter,
+			jamopp.printer.implementation.EnumConstantPrinter enumConstantPrinter,
+			jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
+		super();
+		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		ImplementorPrinter = implementorPrinter;
+		EnumConstantPrinter = enumConstantPrinter;
+		MemberContainerPrinter = memberContainerPrinter;
+	}
+
 	public void print(Enumeration element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("enum " + element.getName() + " ");

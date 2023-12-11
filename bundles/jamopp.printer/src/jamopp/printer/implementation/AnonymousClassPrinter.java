@@ -5,12 +5,20 @@ import java.io.IOException;
 
 import org.emftext.language.java.classifiers.AnonymousClass;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class AnonymousClassPrinter implements Printer<AnonymousClass>{
+class AnonymousClassPrinter implements Printer<AnonymousClass> {
 
 	private final MemberContainerPrinter MemberContainerPrinter;
-	
+
+	@Inject
+	public AnonymousClassPrinter(jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
+		super();
+		MemberContainerPrinter = memberContainerPrinter;
+	}
+
 	public void print(AnonymousClass element, BufferedWriter writer) throws IOException {
 		writer.append("{\n");
 		MemberContainerPrinter.print(element, writer);

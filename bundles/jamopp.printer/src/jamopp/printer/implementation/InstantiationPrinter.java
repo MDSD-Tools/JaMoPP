@@ -8,9 +8,11 @@ import org.emftext.language.java.instantiations.Instantiation;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class InstantiationPrinter implements Printer<Instantiation>{
+class InstantiationPrinter implements Printer<Instantiation> {
 
 	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
@@ -18,7 +20,23 @@ class InstantiationPrinter implements Printer<Instantiation>{
 	private final ArgumentablePrinter ArgumentablePrinter;
 	private final AnonymousClassPrinter AnonymousClassPrinter;
 	private final SelfPrinter SelfPrinter;
-	
+
+	@Inject
+	public InstantiationPrinter(jamopp.printer.implementation.CallTypeArgumentablePrinter callTypeArgumentablePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
+			jamopp.printer.implementation.ArgumentablePrinter argumentablePrinter,
+			jamopp.printer.implementation.AnonymousClassPrinter anonymousClassPrinter,
+			jamopp.printer.implementation.SelfPrinter selfPrinter) {
+		super();
+		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+		TypeArgumentablePrinter = typeArgumentablePrinter;
+		ArgumentablePrinter = argumentablePrinter;
+		AnonymousClassPrinter = anonymousClassPrinter;
+		SelfPrinter = selfPrinter;
+	}
+
 	public void print(Instantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof NewConstructorCall call) {
 			writer.append("new ");

@@ -8,14 +8,26 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.LambdaExpression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ExpressionPrinter implements Printer<Expression>{
+class ExpressionPrinter implements Printer<Expression> {
 
 	private final LambdaExpressionPrinter LambdaExpressionPrinter;
 	private final AssignmentExpressionPrinter AssignmentExpressionPrinter;
 	private final AssignmentExpressionChildPrinter AssignmentExpressionChildPrinter;
-	
+
+	@Inject
+	public ExpressionPrinter(jamopp.printer.implementation.LambdaExpressionPrinter lambdaExpressionPrinter,
+			jamopp.printer.implementation.AssignmentExpressionPrinter assignmentExpressionPrinter,
+			jamopp.printer.implementation.AssignmentExpressionChildPrinter assignmentExpressionChildPrinter) {
+		super();
+		LambdaExpressionPrinter = lambdaExpressionPrinter;
+		AssignmentExpressionPrinter = assignmentExpressionPrinter;
+		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
+	}
+
 	public void print(Expression element, BufferedWriter writer) throws IOException {
 		if (element instanceof LambdaExpression) {
 			LambdaExpressionPrinter.print((LambdaExpression) element, writer);

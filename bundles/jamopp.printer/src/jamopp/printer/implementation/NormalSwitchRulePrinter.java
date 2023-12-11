@@ -7,13 +7,23 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.NormalSwitchRule;
 import org.emftext.language.java.statements.Statement;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class NormalSwitchRulePrinter implements Printer<NormalSwitchRule>{
+class NormalSwitchRulePrinter implements Printer<NormalSwitchRule> {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;
-	
+
+	@Inject
+	public NormalSwitchRulePrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
+			jamopp.printer.implementation.StatementPrinter statementPrinter) {
+		super();
+		ExpressionPrinter = expressionPrinter;
+		StatementPrinter = statementPrinter;
+	}
+
 	public void print(NormalSwitchRule element, BufferedWriter writer) throws IOException {
 		writer.append("case ");
 		ExpressionPrinter.print(element.getCondition(), writer);

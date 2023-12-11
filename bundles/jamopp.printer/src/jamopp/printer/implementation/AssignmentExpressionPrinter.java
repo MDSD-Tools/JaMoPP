@@ -5,12 +5,28 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.AssignmentExpression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class AssignmentExpressionPrinter implements Printer<AssignmentExpression>{
+class AssignmentExpressionPrinter implements Printer<AssignmentExpression> {
 
-	public void print(AssignmentExpression element, BufferedWriter writer)
-			throws IOException {
+	private final AssignmentExpressionChildPrinter AssignmentExpressionChildPrinter;
+	private final AssignmentOperatorPrinter AssignmentOperatorPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+
+	@Inject
+	public AssignmentExpressionPrinter(
+			jamopp.printer.implementation.AssignmentExpressionChildPrinter assignmentExpressionChildPrinter,
+			jamopp.printer.implementation.AssignmentOperatorPrinter assignmentOperatorPrinter,
+			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+		super();
+		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
+		AssignmentOperatorPrinter = assignmentOperatorPrinter;
+		ExpressionPrinter = expressionPrinter;
+	}
+
+	public void print(AssignmentExpression element, BufferedWriter writer) throws IOException {
 		AssignmentExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getAssignmentOperator() != null) {
 			AssignmentOperatorPrinter.print(element.getAssignmentOperator(), writer);

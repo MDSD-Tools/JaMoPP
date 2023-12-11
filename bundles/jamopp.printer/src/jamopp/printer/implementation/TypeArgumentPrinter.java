@@ -9,14 +9,26 @@ import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.UnknownTypeArgument;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class TypeArgumentPrinter implements Printer<TypeArgument>{
+class TypeArgumentPrinter implements Printer<TypeArgument> {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final AnnotablePrinter AnnotablePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	
+
+	@Inject
+	public TypeArgumentPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
+			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
+		super();
+		TypeReferencePrinter = typeReferencePrinter;
+		AnnotablePrinter = annotablePrinter;
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+	}
+
 	public void print(TypeArgument element, BufferedWriter writer) throws IOException {
 		if (element instanceof QualifiedTypeArgument arg) {
 			TypeReferencePrinter.print(arg.getTypeReference(), writer);

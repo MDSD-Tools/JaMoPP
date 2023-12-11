@@ -5,13 +5,23 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.WhileLoop;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class WhileLoopPrinter implements Printer<WhileLoop>{
+class WhileLoopPrinter implements Printer<WhileLoop> {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;
-	
+
+	@Inject
+	public WhileLoopPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
+			jamopp.printer.implementation.StatementPrinter statementPrinter) {
+		super();
+		ExpressionPrinter = expressionPrinter;
+		StatementPrinter = statementPrinter;
+	}
+
 	public void print(WhileLoop element, BufferedWriter writer) throws IOException {
 		writer.append("while (");
 		ExpressionPrinter.print(element.getCondition(), writer);

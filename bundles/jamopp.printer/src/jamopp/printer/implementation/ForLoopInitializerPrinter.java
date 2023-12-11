@@ -7,13 +7,23 @@ import org.emftext.language.java.expressions.ExpressionList;
 import org.emftext.language.java.statements.ForLoopInitializer;
 import org.emftext.language.java.variables.LocalVariable;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ForLoopInitializerPrinter implements Printer<ForLoopInitializer>{
+class ForLoopInitializerPrinter implements Printer<ForLoopInitializer> {
 
 	private final LocalVariablePrinter LocalVariablePrinter;
 	private final ExpressionPrinter ExpressionPrinter;
-	
+
+	@Inject
+	public ForLoopInitializerPrinter(jamopp.printer.implementation.LocalVariablePrinter localVariablePrinter,
+			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+		super();
+		LocalVariablePrinter = localVariablePrinter;
+		ExpressionPrinter = expressionPrinter;
+	}
+
 	public void print(ForLoopInitializer element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
 			LocalVariablePrinter.print((LocalVariable) element, writer);

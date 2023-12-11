@@ -5,14 +5,26 @@ import java.io.IOException;
 
 import org.emftext.language.java.statements.ForLoop;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-public class ForLoopPrinter implements Printer<ForLoop>{
+public class ForLoopPrinter implements Printer<ForLoop> {
 
 	private final ForLoopInitializerPrinter ForLoopInitializerPrinter;
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;
-	
+
+	@Inject
+	public ForLoopPrinter(jamopp.printer.implementation.ForLoopInitializerPrinter forLoopInitializerPrinter,
+			jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
+			jamopp.printer.implementation.StatementPrinter statementPrinter) {
+		super();
+		ForLoopInitializerPrinter = forLoopInitializerPrinter;
+		ExpressionPrinter = expressionPrinter;
+		StatementPrinter = statementPrinter;
+	}
+
 	public void print(ForLoop element, BufferedWriter writer) throws IOException {
 		writer.append("for (");
 		if (element.getInit() != null) {
@@ -32,6 +44,5 @@ public class ForLoopPrinter implements Printer<ForLoop>{
 		writer.append(")\n");
 		StatementPrinter.print(element.getStatement(), writer);
 	}
-
 
 }

@@ -8,13 +8,23 @@ import org.emftext.language.java.arrays.ArrayInitializationValue;
 import org.emftext.language.java.arrays.ArrayInitializer;
 import org.emftext.language.java.expressions.Expression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ArrayInitializerPrinter implements Printer<ArrayInitializer>{
+class ArrayInitializerPrinter implements Printer<ArrayInitializer> {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final ExpressionPrinter ExpressionPrinter;
-	
+
+	@Inject
+	public ArrayInitializerPrinter(jamopp.printer.implementation.AnnotationInstancePrinter annotationInstancePrinter,
+			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+		super();
+		AnnotationInstancePrinter = annotationInstancePrinter;
+		ExpressionPrinter = expressionPrinter;
+	}
+
 	public void print(ArrayInitializer element, BufferedWriter writer) throws IOException {
 		writer.append("{");
 		for (int index = 0; index < element.getInitialValues().size(); index++) {

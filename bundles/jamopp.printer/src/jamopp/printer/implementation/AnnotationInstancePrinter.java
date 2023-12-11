@@ -8,12 +8,20 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationParameterList;
 import org.emftext.language.java.annotations.SingleAnnotationParameter;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class AnnotationInstancePrinter implements Printer<AnnotationInstance> {
 
 	private final AnnotationValuePrinter AnnotationValuePrinter;
-	
+
+	@Inject
+	public AnnotationInstancePrinter(jamopp.printer.implementation.AnnotationValuePrinter annotationValuePrinter) {
+		super();
+		AnnotationValuePrinter = annotationValuePrinter;
+	}
+
 	public void print(AnnotationInstance element, BufferedWriter writer) throws IOException {
 		writer.append("@" + element.getNamespacesAsString());
 		if (element.getParameter() != null) {

@@ -4,14 +4,20 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.members.AdditionalField;
-
+import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 
 class AdditionalFieldPrinter implements Printer<AdditionalField> {
 
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 	private final ExpressionPrinter ExpressionPrinter;
-	
+
+	@Inject
+	public AdditionalFieldPrinter(ExpressionPrinter expressionPrinter, ArrayDimensionsPrinter arrayDimensionsPrinter) {
+		this.ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.ExpressionPrinter = expressionPrinter;
+	}
+
 	public void print(AdditionalField element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
 		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);

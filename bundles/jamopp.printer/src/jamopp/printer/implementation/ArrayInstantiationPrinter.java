@@ -9,6 +9,8 @@ import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesUntyped;
 import org.emftext.language.java.expressions.Expression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class ArrayInstantiationPrinter implements Printer<ArrayInstantiation> {
@@ -18,7 +20,21 @@ class ArrayInstantiationPrinter implements Printer<ArrayInstantiation> {
 	private final ExpressionPrinter ExpressionPrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 	private final ArrayInitializerPrinter ArrayInitializerPrinter;
-	
+
+	@Inject
+	public ArrayInstantiationPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
+			jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
+			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
+			jamopp.printer.implementation.ArrayInitializerPrinter arrayInitializerPrinter) {
+		super();
+		TypeReferencePrinter = typeReferencePrinter;
+		TypeArgumentablePrinter = typeArgumentablePrinter;
+		ExpressionPrinter = expressionPrinter;
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		ArrayInitializerPrinter = arrayInitializerPrinter;
+	}
+
 	public void print(ArrayInstantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof ArrayInstantiationBySize inst) {
 			writer.append("new ");

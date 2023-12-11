@@ -5,12 +5,20 @@ import java.io.IOException;
 
 import org.emftext.language.java.references.Argumentable;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class ArgumentablePrinter implements Printer<Argumentable> {
 
 	private final ExpressionPrinter ExpressionPrinter;
-	
+
+	@Inject
+	public ArgumentablePrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+		super();
+		ExpressionPrinter = expressionPrinter;
+	}
+
 	public void print(Argumentable element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		for (int index = 0; index < element.getArguments().size(); index++) {

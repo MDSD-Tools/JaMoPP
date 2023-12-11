@@ -5,12 +5,20 @@ import java.io.IOException;
 
 import org.emftext.language.java.generics.TypeParametrizable;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class TypeParametrizablePrinter implements Printer<TypeParametrizable>{
+class TypeParametrizablePrinter implements Printer<TypeParametrizable> {
 
 	private final TypeParameterPrinter TypeParameterPrinter;
-	
+
+	@Inject
+	public TypeParametrizablePrinter(jamopp.printer.implementation.TypeParameterPrinter typeParameterPrinter) {
+		super();
+		TypeParameterPrinter = typeParameterPrinter;
+	}
+
 	public void print(TypeParametrizable element, BufferedWriter writer) throws IOException {
 		if (!element.getTypeParameters().isEmpty()) {
 			writer.append("<");

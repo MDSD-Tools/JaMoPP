@@ -5,13 +5,23 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.ShiftExpression;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ShiftExpressionPrinter implements Printer<ShiftExpression>{
+class ShiftExpressionPrinter implements Printer<ShiftExpression> {
 
 	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
 	private final ShiftOperatorPrinter ShiftOperatorPrinter;
-	
+
+	@Inject
+	public ShiftExpressionPrinter(jamopp.printer.implementation.ShiftExpressionChildPrinter shiftExpressionChildPrinter,
+			jamopp.printer.implementation.ShiftOperatorPrinter shiftOperatorPrinter) {
+		super();
+		ShiftExpressionChildPrinter = shiftExpressionChildPrinter;
+		ShiftOperatorPrinter = shiftOperatorPrinter;
+	}
+
 	public void print(ShiftExpression element, BufferedWriter writer) throws IOException {
 		ShiftExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

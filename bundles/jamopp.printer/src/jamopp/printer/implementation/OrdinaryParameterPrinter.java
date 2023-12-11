@@ -5,15 +5,30 @@ import java.io.IOException;
 
 import org.emftext.language.java.parameters.OrdinaryParameter;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class OrdinaryParameterPrinter implements Printer<OrdinaryParameter>{
+class OrdinaryParameterPrinter implements Printer<OrdinaryParameter> {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final TypeArgumentablePrinter TypeArgumentablePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	
+
+	@Inject
+	public OrdinaryParameterPrinter(
+			jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
+			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
+		super();
+		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+		TypeArgumentablePrinter = typeArgumentablePrinter;
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+	}
+
 	public void print(OrdinaryParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

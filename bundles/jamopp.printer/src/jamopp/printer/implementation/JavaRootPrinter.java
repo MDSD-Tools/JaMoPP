@@ -6,15 +6,29 @@ import java.io.IOException;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-public class JavaRootPrinter implements Printer<JavaRoot>{
+public class JavaRootPrinter implements Printer<JavaRoot> {
 
 	private final ImportingElementPrinter ImportingElementPrinter;
 	private final ModulePrinter ModulePrinter;
 	private final AnnotablePrinter AnnotablePrinter;
 	private final CompilationUnitPrinter CompilationUnitPrinter;
-	
+
+	@Inject
+	public JavaRootPrinter(jamopp.printer.implementation.ImportingElementPrinter importingElementPrinter,
+			jamopp.printer.implementation.ModulePrinter modulePrinter,
+			jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
+			jamopp.printer.implementation.CompilationUnitPrinter compilationUnitPrinter) {
+		super();
+		ImportingElementPrinter = importingElementPrinter;
+		ModulePrinter = modulePrinter;
+		AnnotablePrinter = annotablePrinter;
+		CompilationUnitPrinter = compilationUnitPrinter;
+	}
+
 	/**
 	 * Converts a model instance to text and writes it.
 	 *

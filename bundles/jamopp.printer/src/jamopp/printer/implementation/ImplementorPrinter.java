@@ -5,12 +5,20 @@ import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Implementor;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ImplementorPrinter implements Printer<Implementor>{
+class ImplementorPrinter implements Printer<Implementor> {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
-	
+
+	@Inject
+	public ImplementorPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
+		super();
+		TypeReferencePrinter = typeReferencePrinter;
+	}
+
 	public void print(Implementor element, BufferedWriter writer) throws IOException {
 		if (!element.getImplements().isEmpty()) {
 			writer.append("implements ");

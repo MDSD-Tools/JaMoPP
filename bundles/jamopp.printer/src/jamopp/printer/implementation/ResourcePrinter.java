@@ -7,13 +7,23 @@ import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.Resource;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ResourcePrinter implements Printer<Resource>{
+class ResourcePrinter implements Printer<Resource> {
 
 	private final LocalVariablePrinter LocalVariablePrinter;
 	private final ElementReferencePrinter ElementReferencePrinter;
-	
+
+	@Inject
+	public ResourcePrinter(jamopp.printer.implementation.LocalVariablePrinter localVariablePrinter,
+			jamopp.printer.implementation.ElementReferencePrinter elementReferencePrinter) {
+		super();
+		LocalVariablePrinter = localVariablePrinter;
+		ElementReferencePrinter = elementReferencePrinter;
+	}
+
 	public void print(Resource element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
 			LocalVariablePrinter.print((LocalVariable) element, writer);

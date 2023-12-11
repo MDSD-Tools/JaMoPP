@@ -3,23 +3,21 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.types.Boolean;
-import org.emftext.language.java.types.Byte;
-import org.emftext.language.java.types.Char;
-import org.emftext.language.java.types.Double;
-import org.emftext.language.java.types.Float;
-import org.emftext.language.java.types.Int;
-import org.emftext.language.java.types.Long;
 import org.emftext.language.java.types.PrimitiveType;
-import org.emftext.language.java.types.Short;
-import org.emftext.language.java.types.Void;
+import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class PrimitiveTypePrinter implements Printer<PrimitiveType>{
+class PrimitiveTypePrinter implements Printer<PrimitiveType> {
 
 	private final AnnotablePrinter AnnotablePrinter;
-	
+
+	@Inject
+	public PrimitiveTypePrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter) {
+		super();
+		AnnotablePrinter = annotablePrinter;
+	}
+
 	public void print(PrimitiveType element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		if (element instanceof org.emftext.language.java.types.Boolean) {

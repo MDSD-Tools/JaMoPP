@@ -3,7 +3,6 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.modifiers.Modifier;
@@ -11,9 +10,11 @@ import org.emftext.language.java.modifiers.Public;
 import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.types.Type;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ClassMethodPrinter implements Printer<ClassMethod>{
+class ClassMethodPrinter implements Printer<ClassMethod> {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;
@@ -22,7 +23,25 @@ class ClassMethodPrinter implements Printer<ClassMethod>{
 	private final ParametrizablePrinter ParametrizablePrinter;
 	private final ExceptionThrowerPrinter ExceptionThrowerPrinter;
 	private final StatementPrinter StatementPrinter;
-	
+
+	@Inject
+	public ClassMethodPrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			jamopp.printer.implementation.TypeParametrizablePrinter typeParametrizablePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
+			jamopp.printer.implementation.ParametrizablePrinter parametrizablePrinter,
+			jamopp.printer.implementation.ExceptionThrowerPrinter exceptionThrowerPrinter,
+			jamopp.printer.implementation.StatementPrinter statementPrinter) {
+		super();
+		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		TypeParametrizablePrinter = typeParametrizablePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		ParametrizablePrinter = parametrizablePrinter;
+		ExceptionThrowerPrinter = exceptionThrowerPrinter;
+		StatementPrinter = statementPrinter;
+	}
+
 	public void print(ClassMethod element, BufferedWriter writer) throws IOException {
 		if (element.eContainer() instanceof Enumeration) {
 			boolean isStatic = false;

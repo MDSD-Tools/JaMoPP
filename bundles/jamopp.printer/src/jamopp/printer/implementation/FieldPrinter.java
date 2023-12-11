@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Field;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class FieldPrinter implements Printer<Field> {
@@ -16,7 +18,23 @@ class FieldPrinter implements Printer<Field> {
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 	private final ExpressionPrinter ExpressionPrinter;
 	private final AdditionalFieldPrinter AdditionalFieldPrinter;
-	
+
+	@Inject
+	public FieldPrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
+			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
+			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
+			jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
+			jamopp.printer.implementation.AdditionalFieldPrinter additionalFieldPrinter) {
+		super();
+		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		TypeReferencePrinter = typeReferencePrinter;
+		TypeArgumentablePrinter = typeArgumentablePrinter;
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		ExpressionPrinter = expressionPrinter;
+		AdditionalFieldPrinter = additionalFieldPrinter;
+	}
+
 	public void print(Field element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

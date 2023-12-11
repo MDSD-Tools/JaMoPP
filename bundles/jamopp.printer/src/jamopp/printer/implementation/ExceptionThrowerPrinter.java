@@ -5,12 +5,20 @@ import java.io.IOException;
 
 import org.emftext.language.java.members.ExceptionThrower;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
-class ExceptionThrowerPrinter implements Printer<ExceptionThrower>{
+class ExceptionThrowerPrinter implements Printer<ExceptionThrower> {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
-	
+
+	@Inject
+	public ExceptionThrowerPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
+		super();
+		TypeReferencePrinter = typeReferencePrinter;
+	}
+
 	public void print(ExceptionThrower element, BufferedWriter writer) throws IOException {
 		if (!element.getExceptions().isEmpty()) {
 			writer.append("throws ");

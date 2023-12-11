@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import org.eclipse.emf.ecore.EObject;
 
-public interface Printer<From extends EObject> {
+public interface Printer<Element> {
 
-	public void print(From element, BufferedWriter writer) throws IOException;
+	public void print(Element element, BufferedWriter writer) throws IOException;
 
 }

@@ -6,14 +6,21 @@ import java.io.IOException;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.types.TypeReference;
 
+import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
 
 class ProvidesModuleDirectivePrinter implements Printer<ProvidesModuleDirective> {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
-	
-	public void print(ProvidesModuleDirective element, BufferedWriter writer)
-			throws IOException {
+
+	@Inject
+	public ProvidesModuleDirectivePrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
+		super();
+		TypeReferencePrinter = typeReferencePrinter;
+	}
+
+	public void print(ProvidesModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("provides ");
 		TypeReferencePrinter.print(element.getTypeReference(), writer);
 		writer.append(" with ");
