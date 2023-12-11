@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class PrimitiveTypeReferencePrinter implements Printer<PrimitiveTypeReference>{
 
+	private final PrimitiveTypePrinter PrimitiveTypePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	
 	public void print(PrimitiveTypeReference element, BufferedWriter writer)
 			throws IOException {
 		PrimitiveTypePrinter.print(element.getPrimitiveType(), writer);

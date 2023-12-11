@@ -11,6 +11,10 @@ import jamopp.printer.interfaces.Printer;
 
 class LambdaExpressionPrinter implements Printer<LambdaExpression> {
 
+	private final LambdaParametersPrinter LambdaParametersPrinter;
+	private final BlockPrinter BlockPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(LambdaExpression element, BufferedWriter writer) throws IOException {
 		LambdaParametersPrinter.print(element.getParameters(), writer);
 		writer.append(" -> ");

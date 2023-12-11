@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class AdditiveExpressionChildPrinter implements Printer<AdditiveExpressionChild> {
 
+	private final MultiplicativeExpressionPrinter MultiplicativeExpressionPrinter;
+	private final MultiplicativeExpressionChildPrinter MultiplicativeExpressionChildPrinter;
+	
 	public void print(AdditiveExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof MultiplicativeExpression) {
 			MultiplicativeExpressionPrinter.print((MultiplicativeExpression) element, writer);

@@ -10,6 +10,8 @@ import jamopp.printer.interfaces.Printer;
 
 class MemberContainerPrinter implements Printer<MemberContainer>{
 
+	private final MemberPrinter MemberPrinter;
+	
 	public void print(MemberContainer element, BufferedWriter writer) throws IOException {
 		for (Member mem : element.getMembers()) {
 			MemberPrinter.print(mem, writer);

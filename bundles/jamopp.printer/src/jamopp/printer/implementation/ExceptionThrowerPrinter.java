@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class ExceptionThrowerPrinter implements Printer<ExceptionThrower>{
 
+	private final TypeReferencePrinter TypeReferencePrinter;
+	
 	public void print(ExceptionThrower element, BufferedWriter writer) throws IOException {
 		if (!element.getExceptions().isEmpty()) {
 			writer.append("throws ");

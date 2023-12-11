@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class ShiftExpressionChildPrinter implements Printer<ShiftExpressionChild> {
 
+	private final AdditiveExpressionPrinter AdditiveExpressionPrinter;
+	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;
+	
 	public void print(ShiftExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof AdditiveExpression) {

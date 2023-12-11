@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class OpensModuleDirectivePrinter implements Printer<OpensModuleDirective>{
 
+	private final RemainingAccessProvidingModuleDirectivePrinter RemainingAccessProvidingModuleDirectivePrinter;
+	
 	public void print(OpensModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("opens ");
 		RemainingAccessProvidingModuleDirectivePrinter.print(element, writer);

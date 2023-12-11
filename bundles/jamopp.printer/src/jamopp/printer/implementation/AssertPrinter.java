@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class AssertPrinter implements Printer<Assert>{
 
+	private final ExpressionPrinter ExpressionPrinter
+	
 	public void print(Assert element, BufferedWriter writer) throws IOException {
 		writer.append("assert ");
 		ExpressionPrinter.print(element.getCondition(), writer);

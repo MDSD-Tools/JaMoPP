@@ -10,6 +10,8 @@ import jamopp.printer.interfaces.Printer;
 
 class DefaultSwitchCasePrinter implements Printer<DefaultSwitchCase>{
 
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(DefaultSwitchCase element, BufferedWriter writer) throws IOException {
 		writer.append("default: ");
 		for (Statement s : element.getStatements()) {

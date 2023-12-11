@@ -10,6 +10,8 @@ import jamopp.printer.interfaces.Printer;
 
 class ArrayDimensionsPrinter implements Printer<List<ArrayDimension>> {
 
+	private final AnnotablePrinter AnnotablePrinter;
+	
 	public void print(List<ArrayDimension> element, BufferedWriter writer) throws IOException {
 		for (ArrayDimension dim : element) {
 			if (!dim.getAnnotations().isEmpty()) {

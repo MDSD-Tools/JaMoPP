@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class SelfReferencePrinter implements Printer<SelfReference>{
 
+	private final SelfPrinter SelfPrinter;
+	
 	public void print(SelfReference element, BufferedWriter writer) throws IOException {
 		SelfPrinter.print(element.getSelf(), writer);
 	}

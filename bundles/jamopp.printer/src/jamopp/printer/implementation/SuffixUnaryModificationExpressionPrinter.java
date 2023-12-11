@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class SuffixUnaryModificationExpressionPrinter implements Printer<SuffixUnaryModificationExpression>{
 
+	private final UnaryModificationExpressionChildPrinter UnaryModificationExpressionChildPrinter;
+	private final UnaryModificationOperatorPrinter UnaryModificationOperatorPrinter;
+	
 	public void print(SuffixUnaryModificationExpression element,
 			BufferedWriter writer) throws IOException {
 		UnaryModificationExpressionChildPrinter.print(element.getChild(), writer);

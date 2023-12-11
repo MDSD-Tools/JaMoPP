@@ -10,6 +10,8 @@ import jamopp.printer.interfaces.Printer;
 
 class DefaultSwitchRulePrinter implements Printer<DefaultSwitchRule>{
 
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(DefaultSwitchRule element, BufferedWriter writer) throws IOException {
 		writer.append("default -> ");
 		for (Statement s : element.getStatements()) {

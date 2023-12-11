@@ -14,6 +14,9 @@ import jamopp.printer.interfaces.Printer;
 
 class LambdaParametersPrinter implements Printer<LambdaParameters> {
 
+	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
+	private final VariableLengthParameterPrinter VariableLengthParameterPrinter;
+	
 	public void print(LambdaParameters element, BufferedWriter writer) throws IOException {
 		if (element instanceof SingleImplicitLambdaParameter) {
 			writer.append(element.getParameters().get(0).getName());

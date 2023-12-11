@@ -13,6 +13,11 @@ import jamopp.printer.interfaces.Printer;
 
 class SwitchCasePrinter implements Printer<SwitchCase>{
 
+	private final DefaultSwitchCasePrinter DefaultSwitchCasePrinter;
+	private final NormalSwitchCasePrinter NormalSwitchCasePrinter;
+	private final DefaultSwitchRulePrinter DefaultSwitchRulePrinter;
+	private final NormalSwitchRulePrinter NormalSwitchRulePrinter;
+	
 	public void print(SwitchCase element, BufferedWriter writer) throws IOException {
 		if (element instanceof DefaultSwitchCase) {
 			DefaultSwitchCasePrinter.print((DefaultSwitchCase) element, writer);

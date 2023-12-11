@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class DoWhileLoopPrinter implements Printer<DoWhileLoop>{
 
+	private final StatementPrinter StatementPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(DoWhileLoop element, BufferedWriter writer) throws IOException {
 		writer.append("do\n");
 		StatementPrinter.print(element.getStatement(), writer);

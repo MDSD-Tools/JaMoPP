@@ -9,6 +9,12 @@ import jamopp.printer.interfaces.Printer;
 
 class ClassPrinter implements Printer<org.emftext.language.java.classifiers.Class>{
 
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final TypeParametrizablePrinter TypeParametrizablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final ImplementorPrinter ImplementorPrinter;
+	private final MemberContainerPrinter MemberContainerPrinter;
+	
 	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer)
 			throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);

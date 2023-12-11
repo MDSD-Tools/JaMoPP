@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class MethodReferenceExpressionChildPrinter implements Printer<MethodReferenceExpressionChild> {
 
+	private final LiteralPrinter LiteralPrinter;
+	private final ReferencePrinter ReferencePrinter;
+	
 	public void print(MethodReferenceExpressionChild element,
 			BufferedWriter writer) throws IOException {
 		if (element instanceof Literal) {

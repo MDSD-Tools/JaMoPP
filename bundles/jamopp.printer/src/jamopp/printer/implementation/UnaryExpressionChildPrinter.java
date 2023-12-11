@@ -12,6 +12,10 @@ import jamopp.printer.interfaces.Printer;
 
 class UnaryExpressionChildPrinter implements Printer<UnaryExpressionChild>{
 
+	private final PrefixUnaryModificationExpressionPrinter PrefixUnaryModificationExpressionPrinter;
+	private final SuffixUnaryModificationExpressionPrinter SuffixUnaryModificationExpressionPrinter;
+	private final UnaryModificationExpressionChildPrinter UnaryModificationExpressionChildPrinter;
+	
 	public void print(UnaryExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof PrefixUnaryModificationExpression) {

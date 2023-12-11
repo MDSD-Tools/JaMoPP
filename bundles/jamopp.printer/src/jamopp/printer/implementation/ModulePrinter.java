@@ -15,6 +15,12 @@ import jamopp.printer.interfaces.Printer;
 
 class ModulePrinter implements Printer<org.emftext.language.java.containers.Module>{
 
+	private final UsesModuleDirectivePrinter UsesModuleDirectivePrinter;
+	private final ProvidesModuleDirectivePrinter ProvidesModuleDirectivePrinter;
+	private final RequiresModuleDirectivePrinter RequiresModuleDirectivePrinter;
+	private final OpensModuleDirectivePrinter OpensModuleDirectivePrinter;
+	private final ExportsModuleDirectivePrinter ExportsModuleDirectivePrinter;
+	
 	public void print(org.emftext.language.java.containers.Module element, BufferedWriter writer) throws IOException {
 		writer.append("module ");
 		if (element.getOpen() != null) {

@@ -12,6 +12,10 @@ import jamopp.printer.interfaces.Printer;
 
 class AnnotationValuePrinter implements Printer<AnnotationValue>{
 
+	private final AnnotationInstancePrinter AnnotationInstancePrinter;
+	private final ArrayInitializerPrinter ArrayInitializerPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(AnnotationValue element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);

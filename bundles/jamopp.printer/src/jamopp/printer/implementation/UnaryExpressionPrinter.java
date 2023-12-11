@@ -10,6 +10,9 @@ import jamopp.printer.interfaces.Printer;
 
 class UnaryExpressionPrinter implements Printer<UnaryExpression>{
 
+	private final UnaryOperatorPrinter UnaryOperatorPrinter;
+	private final UnaryExpressionChildPrinter UnaryExpressionChildPrinter;
+	
 	public void print(UnaryExpression element, BufferedWriter writer) throws IOException {
 		for (UnaryOperator op : element.getOperators()) {
 			UnaryOperatorPrinter.print(op, writer);

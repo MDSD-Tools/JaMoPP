@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class CallTypeArgumentablePrinter implements Printer<CallTypeArgumentable>{
 
+	private final TypeArgumentPrinter TypeArgumentPrinter;
+	
 	public void print(CallTypeArgumentable element, BufferedWriter writer)
 			throws IOException {
 		if (!element.getCallTypeArguments().isEmpty()) {

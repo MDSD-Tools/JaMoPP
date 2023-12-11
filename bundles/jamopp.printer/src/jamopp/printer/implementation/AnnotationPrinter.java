@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class AnnotationPrinter implements Printer<Annotation> {
 
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final MemberContainerPrinter MemberContainerPrinter;
+	
 	public void print(Annotation element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("@interface " + element.getName() + " {\n");

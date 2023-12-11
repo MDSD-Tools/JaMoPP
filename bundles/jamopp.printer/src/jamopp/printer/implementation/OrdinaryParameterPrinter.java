@@ -9,6 +9,11 @@ import jamopp.printer.interfaces.Printer;
 
 class OrdinaryParameterPrinter implements Printer<OrdinaryParameter>{
 
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeArgumentablePrinter TypeArgumentablePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	
 	public void print(OrdinaryParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

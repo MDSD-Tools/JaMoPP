@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class TypeParameterPrinter implements Printer<TypeParameter>{
 
+	private final AnnotablePrinter AnnotablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	
 	public void print(TypeParameter element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		writer.append(element.getName());

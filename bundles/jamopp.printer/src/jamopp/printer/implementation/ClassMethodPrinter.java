@@ -15,6 +15,14 @@ import jamopp.printer.interfaces.Printer;
 
 class ClassMethodPrinter implements Printer<ClassMethod>{
 
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final TypeParametrizablePrinter TypeParametrizablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final ParametrizablePrinter ParametrizablePrinter;
+	private final ExceptionThrowerPrinter ExceptionThrowerPrinter;
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(ClassMethod element, BufferedWriter writer) throws IOException {
 		if (element.eContainer() instanceof Enumeration) {
 			boolean isStatic = false;

@@ -10,6 +10,8 @@ import jamopp.printer.interfaces.Printer;
 
 class ImportingElementPrinter implements Printer<ImportingElement> {
 
+	private final ImportPrinter ImportPrinter;
+	
 	public void print(ImportingElement element, BufferedWriter writer) throws IOException {
 		for (Import ele : element.getImports()) {
 			ImportPrinter.print(ele, writer);

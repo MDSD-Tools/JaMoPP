@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class JumpLabelPrinter implements Printer<JumpLabel>{
 
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(JumpLabel element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName() + ": ");
 		StatementPrinter.print(element.getStatement(), writer);

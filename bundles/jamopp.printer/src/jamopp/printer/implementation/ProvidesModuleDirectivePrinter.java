@@ -10,6 +10,8 @@ import jamopp.printer.interfaces.Printer;
 
 class ProvidesModuleDirectivePrinter implements Printer<ProvidesModuleDirective> {
 
+	private final TypeReferencePrinter TypeReferencePrinter;
+	
 	public void print(ProvidesModuleDirective element, BufferedWriter writer)
 			throws IOException {
 		writer.append("provides ");

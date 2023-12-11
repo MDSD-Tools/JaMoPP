@@ -10,6 +10,9 @@ import jamopp.printer.interfaces.Printer;
 
 class CatchBlockPrinter implements Printer<CatchBlock>{
 
+	private final CatchParameterPrinter CatchParameterPrinter;
+	private final BlockPrinter BlockPrinter;
+	
 	public void print(CatchBlock element, BufferedWriter writer) throws IOException {
 		writer.append("catch(");
 		CatchParameterPrinter.print((CatchParameter) element.getParameter(), writer);

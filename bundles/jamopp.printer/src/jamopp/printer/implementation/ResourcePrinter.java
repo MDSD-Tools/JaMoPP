@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class ResourcePrinter implements Printer<Resource>{
 
+	private final LocalVariablePrinter LocalVariablePrinter;
+	private final ElementReferencePrinter ElementReferencePrinter;
+	
 	public void print(Resource element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
 			LocalVariablePrinter.print((LocalVariable) element, writer);

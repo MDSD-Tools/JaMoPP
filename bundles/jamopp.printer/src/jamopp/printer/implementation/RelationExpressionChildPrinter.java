@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class RelationExpressionChildPrinter implements Printer<RelationExpressionChild>{
 
+	private final ShiftExpressionPrinter ShiftExpressionPrinter;
+	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
+	
 	public void print(RelationExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof ShiftExpression) {

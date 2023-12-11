@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class AdditiveExpressionPrinter implements Printer<AdditiveExpression> {
 
+	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;
+	private final AdditiveOperatorPrinter AdditiveOperatorPrinter;
+	
 	public void print(AdditiveExpression element, BufferedWriter writer) throws IOException {
 		AdditiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

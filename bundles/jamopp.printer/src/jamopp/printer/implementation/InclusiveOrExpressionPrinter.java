@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class InclusiveOrExpressionPrinter implements Printer<InclusiveOrExpression>{
 
+	private final InclusiveOrExpressionChildPrinter InclusiveOrExpressionChildPrinter;
+	
 	public void print(InclusiveOrExpression element, BufferedWriter writer)
 			throws IOException {
 		InclusiveOrExpressionChildPrinter.print(element.getChildren().get(0), writer);

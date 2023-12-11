@@ -9,6 +9,10 @@ import jamopp.printer.interfaces.Printer;
 
 class InstanceOfExpressionPrinter implements Printer<InstanceOfExpression>{
 
+	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	
 	public void print(InstanceOfExpression element, BufferedWriter writer)
 			throws IOException {
 		InstanceOfExpressionChildPrinter.print(element.getChild(), writer);

@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class ElementReferencePrinter implements Printer<ElementReference>{
 
+	private final IdentifierReferencePrinter IdentifierReferencePrinter;
+	private final MethodCallPrinter MethodCallPrinter;
+	
 	public void print(ElementReference element, BufferedWriter writer) throws IOException {
 		if (element instanceof IdentifierReference) {
 			IdentifierReferencePrinter.printIdentifierReference((IdentifierReference) element, writer);

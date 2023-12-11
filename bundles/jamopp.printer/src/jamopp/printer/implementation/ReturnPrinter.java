@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class ReturnPrinter implements Printer<Return>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(Return element, BufferedWriter writer) throws IOException {
 		writer.append("return");
 		if (element.getReturnValue() != null) {

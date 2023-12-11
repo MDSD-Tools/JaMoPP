@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class AnnotationInstanceOrModifierPrinter implements Printer<AnnotationInstanceOrModifier>{
 
+	private final AnnotationInstancePrinter AnnotationInstancePrinter;
+	private final ModifierPrinter ModifierPrinter;
+	
 	public void print(AnnotationInstanceOrModifier element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof AnnotationInstance) {

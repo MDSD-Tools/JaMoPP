@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class ConditionalOrExpressionPrinter implements Printer<ConditionalOrExpression>{
 
+	private final ConditionalOrExpressionChildPrinter ConditionalOrExpressionChildPrinter;
+	
 	public void print(ConditionalOrExpression element, BufferedWriter writer)
 			throws IOException {
 		ConditionalOrExpressionChildPrinter.print(element.getChildren().get(0), writer);

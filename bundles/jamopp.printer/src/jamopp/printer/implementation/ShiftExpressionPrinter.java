@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class ShiftExpressionPrinter implements Printer<ShiftExpression>{
 
+	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
+	private final ShiftOperatorPrinter ShiftOperatorPrinter;
+	
 	public void print(ShiftExpression element, BufferedWriter writer) throws IOException {
 		ShiftExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

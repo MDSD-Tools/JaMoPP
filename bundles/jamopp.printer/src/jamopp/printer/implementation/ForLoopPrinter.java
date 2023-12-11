@@ -9,6 +9,10 @@ import jamopp.printer.interfaces.Printer;
 
 public class ForLoopPrinter implements Printer<ForLoop>{
 
+	private final ForLoopInitializerPrinter ForLoopInitializerPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(ForLoop element, BufferedWriter writer) throws IOException {
 		writer.append("for (");
 		if (element.getInit() != null) {

@@ -11,7 +11,10 @@ import jamopp.printer.interfaces.Printer;
 
 class ForLoopInitializerPrinter implements Printer<ForLoopInitializer>{
 
-	static void print(ForLoopInitializer element, BufferedWriter writer) throws IOException {
+	private final LocalVariablePrinter LocalVariablePrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	
+	public void print(ForLoopInitializer element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
 			LocalVariablePrinter.print((LocalVariable) element, writer);
 		} else {

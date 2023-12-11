@@ -13,6 +13,11 @@ import jamopp.printer.interfaces.Printer;
 
 class ConcreteClassifierPrinter implements Printer<ConcreteClassifier> {
 
+	private final ClassPrinter ClassPrinter;
+	private final InterfacePrinter InterfacePrinter;
+	private final EnumerationPrinter EnumerationPrinter;
+	private final AnnotationPrinter AnnotationPrinter;
+	
 	public void print(ConcreteClassifier element, BufferedWriter writer) throws IOException {
 		if (element instanceof org.emftext.language.java.classifiers.Class) {
 			ClassPrinter.print((org.emftext.language.java.classifiers.Class) element, writer);

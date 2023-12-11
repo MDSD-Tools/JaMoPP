@@ -10,6 +10,9 @@ import jamopp.printer.interfaces.Printer;
 
 class CatchParameterPrinter implements Printer<CatchParameter> {
 
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	
 	public void print(CatchParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

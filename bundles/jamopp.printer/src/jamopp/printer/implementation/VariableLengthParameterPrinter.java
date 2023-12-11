@@ -9,6 +9,12 @@ import jamopp.printer.interfaces.Printer;
 
 class VariableLengthParameterPrinter implements Printer<VariableLengthParameter>{
 
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeArgumentablePrinter TypeArgumentablePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final AnnotablePrinter AnnotablePrinter;
+	
 	public void print(VariableLengthParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

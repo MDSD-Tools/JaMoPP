@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class SynchronizedBlockPrinter implements Printer<SynchronizedBlock>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	private final BlockPrinter BlockPrinter;
+	
 	public void print(SynchronizedBlock element, BufferedWriter writer) throws IOException {
 		writer.append("synchronized (");
 		ExpressionPrinter.print(element.getLockProvider(), writer);

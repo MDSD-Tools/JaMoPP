@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class InclusiveOrExpressionChildPrinter implements Printer<InclusiveOrExpressionChild>{
 
+	private final ExclusiveOrExpressionPrinter ExclusiveOrExpressionPrinter;
+	private final ExclusiveOrExpressionChildPrinter ExclusiveOrExpressionChildPrinter;
+	
 	public void print(InclusiveOrExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof ExclusiveOrExpression) {

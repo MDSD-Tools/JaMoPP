@@ -12,6 +12,8 @@ import jamopp.printer.interfaces.Printer;
 
 class AnnotationInstancePrinter implements Printer<AnnotationInstance> {
 
+	private final AnnotationValuePrinter AnnotationValuePrinter;
+	
 	public void print(AnnotationInstance element, BufferedWriter writer) throws IOException {
 		writer.append("@" + element.getNamespacesAsString());
 		if (element.getParameter() != null) {

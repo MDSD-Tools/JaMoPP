@@ -12,6 +12,13 @@ import jamopp.printer.interfaces.Printer;
 
 class InstantiationPrinter implements Printer<Instantiation>{
 
+	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeArgumentablePrinter TypeArgumentablePrinter;
+	private final ArgumentablePrinter ArgumentablePrinter;
+	private final AnonymousClassPrinter AnonymousClassPrinter;
+	private final SelfPrinter SelfPrinter;
+	
 	public void print(Instantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof NewConstructorCall call) {
 			writer.append("new ");

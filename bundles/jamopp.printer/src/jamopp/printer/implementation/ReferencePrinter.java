@@ -20,6 +20,18 @@ import jamopp.printer.interfaces.Printer;
 
 class ReferencePrinter implements Printer<Reference>{
 
+	private final AnnotationInstancePrinter AnnotationInstancePrinter;
+	private final NestedExpressionPrinter NestedExpressionPrinter;
+	private final ReflectiveClassReferencePrinter ReflectiveClassReferencePrinter;
+	private final PrimitiveTypeReferencePrinter PrimitiveTypeReferencePrinter;
+	private final StringReferencePrinter StringReferencePrinter;
+	private final SelfReferencePrinter SelfReferencePrinter;
+	private final ArrayInstantiationPrinter ArrayInstantiationPrinter;
+	private final InstantiationPrinter InstantiationPrinter;
+	private final TextBlockReferencePrinter TextBlockReferencePrinter;
+	private final ElementReferencePrinter ElementReferencePrinter;
+	private final ArraySelectorPrinter ArraySelectorPrinter;
+	
 	public void print(Reference element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);

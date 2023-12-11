@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class InstanceOfExpressionChildPrinter implements Printer<InstanceOfExpressionChild>{
 
+	private final RelationExpressionPrinter RelationExpressionPrinter;
+	private final RelationExpressionChildPrinter RelationExpressionChildPrinter;
+	
 	public void print(InstanceOfExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof RelationExpression) {

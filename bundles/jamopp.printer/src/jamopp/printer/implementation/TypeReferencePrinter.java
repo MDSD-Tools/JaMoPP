@@ -13,6 +13,11 @@ import jamopp.printer.interfaces.Printer;
 
 class TypeReferencePrinter implements Printer<TypeReference>{
 
+	private final NamespaceClassifierReferencePrinter NamespaceClassifierReferencePrinter;
+	private final ClassifierReferencePrinter ClassifierReferencePrinter;
+	private final PrimitiveTypePrinter PrimitiveTypePrinter;
+	private final InferableTypePrinter InferableTypePrinter;
+	
 	public void print(TypeReference element, BufferedWriter writer) throws IOException {
 		if (element instanceof NamespaceClassifierReference) {
 			NamespaceClassifierReferencePrinter.print((NamespaceClassifierReference) element, writer);

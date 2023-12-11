@@ -9,7 +9,16 @@ import jamopp.printer.interfaces.Printer;
 
 class InterfaceMethodPrinter implements Printer<InterfaceMethod>{
 
-	static void print(InterfaceMethod element, BufferedWriter writer) throws IOException {
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final TypeParametrizablePrinter TypeParametrizablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final ParametrizablePrinter ParametrizablePrinter;
+	private final ExceptionThrowerPrinter ExceptionThrowerPrinter;
+	private final AnnotationValuePrinter AnnotationValuePrinter;
+	private final StatementPrinter StatementPrinter;
+	
+	public void print(InterfaceMethod element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeParametrizablePrinter.print(element, writer);
 		writer.append(" ");

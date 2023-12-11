@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class MethodCallPrinter implements Printer<MethodCall>{
 
+	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
+	private final ArgumentablePrinter ArgumentablePrinter;
+	
 	public void print(MethodCall element, BufferedWriter writer) throws IOException {
 		CallTypeArgumentablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());

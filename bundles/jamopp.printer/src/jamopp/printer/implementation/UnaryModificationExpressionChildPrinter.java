@@ -13,10 +13,15 @@ import jamopp.printer.interfaces.Printer;
 
 class UnaryModificationExpressionChildPrinter implements Printer<UnaryModificationExpressionChild>{
 
+	private final SwitchPrinter SwitchPrinter;
+	private final CastExpressionPrinter CastExpressionPrinter;
+	private final MethodReferenceExpressionPrinter MethodReferenceExpressionPrinter;
+	private final MethodReferenceExpressionChildPrinter MethodReferenceExpressionChildPrinter;
+	
 	public void print(UnaryModificationExpressionChild element,
 			BufferedWriter writer) throws IOException {
 		if (element instanceof Switch) {
-			SwitchPrint.print((Switch) element, writer);
+			SwitchPrinter.print((Switch) element, writer);
 		} else if (element instanceof CastExpression) {
 			CastExpressionPrinter.print((CastExpression) element, writer);
 		} else if (element instanceof MethodReferenceExpression) {

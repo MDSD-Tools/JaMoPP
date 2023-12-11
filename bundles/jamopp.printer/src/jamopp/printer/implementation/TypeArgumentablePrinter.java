@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class TypeArgumentablePrinter implements Printer<TypeArgumentable>{
 
+	private final TypeArgumentPrinter TypeArgumentPrinter;
+	
 	public void print(TypeArgumentable element, BufferedWriter writer) throws IOException {
 		if (!element.getTypeArguments().isEmpty()) {
 			writer.append("<");

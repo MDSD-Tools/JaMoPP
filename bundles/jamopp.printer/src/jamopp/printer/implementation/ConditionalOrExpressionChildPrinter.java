@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class ConditionalOrExpressionChildPrinter implements Printer<ConditionalOrExpressionChild> {
 
+	private final ConditionalAndExpressionPrinter ConditionalAndExpressionPrinter;
+	private final ConditionalAndExpressionChildPrinter ConditionalAndExpressionChildPrinter;
+	
 	public void print(ConditionalOrExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof ConditionalAndExpression) {

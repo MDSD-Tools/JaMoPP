@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class MultiplicativeExpressionChildPrinter implements Printer<MultiplicativeExpressionChild>{
 
+	private final UnaryExpressionPrinter UnaryExpressionPrinter;
+	private final UnaryExpressionChildPrinter UnaryExpressionChildPrinter;
+	
 	public void print(MultiplicativeExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof UnaryExpression) {

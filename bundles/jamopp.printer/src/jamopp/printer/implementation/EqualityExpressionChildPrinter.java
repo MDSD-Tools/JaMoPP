@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class EqualityExpressionChildPrinter implements Printer<EqualityExpressionChild>{
 
+	private final InstanceOfExpressionPrinter InstanceOfExpressionPrinter;
+	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;
+	
 	public void print(EqualityExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof InstanceOfExpression) {

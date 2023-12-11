@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class RelationExpressionPrinter implements Printer<RelationExpression> {
 
+	private final RelationExpressionChildPrinter RelationExpressionChildPrinter;
+	private final RelationOperatorPrinter RelationOperatorPrinter;
+	
 	public void print(RelationExpression element, BufferedWriter writer) throws IOException {
 		RelationExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

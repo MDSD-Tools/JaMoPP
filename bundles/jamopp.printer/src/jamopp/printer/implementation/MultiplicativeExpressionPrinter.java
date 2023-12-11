@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class MultiplicativeExpressionPrinter implements Printer<MultiplicativeExpression> {
 
+	private final MultiplicativeExpressionChildPrinter MultiplicativeExpressionChildPrinter;
+	private final MultiplicativeOperatorPrinter MultiplicativeOperatorPrinter;
+	
 	public void print(MultiplicativeExpression element, BufferedWriter writer)
 			throws IOException {
 		MultiplicativeExpressionChildPrinter.print(element.getChildren().get(0), writer);

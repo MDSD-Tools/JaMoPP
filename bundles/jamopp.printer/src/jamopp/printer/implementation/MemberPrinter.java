@@ -15,6 +15,14 @@ import jamopp.printer.interfaces.Printer;
 
 class MemberPrinter implements Printer<Member> {
 
+	private final FieldPrinter FieldPrinter;
+	private final ConstructorPrinter ConstructorPrinter;
+	private final ClassMethodPrinter ClassMethodPrinter;
+	private final InterfaceMethodPrinter InterfaceMethodPrinter;
+	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
+	private final BlockPrinter BlockPrinter;
+	private final EmptyMemberPrinter EmptyMemberPrinter;
+	
 	public void print(Member element, BufferedWriter writer) throws IOException {
 		if (element instanceof Field) {
 			FieldPrinter.print((Field) element, writer);

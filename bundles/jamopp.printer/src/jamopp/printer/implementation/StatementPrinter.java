@@ -29,6 +29,27 @@ import jamopp.printer.interfaces.Printer;
 
 class StatementPrinter implements Printer<Statement>{
 
+	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
+	private final AssertPrinter AssertPrinter;
+	private final BlockPrinter BlockPrinter;
+	private final ConditionPrinter ConditionPrinter;
+	private final EmptyStatementPrinter EmptyStatementPrinter;
+	private final ExpressionStatementPrinter ExpressionStatementPrinter;
+	private final ForLoopPrinter ForLoopPrinter;
+	private final ForEachLoopPrinter ForEachLoopPrinter;
+	private final BreakPrinter BreakPrinter;
+	private final ContinuePrinter ContinuePrinter;
+	private final JumpLabelPrinter JumpLabelPrinter;
+	private final LocalVariableStatementPrinter LocalVariableStatementPrinter;
+	private final ReturnPrinter ReturnPrinter;
+	private final SwitchPrinter SwitchPrinter;
+	private final SynchronizedBlockPrinter SynchronizedBlockPrinter;
+	private final ThrowPrinter ThrowPrinter;
+	private final TryBlockPrinter TryBlockPrinter;
+	private final DoWhileLoopPrinter DoWhileLoopPrinter;
+	private final WhileLoopPrinter WhileLoopPrinter;
+	private final YieldStatementPrinter YieldStatementPrinter;
+	
 	public void print(Statement element, BufferedWriter writer) throws IOException {
 		if (element instanceof ConcreteClassifier) {
 			ConcreteClassifierPrinter.print((ConcreteClassifier) element, writer);
@@ -57,7 +78,7 @@ class StatementPrinter implements Printer<Statement>{
 		} else if (element instanceof Return) {
 			ReturnPrinter.print((Return) element, writer);
 		} else if (element instanceof Switch) {
-			SwitchPrint.print((Switch) element, writer);
+			SwitchPrinter.print((Switch) element, writer);
 		} else if (element instanceof SynchronizedBlock) {
 			SynchronizedBlockPrinter.print((SynchronizedBlock) element, writer);
 		} else if (element instanceof Throw) {

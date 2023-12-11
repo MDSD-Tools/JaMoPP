@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class NestedExpressionPrinter implements Printer<NestedExpression>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(NestedExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		ExpressionPrinter.print(element.getExpression(), writer);

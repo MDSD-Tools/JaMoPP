@@ -12,6 +12,10 @@ import jamopp.printer.interfaces.Printer;
 
 class ExpressionPrinter implements Printer<Expression>{
 
+	private final LambdaExpressionPrinter LambdaExpressionPrinter;
+	private final AssignmentExpressionPrinter AssignmentExpressionPrinter;
+	private final AssignmentExpressionChildPrinter AssignmentExpressionChildPrinter;
+	
 	public void print(Expression element, BufferedWriter writer) throws IOException {
 		if (element instanceof LambdaExpression) {
 			LambdaExpressionPrinter.print((LambdaExpression) element, writer);

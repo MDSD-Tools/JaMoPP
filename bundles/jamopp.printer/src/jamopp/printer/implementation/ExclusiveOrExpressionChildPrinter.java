@@ -9,10 +9,12 @@ import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 
 import jamopp.printer.interfaces.Printer;
 
-class ExclusiveOrExpressionChildPrinter implements Printer<ExclusiveOrExpressionChild>{
+class ExclusiveOrExpressionChildPrinter implements Printer<ExclusiveOrExpressionChild> {
 
-	public void print(ExclusiveOrExpressionChild element, BufferedWriter writer)
-			throws IOException {
+	private final AndExpressionPrinter AndExpressionPrinter;
+	private final AndExpressionChildPrinter AndExpressionChildPrinter;
+
+	public void print(ExclusiveOrExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof AndExpression) {
 			AndExpressionPrinter.print((AndExpression) element, writer);
 		} else {

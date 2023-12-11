@@ -18,6 +18,8 @@ import jamopp.printer.interfaces.Printer;
 
 class PrimitiveTypePrinter implements Printer<PrimitiveType>{
 
+	private final AnnotablePrinter AnnotablePrinter;
+	
 	public void print(PrimitiveType element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		if (element instanceof org.emftext.language.java.types.Boolean) {

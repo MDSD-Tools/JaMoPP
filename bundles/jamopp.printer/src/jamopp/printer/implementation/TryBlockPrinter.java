@@ -10,6 +10,10 @@ import jamopp.printer.interfaces.Printer;
 
 class TryBlockPrinter implements Printer<TryBlock>{
 
+	private final ResourcePrinter ResourcePrinter;
+	private final BlockPrinter BlockPrinter;
+	private final CatchBlockPrinter CatchBlockPrinter;
+	
 	public void print(TryBlock element, BufferedWriter writer) throws IOException {
 		writer.append("try");
 		if (!element.getResources().isEmpty()) {

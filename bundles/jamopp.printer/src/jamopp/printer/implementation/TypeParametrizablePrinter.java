@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class TypeParametrizablePrinter implements Printer<TypeParametrizable>{
 
+	private final TypeParameterPrinter TypeParameterPrinter;
+	
 	public void print(TypeParametrizable element, BufferedWriter writer) throws IOException {
 		if (!element.getTypeParameters().isEmpty()) {
 			writer.append("<");

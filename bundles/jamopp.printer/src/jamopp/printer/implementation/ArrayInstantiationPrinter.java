@@ -13,7 +13,13 @@ import jamopp.printer.interfaces.Printer;
 
 class ArrayInstantiationPrinter implements Printer<ArrayInstantiation> {
 
-	static void print(ArrayInstantiation element, BufferedWriter writer) throws IOException {
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeArgumentablePrinter TypeArgumentablePrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final ArrayInitializerPrinter ArrayInitializerPrinter;
+	
+	public void print(ArrayInstantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof ArrayInstantiationBySize inst) {
 			writer.append("new ");
 			TypeReferencePrinter.print(inst.getTypeReference(), writer);

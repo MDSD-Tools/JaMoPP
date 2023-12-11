@@ -13,6 +13,10 @@ import jamopp.printer.interfaces.Printer;
 
 class ParametrizablePrinter implements Printer<Parametrizable>{
 
+	private final ReceiverParameterPrinter ReceiverParameterPrinter;
+	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
+	private final VariableLengthParameterPrinter VariableLengthParameterPrinter;
+	
 	public void print(Parametrizable element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		for (int index = 0; index < element.getParameters().size(); index++) {

@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class NamespaceClassifierReferencePrinter implements Printer<NamespaceClassifierReference>{
 
+	private final ClassifierReferencePrinter ClassifierReferencePrinter;
+	
 	public void print(NamespaceClassifierReference element, BufferedWriter writer) throws IOException {
 		writer.append(element.getNamespacesAsString());
 		if (!element.getNamespaces().isEmpty()) {

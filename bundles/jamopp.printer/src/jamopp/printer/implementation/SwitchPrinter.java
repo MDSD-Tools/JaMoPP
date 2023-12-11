@@ -8,8 +8,11 @@ import org.emftext.language.java.statements.SwitchCase;
 
 import jamopp.printer.interfaces.Printer;
 
-class SwitchPrint implements Printer<Switch>{
+class SwitchPrinter implements Printer<Switch>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	private final SwitchCasePrinter SwitchCasePrinter;
+	
 	public void print(Switch element, BufferedWriter writer) throws IOException {
 		writer.append("switch (");
 		ExpressionPrinter.print(element.getVariable(), writer);

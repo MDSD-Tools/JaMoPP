@@ -10,6 +10,10 @@ import jamopp.printer.interfaces.Printer;
 
 class CastExpressionPrinter implements Printer<CastExpression> {
 
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(CastExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

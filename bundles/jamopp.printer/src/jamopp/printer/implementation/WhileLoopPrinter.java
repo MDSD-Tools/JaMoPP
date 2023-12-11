@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class WhileLoopPrinter implements Printer<WhileLoop>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(WhileLoop element, BufferedWriter writer) throws IOException {
 		writer.append("while (");
 		ExpressionPrinter.print(element.getCondition(), writer);

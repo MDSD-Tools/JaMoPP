@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class YieldStatementPrinter implements Printer<YieldStatement>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(YieldStatement element, BufferedWriter writer) throws IOException {
 		writer.append("yield ");
 		ExpressionPrinter.print(element.getYieldExpression(), writer);

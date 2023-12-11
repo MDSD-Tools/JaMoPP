@@ -9,7 +9,11 @@ import jamopp.printer.interfaces.Printer;
 
 class ForEachLoopPrinter implements Printer<ForEachLoop>{
 
-	static void print(ForEachLoop element, BufferedWriter writer) throws IOException {
+	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	private final StatementPrinter StatementPrinter;
+	
+	public void print(ForEachLoop element, BufferedWriter writer) throws IOException {
 		writer.append("for (");
 		OrdinaryParameterPrinter.print(element.getNext(), writer);
 		writer.append(" : ");

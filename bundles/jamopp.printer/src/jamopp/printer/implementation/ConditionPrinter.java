@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class ConditionPrinter implements Printer<Condition>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(Condition element, BufferedWriter writer) throws IOException {
 		writer.append("if (");
 		ExpressionPrinter.print(element.getCondition(), writer);

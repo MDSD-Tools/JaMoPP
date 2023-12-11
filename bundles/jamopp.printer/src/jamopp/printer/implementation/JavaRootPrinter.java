@@ -10,6 +10,11 @@ import jamopp.printer.interfaces.Printer;
 
 public class JavaRootPrinter implements Printer<JavaRoot>{
 
+	private final ImportingElementPrinter ImportingElementPrinter;
+	private final ModulePrinter ModulePrinter;
+	private final AnnotablePrinter AnnotablePrinter;
+	private final CompilationUnitPrinter CompilationUnitPrinter;
+	
 	/**
 	 * Converts a model instance to text and writes it.
 	 *

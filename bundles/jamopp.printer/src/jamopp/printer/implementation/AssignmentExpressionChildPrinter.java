@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class AssignmentExpressionChildPrinter implements Printer<AssignmentExpressionChild>{
 
+	private final ConditionalExpressionPrinter ConditionalExpressionPrinter;
+	private final ConditionalExpressionChildPrinter ConditionalExpressionChildPrinter;
+	
 	public void print(AssignmentExpressionChild element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof ConditionalExpression) {

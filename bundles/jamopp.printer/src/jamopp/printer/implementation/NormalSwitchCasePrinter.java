@@ -11,6 +11,9 @@ import jamopp.printer.interfaces.Printer;
 
 class NormalSwitchCasePrinter implements Printer<NormalSwitchCase>{
 
+	private final ExpressionPrinter ExpressionPrinter;
+	private final StatementPrinter StatementPrinter;
+	
 	public void print(NormalSwitchCase element, BufferedWriter writer) throws IOException {
 		writer.append("case ");
 		ExpressionPrinter.print(element.getCondition(), writer);

@@ -9,6 +9,9 @@ import jamopp.printer.interfaces.Printer;
 
 class AdditionalFieldPrinter implements Printer<AdditionalField> {
 
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	
 	public void print(AdditionalField element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
 		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);

@@ -13,6 +13,10 @@ import jamopp.printer.interfaces.Printer;
 
 class TypeArgumentPrinter implements Printer<TypeArgument>{
 
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final AnnotablePrinter AnnotablePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	
 	public void print(TypeArgument element, BufferedWriter writer) throws IOException {
 		if (element instanceof QualifiedTypeArgument arg) {
 			TypeReferencePrinter.print(arg.getTypeReference(), writer);

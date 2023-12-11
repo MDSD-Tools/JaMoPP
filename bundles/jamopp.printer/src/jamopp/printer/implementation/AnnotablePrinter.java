@@ -10,6 +10,8 @@ import jamopp.printer.interfaces.Printer;
 
 class AnnotablePrinter implements Printer<Annotable>{
 
+	private final AnnotationInstancePrinter AnnotationInstancePrinter;
+	
 	public void print(Annotable element, BufferedWriter writer) throws IOException {
 		for (AnnotationInstance inst : element.getAnnotations()) {
 			AnnotationInstancePrinter.print(inst, writer);

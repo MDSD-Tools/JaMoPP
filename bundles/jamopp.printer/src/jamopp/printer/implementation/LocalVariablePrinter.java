@@ -10,6 +10,13 @@ import jamopp.printer.interfaces.Printer;
 
 class LocalVariablePrinter  implements Printer<LocalVariable>{
 
+	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeArgumentablePrinter TypeArgumentablePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final ExpressionPrinter ExpressionPrinter;
+	private final AdditionalLocalVariablePrinter AdditionalLocalVariablePrinter;
+	
 	public void print(LocalVariable element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

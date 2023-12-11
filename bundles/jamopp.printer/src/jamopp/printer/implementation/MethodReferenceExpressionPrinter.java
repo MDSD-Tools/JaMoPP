@@ -12,6 +12,12 @@ import jamopp.printer.interfaces.Printer;
 
 class MethodReferenceExpressionPrinter implements Printer<MethodReferenceExpression>{
 
+	private final MethodReferenceExpressionChildPrinter MethodReferenceExpressionChildPrinter;
+	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
+	private final ReferencePrinter ReferencePrinter;
+	private final TypeReferencePrinter TypeReferencePrinter;
+	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	
 	public void print(MethodReferenceExpression element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof PrimaryExpressionReferenceExpression ref) {

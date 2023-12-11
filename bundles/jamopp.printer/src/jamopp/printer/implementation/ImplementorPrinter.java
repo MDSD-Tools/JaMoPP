@@ -9,6 +9,8 @@ import jamopp.printer.interfaces.Printer;
 
 class ImplementorPrinter implements Printer<Implementor>{
 
+	private final TypeReferencePrinter TypeReferencePrinter;
+	
 	public void print(Implementor element, BufferedWriter writer) throws IOException {
 		if (!element.getImplements().isEmpty()) {
 			writer.append("implements ");
