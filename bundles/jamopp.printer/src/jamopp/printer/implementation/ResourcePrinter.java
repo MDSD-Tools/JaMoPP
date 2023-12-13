@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.printer.ResourcePrinterInt;
 
-class ResourcePrinter implements ResourcePrinterInt {
+public class ResourcePrinter implements ResourcePrinterInt {
 
 	private final LocalVariablePrinter LocalVariablePrinter;
 	private final ElementReferencePrinter ElementReferencePrinter;

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConstructorPrinterInt;
 
-class ConstructorPrinter implements ConstructorPrinterInt {
+public class ConstructorPrinter implements ConstructorPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;

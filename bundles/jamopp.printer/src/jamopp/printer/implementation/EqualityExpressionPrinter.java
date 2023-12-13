@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.EqualityExpressionPrinterInt;
 
-class EqualityExpressionPrinter implements EqualityExpressionPrinterInt {
+public class EqualityExpressionPrinter implements EqualityExpressionPrinterInt {
 
 	private final EqualityExpressionChildPrinter EqualityExpressionChildPrinter;
 	private final EqualityOperatorPrinter EqualityOperatorPrinter;

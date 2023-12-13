@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.VariableLengthParameterPrinterInt;
 
-class VariableLengthParameterPrinter implements VariableLengthParameterPrinterInt {
+public class VariableLengthParameterPrinter implements VariableLengthParameterPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

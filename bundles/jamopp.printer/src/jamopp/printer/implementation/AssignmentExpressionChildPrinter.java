@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AssignmentExpressionChildPrinterInt;
 
-class AssignmentExpressionChildPrinter implements AssignmentExpressionChildPrinterInt {
+public class AssignmentExpressionChildPrinter implements AssignmentExpressionChildPrinterInt {
 
 	private final ConditionalExpressionPrinter ConditionalExpressionPrinter;
 	private final ConditionalExpressionChildPrinter ConditionalExpressionChildPrinter;

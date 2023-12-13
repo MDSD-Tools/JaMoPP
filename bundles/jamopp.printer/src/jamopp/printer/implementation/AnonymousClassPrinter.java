@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
 
-class AnonymousClassPrinter implements  AnonymousClassPrinterInt {
+public class AnonymousClassPrinter implements  AnonymousClassPrinterInt {
 
 	private final MemberContainerPrinter MemberContainerPrinter;
 

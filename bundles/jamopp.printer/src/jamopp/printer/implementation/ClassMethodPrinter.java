@@ -15,7 +15,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ClassMethodPrinterInt;
 
-class ClassMethodPrinter implements ClassMethodPrinterInt {
+public class ClassMethodPrinter implements ClassMethodPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AdditionalLocalVariablePrinterInt;
 
-class AdditionalLocalVariablePrinter implements AdditionalLocalVariablePrinterInt {
+public class AdditionalLocalVariablePrinter implements AdditionalLocalVariablePrinterInt {
 
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 	private final ExpressionPrinter ExpressionPrinter;

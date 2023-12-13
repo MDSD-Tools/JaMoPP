@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ClassifierReferencePrinterInt;
 
-class ClassifierReferencePrinter implements ClassifierReferencePrinterInt {
+public class ClassifierReferencePrinter implements ClassifierReferencePrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 	private final TypeArgumentablePrinter TypeArgumentablePrinter;

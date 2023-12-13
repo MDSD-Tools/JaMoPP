@@ -11,7 +11,7 @@ import org.emftext.language.java.operators.UnaryOperator;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.UnaryOperatorPrinterInt;
 
-class UnaryOperatorPrinter implements UnaryOperatorPrinterInt{
+public class UnaryOperatorPrinter implements UnaryOperatorPrinterInt{
 
 	@Override
 	public void print(UnaryOperator element, BufferedWriter writer) throws IOException {

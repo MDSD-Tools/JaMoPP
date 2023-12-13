@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ProvidesModuleDirectivePrinterInt;
 
-class ProvidesModuleDirectivePrinter implements ProvidesModuleDirectivePrinterInt {
+public class ProvidesModuleDirectivePrinter implements ProvidesModuleDirectivePrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 

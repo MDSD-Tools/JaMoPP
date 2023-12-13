@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.WhileLoopPrinterInt;
 
-class WhileLoopPrinter implements WhileLoopPrinterInt {
+public class WhileLoopPrinter implements WhileLoopPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;

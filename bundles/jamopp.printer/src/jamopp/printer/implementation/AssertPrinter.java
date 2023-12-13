@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AssertPrinterInt;
 
-class AssertPrinter implements AssertPrinterInt {
+public class AssertPrinter implements AssertPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 

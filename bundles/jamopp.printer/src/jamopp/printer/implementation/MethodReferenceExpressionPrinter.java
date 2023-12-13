@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MethodReferenceExpressionPrinterInt;
 
-class MethodReferenceExpressionPrinter implements MethodReferenceExpressionPrinterInt {
+public class MethodReferenceExpressionPrinter implements MethodReferenceExpressionPrinterInt {
 
 	private final MethodReferenceExpressionChildPrinter MethodReferenceExpressionChildPrinter;
 	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;

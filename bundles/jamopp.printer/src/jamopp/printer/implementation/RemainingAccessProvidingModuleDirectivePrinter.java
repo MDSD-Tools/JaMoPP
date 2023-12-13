@@ -8,7 +8,7 @@ import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.RemainingAccessProvidingModuleDirectivePrinterInt;
 
-class RemainingAccessProvidingModuleDirectivePrinter implements RemainingAccessProvidingModuleDirectivePrinterInt{
+public class RemainingAccessProvidingModuleDirectivePrinter implements RemainingAccessProvidingModuleDirectivePrinterInt{
 
 	@Override
 	public void print(AccessProvidingModuleDirective element,

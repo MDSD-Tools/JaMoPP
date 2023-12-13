@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotationInstanceOrModifierPrinterInt;
 
-class AnnotationInstanceOrModifierPrinter implements  AnnotationInstanceOrModifierPrinterInt {
+public class AnnotationInstanceOrModifierPrinter implements  AnnotationInstanceOrModifierPrinterInt {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final ModifierPrinter ModifierPrinter;

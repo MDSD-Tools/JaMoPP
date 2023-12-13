@@ -10,7 +10,7 @@ import org.emftext.language.java.literals.This;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.SelfPrinterInt;
 
-class SelfPrinter implements SelfPrinterInt{
+public class SelfPrinter implements SelfPrinterInt{
 
 	@Override
 	public void print(Self element, BufferedWriter writer) throws IOException {

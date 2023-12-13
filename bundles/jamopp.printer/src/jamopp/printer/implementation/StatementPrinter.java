@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
-class StatementPrinter implements StatementPrinterInt {
+public class StatementPrinter implements StatementPrinterInt {
 
 	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
 	private final AssertPrinter AssertPrinter;

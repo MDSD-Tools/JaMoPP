@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MethodReferenceExpressionChildPrinterInt;
 
-class MethodReferenceExpressionChildPrinter implements MethodReferenceExpressionChildPrinterInt {
+public class MethodReferenceExpressionChildPrinter implements MethodReferenceExpressionChildPrinterInt {
 
 	private final LiteralPrinter LiteralPrinter;
 	private final ReferencePrinter ReferencePrinter;

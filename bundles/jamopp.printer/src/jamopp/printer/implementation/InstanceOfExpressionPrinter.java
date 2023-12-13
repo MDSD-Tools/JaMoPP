@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InstanceOfExpressionPrinterInt;
 
-class InstanceOfExpressionPrinter implements InstanceOfExpressionPrinterInt {
+public class InstanceOfExpressionPrinter implements InstanceOfExpressionPrinterInt {
 
 	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

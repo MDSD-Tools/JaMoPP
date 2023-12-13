@@ -8,7 +8,7 @@ import org.emftext.language.java.statements.Break;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.BreakPrinterInt;
 
-class BreakPrinter implements BreakPrinterInt{
+public class BreakPrinter implements BreakPrinterInt{
 
 	@Override
 	public void print(Break element, BufferedWriter writer) throws IOException {

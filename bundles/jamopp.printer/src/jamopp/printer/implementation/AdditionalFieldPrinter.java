@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.printer.AdditionalFieldPrinterInt;
 
-class AdditionalFieldPrinter implements  AdditionalFieldPrinterInt {
+public class AdditionalFieldPrinter implements  AdditionalFieldPrinterInt {
 
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 	private final ExpressionPrinter ExpressionPrinter;

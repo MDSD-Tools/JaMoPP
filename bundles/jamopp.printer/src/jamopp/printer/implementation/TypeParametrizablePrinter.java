@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
 
-class TypeParametrizablePrinter implements TypeParametrizablePrinterInt {
+public class TypeParametrizablePrinter implements TypeParametrizablePrinterInt {
 
 	private final TypeParameterPrinter TypeParameterPrinter;
 

@@ -9,7 +9,7 @@ import org.emftext.language.java.modules.RequiresModuleDirective;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.RequiresModuleDirectivePrinterInt;
 
-class RequiresModuleDirectivePrinter implements RequiresModuleDirectivePrinterInt{
+public class RequiresModuleDirectivePrinter implements RequiresModuleDirectivePrinterInt{
 
 	@Override
 	public void print(RequiresModuleDirective element, BufferedWriter writer)

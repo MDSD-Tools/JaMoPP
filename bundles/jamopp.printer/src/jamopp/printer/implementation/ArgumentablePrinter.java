@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
 
-class ArgumentablePrinter implements  ArgumentablePrinterInt {
+public class ArgumentablePrinter implements  ArgumentablePrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 

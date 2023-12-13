@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ExportsModuleDirectivePrinterInt;
 
-class ExportsModuleDirectivePrinter implements ExportsModuleDirectivePrinterInt {
+public class ExportsModuleDirectivePrinter implements ExportsModuleDirectivePrinterInt {
 
 	private final RemainingAccessProvidingModuleDirectivePrinter RemainingAccessProvidingModuleDirectivePrinter;
 

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ArraySelectorPrinterInt;
 
-class ArraySelectorPrinter implements ArraySelectorPrinterInt {
+public class ArraySelectorPrinter implements ArraySelectorPrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 	private final ExpressionPrinter ExpressionPrinter;

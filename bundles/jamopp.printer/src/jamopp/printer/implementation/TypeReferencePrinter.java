@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-class TypeReferencePrinter implements TypeReferencePrinterInt {
+public class TypeReferencePrinter implements TypeReferencePrinterInt {
 
 	private final NamespaceClassifierReferencePrinter NamespaceClassifierReferencePrinter;
 	private final ClassifierReferencePrinter ClassifierReferencePrinter;

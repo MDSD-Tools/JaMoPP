@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CatchBlockPrinterInt;
 
-class CatchBlockPrinter implements CatchBlockPrinterInt {
+public class CatchBlockPrinter implements CatchBlockPrinterInt {
 
 	private final CatchParameterPrinter CatchParameterPrinter;
 	private final BlockPrinter BlockPrinter;

@@ -12,7 +12,7 @@ import org.emftext.language.java.operators.RelationOperator;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.RelationOperatorPrinterInt;
 
-class RelationOperatorPrinter implements RelationOperatorPrinterInt{
+public class RelationOperatorPrinter implements RelationOperatorPrinterInt{
 
 	@Override
 	public void print(RelationOperator element, BufferedWriter writer) throws IOException {

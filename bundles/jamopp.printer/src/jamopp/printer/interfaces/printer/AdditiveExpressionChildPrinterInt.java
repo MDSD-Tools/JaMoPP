@@ -1,13 +1,13 @@
 package jamopp.printer.interfaces.printer;
 
-import java.io.BufferedWriter;
-
-import java.io.IOException;
-
 import org.emftext.language.java.expressions.AdditiveExpressionChild;
 
+import com.google.inject.ImplementedBy;
+
+import jamopp.printer.implementation.AdditiveExpressionChildPrinter;
 import jamopp.printer.interfaces.Printer;
 
+@ImplementedBy(AdditiveExpressionChildPrinter.class)
 public interface AdditiveExpressionChildPrinterInt extends Printer<AdditiveExpressionChild> {
 
 }

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.SynchronizedBlockPrinterInt;
 
-class SynchronizedBlockPrinter implements SynchronizedBlockPrinterInt {
+public class SynchronizedBlockPrinter implements SynchronizedBlockPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final BlockPrinter BlockPrinter;

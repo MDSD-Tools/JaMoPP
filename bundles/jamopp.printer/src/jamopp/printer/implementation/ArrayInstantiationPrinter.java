@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ArrayInstantiationPrinterInt;
 
-class ArrayInstantiationPrinter implements ArrayInstantiationPrinterInt {
+public class ArrayInstantiationPrinter implements ArrayInstantiationPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final TypeArgumentablePrinter TypeArgumentablePrinter;

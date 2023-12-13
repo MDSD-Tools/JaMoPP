@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.printer.EqualityExpressionChildPrinterInt;
 
-class EqualityExpressionChildPrinter implements EqualityExpressionChildPrinterInt {
+public class EqualityExpressionChildPrinter implements EqualityExpressionChildPrinterInt {
 
 	private final InstanceOfExpressionPrinter InstanceOfExpressionPrinter;
 	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;

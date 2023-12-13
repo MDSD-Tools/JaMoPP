@@ -17,7 +17,7 @@ import jamopp.printer.implementation.JavaRootPrinter;
 import jamopp.printer.injection.ModulePrinter;
 
 /**
- * This class provides methods to print JaMoPP model instances.
+ * This public class provides methods to print JaMoPP model instances.
  */
 public final class JaMoPPPrinter {
 

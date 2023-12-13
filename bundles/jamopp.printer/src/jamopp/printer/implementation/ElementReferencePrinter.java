@@ -13,7 +13,7 @@ import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ElementReferencePrinterInt;
 import jamopp.printer.interfaces.printer.IdentifierReferencePrinterInt;
 
-class ElementReferencePrinter implements ElementReferencePrinterInt {
+public class ElementReferencePrinter implements ElementReferencePrinterInt {
 
 	private final IdentifierReferencePrinterInt IdentifierReferencePrinter;
 	private final MethodCallPrinter MethodCallPrinter;

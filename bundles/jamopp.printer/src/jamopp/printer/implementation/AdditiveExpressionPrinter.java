@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AdditiveExpressionPrinterInt;
 
-class AdditiveExpressionPrinter implements AdditiveExpressionPrinterInt {
+public class AdditiveExpressionPrinter implements AdditiveExpressionPrinterInt {
 
 	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;
 	private final AdditiveOperatorPrinter AdditiveOperatorPrinter;

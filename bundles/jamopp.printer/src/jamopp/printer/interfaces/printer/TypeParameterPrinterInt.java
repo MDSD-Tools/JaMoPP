@@ -2,9 +2,12 @@ package jamopp.printer.interfaces.printer;
 
 import org.emftext.language.java.generics.TypeParameter;
 
+import com.google.inject.ImplementedBy;
+
+import jamopp.printer.implementation.TypeParameterPrinter;
 import jamopp.printer.interfaces.Printer;
 
-public 
-interface TypeParameterPrinterInt extends Printer<TypeParameter> {
+@ImplementedBy(TypeParameterPrinter.class)
+public interface TypeParameterPrinterInt extends Printer<TypeParameter> {
 
 }

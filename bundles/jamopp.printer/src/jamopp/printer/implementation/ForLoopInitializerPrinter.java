@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ForLoopInitializerPrinterInt;
 
-class ForLoopInitializerPrinter implements ForLoopInitializerPrinterInt {
+public class ForLoopInitializerPrinter implements ForLoopInitializerPrinterInt {
 
 	private final LocalVariablePrinter LocalVariablePrinter;
 	private final ExpressionPrinter ExpressionPrinter;

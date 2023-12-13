@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.DefaultSwitchCasePrinterInt;
 
-class DefaultSwitchCasePrinter implements DefaultSwitchCasePrinterInt {
+public class DefaultSwitchCasePrinter implements DefaultSwitchCasePrinterInt {
 
 	private final StatementPrinter StatementPrinter;
 

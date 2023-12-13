@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.printer.MultiplicativeExpressionPrinterInt;
 
-class MultiplicativeExpressionPrinter implements MultiplicativeExpressionPrinterInt {
+public class MultiplicativeExpressionPrinter implements MultiplicativeExpressionPrinterInt {
 
 	private final MultiplicativeExpressionChildPrinter MultiplicativeExpressionChildPrinter;
 	private final MultiplicativeOperatorPrinter MultiplicativeOperatorPrinter;

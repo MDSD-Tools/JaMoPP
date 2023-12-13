@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
 
-class CallTypeArgumentablePrinter implements CallTypeArgumentablePrinterInt {
+public class CallTypeArgumentablePrinter implements CallTypeArgumentablePrinterInt {
 
 	private final TypeArgumentPrinter TypeArgumentPrinter;
 

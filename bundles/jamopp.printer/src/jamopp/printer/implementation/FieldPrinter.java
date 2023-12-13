@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.FieldPrinterInt;
 
-class FieldPrinter implements FieldPrinterInt {
+public class FieldPrinter implements FieldPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ReturnPrinterInt;
 
-class ReturnPrinter implements ReturnPrinterInt {
+public class ReturnPrinter implements ReturnPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 

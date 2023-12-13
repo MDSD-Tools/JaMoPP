@@ -19,7 +19,7 @@ import org.emftext.language.java.operators.AssignmentRightShift;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AssignmentOperatorPrinterInt;
 
-class AssignmentOperatorPrinter implements AssignmentOperatorPrinterInt{
+public class AssignmentOperatorPrinter implements AssignmentOperatorPrinterInt{
 
 	@Override
 	public void print(AssignmentOperator element, BufferedWriter writer) throws IOException {

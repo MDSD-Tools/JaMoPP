@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MethodCallPrinterInt;
 
-class MethodCallPrinter implements MethodCallPrinterInt {
+public class MethodCallPrinter implements MethodCallPrinterInt {
 
 	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
 	private final ArgumentablePrinter ArgumentablePrinter;

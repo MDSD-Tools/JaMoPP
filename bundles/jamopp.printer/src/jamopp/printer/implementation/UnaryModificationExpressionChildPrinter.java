@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.UnaryModificationExpressionChildPrinterInt;
 
-class UnaryModificationExpressionChildPrinter implements UnaryModificationExpressionChildPrinterInt {
+public class UnaryModificationExpressionChildPrinter implements UnaryModificationExpressionChildPrinterInt {
 
 	private final SwitchPrinter SwitchPrinter;
 	private final CastExpressionPrinter CastExpressionPrinter;

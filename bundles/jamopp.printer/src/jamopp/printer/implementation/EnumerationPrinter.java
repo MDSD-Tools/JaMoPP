@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.EnumerationPrinterInt;
 
-class EnumerationPrinter implements EnumerationPrinterInt {
+public class EnumerationPrinter implements EnumerationPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final ImplementorPrinter ImplementorPrinter;

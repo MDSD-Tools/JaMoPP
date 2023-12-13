@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ClassPrinterInt;
 
-class ClassPrinter implements ClassPrinterInt {
+public class ClassPrinter implements ClassPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;
@@ -33,7 +33,7 @@ class ClassPrinter implements ClassPrinterInt {
 	@Override
 	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
-		writer.append("class " + element.getName());
+		writer.append("public class " + element.getName());
 		TypeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
 		if (element.getExtends() != null) {

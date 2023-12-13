@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AndExpressionPrinterInt;
 
-class AndExpressionPrinter implements AndExpressionPrinterInt {
+public class AndExpressionPrinter implements AndExpressionPrinterInt {
 
 	private final AndExpressionChildPrinter AndExpressionChildPrinter;
 

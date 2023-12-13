@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.DoWhileLoopPrinterInt;
 
-class DoWhileLoopPrinter implements DoWhileLoopPrinterInt {
+public class DoWhileLoopPrinter implements DoWhileLoopPrinterInt {
 
 	private final StatementPrinter StatementPrinter;
 	private final ExpressionPrinter ExpressionPrinter;

@@ -1,13 +1,13 @@
 package jamopp.printer.interfaces.printer;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 
+import com.google.inject.ImplementedBy;
+
+import jamopp.printer.implementation.AdditionalLocalVariablePrinter;
 import jamopp.printer.interfaces.Printer;
 
+@ImplementedBy(AdditionalLocalVariablePrinter.class)
 public interface AdditionalLocalVariablePrinterInt extends Printer<AdditionalLocalVariable> {
-
 
 }

@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
 
-class AnnotableAndModifiablePrinter implements AnnotableAndModifiablePrinterInt {
+public class AnnotableAndModifiablePrinter implements AnnotableAndModifiablePrinterInt {
 
 	private final AnnotationInstanceOrModifierPrinter AnnotationInstanceOrModifierPrinter;
 

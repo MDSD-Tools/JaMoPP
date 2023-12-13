@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
-class ExpressionPrinter implements ExpressionPrinterInt {
+public class ExpressionPrinter implements ExpressionPrinterInt {
 
 	private final LambdaExpressionPrinter LambdaExpressionPrinter;
 	private final AssignmentExpressionPrinter AssignmentExpressionPrinter;

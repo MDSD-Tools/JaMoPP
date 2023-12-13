@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConditionalOrExpressionPrinterInt;
 
-class ConditionalOrExpressionPrinter implements ConditionalOrExpressionPrinterInt {
+public class ConditionalOrExpressionPrinter implements ConditionalOrExpressionPrinterInt {
 
 	private final ConditionalOrExpressionChildPrinter ConditionalOrExpressionChildPrinter;
 

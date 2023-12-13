@@ -9,7 +9,7 @@ import org.emftext.language.java.operators.AdditiveOperator;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AdditiveOperatorPrinterInt;
 
-class AdditiveOperatorPrinter implements AdditiveOperatorPrinterInt {
+public class AdditiveOperatorPrinter implements AdditiveOperatorPrinterInt {
 
 	@Override
 	public void print(AdditiveOperator element, BufferedWriter writer) throws IOException {

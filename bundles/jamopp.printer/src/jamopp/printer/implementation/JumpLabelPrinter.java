@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.JumpLabelPrinterInt;
 
-class JumpLabelPrinter implements JumpLabelPrinterInt {
+public class JumpLabelPrinter implements JumpLabelPrinterInt {
 
 	private final StatementPrinter StatementPrinter;
 

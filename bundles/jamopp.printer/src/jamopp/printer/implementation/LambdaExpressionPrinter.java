@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.LambdaExpressionPrinterInt;
 
-class LambdaExpressionPrinter implements LambdaExpressionPrinterInt {
+public class LambdaExpressionPrinter implements LambdaExpressionPrinterInt {
 
 	private final LambdaParametersPrinter LambdaParametersPrinter;
 	private final BlockPrinter BlockPrinter;

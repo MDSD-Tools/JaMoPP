@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ExclusiveOrExpressionPrinterInt;
 
-class ExclusiveOrExpressionPrinter implements ExclusiveOrExpressionPrinterInt {
+public class ExclusiveOrExpressionPrinter implements ExclusiveOrExpressionPrinterInt {
 
 	private final ExclusiveOrExpressionChildPrinter ExclusiveOrExpressionChildPrinter;
 

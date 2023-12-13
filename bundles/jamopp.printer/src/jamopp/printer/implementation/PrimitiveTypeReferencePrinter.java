@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.PrimitiveTypeReferencePrinterInt;
 
-class PrimitiveTypeReferencePrinter implements PrimitiveTypeReferencePrinterInt {
+public class PrimitiveTypeReferencePrinter implements PrimitiveTypeReferencePrinterInt {
 
 	private final PrimitiveTypePrinter PrimitiveTypePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;

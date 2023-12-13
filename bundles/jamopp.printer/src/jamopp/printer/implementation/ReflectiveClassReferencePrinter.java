@@ -6,7 +6,7 @@ import java.io.IOException;
 import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.printer.ReflectiveClassReferencePrinterInt;
 
-class ReflectiveClassReferencePrinter implements  ReflectiveClassReferencePrinterInt {
+public class ReflectiveClassReferencePrinter implements  ReflectiveClassReferencePrinterInt {
 
 	@Override
 	public  void print(BufferedWriter writer) throws IOException {

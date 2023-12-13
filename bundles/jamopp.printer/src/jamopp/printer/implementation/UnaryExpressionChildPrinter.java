@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.UnaryExpressionChildPrinterInt;
 
-class UnaryExpressionChildPrinter implements UnaryExpressionChildPrinterInt {
+public class UnaryExpressionChildPrinter implements UnaryExpressionChildPrinterInt {
 
 	private final PrefixUnaryModificationExpressionPrinter PrefixUnaryModificationExpressionPrinter;
 	private final SuffixUnaryModificationExpressionPrinter SuffixUnaryModificationExpressionPrinter;
