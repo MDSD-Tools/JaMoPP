@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class ShiftExpressionPrinter implements Printer<ShiftExpression> {
+class ShiftExpressionPrinter implements IShiftExpressionPrinter {
 
 	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
 	private final ShiftOperatorPrinter ShiftOperatorPrinter;
@@ -22,6 +22,7 @@ class ShiftExpressionPrinter implements Printer<ShiftExpression> {
 		ShiftOperatorPrinter = shiftOperatorPrinter;
 	}
 
+	@Override
 	public void print(ShiftExpression element, BufferedWriter writer) throws IOException {
 		ShiftExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

@@ -13,11 +13,11 @@ import jamopp.printer.interfaces.Printer;
 
 class RelationExpressionChildPrinter implements Printer<RelationExpressionChild> {
 
-	private final ShiftExpressionPrinter ShiftExpressionPrinter;
+	private final IShiftExpressionPrinter ShiftExpressionPrinter;
 	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
 
 	@Inject
-	public RelationExpressionChildPrinter(jamopp.printer.implementation.ShiftExpressionPrinter shiftExpressionPrinter,
+	public RelationExpressionChildPrinter(IShiftExpressionPrinter shiftExpressionPrinter,
 			jamopp.printer.implementation.ShiftExpressionChildPrinter shiftExpressionChildPrinter) {
 		super();
 		ShiftExpressionPrinter = shiftExpressionPrinter;
@@ -25,11 +25,10 @@ class RelationExpressionChildPrinter implements Printer<RelationExpressionChild>
 	}
 
 	public void print(RelationExpressionChild element, BufferedWriter writer) throws IOException {
-		if (element instanceof ShiftExpression) {
-			ShiftExpressionPrinter.print((ShiftExpression) element, writer);
+		if (element instanceof ShiftExpression s) {
+			ShiftExpressionPrinter.print(s, writer);
 		} else {
 			ShiftExpressionChildPrinter.print((ShiftExpressionChild) element, writer);
 		}
 	}
-
 }

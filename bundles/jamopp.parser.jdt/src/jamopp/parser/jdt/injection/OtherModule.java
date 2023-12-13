@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.injector;
+package jamopp.parser.jdt.injection;
 
 import java.nio.charset.StandardCharsets;
 
