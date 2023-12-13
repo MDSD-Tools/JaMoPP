@@ -19,6 +19,7 @@ class LocalVariableStatementPrinter implements Printer<LocalVariableStatement> {
 		LocalVariablePrinter = localVariablePrinter;
 	}
 
+	@Override
 	public void print(LocalVariableStatement element, BufferedWriter writer) throws IOException {
 		LocalVariablePrinter.print(element.getVariable(), writer);
 		writer.append(";\n");

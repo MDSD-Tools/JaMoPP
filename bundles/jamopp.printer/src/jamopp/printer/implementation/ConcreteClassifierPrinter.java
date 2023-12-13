@@ -31,6 +31,7 @@ class ConcreteClassifierPrinter implements Printer<ConcreteClassifier> {
 		AnnotationPrinter = annotationPrinter;
 	}
 
+	@Override
 	public void print(ConcreteClassifier element, BufferedWriter writer) throws IOException {
 		if (element instanceof org.emftext.language.java.classifiers.Class) {
 			ClassPrinter.print((org.emftext.language.java.classifiers.Class) element, writer);

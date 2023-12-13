@@ -24,6 +24,7 @@ class ResourcePrinter implements Printer<Resource> {
 		ElementReferencePrinter = elementReferencePrinter;
 	}
 
+	@Override
 	public void print(Resource element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
 			LocalVariablePrinter.print((LocalVariable) element, writer);

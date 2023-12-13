@@ -23,6 +23,7 @@ class PrefixUnaryModificationExpressionPrinter implements Printer<PrefixUnaryMod
 		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(PrefixUnaryModificationExpression element, BufferedWriter writer) throws IOException {
 		if (element.getOperator() != null) {
 			UnaryModificationOperatorPrinter.print(element.getOperator(), writer);

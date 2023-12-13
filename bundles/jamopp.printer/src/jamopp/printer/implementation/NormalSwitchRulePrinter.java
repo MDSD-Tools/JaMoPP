@@ -24,6 +24,7 @@ class NormalSwitchRulePrinter implements Printer<NormalSwitchRule> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(NormalSwitchRule element, BufferedWriter writer) throws IOException {
 		writer.append("case ");
 		ExpressionPrinter.print(element.getCondition(), writer);

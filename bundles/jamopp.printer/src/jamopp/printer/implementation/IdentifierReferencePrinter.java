@@ -7,7 +7,7 @@ import org.emftext.language.java.references.IdentifierReference;
 
 import com.google.inject.Inject;
 
-public class IdentifierReferencePrinter {
+public class IdentifierReferencePrinter implements IdentifierReferencePrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 	private final TypeArgumentablePrinter TypeArgumentablePrinter;
@@ -23,7 +23,8 @@ public class IdentifierReferencePrinter {
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
-	public void printIdentifierReference(IdentifierReference element, BufferedWriter writer) throws IOException {
+	@Override
+	public void print(IdentifierReference element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		if (element.getTarget() instanceof org.emftext.language.java.containers.Package) {
 			org.emftext.language.java.containers.Package pack = (org.emftext.language.java.containers.Package) element

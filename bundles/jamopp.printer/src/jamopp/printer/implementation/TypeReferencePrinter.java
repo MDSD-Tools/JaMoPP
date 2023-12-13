@@ -33,6 +33,7 @@ class TypeReferencePrinter implements Printer<TypeReference> {
 		InferableTypePrinter = inferableTypePrinter;
 	}
 
+	@Override
 	public void print(TypeReference element, BufferedWriter writer) throws IOException {
 		if (element instanceof NamespaceClassifierReference) {
 			NamespaceClassifierReferencePrinter.print((NamespaceClassifierReference) element, writer);

@@ -22,6 +22,7 @@ class WhileLoopPrinter implements Printer<WhileLoop> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(WhileLoop element, BufferedWriter writer) throws IOException {
 		writer.append("while (");
 		ExpressionPrinter.print(element.getCondition(), writer);

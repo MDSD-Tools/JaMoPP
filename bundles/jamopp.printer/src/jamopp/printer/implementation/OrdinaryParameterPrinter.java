@@ -29,6 +29,7 @@ class OrdinaryParameterPrinter implements Printer<OrdinaryParameter> {
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
+	@Override
 	public void print(OrdinaryParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

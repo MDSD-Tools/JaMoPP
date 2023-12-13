@@ -19,6 +19,7 @@ class TypeArgumentablePrinter implements Printer<TypeArgumentable> {
 		TypeArgumentPrinter = typeArgumentPrinter;
 	}
 
+	@Override
 	public void print(TypeArgumentable element, BufferedWriter writer) throws IOException {
 		if (!element.getTypeArguments().isEmpty()) {
 			writer.append("<");

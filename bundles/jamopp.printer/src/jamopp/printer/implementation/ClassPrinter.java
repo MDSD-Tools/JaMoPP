@@ -29,6 +29,7 @@ class ClassPrinter implements Printer<org.emftext.language.java.classifiers.Clas
 		MemberContainerPrinter = memberContainerPrinter;
 	}
 
+	@Override
 	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("class " + element.getName());

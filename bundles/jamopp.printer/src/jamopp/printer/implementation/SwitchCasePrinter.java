@@ -32,6 +32,7 @@ class SwitchCasePrinter implements Printer<SwitchCase> {
 		NormalSwitchRulePrinter = normalSwitchRulePrinter;
 	}
 
+	@Override
 	public void print(SwitchCase element, BufferedWriter writer) throws IOException {
 		if (element instanceof DefaultSwitchCase) {
 			DefaultSwitchCasePrinter.print((DefaultSwitchCase) element, writer);

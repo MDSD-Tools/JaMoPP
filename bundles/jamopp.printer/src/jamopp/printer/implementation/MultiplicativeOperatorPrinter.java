@@ -11,6 +11,7 @@ import jamopp.printer.interfaces.Printer;
 
 class MultiplicativeOperatorPrinter implements Printer<MultiplicativeOperator> {
 
+	@Override
 	public void print(MultiplicativeOperator element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof Multiplication) {

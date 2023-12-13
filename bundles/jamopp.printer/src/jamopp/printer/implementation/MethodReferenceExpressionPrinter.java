@@ -35,6 +35,7 @@ class MethodReferenceExpressionPrinter implements Printer<MethodReferenceExpress
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
+	@Override
 	public void print(MethodReferenceExpression element, BufferedWriter writer) throws IOException {
 		if (element instanceof PrimaryExpressionReferenceExpression ref) {
 			MethodReferenceExpressionChildPrinter.print(ref.getChild(), writer);

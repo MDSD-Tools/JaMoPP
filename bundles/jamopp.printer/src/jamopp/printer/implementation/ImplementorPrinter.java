@@ -19,6 +19,7 @@ class ImplementorPrinter implements Printer<Implementor> {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
+	@Override
 	public void print(Implementor element, BufferedWriter writer) throws IOException {
 		if (!element.getImplements().isEmpty()) {
 			writer.append("implements ");

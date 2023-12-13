@@ -26,6 +26,7 @@ class AssignmentExpressionPrinter implements Printer<AssignmentExpression> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(AssignmentExpression element, BufferedWriter writer) throws IOException {
 		AssignmentExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getAssignmentOperator() != null) {

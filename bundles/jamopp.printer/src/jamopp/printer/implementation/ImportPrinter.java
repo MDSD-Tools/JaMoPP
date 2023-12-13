@@ -13,6 +13,7 @@ import jamopp.printer.interfaces.Printer;
 
 class ImportPrinter implements Printer<Import>{
 
+	@Override
 	public void print(Import element, BufferedWriter writer) throws IOException {
 		writer.append("import ");
 		if (element instanceof ClassifierImport) {

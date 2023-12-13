@@ -19,6 +19,7 @@ class JumpLabelPrinter implements Printer<JumpLabel> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(JumpLabel element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName() + ": ");
 		StatementPrinter.print(element.getStatement(), writer);

@@ -25,6 +25,7 @@ class ReceiverParameterPrinter implements Printer<ReceiverParameter> {
 		TypeArgumentablePrinter = typeArgumentablePrinter;
 	}
 
+	@Override
 	public void print(ReceiverParameter element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

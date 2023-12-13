@@ -20,6 +20,7 @@ class DefaultSwitchCasePrinter implements Printer<DefaultSwitchCase> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(DefaultSwitchCase element, BufferedWriter writer) throws IOException {
 		writer.append("default: ");
 		for (Statement s : element.getStatements()) {

@@ -22,6 +22,7 @@ class PrimitiveTypeReferencePrinter implements Printer<PrimitiveTypeReference> {
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
+	@Override
 	public void print(PrimitiveTypeReference element, BufferedWriter writer) throws IOException {
 		PrimitiveTypePrinter.print(element.getPrimitiveType(), writer);
 		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);

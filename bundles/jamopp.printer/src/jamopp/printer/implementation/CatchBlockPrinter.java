@@ -23,6 +23,7 @@ class CatchBlockPrinter implements Printer<CatchBlock> {
 		BlockPrinter = blockPrinter;
 	}
 
+	@Override
 	public void print(CatchBlock element, BufferedWriter writer) throws IOException {
 		writer.append("catch(");
 		CatchParameterPrinter.print((CatchParameter) element.getParameter(), writer);

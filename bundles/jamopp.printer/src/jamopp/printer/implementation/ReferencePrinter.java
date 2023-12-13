@@ -60,6 +60,7 @@ class ReferencePrinter implements Printer<Reference> {
 		ArraySelectorPrinter = arraySelectorPrinter;
 	}
 
+	@Override
 	public void print(Reference element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);

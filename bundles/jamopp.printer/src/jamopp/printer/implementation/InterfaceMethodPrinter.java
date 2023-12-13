@@ -41,6 +41,7 @@ class InterfaceMethodPrinter implements Printer<InterfaceMethod> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(InterfaceMethod element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeParametrizablePrinter.print(element, writer);

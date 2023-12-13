@@ -24,6 +24,7 @@ import jamopp.printer.interfaces.Printer;
 
 class LiteralPrinter implements Printer<Literal> {
 
+	@Override
 	public void print(Literal element, BufferedWriter writer) throws IOException {
 		if (element instanceof BooleanLiteral lit) {
 			writer.append(Boolean.toString(lit.isValue()));

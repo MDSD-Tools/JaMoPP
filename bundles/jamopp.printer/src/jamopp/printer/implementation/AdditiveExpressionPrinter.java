@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class AdditiveExpressionPrinter implements Printer<AdditiveExpression> {
+class AdditiveExpressionPrinter implements AdditiveExpressionPrinterInt {
 
 	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;
 	private final AdditiveOperatorPrinter AdditiveOperatorPrinter;
@@ -23,6 +23,7 @@ class AdditiveExpressionPrinter implements Printer<AdditiveExpression> {
 		AdditiveOperatorPrinter = additiveOperatorPrinter;
 	}
 
+	@Override
 	public void print(AdditiveExpression element, BufferedWriter writer) throws IOException {
 		AdditiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

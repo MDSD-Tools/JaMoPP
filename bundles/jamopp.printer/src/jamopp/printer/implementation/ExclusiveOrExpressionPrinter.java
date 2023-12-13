@@ -20,6 +20,7 @@ class ExclusiveOrExpressionPrinter implements Printer<ExclusiveOrExpression> {
 		ExclusiveOrExpressionChildPrinter = exclusiveOrExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(ExclusiveOrExpression element, BufferedWriter writer) throws IOException {
 		ExclusiveOrExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

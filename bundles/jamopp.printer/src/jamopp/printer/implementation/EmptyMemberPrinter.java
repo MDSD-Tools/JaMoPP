@@ -7,6 +7,7 @@ import jamopp.printer.interfaces.EmptyPrinter;
 
 class EmptyMemberPrinter implements EmptyPrinter{
 
+	@Override
 	public void print(BufferedWriter writer) throws IOException {
 		writer.append(";\n\n");
 	}

@@ -20,6 +20,7 @@ class ExportsModuleDirectivePrinter implements Printer<ExportsModuleDirective> {
 		RemainingAccessProvidingModuleDirectivePrinter = remainingAccessProvidingModuleDirectivePrinter;
 	}
 
+	@Override
 	public void print(ExportsModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("exports ");
 		RemainingAccessProvidingModuleDirectivePrinter.print(element, writer);

@@ -20,6 +20,7 @@ class DefaultSwitchRulePrinter implements Printer<DefaultSwitchRule> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(DefaultSwitchRule element, BufferedWriter writer) throws IOException {
 		writer.append("default -> ");
 		for (Statement s : element.getStatements()) {

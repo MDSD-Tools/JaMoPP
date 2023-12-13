@@ -19,6 +19,7 @@ class ExceptionThrowerPrinter implements Printer<ExceptionThrower> {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
+	@Override
 	public void print(ExceptionThrower element, BufferedWriter writer) throws IOException {
 		if (!element.getExceptions().isEmpty()) {
 			writer.append("throws ");

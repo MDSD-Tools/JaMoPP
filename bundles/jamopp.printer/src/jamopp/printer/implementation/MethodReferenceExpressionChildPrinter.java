@@ -24,6 +24,7 @@ class MethodReferenceExpressionChildPrinter implements Printer<MethodReferenceEx
 		ReferencePrinter = referencePrinter;
 	}
 
+	@Override
 	public void print(MethodReferenceExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof Literal) {
 			LiteralPrinter.print((Literal) element, writer);

@@ -9,6 +9,7 @@ import jamopp.printer.interfaces.Printer;
 
 class RemainingAccessProvidingModuleDirectivePrinter implements Printer<AccessProvidingModuleDirective>{
 
+	@Override
 	public void print(AccessProvidingModuleDirective element,
 			BufferedWriter writer) throws IOException {
 		writer.append(element.getAccessablePackage().getNamespacesAsString());

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class AnnotableAndModifiablePrinter implements Printer<AnnotableAndModifiable> {
+class AnnotableAndModifiablePrinter implements AnnotableAndModifiablePrinterInt {
 
 	private final AnnotationInstanceOrModifierPrinter AnnotationInstanceOrModifierPrinter;
 
@@ -21,6 +21,7 @@ class AnnotableAndModifiablePrinter implements Printer<AnnotableAndModifiable> {
 		AnnotationInstanceOrModifierPrinter = annotationInstanceOrModifierPrinter;
 	}
 
+	@Override
 	public void print(AnnotableAndModifiable element, BufferedWriter writer) throws IOException {
 		for (AnnotationInstanceOrModifier el : element.getAnnotationsAndModifiers()) {
 			AnnotationInstanceOrModifierPrinter.print(el, writer);

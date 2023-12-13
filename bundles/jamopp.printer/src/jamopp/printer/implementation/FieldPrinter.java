@@ -35,6 +35,7 @@ class FieldPrinter implements Printer<Field> {
 		AdditionalFieldPrinter = additionalFieldPrinter;
 	}
 
+	@Override
 	public void print(Field element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

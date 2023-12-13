@@ -42,6 +42,7 @@ class ClassMethodPrinter implements Printer<ClassMethod> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(ClassMethod element, BufferedWriter writer) throws IOException {
 		if (element.eContainer() instanceof Enumeration) {
 			boolean isStatic = false;

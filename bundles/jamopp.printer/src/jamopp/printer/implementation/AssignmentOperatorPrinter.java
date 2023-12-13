@@ -20,6 +20,7 @@ import jamopp.printer.interfaces.Printer;
 
 class AssignmentOperatorPrinter implements Printer<AssignmentOperator>{
 
+	@Override
 	public void print(AssignmentOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Assignment) {
 			writer.append(" = ");

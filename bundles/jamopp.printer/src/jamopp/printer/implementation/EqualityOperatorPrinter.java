@@ -11,6 +11,7 @@ import jamopp.printer.interfaces.Printer;
 
 class EqualityOperatorPrinter implements Printer<EqualityOperator>{
 
+	@Override
 	public void print(EqualityOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Equal) {
 			writer.append(" == ");

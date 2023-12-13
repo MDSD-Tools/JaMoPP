@@ -22,6 +22,7 @@ class MethodCallPrinter implements Printer<MethodCall> {
 		ArgumentablePrinter = argumentablePrinter;
 	}
 
+	@Override
 	public void print(MethodCall element, BufferedWriter writer) throws IOException {
 		CallTypeArgumentablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());

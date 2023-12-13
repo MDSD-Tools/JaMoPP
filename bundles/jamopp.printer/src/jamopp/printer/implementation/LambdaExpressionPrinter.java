@@ -27,6 +27,7 @@ class LambdaExpressionPrinter implements Printer<LambdaExpression> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(LambdaExpression element, BufferedWriter writer) throws IOException {
 		LambdaParametersPrinter.print(element.getParameters(), writer);
 		writer.append(" -> ");

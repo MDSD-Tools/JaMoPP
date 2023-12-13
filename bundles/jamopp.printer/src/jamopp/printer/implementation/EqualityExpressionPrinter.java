@@ -23,6 +23,7 @@ class EqualityExpressionPrinter implements Printer<EqualityExpression> {
 		EqualityOperatorPrinter = equalityOperatorPrinter;
 	}
 
+	@Override
 	public void print(EqualityExpression element, BufferedWriter writer) throws IOException {
 		EqualityExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

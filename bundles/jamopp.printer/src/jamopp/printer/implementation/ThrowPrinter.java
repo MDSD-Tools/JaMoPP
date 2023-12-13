@@ -19,6 +19,7 @@ class ThrowPrinter implements Printer<Throw> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(Throw element, BufferedWriter writer) throws IOException {
 		writer.append("throw ");
 		ExpressionPrinter.print(element.getThrowable(), writer);

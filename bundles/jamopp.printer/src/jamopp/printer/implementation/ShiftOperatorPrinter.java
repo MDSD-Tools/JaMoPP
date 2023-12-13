@@ -11,6 +11,7 @@ import jamopp.printer.interfaces.Printer;
 
 class ShiftOperatorPrinter implements Printer<ShiftOperator>{
 
+	@Override
 	public void print(ShiftOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof LeftShift) {
 			writer.append(" << ");

@@ -32,6 +32,7 @@ class VariableLengthParameterPrinter implements Printer<VariableLengthParameter>
 		AnnotablePrinter = annotablePrinter;
 	}
 
+	@Override
 	public void print(VariableLengthParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

@@ -22,6 +22,7 @@ class SynchronizedBlockPrinter implements Printer<SynchronizedBlock> {
 		BlockPrinter = blockPrinter;
 	}
 
+	@Override
 	public void print(SynchronizedBlock element, BufferedWriter writer) throws IOException {
 		writer.append("synchronized (");
 		ExpressionPrinter.print(element.getLockProvider(), writer);

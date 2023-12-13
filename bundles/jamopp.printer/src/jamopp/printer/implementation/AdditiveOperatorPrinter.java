@@ -8,8 +8,9 @@ import org.emftext.language.java.operators.AdditiveOperator;
 
 import jamopp.printer.interfaces.Printer;
 
-class AdditiveOperatorPrinter implements Printer<AdditiveOperator> {
+class AdditiveOperatorPrinter implements AdditiveOperatorPrinterInt {
 
+	@Override
 	public void print(AdditiveOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Addition) {
 			writer.append(" + ");

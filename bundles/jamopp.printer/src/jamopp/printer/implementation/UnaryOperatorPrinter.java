@@ -12,6 +12,7 @@ import jamopp.printer.interfaces.Printer;
 
 class UnaryOperatorPrinter implements Printer<UnaryOperator>{
 
+	@Override
 	public void print(UnaryOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Addition) {
 			writer.append("+");

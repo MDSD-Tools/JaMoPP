@@ -22,6 +22,7 @@ class ArraySelectorPrinter implements Printer<ArraySelector> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(ArraySelector element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		writer.append("[");

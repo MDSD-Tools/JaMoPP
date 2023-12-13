@@ -13,6 +13,7 @@ import jamopp.printer.interfaces.Printer;
 
 class RelationOperatorPrinter implements Printer<RelationOperator>{
 
+	@Override
 	public void print(RelationOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof GreaterThan) {
 			writer.append(" > ");

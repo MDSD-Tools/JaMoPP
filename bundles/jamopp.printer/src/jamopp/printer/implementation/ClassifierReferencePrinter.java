@@ -22,6 +22,7 @@ class ClassifierReferencePrinter implements Printer<ClassifierReference> {
 		TypeArgumentablePrinter = typeArgumentablePrinter;
 	}
 
+	@Override
 	public void print(ClassifierReference element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());

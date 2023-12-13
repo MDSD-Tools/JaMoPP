@@ -23,6 +23,7 @@ class SwitchPrinter implements Printer<Switch> {
 		SwitchCasePrinter = switchCasePrinter;
 	}
 
+	@Override
 	public void print(Switch element, BufferedWriter writer) throws IOException {
 		writer.append("switch (");
 		ExpressionPrinter.print(element.getVariable(), writer);

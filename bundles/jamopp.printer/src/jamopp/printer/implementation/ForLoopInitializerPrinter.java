@@ -24,6 +24,7 @@ class ForLoopInitializerPrinter implements Printer<ForLoopInitializer> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(ForLoopInitializer element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
 			LocalVariablePrinter.print((LocalVariable) element, writer);

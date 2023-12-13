@@ -20,6 +20,7 @@ class ConditionalOrExpressionPrinter implements Printer<ConditionalOrExpression>
 		ConditionalOrExpressionChildPrinter = conditionalOrExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(ConditionalOrExpression element, BufferedWriter writer) throws IOException {
 		ConditionalOrExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

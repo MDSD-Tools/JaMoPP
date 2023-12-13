@@ -10,6 +10,7 @@ import jamopp.printer.interfaces.Printer;
 
 class UnaryModificationOperatorPrinter implements Printer<UnaryModificationOperator>{
 
+	@Override
 	public void print(UnaryModificationOperator element, BufferedWriter writer)
 			throws IOException {
 		if (element instanceof PlusPlus) {

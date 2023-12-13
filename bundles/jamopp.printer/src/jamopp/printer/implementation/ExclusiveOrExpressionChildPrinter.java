@@ -24,6 +24,7 @@ class ExclusiveOrExpressionChildPrinter implements Printer<ExclusiveOrExpression
 		AndExpressionChildPrinter = andExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(ExclusiveOrExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof AndExpression) {
 			AndExpressionPrinter.print((AndExpression) element, writer);

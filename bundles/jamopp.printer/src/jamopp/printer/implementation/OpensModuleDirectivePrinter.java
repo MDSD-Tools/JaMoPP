@@ -20,6 +20,7 @@ class OpensModuleDirectivePrinter implements Printer<OpensModuleDirective> {
 		RemainingAccessProvidingModuleDirectivePrinter = remainingAccessProvidingModuleDirectivePrinter;
 	}
 
+	@Override
 	public void print(OpensModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("opens ");
 		RemainingAccessProvidingModuleDirectivePrinter.print(element, writer);

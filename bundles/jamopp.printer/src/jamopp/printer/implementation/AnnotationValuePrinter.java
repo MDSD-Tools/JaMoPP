@@ -28,6 +28,7 @@ class AnnotationValuePrinter implements Printer<AnnotationValue> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(AnnotationValue element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);

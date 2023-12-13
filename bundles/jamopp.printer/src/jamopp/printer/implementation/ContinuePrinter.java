@@ -9,6 +9,7 @@ import jamopp.printer.interfaces.Printer;
 
 class ContinuePrinter implements Printer<Continue>{
 
+	@Override
 	public void print(Continue element, BufferedWriter writer) throws IOException {
 		writer.append("continue");
 		if (element.getTarget() != null) {

@@ -24,6 +24,7 @@ class CatchParameterPrinter implements Printer<CatchParameter> {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
+	@Override
 	public void print(CatchParameter element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

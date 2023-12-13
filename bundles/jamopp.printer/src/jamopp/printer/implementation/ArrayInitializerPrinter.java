@@ -25,6 +25,7 @@ class ArrayInitializerPrinter implements Printer<ArrayInitializer> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(ArrayInitializer element, BufferedWriter writer) throws IOException {
 		writer.append("{");
 		for (int index = 0; index < element.getInitialValues().size(); index++) {

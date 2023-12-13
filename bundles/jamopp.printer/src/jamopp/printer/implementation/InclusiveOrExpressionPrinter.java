@@ -20,6 +20,7 @@ class InclusiveOrExpressionPrinter implements Printer<InclusiveOrExpression> {
 		InclusiveOrExpressionChildPrinter = inclusiveOrExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(InclusiveOrExpression element, BufferedWriter writer) throws IOException {
 		InclusiveOrExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

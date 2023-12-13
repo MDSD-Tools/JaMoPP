@@ -28,6 +28,7 @@ class InterfacePrinter implements Printer<Interface> {
 		MemberContainerPrinter = memberContainerPrinter;
 	}
 
+	@Override
 	public void print(Interface element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("interface " + element.getName());

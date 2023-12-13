@@ -19,6 +19,7 @@ class AssertPrinter implements Printer<Assert> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(Assert element, BufferedWriter writer) throws IOException {
 		writer.append("assert ");
 		ExpressionPrinter.print(element.getCondition(), writer);

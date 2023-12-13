@@ -26,6 +26,7 @@ class InstanceOfExpressionPrinter implements Printer<InstanceOfExpression> {
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
+	@Override
 	public void print(InstanceOfExpression element, BufferedWriter writer) throws IOException {
 		InstanceOfExpressionChildPrinter.print(element.getChild(), writer);
 		writer.append(" instanceof ");

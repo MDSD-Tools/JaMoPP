@@ -25,6 +25,7 @@ class ShiftExpressionChildPrinter implements Printer<ShiftExpressionChild> {
 		AdditiveExpressionChildPrinter = additiveExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(ShiftExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof AdditiveExpression) {
 			AdditiveExpressionPrinter.print((AdditiveExpression) element, writer);

@@ -19,6 +19,7 @@ class YieldStatementPrinter implements Printer<YieldStatement> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(YieldStatement element, BufferedWriter writer) throws IOException {
 		writer.append("yield ");
 		ExpressionPrinter.print(element.getYieldExpression(), writer);

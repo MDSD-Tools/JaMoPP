@@ -28,6 +28,7 @@ class ExpressionPrinter implements Printer<Expression> {
 		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(Expression element, BufferedWriter writer) throws IOException {
 		if (element instanceof LambdaExpression) {
 			LambdaExpressionPrinter.print((LambdaExpression) element, writer);

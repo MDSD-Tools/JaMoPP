@@ -37,6 +37,7 @@ class InstantiationPrinter implements Printer<Instantiation> {
 		SelfPrinter = selfPrinter;
 	}
 
+	@Override
 	public void print(Instantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof NewConstructorCall call) {
 			writer.append("new ");

@@ -10,6 +10,7 @@ import jamopp.printer.interfaces.Printer;
 
 class RequiresModuleDirectivePrinter implements Printer<RequiresModuleDirective>{
 
+	@Override
 	public void print(RequiresModuleDirective element, BufferedWriter writer)
 			throws IOException {
 		writer.append("requires ");

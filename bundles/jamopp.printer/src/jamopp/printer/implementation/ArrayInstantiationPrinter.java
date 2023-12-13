@@ -35,6 +35,7 @@ class ArrayInstantiationPrinter implements Printer<ArrayInstantiation> {
 		ArrayInitializerPrinter = arrayInitializerPrinter;
 	}
 
+	@Override
 	public void print(ArrayInstantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof ArrayInstantiationBySize inst) {
 			writer.append("new ");

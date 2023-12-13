@@ -27,6 +27,7 @@ class LambdaParametersPrinter implements Printer<LambdaParameters> {
 		VariableLengthParameterPrinter = variableLengthParameterPrinter;
 	}
 
+	@Override
 	public void print(LambdaParameters element, BufferedWriter writer) throws IOException {
 		if (element instanceof SingleImplicitLambdaParameter) {
 			writer.append(element.getParameters().get(0).getName());

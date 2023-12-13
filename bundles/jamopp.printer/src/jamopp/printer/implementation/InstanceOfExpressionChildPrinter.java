@@ -25,6 +25,7 @@ class InstanceOfExpressionChildPrinter implements Printer<InstanceOfExpressionCh
 		RelationExpressionChildPrinter = relationExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(InstanceOfExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof RelationExpression) {
 			RelationExpressionPrinter.print((RelationExpression) element, writer);

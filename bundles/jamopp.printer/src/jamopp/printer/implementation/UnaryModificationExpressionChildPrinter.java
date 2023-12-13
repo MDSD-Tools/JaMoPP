@@ -32,6 +32,7 @@ class UnaryModificationExpressionChildPrinter implements Printer<UnaryModificati
 		MethodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(UnaryModificationExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof Switch) {
 			SwitchPrinter.print((Switch) element, writer);

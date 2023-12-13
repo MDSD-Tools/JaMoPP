@@ -26,6 +26,7 @@ class TryBlockPrinter implements Printer<TryBlock> {
 		CatchBlockPrinter = catchBlockPrinter;
 	}
 
+	@Override
 	public void print(TryBlock element, BufferedWriter writer) throws IOException {
 		writer.append("try");
 		if (!element.getResources().isEmpty()) {

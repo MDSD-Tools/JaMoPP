@@ -9,6 +9,7 @@ import jamopp.printer.interfaces.Printer;
 
 class BreakPrinter implements Printer<Break>{
 
+	@Override
 	public void print(Break element, BufferedWriter writer) throws IOException {
 		writer.append("break");
 		if (element.getTarget() != null) {

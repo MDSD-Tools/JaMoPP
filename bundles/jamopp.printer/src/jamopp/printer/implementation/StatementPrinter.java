@@ -96,6 +96,7 @@ class StatementPrinter implements Printer<Statement> {
 		YieldStatementPrinter = yieldStatementPrinter;
 	}
 
+	@Override
 	public void print(Statement element, BufferedWriter writer) throws IOException {
 		if (element instanceof ConcreteClassifier) {
 			ConcreteClassifierPrinter.print((ConcreteClassifier) element, writer);

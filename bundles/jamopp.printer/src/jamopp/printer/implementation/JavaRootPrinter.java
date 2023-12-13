@@ -36,6 +36,7 @@ public class JavaRootPrinter implements Printer<JavaRoot> {
 	 * @param writer writer in which the text is written.
 	 * @throws IOException if the text cannot be written.
 	 */
+	@Override
 	public void print(JavaRoot root, BufferedWriter writer) throws IOException {
 		if (root instanceof org.emftext.language.java.containers.Module) {
 			ImportingElementPrinter.print(root, writer);

@@ -19,6 +19,7 @@ class SelfReferencePrinter implements Printer<SelfReference> {
 		SelfPrinter = selfPrinter;
 	}
 
+	@Override
 	public void print(SelfReference element, BufferedWriter writer) throws IOException {
 		SelfPrinter.print(element.getSelf(), writer);
 	}

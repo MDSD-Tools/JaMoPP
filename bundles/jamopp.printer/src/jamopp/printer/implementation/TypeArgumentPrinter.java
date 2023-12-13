@@ -29,6 +29,7 @@ class TypeArgumentPrinter implements Printer<TypeArgument> {
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
+	@Override
 	public void print(TypeArgument element, BufferedWriter writer) throws IOException {
 		if (element instanceof QualifiedTypeArgument arg) {
 			TypeReferencePrinter.print(arg.getTypeReference(), writer);

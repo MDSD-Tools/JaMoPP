@@ -36,6 +36,7 @@ class LocalVariablePrinter implements Printer<LocalVariable> {
 		AdditionalLocalVariablePrinter = additionalLocalVariablePrinter;
 	}
 
+	@Override
 	public void print(LocalVariable element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

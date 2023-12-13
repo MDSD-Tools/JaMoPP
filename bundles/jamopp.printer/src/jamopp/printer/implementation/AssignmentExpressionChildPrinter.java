@@ -25,6 +25,7 @@ class AssignmentExpressionChildPrinter implements Printer<AssignmentExpressionCh
 		ConditionalExpressionChildPrinter = conditionalExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(AssignmentExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof ConditionalExpression) {
 			ConditionalExpressionPrinter.print((ConditionalExpression) element, writer);

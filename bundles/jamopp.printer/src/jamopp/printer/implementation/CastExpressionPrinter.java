@@ -26,6 +26,7 @@ class CastExpressionPrinter implements Printer<CastExpression> {
 		ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(CastExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

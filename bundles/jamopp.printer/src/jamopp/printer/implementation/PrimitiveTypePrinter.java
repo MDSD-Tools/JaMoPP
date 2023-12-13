@@ -18,6 +18,7 @@ class PrimitiveTypePrinter implements Printer<PrimitiveType> {
 		AnnotablePrinter = annotablePrinter;
 	}
 
+	@Override
 	public void print(PrimitiveType element, BufferedWriter writer) throws IOException {
 		AnnotablePrinter.print(element, writer);
 		if (element instanceof org.emftext.language.java.types.Boolean) {

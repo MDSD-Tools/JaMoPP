@@ -24,6 +24,7 @@ class BlockPrinter implements Printer<Block> {
 		StatementPrinter = statementPrinter;
 	}
 
+	@Override
 	public void print(Block element, BufferedWriter writer) throws IOException {
 		for (Modifier m : element.getModifiers()) {
 			ModifierPrinter.print(m, writer);

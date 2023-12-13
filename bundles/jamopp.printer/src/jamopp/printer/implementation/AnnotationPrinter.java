@@ -22,6 +22,7 @@ class AnnotationPrinter implements Printer<Annotation> {
 		MemberContainerPrinter = memberContainerPrinter;
 	}
 
+	@Override
 	public void print(Annotation element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("@interface " + element.getName() + " {\n");

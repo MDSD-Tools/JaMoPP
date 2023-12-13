@@ -25,6 +25,7 @@ class AnnotationInstanceOrModifierPrinter implements Printer<AnnotationInstanceO
 		ModifierPrinter = modifierPrinter;
 	}
 
+	@Override
 	public void print(AnnotationInstanceOrModifier element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
 			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);

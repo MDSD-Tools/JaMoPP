@@ -8,18 +8,16 @@ import org.emftext.language.java.arrays.ArrayDimension;
 
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.Printer;
-
-class ArrayDimensionsPrinter implements Printer<List<ArrayDimension>> {
+class ArrayDimensionsPrinter implements ArrayDimensionsPrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 
 	@Inject
-	public ArrayDimensionsPrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter) {
-		super();
+	public ArrayDimensionsPrinter(AnnotablePrinter annotablePrinter) {
 		AnnotablePrinter = annotablePrinter;
 	}
 
+	@Override
 	public void print(List<ArrayDimension> element, BufferedWriter writer) throws IOException {
 		for (ArrayDimension dim : element) {
 			if (!dim.getAnnotations().isEmpty()) {

@@ -19,6 +19,7 @@ class UsesModuleDirectivePrinter implements Printer<UsesModuleDirective> {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
+	@Override
 	public void print(UsesModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("uses ");
 		TypeReferencePrinter.print(element.getTypeReference(), writer);

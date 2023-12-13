@@ -29,6 +29,7 @@ class EnumerationPrinter implements Printer<Enumeration> {
 		MemberContainerPrinter = memberContainerPrinter;
 	}
 
+	@Override
 	public void print(Enumeration element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
 		writer.append("enum " + element.getName() + " ");

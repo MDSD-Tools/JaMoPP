@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class AdditiveExpressionChildPrinter implements Printer<AdditiveExpressionChild> {
+class AdditiveExpressionChildPrinter implements  AdditiveExpressionChildPrinterInt {
 
 	private final MultiplicativeExpressionPrinter MultiplicativeExpressionPrinter;
 	private final MultiplicativeExpressionChildPrinter MultiplicativeExpressionChildPrinter;
@@ -25,6 +25,7 @@ class AdditiveExpressionChildPrinter implements Printer<AdditiveExpressionChild>
 		MultiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(AdditiveExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof MultiplicativeExpression) {
 			MultiplicativeExpressionPrinter.print((MultiplicativeExpression) element, writer);

@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class ShiftExpressionPrinter implements IShiftExpressionPrinter {
+class ShiftExpressionPrinter implements ShiftExpressionPrinterInt {
 
 	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
 	private final ShiftOperatorPrinter ShiftOperatorPrinter;

@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class AndExpressionPrinter implements Printer<AndExpression> {
+class AndExpressionPrinter implements AndExpressionPrinterInt {
 
 	private final AndExpressionChildPrinter AndExpressionChildPrinter;
 
@@ -19,6 +19,7 @@ class AndExpressionPrinter implements Printer<AndExpression> {
 		AndExpressionChildPrinter = andExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(AndExpression element, BufferedWriter writer) throws IOException {
 		AndExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (int index = 1; index < element.getChildren().size(); index++) {

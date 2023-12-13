@@ -11,6 +11,7 @@ import jamopp.printer.interfaces.Printer;
 
 class SelfPrinter implements Printer<Self>{
 
+	@Override
 	public void print(Self element, BufferedWriter writer) throws IOException {
 		if (element instanceof This) {
 			writer.append("this");

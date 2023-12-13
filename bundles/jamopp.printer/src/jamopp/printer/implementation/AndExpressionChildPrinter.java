@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-class AndExpressionChildPrinter implements Printer<AndExpressionChild> {
+class AndExpressionChildPrinter implements AndExpressionChildPrinterInt {
 
 	private final EqualityExpressionPrinter EqualityExpressionPrinter;
 	private final EqualityExpressionChildPrinter EqualityExpressionChildPrinter;
@@ -24,6 +24,7 @@ class AndExpressionChildPrinter implements Printer<AndExpressionChild> {
 		EqualityExpressionChildPrinter = equalityExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(AndExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof EqualityExpression) {
 			EqualityExpressionPrinter.print((EqualityExpression) element, writer);

@@ -43,6 +43,7 @@ class MemberPrinter implements Printer<Member> {
 		EmptyMemberPrinter = emptyMemberPrinter;
 	}
 
+	@Override
 	public void print(Member element, BufferedWriter writer) throws IOException {
 		if (element instanceof Field) {
 			FieldPrinter.print((Field) element, writer);

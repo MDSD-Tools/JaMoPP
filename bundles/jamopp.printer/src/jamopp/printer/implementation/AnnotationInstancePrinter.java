@@ -22,6 +22,7 @@ class AnnotationInstancePrinter implements Printer<AnnotationInstance> {
 		AnnotationValuePrinter = annotationValuePrinter;
 	}
 
+	@Override
 	public void print(AnnotationInstance element, BufferedWriter writer) throws IOException {
 		writer.append("@" + element.getNamespacesAsString());
 		if (element.getParameter() != null) {

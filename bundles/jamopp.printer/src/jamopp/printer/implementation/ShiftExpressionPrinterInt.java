@@ -7,8 +7,6 @@ import org.emftext.language.java.expressions.ShiftExpression;
 
 import jamopp.printer.interfaces.Printer;
 
-interface IShiftExpressionPrinter extends Printer<ShiftExpression>{
-
-	void print(ShiftExpression element, BufferedWriter writer) throws IOException;
+interface ShiftExpressionPrinterInt extends Printer<ShiftExpression>{
 
 }

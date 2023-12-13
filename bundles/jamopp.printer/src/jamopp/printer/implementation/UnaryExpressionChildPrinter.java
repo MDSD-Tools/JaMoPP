@@ -29,6 +29,7 @@ class UnaryExpressionChildPrinter implements Printer<UnaryExpressionChild> {
 		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(UnaryExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof PrefixUnaryModificationExpression) {
 			PrefixUnaryModificationExpressionPrinter.print((PrefixUnaryModificationExpression) element, writer);

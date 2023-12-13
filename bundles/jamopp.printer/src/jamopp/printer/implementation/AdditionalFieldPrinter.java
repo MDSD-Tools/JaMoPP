@@ -7,7 +7,7 @@ import org.emftext.language.java.members.AdditionalField;
 import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 
-class AdditionalFieldPrinter implements Printer<AdditionalField> {
+class AdditionalFieldPrinter implements  AdditionalFieldPrinterInt {
 
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 	private final ExpressionPrinter ExpressionPrinter;
@@ -18,6 +18,7 @@ class AdditionalFieldPrinter implements Printer<AdditionalField> {
 		this.ExpressionPrinter = expressionPrinter;
 	}
 
+	@Override
 	public void print(AdditionalField element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
 		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);

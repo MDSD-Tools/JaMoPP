@@ -36,6 +36,7 @@ class ModulePrinter implements Printer<org.emftext.language.java.containers.Modu
 		ExportsModuleDirectivePrinter = exportsModuleDirectivePrinter;
 	}
 
+	@Override
 	public void print(org.emftext.language.java.containers.Module element, BufferedWriter writer) throws IOException {
 		writer.append("module ");
 		if (element.getOpen() != null) {

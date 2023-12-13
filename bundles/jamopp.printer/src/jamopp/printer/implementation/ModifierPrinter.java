@@ -21,6 +21,7 @@ import jamopp.printer.interfaces.Printer;
 
 class ModifierPrinter implements Printer<Modifier>{
 
+	@Override
 	public void print(Modifier element, BufferedWriter writer) throws IOException {
 		if (element instanceof Abstract) {
 			writer.append("abstract ");

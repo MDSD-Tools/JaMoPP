@@ -25,6 +25,7 @@ class EqualityExpressionChildPrinter implements Printer<EqualityExpressionChild>
 		InstanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(EqualityExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof InstanceOfExpression) {
 			InstanceOfExpressionPrinter.print((InstanceOfExpression) element, writer);
