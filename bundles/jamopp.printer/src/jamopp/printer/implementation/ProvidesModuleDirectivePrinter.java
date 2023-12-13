@@ -9,8 +9,9 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ProvidesModuleDirectivePrinterInt;
 
-class ProvidesModuleDirectivePrinter implements Printer<ProvidesModuleDirective> {
+class ProvidesModuleDirectivePrinter implements Printer<ProvidesModuleDirective>, ProvidesModuleDirectivePrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 

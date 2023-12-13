@@ -11,8 +11,9 @@ import org.emftext.language.java.classifiers.Interface;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ConcreteClassifierPrinterInt;
 
-class ConcreteClassifierPrinter implements Printer<ConcreteClassifier> {
+class ConcreteClassifierPrinter implements Printer<ConcreteClassifier>, ConcreteClassifierPrinterInt {
 
 	private final ClassPrinter ClassPrinter;
 	private final InterfacePrinter InterfacePrinter;

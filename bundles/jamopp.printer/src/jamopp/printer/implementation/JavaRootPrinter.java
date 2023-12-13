@@ -9,8 +9,9 @@ import org.emftext.language.java.containers.JavaRoot;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.JavaRootPrinterInt;
 
-public class JavaRootPrinter implements Printer<JavaRoot> {
+public class JavaRootPrinter implements Printer<JavaRoot>, JavaRootPrinterInt {
 
 	private final ImportingElementPrinter ImportingElementPrinter;
 	private final ModulePrinter ModulePrinter;

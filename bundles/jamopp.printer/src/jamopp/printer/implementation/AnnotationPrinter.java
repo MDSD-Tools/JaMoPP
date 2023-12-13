@@ -8,8 +8,9 @@ import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotationPrinterInt;
 
-class AnnotationPrinter implements Printer<Annotation> {
+class AnnotationPrinter implements AnnotationPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final MemberContainerPrinter MemberContainerPrinter;

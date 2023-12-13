@@ -18,8 +18,9 @@ import org.emftext.language.java.modifiers.Transient;
 import org.emftext.language.java.modifiers.Volatile;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ModifierPrinterInt;
 
-class ModifierPrinter implements Printer<Modifier>{
+class ModifierPrinter implements Printer<Modifier>, ModifierPrinterInt{
 
 	@Override
 	public void print(Modifier element, BufferedWriter writer) throws IOException {

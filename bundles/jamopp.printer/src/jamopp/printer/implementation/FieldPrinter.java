@@ -9,8 +9,9 @@ import org.emftext.language.java.members.Field;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.FieldPrinterInt;
 
-class FieldPrinter implements Printer<Field> {
+class FieldPrinter implements Printer<Field>, FieldPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

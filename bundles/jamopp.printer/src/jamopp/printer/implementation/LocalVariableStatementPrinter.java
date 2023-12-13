@@ -8,8 +8,9 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.LocalVariableStatementPrinterInt;
 
-class LocalVariableStatementPrinter implements Printer<LocalVariableStatement> {
+class LocalVariableStatementPrinter implements Printer<LocalVariableStatement>, LocalVariableStatementPrinterInt {
 
 	private final LocalVariablePrinter LocalVariablePrinter;
 

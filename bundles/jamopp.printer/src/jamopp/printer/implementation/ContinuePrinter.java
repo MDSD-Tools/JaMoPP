@@ -6,8 +6,9 @@ import java.io.IOException;
 import org.emftext.language.java.statements.Continue;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ContinuePrinterInt;
 
-class ContinuePrinter implements Printer<Continue>{
+class ContinuePrinter implements Printer<Continue>, ContinuePrinterInt{
 
 	@Override
 	public void print(Continue element, BufferedWriter writer) throws IOException {

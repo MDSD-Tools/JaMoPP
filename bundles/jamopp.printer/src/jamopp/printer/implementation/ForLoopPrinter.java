@@ -8,8 +8,9 @@ import org.emftext.language.java.statements.ForLoop;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ForLoopPrinterInt;
 
-public class ForLoopPrinter implements Printer<ForLoop> {
+public class ForLoopPrinter implements Printer<ForLoop>, ForLoopPrinterInt {
 
 	private final ForLoopInitializerPrinter ForLoopInitializerPrinter;
 	private final ExpressionPrinter ExpressionPrinter;

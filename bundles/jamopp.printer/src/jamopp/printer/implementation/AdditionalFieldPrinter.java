@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.members.AdditionalField;
 import com.google.inject.Inject;
+
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AdditionalFieldPrinterInt;
 
 class AdditionalFieldPrinter implements  AdditionalFieldPrinterInt {
 

@@ -11,8 +11,9 @@ import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpressio
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.MethodReferenceExpressionPrinterInt;
 
-class MethodReferenceExpressionPrinter implements Printer<MethodReferenceExpression> {
+class MethodReferenceExpressionPrinter implements Printer<MethodReferenceExpression>, MethodReferenceExpressionPrinterInt {
 
 	private final MethodReferenceExpressionChildPrinter MethodReferenceExpressionChildPrinter;
 	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;

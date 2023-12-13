@@ -10,6 +10,7 @@ import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AdditiveExpressionChildPrinterInt;
 
 class AdditiveExpressionChildPrinter implements  AdditiveExpressionChildPrinterInt {
 

@@ -13,8 +13,9 @@ import org.emftext.language.java.modules.UsesModuleDirective;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ModulePrinterInt;
 
-class ModulePrinter implements Printer<org.emftext.language.java.containers.Module> {
+class ModulePrinter implements Printer<org.emftext.language.java.containers.Module>, ModulePrinterInt {
 
 	private final UsesModuleDirectivePrinter UsesModuleDirectivePrinter;
 	private final ProvidesModuleDirectivePrinter ProvidesModuleDirectivePrinter;
@@ -27,7 +28,7 @@ class ModulePrinter implements Printer<org.emftext.language.java.containers.Modu
 			jamopp.printer.implementation.ProvidesModuleDirectivePrinter providesModuleDirectivePrinter,
 			jamopp.printer.implementation.RequiresModuleDirectivePrinter requiresModuleDirectivePrinter,
 			jamopp.printer.implementation.OpensModuleDirectivePrinter opensModuleDirectivePrinter,
-			jamopp.printer.implementation.ExportsModuleDirectivePrinter exportsModuleDirectivePrinter) {
+			ExportsModuleDirectivePrinter exportsModuleDirectivePrinter) {
 		super();
 		UsesModuleDirectivePrinter = usesModuleDirectivePrinter;
 		ProvidesModuleDirectivePrinter = providesModuleDirectivePrinter;

@@ -10,8 +10,9 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.EqualityExpressionChildPrinterInt;
 
-class EqualityExpressionChildPrinter implements Printer<EqualityExpressionChild> {
+class EqualityExpressionChildPrinter implements Printer<EqualityExpressionChild>, EqualityExpressionChildPrinterInt {
 
 	private final InstanceOfExpressionPrinter InstanceOfExpressionPrinter;
 	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;

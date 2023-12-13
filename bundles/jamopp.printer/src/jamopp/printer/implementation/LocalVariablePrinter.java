@@ -9,8 +9,9 @@ import org.emftext.language.java.variables.LocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.LocalVariablePrinterInt;
 
-class LocalVariablePrinter implements Printer<LocalVariable> {
+class LocalVariablePrinter implements Printer<LocalVariable>, LocalVariablePrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

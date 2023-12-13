@@ -21,8 +21,9 @@ import org.emftext.language.java.literals.OctalIntegerLiteral;
 import org.emftext.language.java.literals.OctalLongLiteral;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.LiteralPrinterInt;
 
-class LiteralPrinter implements Printer<Literal> {
+class LiteralPrinter implements Printer<Literal>, LiteralPrinterInt {
 
 	@Override
 	public void print(Literal element, BufferedWriter writer) throws IOException {

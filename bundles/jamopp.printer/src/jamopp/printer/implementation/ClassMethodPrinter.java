@@ -13,8 +13,9 @@ import org.emftext.language.java.types.Type;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ClassMethodPrinterInt;
 
-class ClassMethodPrinter implements Printer<ClassMethod> {
+class ClassMethodPrinter implements Printer<ClassMethod>, ClassMethodPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;

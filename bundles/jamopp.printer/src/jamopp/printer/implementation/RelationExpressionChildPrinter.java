@@ -10,8 +10,10 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.RelationExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.ShiftExpressionPrinterInt;
 
-class RelationExpressionChildPrinter implements Printer<RelationExpressionChild> {
+class RelationExpressionChildPrinter implements Printer<RelationExpressionChild>, RelationExpressionChildPrinterInt {
 
 	private final ShiftExpressionPrinterInt ShiftExpressionPrinter;
 	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;

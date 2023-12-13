@@ -8,8 +8,9 @@ import org.emftext.language.java.members.InterfaceMethod;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.InterfaceMethodPrinterInt;
 
-class InterfaceMethodPrinter implements Printer<InterfaceMethod> {
+class InterfaceMethodPrinter implements Printer<InterfaceMethod>, InterfaceMethodPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;
@@ -19,7 +20,7 @@ class InterfaceMethodPrinter implements Printer<InterfaceMethod> {
 	private final ExceptionThrowerPrinter ExceptionThrowerPrinter;
 	private final AnnotationValuePrinter AnnotationValuePrinter;
 	private final StatementPrinter StatementPrinter;
-
+	
 	@Inject
 	public InterfaceMethodPrinter(
 			jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,

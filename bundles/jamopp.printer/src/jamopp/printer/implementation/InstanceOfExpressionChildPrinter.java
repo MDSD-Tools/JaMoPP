@@ -10,8 +10,9 @@ import org.emftext.language.java.expressions.RelationExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.InstanceOfExpressionChildPrinterInt;
 
-class InstanceOfExpressionChildPrinter implements Printer<InstanceOfExpressionChild> {
+class InstanceOfExpressionChildPrinter implements Printer<InstanceOfExpressionChild>, InstanceOfExpressionChildPrinterInt {
 
 	private final RelationExpressionPrinter RelationExpressionPrinter;
 	private final RelationExpressionChildPrinter RelationExpressionChildPrinter;

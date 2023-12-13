@@ -10,8 +10,9 @@ import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExclusiveOrExpressionChildPrinterInt;
 
-class ExclusiveOrExpressionChildPrinter implements Printer<ExclusiveOrExpressionChild> {
+class ExclusiveOrExpressionChildPrinter implements Printer<ExclusiveOrExpressionChild>, ExclusiveOrExpressionChildPrinterInt {
 
 	private final AndExpressionPrinter AndExpressionPrinter;
 	private final AndExpressionChildPrinter AndExpressionChildPrinter;

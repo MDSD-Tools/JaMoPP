@@ -10,8 +10,9 @@ import org.emftext.language.java.operators.LessThanOrEqual;
 import org.emftext.language.java.operators.RelationOperator;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.RelationOperatorPrinterInt;
 
-class RelationOperatorPrinter implements Printer<RelationOperator>{
+class RelationOperatorPrinter implements Printer<RelationOperator>, RelationOperatorPrinterInt{
 
 	@Override
 	public void print(RelationOperator element, BufferedWriter writer) throws IOException {

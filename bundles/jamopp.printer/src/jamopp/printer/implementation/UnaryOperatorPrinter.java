@@ -9,8 +9,9 @@ import org.emftext.language.java.operators.Subtraction;
 import org.emftext.language.java.operators.UnaryOperator;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.UnaryOperatorPrinterInt;
 
-class UnaryOperatorPrinter implements Printer<UnaryOperator>{
+class UnaryOperatorPrinter implements Printer<UnaryOperator>, UnaryOperatorPrinterInt{
 
 	@Override
 	public void print(UnaryOperator element, BufferedWriter writer) throws IOException {

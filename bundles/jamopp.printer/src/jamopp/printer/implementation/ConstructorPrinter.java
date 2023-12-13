@@ -8,8 +8,9 @@ import org.emftext.language.java.members.Constructor;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ConstructorPrinterInt;
 
-class ConstructorPrinter implements Printer<Constructor> {
+class ConstructorPrinter implements Printer<Constructor>, ConstructorPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;

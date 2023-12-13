@@ -8,8 +8,9 @@ import org.emftext.language.java.classifiers.Interface;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.InterfacePrinterInt;
 
-class InterfacePrinter implements Printer<Interface> {
+class InterfacePrinter implements Printer<Interface>, InterfacePrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinter TypeParametrizablePrinter;

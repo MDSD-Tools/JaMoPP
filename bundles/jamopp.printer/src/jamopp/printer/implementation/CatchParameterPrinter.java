@@ -9,8 +9,9 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.CatchParameterPrinterInt;
 
-class CatchParameterPrinter implements Printer<CatchParameter> {
+class CatchParameterPrinter implements Printer<CatchParameter>, CatchParameterPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

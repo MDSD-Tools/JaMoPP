@@ -10,15 +10,16 @@ import org.emftext.language.java.variables.Resource;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ResourcePrinterInt;
 
-class ResourcePrinter implements Printer<Resource> {
+class ResourcePrinter implements Printer<Resource>, ResourcePrinterInt {
 
 	private final LocalVariablePrinter LocalVariablePrinter;
 	private final ElementReferencePrinter ElementReferencePrinter;
 
 	@Inject
-	public ResourcePrinter(jamopp.printer.implementation.LocalVariablePrinter localVariablePrinter,
-			jamopp.printer.implementation.ElementReferencePrinter elementReferencePrinter) {
+	public ResourcePrinter(LocalVariablePrinter localVariablePrinter,
+			ElementReferencePrinter elementReferencePrinter) {
 		super();
 		LocalVariablePrinter = localVariablePrinter;
 		ElementReferencePrinter = elementReferencePrinter;

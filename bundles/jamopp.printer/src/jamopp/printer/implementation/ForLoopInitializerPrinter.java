@@ -10,8 +10,9 @@ import org.emftext.language.java.variables.LocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ForLoopInitializerPrinterInt;
 
-class ForLoopInitializerPrinter implements Printer<ForLoopInitializer> {
+class ForLoopInitializerPrinter implements Printer<ForLoopInitializer>, ForLoopInitializerPrinterInt {
 
 	private final LocalVariablePrinter LocalVariablePrinter;
 	private final ExpressionPrinter ExpressionPrinter;

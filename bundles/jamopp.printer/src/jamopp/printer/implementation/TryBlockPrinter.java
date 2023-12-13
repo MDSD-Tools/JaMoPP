@@ -9,17 +9,18 @@ import org.emftext.language.java.statements.TryBlock;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TryBlockPrinterInt;
 
-class TryBlockPrinter implements Printer<TryBlock> {
+class TryBlockPrinter implements Printer<TryBlock>, TryBlockPrinterInt {
 
 	private final ResourcePrinter ResourcePrinter;
 	private final BlockPrinter BlockPrinter;
 	private final CatchBlockPrinter CatchBlockPrinter;
 
 	@Inject
-	public TryBlockPrinter(jamopp.printer.implementation.ResourcePrinter resourcePrinter,
-			jamopp.printer.implementation.BlockPrinter blockPrinter,
-			jamopp.printer.implementation.CatchBlockPrinter catchBlockPrinter) {
+	public TryBlockPrinter(ResourcePrinter resourcePrinter,
+			BlockPrinter blockPrinter,
+			CatchBlockPrinter catchBlockPrinter) {
 		super();
 		ResourcePrinter = resourcePrinter;
 		BlockPrinter = blockPrinter;

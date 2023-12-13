@@ -8,8 +8,9 @@ import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.EnumConstantPrinterInt;
 
-class EnumConstantPrinter implements Printer<EnumConstant> {
+class EnumConstantPrinter implements Printer<EnumConstant>, EnumConstantPrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 	private final ArgumentablePrinter ArgumentablePrinter;

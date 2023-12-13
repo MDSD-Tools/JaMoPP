@@ -9,8 +9,9 @@ import org.emftext.language.java.statements.CatchBlock;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.CatchBlockPrinterInt;
 
-class CatchBlockPrinter implements Printer<CatchBlock> {
+class CatchBlockPrinter implements Printer<CatchBlock>, CatchBlockPrinterInt {
 
 	private final CatchParameterPrinter CatchParameterPrinter;
 	private final BlockPrinter BlockPrinter;

@@ -9,8 +9,9 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.CastExpressionPrinterInt;
 
-class CastExpressionPrinter implements Printer<CastExpression> {
+class CastExpressionPrinter implements Printer<CastExpression>, CastExpressionPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;

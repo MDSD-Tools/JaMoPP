@@ -12,8 +12,9 @@ import org.emftext.language.java.generics.UnknownTypeArgument;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TypeArgumentPrinterInt;
 
-class TypeArgumentPrinter implements Printer<TypeArgument> {
+class TypeArgumentPrinter implements Printer<TypeArgument>, TypeArgumentPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final AnnotablePrinter AnnotablePrinter;
@@ -21,8 +22,8 @@ class TypeArgumentPrinter implements Printer<TypeArgument> {
 
 	@Inject
 	public TypeArgumentPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
+			AnnotablePrinter annotablePrinter,
+			ArrayDimensionsPrinter arrayDimensionsPrinter) {
 		super();
 		TypeReferencePrinter = typeReferencePrinter;
 		AnnotablePrinter = annotablePrinter;

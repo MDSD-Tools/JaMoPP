@@ -8,8 +8,9 @@ import org.emftext.language.java.classifiers.AnonymousClass;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
 
-class AnonymousClassPrinter implements Printer<AnonymousClass> {
+class AnonymousClassPrinter implements  AnonymousClassPrinterInt {
 
 	private final MemberContainerPrinter MemberContainerPrinter;
 

@@ -8,13 +8,14 @@ import org.emftext.language.java.statements.Return;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ReturnPrinterInt;
 
-class ReturnPrinter implements Printer<Return> {
+class ReturnPrinter implements Printer<Return>, ReturnPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 
 	@Inject
-	public ReturnPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+	public ReturnPrinter(ExpressionPrinter expressionPrinter) {
 		super();
 		ExpressionPrinter = expressionPrinter;
 	}

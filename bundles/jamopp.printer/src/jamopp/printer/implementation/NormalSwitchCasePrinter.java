@@ -10,14 +10,15 @@ import org.emftext.language.java.statements.Statement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.NormalSwitchCasePrinterInt;
 
-class NormalSwitchCasePrinter implements Printer<NormalSwitchCase> {
+class NormalSwitchCasePrinter implements Printer<NormalSwitchCase>, NormalSwitchCasePrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;
 
 	@Inject
-	public NormalSwitchCasePrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
+	public NormalSwitchCasePrinter(ExpressionPrinter expressionPrinter,
 			jamopp.printer.implementation.StatementPrinter statementPrinter) {
 		super();
 		ExpressionPrinter = expressionPrinter;

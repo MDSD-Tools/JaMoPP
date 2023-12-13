@@ -8,8 +8,9 @@ import org.emftext.language.java.expressions.ConditionalAndExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ConditionalAndExpressionPrinterInt;
 
-class ConditionalAndExpressionPrinter implements Printer<ConditionalAndExpression> {
+class ConditionalAndExpressionPrinter implements Printer<ConditionalAndExpression>, ConditionalAndExpressionPrinterInt {
 
 	private final ConditionalAndExpressionChildPrinter ConditionalAndExpressionChildPrinter;
 

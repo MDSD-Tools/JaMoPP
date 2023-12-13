@@ -8,8 +8,9 @@ import org.emftext.language.java.expressions.SuffixUnaryModificationExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.SuffixUnaryModificationExpressionPrinterInt;
 
-class SuffixUnaryModificationExpressionPrinter implements Printer<SuffixUnaryModificationExpression> {
+class SuffixUnaryModificationExpressionPrinter implements Printer<SuffixUnaryModificationExpression>, SuffixUnaryModificationExpressionPrinterInt {
 
 	private final UnaryModificationExpressionChildPrinter UnaryModificationExpressionChildPrinter;
 	private final UnaryModificationOperatorPrinter UnaryModificationOperatorPrinter;

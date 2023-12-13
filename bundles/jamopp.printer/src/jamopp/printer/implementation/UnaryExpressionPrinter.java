@@ -9,8 +9,9 @@ import org.emftext.language.java.operators.UnaryOperator;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.UnaryExpressionPrinterInt;
 
-class UnaryExpressionPrinter implements Printer<UnaryExpression> {
+class UnaryExpressionPrinter implements Printer<UnaryExpression>, UnaryExpressionPrinterInt {
 
 	private final UnaryOperatorPrinter UnaryOperatorPrinter;
 	private final UnaryExpressionChildPrinter UnaryExpressionChildPrinter;

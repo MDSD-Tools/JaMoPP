@@ -8,8 +8,9 @@ import org.emftext.language.java.generics.TypeParametrizable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
 
-class TypeParametrizablePrinter implements Printer<TypeParametrizable> {
+class TypeParametrizablePrinter implements Printer<TypeParametrizable>, TypeParametrizablePrinterInt {
 
 	private final TypeParameterPrinter TypeParameterPrinter;
 

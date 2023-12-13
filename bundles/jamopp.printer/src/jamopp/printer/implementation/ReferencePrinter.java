@@ -19,8 +19,9 @@ import org.emftext.language.java.references.TextBlockReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ReferencePrinterInt;
 
-class ReferencePrinter implements Printer<Reference> {
+class ReferencePrinter implements Printer<Reference>, ReferencePrinterInt {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final NestedExpressionPrinter NestedExpressionPrinter;
@@ -35,17 +36,17 @@ class ReferencePrinter implements Printer<Reference> {
 	private final ArraySelectorPrinter ArraySelectorPrinter;
 
 	@Inject
-	public ReferencePrinter(jamopp.printer.implementation.AnnotationInstancePrinter annotationInstancePrinter,
+	public ReferencePrinter(AnnotationInstancePrinter annotationInstancePrinter,
 			jamopp.printer.implementation.NestedExpressionPrinter nestedExpressionPrinter,
 			jamopp.printer.implementation.ReflectiveClassReferencePrinter reflectiveClassReferencePrinter,
 			jamopp.printer.implementation.PrimitiveTypeReferencePrinter primitiveTypeReferencePrinter,
 			jamopp.printer.implementation.StringReferencePrinter stringReferencePrinter,
 			jamopp.printer.implementation.SelfReferencePrinter selfReferencePrinter,
-			jamopp.printer.implementation.ArrayInstantiationPrinter arrayInstantiationPrinter,
-			jamopp.printer.implementation.InstantiationPrinter instantiationPrinter,
+			ArrayInstantiationPrinter arrayInstantiationPrinter,
+			InstantiationPrinter instantiationPrinter,
 			jamopp.printer.implementation.TextBlockReferencePrinter textBlockReferencePrinter,
-			jamopp.printer.implementation.ElementReferencePrinter elementReferencePrinter,
-			jamopp.printer.implementation.ArraySelectorPrinter arraySelectorPrinter) {
+			ElementReferencePrinter elementReferencePrinter,
+			ArraySelectorPrinter arraySelectorPrinter) {
 		super();
 		AnnotationInstancePrinter = annotationInstancePrinter;
 		NestedExpressionPrinter = nestedExpressionPrinter;

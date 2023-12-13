@@ -8,8 +8,9 @@ import org.emftext.language.java.modules.OpensModuleDirective;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.OpensModuleDirectivePrinterInt;
 
-class OpensModuleDirectivePrinter implements Printer<OpensModuleDirective> {
+class OpensModuleDirectivePrinter implements Printer<OpensModuleDirective>, OpensModuleDirectivePrinterInt {
 
 	private final RemainingAccessProvidingModuleDirectivePrinter RemainingAccessProvidingModuleDirectivePrinter;
 

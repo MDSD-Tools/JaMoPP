@@ -8,6 +8,7 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AdditionalLocalVariablePrinterInt;
 
 class AdditionalLocalVariablePrinter implements AdditionalLocalVariablePrinterInt {
 

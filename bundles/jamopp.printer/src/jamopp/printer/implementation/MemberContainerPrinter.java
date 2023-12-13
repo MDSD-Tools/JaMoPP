@@ -9,8 +9,9 @@ import org.emftext.language.java.members.MemberContainer;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
 
-class MemberContainerPrinter implements Printer<MemberContainer> {
+class MemberContainerPrinter implements Printer<MemberContainer>, MemberContainerPrinterInt {
 
 	private final MemberPrinter MemberPrinter;
 

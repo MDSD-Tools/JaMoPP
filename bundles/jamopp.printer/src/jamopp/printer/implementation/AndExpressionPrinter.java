@@ -8,6 +8,7 @@ import org.emftext.language.java.expressions.AndExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AndExpressionPrinterInt;
 
 class AndExpressionPrinter implements AndExpressionPrinterInt {
 

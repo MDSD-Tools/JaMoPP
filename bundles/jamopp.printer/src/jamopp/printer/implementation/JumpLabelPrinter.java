@@ -8,8 +8,9 @@ import org.emftext.language.java.statements.JumpLabel;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.JumpLabelPrinterInt;
 
-class JumpLabelPrinter implements Printer<JumpLabel> {
+class JumpLabelPrinter implements Printer<JumpLabel>, JumpLabelPrinterInt {
 
 	private final StatementPrinter StatementPrinter;
 

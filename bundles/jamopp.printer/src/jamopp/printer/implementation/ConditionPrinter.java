@@ -8,8 +8,9 @@ import org.emftext.language.java.statements.Condition;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ConditionPrinterInt;
 
-class ConditionPrinter implements Printer<Condition> {
+class ConditionPrinter implements Printer<Condition>, ConditionPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;

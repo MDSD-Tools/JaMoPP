@@ -8,8 +8,9 @@ import org.emftext.language.java.expressions.ExclusiveOrExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExclusiveOrExpressionPrinterInt;
 
-class ExclusiveOrExpressionPrinter implements Printer<ExclusiveOrExpression> {
+class ExclusiveOrExpressionPrinter implements Printer<ExclusiveOrExpression>, ExclusiveOrExpressionPrinterInt {
 
 	private final ExclusiveOrExpressionChildPrinter ExclusiveOrExpressionChildPrinter;
 

@@ -8,8 +8,9 @@ import org.emftext.language.java.expressions.EqualityExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.EqualityExpressionPrinterInt;
 
-class EqualityExpressionPrinter implements Printer<EqualityExpression> {
+class EqualityExpressionPrinter implements Printer<EqualityExpression>, EqualityExpressionPrinterInt {
 
 	private final EqualityExpressionChildPrinter EqualityExpressionChildPrinter;
 	private final EqualityOperatorPrinter EqualityOperatorPrinter;

@@ -10,8 +10,9 @@ import org.emftext.language.java.statements.Statement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.BlockPrinterInt;
 
-class BlockPrinter implements Printer<Block> {
+class BlockPrinter implements Printer<Block>, BlockPrinterInt {
 
 	private final ModifierPrinter ModifierPrinter;
 	private final StatementPrinter StatementPrinter;

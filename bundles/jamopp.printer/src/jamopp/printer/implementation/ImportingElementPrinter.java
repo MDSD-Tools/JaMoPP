@@ -9,8 +9,9 @@ import org.emftext.language.java.imports.ImportingElement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ImportingElementPrinterInt;
 
-class ImportingElementPrinter implements Printer<ImportingElement> {
+class ImportingElementPrinter implements Printer<ImportingElement>, ImportingElementPrinterInt {
 
 	private final ImportPrinter ImportPrinter;
 

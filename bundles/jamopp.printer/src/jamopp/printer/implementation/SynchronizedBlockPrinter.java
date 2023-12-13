@@ -8,15 +8,16 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.SynchronizedBlockPrinterInt;
 
-class SynchronizedBlockPrinter implements Printer<SynchronizedBlock> {
+class SynchronizedBlockPrinter implements Printer<SynchronizedBlock>, SynchronizedBlockPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final BlockPrinter BlockPrinter;
 
 	@Inject
-	public SynchronizedBlockPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.BlockPrinter blockPrinter) {
+	public SynchronizedBlockPrinter(ExpressionPrinter expressionPrinter,
+			BlockPrinter blockPrinter) {
 		super();
 		ExpressionPrinter = expressionPrinter;
 		BlockPrinter = blockPrinter;

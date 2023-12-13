@@ -10,8 +10,9 @@ import org.emftext.language.java.references.Reference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.MethodReferenceExpressionChildPrinterInt;
 
-class MethodReferenceExpressionChildPrinter implements Printer<MethodReferenceExpressionChild> {
+class MethodReferenceExpressionChildPrinter implements Printer<MethodReferenceExpressionChild>, MethodReferenceExpressionChildPrinterInt {
 
 	private final LiteralPrinter LiteralPrinter;
 	private final ReferencePrinter ReferencePrinter;

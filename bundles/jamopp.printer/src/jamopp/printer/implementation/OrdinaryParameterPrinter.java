@@ -8,8 +8,9 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
 
-class OrdinaryParameterPrinter implements Printer<OrdinaryParameter> {
+class OrdinaryParameterPrinter implements Printer<OrdinaryParameter>, OrdinaryParameterPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
@@ -18,10 +19,10 @@ class OrdinaryParameterPrinter implements Printer<OrdinaryParameter> {
 
 	@Inject
 	public OrdinaryParameterPrinter(
-			jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
 			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
 			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
+			ArrayDimensionsPrinter arrayDimensionsPrinter) {
 		super();
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

@@ -8,6 +8,8 @@ import org.emftext.language.java.arrays.ArrayDimension;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
+
 class ArrayDimensionsPrinter implements ArrayDimensionsPrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;

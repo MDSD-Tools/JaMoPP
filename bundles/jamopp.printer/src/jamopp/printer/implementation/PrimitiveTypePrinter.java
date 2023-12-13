@@ -7,13 +7,14 @@ import org.emftext.language.java.types.PrimitiveType;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.PrimitiveTypePrinterInt;
 
-class PrimitiveTypePrinter implements Printer<PrimitiveType> {
+class PrimitiveTypePrinter implements Printer<PrimitiveType>, PrimitiveTypePrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 
 	@Inject
-	public PrimitiveTypePrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter) {
+	public PrimitiveTypePrinter(AnnotablePrinter annotablePrinter) {
 		super();
 		AnnotablePrinter = annotablePrinter;
 	}

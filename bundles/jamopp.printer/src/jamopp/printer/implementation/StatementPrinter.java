@@ -28,8 +28,9 @@ import org.emftext.language.java.statements.YieldStatement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
-class StatementPrinter implements Printer<Statement> {
+class StatementPrinter implements Printer<Statement>, StatementPrinterInt {
 
 	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
 	private final AssertPrinter AssertPrinter;
@@ -53,24 +54,24 @@ class StatementPrinter implements Printer<Statement> {
 	private final YieldStatementPrinter YieldStatementPrinter;
 
 	@Inject
-	public StatementPrinter(jamopp.printer.implementation.ConcreteClassifierPrinter concreteClassifierPrinter,
-			jamopp.printer.implementation.AssertPrinter assertPrinter,
-			jamopp.printer.implementation.BlockPrinter blockPrinter,
-			jamopp.printer.implementation.ConditionPrinter conditionPrinter,
-			jamopp.printer.implementation.EmptyStatementPrinter emptyStatementPrinter,
-			jamopp.printer.implementation.ExpressionStatementPrinter expressionStatementPrinter,
+	public StatementPrinter(ConcreteClassifierPrinter concreteClassifierPrinter,
+			AssertPrinter assertPrinter,
+			BlockPrinter blockPrinter,
+			ConditionPrinter conditionPrinter,
+			EmptyStatementPrinter emptyStatementPrinter,
+			ExpressionStatementPrinter expressionStatementPrinter,
 			jamopp.printer.implementation.ForLoopPrinter forLoopPrinter,
-			jamopp.printer.implementation.ForEachLoopPrinter forEachLoopPrinter,
-			jamopp.printer.implementation.BreakPrinter breakPrinter,
-			jamopp.printer.implementation.ContinuePrinter continuePrinter,
-			jamopp.printer.implementation.JumpLabelPrinter jumpLabelPrinter,
-			jamopp.printer.implementation.LocalVariableStatementPrinter localVariableStatementPrinter,
+			ForEachLoopPrinter forEachLoopPrinter,
+			BreakPrinter breakPrinter,
+			ContinuePrinter continuePrinter,
+			JumpLabelPrinter jumpLabelPrinter,
+			LocalVariableStatementPrinter localVariableStatementPrinter,
 			jamopp.printer.implementation.ReturnPrinter returnPrinter,
 			jamopp.printer.implementation.SwitchPrinter switchPrinter,
 			jamopp.printer.implementation.SynchronizedBlockPrinter synchronizedBlockPrinter,
 			jamopp.printer.implementation.ThrowPrinter throwPrinter,
 			jamopp.printer.implementation.TryBlockPrinter tryBlockPrinter,
-			jamopp.printer.implementation.DoWhileLoopPrinter doWhileLoopPrinter,
+			DoWhileLoopPrinter doWhileLoopPrinter,
 			jamopp.printer.implementation.WhileLoopPrinter whileLoopPrinter,
 			jamopp.printer.implementation.YieldStatementPrinter yieldStatementPrinter) {
 		super();

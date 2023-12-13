@@ -10,6 +10,7 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
 
 class AndExpressionChildPrinter implements AndExpressionChildPrinterInt {
 

@@ -12,8 +12,9 @@ import org.emftext.language.java.expressions.Expression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ArrayInstantiationPrinterInt;
 
-class ArrayInstantiationPrinter implements Printer<ArrayInstantiation> {
+class ArrayInstantiationPrinter implements Printer<ArrayInstantiation>, ArrayInstantiationPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final TypeArgumentablePrinter TypeArgumentablePrinter;

@@ -8,6 +8,7 @@ import org.emftext.language.java.expressions.AdditiveExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AdditiveExpressionPrinterInt;
 
 class AdditiveExpressionPrinter implements AdditiveExpressionPrinterInt {
 

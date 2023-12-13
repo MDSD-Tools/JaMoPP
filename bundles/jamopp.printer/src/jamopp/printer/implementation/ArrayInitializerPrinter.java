@@ -11,8 +11,9 @@ import org.emftext.language.java.expressions.Expression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ArrayInitializerPrinterInt;
 
-class ArrayInitializerPrinter implements Printer<ArrayInitializer> {
+class ArrayInitializerPrinter implements Printer<ArrayInitializer>, ArrayInitializerPrinterInt {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final ExpressionPrinter ExpressionPrinter;

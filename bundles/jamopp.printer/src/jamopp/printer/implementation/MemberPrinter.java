@@ -14,8 +14,9 @@ import org.emftext.language.java.statements.Block;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.MemberPrinterInt;
 
-class MemberPrinter implements Printer<Member> {
+class MemberPrinter implements Printer<Member>, MemberPrinterInt {
 
 	private final FieldPrinter FieldPrinter;
 	private final ConstructorPrinter ConstructorPrinter;

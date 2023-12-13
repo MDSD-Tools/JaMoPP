@@ -8,8 +8,9 @@ import org.emftext.language.java.types.ClassifierReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ClassifierReferencePrinterInt;
 
-class ClassifierReferencePrinter implements Printer<ClassifierReference> {
+class ClassifierReferencePrinter implements Printer<ClassifierReference>, ClassifierReferencePrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 	private final TypeArgumentablePrinter TypeArgumentablePrinter;

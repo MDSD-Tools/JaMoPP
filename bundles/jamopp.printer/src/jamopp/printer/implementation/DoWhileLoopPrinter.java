@@ -8,8 +8,9 @@ import org.emftext.language.java.statements.DoWhileLoop;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.DoWhileLoopPrinterInt;
 
-class DoWhileLoopPrinter implements Printer<DoWhileLoop> {
+class DoWhileLoopPrinter implements Printer<DoWhileLoop>, DoWhileLoopPrinterInt {
 
 	private final StatementPrinter StatementPrinter;
 	private final ExpressionPrinter ExpressionPrinter;

@@ -8,8 +8,9 @@ import org.emftext.language.java.generics.TypeArgumentable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
 
-class TypeArgumentablePrinter implements Printer<TypeArgumentable> {
+class TypeArgumentablePrinter implements Printer<TypeArgumentable>, TypeArgumentablePrinterInt {
 
 	private final TypeArgumentPrinter TypeArgumentPrinter;
 

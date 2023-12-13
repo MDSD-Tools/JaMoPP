@@ -10,8 +10,10 @@ import org.emftext.language.java.references.MethodCall;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ElementReferencePrinterInt;
+import jamopp.printer.interfaces.printer.IdentifierReferencePrinterInt;
 
-class ElementReferencePrinter implements Printer<ElementReference> {
+class ElementReferencePrinter implements Printer<ElementReference>, ElementReferencePrinterInt {
 
 	private final IdentifierReferencePrinterInt IdentifierReferencePrinter;
 	private final MethodCallPrinter MethodCallPrinter;

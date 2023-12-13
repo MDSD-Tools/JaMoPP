@@ -8,8 +8,9 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.VariableLengthParameterPrinterInt;
 
-class VariableLengthParameterPrinter implements Printer<VariableLengthParameter> {
+class VariableLengthParameterPrinter implements Printer<VariableLengthParameter>, VariableLengthParameterPrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;
@@ -19,11 +20,11 @@ class VariableLengthParameterPrinter implements Printer<VariableLengthParameter>
 
 	@Inject
 	public VariableLengthParameterPrinter(
-			jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
+			AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
 			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
 			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
-			jamopp.printer.implementation.AnnotablePrinter annotablePrinter) {
+			ArrayDimensionsPrinter arrayDimensionsPrinter,
+			AnnotablePrinter annotablePrinter) {
 		super();
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

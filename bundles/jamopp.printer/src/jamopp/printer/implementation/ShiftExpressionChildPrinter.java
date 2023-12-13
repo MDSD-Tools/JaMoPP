@@ -10,16 +10,17 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ShiftExpressionChildPrinterInt;
 
-class ShiftExpressionChildPrinter implements Printer<ShiftExpressionChild> {
+class ShiftExpressionChildPrinter implements Printer<ShiftExpressionChild>, ShiftExpressionChildPrinterInt {
 
 	private final AdditiveExpressionPrinter AdditiveExpressionPrinter;
 	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;
 
 	@Inject
 	public ShiftExpressionChildPrinter(
-			jamopp.printer.implementation.AdditiveExpressionPrinter additiveExpressionPrinter,
-			jamopp.printer.implementation.AdditiveExpressionChildPrinter additiveExpressionChildPrinter) {
+			AdditiveExpressionPrinter additiveExpressionPrinter,
+			AdditiveExpressionChildPrinter additiveExpressionChildPrinter) {
 		super();
 		AdditiveExpressionPrinter = additiveExpressionPrinter;
 		AdditiveExpressionChildPrinter = additiveExpressionChildPrinter;

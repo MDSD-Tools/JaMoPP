@@ -8,8 +8,9 @@ import org.emftext.language.java.members.ExceptionThrower;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExceptionThrowerPrinterInt;
 
-class ExceptionThrowerPrinter implements Printer<ExceptionThrower> {
+class ExceptionThrowerPrinter implements Printer<ExceptionThrower>, ExceptionThrowerPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 

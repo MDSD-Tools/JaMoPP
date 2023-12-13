@@ -10,8 +10,9 @@ import org.emftext.language.java.expressions.UnaryExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.MultiplicativeExpressionChildPrinterInt;
 
-class MultiplicativeExpressionChildPrinter implements Printer<MultiplicativeExpressionChild> {
+class MultiplicativeExpressionChildPrinter implements Printer<MultiplicativeExpressionChild>, MultiplicativeExpressionChildPrinterInt {
 
 	private final UnaryExpressionPrinter UnaryExpressionPrinter;
 	private final UnaryExpressionChildPrinter UnaryExpressionChildPrinter;

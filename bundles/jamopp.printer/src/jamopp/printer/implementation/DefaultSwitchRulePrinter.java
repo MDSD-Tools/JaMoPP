@@ -9,8 +9,9 @@ import org.emftext.language.java.statements.Statement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.DefaultSwitchRulePrinterInt;
 
-class DefaultSwitchRulePrinter implements Printer<DefaultSwitchRule> {
+class DefaultSwitchRulePrinter implements Printer<DefaultSwitchRule>, DefaultSwitchRulePrinterInt {
 
 	private final StatementPrinter StatementPrinter;
 

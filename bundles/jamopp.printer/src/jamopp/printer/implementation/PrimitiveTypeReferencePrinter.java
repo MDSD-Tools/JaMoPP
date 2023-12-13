@@ -8,15 +8,16 @@ import org.emftext.language.java.references.PrimitiveTypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.PrimitiveTypeReferencePrinterInt;
 
-class PrimitiveTypeReferencePrinter implements Printer<PrimitiveTypeReference> {
+class PrimitiveTypeReferencePrinter implements Printer<PrimitiveTypeReference>, PrimitiveTypeReferencePrinterInt {
 
 	private final PrimitiveTypePrinter PrimitiveTypePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
 
 	@Inject
 	public PrimitiveTypeReferencePrinter(jamopp.printer.implementation.PrimitiveTypePrinter primitiveTypePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
+			ArrayDimensionsPrinter arrayDimensionsPrinter) {
 		super();
 		PrimitiveTypePrinter = primitiveTypePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;

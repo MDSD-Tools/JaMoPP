@@ -7,8 +7,9 @@ import org.emftext.language.java.operators.PlusPlus;
 import org.emftext.language.java.operators.UnaryModificationOperator;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.UnaryModificationOperatorPrinterInt;
 
-class UnaryModificationOperatorPrinter implements Printer<UnaryModificationOperator>{
+class UnaryModificationOperatorPrinter implements Printer<UnaryModificationOperator>, UnaryModificationOperatorPrinterInt{
 
 	@Override
 	public void print(UnaryModificationOperator element, BufferedWriter writer)

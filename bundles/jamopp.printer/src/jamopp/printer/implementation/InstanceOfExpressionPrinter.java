@@ -8,8 +8,9 @@ import org.emftext.language.java.expressions.InstanceOfExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.InstanceOfExpressionPrinterInt;
 
-class InstanceOfExpressionPrinter implements Printer<InstanceOfExpression> {
+class InstanceOfExpressionPrinter implements Printer<InstanceOfExpression>, InstanceOfExpressionPrinterInt {
 
 	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

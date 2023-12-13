@@ -7,6 +7,8 @@ import org.emftext.language.java.references.IdentifierReference;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.printer.IdentifierReferencePrinterInt;
+
 public class IdentifierReferencePrinter implements IdentifierReferencePrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;

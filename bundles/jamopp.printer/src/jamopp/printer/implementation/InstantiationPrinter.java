@@ -11,8 +11,9 @@ import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTy
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.InstantiationPrinterInt;
 
-class InstantiationPrinter implements Printer<Instantiation> {
+class InstantiationPrinter implements Printer<Instantiation>, InstantiationPrinterInt {
 
 	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

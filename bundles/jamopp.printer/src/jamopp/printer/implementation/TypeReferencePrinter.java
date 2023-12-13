@@ -12,8 +12,9 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-class TypeReferencePrinter implements Printer<TypeReference> {
+class TypeReferencePrinter implements Printer<TypeReference>, TypeReferencePrinterInt {
 
 	private final NamespaceClassifierReferencePrinter NamespaceClassifierReferencePrinter;
 	private final ClassifierReferencePrinter ClassifierReferencePrinter;
@@ -22,10 +23,10 @@ class TypeReferencePrinter implements Printer<TypeReference> {
 
 	@Inject
 	public TypeReferencePrinter(
-			jamopp.printer.implementation.NamespaceClassifierReferencePrinter namespaceClassifierReferencePrinter,
-			jamopp.printer.implementation.ClassifierReferencePrinter classifierReferencePrinter,
-			jamopp.printer.implementation.PrimitiveTypePrinter primitiveTypePrinter,
-			jamopp.printer.implementation.InferableTypePrinter inferableTypePrinter) {
+			NamespaceClassifierReferencePrinter namespaceClassifierReferencePrinter,
+			ClassifierReferencePrinter classifierReferencePrinter,
+			PrimitiveTypePrinter primitiveTypePrinter,
+			InferableTypePrinter inferableTypePrinter) {
 		super();
 		NamespaceClassifierReferencePrinter = namespaceClassifierReferencePrinter;
 		ClassifierReferencePrinter = classifierReferencePrinter;

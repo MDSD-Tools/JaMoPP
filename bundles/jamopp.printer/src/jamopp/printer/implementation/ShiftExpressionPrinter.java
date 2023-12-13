@@ -8,6 +8,7 @@ import org.emftext.language.java.expressions.ShiftExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ShiftExpressionPrinterInt;
 
 class ShiftExpressionPrinter implements ShiftExpressionPrinterInt {
 

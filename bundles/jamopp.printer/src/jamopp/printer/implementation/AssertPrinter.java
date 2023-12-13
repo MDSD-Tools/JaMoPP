@@ -8,8 +8,9 @@ import org.emftext.language.java.statements.Assert;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AssertPrinterInt;
 
-class AssertPrinter implements Printer<Assert> {
+class AssertPrinter implements Printer<Assert>, AssertPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 

@@ -8,8 +8,9 @@ import org.emftext.language.java.expressions.MultiplicativeExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.MultiplicativeExpressionPrinterInt;
 
-class MultiplicativeExpressionPrinter implements Printer<MultiplicativeExpression> {
+class MultiplicativeExpressionPrinter implements Printer<MultiplicativeExpression>, MultiplicativeExpressionPrinterInt {
 
 	private final MultiplicativeExpressionChildPrinter MultiplicativeExpressionChildPrinter;
 	private final MultiplicativeOperatorPrinter MultiplicativeOperatorPrinter;

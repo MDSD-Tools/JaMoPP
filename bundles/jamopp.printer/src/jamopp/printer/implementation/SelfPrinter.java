@@ -8,8 +8,9 @@ import org.emftext.language.java.literals.Super;
 import org.emftext.language.java.literals.This;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.SelfPrinterInt;
 
-class SelfPrinter implements Printer<Self>{
+class SelfPrinter implements Printer<Self>, SelfPrinterInt{
 
 	@Override
 	public void print(Self element, BufferedWriter writer) throws IOException {

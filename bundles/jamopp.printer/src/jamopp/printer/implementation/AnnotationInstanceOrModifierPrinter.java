@@ -10,8 +10,9 @@ import org.emftext.language.java.modifiers.Modifier;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotationInstanceOrModifierPrinterInt;
 
-class AnnotationInstanceOrModifierPrinter implements Printer<AnnotationInstanceOrModifier> {
+class AnnotationInstanceOrModifierPrinter implements  AnnotationInstanceOrModifierPrinterInt {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final ModifierPrinter ModifierPrinter;

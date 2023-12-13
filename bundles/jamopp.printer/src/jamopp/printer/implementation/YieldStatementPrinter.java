@@ -8,18 +8,18 @@ import org.emftext.language.java.statements.YieldStatement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.YieldStatementPrinterInt;
 
-class YieldStatementPrinter implements Printer<YieldStatement> {
+class YieldStatementPrinter implements Printer<YieldStatement>, YieldStatementPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 
 	@Inject
-	public YieldStatementPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
+	public YieldStatementPrinter(ExpressionPrinter expressionPrinter) {
 		super();
 		ExpressionPrinter = expressionPrinter;
 	}
 
-	@Override
 	public void print(YieldStatement element, BufferedWriter writer) throws IOException {
 		writer.append("yield ");
 		ExpressionPrinter.print(element.getYieldExpression(), writer);
