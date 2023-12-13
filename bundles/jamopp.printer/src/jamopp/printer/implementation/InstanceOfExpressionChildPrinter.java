@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InstanceOfExpressionChildPrinterInt;
 
-class InstanceOfExpressionChildPrinter implements Printer<InstanceOfExpressionChild>, InstanceOfExpressionChildPrinterInt {
+class InstanceOfExpressionChildPrinter implements InstanceOfExpressionChildPrinterInt {
 
 	private final RelationExpressionPrinter RelationExpressionPrinter;
 	private final RelationExpressionChildPrinter RelationExpressionChildPrinter;

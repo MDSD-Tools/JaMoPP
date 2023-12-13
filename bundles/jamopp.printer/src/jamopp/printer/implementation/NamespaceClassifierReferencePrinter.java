@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.NamespaceClassifierReferencePrinterInt;
 
-class NamespaceClassifierReferencePrinter implements Printer<NamespaceClassifierReference>, NamespaceClassifierReferencePrinterInt {
+class NamespaceClassifierReferencePrinter implements NamespaceClassifierReferencePrinterInt {
 
 	private final ClassifierReferencePrinter ClassifierReferencePrinter;
 

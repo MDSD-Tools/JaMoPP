@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.YieldStatementPrinterInt;
 
-class YieldStatementPrinter implements Printer<YieldStatement>, YieldStatementPrinterInt {
+class YieldStatementPrinter implements YieldStatementPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 

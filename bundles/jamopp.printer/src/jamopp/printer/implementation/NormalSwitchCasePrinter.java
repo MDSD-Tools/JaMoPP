@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.NormalSwitchCasePrinterInt;
 
-class NormalSwitchCasePrinter implements Printer<NormalSwitchCase>, NormalSwitchCasePrinterInt {
+class NormalSwitchCasePrinter implements NormalSwitchCasePrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 	private final StatementPrinter StatementPrinter;

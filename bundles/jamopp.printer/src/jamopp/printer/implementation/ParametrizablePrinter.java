@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ParametrizablePrinterInt;
 
-class ParametrizablePrinter implements Printer<Parametrizable>, ParametrizablePrinterInt {
+class ParametrizablePrinter implements ParametrizablePrinterInt {
 
 	private final ReceiverParameterPrinter ReceiverParameterPrinter;
 	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;

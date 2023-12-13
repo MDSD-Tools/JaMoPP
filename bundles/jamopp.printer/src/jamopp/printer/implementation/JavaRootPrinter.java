@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.JavaRootPrinterInt;
 
-public class JavaRootPrinter implements Printer<JavaRoot>, JavaRootPrinterInt {
+public class JavaRootPrinter implements JavaRootPrinterInt {
 
 	private final ImportingElementPrinter ImportingElementPrinter;
 	private final ModulePrinter ModulePrinter;

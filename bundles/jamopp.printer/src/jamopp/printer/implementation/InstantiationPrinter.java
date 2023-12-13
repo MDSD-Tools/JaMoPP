@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InstantiationPrinterInt;
 
-class InstantiationPrinter implements Printer<Instantiation>, InstantiationPrinterInt {
+class InstantiationPrinter implements InstantiationPrinterInt {
 
 	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

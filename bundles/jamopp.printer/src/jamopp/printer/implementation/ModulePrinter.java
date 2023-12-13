@@ -15,7 +15,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ModulePrinterInt;
 
-class ModulePrinter implements Printer<org.emftext.language.java.containers.Module>, ModulePrinterInt {
+class ModulePrinter implements ModulePrinterInt {
 
 	private final UsesModuleDirectivePrinter UsesModuleDirectivePrinter;
 	private final ProvidesModuleDirectivePrinter ProvidesModuleDirectivePrinter;

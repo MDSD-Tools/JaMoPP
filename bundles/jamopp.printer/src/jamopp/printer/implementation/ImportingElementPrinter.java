@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ImportingElementPrinterInt;
 
-class ImportingElementPrinter implements Printer<ImportingElement>, ImportingElementPrinterInt {
+class ImportingElementPrinter implements ImportingElementPrinterInt {
 
 	private final ImportPrinter ImportPrinter;
 

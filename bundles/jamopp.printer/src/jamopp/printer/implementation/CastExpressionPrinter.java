@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CastExpressionPrinterInt;
 
-class CastExpressionPrinter implements Printer<CastExpression>, CastExpressionPrinterInt {
+class CastExpressionPrinter implements CastExpressionPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;

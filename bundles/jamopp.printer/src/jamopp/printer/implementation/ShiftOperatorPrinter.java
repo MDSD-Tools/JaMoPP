@@ -10,7 +10,7 @@ import org.emftext.language.java.operators.ShiftOperator;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ShiftOperatorPrinterInt;
 
-class ShiftOperatorPrinter implements Printer<ShiftOperator>, ShiftOperatorPrinterInt{
+class ShiftOperatorPrinter implements ShiftOperatorPrinterInt{
 
 	@Override
 	public void print(ShiftOperator element, BufferedWriter writer) throws IOException {

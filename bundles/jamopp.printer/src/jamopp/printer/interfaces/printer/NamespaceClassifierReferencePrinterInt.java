@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface NamespaceClassifierReferencePrinterInt {
+import org.emftext.language.java.types.NamespaceClassifierReference;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface NamespaceClassifierReferencePrinterInt extends Printer<NamespaceClassifierReference> {
 
 }

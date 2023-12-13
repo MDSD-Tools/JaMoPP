@@ -7,10 +7,9 @@ import org.emftext.language.java.expressions.MultiplicativeExpression;
 
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MultiplicativeExpressionPrinterInt;
 
-class MultiplicativeExpressionPrinter implements Printer<MultiplicativeExpression>, MultiplicativeExpressionPrinterInt {
+class MultiplicativeExpressionPrinter implements MultiplicativeExpressionPrinterInt {
 
 	private final MultiplicativeExpressionChildPrinter MultiplicativeExpressionChildPrinter;
 	private final MultiplicativeOperatorPrinter MultiplicativeOperatorPrinter;
@@ -32,5 +31,7 @@ class MultiplicativeExpressionPrinter implements Printer<MultiplicativeExpressio
 			MultiplicativeExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
+
+
 
 }

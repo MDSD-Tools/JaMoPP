@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ForEachLoopPrinterInt;
 
-class ForEachLoopPrinter implements Printer<ForEachLoop>, ForEachLoopPrinterInt {
+class ForEachLoopPrinter implements ForEachLoopPrinterInt {
 
 	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
 	private final ExpressionPrinter ExpressionPrinter;

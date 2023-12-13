@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface EqualityExpressionChildPrinterInt {
+import org.emftext.language.java.expressions.EqualityExpressionChild;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface EqualityExpressionChildPrinterInt extends Printer<EqualityExpressionChild> {
 
 }

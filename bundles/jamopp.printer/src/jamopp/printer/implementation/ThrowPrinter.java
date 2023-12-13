@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ThrowPrinterInt;
 
-class ThrowPrinter implements Printer<Throw>, ThrowPrinterInt {
+class ThrowPrinter implements ThrowPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 

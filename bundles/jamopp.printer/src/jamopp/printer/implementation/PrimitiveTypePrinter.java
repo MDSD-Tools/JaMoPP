@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.PrimitiveTypePrinterInt;
 
-class PrimitiveTypePrinter implements Printer<PrimitiveType>, PrimitiveTypePrinterInt {
+class PrimitiveTypePrinter implements PrimitiveTypePrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 

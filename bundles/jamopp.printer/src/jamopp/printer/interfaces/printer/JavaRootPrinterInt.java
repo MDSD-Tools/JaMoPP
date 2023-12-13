@@ -1,5 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public interface JavaRootPrinterInt {
+import org.emftext.language.java.containers.JavaRoot;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface JavaRootPrinterInt extends Printer<JavaRoot> {
 
 }

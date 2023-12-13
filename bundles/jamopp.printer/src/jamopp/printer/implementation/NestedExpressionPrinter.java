@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.NestedExpressionPrinterInt;
 
-class NestedExpressionPrinter implements Printer<NestedExpression>, NestedExpressionPrinterInt {
+class NestedExpressionPrinter implements NestedExpressionPrinterInt {
 
 	private final ExpressionPrinter ExpressionPrinter;
 

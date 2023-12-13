@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.SwitchCasePrinterInt;
 
-class SwitchCasePrinter implements Printer<SwitchCase>, SwitchCasePrinterInt {
+class SwitchCasePrinter implements SwitchCasePrinterInt {
 
 	private final DefaultSwitchCasePrinter DefaultSwitchCasePrinter;
 	private final NormalSwitchCasePrinter NormalSwitchCasePrinter;

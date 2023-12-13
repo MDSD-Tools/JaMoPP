@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface TypeReferencePrinterInt {
+import org.emftext.language.java.types.TypeReference;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface TypeReferencePrinterInt extends Printer<TypeReference> {
 
 }

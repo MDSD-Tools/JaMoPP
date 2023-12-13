@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.SuffixUnaryModificationExpressionPrinterInt;
 
-class SuffixUnaryModificationExpressionPrinter implements Printer<SuffixUnaryModificationExpression>, SuffixUnaryModificationExpressionPrinterInt {
+class SuffixUnaryModificationExpressionPrinter implements SuffixUnaryModificationExpressionPrinterInt {
 
 	private final UnaryModificationExpressionChildPrinter UnaryModificationExpressionChildPrinter;
 	private final UnaryModificationOperatorPrinter UnaryModificationOperatorPrinter;

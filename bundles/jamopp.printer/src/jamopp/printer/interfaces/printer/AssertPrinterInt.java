@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface AssertPrinterInt {
+import org.emftext.language.java.statements.Assert;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface AssertPrinterInt extends Printer<Assert> {
 
 }

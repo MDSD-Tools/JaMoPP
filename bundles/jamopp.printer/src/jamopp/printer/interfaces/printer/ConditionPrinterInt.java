@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface ConditionPrinterInt {
+import org.emftext.language.java.statements.Condition;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface ConditionPrinterInt extends Printer<Condition> {
 
 }

@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.BlockPrinterInt;
 
-class BlockPrinter implements Printer<Block>, BlockPrinterInt {
+class BlockPrinter implements BlockPrinterInt {
 
 	private final ModifierPrinter ModifierPrinter;
 	private final StatementPrinter StatementPrinter;

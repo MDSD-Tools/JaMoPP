@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CompilationUnitPrinterInt;
 
-class CompilationUnitPrinter implements Printer<CompilationUnit>, CompilationUnitPrinterInt {
+class CompilationUnitPrinter implements CompilationUnitPrinterInt {
 
 	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
 

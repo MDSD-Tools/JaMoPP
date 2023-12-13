@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ReferencePrinterInt;
 
-class ReferencePrinter implements Printer<Reference>, ReferencePrinterInt {
+class ReferencePrinter implements ReferencePrinterInt {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final NestedExpressionPrinter NestedExpressionPrinter;

@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface DoWhileLoopPrinterInt {
+import org.emftext.language.java.statements.DoWhileLoop;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface DoWhileLoopPrinterInt extends Printer<DoWhileLoop> {
 
 }

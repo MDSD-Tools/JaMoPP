@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.UnaryExpressionPrinterInt;
 
-class UnaryExpressionPrinter implements Printer<UnaryExpression>, UnaryExpressionPrinterInt {
+class UnaryExpressionPrinter implements UnaryExpressionPrinterInt {
 
 	private final UnaryOperatorPrinter UnaryOperatorPrinter;
 	private final UnaryExpressionChildPrinter UnaryExpressionChildPrinter;

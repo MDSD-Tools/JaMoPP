@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ArrayInitializerPrinterInt;
 
-class ArrayInitializerPrinter implements Printer<ArrayInitializer>, ArrayInitializerPrinterInt {
+class ArrayInitializerPrinter implements  ArrayInitializerPrinterInt {
 
 	private final AnnotationInstancePrinter AnnotationInstancePrinter;
 	private final ExpressionPrinter ExpressionPrinter;

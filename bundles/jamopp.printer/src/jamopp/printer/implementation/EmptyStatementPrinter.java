@@ -6,7 +6,7 @@ import java.io.IOException;
 import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.printer.EmptyStatementPrinterInt;
 
-class EmptyStatementPrinter implements EmptyPrinter, EmptyStatementPrinterInt {
+class EmptyStatementPrinter implements  EmptyStatementPrinterInt {
 
 	@Override
 	public void print(BufferedWriter writer) throws IOException {

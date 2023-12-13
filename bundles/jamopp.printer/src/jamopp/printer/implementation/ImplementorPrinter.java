@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ImplementorPrinterInt;
 
-class ImplementorPrinter implements Printer<Implementor>, ImplementorPrinterInt {
+class ImplementorPrinter implements ImplementorPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 

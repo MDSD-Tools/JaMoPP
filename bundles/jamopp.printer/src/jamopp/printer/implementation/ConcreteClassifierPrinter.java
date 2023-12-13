@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConcreteClassifierPrinterInt;
 
-class ConcreteClassifierPrinter implements Printer<ConcreteClassifier>, ConcreteClassifierPrinterInt {
+class ConcreteClassifierPrinter implements ConcreteClassifierPrinterInt {
 
 	private final ClassPrinter ClassPrinter;
 	private final InterfacePrinter InterfacePrinter;

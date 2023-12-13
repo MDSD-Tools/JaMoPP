@@ -1,6 +1,7 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface EmptyMemberPrinterInt {
+import jamopp.printer.interfaces.EmptyPrinter;
+
+public interface EmptyMemberPrinterInt extends EmptyPrinter {
 
 }

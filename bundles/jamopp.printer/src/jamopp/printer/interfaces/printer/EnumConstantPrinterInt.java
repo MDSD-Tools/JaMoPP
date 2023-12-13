@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface EnumConstantPrinterInt {
+import org.emftext.language.java.members.EnumConstant;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface EnumConstantPrinterInt extends Printer<EnumConstant> {
 
 }

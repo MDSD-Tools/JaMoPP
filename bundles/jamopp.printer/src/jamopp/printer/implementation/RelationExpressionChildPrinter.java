@@ -13,7 +13,7 @@ import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.RelationExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.ShiftExpressionPrinterInt;
 
-class RelationExpressionChildPrinter implements Printer<RelationExpressionChild>, RelationExpressionChildPrinterInt {
+class RelationExpressionChildPrinter implements RelationExpressionChildPrinterInt {
 
 	private final ShiftExpressionPrinterInt ShiftExpressionPrinter;
 	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;

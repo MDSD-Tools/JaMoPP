@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ExceptionThrowerPrinterInt;
 
-class ExceptionThrowerPrinter implements Printer<ExceptionThrower>, ExceptionThrowerPrinterInt {
+class ExceptionThrowerPrinter implements ExceptionThrowerPrinterInt {
 
 	private final TypeReferencePrinter TypeReferencePrinter;
 

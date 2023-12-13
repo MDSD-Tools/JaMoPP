@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.TryBlockPrinterInt;
 
-class TryBlockPrinter implements Printer<TryBlock>, TryBlockPrinterInt {
+class TryBlockPrinter implements TryBlockPrinterInt {
 
 	private final ResourcePrinter ResourcePrinter;
 	private final BlockPrinter BlockPrinter;

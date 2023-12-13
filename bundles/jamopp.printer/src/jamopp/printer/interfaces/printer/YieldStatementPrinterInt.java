@@ -1,5 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public interface YieldStatementPrinterInt {
+import org.emftext.language.java.statements.YieldStatement;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface YieldStatementPrinterInt extends Printer<YieldStatement> {
 
 }

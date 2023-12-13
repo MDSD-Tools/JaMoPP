@@ -12,7 +12,7 @@ import org.emftext.language.java.imports.StaticMemberImport;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ImportPrinterInt;
 
-class ImportPrinter implements Printer<Import>, ImportPrinterInt{
+class ImportPrinter implements ImportPrinterInt{
 
 	@Override
 	public void print(Import element, BufferedWriter writer) throws IOException {

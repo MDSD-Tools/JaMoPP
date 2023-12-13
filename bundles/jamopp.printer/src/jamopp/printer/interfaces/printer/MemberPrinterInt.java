@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface MemberPrinterInt {
+import org.emftext.language.java.members.Member;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface MemberPrinterInt extends Printer<Member> {
 
 }

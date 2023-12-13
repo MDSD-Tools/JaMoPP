@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface RequiresModuleDirectivePrinterInt {
+import org.emftext.language.java.modules.RequiresModuleDirective;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface RequiresModuleDirectivePrinterInt extends Printer<RequiresModuleDirective> {
 
 }

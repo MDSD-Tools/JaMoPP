@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.LocalVariablePrinterInt;
 
-class LocalVariablePrinter implements Printer<LocalVariable>, LocalVariablePrinterInt {
+class LocalVariablePrinter implements LocalVariablePrinterInt {
 
 	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

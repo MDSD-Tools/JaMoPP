@@ -1,12 +1,10 @@
 package jamopp.printer.interfaces.printer;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-
 import org.emftext.language.java.references.IdentifierReference;
 
-public interface IdentifierReferencePrinterInt {
+import jamopp.printer.interfaces.Printer;
 
-	void print(IdentifierReference element, BufferedWriter writer) throws IOException;
+public interface IdentifierReferencePrinterInt extends Printer<IdentifierReference> {
+
 
 }

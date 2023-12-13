@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.RelationExpressionPrinterInt;
 
-class RelationExpressionPrinter implements Printer<RelationExpression>, RelationExpressionPrinterInt {
+class RelationExpressionPrinter implements RelationExpressionPrinterInt {
 
 	private final RelationExpressionChildPrinter RelationExpressionChildPrinter;
 	private final RelationOperatorPrinter RelationOperatorPrinter;

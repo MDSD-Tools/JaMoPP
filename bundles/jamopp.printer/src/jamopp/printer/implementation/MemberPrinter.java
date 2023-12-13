@@ -16,7 +16,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MemberPrinterInt;
 
-class MemberPrinter implements Printer<Member>, MemberPrinterInt {
+class MemberPrinter implements MemberPrinterInt {
 
 	private final FieldPrinter FieldPrinter;
 	private final ConstructorPrinter ConstructorPrinter;

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.SelfReferencePrinterInt;
 
-class SelfReferencePrinter implements Printer<SelfReference>, SelfReferencePrinterInt {
+class SelfReferencePrinter implements SelfReferencePrinterInt {
 
 	private final SelfPrinter SelfPrinter;
 

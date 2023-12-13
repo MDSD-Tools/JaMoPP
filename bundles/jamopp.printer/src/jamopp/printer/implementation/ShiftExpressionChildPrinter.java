@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ShiftExpressionChildPrinterInt;
 
-class ShiftExpressionChildPrinter implements Printer<ShiftExpressionChild>, ShiftExpressionChildPrinterInt {
+class ShiftExpressionChildPrinter implements ShiftExpressionChildPrinterInt {
 
 	private final AdditiveExpressionPrinter AdditiveExpressionPrinter;
 	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;

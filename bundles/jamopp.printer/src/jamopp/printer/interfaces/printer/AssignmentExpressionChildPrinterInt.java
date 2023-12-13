@@ -1,6 +1,9 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface AssignmentExpressionChildPrinterInt {
+import org.emftext.language.java.expressions.AssignmentExpressionChild;
+
+import jamopp.printer.interfaces.Printer;
+
+public interface AssignmentExpressionChildPrinterInt extends Printer<AssignmentExpressionChild> {
 
 }

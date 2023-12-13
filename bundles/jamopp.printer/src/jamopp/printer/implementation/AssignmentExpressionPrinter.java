@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AssignmentExpressionPrinterInt;
 
-class AssignmentExpressionPrinter implements Printer<AssignmentExpression>, AssignmentExpressionPrinterInt {
+class AssignmentExpressionPrinter implements AssignmentExpressionPrinterInt {
 
 	private final AssignmentExpressionChildPrinter AssignmentExpressionChildPrinter;
 	private final AssignmentOperatorPrinter AssignmentOperatorPrinter;

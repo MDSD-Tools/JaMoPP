@@ -1,6 +1,7 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface InferableTypePrinterInt {
+import jamopp.printer.interfaces.EmptyPrinter;
+
+public interface InferableTypePrinterInt extends EmptyPrinter {
 
 }

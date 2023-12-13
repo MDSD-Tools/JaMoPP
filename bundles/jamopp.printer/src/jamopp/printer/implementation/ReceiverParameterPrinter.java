@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ReceiverParameterPrinterInt;
 
-class ReceiverParameterPrinter implements Printer<ReceiverParameter>, ReceiverParameterPrinterInt {
+class ReceiverParameterPrinter implements ReceiverParameterPrinterInt {
 
 	private final AnnotablePrinter AnnotablePrinter;
 	private final TypeReferencePrinter TypeReferencePrinter;

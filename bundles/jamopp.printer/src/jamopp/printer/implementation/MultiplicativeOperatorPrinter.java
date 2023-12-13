@@ -10,7 +10,7 @@ import org.emftext.language.java.operators.MultiplicativeOperator;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MultiplicativeOperatorPrinterInt;
 
-class MultiplicativeOperatorPrinter implements Printer<MultiplicativeOperator>, MultiplicativeOperatorPrinterInt {
+class MultiplicativeOperatorPrinter implements MultiplicativeOperatorPrinterInt {
 
 	@Override
 	public void print(MultiplicativeOperator element, BufferedWriter writer)

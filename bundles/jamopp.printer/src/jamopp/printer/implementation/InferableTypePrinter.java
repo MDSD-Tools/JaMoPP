@@ -6,7 +6,7 @@ import java.io.IOException;
 import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.printer.InferableTypePrinterInt;
 
-class InferableTypePrinter implements EmptyPrinter, InferableTypePrinterInt{
+class InferableTypePrinter implements  InferableTypePrinterInt{
 
 	@Override
 	public void print(BufferedWriter writer) throws IOException {

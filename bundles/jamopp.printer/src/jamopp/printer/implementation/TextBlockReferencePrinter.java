@@ -8,7 +8,7 @@ import org.emftext.language.java.references.TextBlockReference;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.TextBlockReferencePrinterInt;
 
-class TextBlockReferencePrinter implements Printer<TextBlockReference>, TextBlockReferencePrinterInt{
+class TextBlockReferencePrinter implements TextBlockReferencePrinterInt{
 
 	@Override
 	public void print(TextBlockReference element, BufferedWriter writer) throws IOException {

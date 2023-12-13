@@ -1,6 +1,7 @@
 package jamopp.printer.interfaces.printer;
 
-public 
-interface ReflectiveClassReferencePrinterInt {
+import jamopp.printer.interfaces.EmptyPrinter;
+
+public interface ReflectiveClassReferencePrinterInt extends EmptyPrinter {
 
 }
