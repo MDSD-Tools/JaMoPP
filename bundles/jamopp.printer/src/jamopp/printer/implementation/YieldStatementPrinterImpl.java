@@ -12,17 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class YieldStatementPrinterImpl implements Printer<YieldStatement> {
 
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public YieldStatementPrinterImpl(Printer<Expression> expressionPrinter) {
-		ExpressionPrinter = expressionPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(YieldStatement element, BufferedWriter writer) throws IOException {
 		writer.append("yield ");
-		ExpressionPrinter.print(element.getYieldExpression(), writer);
+		this.expressionPrinter.print(element.getYieldExpression(), writer);
 		writer.append(";\n");
 	}
 

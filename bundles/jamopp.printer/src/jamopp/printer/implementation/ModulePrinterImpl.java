@@ -16,11 +16,11 @@ import jamopp.printer.interfaces.Printer;
 
 public class ModulePrinterImpl implements Printer<org.emftext.language.java.containers.Module> {
 
-	private final Printer<ExportsModuleDirective> ExportsModuleDirectivePrinter;
-	private final Printer<OpensModuleDirective> OpensModuleDirectivePrinter;
-	private final Printer<ProvidesModuleDirective> ProvidesModuleDirectivePrinter;
-	private final Printer<RequiresModuleDirective> RequiresModuleDirectivePrinter;
-	private final Printer<UsesModuleDirective> UsesModuleDirectivePrinter;
+	private final Printer<ExportsModuleDirective> exportsModuleDirectivePrinter;
+	private final Printer<OpensModuleDirective> opensModuleDirectivePrinter;
+	private final Printer<ProvidesModuleDirective> providesModuleDirectivePrinter;
+	private final Printer<RequiresModuleDirective> requiresModuleDirectivePrinter;
+	private final Printer<UsesModuleDirective> usesModuleDirectivePrinter;
 
 	@Inject
 	public ModulePrinterImpl(Printer<UsesModuleDirective> usesModuleDirectivePrinter,
@@ -28,11 +28,11 @@ public class ModulePrinterImpl implements Printer<org.emftext.language.java.cont
 			Printer<RequiresModuleDirective> requiresModuleDirectivePrinter,
 			Printer<OpensModuleDirective> opensModuleDirectivePrinter,
 			Printer<ExportsModuleDirective> exportsModuleDirectivePrinter) {
-		UsesModuleDirectivePrinter = usesModuleDirectivePrinter;
-		ProvidesModuleDirectivePrinter = providesModuleDirectivePrinter;
-		RequiresModuleDirectivePrinter = requiresModuleDirectivePrinter;
-		OpensModuleDirectivePrinter = opensModuleDirectivePrinter;
-		ExportsModuleDirectivePrinter = exportsModuleDirectivePrinter;
+		this.usesModuleDirectivePrinter = usesModuleDirectivePrinter;
+		this.providesModuleDirectivePrinter = providesModuleDirectivePrinter;
+		this.requiresModuleDirectivePrinter = requiresModuleDirectivePrinter;
+		this.opensModuleDirectivePrinter = opensModuleDirectivePrinter;
+		this.exportsModuleDirectivePrinter = exportsModuleDirectivePrinter;
 	}
 
 	@Override
@@ -44,15 +44,15 @@ public class ModulePrinterImpl implements Printer<org.emftext.language.java.cont
 		writer.append(element.getNamespacesAsString() + " {\n");
 		for (ModuleDirective dir : element.getTarget()) {
 			if (dir instanceof UsesModuleDirective) {
-				UsesModuleDirectivePrinter.print((UsesModuleDirective) dir, writer);
+				this.usesModuleDirectivePrinter.print((UsesModuleDirective) dir, writer);
 			} else if (dir instanceof ProvidesModuleDirective) {
-				ProvidesModuleDirectivePrinter.print((ProvidesModuleDirective) dir, writer);
+				this.providesModuleDirectivePrinter.print((ProvidesModuleDirective) dir, writer);
 			} else if (dir instanceof RequiresModuleDirective) {
-				RequiresModuleDirectivePrinter.print((RequiresModuleDirective) dir, writer);
+				this.requiresModuleDirectivePrinter.print((RequiresModuleDirective) dir, writer);
 			} else if (dir instanceof OpensModuleDirective) {
-				OpensModuleDirectivePrinter.print((OpensModuleDirective) dir, writer);
+				this.opensModuleDirectivePrinter.print((OpensModuleDirective) dir, writer);
 			} else {
-				ExportsModuleDirectivePrinter.print((ExportsModuleDirective) dir, writer);
+				this.exportsModuleDirectivePrinter.print((ExportsModuleDirective) dir, writer);
 			}
 		}
 		writer.append("}\n");

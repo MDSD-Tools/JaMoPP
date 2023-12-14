@@ -12,11 +12,11 @@ import jamopp.printer.interfaces.Printer;
 
 public class ReturnPrinterImpl implements Printer<Return> {
 
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public ReturnPrinterImpl(Printer<Expression> expressionPrinter) {
-		ExpressionPrinter = expressionPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class ReturnPrinterImpl implements Printer<Return> {
 		writer.append("return");
 		if (element.getReturnValue() != null) {
 			writer.append(" ");
-			ExpressionPrinter.print(element.getReturnValue(), writer);
+			this.expressionPrinter.print(element.getReturnValue(), writer);
 		}
 		writer.append(";\n");
 	}

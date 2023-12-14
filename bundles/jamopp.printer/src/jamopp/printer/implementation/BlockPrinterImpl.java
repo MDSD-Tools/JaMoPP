@@ -13,23 +13,23 @@ import jamopp.printer.interfaces.Printer;
 
 public class BlockPrinterImpl implements Printer<Block> {
 
-	private final Printer<Modifier> ModifierPrinter;
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Modifier> modifierPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public BlockPrinterImpl(Printer<Modifier> modifierPrinter, Printer<Statement> statementPrinter) {
-		ModifierPrinter = modifierPrinter;
-		StatementPrinter = statementPrinter;
+		this.modifierPrinter = modifierPrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(Block element, BufferedWriter writer) throws IOException {
 		for (Modifier m : element.getModifiers()) {
-			ModifierPrinter.print(m, writer);
+			this.modifierPrinter.print(m, writer);
 		}
 		writer.append("{\n");
 		for (Statement s : element.getStatements()) {
-			StatementPrinter.print(s, writer);
+			this.statementPrinter.print(s, writer);
 		}
 		writer.append("}\n");
 	}

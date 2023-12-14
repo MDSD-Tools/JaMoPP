@@ -17,32 +17,32 @@ import jamopp.printer.interfaces.Printer;
 
 public class VariableLengthParameterPrinterImpl implements Printer<VariableLengthParameter> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<Annotable> AnnotablePrinter;
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<Annotable> annotablePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<TypeArgumentable> typeArgumentablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public VariableLengthParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Annotable> annotablePrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		TypeArgumentablePrinter = typeArgumentablePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		AnnotablePrinter = annotablePrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.typeArgumentablePrinter = typeArgumentablePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.annotablePrinter = annotablePrinter;
 	}
 
 	@Override
 	public void print(VariableLengthParameter element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
-		TypeArgumentablePrinter.print(element, writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
+		this.typeArgumentablePrinter.print(element, writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		writer.append(" ");
-		AnnotablePrinter.print(element, writer);
+		this.annotablePrinter.print(element, writer);
 		writer.append(" ..." + element.getName());
 	}
 

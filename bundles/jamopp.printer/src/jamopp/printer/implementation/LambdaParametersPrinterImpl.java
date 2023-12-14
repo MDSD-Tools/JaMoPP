@@ -15,14 +15,14 @@ import jamopp.printer.interfaces.Printer;
 
 public class LambdaParametersPrinterImpl implements Printer<LambdaParameters> {
 
-	private final Printer<OrdinaryParameter> OrdinaryParameterPrinter;
-	private final Printer<VariableLengthParameter> VariableLengthParameterPrinter;
+	private final Printer<OrdinaryParameter> ordinaryParameterPrinter;
+	private final Printer<VariableLengthParameter> variableLengthParameterPrinter;
 
 	@Inject
 	public LambdaParametersPrinterImpl(Printer<OrdinaryParameter> ordinaryParameterPrinter,
 			Printer<VariableLengthParameter> variableLengthParameterPrinter) {
-		OrdinaryParameterPrinter = ordinaryParameterPrinter;
-		VariableLengthParameterPrinter = variableLengthParameterPrinter;
+		this.ordinaryParameterPrinter = ordinaryParameterPrinter;
+		this.variableLengthParameterPrinter = variableLengthParameterPrinter;
 	}
 
 	@Override
@@ -43,9 +43,9 @@ public class LambdaParametersPrinterImpl implements Printer<LambdaParameters> {
 				for (var index = 0; index < element.getParameters().size(); index++) {
 					var param = element.getParameters().get(index);
 					if (param instanceof OrdinaryParameter) {
-						OrdinaryParameterPrinter.print((OrdinaryParameter) param, writer);
+						this.ordinaryParameterPrinter.print((OrdinaryParameter) param, writer);
 					} else {
-						VariableLengthParameterPrinter.print((VariableLengthParameter) param, writer);
+						this.variableLengthParameterPrinter.print((VariableLengthParameter) param, writer);
 					}
 					if (index < element.getParameters().size() - 1) {
 						writer.append(", ");

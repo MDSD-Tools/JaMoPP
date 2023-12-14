@@ -19,7 +19,7 @@ import org.emftext.language.java.modifiers.Volatile;
 
 import jamopp.printer.interfaces.Printer;
 
-public class ModifierPrinterImpl implements Printer<Modifier>{
+public class ModifierPrinterImpl implements Printer<Modifier> {
 
 	@Override
 	public void print(Modifier element, BufferedWriter writer) throws IOException {

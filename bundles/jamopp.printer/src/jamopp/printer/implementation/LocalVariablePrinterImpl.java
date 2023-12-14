@@ -18,41 +18,41 @@ import jamopp.printer.interfaces.Printer;
 
 public class LocalVariablePrinterImpl implements Printer<LocalVariable> {
 
-	private final Printer<AdditionalLocalVariable> AdditionalLocalVariablePrinter;
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AdditionalLocalVariable> additionalLocalVariablePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<TypeArgumentable> typeArgumentablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public LocalVariablePrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter,
 			Printer<AdditionalLocalVariable> additionalLocalVariablePrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		TypeArgumentablePrinter = typeArgumentablePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		ExpressionPrinter = expressionPrinter;
-		AdditionalLocalVariablePrinter = additionalLocalVariablePrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.typeArgumentablePrinter = typeArgumentablePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.additionalLocalVariablePrinter = additionalLocalVariablePrinter;
 	}
 
 	@Override
 	public void print(LocalVariable element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
-		TypeArgumentablePrinter.print(element, writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
+		this.typeArgumentablePrinter.print(element, writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		if (element.getInitialValue() != null) {
 			writer.append(" = ");
-			ExpressionPrinter.print(element.getInitialValue(), writer);
+			this.expressionPrinter.print(element.getInitialValue(), writer);
 		}
 		for (AdditionalLocalVariable var : element.getAdditionalLocalVariables()) {
 			writer.append(", ");
-			AdditionalLocalVariablePrinter.print(var, writer);
+			this.additionalLocalVariablePrinter.print(var, writer);
 		}
 	}
 

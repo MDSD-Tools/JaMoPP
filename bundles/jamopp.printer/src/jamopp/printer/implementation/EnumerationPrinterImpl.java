@@ -15,38 +15,36 @@ import jamopp.printer.interfaces.Printer;
 
 public class EnumerationPrinterImpl implements Printer<Enumeration> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<EnumConstant> EnumConstantPrinter;
-	private final Printer<Implementor> ImplementorPrinter;
-	private final Printer<MemberContainer> MemberContainerPrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<EnumConstant> enumConstantPrinter;
+	private final Printer<Implementor> implementorPrinter;
+	private final Printer<MemberContainer> memberContainerPrinter;
 
 	@Inject
 	public EnumerationPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<Implementor> implementorPrinter, Printer<EnumConstant> enumConstantPrinter,
 			Printer<MemberContainer> memberContainerPrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		ImplementorPrinter = implementorPrinter;
-		EnumConstantPrinter = enumConstantPrinter;
-		MemberContainerPrinter = memberContainerPrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.implementorPrinter = implementorPrinter;
+		this.enumConstantPrinter = enumConstantPrinter;
+		this.memberContainerPrinter = memberContainerPrinter;
 	}
 
 	@Override
 	public void print(Enumeration element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
 		writer.append("enum " + element.getName() + " ");
-		ImplementorPrinter.print(element, writer);
+		this.implementorPrinter.print(element, writer);
 		writer.append("{\n");
 		for (EnumConstant enc : element.getConstants()) {
-			EnumConstantPrinter.print(enc, writer);
+			this.enumConstantPrinter.print(enc, writer);
 			writer.append(",\n");
 		}
 		if (!element.getMembers().isEmpty()) {
 			writer.append(";\n\n");
-			MemberContainerPrinter.print(element, writer);
+			this.memberContainerPrinter.print(element, writer);
 		}
 		writer.append("}\n");
 	}
-
-
 
 }

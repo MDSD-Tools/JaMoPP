@@ -12,8 +12,7 @@ import jamopp.printer.interfaces.Printer;
 public class MultiplicativeOperatorPrinterImpl implements Printer<MultiplicativeOperator> {
 
 	@Override
-	public void print(MultiplicativeOperator element, BufferedWriter writer)
-			throws IOException {
+	public void print(MultiplicativeOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof Multiplication) {
 			writer.append(" * ");
 		} else if (element instanceof Division) {

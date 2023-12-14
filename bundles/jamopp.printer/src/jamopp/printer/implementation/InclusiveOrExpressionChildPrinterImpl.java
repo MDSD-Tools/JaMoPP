@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class InclusiveOrExpressionChildPrinterImpl implements Printer<InclusiveOrExpressionChild> {
 
-	private final Printer<ExclusiveOrExpressionChild> ExclusiveOrExpressionChildPrinter;
-	private final Printer<ExclusiveOrExpression> ExclusiveOrExpressionPrinter;
+	private final Printer<ExclusiveOrExpressionChild> exclusiveOrExpressionChildPrinter;
+	private final Printer<ExclusiveOrExpression> exclusiveOrExpressionPrinter;
 
 	@Inject
 	public InclusiveOrExpressionChildPrinterImpl(Printer<ExclusiveOrExpression> exclusiveOrExpressionPrinter,
 			Printer<ExclusiveOrExpressionChild> exclusiveOrExpressionChildPrinter) {
-		ExclusiveOrExpressionPrinter = exclusiveOrExpressionPrinter;
-		ExclusiveOrExpressionChildPrinter = exclusiveOrExpressionChildPrinter;
+		this.exclusiveOrExpressionPrinter = exclusiveOrExpressionPrinter;
+		this.exclusiveOrExpressionChildPrinter = exclusiveOrExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(InclusiveOrExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof ExclusiveOrExpression) {
-			ExclusiveOrExpressionPrinter.print((ExclusiveOrExpression) element, writer);
+			this.exclusiveOrExpressionPrinter.print((ExclusiveOrExpression) element, writer);
 		} else {
-			ExclusiveOrExpressionChildPrinter.print((ExclusiveOrExpressionChild) element, writer);
+			this.exclusiveOrExpressionChildPrinter.print((ExclusiveOrExpressionChild) element, writer);
 		}
 	}
 

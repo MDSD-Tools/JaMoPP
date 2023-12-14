@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class RelationExpressionPrinterImpl implements Printer<RelationExpression> {
 
-	private final Printer<RelationExpressionChild> RelationExpressionChildPrinter;
-	private final Printer<RelationOperator> RelationOperatorPrinter;
+	private final Printer<RelationExpressionChild> relationExpressionChildPrinter;
+	private final Printer<RelationOperator> relationOperatorPrinter;
 
 	@Inject
 	public RelationExpressionPrinterImpl(Printer<RelationExpressionChild> relationExpressionChildPrinter,
 			Printer<RelationOperator> relationOperatorPrinter) {
-		RelationExpressionChildPrinter = relationExpressionChildPrinter;
-		RelationOperatorPrinter = relationOperatorPrinter;
+		this.relationExpressionChildPrinter = relationExpressionChildPrinter;
+		this.relationOperatorPrinter = relationOperatorPrinter;
 	}
 
 	@Override
 	public void print(RelationExpression element, BufferedWriter writer) throws IOException {
-		RelationExpressionChildPrinter.print(element.getChildren().get(0), writer);
+		this.relationExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
-			RelationOperatorPrinter.print(element.getRelationOperators().get(index - 1), writer);
-			RelationExpressionChildPrinter.print(element.getChildren().get(index), writer);
+			this.relationOperatorPrinter.print(element.getRelationOperators().get(index - 1), writer);
+			this.relationExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

@@ -20,47 +20,47 @@ import jamopp.printer.interfaces.Printer;
 
 public class InstantiationPrinterImpl implements Printer<Instantiation> {
 
-	private final Printer<AnonymousClass> AnonymousClassPrinter;
-	private final Printer<Argumentable> ArgumentablePrinter;
-	private final Printer<CallTypeArgumentable> CallTypeArgumentablePrinter;
-	private final Printer<Self> SelfPrinter;
-	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AnonymousClass> anonymousClassPrinter;
+	private final Printer<Argumentable> argumentablePrinter;
+	private final Printer<CallTypeArgumentable> callTypeArgumentablePrinter;
+	private final Printer<Self> selfPrinter;
+	private final Printer<TypeArgumentable> typeArgumentablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public InstantiationPrinterImpl(Printer<CallTypeArgumentable> callTypeArgumentablePrinter,
 			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<Argumentable> argumentablePrinter, Printer<AnonymousClass> anonymousClassPrinter,
 			Printer<Self> selfPrinter) {
-		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		TypeArgumentablePrinter = typeArgumentablePrinter;
-		ArgumentablePrinter = argumentablePrinter;
-		AnonymousClassPrinter = anonymousClassPrinter;
-		SelfPrinter = selfPrinter;
+		this.callTypeArgumentablePrinter = callTypeArgumentablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.typeArgumentablePrinter = typeArgumentablePrinter;
+		this.argumentablePrinter = argumentablePrinter;
+		this.anonymousClassPrinter = anonymousClassPrinter;
+		this.selfPrinter = selfPrinter;
 	}
 
 	@Override
 	public void print(Instantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof NewConstructorCall call) {
 			writer.append("new ");
-			CallTypeArgumentablePrinter.print(call, writer);
+			this.callTypeArgumentablePrinter.print(call, writer);
 			writer.append(" ");
-			TypeReferencePrinter.print(call.getTypeReference(), writer);
+			this.typeReferencePrinter.print(call.getTypeReference(), writer);
 			if (call instanceof NewConstructorCallWithInferredTypeArguments) {
 				writer.append("<>");
 			} else {
-				TypeArgumentablePrinter.print(call, writer);
+				this.typeArgumentablePrinter.print(call, writer);
 			}
-			ArgumentablePrinter.print(call, writer);
+			this.argumentablePrinter.print(call, writer);
 			if (call.getAnonymousClass() != null) {
-				AnonymousClassPrinter.print(call.getAnonymousClass(), writer);
+				this.anonymousClassPrinter.print(call.getAnonymousClass(), writer);
 			}
 		} else {
 			var call = (ExplicitConstructorCall) element;
-			CallTypeArgumentablePrinter.print(call, writer);
-			SelfPrinter.print(call.getCallTarget(), writer);
-			ArgumentablePrinter.print(call, writer);
+			this.callTypeArgumentablePrinter.print(call, writer);
+			this.selfPrinter.print(call.getCallTarget(), writer);
+			this.argumentablePrinter.print(call, writer);
 		}
 	}
 

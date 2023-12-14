@@ -13,24 +13,24 @@ import jamopp.printer.interfaces.Printer;
 
 public class ConditionalExpressionPrinterImpl implements Printer<ConditionalExpression> {
 
-	private final Printer<ConditionalExpressionChild> ConditionalExpressionChildPrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<ConditionalExpressionChild> conditionalExpressionChildPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public ConditionalExpressionPrinterImpl(Printer<ConditionalExpressionChild> conditionalExpressionChildPrinter,
 			Printer<Expression> expressionPrinter) {
-		ConditionalExpressionChildPrinter = conditionalExpressionChildPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.conditionalExpressionChildPrinter = conditionalExpressionChildPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(ConditionalExpression element, BufferedWriter writer) throws IOException {
-		ConditionalExpressionChildPrinter.print(element.getChild(), writer);
+		this.conditionalExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getExpressionIf() != null) {
 			writer.append(" ? ");
-			ExpressionPrinter.print(element.getExpressionIf(), writer);
+			this.expressionPrinter.print(element.getExpressionIf(), writer);
 			writer.append(" : ");
-			ExpressionPrinter.print(element.getGeneralExpressionElse(), writer);
+			this.expressionPrinter.print(element.getGeneralExpressionElse(), writer);
 		}
 	}
 

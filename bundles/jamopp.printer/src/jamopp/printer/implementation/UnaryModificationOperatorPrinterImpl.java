@@ -8,11 +8,10 @@ import org.emftext.language.java.operators.UnaryModificationOperator;
 
 import jamopp.printer.interfaces.Printer;
 
-public class UnaryModificationOperatorPrinterImpl implements Printer<UnaryModificationOperator>{
+public class UnaryModificationOperatorPrinterImpl implements Printer<UnaryModificationOperator> {
 
 	@Override
-	public void print(UnaryModificationOperator element, BufferedWriter writer)
-			throws IOException {
+	public void print(UnaryModificationOperator element, BufferedWriter writer) throws IOException {
 		if (element instanceof PlusPlus) {
 			writer.append("++");
 		} else {

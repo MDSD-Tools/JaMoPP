@@ -13,21 +13,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class MethodCallPrinterImpl implements Printer<MethodCall> {
 
-	private final Printer<Argumentable> ArgumentablePrinter;
-	private final Printer<CallTypeArgumentable> CallTypeArgumentablePrinter;
+	private final Printer<Argumentable> argumentablePrinter;
+	private final Printer<CallTypeArgumentable> callTypeArgumentablePrinter;
 
 	@Inject
 	public MethodCallPrinterImpl(Printer<CallTypeArgumentable> callTypeArgumentablePrinter,
 			Printer<Argumentable> argumentablePrinter) {
-		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
-		ArgumentablePrinter = argumentablePrinter;
+		this.callTypeArgumentablePrinter = callTypeArgumentablePrinter;
+		this.argumentablePrinter = argumentablePrinter;
 	}
 
 	@Override
 	public void print(MethodCall element, BufferedWriter writer) throws IOException {
-		CallTypeArgumentablePrinter.print(element, writer);
+		this.callTypeArgumentablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());
-		ArgumentablePrinter.print(element, writer);
+		this.argumentablePrinter.print(element, writer);
 	}
 
 }

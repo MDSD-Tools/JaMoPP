@@ -12,17 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class ThrowPrinterImpl implements Printer<Throw> {
 
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public ThrowPrinterImpl(Printer<Expression> expressionPrinter) {
-		ExpressionPrinter = expressionPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(Throw element, BufferedWriter writer) throws IOException {
 		writer.append("throw ");
-		ExpressionPrinter.print(element.getThrowable(), writer);
+		this.expressionPrinter.print(element.getThrowable(), writer);
 		writer.append(";\n");
 	}
 

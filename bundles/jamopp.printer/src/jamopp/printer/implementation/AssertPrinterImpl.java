@@ -13,24 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class AssertPrinterImpl implements Printer<Assert> {
 
-	private final Provider<Printer<Expression>> ExpressionPrinter;
+	private final Provider<Printer<Expression>> expressionPrinter;
 
 	@Inject
 	public AssertPrinterImpl(Provider<Printer<Expression>> expressionPrinter) {
-		ExpressionPrinter = expressionPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(Assert element, BufferedWriter writer) throws IOException {
 		writer.append("assert ");
-		ExpressionPrinter.get().print(element.getCondition(), writer);
+		this.expressionPrinter.get().print(element.getCondition(), writer);
 		if (element.getErrorMessage() != null) {
 			writer.append(" : ");
-			ExpressionPrinter.get().print(element.getErrorMessage(), writer);
+			this.expressionPrinter.get().print(element.getErrorMessage(), writer);
 		}
 		writer.append(";\n");
 	}
-
-
 
 }

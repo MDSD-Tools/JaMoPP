@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class EqualityExpressionPrinterImpl implements Printer<EqualityExpression> {
 
-	private final Printer<EqualityExpressionChild> EqualityExpressionChildPrinter;
-	private final Printer<EqualityOperator> EqualityOperatorPrinter;
+	private final Printer<EqualityExpressionChild> equalityExpressionChildPrinter;
+	private final Printer<EqualityOperator> equalityOperatorPrinter;
 
 	@Inject
 	public EqualityExpressionPrinterImpl(Printer<EqualityExpressionChild> equalityExpressionChildPrinter,
 			Printer<EqualityOperator> equalityOperatorPrinter) {
-		EqualityExpressionChildPrinter = equalityExpressionChildPrinter;
-		EqualityOperatorPrinter = equalityOperatorPrinter;
+		this.equalityExpressionChildPrinter = equalityExpressionChildPrinter;
+		this.equalityOperatorPrinter = equalityOperatorPrinter;
 	}
 
 	@Override
 	public void print(EqualityExpression element, BufferedWriter writer) throws IOException {
-		EqualityExpressionChildPrinter.print(element.getChildren().get(0), writer);
+		this.equalityExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
-			EqualityOperatorPrinter.print(element.getEqualityOperators().get(index - 1), writer);
-			EqualityExpressionChildPrinter.print(element.getChildren().get(index), writer);
+			this.equalityOperatorPrinter.print(element.getEqualityOperators().get(index - 1), writer);
+			this.equalityExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

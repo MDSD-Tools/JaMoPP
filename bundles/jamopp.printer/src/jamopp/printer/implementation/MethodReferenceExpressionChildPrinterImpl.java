@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class MethodReferenceExpressionChildPrinterImpl implements Printer<MethodReferenceExpressionChild> {
 
-	private final Printer<Literal> LiteralPrinter;
-	private final Printer<Reference> ReferencePrinter;
+	private final Printer<Literal> literalPrinter;
+	private final Printer<Reference> referencePrinter;
 
 	@Inject
 	public MethodReferenceExpressionChildPrinterImpl(Printer<Literal> literalPrinter,
 			Printer<Reference> referencePrinter) {
-		LiteralPrinter = literalPrinter;
-		ReferencePrinter = referencePrinter;
+		this.literalPrinter = literalPrinter;
+		this.referencePrinter = referencePrinter;
 	}
 
 	@Override
 	public void print(MethodReferenceExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof Literal) {
-			LiteralPrinter.print((Literal) element, writer);
+			this.literalPrinter.print((Literal) element, writer);
 		} else {
-			ReferencePrinter.print((Reference) element, writer);
+			this.referencePrinter.print((Reference) element, writer);
 		}
 	}
 

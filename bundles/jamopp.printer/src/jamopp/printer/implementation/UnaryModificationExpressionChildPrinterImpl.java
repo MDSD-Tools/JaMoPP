@@ -15,32 +15,32 @@ import jamopp.printer.interfaces.Printer;
 
 public class UnaryModificationExpressionChildPrinterImpl implements Printer<UnaryModificationExpressionChild> {
 
-	private final Printer<CastExpression> CastExpressionPrinter;
-	private final Printer<MethodReferenceExpressionChild> MethodReferenceExpressionChildPrinter;
-	private final Printer<MethodReferenceExpression> MethodReferenceExpressionPrinter;
-	private final Printer<Switch> SwitchPrinter;
+	private final Printer<CastExpression> castExpressionPrinter;
+	private final Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter;
+	private final Printer<MethodReferenceExpression> methodReferenceExpressionPrinter;
+	private final Printer<Switch> switchPrinter;
 
 	@Inject
 	public UnaryModificationExpressionChildPrinterImpl(Printer<Switch> switchPrinter,
 			Printer<CastExpression> castExpressionPrinter,
 			Printer<MethodReferenceExpression> methodReferenceExpressionPrinter,
 			Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter) {
-		SwitchPrinter = switchPrinter;
-		CastExpressionPrinter = castExpressionPrinter;
-		MethodReferenceExpressionPrinter = methodReferenceExpressionPrinter;
-		MethodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
+		this.switchPrinter = switchPrinter;
+		this.castExpressionPrinter = castExpressionPrinter;
+		this.methodReferenceExpressionPrinter = methodReferenceExpressionPrinter;
+		this.methodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(UnaryModificationExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof Switch) {
-			SwitchPrinter.print((Switch) element, writer);
+			this.switchPrinter.print((Switch) element, writer);
 		} else if (element instanceof CastExpression) {
-			CastExpressionPrinter.print((CastExpression) element, writer);
+			this.castExpressionPrinter.print((CastExpression) element, writer);
 		} else if (element instanceof MethodReferenceExpression) {
-			MethodReferenceExpressionPrinter.print((MethodReferenceExpression) element, writer);
+			this.methodReferenceExpressionPrinter.print((MethodReferenceExpression) element, writer);
 		} else {
-			MethodReferenceExpressionChildPrinter.print((MethodReferenceExpressionChild) element, writer);
+			this.methodReferenceExpressionChildPrinter.print((MethodReferenceExpressionChild) element, writer);
 		}
 	}
 

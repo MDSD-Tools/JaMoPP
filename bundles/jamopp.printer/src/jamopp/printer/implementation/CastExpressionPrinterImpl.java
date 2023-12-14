@@ -15,30 +15,30 @@ import jamopp.printer.interfaces.Printer;
 
 public class CastExpressionPrinterImpl implements Printer<CastExpression> {
 
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public CastExpressionPrinterImpl(Printer<TypeReference> typeReferencePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter) {
-		TypeReferencePrinter = typeReferencePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(CastExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		for (TypeReference ref : element.getAdditionalBounds()) {
 			writer.append(" & ");
-			TypeReferencePrinter.print(ref, writer);
+			this.typeReferencePrinter.print(ref, writer);
 		}
 		writer.append(") ");
-		ExpressionPrinter.print(element.getGeneralChild(), writer);
+		this.expressionPrinter.print(element.getGeneralChild(), writer);
 	}
 
 }

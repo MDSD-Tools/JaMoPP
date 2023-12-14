@@ -14,26 +14,26 @@ import jamopp.printer.interfaces.Printer;
 
 public class LambdaExpressionPrinterImpl implements Printer<LambdaExpression> {
 
-	private final Printer<Block> BlockPrinter;
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<LambdaParameters> LambdaParametersPrinter;
+	private final Printer<Block> blockPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<LambdaParameters> lambdaParametersPrinter;
 
 	@Inject
 	public LambdaExpressionPrinterImpl(Printer<LambdaParameters> lambdaParametersPrinter, Printer<Block> blockPrinter,
 			Printer<Expression> expressionPrinter) {
-		LambdaParametersPrinter = lambdaParametersPrinter;
-		BlockPrinter = blockPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.lambdaParametersPrinter = lambdaParametersPrinter;
+		this.blockPrinter = blockPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(LambdaExpression element, BufferedWriter writer) throws IOException {
-		LambdaParametersPrinter.print(element.getParameters(), writer);
+		this.lambdaParametersPrinter.print(element.getParameters(), writer);
 		writer.append(" -> ");
 		if (element.getBody() instanceof Block) {
-			BlockPrinter.print((Block) element.getBody(), writer);
+			this.blockPrinter.print((Block) element.getBody(), writer);
 		} else {
-			ExpressionPrinter.print((Expression) element.getBody(), writer);
+			this.expressionPrinter.print((Expression) element.getBody(), writer);
 		}
 	}
 

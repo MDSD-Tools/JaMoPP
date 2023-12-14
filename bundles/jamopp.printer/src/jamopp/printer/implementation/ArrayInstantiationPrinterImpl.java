@@ -20,48 +20,48 @@ import jamopp.printer.interfaces.Printer;
 
 public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation> {
 
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<ArrayInitializer> ArrayInitializerPrinter;
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<ArrayInitializer> arrayInitializerPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<TypeArgumentable> typeArgumentablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public ArrayInstantiationPrinterImpl(Printer<TypeReference> typeReferencePrinter,
 			Printer<TypeArgumentable> typeArgumentablePrinter, Printer<Expression> expressionPrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<ArrayInitializer> arrayInitializerPrinter) {
-		TypeReferencePrinter = typeReferencePrinter;
-		TypeArgumentablePrinter = typeArgumentablePrinter;
-		ExpressionPrinter = expressionPrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		ArrayInitializerPrinter = arrayInitializerPrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.typeArgumentablePrinter = typeArgumentablePrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.arrayInitializerPrinter = arrayInitializerPrinter;
 	}
 
 	@Override
 	public void print(ArrayInstantiation element, BufferedWriter writer) throws IOException {
 		if (element instanceof ArrayInstantiationBySize inst) {
 			writer.append("new ");
-			TypeReferencePrinter.print(inst.getTypeReference(), writer);
-			TypeArgumentablePrinter.print(inst, writer);
+			this.typeReferencePrinter.print(inst.getTypeReference(), writer);
+			this.typeArgumentablePrinter.print(inst, writer);
 			writer.append(" ");
 			for (Expression expr : inst.getSizes()) {
 				writer.append("[");
-				ExpressionPrinter.print(expr, writer);
+				this.expressionPrinter.print(expr, writer);
 				writer.append("] ");
 			}
-			ArrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
-			ArrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
+			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
+			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
 		} else if (element instanceof ArrayInstantiationByValuesUntyped inst) {
-			ArrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
+			this.arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
 		} else {
 			var inst = (ArrayInstantiationByValuesTyped) element;
 			writer.append("new ");
-			TypeReferencePrinter.print(inst.getTypeReference(), writer);
-			TypeArgumentablePrinter.print(inst, writer);
-			ArrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
-			ArrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
+			this.typeReferencePrinter.print(inst.getTypeReference(), writer);
+			this.typeArgumentablePrinter.print(inst, writer);
+			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
+			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
 			writer.append(" ");
-			ArrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
+			this.arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
 		}
 	}
 

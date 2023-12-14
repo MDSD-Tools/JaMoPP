@@ -12,17 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class ImportingElementPrinterImpl implements Printer<ImportingElement> {
 
-	private final Printer<Import> ImportPrinter;
+	private final Printer<Import> importPrinter;
 
 	@Inject
 	public ImportingElementPrinterImpl(Printer<Import> importPrinter) {
-		ImportPrinter = importPrinter;
+		this.importPrinter = importPrinter;
 	}
 
 	@Override
 	public void print(ImportingElement element, BufferedWriter writer) throws IOException {
 		for (Import ele : element.getImports()) {
-			ImportPrinter.print(ele, writer);
+			this.importPrinter.print(ele, writer);
 		}
 	}
 

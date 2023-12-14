@@ -13,26 +13,26 @@ import jamopp.printer.interfaces.Printer;
 
 public class NormalSwitchCasePrinterImpl implements Printer<NormalSwitchCase> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public NormalSwitchCasePrinterImpl(Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
-		ExpressionPrinter = expressionPrinter;
-		StatementPrinter = statementPrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(NormalSwitchCase element, BufferedWriter writer) throws IOException {
 		writer.append("case ");
-		ExpressionPrinter.print(element.getCondition(), writer);
+		this.expressionPrinter.print(element.getCondition(), writer);
 		for (Expression expr : element.getAdditionalConditions()) {
 			writer.append(", ");
-			ExpressionPrinter.print(expr, writer);
+			this.expressionPrinter.print(expr, writer);
 		}
 		writer.append(": ");
 		for (Statement s : element.getStatements()) {
-			StatementPrinter.print(s, writer);
+			this.statementPrinter.print(s, writer);
 		}
 	}
 

@@ -13,25 +13,25 @@ import jamopp.printer.interfaces.Printer;
 
 public class TypeParameterPrinterImpl implements Printer<TypeParameter> {
 
-	private final Printer<Annotable> AnnotablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<Annotable> annotablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public TypeParameterPrinterImpl(Printer<Annotable> annotablePrinter, Printer<TypeReference> typeReferencePrinter) {
-		AnnotablePrinter = annotablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
+		this.annotablePrinter = annotablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
 	}
 
 	@Override
 	public void print(TypeParameter element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.print(element, writer);
+		this.annotablePrinter.print(element, writer);
 		writer.append(element.getName());
 		if (!element.getExtendTypes().isEmpty()) {
 			writer.append(" extends ");
-			TypeReferencePrinter.print(element.getExtendTypes().get(0), writer);
+			this.typeReferencePrinter.print(element.getExtendTypes().get(0), writer);
 			for (var index = 1; index < element.getExtendTypes().size(); index++) {
 				writer.append(" & ");
-				TypeReferencePrinter.print(element.getExtendTypes().get(index), writer);
+				this.typeReferencePrinter.print(element.getExtendTypes().get(index), writer);
 			}
 		}
 	}

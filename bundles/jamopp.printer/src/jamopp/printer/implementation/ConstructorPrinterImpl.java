@@ -16,31 +16,31 @@ import jamopp.printer.interfaces.Printer;
 
 public class ConstructorPrinterImpl implements Printer<Constructor> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<Block> BlockPrinter;
-	private final Printer<ExceptionThrower> ExceptionThrowerPrinter;
-	private final Printer<Parametrizable> ParametrizablePrinter;
-	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<Block> blockPrinter;
+	private final Printer<ExceptionThrower> exceptionThrowerPrinter;
+	private final Printer<Parametrizable> parametrizablePrinter;
+	private final Printer<TypeParametrizable> typeParametrizablePrinter;
 
 	@Inject
 	public ConstructorPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<Parametrizable> parametrizablePrinter,
 			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<Block> blockPrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeParametrizablePrinter = typeParametrizablePrinter;
-		ParametrizablePrinter = parametrizablePrinter;
-		ExceptionThrowerPrinter = exceptionThrowerPrinter;
-		BlockPrinter = blockPrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeParametrizablePrinter = typeParametrizablePrinter;
+		this.parametrizablePrinter = parametrizablePrinter;
+		this.exceptionThrowerPrinter = exceptionThrowerPrinter;
+		this.blockPrinter = blockPrinter;
 	}
 
 	@Override
 	public void print(Constructor element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeParametrizablePrinter.print(element, writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
+		this.typeParametrizablePrinter.print(element, writer);
 		writer.append(" " + element.getName());
-		ParametrizablePrinter.print(element, writer);
-		ExceptionThrowerPrinter.print(element, writer);
-		BlockPrinter.print(element.getBlock(), writer);
+		this.parametrizablePrinter.print(element, writer);
+		this.exceptionThrowerPrinter.print(element, writer);
+		this.blockPrinter.print(element.getBlock(), writer);
 	}
 
 }

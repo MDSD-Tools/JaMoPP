@@ -13,22 +13,23 @@ import jamopp.printer.interfaces.Printer;
 
 public class MultiplicativeExpressionPrinterImpl implements Printer<MultiplicativeExpression> {
 
-	private final Printer<MultiplicativeExpressionChild> MultiplicativeExpressionChildPrinter;
-	private final Printer<MultiplicativeOperator> MultiplicativeOperatorPrinter;
+	private final Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter;
+	private final Printer<MultiplicativeOperator> multiplicativeOperatorPrinter;
 
 	@Inject
-	public MultiplicativeExpressionPrinterImpl(Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter,
+	public MultiplicativeExpressionPrinterImpl(
+			Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter,
 			Printer<MultiplicativeOperator> multiplicativeOperatorPrinter) {
-		MultiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
-		MultiplicativeOperatorPrinter = multiplicativeOperatorPrinter;
+		this.multiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
+		this.multiplicativeOperatorPrinter = multiplicativeOperatorPrinter;
 	}
 
 	@Override
 	public void print(MultiplicativeExpression element, BufferedWriter writer) throws IOException {
-		MultiplicativeExpressionChildPrinter.print(element.getChildren().get(0), writer);
+		this.multiplicativeExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
-			MultiplicativeOperatorPrinter.print(element.getMultiplicativeOperators().get(index - 1), writer);
-			MultiplicativeExpressionChildPrinter.print(element.getChildren().get(index), writer);
+			this.multiplicativeOperatorPrinter.print(element.getMultiplicativeOperators().get(index - 1), writer);
+			this.multiplicativeExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

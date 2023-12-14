@@ -15,25 +15,25 @@ import jamopp.printer.interfaces.Printer;
 
 public class InstanceOfExpressionPrinterImpl implements Printer<InstanceOfExpression> {
 
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<InstanceOfExpressionChild> InstanceOfExpressionChildPrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<InstanceOfExpressionChild> instanceOfExpressionChildPrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public InstanceOfExpressionPrinterImpl(Printer<InstanceOfExpressionChild> instanceOfExpressionChildPrinter,
 			Printer<TypeReference> typeReferencePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
-		InstanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.instanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
 	@Override
 	public void print(InstanceOfExpression element, BufferedWriter writer) throws IOException {
-		InstanceOfExpressionChildPrinter.print(element.getChild(), writer);
+		this.instanceOfExpressionChildPrinter.print(element.getChild(), writer);
 		writer.append(" instanceof ");
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

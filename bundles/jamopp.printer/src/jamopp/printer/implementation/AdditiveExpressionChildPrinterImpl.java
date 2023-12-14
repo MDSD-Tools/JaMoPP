@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class AdditiveExpressionChildPrinterImpl implements Printer<AdditiveExpressionChild> {
 
-	private final Printer<MultiplicativeExpressionChild> MultiplicativeExpressionChildPrinter;
-	private final Printer<MultiplicativeExpression> MultiplicativeExpressionPrinter;
+	private final Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter;
+	private final Printer<MultiplicativeExpression> multiplicativeExpressionPrinter;
 
 	@Inject
 	public AdditiveExpressionChildPrinterImpl(Printer<MultiplicativeExpression> multiplicativeExpressionPrinter,
 			Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter) {
-		MultiplicativeExpressionPrinter = multiplicativeExpressionPrinter;
-		MultiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
+		this.multiplicativeExpressionPrinter = multiplicativeExpressionPrinter;
+		this.multiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(AdditiveExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof MultiplicativeExpression) {
-			MultiplicativeExpressionPrinter.print((MultiplicativeExpression) element, writer);
+			this.multiplicativeExpressionPrinter.print((MultiplicativeExpression) element, writer);
 		} else {
-			MultiplicativeExpressionChildPrinter.print((MultiplicativeExpressionChild) element, writer);
+			this.multiplicativeExpressionChildPrinter.print((MultiplicativeExpressionChild) element, writer);
 		}
 	}
 

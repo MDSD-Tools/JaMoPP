@@ -12,25 +12,23 @@ import jamopp.printer.interfaces.Printer;
 
 public class ExceptionThrowerPrinterImpl implements Printer<ExceptionThrower> {
 
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public ExceptionThrowerPrinterImpl(Printer<TypeReference> typeReferencePrinter) {
-		TypeReferencePrinter = typeReferencePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
 	}
 
 	@Override
 	public void print(ExceptionThrower element, BufferedWriter writer) throws IOException {
 		if (!element.getExceptions().isEmpty()) {
 			writer.append("throws ");
-			TypeReferencePrinter.print(element.getExceptions().get(0), writer);
+			this.typeReferencePrinter.print(element.getExceptions().get(0), writer);
 			for (var index = 1; index < element.getExceptions().size(); index++) {
 				writer.append(", ");
-				TypeReferencePrinter.print(element.getExceptions().get(index), writer);
+				this.typeReferencePrinter.print(element.getExceptions().get(index), writer);
 			}
 		}
 	}
-
-
 
 }

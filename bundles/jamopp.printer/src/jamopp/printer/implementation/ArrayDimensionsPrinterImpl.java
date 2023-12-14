@@ -13,11 +13,11 @@ import jamopp.printer.interfaces.Printer;
 
 public class ArrayDimensionsPrinterImpl implements Printer<List<ArrayDimension>> {
 
-	private final Printer<Annotable> AnnotablePrinter;
+	private final Printer<Annotable> annotablePrinter;
 
 	@Inject
 	public ArrayDimensionsPrinterImpl(Printer<Annotable> annotablePrinter) {
-		AnnotablePrinter = annotablePrinter;
+		this.annotablePrinter = annotablePrinter;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class ArrayDimensionsPrinterImpl implements Printer<List<ArrayDimension>>
 		for (ArrayDimension dim : element) {
 			if (!dim.getAnnotations().isEmpty()) {
 				writer.append(" ");
-				AnnotablePrinter.print(dim, writer);
+				this.annotablePrinter.print(dim, writer);
 			}
 			writer.append("[] ");
 		}

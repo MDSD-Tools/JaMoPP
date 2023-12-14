@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class ConditionalExpressionChildPrinterImpl implements Printer<ConditionalExpressionChild> {
 
-	private final Printer<ConditionalOrExpressionChild> ConditionalOrExpressionChildPrinter;
-	private final Printer<ConditionalOrExpression> ConditionalOrExpressionPrinter;
+	private final Printer<ConditionalOrExpressionChild> conditionalOrExpressionChildPrinter;
+	private final Printer<ConditionalOrExpression> conditionalOrExpressionPrinter;
 
 	@Inject
 	public ConditionalExpressionChildPrinterImpl(Printer<ConditionalOrExpression> conditionalOrExpressionPrinter,
 			Printer<ConditionalOrExpressionChild> conditionalOrExpressionChildPrinter) {
-		ConditionalOrExpressionPrinter = conditionalOrExpressionPrinter;
-		ConditionalOrExpressionChildPrinter = conditionalOrExpressionChildPrinter;
+		this.conditionalOrExpressionPrinter = conditionalOrExpressionPrinter;
+		this.conditionalOrExpressionChildPrinter = conditionalOrExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(ConditionalExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof ConditionalOrExpression) {
-			ConditionalOrExpressionPrinter.print((ConditionalOrExpression) element, writer);
+			this.conditionalOrExpressionPrinter.print((ConditionalOrExpression) element, writer);
 		} else {
-			ConditionalOrExpressionChildPrinter.print((ConditionalOrExpressionChild) element, writer);
+			this.conditionalOrExpressionChildPrinter.print((ConditionalOrExpressionChild) element, writer);
 		}
 	}
 

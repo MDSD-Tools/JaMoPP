@@ -20,43 +20,43 @@ import jamopp.printer.interfaces.Printer;
 
 public class MethodReferenceExpressionPrinterImpl implements Printer<MethodReferenceExpression> {
 
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<CallTypeArgumentable> CallTypeArgumentablePrinter;
-	private final Printer<MethodReferenceExpressionChild> MethodReferenceExpressionChildPrinter;
-	private final Printer<Reference> ReferencePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<CallTypeArgumentable> callTypeArgumentablePrinter;
+	private final Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter;
+	private final Printer<Reference> referencePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public MethodReferenceExpressionPrinterImpl(
 			Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter,
 			Printer<CallTypeArgumentable> callTypeArgumentablePrinter, Printer<Reference> referencePrinter,
 			Printer<TypeReference> typeReferencePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
-		MethodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
-		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
-		ReferencePrinter = referencePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.methodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
+		this.callTypeArgumentablePrinter = callTypeArgumentablePrinter;
+		this.referencePrinter = referencePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
 	@Override
 	public void print(MethodReferenceExpression element, BufferedWriter writer) throws IOException {
 		if (element instanceof PrimaryExpressionReferenceExpression ref) {
-			MethodReferenceExpressionChildPrinter.print(ref.getChild(), writer);
+			this.methodReferenceExpressionChildPrinter.print(ref.getChild(), writer);
 			if (ref.getMethodReference() != null) {
 				writer.append("::");
-				CallTypeArgumentablePrinter.print(ref, writer);
-				ReferencePrinter.print(ref.getMethodReference(), writer);
+				this.callTypeArgumentablePrinter.print(ref, writer);
+				this.referencePrinter.print(ref.getMethodReference(), writer);
 			}
 		} else if (element instanceof ClassTypeConstructorReferenceExpression ref) {
-			TypeReferencePrinter.print(ref.getTypeReference(), writer);
+			this.typeReferencePrinter.print(ref.getTypeReference(), writer);
 			writer.append("::");
-			CallTypeArgumentablePrinter.print(ref, writer);
+			this.callTypeArgumentablePrinter.print(ref, writer);
 			writer.append("new");
 		} else {
 			var ref = (ArrayConstructorReferenceExpression) element;
-			TypeReferencePrinter.print(ref.getTypeReference(), writer);
-			ArrayDimensionsPrinter.print(ref.getArrayDimensionsBefore(), writer);
-			ArrayDimensionsPrinter.print(ref.getArrayDimensionsAfter(), writer);
+			this.typeReferencePrinter.print(ref.getTypeReference(), writer);
+			this.arrayDimensionsPrinter.print(ref.getArrayDimensionsBefore(), writer);
+			this.arrayDimensionsPrinter.print(ref.getArrayDimensionsAfter(), writer);
 			writer.append("::new");
 		}
 	}

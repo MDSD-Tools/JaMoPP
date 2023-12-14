@@ -16,31 +16,31 @@ import jamopp.printer.interfaces.Printer;
 
 public class TypeReferencePrinterImpl implements Printer<TypeReference> {
 
-	private final Printer<ClassifierReference> ClassifierReferencePrinter;
-	private final InferableTypePrinterInt InferableTypePrinter;
-	private final Printer<NamespaceClassifierReference> NamespaceClassifierReferencePrinter;
-	private final Printer<PrimitiveType> PrimitiveTypePrinter;
+	private final Printer<ClassifierReference> classifierReferencePrinter;
+	private final InferableTypePrinterInt inferableTypePrinter;
+	private final Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter;
+	private final Printer<PrimitiveType> primitiveTypePrinter;
 
 	@Inject
 	public TypeReferencePrinterImpl(Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter,
 			Printer<ClassifierReference> classifierReferencePrinter, Printer<PrimitiveType> primitiveTypePrinter,
 			InferableTypePrinterInt inferableTypePrinter) {
-		NamespaceClassifierReferencePrinter = namespaceClassifierReferencePrinter;
-		ClassifierReferencePrinter = classifierReferencePrinter;
-		PrimitiveTypePrinter = primitiveTypePrinter;
-		InferableTypePrinter = inferableTypePrinter;
+		this.namespaceClassifierReferencePrinter = namespaceClassifierReferencePrinter;
+		this.classifierReferencePrinter = classifierReferencePrinter;
+		this.primitiveTypePrinter = primitiveTypePrinter;
+		this.inferableTypePrinter = inferableTypePrinter;
 	}
 
 	@Override
 	public void print(TypeReference element, BufferedWriter writer) throws IOException {
 		if (element instanceof NamespaceClassifierReference) {
-			NamespaceClassifierReferencePrinter.print((NamespaceClassifierReference) element, writer);
+			this.namespaceClassifierReferencePrinter.print((NamespaceClassifierReference) element, writer);
 		} else if (element instanceof ClassifierReference) {
-			ClassifierReferencePrinter.print((ClassifierReference) element, writer);
+			this.classifierReferencePrinter.print((ClassifierReference) element, writer);
 		} else if (element instanceof PrimitiveType) {
-			PrimitiveTypePrinter.print((PrimitiveType) element, writer);
+			this.primitiveTypePrinter.print((PrimitiveType) element, writer);
 		} else if (element instanceof InferableType) {
-			InferableTypePrinter.print(writer);
+			this.inferableTypePrinter.print(writer);
 		}
 	}
 

@@ -11,7 +11,7 @@ import org.emftext.language.java.imports.StaticMemberImport;
 
 import jamopp.printer.interfaces.Printer;
 
-public class ImportPrinterImpl implements Printer<Import>{
+public class ImportPrinterImpl implements Printer<Import> {
 
 	private static void printClassifierImport(ClassifierImport element, BufferedWriter writer) throws IOException {
 		writer.append(element.getNamespacesAsString() + "." + element.getClassifier().getName());

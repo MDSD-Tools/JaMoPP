@@ -8,11 +8,10 @@ import org.emftext.language.java.modules.RequiresModuleDirective;
 
 import jamopp.printer.interfaces.Printer;
 
-public class RequiresModuleDirectivePrinterImpl implements Printer<RequiresModuleDirective>{
+public class RequiresModuleDirectivePrinterImpl implements Printer<RequiresModuleDirective> {
 
 	@Override
-	public void print(RequiresModuleDirective element, BufferedWriter writer)
-			throws IOException {
+	public void print(RequiresModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("requires ");
 		if (element.getModifier() != null) {
 			if (element.getModifier() instanceof Static) {

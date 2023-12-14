@@ -13,24 +13,24 @@ import jamopp.printer.interfaces.Printer;
 
 public class ConditionPrinterImpl implements Printer<Condition> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public ConditionPrinterImpl(Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
-		ExpressionPrinter = expressionPrinter;
-		StatementPrinter = statementPrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(Condition element, BufferedWriter writer) throws IOException {
 		writer.append("if (");
-		ExpressionPrinter.print(element.getCondition(), writer);
+		this.expressionPrinter.print(element.getCondition(), writer);
 		writer.append(")\n");
-		StatementPrinter.print(element.getStatement(), writer);
+		this.statementPrinter.print(element.getStatement(), writer);
 		if (element.getElseStatement() != null) {
 			writer.append("else\n");
-			StatementPrinter.print(element.getElseStatement(), writer);
+			this.statementPrinter.print(element.getElseStatement(), writer);
 		}
 	}
 

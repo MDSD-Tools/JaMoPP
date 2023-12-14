@@ -14,30 +14,31 @@ import jamopp.printer.interfaces.Printer;
 
 public class ConcreteClassifierPrinterImpl implements Printer<ConcreteClassifier> {
 
-	private final Printer<Annotation> AnnotationPrinter;
-	private final Printer<org.emftext.language.java.classifiers.Class> ClassPrinter;
-	private final Printer<Enumeration> EnumerationPrinter;
-	private final Printer<Interface> InterfacePrinter;
+	private final Printer<Annotation> annotationPrinter;
+	private final Printer<org.emftext.language.java.classifiers.Class> classPrinter;
+	private final Printer<Enumeration> enumerationPrinter;
+	private final Printer<Interface> interfacePrinter;
 
 	@Inject
-	public ConcreteClassifierPrinterImpl(Printer<org.emftext.language.java.classifiers.Class> classPrinter, Printer<Interface> interfacePrinter,
-			Printer<Enumeration> enumerationPrinter, Printer<Annotation> annotationPrinter) {
-		ClassPrinter = classPrinter;
-		InterfacePrinter = interfacePrinter;
-		EnumerationPrinter = enumerationPrinter;
-		AnnotationPrinter = annotationPrinter;
+	public ConcreteClassifierPrinterImpl(Printer<org.emftext.language.java.classifiers.Class> classPrinter,
+			Printer<Interface> interfacePrinter, Printer<Enumeration> enumerationPrinter,
+			Printer<Annotation> annotationPrinter) {
+		this.classPrinter = classPrinter;
+		this.interfacePrinter = interfacePrinter;
+		this.enumerationPrinter = enumerationPrinter;
+		this.annotationPrinter = annotationPrinter;
 	}
 
 	@Override
 	public void print(ConcreteClassifier element, BufferedWriter writer) throws IOException {
 		if (element instanceof org.emftext.language.java.classifiers.Class) {
-			ClassPrinter.print((org.emftext.language.java.classifiers.Class) element, writer);
+			this.classPrinter.print((org.emftext.language.java.classifiers.Class) element, writer);
 		} else if (element instanceof Interface) {
-			InterfacePrinter.print((Interface) element, writer);
+			this.interfacePrinter.print((Interface) element, writer);
 		} else if (element instanceof Enumeration) {
-			EnumerationPrinter.print((Enumeration) element, writer);
+			this.enumerationPrinter.print((Enumeration) element, writer);
 		} else {
-			AnnotationPrinter.print((Annotation) element, writer);
+			this.annotationPrinter.print((Annotation) element, writer);
 		}
 	}
 

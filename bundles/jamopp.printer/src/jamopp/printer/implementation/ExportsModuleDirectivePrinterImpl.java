@@ -12,18 +12,18 @@ import jamopp.printer.interfaces.Printer;
 
 public class ExportsModuleDirectivePrinterImpl implements Printer<ExportsModuleDirective> {
 
-	private final Printer<AccessProvidingModuleDirective> RemainingAccessProvidingModuleDirectivePrinter;
+	private final Printer<AccessProvidingModuleDirective> remainingAccessProvidingModuleDirectivePrinter;
 
 	@Inject
 	public ExportsModuleDirectivePrinterImpl(
 			Printer<AccessProvidingModuleDirective> remainingAccessProvidingModuleDirectivePrinter) {
-		RemainingAccessProvidingModuleDirectivePrinter = remainingAccessProvidingModuleDirectivePrinter;
+		this.remainingAccessProvidingModuleDirectivePrinter = remainingAccessProvidingModuleDirectivePrinter;
 	}
 
 	@Override
 	public void print(ExportsModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("exports ");
-		RemainingAccessProvidingModuleDirectivePrinter.print(element, writer);
+		this.remainingAccessProvidingModuleDirectivePrinter.print(element, writer);
 	}
 
 }

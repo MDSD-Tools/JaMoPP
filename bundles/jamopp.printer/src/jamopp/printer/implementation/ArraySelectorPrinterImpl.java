@@ -13,23 +13,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class ArraySelectorPrinterImpl implements Printer<ArraySelector> {
 
-	private final Printer<Annotable> AnnotablePrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<Annotable> annotablePrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public ArraySelectorPrinterImpl(Printer<Annotable> annotablePrinter, Printer<Expression> expressionPrinter) {
-		AnnotablePrinter = annotablePrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.annotablePrinter = annotablePrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(ArraySelector element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.print(element, writer);
+		this.annotablePrinter.print(element, writer);
 		writer.append("[");
-		ExpressionPrinter.print(element.getPosition(), writer);
+		this.expressionPrinter.print(element.getPosition(), writer);
 		writer.append("]");
 	}
-
-
 
 }

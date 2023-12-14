@@ -14,27 +14,27 @@ import jamopp.printer.interfaces.Printer;
 
 public class EnumConstantPrinterImpl implements Printer<EnumConstant> {
 
-	private final Printer<Annotable> AnnotablePrinter;
-	private final Printer<AnonymousClass> AnonymousClassPrinter;
-	private final Printer<Argumentable> ArgumentablePrinter;
+	private final Printer<Annotable> annotablePrinter;
+	private final Printer<AnonymousClass> anonymousClassPrinter;
+	private final Printer<Argumentable> argumentablePrinter;
 
 	@Inject
 	public EnumConstantPrinterImpl(Printer<Annotable> annotablePrinter, Printer<Argumentable> argumentablePrinter,
 			Printer<AnonymousClass> anonymousClassPrinter) {
-		AnnotablePrinter = annotablePrinter;
-		ArgumentablePrinter = argumentablePrinter;
-		AnonymousClassPrinter = anonymousClassPrinter;
+		this.annotablePrinter = annotablePrinter;
+		this.argumentablePrinter = argumentablePrinter;
+		this.anonymousClassPrinter = anonymousClassPrinter;
 	}
 
 	@Override
 	public void print(EnumConstant element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.print(element, writer);
+		this.annotablePrinter.print(element, writer);
 		writer.append(element.getName() + " ");
 		if (!element.getArguments().isEmpty()) {
-			ArgumentablePrinter.print(element, writer);
+			this.argumentablePrinter.print(element, writer);
 		}
 		if (element.getAnonymousClass() != null) {
-			AnonymousClassPrinter.print(element.getAnonymousClass(), writer);
+			this.anonymousClassPrinter.print(element.getAnonymousClass(), writer);
 		}
 	}
 

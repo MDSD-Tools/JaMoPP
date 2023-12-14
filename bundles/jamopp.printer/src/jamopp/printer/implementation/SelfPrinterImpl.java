@@ -9,7 +9,7 @@ import org.emftext.language.java.literals.This;
 
 import jamopp.printer.interfaces.Printer;
 
-public class SelfPrinterImpl implements Printer<Self>{
+public class SelfPrinterImpl implements Printer<Self> {
 
 	@Override
 	public void print(Self element, BufferedWriter writer) throws IOException {

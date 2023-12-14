@@ -14,24 +14,24 @@ import jamopp.printer.interfaces.Printer;
 
 public class AssignmentExpressionPrinterImpl implements Printer<AssignmentExpression> {
 
-	private final Printer<AssignmentExpressionChild> AssignmentExpressionChildPrinter;
-	private final Printer<AssignmentOperator> AssignmentOperatorPrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<AssignmentExpressionChild> assignmentExpressionChildPrinter;
+	private final Printer<AssignmentOperator> assignmentOperatorPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public AssignmentExpressionPrinterImpl(Printer<AssignmentExpressionChild> assignmentExpressionChildPrinter,
 			Printer<AssignmentOperator> assignmentOperatorPrinter, Printer<Expression> expressionPrinter) {
-		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
-		AssignmentOperatorPrinter = assignmentOperatorPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.assignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
+		this.assignmentOperatorPrinter = assignmentOperatorPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(AssignmentExpression element, BufferedWriter writer) throws IOException {
-		AssignmentExpressionChildPrinter.print(element.getChild(), writer);
+		this.assignmentExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getAssignmentOperator() != null) {
-			AssignmentOperatorPrinter.print(element.getAssignmentOperator(), writer);
-			ExpressionPrinter.print(element.getValue(), writer);
+			this.assignmentOperatorPrinter.print(element.getAssignmentOperator(), writer);
+			this.expressionPrinter.print(element.getValue(), writer);
 		}
 	}
 

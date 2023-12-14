@@ -5,10 +5,10 @@ import java.io.IOException;
 
 import jamopp.printer.interfaces.ReflectiveClassReferencePrinterInt;
 
-public class ReflectiveClassReferencePrinterImpl implements  ReflectiveClassReferencePrinterInt {
+public class ReflectiveClassReferencePrinterImpl implements ReflectiveClassReferencePrinterInt {
 
 	@Override
-	public  void print(BufferedWriter writer) throws IOException {
+	public void print(BufferedWriter writer) throws IOException {
 		writer.append("class");
 	}
 

@@ -12,20 +12,20 @@ import jamopp.printer.interfaces.Printer;
 
 public class ConditionalOrExpressionPrinterImpl implements Printer<ConditionalOrExpression> {
 
-	private final Printer<ConditionalOrExpressionChild> ConditionalOrExpressionChildPrinter;
+	private final Printer<ConditionalOrExpressionChild> conditionalOrExpressionChildPrinter;
 
 	@Inject
 	public ConditionalOrExpressionPrinterImpl(
 			Printer<ConditionalOrExpressionChild> conditionalOrExpressionChildPrinter) {
-		ConditionalOrExpressionChildPrinter = conditionalOrExpressionChildPrinter;
+		this.conditionalOrExpressionChildPrinter = conditionalOrExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(ConditionalOrExpression element, BufferedWriter writer) throws IOException {
-		ConditionalOrExpressionChildPrinter.print(element.getChildren().get(0), writer);
+		this.conditionalOrExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
 			writer.append(" || ");
-			ConditionalOrExpressionChildPrinter.print(element.getChildren().get(index), writer);
+			this.conditionalOrExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

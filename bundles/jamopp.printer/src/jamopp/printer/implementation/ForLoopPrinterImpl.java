@@ -14,37 +14,37 @@ import jamopp.printer.interfaces.Printer;
 
 public class ForLoopPrinterImpl implements Printer<ForLoop> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<ForLoopInitializer> ForLoopInitializerPrinter;
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<ForLoopInitializer> forLoopInitializerPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public ForLoopPrinterImpl(Printer<ForLoopInitializer> forLoopInitializerPrinter,
 			Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
-		ForLoopInitializerPrinter = forLoopInitializerPrinter;
-		ExpressionPrinter = expressionPrinter;
-		StatementPrinter = statementPrinter;
+		this.forLoopInitializerPrinter = forLoopInitializerPrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(ForLoop element, BufferedWriter writer) throws IOException {
 		writer.append("for (");
 		if (element.getInit() != null) {
-			ForLoopInitializerPrinter.print(element.getInit(), writer);
+			this.forLoopInitializerPrinter.print(element.getInit(), writer);
 		}
 		writer.append(" ; ");
 		if (element.getCondition() != null) {
-			ExpressionPrinter.print(element.getCondition(), writer);
+			this.expressionPrinter.print(element.getCondition(), writer);
 		}
 		writer.append(" ; ");
 		for (var index = 0; index < element.getUpdates().size(); index++) {
-			ExpressionPrinter.print(element.getUpdates().get(index), writer);
+			this.expressionPrinter.print(element.getUpdates().get(index), writer);
 			if (index < element.getUpdates().size() - 1) {
 				writer.append(", ");
 			}
 		}
 		writer.append(")\n");
-		StatementPrinter.print(element.getStatement(), writer);
+		this.statementPrinter.print(element.getStatement(), writer);
 	}
 
 }

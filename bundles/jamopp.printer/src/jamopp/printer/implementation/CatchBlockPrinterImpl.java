@@ -13,21 +13,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class CatchBlockPrinterImpl implements Printer<CatchBlock> {
 
-	private final Printer<Block> BlockPrinter;
-	private final Printer<CatchParameter> CatchParameterPrinter;
+	private final Printer<Block> blockPrinter;
+	private final Printer<CatchParameter> catchParameterPrinter;
 
 	@Inject
 	public CatchBlockPrinterImpl(Printer<CatchParameter> catchParameterPrinter, Printer<Block> blockPrinter) {
-		CatchParameterPrinter = catchParameterPrinter;
-		BlockPrinter = blockPrinter;
+		this.catchParameterPrinter = catchParameterPrinter;
+		this.blockPrinter = blockPrinter;
 	}
 
 	@Override
 	public void print(CatchBlock element, BufferedWriter writer) throws IOException {
 		writer.append("catch(");
-		CatchParameterPrinter.print((CatchParameter) element.getParameter(), writer);
+		this.catchParameterPrinter.print((CatchParameter) element.getParameter(), writer);
 		writer.append(")");
-		BlockPrinter.print(element.getBlock(), writer);
+		this.blockPrinter.print(element.getBlock(), writer);
 	}
 
 }

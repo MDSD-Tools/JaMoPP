@@ -13,24 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class UnaryExpressionPrinterImpl implements Printer<UnaryExpression> {
 
-	private final Printer<UnaryExpressionChild> UnaryExpressionChildPrinter;
-	private final Printer<UnaryOperator> UnaryOperatorPrinter;
+	private final Printer<UnaryExpressionChild> unaryExpressionChildPrinter;
+	private final Printer<UnaryOperator> unaryOperatorPrinter;
 
 	@Inject
 	public UnaryExpressionPrinterImpl(Printer<UnaryOperator> unaryOperatorPrinter,
 			Printer<UnaryExpressionChild> unaryExpressionChildPrinter) {
-		UnaryOperatorPrinter = unaryOperatorPrinter;
-		UnaryExpressionChildPrinter = unaryExpressionChildPrinter;
+		this.unaryOperatorPrinter = unaryOperatorPrinter;
+		this.unaryExpressionChildPrinter = unaryExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(UnaryExpression element, BufferedWriter writer) throws IOException {
 		for (UnaryOperator op : element.getOperators()) {
-			UnaryOperatorPrinter.print(op, writer);
+			this.unaryOperatorPrinter.print(op, writer);
 		}
-		UnaryExpressionChildPrinter.print(element.getChild(), writer);
+		this.unaryExpressionChildPrinter.print(element.getChild(), writer);
 	}
-
-
 
 }

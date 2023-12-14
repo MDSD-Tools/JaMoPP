@@ -12,19 +12,19 @@ import jamopp.printer.interfaces.Printer;
 
 public class AnnotableAndModifiablePrinterImpl implements Printer<AnnotableAndModifiable> {
 
-	private final Printer<AnnotationInstanceOrModifier> AnnotationInstanceOrModifierPrinter;
+	private final Printer<AnnotationInstanceOrModifier> annotationInstanceOrModifierPrinter;
 
 	@Inject
-	public AnnotableAndModifiablePrinterImpl(Printer<AnnotationInstanceOrModifier> annotationInstanceOrModifierPrinter) {
-		AnnotationInstanceOrModifierPrinter = annotationInstanceOrModifierPrinter;
+	public AnnotableAndModifiablePrinterImpl(
+			Printer<AnnotationInstanceOrModifier> annotationInstanceOrModifierPrinter) {
+		this.annotationInstanceOrModifierPrinter = annotationInstanceOrModifierPrinter;
 	}
 
 	@Override
 	public void print(AnnotableAndModifiable element, BufferedWriter writer) throws IOException {
 		for (AnnotationInstanceOrModifier el : element.getAnnotationsAndModifiers()) {
-			AnnotationInstanceOrModifierPrinter.print(el, writer);
+			this.annotationInstanceOrModifierPrinter.print(el, writer);
 		}
 	}
 
 }
-

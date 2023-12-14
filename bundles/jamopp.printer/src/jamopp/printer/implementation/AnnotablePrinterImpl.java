@@ -12,17 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class AnnotablePrinterImpl implements Printer<Annotable> {
 
-	private final Printer<AnnotationInstance> AnnotationInstancePrinter;
+	private final Printer<AnnotationInstance> annotationInstancePrinter;
 
 	@Inject
 	public AnnotablePrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter) {
-		AnnotationInstancePrinter = annotationInstancePrinter;
+		this.annotationInstancePrinter = annotationInstancePrinter;
 	}
 
 	@Override
 	public void print(Annotable element, BufferedWriter writer) throws IOException {
 		for (AnnotationInstance inst : element.getAnnotations()) {
-			AnnotationInstancePrinter.print(inst, writer);
+			this.annotationInstancePrinter.print(inst, writer);
 		}
 	}
 

@@ -13,21 +13,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class WhileLoopPrinterImpl implements Printer<WhileLoop> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public WhileLoopPrinterImpl(Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
-		ExpressionPrinter = expressionPrinter;
-		StatementPrinter = statementPrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(WhileLoop element, BufferedWriter writer) throws IOException {
 		writer.append("while (");
-		ExpressionPrinter.print(element.getCondition(), writer);
+		this.expressionPrinter.print(element.getCondition(), writer);
 		writer.append(")\n");
-		StatementPrinter.print(element.getStatement(), writer);
+		this.statementPrinter.print(element.getStatement(), writer);
 	}
 
 }

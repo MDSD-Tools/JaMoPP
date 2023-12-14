@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class AnnotationPrinterImpl implements Printer<Annotation> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<MemberContainer> MemberContainerPrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<MemberContainer> memberContainerPrinter;
 
 	@Inject
 	public AnnotationPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<MemberContainer> memberContainerPrinter) {
 
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		MemberContainerPrinter = memberContainerPrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.memberContainerPrinter = memberContainerPrinter;
 	}
 
 	@Override
 	public void print(Annotation element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
 		writer.append("@interface " + element.getName() + " {\n");
-		MemberContainerPrinter.print(element, writer);
+		this.memberContainerPrinter.print(element, writer);
 		writer.append("}\n");
 	}
 

@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class ShiftExpressionChildPrinterImpl implements Printer<ShiftExpressionChild> {
 
-	private final Printer<AdditiveExpressionChild> AdditiveExpressionChildPrinter;
-	private final Printer<AdditiveExpression> AdditiveExpressionPrinter;
+	private final Printer<AdditiveExpressionChild> additiveExpressionChildPrinter;
+	private final Printer<AdditiveExpression> additiveExpressionPrinter;
 
 	@Inject
 	public ShiftExpressionChildPrinterImpl(Printer<AdditiveExpression> additiveExpressionPrinter,
 			Printer<AdditiveExpressionChild> additiveExpressionChildPrinter) {
-		AdditiveExpressionPrinter = additiveExpressionPrinter;
-		AdditiveExpressionChildPrinter = additiveExpressionChildPrinter;
+		this.additiveExpressionPrinter = additiveExpressionPrinter;
+		this.additiveExpressionChildPrinter = additiveExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(ShiftExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof AdditiveExpression) {
-			AdditiveExpressionPrinter.print((AdditiveExpression) element, writer);
+			this.additiveExpressionPrinter.print((AdditiveExpression) element, writer);
 		} else {
-			AdditiveExpressionChildPrinter.print((AdditiveExpressionChild) element, writer);
+			this.additiveExpressionChildPrinter.print((AdditiveExpressionChild) element, writer);
 		}
 	}
 

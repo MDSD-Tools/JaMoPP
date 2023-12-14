@@ -12,16 +12,16 @@ import jamopp.printer.interfaces.Printer;
 
 public class SelfReferencePrinterImpl implements Printer<SelfReference> {
 
-	private final Printer<Self> SelfPrinter;
+	private final Printer<Self> selfPrinter;
 
 	@Inject
 	public SelfReferencePrinterImpl(Printer<Self> selfPrinter) {
-		SelfPrinter = selfPrinter;
+		this.selfPrinter = selfPrinter;
 	}
 
 	@Override
 	public void print(SelfReference element, BufferedWriter writer) throws IOException {
-		SelfPrinter.print(element.getSelf(), writer);
+		this.selfPrinter.print(element.getSelf(), writer);
 	}
 
 }

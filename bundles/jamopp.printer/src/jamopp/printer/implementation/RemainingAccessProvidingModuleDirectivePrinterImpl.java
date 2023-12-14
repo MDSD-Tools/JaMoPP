@@ -7,11 +7,10 @@ import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 
 import jamopp.printer.interfaces.Printer;
 
-public class RemainingAccessProvidingModuleDirectivePrinterImpl implements Printer<AccessProvidingModuleDirective>{
+public class RemainingAccessProvidingModuleDirectivePrinterImpl implements Printer<AccessProvidingModuleDirective> {
 
 	@Override
-	public void print(AccessProvidingModuleDirective element,
-			BufferedWriter writer) throws IOException {
+	public void print(AccessProvidingModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append(element.getAccessablePackage().getNamespacesAsString());
 		if (!element.getModules().isEmpty()) {
 			writer.append(" to ");

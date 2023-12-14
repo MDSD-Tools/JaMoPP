@@ -12,17 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class CompilationUnitPrinterImpl implements Printer<CompilationUnit> {
 
-	private final Printer<ConcreteClassifier> ConcreteClassifierPrinter;
+	private final Printer<ConcreteClassifier> concreteClassifierPrinter;
 
 	@Inject
 	public CompilationUnitPrinterImpl(Printer<ConcreteClassifier> concreteClassifierPrinter) {
-		ConcreteClassifierPrinter = concreteClassifierPrinter;
+		this.concreteClassifierPrinter = concreteClassifierPrinter;
 	}
 
 	@Override
 	public void print(CompilationUnit element, BufferedWriter writer) throws IOException {
 		for (ConcreteClassifier classifier : element.getClassifiers()) {
-			ConcreteClassifierPrinter.print(classifier, writer);
+			this.concreteClassifierPrinter.print(classifier, writer);
 		}
 	}
 

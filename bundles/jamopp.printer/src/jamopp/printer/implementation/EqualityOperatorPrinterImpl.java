@@ -9,7 +9,7 @@ import org.emftext.language.java.operators.NotEqual;
 
 import jamopp.printer.interfaces.Printer;
 
-public class EqualityOperatorPrinterImpl implements Printer<EqualityOperator>{
+public class EqualityOperatorPrinterImpl implements Printer<EqualityOperator> {
 
 	@Override
 	public void print(EqualityOperator element, BufferedWriter writer) throws IOException {

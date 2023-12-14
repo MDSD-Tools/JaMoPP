@@ -12,21 +12,19 @@ import jamopp.printer.interfaces.Printer;
 
 public class DefaultSwitchRulePrinterImpl implements Printer<DefaultSwitchRule> {
 
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public DefaultSwitchRulePrinterImpl(Printer<Statement> statementPrinter) {
-		StatementPrinter = statementPrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(DefaultSwitchRule element, BufferedWriter writer) throws IOException {
 		writer.append("default -> ");
 		for (Statement s : element.getStatements()) {
-			StatementPrinter.print(s, writer);
+			this.statementPrinter.print(s, writer);
 		}
 	}
-
-
 
 }

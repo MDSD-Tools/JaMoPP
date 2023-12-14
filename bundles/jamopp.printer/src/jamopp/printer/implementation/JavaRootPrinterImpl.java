@@ -14,18 +14,19 @@ import jamopp.printer.interfaces.Printer;
 
 public class JavaRootPrinterImpl implements Printer<JavaRoot> {
 
-	private final Printer<Annotable> AnnotablePrinter;
-	private final Printer<CompilationUnit> CompilationUnitPrinter;
-	private final Printer<ImportingElement> ImportingElementPrinter;
-	private final Printer<org.emftext.language.java.containers.Module> ModulePrinter;
+	private final Printer<Annotable> annotablePrinter;
+	private final Printer<CompilationUnit> compilationUnitPrinter;
+	private final Printer<ImportingElement> importingElementPrinter;
+	private final Printer<org.emftext.language.java.containers.Module> modulePrinter;
 
 	@Inject
-	public JavaRootPrinterImpl(Printer<ImportingElement> importingElementPrinter, Printer<org.emftext.language.java.containers.Module> modulePrinter,
-			Printer<Annotable> annotablePrinter, Printer<CompilationUnit> compilationUnitPrinter) {
-		ImportingElementPrinter = importingElementPrinter;
-		ModulePrinter = modulePrinter;
-		AnnotablePrinter = annotablePrinter;
-		CompilationUnitPrinter = compilationUnitPrinter;
+	public JavaRootPrinterImpl(Printer<ImportingElement> importingElementPrinter,
+			Printer<org.emftext.language.java.containers.Module> modulePrinter, Printer<Annotable> annotablePrinter,
+			Printer<CompilationUnit> compilationUnitPrinter) {
+		this.importingElementPrinter = importingElementPrinter;
+		this.modulePrinter = modulePrinter;
+		this.annotablePrinter = annotablePrinter;
+		this.compilationUnitPrinter = compilationUnitPrinter;
 	}
 
 	/**
@@ -38,16 +39,16 @@ public class JavaRootPrinterImpl implements Printer<JavaRoot> {
 	@Override
 	public void print(JavaRoot root, BufferedWriter writer) throws IOException {
 		if (root instanceof org.emftext.language.java.containers.Module) {
-			ImportingElementPrinter.print(root, writer);
-			ModulePrinter.print((org.emftext.language.java.containers.Module) root, writer);
+			this.importingElementPrinter.print(root, writer);
+			this.modulePrinter.print((org.emftext.language.java.containers.Module) root, writer);
 		} else {
 			if (!root.getNamespaces().isEmpty()) {
-				AnnotablePrinter.print(root, writer);
+				this.annotablePrinter.print(root, writer);
 				writer.append("package " + root.getNamespacesAsString() + ";\n\n");
 			}
-			ImportingElementPrinter.print(root, writer);
+			this.importingElementPrinter.print(root, writer);
 			if (root instanceof CompilationUnit) {
-				CompilationUnitPrinter.print((CompilationUnit) root, writer);
+				this.compilationUnitPrinter.print((CompilationUnit) root, writer);
 			}
 		}
 	}

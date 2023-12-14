@@ -15,26 +15,26 @@ import jamopp.printer.interfaces.Printer;
 
 public class AnnotationValuePrinterImpl implements Printer<AnnotationValue> {
 
-	private final Provider<Printer<AnnotationInstance>> AnnotationInstancePrinter;
-	private final Printer<ArrayInitializer> ArrayInitializerPrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Provider<Printer<AnnotationInstance>> annotationInstancePrinter;
+	private final Printer<ArrayInitializer> arrayInitializerPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public AnnotationValuePrinterImpl(Provider<Printer<AnnotationInstance>> annotationInstancePrinter,
 			Printer<ArrayInitializer> arrayInitializerPrinter, Printer<Expression> expressionPrinter) {
-		AnnotationInstancePrinter = annotationInstancePrinter;
-		ArrayInitializerPrinter = arrayInitializerPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.annotationInstancePrinter = annotationInstancePrinter;
+		this.arrayInitializerPrinter = arrayInitializerPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(AnnotationValue element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
-			AnnotationInstancePrinter.get().print((AnnotationInstance) element, writer);
+			this.annotationInstancePrinter.get().print((AnnotationInstance) element, writer);
 		} else if (element instanceof ArrayInitializer) {
-			ArrayInitializerPrinter.print((ArrayInitializer) element, writer);
+			this.arrayInitializerPrinter.print((ArrayInitializer) element, writer);
 		} else {
-			ExpressionPrinter.print((Expression) element, writer);
+			this.expressionPrinter.print((Expression) element, writer);
 		}
 	}
 

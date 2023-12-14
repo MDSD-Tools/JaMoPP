@@ -13,25 +13,23 @@ import jamopp.printer.interfaces.Printer;
 
 public class ElementReferencePrinterImpl implements Printer<ElementReference> {
 
-	private final Printer<IdentifierReference> IdentifierReferencePrinter;
-	private final Printer<MethodCall> MethodCallPrinter;
+	private final Printer<IdentifierReference> identifierReferencePrinter;
+	private final Printer<MethodCall> methodCallPrinter;
 
 	@Inject
 	public ElementReferencePrinterImpl(Printer<IdentifierReference> identifierReferencePrinter,
 			Printer<MethodCall> methodCallPrinter) {
-		IdentifierReferencePrinter = identifierReferencePrinter;
-		MethodCallPrinter = methodCallPrinter;
+		this.identifierReferencePrinter = identifierReferencePrinter;
+		this.methodCallPrinter = methodCallPrinter;
 	}
 
 	@Override
 	public void print(ElementReference element, BufferedWriter writer) throws IOException {
 		if (element instanceof IdentifierReference) {
-			IdentifierReferencePrinter.print((IdentifierReference) element, writer);
+			this.identifierReferencePrinter.print((IdentifierReference) element, writer);
 		} else {
-			MethodCallPrinter.print((MethodCall) element, writer);
+			this.methodCallPrinter.print((MethodCall) element, writer);
 		}
 	}
-
-
 
 }

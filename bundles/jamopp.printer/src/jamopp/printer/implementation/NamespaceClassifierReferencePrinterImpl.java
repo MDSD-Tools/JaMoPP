@@ -12,11 +12,11 @@ import jamopp.printer.interfaces.Printer;
 
 public class NamespaceClassifierReferencePrinterImpl implements Printer<NamespaceClassifierReference> {
 
-	private final Printer<ClassifierReference> ClassifierReferencePrinter;
+	private final Printer<ClassifierReference> classifierReferencePrinter;
 
 	@Inject
 	public NamespaceClassifierReferencePrinterImpl(Printer<ClassifierReference> classifierReferencePrinter) {
-		ClassifierReferencePrinter = classifierReferencePrinter;
+		this.classifierReferencePrinter = classifierReferencePrinter;
 	}
 
 	@Override
@@ -26,11 +26,11 @@ public class NamespaceClassifierReferencePrinterImpl implements Printer<Namespac
 			writer.append(".");
 		}
 		for (var index = 0; index < element.getClassifierReferences().size() - 1; index++) {
-			ClassifierReferencePrinter.print(element.getClassifierReferences().get(index), writer);
+			this.classifierReferencePrinter.print(element.getClassifierReferences().get(index), writer);
 			writer.append(".");
 		}
-		ClassifierReferencePrinter
-		.print(element.getClassifierReferences().get(element.getClassifierReferences().size() - 1), writer);
+		this.classifierReferencePrinter
+				.print(element.getClassifierReferences().get(element.getClassifierReferences().size() - 1), writer);
 	}
 
 }

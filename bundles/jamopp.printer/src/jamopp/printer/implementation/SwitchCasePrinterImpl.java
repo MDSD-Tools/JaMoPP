@@ -15,31 +15,31 @@ import jamopp.printer.interfaces.Printer;
 
 public class SwitchCasePrinterImpl implements Printer<SwitchCase> {
 
-	private final Printer<DefaultSwitchCase> DefaultSwitchCasePrinter;
-	private final Printer<DefaultSwitchRule> DefaultSwitchRulePrinter;
-	private final Printer<NormalSwitchCase> NormalSwitchCasePrinter;
-	private final Printer<NormalSwitchRule> NormalSwitchRulePrinter;
+	private final Printer<DefaultSwitchCase> defaultSwitchCasePrinter;
+	private final Printer<DefaultSwitchRule> defaultSwitchRulePrinter;
+	private final Printer<NormalSwitchCase> normalSwitchCasePrinter;
+	private final Printer<NormalSwitchRule> normalSwitchRulePrinter;
 
 	@Inject
 	public SwitchCasePrinterImpl(Printer<DefaultSwitchCase> defaultSwitchCasePrinter,
 			Printer<NormalSwitchCase> normalSwitchCasePrinter, Printer<DefaultSwitchRule> defaultSwitchRulePrinter,
 			Printer<NormalSwitchRule> normalSwitchRulePrinter) {
-		DefaultSwitchCasePrinter = defaultSwitchCasePrinter;
-		NormalSwitchCasePrinter = normalSwitchCasePrinter;
-		DefaultSwitchRulePrinter = defaultSwitchRulePrinter;
-		NormalSwitchRulePrinter = normalSwitchRulePrinter;
+		this.defaultSwitchCasePrinter = defaultSwitchCasePrinter;
+		this.normalSwitchCasePrinter = normalSwitchCasePrinter;
+		this.defaultSwitchRulePrinter = defaultSwitchRulePrinter;
+		this.normalSwitchRulePrinter = normalSwitchRulePrinter;
 	}
 
 	@Override
 	public void print(SwitchCase element, BufferedWriter writer) throws IOException {
 		if (element instanceof DefaultSwitchCase) {
-			DefaultSwitchCasePrinter.print((DefaultSwitchCase) element, writer);
+			this.defaultSwitchCasePrinter.print((DefaultSwitchCase) element, writer);
 		} else if (element instanceof NormalSwitchCase) {
-			NormalSwitchCasePrinter.print((NormalSwitchCase) element, writer);
+			this.normalSwitchCasePrinter.print((NormalSwitchCase) element, writer);
 		} else if (element instanceof DefaultSwitchRule) {
-			DefaultSwitchRulePrinter.print((DefaultSwitchRule) element, writer);
+			this.defaultSwitchRulePrinter.print((DefaultSwitchRule) element, writer);
 		} else {
-			NormalSwitchRulePrinter.print((NormalSwitchRule) element, writer);
+			this.normalSwitchRulePrinter.print((NormalSwitchRule) element, writer);
 		}
 	}
 

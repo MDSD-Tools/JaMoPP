@@ -14,24 +14,24 @@ import jamopp.printer.interfaces.Printer;
 
 public class ForLoopInitializerPrinterImpl implements Printer<ForLoopInitializer> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<LocalVariable> LocalVariablePrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<LocalVariable> localVariablePrinter;
 
 	@Inject
 	public ForLoopInitializerPrinterImpl(Printer<LocalVariable> localVariablePrinter,
 			Printer<Expression> expressionPrinter) {
-		LocalVariablePrinter = localVariablePrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.localVariablePrinter = localVariablePrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(ForLoopInitializer element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
-			LocalVariablePrinter.print((LocalVariable) element, writer);
+			this.localVariablePrinter.print((LocalVariable) element, writer);
 		} else {
 			var list = (ExpressionList) element;
 			for (var index = 0; index < list.getExpressions().size(); index++) {
-				ExpressionPrinter.print(list.getExpressions().get(index), writer);
+				this.expressionPrinter.print(list.getExpressions().get(index), writer);
 				if (index < list.getExpressions().size() - 1) {
 					writer.append(", ");
 				}

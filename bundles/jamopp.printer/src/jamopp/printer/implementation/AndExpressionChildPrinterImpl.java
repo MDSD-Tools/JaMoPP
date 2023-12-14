@@ -13,23 +13,23 @@ import jamopp.printer.interfaces.Printer;
 
 public class AndExpressionChildPrinterImpl implements Printer<AndExpressionChild> {
 
-	private final Printer<EqualityExpressionChild> EqualityExpressionChildPrinter;
-	private final Printer<EqualityExpression> EqualityExpressionPrinter;
+	private final Printer<EqualityExpressionChild> equalityExpressionChildPrinter;
+	private final Printer<EqualityExpression> equalityExpressionPrinter;
 
 	@Inject
 	public AndExpressionChildPrinterImpl(Printer<EqualityExpression> equalityExpressionPrinter,
 			Printer<EqualityExpressionChild> equalityExpressionChildPrinter) {
 
-		EqualityExpressionPrinter = equalityExpressionPrinter;
-		EqualityExpressionChildPrinter = equalityExpressionChildPrinter;
+		this.equalityExpressionPrinter = equalityExpressionPrinter;
+		this.equalityExpressionChildPrinter = equalityExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(AndExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof EqualityExpression) {
-			EqualityExpressionPrinter.print((EqualityExpression) element, writer);
+			this.equalityExpressionPrinter.print((EqualityExpression) element, writer);
 		} else {
-			EqualityExpressionChildPrinter.print((EqualityExpressionChild) element, writer);
+			this.equalityExpressionChildPrinter.print((EqualityExpressionChild) element, writer);
 		}
 	}
 

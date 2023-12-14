@@ -14,17 +14,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class ParametrizablePrinterImpl implements Printer<Parametrizable> {
 
-	private final Printer<OrdinaryParameter> OrdinaryParameterPrinter;
-	private final Printer<ReceiverParameter> ReceiverParameterPrinter;
-	private final Printer<VariableLengthParameter> VariableLengthParameterPrinter;
+	private final Printer<OrdinaryParameter> ordinaryParameterPrinter;
+	private final Printer<ReceiverParameter> receiverParameterPrinter;
+	private final Printer<VariableLengthParameter> variableLengthParameterPrinter;
 
 	@Inject
 	public ParametrizablePrinterImpl(Printer<ReceiverParameter> receiverParameterPrinter,
 			Printer<OrdinaryParameter> ordinaryParameterPrinter,
 			Printer<VariableLengthParameter> variableLengthParameterPrinter) {
-		ReceiverParameterPrinter = receiverParameterPrinter;
-		OrdinaryParameterPrinter = ordinaryParameterPrinter;
-		VariableLengthParameterPrinter = variableLengthParameterPrinter;
+		this.receiverParameterPrinter = receiverParameterPrinter;
+		this.ordinaryParameterPrinter = ordinaryParameterPrinter;
+		this.variableLengthParameterPrinter = variableLengthParameterPrinter;
 	}
 
 	@Override
@@ -33,11 +33,11 @@ public class ParametrizablePrinterImpl implements Printer<Parametrizable> {
 		for (var index = 0; index < element.getParameters().size(); index++) {
 			var param = element.getParameters().get(index);
 			if (param instanceof ReceiverParameter) {
-				ReceiverParameterPrinter.print((ReceiverParameter) param, writer);
+				this.receiverParameterPrinter.print((ReceiverParameter) param, writer);
 			} else if (param instanceof OrdinaryParameter) {
-				OrdinaryParameterPrinter.print((OrdinaryParameter) param, writer);
+				this.ordinaryParameterPrinter.print((OrdinaryParameter) param, writer);
 			} else {
-				VariableLengthParameterPrinter.print((VariableLengthParameter) param, writer);
+				this.variableLengthParameterPrinter.print((VariableLengthParameter) param, writer);
 			}
 			if (index < element.getParameters().size() - 1) {
 				writer.append(", ");

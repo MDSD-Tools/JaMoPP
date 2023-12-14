@@ -15,37 +15,37 @@ import jamopp.printer.interfaces.Printer;
 
 public class ClassPrinterImpl implements Printer<org.emftext.language.java.classifiers.Class> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<Implementor> ImplementorPrinter;
-	private final Printer<MemberContainer> MemberContainerPrinter;
-	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<Implementor> implementorPrinter;
+	private final Printer<MemberContainer> memberContainerPrinter;
+	private final Printer<TypeParametrizable> typeParametrizablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public ClassPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<TypeReference> typeReferencePrinter,
 			Printer<Implementor> implementorPrinter, Printer<MemberContainer> memberContainerPrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeParametrizablePrinter = typeParametrizablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		ImplementorPrinter = implementorPrinter;
-		MemberContainerPrinter = memberContainerPrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeParametrizablePrinter = typeParametrizablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.implementorPrinter = implementorPrinter;
+		this.memberContainerPrinter = memberContainerPrinter;
 	}
 
 	@Override
 	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
 		writer.append("class " + element.getName());
-		TypeParametrizablePrinter.print(element, writer);
+		this.typeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
 		if (element.getExtends() != null) {
 			writer.append("extends ");
-			TypeReferencePrinter.print(element.getExtends(), writer);
+			this.typeReferencePrinter.print(element.getExtends(), writer);
 			writer.append(" ");
 		}
-		ImplementorPrinter.print(element, writer);
+		this.implementorPrinter.print(element, writer);
 		writer.append("{\n");
-		MemberContainerPrinter.print(element, writer);
+		this.memberContainerPrinter.print(element, writer);
 		writer.append("}\n");
 	}
 

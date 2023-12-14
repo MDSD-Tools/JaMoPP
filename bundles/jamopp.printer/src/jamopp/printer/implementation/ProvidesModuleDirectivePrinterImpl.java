@@ -12,21 +12,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class ProvidesModuleDirectivePrinterImpl implements Printer<ProvidesModuleDirective> {
 
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public ProvidesModuleDirectivePrinterImpl(Printer<TypeReference> typeReferencePrinter) {
-		TypeReferencePrinter = typeReferencePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
 	}
 
 	@Override
 	public void print(ProvidesModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("provides ");
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
 		writer.append(" with ");
 		for (var index = 0; index < element.getServiceProviders().size(); index++) {
 			var ref = element.getServiceProviders().get(index);
-			TypeReferencePrinter.print(ref, writer);
+			this.typeReferencePrinter.print(ref, writer);
 			if (index < element.getServiceProviders().size() - 1) {
 				writer.append(".");
 			}

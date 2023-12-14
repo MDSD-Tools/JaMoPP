@@ -12,19 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class ExpressionStatementPrinterImpl implements Printer<ExpressionStatement> {
 
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public ExpressionStatementPrinterImpl(Printer<Expression> expressionPrinter) {
-		ExpressionPrinter = expressionPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(ExpressionStatement element, BufferedWriter writer) throws IOException {
-		ExpressionPrinter.print(element.getExpression(), writer);
+		this.expressionPrinter.print(element.getExpression(), writer);
 		writer.append(";\n");
 	}
-
-
 
 }

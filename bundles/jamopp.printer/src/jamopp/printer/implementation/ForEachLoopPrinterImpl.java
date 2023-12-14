@@ -14,26 +14,26 @@ import jamopp.printer.interfaces.Printer;
 
 public class ForEachLoopPrinterImpl implements Printer<ForEachLoop> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<OrdinaryParameter> OrdinaryParameterPrinter;
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<OrdinaryParameter> ordinaryParameterPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public ForEachLoopPrinterImpl(Printer<OrdinaryParameter> ordinaryParameterPrinter,
 			Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
-		OrdinaryParameterPrinter = ordinaryParameterPrinter;
-		ExpressionPrinter = expressionPrinter;
-		StatementPrinter = statementPrinter;
+		this.ordinaryParameterPrinter = ordinaryParameterPrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(ForEachLoop element, BufferedWriter writer) throws IOException {
 		writer.append("for (");
-		OrdinaryParameterPrinter.print(element.getNext(), writer);
+		this.ordinaryParameterPrinter.print(element.getNext(), writer);
 		writer.append(" : ");
-		ExpressionPrinter.print(element.getCollection(), writer);
+		this.expressionPrinter.print(element.getCollection(), writer);
 		writer.append(")\n");
-		StatementPrinter.print(element.getStatement(), writer);
+		this.statementPrinter.print(element.getStatement(), writer);
 	}
 
 }

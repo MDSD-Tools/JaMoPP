@@ -13,21 +13,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class ClassifierReferencePrinterImpl implements Printer<ClassifierReference> {
 
-	private final Printer<Annotable> AnnotablePrinter;
-	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
+	private final Printer<Annotable> annotablePrinter;
+	private final Printer<TypeArgumentable> typeArgumentablePrinter;
 
 	@Inject
 	public ClassifierReferencePrinterImpl(Printer<Annotable> annotablePrinter,
 			Printer<TypeArgumentable> typeArgumentablePrinter) {
-		AnnotablePrinter = annotablePrinter;
-		TypeArgumentablePrinter = typeArgumentablePrinter;
+		this.annotablePrinter = annotablePrinter;
+		this.typeArgumentablePrinter = typeArgumentablePrinter;
 	}
 
 	@Override
 	public void print(ClassifierReference element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.print(element, writer);
+		this.annotablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());
-		TypeArgumentablePrinter.print(element, writer);
+		this.typeArgumentablePrinter.print(element, writer);
 	}
 
 }

@@ -12,16 +12,16 @@ import jamopp.printer.interfaces.Printer;
 
 public class PrimitiveTypePrinterImpl implements Printer<PrimitiveType> {
 
-	private final Printer<Annotable> AnnotablePrinter;
+	private final Printer<Annotable> annotablePrinter;
 
 	@Inject
 	public PrimitiveTypePrinterImpl(Printer<Annotable> annotablePrinter) {
-		AnnotablePrinter = annotablePrinter;
+		this.annotablePrinter = annotablePrinter;
 	}
 
 	@Override
 	public void print(PrimitiveType element, BufferedWriter writer) throws IOException {
-		AnnotablePrinter.print(element, writer);
+		this.annotablePrinter.print(element, writer);
 		if (element instanceof org.emftext.language.java.types.Boolean) {
 			writer.append("boolean");
 		} else if (element instanceof org.emftext.language.java.types.Byte) {

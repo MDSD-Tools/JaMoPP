@@ -16,29 +16,29 @@ import jamopp.printer.interfaces.Printer;
 
 public class OrdinaryParameterPrinterImpl implements Printer<OrdinaryParameter> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<TypeArgumentable> typeArgumentablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public OrdinaryParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		TypeArgumentablePrinter = typeArgumentablePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.typeArgumentablePrinter = typeArgumentablePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
 	@Override
 	public void print(OrdinaryParameter element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
-		TypeArgumentablePrinter.print(element, writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
+		this.typeArgumentablePrinter.print(element, writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

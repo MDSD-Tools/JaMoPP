@@ -12,26 +12,24 @@ import jamopp.printer.interfaces.Printer;
 
 public class ImplementorPrinterImpl implements Printer<Implementor> {
 
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public ImplementorPrinterImpl(Printer<TypeReference> typeReferencePrinter) {
-		TypeReferencePrinter = typeReferencePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
 	}
 
 	@Override
 	public void print(Implementor element, BufferedWriter writer) throws IOException {
 		if (!element.getImplements().isEmpty()) {
 			writer.append("implements ");
-			TypeReferencePrinter.print(element.getImplements().get(0), writer);
+			this.typeReferencePrinter.print(element.getImplements().get(0), writer);
 			for (var index = 1; index < element.getImplements().size(); index++) {
 				writer.append(", ");
-				TypeReferencePrinter.print(element.getImplements().get(index), writer);
+				this.typeReferencePrinter.print(element.getImplements().get(index), writer);
 			}
 			writer.append(" ");
 		}
 	}
-
-
 
 }

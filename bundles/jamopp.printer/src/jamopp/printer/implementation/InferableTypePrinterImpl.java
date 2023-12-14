@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import jamopp.printer.interfaces.InferableTypePrinterInt;
 
-public class InferableTypePrinterImpl implements  InferableTypePrinterInt{
+public class InferableTypePrinterImpl implements InferableTypePrinterInt {
 
 	@Override
 	public void print(BufferedWriter writer) throws IOException {

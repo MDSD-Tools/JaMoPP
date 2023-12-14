@@ -20,37 +20,37 @@ import jamopp.printer.interfaces.Printer;
 
 public class TypeArgumentPrinterImpl implements Printer<TypeArgument> {
 
-	private final Printer<Annotable> AnnotablePrinter;
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Provider<Printer<TypeReference>> TypeReferencePrinter;
+	private final Printer<Annotable> annotablePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Provider<Printer<TypeReference>> typeReferencePrinter;
 
 	@Inject
 	public TypeArgumentPrinterImpl(Provider<Printer<TypeReference>> typeReferencePrinter,
 			Printer<Annotable> annotablePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
-		TypeReferencePrinter = typeReferencePrinter;
-		AnnotablePrinter = annotablePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.annotablePrinter = annotablePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
 	@Override
 	public void print(TypeArgument element, BufferedWriter writer) throws IOException {
 		if (element instanceof QualifiedTypeArgument arg) {
-			TypeReferencePrinter.get().print(arg.getTypeReference(), writer);
+			this.typeReferencePrinter.get().print(arg.getTypeReference(), writer);
 		} else if (element instanceof UnknownTypeArgument arg) {
-			AnnotablePrinter.print(arg, writer);
+			this.annotablePrinter.print(arg, writer);
 			writer.append("?");
 		} else if (element instanceof SuperTypeArgument arg) {
-			AnnotablePrinter.print(arg, writer);
+			this.annotablePrinter.print(arg, writer);
 			writer.append("? super ");
-			TypeReferencePrinter.get().print(arg.getSuperType(), writer);
+			this.typeReferencePrinter.get().print(arg.getSuperType(), writer);
 		} else {
 			var arg = (ExtendsTypeArgument) element;
-			AnnotablePrinter.print(arg, writer);
+			this.annotablePrinter.print(arg, writer);
 			writer.append("? extends ");
-			TypeReferencePrinter.get().print(arg.getExtendType(), writer);
+			this.typeReferencePrinter.get().print(arg.getExtendType(), writer);
 		}
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

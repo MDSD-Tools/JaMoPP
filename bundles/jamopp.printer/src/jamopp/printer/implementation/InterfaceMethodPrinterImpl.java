@@ -18,16 +18,16 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 
-public class InterfaceMethodPrinterImpl implements Printer<InterfaceMethod>  {
+public class InterfaceMethodPrinterImpl implements Printer<InterfaceMethod> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<AnnotationValue> AnnotationValuePrinter;
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<ExceptionThrower> ExceptionThrowerPrinter;
-	private final Printer<Parametrizable> ParametrizablePrinter;
-	private final Printer<Statement> StatementPrinter;
-	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<AnnotationValue> annotationValuePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<ExceptionThrower> exceptionThrowerPrinter;
+	private final Printer<Parametrizable> parametrizablePrinter;
+	private final Printer<Statement> statementPrinter;
+	private final Printer<TypeParametrizable> typeParametrizablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public InterfaceMethodPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
@@ -35,33 +35,33 @@ public class InterfaceMethodPrinterImpl implements Printer<InterfaceMethod>  {
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Parametrizable> parametrizablePrinter,
 			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<AnnotationValue> annotationValuePrinter,
 			Printer<Statement> statementPrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeParametrizablePrinter = typeParametrizablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		ParametrizablePrinter = parametrizablePrinter;
-		ExceptionThrowerPrinter = exceptionThrowerPrinter;
-		AnnotationValuePrinter = annotationValuePrinter;
-		StatementPrinter = statementPrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeParametrizablePrinter = typeParametrizablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.parametrizablePrinter = parametrizablePrinter;
+		this.exceptionThrowerPrinter = exceptionThrowerPrinter;
+		this.annotationValuePrinter = annotationValuePrinter;
+		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
 	public void print(InterfaceMethod element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeParametrizablePrinter.print(element, writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
+		this.typeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		ParametrizablePrinter.print(element, writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
-		ExceptionThrowerPrinter.print(element, writer);
+		this.parametrizablePrinter.print(element, writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.exceptionThrowerPrinter.print(element, writer);
 		writer.append(" ");
 		if (element.getDefaultValue() != null) {
 			writer.append("default ");
-			AnnotationValuePrinter.print(element.getDefaultValue(), writer);
+			this.annotationValuePrinter.print(element.getDefaultValue(), writer);
 		}
-		StatementPrinter.print(element.getStatement(), writer);
+		this.statementPrinter.print(element.getStatement(), writer);
 		writer.append("\n");
 	}
 

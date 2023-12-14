@@ -12,21 +12,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class CallTypeArgumentablePrinterImpl implements Printer<CallTypeArgumentable> {
 
-	private final Printer<TypeArgument> TypeArgumentPrinter;
+	private final Printer<TypeArgument> typeArgumentPrinter;
 
 	@Inject
 	public CallTypeArgumentablePrinterImpl(Printer<TypeArgument> typeArgumentPrinter) {
-		TypeArgumentPrinter = typeArgumentPrinter;
+		this.typeArgumentPrinter = typeArgumentPrinter;
 	}
 
 	@Override
 	public void print(CallTypeArgumentable element, BufferedWriter writer) throws IOException {
 		if (!element.getCallTypeArguments().isEmpty()) {
 			writer.append("<");
-			TypeArgumentPrinter.print(element.getCallTypeArguments().get(0), writer);
+			this.typeArgumentPrinter.print(element.getCallTypeArguments().get(0), writer);
 			for (var index = 1; index < element.getCallTypeArguments().size(); index++) {
 				writer.append(", ");
-				TypeArgumentPrinter.print(element.getCallTypeArguments().get(index), writer);
+				this.typeArgumentPrinter.print(element.getCallTypeArguments().get(index), writer);
 			}
 			writer.append(">");
 		}

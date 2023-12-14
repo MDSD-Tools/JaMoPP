@@ -15,11 +15,11 @@ import jamopp.printer.interfaces.Printer;
 
 public class AnnotationInstancePrinterImpl implements Printer<AnnotationInstance> {
 
-	private final Provider<Printer<AnnotationValue>> AnnotationValuePrinter;
+	private final Provider<Printer<AnnotationValue>> annotationValuePrinter;
 
 	@Inject
 	public AnnotationInstancePrinterImpl(Provider<Printer<AnnotationValue>> annotationValuePrinter) {
-		AnnotationValuePrinter = annotationValuePrinter;
+		this.annotationValuePrinter = annotationValuePrinter;
 	}
 
 	@Override
@@ -28,14 +28,14 @@ public class AnnotationInstancePrinterImpl implements Printer<AnnotationInstance
 		if (element.getParameter() != null) {
 			writer.append("(");
 			if (element.getParameter() instanceof SingleAnnotationParameter) {
-				AnnotationValuePrinter.get().print(((SingleAnnotationParameter) element.getParameter()).getValue(),
+				this.annotationValuePrinter.get().print(((SingleAnnotationParameter) element.getParameter()).getValue(),
 						writer);
 			} else {
 				var list = (AnnotationParameterList) element.getParameter();
 				for (var index = 0; index < list.getSettings().size(); index++) {
 					var setting = list.getSettings().get(index);
 					writer.append(setting.getAttribute().getName() + " = ");
-					AnnotationValuePrinter.get().print(setting.getValue(), writer);
+					this.annotationValuePrinter.get().print(setting.getValue(), writer);
 					if (index < list.getSettings().size() - 1) {
 						writer.append(", ");
 					}

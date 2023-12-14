@@ -13,21 +13,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class SynchronizedBlockPrinterImpl implements Printer<SynchronizedBlock> {
 
-	private final Printer<Block> BlockPrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<Block> blockPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public SynchronizedBlockPrinterImpl(Printer<Expression> expressionPrinter, Printer<Block> blockPrinter) {
-		ExpressionPrinter = expressionPrinter;
-		BlockPrinter = blockPrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.blockPrinter = blockPrinter;
 	}
 
 	@Override
 	public void print(SynchronizedBlock element, BufferedWriter writer) throws IOException {
 		writer.append("synchronized (");
-		ExpressionPrinter.print(element.getLockProvider(), writer);
+		this.expressionPrinter.print(element.getLockProvider(), writer);
 		writer.append(") ");
-		BlockPrinter.print(element.getBlock(), writer);
+		this.blockPrinter.print(element.getBlock(), writer);
 	}
 
 }

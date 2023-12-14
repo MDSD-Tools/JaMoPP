@@ -12,17 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class NestedExpressionPrinterImpl implements Printer<NestedExpression> {
 
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public NestedExpressionPrinterImpl(Printer<Expression> expressionPrinter) {
-		ExpressionPrinter = expressionPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(NestedExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
-		ExpressionPrinter.print(element.getExpression(), writer);
+		this.expressionPrinter.print(element.getExpression(), writer);
 		writer.append(")");
 	}
 

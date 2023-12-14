@@ -13,29 +13,27 @@ import jamopp.printer.interfaces.Printer;
 
 public class CatchParameterPrinterImpl implements Printer<CatchParameter> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public CatchParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<TypeReference> typeReferencePrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
 	}
 
 	@Override
 	public void print(CatchParameter element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
 		if (!element.getTypeReferences().isEmpty()) {
 			for (TypeReference ref : element.getTypeReferences()) {
 				writer.append(" | ");
-				TypeReferencePrinter.print(ref, writer);
+				this.typeReferencePrinter.print(ref, writer);
 			}
 		}
 		writer.append(" " + element.getName());
 	}
-
-
 
 }

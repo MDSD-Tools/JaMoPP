@@ -14,24 +14,24 @@ import jamopp.printer.interfaces.Printer;
 
 public class AdditionalFieldPrinterImpl implements Printer<AdditionalField> {
 
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public AdditionalFieldPrinterImpl(Printer<Expression> expressionPrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(AdditionalField element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		if (element.getInitialValue() != null) {
 			writer.append(" = ");
-			ExpressionPrinter.print(element.getInitialValue(), writer);
+			this.expressionPrinter.print(element.getInitialValue(), writer);
 		}
 	}
 

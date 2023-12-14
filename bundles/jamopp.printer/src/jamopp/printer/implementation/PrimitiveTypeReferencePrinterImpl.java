@@ -14,21 +14,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class PrimitiveTypeReferencePrinterImpl implements Printer<PrimitiveTypeReference> {
 
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<PrimitiveType> PrimitiveTypePrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<PrimitiveType> primitiveTypePrinter;
 
 	@Inject
 	public PrimitiveTypeReferencePrinterImpl(Printer<PrimitiveType> primitiveTypePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
-		PrimitiveTypePrinter = primitiveTypePrinter;
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.primitiveTypePrinter = primitiveTypePrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
 	@Override
 	public void print(PrimitiveTypeReference element, BufferedWriter writer) throws IOException {
-		PrimitiveTypePrinter.print(element.getPrimitiveType(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.primitiveTypePrinter.print(element.getPrimitiveType(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

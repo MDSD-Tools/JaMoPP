@@ -19,45 +19,45 @@ import jamopp.printer.interfaces.Printer;
 
 public class MemberPrinterImpl implements Printer<Member> {
 
-	private final Provider<Printer<Block>> BlockPrinter;
-	private final Provider<Printer<ClassMethod>> ClassMethodPrinter;
-	private final Provider<Printer<ConcreteClassifier>> ConcreteClassifierPrinter;
-	private final Provider<Printer<Constructor>> ConstructorPrinter;
-	private final Provider<EmptyMemberPrinterInt> EmptyMemberPrinter;
-	private final Provider<Printer<Field>> FieldPrinter;
-	private final Provider<Printer<InterfaceMethod> > InterfaceMethodPrinter;
+	private final Provider<Printer<Block>> blockPrinter;
+	private final Provider<Printer<ClassMethod>> classMethodPrinter;
+	private final Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter;
+	private final Provider<Printer<Constructor>> constructorPrinter;
+	private final Provider<EmptyMemberPrinterInt> emptyMemberPrinter;
+	private final Provider<Printer<Field>> fieldPrinter;
+	private final Provider<Printer<InterfaceMethod>> interfaceMethodPrinter;
 
 	@Inject
 	public MemberPrinterImpl(Provider<Printer<Field>> fieldPrinter, Provider<Printer<Constructor>> constructorPrinter,
 			Provider<Printer<ClassMethod>> classMethodPrinter,
-			Provider<Printer<InterfaceMethod> > interfaceMethodPrinter,
+			Provider<Printer<InterfaceMethod>> interfaceMethodPrinter,
 			Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter, Provider<Printer<Block>> blockPrinter,
 			Provider<EmptyMemberPrinterInt> emptyMemberPrinter) {
-		FieldPrinter = fieldPrinter;
-		ConstructorPrinter = constructorPrinter;
-		ClassMethodPrinter = classMethodPrinter;
-		InterfaceMethodPrinter = interfaceMethodPrinter;
-		ConcreteClassifierPrinter = concreteClassifierPrinter;
-		BlockPrinter = blockPrinter;
-		EmptyMemberPrinter = emptyMemberPrinter;
+		this.fieldPrinter = fieldPrinter;
+		this.constructorPrinter = constructorPrinter;
+		this.classMethodPrinter = classMethodPrinter;
+		this.interfaceMethodPrinter = interfaceMethodPrinter;
+		this.concreteClassifierPrinter = concreteClassifierPrinter;
+		this.blockPrinter = blockPrinter;
+		this.emptyMemberPrinter = emptyMemberPrinter;
 	}
 
 	@Override
 	public void print(Member element, BufferedWriter writer) throws IOException {
 		if (element instanceof Field) {
-			FieldPrinter.get().print((Field) element, writer);
+			this.fieldPrinter.get().print((Field) element, writer);
 		} else if (element instanceof Constructor) {
-			ConstructorPrinter.get().print((Constructor) element, writer);
+			this.constructorPrinter.get().print((Constructor) element, writer);
 		} else if (element instanceof ClassMethod) {
-			ClassMethodPrinter.get().print((ClassMethod) element, writer);
+			this.classMethodPrinter.get().print((ClassMethod) element, writer);
 		} else if (element instanceof InterfaceMethod) {
-			InterfaceMethodPrinter.get().print((InterfaceMethod) element, writer);
+			this.interfaceMethodPrinter.get().print((InterfaceMethod) element, writer);
 		} else if (element instanceof ConcreteClassifier) {
-			ConcreteClassifierPrinter.get().print((ConcreteClassifier) element, writer);
+			this.concreteClassifierPrinter.get().print((ConcreteClassifier) element, writer);
 		} else if (element instanceof Block) {
-			BlockPrinter.get().print((Block) element, writer);
+			this.blockPrinter.get().print((Block) element, writer);
 		} else {
-			EmptyMemberPrinter.get().print(writer);
+			this.emptyMemberPrinter.get().print(writer);
 		}
 	}
 

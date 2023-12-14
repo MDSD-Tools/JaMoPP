@@ -10,7 +10,7 @@ import org.emftext.language.java.operators.UnaryOperator;
 
 import jamopp.printer.interfaces.Printer;
 
-public class UnaryOperatorPrinterImpl implements Printer<UnaryOperator>{
+public class UnaryOperatorPrinterImpl implements Printer<UnaryOperator> {
 
 	@Override
 	public void print(UnaryOperator element, BufferedWriter writer) throws IOException {

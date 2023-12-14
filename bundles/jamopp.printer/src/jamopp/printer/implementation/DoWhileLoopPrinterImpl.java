@@ -13,21 +13,21 @@ import jamopp.printer.interfaces.Printer;
 
 public class DoWhileLoopPrinterImpl implements Printer<DoWhileLoop> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public DoWhileLoopPrinterImpl(Printer<Statement> statementPrinter, Printer<Expression> expressionPrinter) {
-		StatementPrinter = statementPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.statementPrinter = statementPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(DoWhileLoop element, BufferedWriter writer) throws IOException {
 		writer.append("do\n");
-		StatementPrinter.print(element.getStatement(), writer);
+		this.statementPrinter.print(element.getStatement(), writer);
 		writer.append("while (");
-		ExpressionPrinter.print(element.getCondition(), writer);
+		this.expressionPrinter.print(element.getCondition(), writer);
 		writer.append(");\n");
 	}
 

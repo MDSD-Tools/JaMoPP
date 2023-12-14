@@ -11,7 +11,7 @@ import org.emftext.language.java.operators.RelationOperator;
 
 import jamopp.printer.interfaces.Printer;
 
-public class RelationOperatorPrinterImpl implements Printer<RelationOperator>{
+public class RelationOperatorPrinterImpl implements Printer<RelationOperator> {
 
 	@Override
 	public void print(RelationOperator element, BufferedWriter writer) throws IOException {

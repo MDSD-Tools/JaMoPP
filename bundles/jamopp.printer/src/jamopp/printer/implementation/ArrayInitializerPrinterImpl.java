@@ -13,14 +13,14 @@ import jamopp.printer.interfaces.Printer;
 
 public class ArrayInitializerPrinterImpl implements Printer<ArrayInitializer> {
 
-	private final Printer<AnnotationInstance> AnnotationInstancePrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<AnnotationInstance> annotationInstancePrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public ArrayInitializerPrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
 			Printer<Expression> expressionPrinter) {
-		AnnotationInstancePrinter = annotationInstancePrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.annotationInstancePrinter = annotationInstancePrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
@@ -29,11 +29,11 @@ public class ArrayInitializerPrinterImpl implements Printer<ArrayInitializer> {
 		for (var index = 0; index < element.getInitialValues().size(); index++) {
 			var val = element.getInitialValues().get(index);
 			if (val instanceof AnnotationInstance) {
-				AnnotationInstancePrinter.print((AnnotationInstance) val, writer);
+				this.annotationInstancePrinter.print((AnnotationInstance) val, writer);
 			} else if (val instanceof ArrayInitializer) {
 				print((ArrayInitializer) val, writer);
 			} else {
-				ExpressionPrinter.print((Expression) val, writer);
+				this.expressionPrinter.print((Expression) val, writer);
 			}
 			if (index < element.getInitialValues().size() - 1) {
 				writer.append(", ");

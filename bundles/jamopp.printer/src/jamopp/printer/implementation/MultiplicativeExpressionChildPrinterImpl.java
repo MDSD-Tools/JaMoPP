@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class MultiplicativeExpressionChildPrinterImpl implements Printer<MultiplicativeExpressionChild> {
 
-	private final Printer<UnaryExpressionChild> UnaryExpressionChildPrinter;
-	private final Printer<UnaryExpression> UnaryExpressionPrinter;
+	private final Printer<UnaryExpressionChild> unaryExpressionChildPrinter;
+	private final Printer<UnaryExpression> unaryExpressionPrinter;
 
 	@Inject
 	public MultiplicativeExpressionChildPrinterImpl(Printer<UnaryExpression> unaryExpressionPrinter,
 			Printer<UnaryExpressionChild> unaryExpressionChildPrinter) {
-		UnaryExpressionPrinter = unaryExpressionPrinter;
-		UnaryExpressionChildPrinter = unaryExpressionChildPrinter;
+		this.unaryExpressionPrinter = unaryExpressionPrinter;
+		this.unaryExpressionChildPrinter = unaryExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(MultiplicativeExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof UnaryExpression) {
-			UnaryExpressionPrinter.print((UnaryExpression) element, writer);
+			this.unaryExpressionPrinter.print((UnaryExpression) element, writer);
 		} else {
-			UnaryExpressionChildPrinter.print((UnaryExpressionChild) element, writer);
+			this.unaryExpressionChildPrinter.print((UnaryExpressionChild) element, writer);
 		}
 	}
 

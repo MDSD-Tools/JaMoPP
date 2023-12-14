@@ -12,19 +12,18 @@ import jamopp.printer.interfaces.Printer;
 
 public class DefaultSwitchCasePrinterImpl implements Printer<DefaultSwitchCase> {
 
-	private final Printer<Statement> StatementPrinter;
+	private final Printer<Statement> statementPrinter;
 
 	@Inject
 	public DefaultSwitchCasePrinterImpl(Printer<Statement> statementPrinter) {
-		StatementPrinter = statementPrinter;
+		this.statementPrinter = statementPrinter;
 	}
-
 
 	@Override
 	public void print(DefaultSwitchCase element, BufferedWriter writer) throws IOException {
 		writer.append("default: ");
 		for (Statement s : element.getStatements()) {
-			StatementPrinter.print(s, writer);
+			this.statementPrinter.print(s, writer);
 		}
 		writer.append("\n");
 	}

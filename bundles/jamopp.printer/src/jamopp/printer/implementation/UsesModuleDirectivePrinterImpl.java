@@ -12,20 +12,18 @@ import jamopp.printer.interfaces.Printer;
 
 public class UsesModuleDirectivePrinterImpl implements Printer<UsesModuleDirective> {
 
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public UsesModuleDirectivePrinterImpl(Printer<TypeReference> typeReferencePrinter) {
-		TypeReferencePrinter = typeReferencePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
 	}
 
 	@Override
 	public void print(UsesModuleDirective element, BufferedWriter writer) throws IOException {
 		writer.append("uses ");
-		TypeReferencePrinter.print(element.getTypeReference(), writer);
+		this.typeReferencePrinter.print(element.getTypeReference(), writer);
 		writer.append(";\n");
 	}
-
-
 
 }

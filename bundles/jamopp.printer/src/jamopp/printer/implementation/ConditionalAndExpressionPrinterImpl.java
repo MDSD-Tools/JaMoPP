@@ -12,20 +12,20 @@ import jamopp.printer.interfaces.Printer;
 
 public class ConditionalAndExpressionPrinterImpl implements Printer<ConditionalAndExpression> {
 
-	private final Printer<ConditionalAndExpressionChild> ConditionalAndExpressionChildPrinter;
+	private final Printer<ConditionalAndExpressionChild> conditionalAndExpressionChildPrinter;
 
 	@Inject
 	public ConditionalAndExpressionPrinterImpl(
 			Printer<ConditionalAndExpressionChild> conditionalAndExpressionChildPrinter) {
-		ConditionalAndExpressionChildPrinter = conditionalAndExpressionChildPrinter;
+		this.conditionalAndExpressionChildPrinter = conditionalAndExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(ConditionalAndExpression element, BufferedWriter writer) throws IOException {
-		ConditionalAndExpressionChildPrinter.print(element.getChildren().get(0), writer);
+		this.conditionalAndExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
 			writer.append(" && ");
-			ConditionalAndExpressionChildPrinter.print(element.getChildren().get(index), writer);
+			this.conditionalAndExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

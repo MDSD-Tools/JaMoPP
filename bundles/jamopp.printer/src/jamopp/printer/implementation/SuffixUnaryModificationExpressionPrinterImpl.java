@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class SuffixUnaryModificationExpressionPrinterImpl implements Printer<SuffixUnaryModificationExpression> {
 
-	private final Printer<UnaryModificationExpressionChild> UnaryModificationExpressionChildPrinter;
-	private final Printer<UnaryModificationOperator> UnaryModificationOperatorPrinter;
+	private final Printer<UnaryModificationExpressionChild> unaryModificationExpressionChildPrinter;
+	private final Printer<UnaryModificationOperator> unaryModificationOperatorPrinter;
 
 	@Inject
 	public SuffixUnaryModificationExpressionPrinterImpl(
 			Printer<UnaryModificationExpressionChild> unaryModificationExpressionChildPrinter,
 			Printer<UnaryModificationOperator> unaryModificationOperatorPrinter) {
-		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
-		UnaryModificationOperatorPrinter = unaryModificationOperatorPrinter;
+		this.unaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
+		this.unaryModificationOperatorPrinter = unaryModificationOperatorPrinter;
 	}
 
 	@Override
 	public void print(SuffixUnaryModificationExpression element, BufferedWriter writer) throws IOException {
-		UnaryModificationExpressionChildPrinter.print(element.getChild(), writer);
+		this.unaryModificationExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getOperator() != null) {
-			UnaryModificationOperatorPrinter.print(element.getOperator(), writer);
+			this.unaryModificationOperatorPrinter.print(element.getOperator(), writer);
 		}
 	}
 

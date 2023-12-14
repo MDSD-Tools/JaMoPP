@@ -15,38 +15,38 @@ import jamopp.printer.interfaces.Printer;
 
 public class InterfacePrinterImpl implements Printer<Interface> {
 
-	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final Printer<MemberContainer> MemberContainerPrinter;
-	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
-	private final Printer<TypeReference> TypeReferencePrinter;
+	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
+	private final Printer<MemberContainer> memberContainerPrinter;
+	private final Printer<TypeParametrizable> typeParametrizablePrinter;
+	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
 	public InterfacePrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<TypeReference> typeReferencePrinter,
 			Printer<MemberContainer> memberContainerPrinter) {
-		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
-		TypeParametrizablePrinter = typeParametrizablePrinter;
-		TypeReferencePrinter = typeReferencePrinter;
-		MemberContainerPrinter = memberContainerPrinter;
+		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
+		this.typeParametrizablePrinter = typeParametrizablePrinter;
+		this.typeReferencePrinter = typeReferencePrinter;
+		this.memberContainerPrinter = memberContainerPrinter;
 	}
 
 	@Override
 	public void print(Interface element, BufferedWriter writer) throws IOException {
-		AnnotableAndModifiablePrinter.print(element, writer);
+		this.annotableAndModifiablePrinter.print(element, writer);
 		writer.append("interface " + element.getName());
-		TypeParametrizablePrinter.print(element, writer);
+		this.typeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
 		if (!element.getExtends().isEmpty()) {
 			writer.append("extends ");
-			TypeReferencePrinter.print(element.getExtends().get(0), writer);
+			this.typeReferencePrinter.print(element.getExtends().get(0), writer);
 			for (var index = 1; index < element.getExtends().size(); index++) {
 				writer.append(", ");
-				TypeReferencePrinter.print(element.getExtends().get(index), writer);
+				this.typeReferencePrinter.print(element.getExtends().get(index), writer);
 			}
 			writer.append(" ");
 		}
 		writer.append("{\n");
-		MemberContainerPrinter.print(element, writer);
+		this.memberContainerPrinter.print(element, writer);
 		writer.append("}\n");
 	}
 

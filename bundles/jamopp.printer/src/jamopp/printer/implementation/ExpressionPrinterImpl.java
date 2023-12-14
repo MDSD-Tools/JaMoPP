@@ -15,27 +15,27 @@ import jamopp.printer.interfaces.Printer;
 
 public class ExpressionPrinterImpl implements Printer<Expression> {
 
-	private final Provider<Printer<AssignmentExpressionChild>> AssignmentExpressionChildPrinter;
-	private final Provider<Printer<AssignmentExpression>> AssignmentExpressionPrinter;
-	private final Provider<Printer<LambdaExpression>> LambdaExpressionPrinter;
+	private final Provider<Printer<AssignmentExpressionChild>> assignmentExpressionChildPrinter;
+	private final Provider<Printer<AssignmentExpression>> assignmentExpressionPrinter;
+	private final Provider<Printer<LambdaExpression>> lambdaExpressionPrinter;
 
 	@Inject
 	public ExpressionPrinterImpl(Provider<Printer<LambdaExpression>> lambdaExpressionPrinter,
 			Provider<Printer<AssignmentExpression>> assignmentExpressionPrinter,
 			Provider<Printer<AssignmentExpressionChild>> assignmentExpressionChildPrinter) {
-		LambdaExpressionPrinter = lambdaExpressionPrinter;
-		AssignmentExpressionPrinter = assignmentExpressionPrinter;
-		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
+		this.lambdaExpressionPrinter = lambdaExpressionPrinter;
+		this.assignmentExpressionPrinter = assignmentExpressionPrinter;
+		this.assignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
 	}
 
 	@Override
 	public void print(Expression element, BufferedWriter writer) throws IOException {
 		if (element instanceof LambdaExpression) {
-			LambdaExpressionPrinter.get().print((LambdaExpression) element, writer);
+			this.lambdaExpressionPrinter.get().print((LambdaExpression) element, writer);
 		} else if (element instanceof AssignmentExpression) {
-			AssignmentExpressionPrinter.get().print((AssignmentExpression) element, writer);
+			this.assignmentExpressionPrinter.get().print((AssignmentExpression) element, writer);
 		} else {
-			AssignmentExpressionChildPrinter.get().print((AssignmentExpressionChild) element, writer);
+			this.assignmentExpressionChildPrinter.get().print((AssignmentExpressionChild) element, writer);
 		}
 	}
 

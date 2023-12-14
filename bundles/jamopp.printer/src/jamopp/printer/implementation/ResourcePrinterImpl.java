@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class ResourcePrinterImpl implements Printer<Resource> {
 
-	private final Printer<ElementReference> ElementReferencePrinter;
-	private final Printer<LocalVariable> LocalVariablePrinter;
+	private final Printer<ElementReference> elementReferencePrinter;
+	private final Printer<LocalVariable> localVariablePrinter;
 
 	@Inject
 	public ResourcePrinterImpl(Printer<LocalVariable> localVariablePrinter,
 			Printer<ElementReference> elementReferencePrinter) {
-		LocalVariablePrinter = localVariablePrinter;
-		ElementReferencePrinter = elementReferencePrinter;
+		this.localVariablePrinter = localVariablePrinter;
+		this.elementReferencePrinter = elementReferencePrinter;
 	}
 
 	@Override
 	public void print(Resource element, BufferedWriter writer) throws IOException {
 		if (element instanceof LocalVariable) {
-			LocalVariablePrinter.print((LocalVariable) element, writer);
+			this.localVariablePrinter.print((LocalVariable) element, writer);
 		} else {
-			ElementReferencePrinter.print((ElementReference) element, writer);
+			this.elementReferencePrinter.print((ElementReference) element, writer);
 		}
 	}
 

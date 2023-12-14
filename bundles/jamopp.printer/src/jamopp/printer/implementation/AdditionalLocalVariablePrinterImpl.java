@@ -14,24 +14,24 @@ import jamopp.printer.interfaces.Printer;
 
 public class AdditionalLocalVariablePrinterImpl implements Printer<AdditionalLocalVariable> {
 
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final Printer<Expression> ExpressionPrinter;
+	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
+	private final Printer<Expression> expressionPrinter;
 
 	@Inject
 	public AdditionalLocalVariablePrinterImpl(Printer<List<ArrayDimension>> arrayDimensionsPrinter,
 			Printer<Expression> expressionPrinter) {
-		ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		ExpressionPrinter = expressionPrinter;
+		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
+		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(AdditionalLocalVariable element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		ArrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		if (element.getInitialValue() != null) {
 			writer.append(" = ");
-			ExpressionPrinter.print(element.getInitialValue(), writer);
+			this.expressionPrinter.print(element.getInitialValue(), writer);
 		}
 	}
 

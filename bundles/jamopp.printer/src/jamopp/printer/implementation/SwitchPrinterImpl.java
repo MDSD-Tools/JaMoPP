@@ -13,22 +13,22 @@ import jamopp.printer.interfaces.Printer;
 
 public class SwitchPrinterImpl implements Printer<Switch> {
 
-	private final Printer<Expression> ExpressionPrinter;
-	private final Printer<SwitchCase> SwitchCasePrinter;
+	private final Printer<Expression> expressionPrinter;
+	private final Printer<SwitchCase> switchCasePrinter;
 
 	@Inject
 	public SwitchPrinterImpl(Printer<Expression> expressionPrinter, Printer<SwitchCase> switchCasePrinter) {
-		ExpressionPrinter = expressionPrinter;
-		SwitchCasePrinter = switchCasePrinter;
+		this.expressionPrinter = expressionPrinter;
+		this.switchCasePrinter = switchCasePrinter;
 	}
 
 	@Override
 	public void print(Switch element, BufferedWriter writer) throws IOException {
 		writer.append("switch (");
-		ExpressionPrinter.print(element.getVariable(), writer);
+		this.expressionPrinter.print(element.getVariable(), writer);
 		writer.append(") {\n");
 		for (SwitchCase cas : element.getCases()) {
-			SwitchCasePrinter.print(cas, writer);
+			this.switchCasePrinter.print(cas, writer);
 		}
 		writer.append("}\n");
 	}

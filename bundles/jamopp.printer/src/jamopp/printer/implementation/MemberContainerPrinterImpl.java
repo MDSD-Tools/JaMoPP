@@ -12,17 +12,17 @@ import jamopp.printer.interfaces.Printer;
 
 public class MemberContainerPrinterImpl implements Printer<MemberContainer> {
 
-	private final Printer<Member> MemberPrinter;
+	private final Printer<Member> memberPrinter;
 
 	@Inject
 	public MemberContainerPrinterImpl(Printer<Member> memberPrinter) {
-		MemberPrinter = memberPrinter;
+		this.memberPrinter = memberPrinter;
 	}
 
 	@Override
 	public void print(MemberContainer element, BufferedWriter writer) throws IOException {
 		for (Member mem : element.getMembers()) {
-			MemberPrinter.print(mem, writer);
+			this.memberPrinter.print(mem, writer);
 		}
 	}
 
