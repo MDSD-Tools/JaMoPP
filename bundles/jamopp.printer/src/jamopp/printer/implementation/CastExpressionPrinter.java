@@ -9,19 +9,20 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
 import jamopp.printer.interfaces.printer.CastExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class CastExpressionPrinter implements CastExpressionPrinterInt {
 
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public CastExpressionPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public CastExpressionPrinter(TypeReferencePrinterInt typeReferencePrinter,
+			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ExpressionPrinterInt expressionPrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 		ExpressionPrinter = expressionPrinter;

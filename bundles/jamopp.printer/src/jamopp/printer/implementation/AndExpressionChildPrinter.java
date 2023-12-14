@@ -11,16 +11,18 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.EqualityExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.EqualityExpressionPrinterInt;
 
 public class AndExpressionChildPrinter implements AndExpressionChildPrinterInt {
 
-	private final EqualityExpressionPrinter EqualityExpressionPrinter;
-	private final EqualityExpressionChildPrinter EqualityExpressionChildPrinter;
+	private final EqualityExpressionPrinterInt EqualityExpressionPrinter;
+	private final EqualityExpressionChildPrinterInt EqualityExpressionChildPrinter;
 
 	@Inject
-	public AndExpressionChildPrinter(jamopp.printer.implementation.EqualityExpressionPrinter equalityExpressionPrinter,
-			jamopp.printer.implementation.EqualityExpressionChildPrinter equalityExpressionChildPrinter) {
-		super();
+	public AndExpressionChildPrinter(EqualityExpressionPrinterInt equalityExpressionPrinter,
+			EqualityExpressionChildPrinterInt equalityExpressionChildPrinter) {
+
 		EqualityExpressionPrinter = equalityExpressionPrinter;
 		EqualityExpressionChildPrinter = equalityExpressionChildPrinter;
 	}

@@ -8,15 +8,15 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.LocalVariablePrinterInt;
 import jamopp.printer.interfaces.printer.LocalVariableStatementPrinterInt;
 
 public class LocalVariableStatementPrinter implements LocalVariableStatementPrinterInt {
 
-	private final LocalVariablePrinter LocalVariablePrinter;
+	private final LocalVariablePrinterInt LocalVariablePrinter;
 
 	@Inject
-	public LocalVariableStatementPrinter(jamopp.printer.implementation.LocalVariablePrinter localVariablePrinter) {
-		super();
+	public LocalVariableStatementPrinter(LocalVariablePrinterInt localVariablePrinter) {
 		LocalVariablePrinter = localVariablePrinter;
 	}
 

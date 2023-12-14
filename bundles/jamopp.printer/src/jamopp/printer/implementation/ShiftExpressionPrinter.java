@@ -8,17 +8,18 @@ import org.emftext.language.java.expressions.ShiftExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ShiftExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.ShiftExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.ShiftOperatorPrinterInt;
 
 public class ShiftExpressionPrinter implements ShiftExpressionPrinterInt {
 
-	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
-	private final ShiftOperatorPrinter ShiftOperatorPrinter;
+	private final ShiftExpressionChildPrinterInt ShiftExpressionChildPrinter;
+	private final ShiftOperatorPrinterInt ShiftOperatorPrinter;
 
 	@Inject
-	public ShiftExpressionPrinter(jamopp.printer.implementation.ShiftExpressionChildPrinter shiftExpressionChildPrinter,
-			jamopp.printer.implementation.ShiftOperatorPrinter shiftOperatorPrinter) {
-		super();
+	public ShiftExpressionPrinter(ShiftExpressionChildPrinterInt shiftExpressionChildPrinter,
+			ShiftOperatorPrinterInt shiftOperatorPrinter) {
 		ShiftExpressionChildPrinter = shiftExpressionChildPrinter;
 		ShiftOperatorPrinter = shiftOperatorPrinter;
 	}

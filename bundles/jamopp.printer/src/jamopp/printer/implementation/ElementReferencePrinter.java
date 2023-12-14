@@ -12,16 +12,16 @@ import com.google.inject.Inject;
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ElementReferencePrinterInt;
 import jamopp.printer.interfaces.printer.IdentifierReferencePrinterInt;
+import jamopp.printer.interfaces.printer.MethodCallPrinterInt;
 
 public class ElementReferencePrinter implements ElementReferencePrinterInt {
 
 	private final IdentifierReferencePrinterInt IdentifierReferencePrinter;
-	private final MethodCallPrinter MethodCallPrinter;
+	private final MethodCallPrinterInt MethodCallPrinter;
 
 	@Inject
 	public ElementReferencePrinter(IdentifierReferencePrinterInt identifierReferencePrinter,
-			jamopp.printer.implementation.MethodCallPrinter methodCallPrinter) {
-		super();
+			MethodCallPrinterInt methodCallPrinter) {
 		IdentifierReferencePrinter = identifierReferencePrinter;
 		MethodCallPrinter = methodCallPrinter;
 	}
@@ -34,5 +34,7 @@ public class ElementReferencePrinter implements ElementReferencePrinterInt {
 			MethodCallPrinter.print((MethodCall) element, writer);
 		}
 	}
+
+	
 
 }

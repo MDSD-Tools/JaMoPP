@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
-public class ArgumentablePrinter implements  ArgumentablePrinterInt {
+public class ArgumentablePrinter implements ArgumentablePrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public ArgumentablePrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public ArgumentablePrinter(ExpressionPrinterInt expressionPrinter) {
 		ExpressionPrinter = expressionPrinter;
 	}
 

@@ -14,27 +14,30 @@ import org.emftext.language.java.statements.Block;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.BlockPrinterInt;
+import jamopp.printer.interfaces.printer.ClassMethodPrinterInt;
+import jamopp.printer.interfaces.printer.ConcreteClassifierPrinterInt;
+import jamopp.printer.interfaces.printer.ConstructorPrinterInt;
+import jamopp.printer.interfaces.printer.EmptyMemberPrinterInt;
+import jamopp.printer.interfaces.printer.FieldPrinterInt;
+import jamopp.printer.interfaces.printer.InterfaceMethodPrinterInt;
 import jamopp.printer.interfaces.printer.MemberPrinterInt;
 
 public class MemberPrinter implements MemberPrinterInt {
 
-	private final FieldPrinter FieldPrinter;
-	private final ConstructorPrinter ConstructorPrinter;
-	private final ClassMethodPrinter ClassMethodPrinter;
-	private final InterfaceMethodPrinter InterfaceMethodPrinter;
-	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
-	private final BlockPrinter BlockPrinter;
-	private final EmptyMemberPrinter EmptyMemberPrinter;
+	private final FieldPrinterInt FieldPrinter;
+	private final ConstructorPrinterInt ConstructorPrinter;
+	private final ClassMethodPrinterInt ClassMethodPrinter;
+	private final InterfaceMethodPrinterInt InterfaceMethodPrinter;
+	private final ConcreteClassifierPrinterInt ConcreteClassifierPrinter;
+	private final BlockPrinterInt BlockPrinter;
+	private final EmptyMemberPrinterInt EmptyMemberPrinter;
 
 	@Inject
-	public MemberPrinter(jamopp.printer.implementation.FieldPrinter fieldPrinter,
-			jamopp.printer.implementation.ConstructorPrinter constructorPrinter,
-			jamopp.printer.implementation.ClassMethodPrinter classMethodPrinter,
-			jamopp.printer.implementation.InterfaceMethodPrinter interfaceMethodPrinter,
-			jamopp.printer.implementation.ConcreteClassifierPrinter concreteClassifierPrinter,
-			jamopp.printer.implementation.BlockPrinter blockPrinter,
-			jamopp.printer.implementation.EmptyMemberPrinter emptyMemberPrinter) {
-		super();
+	public MemberPrinter(FieldPrinterInt fieldPrinter, ConstructorPrinterInt constructorPrinter,
+			ClassMethodPrinterInt classMethodPrinter, InterfaceMethodPrinterInt interfaceMethodPrinter,
+			ConcreteClassifierPrinterInt concreteClassifierPrinter, BlockPrinterInt blockPrinter,
+			EmptyMemberPrinterInt emptyMemberPrinter) {
 		FieldPrinter = fieldPrinter;
 		ConstructorPrinter = constructorPrinter;
 		ClassMethodPrinter = classMethodPrinter;

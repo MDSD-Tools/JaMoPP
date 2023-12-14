@@ -8,19 +8,20 @@ import org.emftext.language.java.statements.ForLoop;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.ForLoopInitializerPrinterInt;
 import jamopp.printer.interfaces.printer.ForLoopPrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class ForLoopPrinter implements ForLoopPrinterInt {
 
-	private final ForLoopInitializerPrinter ForLoopInitializerPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
-	private final StatementPrinter StatementPrinter;
+	private final ForLoopInitializerPrinterInt ForLoopInitializerPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public ForLoopPrinter(jamopp.printer.implementation.ForLoopInitializerPrinter forLoopInitializerPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public ForLoopPrinter(ForLoopInitializerPrinterInt forLoopInitializerPrinter,
+			ExpressionPrinterInt expressionPrinter, StatementPrinterInt statementPrinter) {
 		ForLoopInitializerPrinter = forLoopInitializerPrinter;
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;

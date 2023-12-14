@@ -8,18 +8,18 @@ import org.emftext.language.java.expressions.RelationExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.RelationExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.RelationExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.RelationOperatorPrinterInt;
 
 public class RelationExpressionPrinter implements RelationExpressionPrinterInt {
 
-	private final RelationExpressionChildPrinter RelationExpressionChildPrinter;
-	private final RelationOperatorPrinter RelationOperatorPrinter;
+	private final RelationExpressionChildPrinterInt RelationExpressionChildPrinter;
+	private final RelationOperatorPrinterInt RelationOperatorPrinter;
 
 	@Inject
-	public RelationExpressionPrinter(
-			jamopp.printer.implementation.RelationExpressionChildPrinter relationExpressionChildPrinter,
-			jamopp.printer.implementation.RelationOperatorPrinter relationOperatorPrinter) {
-		super();
+	public RelationExpressionPrinter(RelationExpressionChildPrinterInt relationExpressionChildPrinter,
+			RelationOperatorPrinterInt relationOperatorPrinter) {
 		RelationExpressionChildPrinter = relationExpressionChildPrinter;
 		RelationOperatorPrinter = relationOperatorPrinter;
 	}

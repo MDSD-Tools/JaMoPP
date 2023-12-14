@@ -12,19 +12,21 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
 import jamopp.printer.interfaces.printer.ParametrizablePrinterInt;
+import jamopp.printer.interfaces.printer.ReceiverParameterPrinterInt;
+import jamopp.printer.interfaces.printer.VariableLengthParameterPrinterInt;
 
 public class ParametrizablePrinter implements ParametrizablePrinterInt {
 
-	private final ReceiverParameterPrinter ReceiverParameterPrinter;
-	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
-	private final VariableLengthParameterPrinter VariableLengthParameterPrinter;
+	private final ReceiverParameterPrinterInt ReceiverParameterPrinter;
+	private final OrdinaryParameterPrinterInt OrdinaryParameterPrinter;
+	private final VariableLengthParameterPrinterInt VariableLengthParameterPrinter;
 
 	@Inject
-	public ParametrizablePrinter(jamopp.printer.implementation.ReceiverParameterPrinter receiverParameterPrinter,
-			jamopp.printer.implementation.OrdinaryParameterPrinter ordinaryParameterPrinter,
-			jamopp.printer.implementation.VariableLengthParameterPrinter variableLengthParameterPrinter) {
-		super();
+	public ParametrizablePrinter(ReceiverParameterPrinterInt receiverParameterPrinter,
+			OrdinaryParameterPrinterInt ordinaryParameterPrinter,
+			VariableLengthParameterPrinterInt variableLengthParameterPrinter) {
 		ReceiverParameterPrinter = receiverParameterPrinter;
 		OrdinaryParameterPrinter = ordinaryParameterPrinter;
 		VariableLengthParameterPrinter = variableLengthParameterPrinter;

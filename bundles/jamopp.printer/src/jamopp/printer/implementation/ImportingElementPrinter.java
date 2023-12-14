@@ -9,15 +9,15 @@ import org.emftext.language.java.imports.ImportingElement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ImportPrinterInt;
 import jamopp.printer.interfaces.printer.ImportingElementPrinterInt;
 
 public class ImportingElementPrinter implements ImportingElementPrinterInt {
 
-	private final ImportPrinter ImportPrinter;
+	private final ImportPrinterInt ImportPrinter;
 
 	@Inject
-	public ImportingElementPrinter(jamopp.printer.implementation.ImportPrinter importPrinter) {
-		super();
+	public ImportingElementPrinter(ImportPrinterInt importPrinter) {
 		ImportPrinter = importPrinter;
 	}
 

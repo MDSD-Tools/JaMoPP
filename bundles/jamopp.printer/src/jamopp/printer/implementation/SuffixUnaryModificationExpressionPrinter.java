@@ -9,17 +9,18 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.SuffixUnaryModificationExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.UnaryModificationExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.UnaryModificationOperatorPrinterInt;
 
 public class SuffixUnaryModificationExpressionPrinter implements SuffixUnaryModificationExpressionPrinterInt {
 
-	private final UnaryModificationExpressionChildPrinter UnaryModificationExpressionChildPrinter;
-	private final UnaryModificationOperatorPrinter UnaryModificationOperatorPrinter;
+	private final UnaryModificationExpressionChildPrinterInt UnaryModificationExpressionChildPrinter;
+	private final UnaryModificationOperatorPrinterInt UnaryModificationOperatorPrinter;
 
 	@Inject
 	public SuffixUnaryModificationExpressionPrinter(
-			jamopp.printer.implementation.UnaryModificationExpressionChildPrinter unaryModificationExpressionChildPrinter,
-			jamopp.printer.implementation.UnaryModificationOperatorPrinter unaryModificationOperatorPrinter) {
-		super();
+			UnaryModificationExpressionChildPrinterInt unaryModificationExpressionChildPrinter,
+			UnaryModificationOperatorPrinterInt unaryModificationOperatorPrinter) {
 		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
 		UnaryModificationOperatorPrinter = unaryModificationOperatorPrinter;
 	}

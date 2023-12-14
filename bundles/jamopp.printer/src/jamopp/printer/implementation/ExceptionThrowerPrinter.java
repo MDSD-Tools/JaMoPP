@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ExceptionThrowerPrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ExceptionThrowerPrinter implements ExceptionThrowerPrinterInt {
 
-	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
-	public ExceptionThrowerPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
-		super();
+	public ExceptionThrowerPrinter(TypeReferencePrinterInt typeReferencePrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
@@ -31,5 +31,7 @@ public class ExceptionThrowerPrinter implements ExceptionThrowerPrinterInt {
 			}
 		}
 	}
+
+
 
 }

@@ -8,18 +8,18 @@ import org.emftext.language.java.expressions.EqualityExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.EqualityExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.EqualityExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.EqualityOperatorPrinterInt;
 
 public class EqualityExpressionPrinter implements EqualityExpressionPrinterInt {
 
-	private final EqualityExpressionChildPrinter EqualityExpressionChildPrinter;
-	private final EqualityOperatorPrinter EqualityOperatorPrinter;
+	private final EqualityExpressionChildPrinterInt EqualityExpressionChildPrinter;
+	private final EqualityOperatorPrinterInt EqualityOperatorPrinter;
 
 	@Inject
-	public EqualityExpressionPrinter(
-			jamopp.printer.implementation.EqualityExpressionChildPrinter equalityExpressionChildPrinter,
-			jamopp.printer.implementation.EqualityOperatorPrinter equalityOperatorPrinter) {
-		super();
+	public EqualityExpressionPrinter(EqualityExpressionChildPrinterInt equalityExpressionChildPrinter,
+			EqualityOperatorPrinterInt equalityOperatorPrinter) {
 		EqualityExpressionChildPrinter = equalityExpressionChildPrinter;
 		EqualityOperatorPrinter = equalityOperatorPrinter;
 	}

@@ -9,26 +9,28 @@ import org.emftext.language.java.variables.LocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AdditionalLocalVariablePrinterInt;
+import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.LocalVariablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class LocalVariablePrinter implements LocalVariablePrinterInt {
 
-	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final TypeArgumentablePrinter TypeArgumentablePrinter;
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
-	private final AdditionalLocalVariablePrinter AdditionalLocalVariablePrinter;
+	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final AdditionalLocalVariablePrinterInt AdditionalLocalVariablePrinter;
 
 	@Inject
-	public LocalVariablePrinter(
-			jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.AdditionalLocalVariablePrinter additionalLocalVariablePrinter) {
-		super();
+	public LocalVariablePrinter(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
+			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ExpressionPrinterInt expressionPrinter,
+			AdditionalLocalVariablePrinterInt additionalLocalVariablePrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;

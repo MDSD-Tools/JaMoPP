@@ -14,16 +14,17 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.LambdaParametersPrinterInt;
+import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
+import jamopp.printer.interfaces.printer.VariableLengthParameterPrinterInt;
 
 public class LambdaParametersPrinter implements LambdaParametersPrinterInt {
 
-	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
-	private final VariableLengthParameterPrinter VariableLengthParameterPrinter;
+	private final OrdinaryParameterPrinterInt OrdinaryParameterPrinter;
+	private final VariableLengthParameterPrinterInt VariableLengthParameterPrinter;
 
 	@Inject
-	public LambdaParametersPrinter(jamopp.printer.implementation.OrdinaryParameterPrinter ordinaryParameterPrinter,
-			jamopp.printer.implementation.VariableLengthParameterPrinter variableLengthParameterPrinter) {
-		super();
+	public LambdaParametersPrinter(OrdinaryParameterPrinterInt ordinaryParameterPrinter,
+			VariableLengthParameterPrinterInt variableLengthParameterPrinter) {
 		OrdinaryParameterPrinter = ordinaryParameterPrinter;
 		VariableLengthParameterPrinter = variableLengthParameterPrinter;
 	}

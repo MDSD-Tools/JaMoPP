@@ -10,14 +10,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
+import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
 
 public class AnnotablePrinter implements AnnotablePrinterInt {
 
-	private final AnnotationInstancePrinter AnnotationInstancePrinter;
+	private final AnnotationInstancePrinterInt AnnotationInstancePrinter;
 
 	@Inject
-	public AnnotablePrinter(jamopp.printer.implementation.AnnotationInstancePrinter annotationInstancePrinter) {
-		super();
+	public AnnotablePrinter(AnnotationInstancePrinterInt annotationInstancePrinter) {
 		AnnotationInstancePrinter = annotationInstancePrinter;
 	}
 

@@ -8,15 +8,15 @@ import org.emftext.language.java.generics.TypeArgumentable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TypeArgumentPrinterInt;
 import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
 
 public class TypeArgumentablePrinter implements TypeArgumentablePrinterInt {
 
-	private final TypeArgumentPrinter TypeArgumentPrinter;
+	private final TypeArgumentPrinterInt TypeArgumentPrinter;
 
 	@Inject
-	public TypeArgumentablePrinter(jamopp.printer.implementation.TypeArgumentPrinter typeArgumentPrinter) {
-		super();
+	public TypeArgumentablePrinter(TypeArgumentPrinterInt typeArgumentPrinter) {
 		TypeArgumentPrinter = typeArgumentPrinter;
 	}
 

@@ -11,17 +11,17 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.RelationExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.ShiftExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.ShiftExpressionPrinterInt;
 
 public class RelationExpressionChildPrinter implements RelationExpressionChildPrinterInt {
 
 	private final ShiftExpressionPrinterInt ShiftExpressionPrinter;
-	private final ShiftExpressionChildPrinter ShiftExpressionChildPrinter;
+	private final ShiftExpressionChildPrinterInt ShiftExpressionChildPrinter;
 
 	@Inject
 	public RelationExpressionChildPrinter(ShiftExpressionPrinterInt shiftExpressionPrinter,
-			jamopp.printer.implementation.ShiftExpressionChildPrinter shiftExpressionChildPrinter) {
-		super();
+			ShiftExpressionChildPrinterInt shiftExpressionChildPrinter) {
 		ShiftExpressionPrinter = shiftExpressionPrinter;
 		ShiftExpressionChildPrinter = shiftExpressionChildPrinter;
 	}
@@ -34,4 +34,5 @@ public class RelationExpressionChildPrinter implements RelationExpressionChildPr
 			ShiftExpressionChildPrinter.print((ShiftExpressionChild) element, writer);
 		}
 	}
+
 }

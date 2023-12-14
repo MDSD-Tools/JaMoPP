@@ -11,17 +11,17 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InstanceOfExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.RelationExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.RelationExpressionPrinterInt;
 
 public class InstanceOfExpressionChildPrinter implements InstanceOfExpressionChildPrinterInt {
 
-	private final RelationExpressionPrinter RelationExpressionPrinter;
-	private final RelationExpressionChildPrinter RelationExpressionChildPrinter;
+	private final RelationExpressionPrinterInt RelationExpressionPrinter;
+	private final RelationExpressionChildPrinterInt RelationExpressionChildPrinter;
 
 	@Inject
-	public InstanceOfExpressionChildPrinter(
-			jamopp.printer.implementation.RelationExpressionPrinter relationExpressionPrinter,
-			jamopp.printer.implementation.RelationExpressionChildPrinter relationExpressionChildPrinter) {
-		super();
+	public InstanceOfExpressionChildPrinter(RelationExpressionPrinterInt relationExpressionPrinter,
+			RelationExpressionChildPrinterInt relationExpressionChildPrinter) {
 		RelationExpressionPrinter = relationExpressionPrinter;
 		RelationExpressionChildPrinter = relationExpressionChildPrinter;
 	}

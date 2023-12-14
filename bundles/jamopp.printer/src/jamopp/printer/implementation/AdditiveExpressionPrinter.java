@@ -8,18 +8,18 @@ import org.emftext.language.java.expressions.AdditiveExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AdditiveExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.AdditiveExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.AdditiveOperatorPrinterInt;
 
 public class AdditiveExpressionPrinter implements AdditiveExpressionPrinterInt {
 
-	private final AdditiveExpressionChildPrinter AdditiveExpressionChildPrinter;
-	private final AdditiveOperatorPrinter AdditiveOperatorPrinter;
+	private final AdditiveExpressionChildPrinterInt AdditiveExpressionChildPrinter;
+	private final AdditiveOperatorPrinterInt AdditiveOperatorPrinter;
 
 	@Inject
-	public AdditiveExpressionPrinter(
-			jamopp.printer.implementation.AdditiveExpressionChildPrinter additiveExpressionChildPrinter,
-			jamopp.printer.implementation.AdditiveOperatorPrinter additiveOperatorPrinter) {
-		super();
+	public AdditiveExpressionPrinter(AdditiveExpressionChildPrinterInt additiveExpressionChildPrinter,
+			AdditiveOperatorPrinterInt additiveOperatorPrinter) {
 		AdditiveExpressionChildPrinter = additiveExpressionChildPrinter;
 		AdditiveOperatorPrinter = additiveOperatorPrinter;
 	}

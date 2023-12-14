@@ -8,15 +8,15 @@ import org.emftext.language.java.generics.TypeParametrizable;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TypeParameterPrinterInt;
 import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
 
 public class TypeParametrizablePrinter implements TypeParametrizablePrinterInt {
 
-	private final TypeParameterPrinter TypeParameterPrinter;
+	private final TypeParameterPrinterInt TypeParameterPrinter;
 
 	@Inject
-	public TypeParametrizablePrinter(jamopp.printer.implementation.TypeParameterPrinter typeParameterPrinter) {
-		super();
+	public TypeParametrizablePrinter(TypeParameterPrinterInt typeParameterPrinter) {
 		TypeParameterPrinter = typeParameterPrinter;
 	}
 

@@ -6,23 +6,25 @@ import java.io.IOException;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
 import jamopp.printer.interfaces.printer.ClassPrinterInt;
+import jamopp.printer.interfaces.printer.ImplementorPrinterInt;
+import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
+import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ClassPrinter implements ClassPrinterInt {
 
-	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
-	private final TypeParametrizablePrinter TypeParametrizablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final ImplementorPrinter ImplementorPrinter;
-	private final MemberContainerPrinter MemberContainerPrinter;
+	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final ImplementorPrinterInt ImplementorPrinter;
+	private final MemberContainerPrinterInt MemberContainerPrinter;
 
 	@Inject
-	public ClassPrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
-			jamopp.printer.implementation.TypeParametrizablePrinter typeParametrizablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.ImplementorPrinter implementorPrinter,
-			jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
-		super();
+	public ClassPrinter(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
+			ImplementorPrinterInt implementorPrinter, MemberContainerPrinterInt memberContainerPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

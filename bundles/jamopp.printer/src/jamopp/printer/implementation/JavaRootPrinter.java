@@ -9,21 +9,22 @@ import org.emftext.language.java.containers.JavaRoot;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
+import jamopp.printer.interfaces.printer.CompilationUnitPrinterInt;
+import jamopp.printer.interfaces.printer.ImportingElementPrinterInt;
 import jamopp.printer.interfaces.printer.JavaRootPrinterInt;
+import jamopp.printer.interfaces.printer.ModulePrinterInt;
 
 public class JavaRootPrinter implements JavaRootPrinterInt {
 
-	private final ImportingElementPrinter ImportingElementPrinter;
-	private final ModulePrinter ModulePrinter;
-	private final AnnotablePrinter AnnotablePrinter;
-	private final CompilationUnitPrinter CompilationUnitPrinter;
+	private final ImportingElementPrinterInt ImportingElementPrinter;
+	private final ModulePrinterInt ModulePrinter;
+	private final AnnotablePrinterInt AnnotablePrinter;
+	private final CompilationUnitPrinterInt CompilationUnitPrinter;
 
 	@Inject
-	public JavaRootPrinter(jamopp.printer.implementation.ImportingElementPrinter importingElementPrinter,
-			jamopp.printer.implementation.ModulePrinter modulePrinter,
-			jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.CompilationUnitPrinter compilationUnitPrinter) {
-		super();
+	public JavaRootPrinter(ImportingElementPrinterInt importingElementPrinter, ModulePrinterInt modulePrinter,
+			AnnotablePrinterInt annotablePrinter, CompilationUnitPrinterInt compilationUnitPrinter) {
 		ImportingElementPrinter = importingElementPrinter;
 		ModulePrinter = modulePrinter;
 		AnnotablePrinter = annotablePrinter;

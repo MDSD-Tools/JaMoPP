@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.JumpLabelPrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class JumpLabelPrinter implements JumpLabelPrinterInt {
 
-	private final StatementPrinter StatementPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public JumpLabelPrinter(jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public JumpLabelPrinter(StatementPrinterInt statementPrinter) {
 		StatementPrinter = statementPrinter;
 	}
 

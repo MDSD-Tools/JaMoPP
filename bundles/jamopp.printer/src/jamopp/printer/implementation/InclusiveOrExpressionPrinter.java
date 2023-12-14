@@ -8,16 +8,15 @@ import org.emftext.language.java.expressions.InclusiveOrExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.InclusiveOrExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.InclusiveOrExpressionPrinterInt;
 
 public class InclusiveOrExpressionPrinter implements InclusiveOrExpressionPrinterInt {
 
-	private final InclusiveOrExpressionChildPrinter InclusiveOrExpressionChildPrinter;
+	private final InclusiveOrExpressionChildPrinterInt InclusiveOrExpressionChildPrinter;
 
 	@Inject
-	public InclusiveOrExpressionPrinter(
-			jamopp.printer.implementation.InclusiveOrExpressionChildPrinter inclusiveOrExpressionChildPrinter) {
-		super();
+	public InclusiveOrExpressionPrinter(InclusiveOrExpressionChildPrinterInt inclusiveOrExpressionChildPrinter) {
 		InclusiveOrExpressionChildPrinter = inclusiveOrExpressionChildPrinter;
 	}
 

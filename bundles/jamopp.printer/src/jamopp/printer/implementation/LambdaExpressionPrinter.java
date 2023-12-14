@@ -10,19 +10,20 @@ import org.emftext.language.java.statements.Block;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.BlockPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.LambdaExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.LambdaParametersPrinterInt;
 
 public class LambdaExpressionPrinter implements LambdaExpressionPrinterInt {
 
-	private final LambdaParametersPrinter LambdaParametersPrinter;
-	private final BlockPrinter BlockPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final LambdaParametersPrinterInt LambdaParametersPrinter;
+	private final BlockPrinterInt BlockPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public LambdaExpressionPrinter(jamopp.printer.implementation.LambdaParametersPrinter lambdaParametersPrinter,
-			jamopp.printer.implementation.BlockPrinter blockPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public LambdaExpressionPrinter(LambdaParametersPrinterInt lambdaParametersPrinter, BlockPrinterInt blockPrinter,
+			ExpressionPrinterInt expressionPrinter) {
 		LambdaParametersPrinter = lambdaParametersPrinter;
 		BlockPrinter = blockPrinter;
 		ExpressionPrinter = expressionPrinter;

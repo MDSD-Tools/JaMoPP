@@ -8,17 +8,17 @@ import org.emftext.language.java.generics.TypeParameter;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.TypeParameterPrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class TypeParameterPrinter implements TypeParameterPrinterInt {
 
-	private final AnnotablePrinter AnnotablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
+	private final AnnotablePrinterInt AnnotablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
-	public TypeParameterPrinter(AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
-		super();
+	public TypeParameterPrinter(AnnotablePrinterInt annotablePrinter, TypeReferencePrinterInt typeReferencePrinter) {
 		AnnotablePrinter = annotablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 	}

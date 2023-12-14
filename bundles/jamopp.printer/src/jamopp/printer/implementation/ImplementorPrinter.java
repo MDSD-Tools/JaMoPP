@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ImplementorPrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ImplementorPrinter implements ImplementorPrinterInt {
 
-	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
-	public ImplementorPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
-		super();
+	public ImplementorPrinter(TypeReferencePrinterInt typeReferencePrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
@@ -32,5 +32,7 @@ public class ImplementorPrinter implements ImplementorPrinterInt {
 			writer.append(" ");
 		}
 	}
+
+
 
 }

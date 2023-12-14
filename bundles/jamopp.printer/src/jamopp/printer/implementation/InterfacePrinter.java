@@ -8,21 +8,23 @@ import org.emftext.language.java.classifiers.Interface;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
 import jamopp.printer.interfaces.printer.InterfacePrinterInt;
+import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
+import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class InterfacePrinter implements InterfacePrinterInt {
 
-	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
-	private final TypeParametrizablePrinter TypeParametrizablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final MemberContainerPrinter MemberContainerPrinter;
+	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final MemberContainerPrinterInt MemberContainerPrinter;
 
 	@Inject
-	public InterfacePrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
-			jamopp.printer.implementation.TypeParametrizablePrinter typeParametrizablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
-		super();
+	public InterfacePrinter(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
+			MemberContainerPrinterInt memberContainerPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

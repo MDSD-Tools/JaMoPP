@@ -9,21 +9,23 @@ import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
+import jamopp.printer.interfaces.printer.EnumConstantPrinterInt;
 import jamopp.printer.interfaces.printer.EnumerationPrinterInt;
+import jamopp.printer.interfaces.printer.ImplementorPrinterInt;
+import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
 
 public class EnumerationPrinter implements EnumerationPrinterInt {
 
-	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
-	private final ImplementorPrinter ImplementorPrinter;
-	private final EnumConstantPrinter EnumConstantPrinter;
-	private final MemberContainerPrinter MemberContainerPrinter;
+	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final ImplementorPrinterInt ImplementorPrinter;
+	private final EnumConstantPrinterInt EnumConstantPrinter;
+	private final MemberContainerPrinterInt MemberContainerPrinter;
 
 	@Inject
-	public EnumerationPrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
-			jamopp.printer.implementation.ImplementorPrinter implementorPrinter,
-			jamopp.printer.implementation.EnumConstantPrinter enumConstantPrinter,
-			jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
-		super();
+	public EnumerationPrinter(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+			ImplementorPrinterInt implementorPrinter, EnumConstantPrinterInt enumConstantPrinter,
+			MemberContainerPrinterInt memberContainerPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		ImplementorPrinter = implementorPrinter;
 		EnumConstantPrinter = enumConstantPrinter;
@@ -46,5 +48,7 @@ public class EnumerationPrinter implements EnumerationPrinterInt {
 		}
 		writer.append("}\n");
 	}
+
+	
 
 }

@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
+import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
 
-public class AnonymousClassPrinter implements  AnonymousClassPrinterInt {
+public class AnonymousClassPrinter implements AnonymousClassPrinterInt {
 
-	private final MemberContainerPrinter MemberContainerPrinter;
+	private final MemberContainerPrinterInt MemberContainerPrinter;
 
 	@Inject
-	public AnonymousClassPrinter(jamopp.printer.implementation.MemberContainerPrinter memberContainerPrinter) {
-		super();
+	public AnonymousClassPrinter(MemberContainerPrinterInt memberContainerPrinter) {
 		MemberContainerPrinter = memberContainerPrinter;
 	}
 

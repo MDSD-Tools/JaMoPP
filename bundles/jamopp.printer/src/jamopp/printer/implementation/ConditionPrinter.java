@@ -9,16 +9,16 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConditionPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class ConditionPrinter implements ConditionPrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
-	private final StatementPrinter StatementPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public ConditionPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public ConditionPrinter(ExpressionPrinterInt expressionPrinter, StatementPrinterInt statementPrinter) {
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;
 	}

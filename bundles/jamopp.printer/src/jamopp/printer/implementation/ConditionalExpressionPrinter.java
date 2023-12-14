@@ -8,18 +8,18 @@ import org.emftext.language.java.expressions.ConditionalExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ConditionalExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.ConditionalExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
 public class ConditionalExpressionPrinter implements ConditionalExpressionPrinterInt {
 
-	private final ConditionalExpressionChildPrinter ConditionalExpressionChildPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final ConditionalExpressionChildPrinterInt ConditionalExpressionChildPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public ConditionalExpressionPrinter(
-			jamopp.printer.implementation.ConditionalExpressionChildPrinter conditionalExpressionChildPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public ConditionalExpressionPrinter(ConditionalExpressionChildPrinterInt conditionalExpressionChildPrinter,
+			ExpressionPrinterInt expressionPrinter) {
 		ConditionalExpressionChildPrinter = conditionalExpressionChildPrinter;
 		ExpressionPrinter = expressionPrinter;
 	}

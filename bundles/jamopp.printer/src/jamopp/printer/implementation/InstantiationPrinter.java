@@ -11,25 +11,28 @@ import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTy
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
+import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.InstantiationPrinterInt;
+import jamopp.printer.interfaces.printer.SelfPrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class InstantiationPrinter implements InstantiationPrinterInt {
 
-	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final TypeArgumentablePrinter TypeArgumentablePrinter;
-	private final ArgumentablePrinter ArgumentablePrinter;
-	private final AnonymousClassPrinter AnonymousClassPrinter;
-	private final SelfPrinter SelfPrinter;
+	private final CallTypeArgumentablePrinterInt CallTypeArgumentablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
+	private final ArgumentablePrinterInt ArgumentablePrinter;
+	private final AnonymousClassPrinterInt AnonymousClassPrinter;
+	private final SelfPrinterInt SelfPrinter;
 
 	@Inject
-	public InstantiationPrinter(jamopp.printer.implementation.CallTypeArgumentablePrinter callTypeArgumentablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
-			jamopp.printer.implementation.ArgumentablePrinter argumentablePrinter,
-			jamopp.printer.implementation.AnonymousClassPrinter anonymousClassPrinter,
-			jamopp.printer.implementation.SelfPrinter selfPrinter) {
-		super();
+	public InstantiationPrinter(CallTypeArgumentablePrinterInt callTypeArgumentablePrinter,
+			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
+			ArgumentablePrinterInt argumentablePrinter, AnonymousClassPrinterInt anonymousClassPrinter,
+			SelfPrinterInt selfPrinter) {
 		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;

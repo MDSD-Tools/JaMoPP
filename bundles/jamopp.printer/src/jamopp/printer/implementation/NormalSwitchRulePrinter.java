@@ -10,17 +10,17 @@ import org.emftext.language.java.statements.Statement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.NormalSwitchRulePrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class NormalSwitchRulePrinter implements NormalSwitchRulePrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
-	private final StatementPrinter StatementPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public NormalSwitchRulePrinter(ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public NormalSwitchRulePrinter(ExpressionPrinterInt expressionPrinter, StatementPrinterInt statementPrinter) {
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;
 	}

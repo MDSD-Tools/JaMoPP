@@ -8,19 +8,20 @@ import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
+import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
+import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.EnumConstantPrinterInt;
 
 public class EnumConstantPrinter implements EnumConstantPrinterInt {
 
-	private final AnnotablePrinter AnnotablePrinter;
-	private final ArgumentablePrinter ArgumentablePrinter;
-	private final AnonymousClassPrinter AnonymousClassPrinter;
+	private final AnnotablePrinterInt AnnotablePrinter;
+	private final ArgumentablePrinterInt ArgumentablePrinter;
+	private final AnonymousClassPrinterInt AnonymousClassPrinter;
 
 	@Inject
-	public EnumConstantPrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.ArgumentablePrinter argumentablePrinter,
-			jamopp.printer.implementation.AnonymousClassPrinter anonymousClassPrinter) {
-		super();
+	public EnumConstantPrinter(AnnotablePrinterInt annotablePrinter, ArgumentablePrinterInt argumentablePrinter,
+			AnonymousClassPrinterInt anonymousClassPrinter) {
 		AnnotablePrinter = annotablePrinter;
 		ArgumentablePrinter = argumentablePrinter;
 		AnonymousClassPrinter = anonymousClassPrinter;

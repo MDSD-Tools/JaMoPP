@@ -7,20 +7,20 @@ import org.emftext.language.java.statements.ForEachLoop;
 
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.ForEachLoopPrinterInt;
+import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class ForEachLoopPrinter implements ForEachLoopPrinterInt {
 
-	private final OrdinaryParameterPrinter OrdinaryParameterPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
-	private final StatementPrinter StatementPrinter;
+	private final OrdinaryParameterPrinterInt OrdinaryParameterPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public ForEachLoopPrinter(jamopp.printer.implementation.OrdinaryParameterPrinter ordinaryParameterPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public ForEachLoopPrinter(OrdinaryParameterPrinterInt ordinaryParameterPrinter,
+			ExpressionPrinterInt expressionPrinter, StatementPrinterInt statementPrinter) {
 		OrdinaryParameterPrinter = ordinaryParameterPrinter;
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;

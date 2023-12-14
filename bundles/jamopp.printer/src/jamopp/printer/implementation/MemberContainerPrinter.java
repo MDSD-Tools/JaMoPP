@@ -10,14 +10,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
+import jamopp.printer.interfaces.printer.MemberPrinterInt;
 
 public class MemberContainerPrinter implements MemberContainerPrinterInt {
 
-	private final MemberPrinter MemberPrinter;
+	private final MemberPrinterInt MemberPrinter;
 
 	@Inject
-	public MemberContainerPrinter(jamopp.printer.implementation.MemberPrinter memberPrinter) {
-		super();
+	public MemberContainerPrinter(MemberPrinterInt memberPrinter) {
 		MemberPrinter = memberPrinter;
 	}
 

@@ -8,20 +8,20 @@ import org.emftext.language.java.expressions.InstanceOfExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
+import jamopp.printer.interfaces.printer.InstanceOfExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.InstanceOfExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class InstanceOfExpressionPrinter implements InstanceOfExpressionPrinterInt {
 
-	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final InstanceOfExpressionChildPrinterInt InstanceOfExpressionChildPrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
 
 	@Inject
-	public InstanceOfExpressionPrinter(
-			jamopp.printer.implementation.InstanceOfExpressionChildPrinter instanceOfExpressionChildPrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
-		super();
+	public InstanceOfExpressionPrinter(InstanceOfExpressionChildPrinterInt instanceOfExpressionChildPrinter,
+			TypeReferencePrinterInt typeReferencePrinter, ArrayDimensionsPrinterInt arrayDimensionsPrinter) {
 		InstanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;

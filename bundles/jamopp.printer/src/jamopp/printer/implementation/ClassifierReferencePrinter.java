@@ -8,17 +8,18 @@ import org.emftext.language.java.types.ClassifierReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.ClassifierReferencePrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
 
 public class ClassifierReferencePrinter implements ClassifierReferencePrinterInt {
 
-	private final AnnotablePrinter AnnotablePrinter;
-	private final TypeArgumentablePrinter TypeArgumentablePrinter;
+	private final AnnotablePrinterInt AnnotablePrinter;
+	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
 
 	@Inject
-	public ClassifierReferencePrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter) {
-		super();
+	public ClassifierReferencePrinter(AnnotablePrinterInt annotablePrinter,
+			TypeArgumentablePrinterInt typeArgumentablePrinter) {
 		AnnotablePrinter = annotablePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;
 	}
@@ -29,5 +30,7 @@ public class ClassifierReferencePrinter implements ClassifierReferencePrinterInt
 		writer.append(element.getTarget().getName());
 		TypeArgumentablePrinter.print(element, writer);
 	}
+
+
 
 }

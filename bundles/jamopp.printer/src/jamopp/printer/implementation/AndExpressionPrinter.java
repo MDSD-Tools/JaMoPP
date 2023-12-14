@@ -8,15 +8,15 @@ import org.emftext.language.java.expressions.AndExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.AndExpressionPrinterInt;
 
 public class AndExpressionPrinter implements AndExpressionPrinterInt {
 
-	private final AndExpressionChildPrinter AndExpressionChildPrinter;
+	private final AndExpressionChildPrinterInt AndExpressionChildPrinter;
 
 	@Inject
-	public AndExpressionPrinter(jamopp.printer.implementation.AndExpressionChildPrinter andExpressionChildPrinter) {
-		super();
+	public AndExpressionPrinter(AndExpressionChildPrinterInt andExpressionChildPrinter) {
 		AndExpressionChildPrinter = andExpressionChildPrinter;
 	}
 

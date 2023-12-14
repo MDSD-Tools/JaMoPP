@@ -8,15 +8,15 @@ import org.emftext.language.java.expressions.NestedExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.NestedExpressionPrinterInt;
 
 public class NestedExpressionPrinter implements NestedExpressionPrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public NestedExpressionPrinter(ExpressionPrinter expressionPrinter) {
-		super();
+	public NestedExpressionPrinter(ExpressionPrinterInt expressionPrinter) {
 		ExpressionPrinter = expressionPrinter;
 	}
 

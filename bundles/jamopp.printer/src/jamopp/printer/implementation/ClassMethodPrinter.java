@@ -13,27 +13,30 @@ import org.emftext.language.java.types.Type;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
 import jamopp.printer.interfaces.printer.ClassMethodPrinterInt;
+import jamopp.printer.interfaces.printer.ExceptionThrowerPrinterInt;
+import jamopp.printer.interfaces.printer.ParametrizablePrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
+import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ClassMethodPrinter implements ClassMethodPrinterInt {
 
-	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
-	private final TypeParametrizablePrinter TypeParametrizablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	private final ParametrizablePrinter ParametrizablePrinter;
-	private final ExceptionThrowerPrinter ExceptionThrowerPrinter;
-	private final StatementPrinter StatementPrinter;
+	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
+	private final ParametrizablePrinterInt ParametrizablePrinter;
+	private final ExceptionThrowerPrinterInt ExceptionThrowerPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public ClassMethodPrinter(jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
-			jamopp.printer.implementation.TypeParametrizablePrinter typeParametrizablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
-			jamopp.printer.implementation.ParametrizablePrinter parametrizablePrinter,
-			jamopp.printer.implementation.ExceptionThrowerPrinter exceptionThrowerPrinter,
-			jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public ClassMethodPrinter(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
+			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ParametrizablePrinterInt parametrizablePrinter,
+			ExceptionThrowerPrinterInt exceptionThrowerPrinter, StatementPrinterInt statementPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

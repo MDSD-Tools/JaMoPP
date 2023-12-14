@@ -9,18 +9,18 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
 import jamopp.printer.interfaces.printer.CatchParameterPrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class CatchParameterPrinter implements CatchParameterPrinterInt {
 
-	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
+	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
-	public CatchParameterPrinter(
-			jamopp.printer.implementation.AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
-		super();
+public CatchParameterPrinter(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+			TypeReferencePrinterInt typeReferencePrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 	}
@@ -37,5 +37,7 @@ public class CatchParameterPrinter implements CatchParameterPrinterInt {
 		}
 		writer.append(" " + element.getName());
 	}
+
+	
 
 }

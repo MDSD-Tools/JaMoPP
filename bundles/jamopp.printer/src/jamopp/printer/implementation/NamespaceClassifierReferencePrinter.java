@@ -8,16 +8,15 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ClassifierReferencePrinterInt;
 import jamopp.printer.interfaces.printer.NamespaceClassifierReferencePrinterInt;
 
 public class NamespaceClassifierReferencePrinter implements NamespaceClassifierReferencePrinterInt {
 
-	private final ClassifierReferencePrinter ClassifierReferencePrinter;
+	private final ClassifierReferencePrinterInt ClassifierReferencePrinter;
 
 	@Inject
-	public NamespaceClassifierReferencePrinter(
-			ClassifierReferencePrinter classifierReferencePrinter) {
-		super();
+	public NamespaceClassifierReferencePrinter(ClassifierReferencePrinterInt classifierReferencePrinter) {
 		ClassifierReferencePrinter = classifierReferencePrinter;
 	}
 

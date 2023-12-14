@@ -10,14 +10,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ProvidesModuleDirectivePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ProvidesModuleDirectivePrinter implements ProvidesModuleDirectivePrinterInt {
 
-	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
-	public ProvidesModuleDirectivePrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
-		super();
+	public ProvidesModuleDirectivePrinter(TypeReferencePrinterInt typeReferencePrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 

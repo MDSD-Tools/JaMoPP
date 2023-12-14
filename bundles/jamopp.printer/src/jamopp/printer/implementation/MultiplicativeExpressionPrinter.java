@@ -7,18 +7,18 @@ import org.emftext.language.java.expressions.MultiplicativeExpression;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.printer.MultiplicativeExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.MultiplicativeExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.MultiplicativeOperatorPrinterInt;
 
 public class MultiplicativeExpressionPrinter implements MultiplicativeExpressionPrinterInt {
 
-	private final MultiplicativeExpressionChildPrinter MultiplicativeExpressionChildPrinter;
-	private final MultiplicativeOperatorPrinter MultiplicativeOperatorPrinter;
+	private final MultiplicativeExpressionChildPrinterInt MultiplicativeExpressionChildPrinter;
+	private final MultiplicativeOperatorPrinterInt MultiplicativeOperatorPrinter;
 
 	@Inject
-	public MultiplicativeExpressionPrinter(
-			jamopp.printer.implementation.MultiplicativeExpressionChildPrinter multiplicativeExpressionChildPrinter,
-			jamopp.printer.implementation.MultiplicativeOperatorPrinter multiplicativeOperatorPrinter) {
-		super();
+	public MultiplicativeExpressionPrinter(MultiplicativeExpressionChildPrinterInt multiplicativeExpressionChildPrinter,
+			MultiplicativeOperatorPrinterInt multiplicativeOperatorPrinter) {
 		MultiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
 		MultiplicativeOperatorPrinter = multiplicativeOperatorPrinter;
 	}
@@ -31,7 +31,5 @@ public class MultiplicativeExpressionPrinter implements MultiplicativeExpression
 			MultiplicativeExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
-
-
 
 }

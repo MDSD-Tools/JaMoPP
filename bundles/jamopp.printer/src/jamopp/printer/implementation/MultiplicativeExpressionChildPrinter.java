@@ -11,17 +11,17 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MultiplicativeExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.UnaryExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.UnaryExpressionPrinterInt;
 
 public class MultiplicativeExpressionChildPrinter implements MultiplicativeExpressionChildPrinterInt {
 
-	private final UnaryExpressionPrinter UnaryExpressionPrinter;
-	private final UnaryExpressionChildPrinter UnaryExpressionChildPrinter;
+	private final UnaryExpressionPrinterInt UnaryExpressionPrinter;
+	private final UnaryExpressionChildPrinterInt UnaryExpressionChildPrinter;
 
 	@Inject
-	public MultiplicativeExpressionChildPrinter(
-			jamopp.printer.implementation.UnaryExpressionPrinter unaryExpressionPrinter,
-			jamopp.printer.implementation.UnaryExpressionChildPrinter unaryExpressionChildPrinter) {
-		super();
+	public MultiplicativeExpressionChildPrinter(UnaryExpressionPrinterInt unaryExpressionPrinter,
+			UnaryExpressionChildPrinterInt unaryExpressionChildPrinter) {
 		UnaryExpressionPrinter = unaryExpressionPrinter;
 		UnaryExpressionChildPrinter = unaryExpressionChildPrinter;
 	}

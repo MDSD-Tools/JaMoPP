@@ -9,16 +9,17 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AdditionalLocalVariablePrinterInt;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
 public class AdditionalLocalVariablePrinter implements AdditionalLocalVariablePrinterInt {
 
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public AdditionalLocalVariablePrinter(jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public AdditionalLocalVariablePrinter(ArrayDimensionsPrinterInt arrayDimensionsPrinter,
+			ExpressionPrinterInt expressionPrinter) {
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 		ExpressionPrinter = expressionPrinter;
 	}

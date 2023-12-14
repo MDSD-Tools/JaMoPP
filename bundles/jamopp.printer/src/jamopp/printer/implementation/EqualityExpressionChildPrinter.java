@@ -10,17 +10,17 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.printer.EqualityExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.InstanceOfExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.InstanceOfExpressionPrinterInt;
 
 public class EqualityExpressionChildPrinter implements EqualityExpressionChildPrinterInt {
 
-	private final InstanceOfExpressionPrinter InstanceOfExpressionPrinter;
-	private final InstanceOfExpressionChildPrinter InstanceOfExpressionChildPrinter;
+	private final InstanceOfExpressionPrinterInt InstanceOfExpressionPrinter;
+	private final InstanceOfExpressionChildPrinterInt InstanceOfExpressionChildPrinter;
 
 	@Inject
-	public EqualityExpressionChildPrinter(
-			jamopp.printer.implementation.InstanceOfExpressionPrinter instanceOfExpressionPrinter,
-			jamopp.printer.implementation.InstanceOfExpressionChildPrinter instanceOfExpressionChildPrinter) {
-		super();
+	public EqualityExpressionChildPrinter(InstanceOfExpressionPrinterInt instanceOfExpressionPrinter,
+			InstanceOfExpressionChildPrinterInt instanceOfExpressionChildPrinter) {
 		InstanceOfExpressionPrinter = instanceOfExpressionPrinter;
 		InstanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
 	}

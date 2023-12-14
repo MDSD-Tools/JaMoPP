@@ -11,16 +11,16 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.BlockPrinterInt;
+import jamopp.printer.interfaces.printer.ModifierPrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class BlockPrinter implements BlockPrinterInt {
 
-	private final ModifierPrinter ModifierPrinter;
-	private final StatementPrinter StatementPrinter;
+	private final ModifierPrinterInt ModifierPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public BlockPrinter(jamopp.printer.implementation.ModifierPrinter modifierPrinter,
-			jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public BlockPrinter(ModifierPrinterInt modifierPrinter, StatementPrinterInt statementPrinter) {
 		ModifierPrinter = modifierPrinter;
 		StatementPrinter = statementPrinter;
 	}

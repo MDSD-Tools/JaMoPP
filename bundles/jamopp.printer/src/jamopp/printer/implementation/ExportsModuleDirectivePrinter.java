@@ -9,15 +9,15 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ExportsModuleDirectivePrinterInt;
+import jamopp.printer.interfaces.printer.RemainingAccessProvidingModuleDirectivePrinterInt;
 
 public class ExportsModuleDirectivePrinter implements ExportsModuleDirectivePrinterInt {
 
-	private final RemainingAccessProvidingModuleDirectivePrinter RemainingAccessProvidingModuleDirectivePrinter;
+	private final RemainingAccessProvidingModuleDirectivePrinterInt RemainingAccessProvidingModuleDirectivePrinter;
 
 	@Inject
 	public ExportsModuleDirectivePrinter(
-			jamopp.printer.implementation.RemainingAccessProvidingModuleDirectivePrinter remainingAccessProvidingModuleDirectivePrinter) {
-		super();
+			RemainingAccessProvidingModuleDirectivePrinterInt remainingAccessProvidingModuleDirectivePrinter) {
 		RemainingAccessProvidingModuleDirectivePrinter = remainingAccessProvidingModuleDirectivePrinter;
 	}
 

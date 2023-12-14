@@ -10,14 +10,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.DefaultSwitchRulePrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class DefaultSwitchRulePrinter implements DefaultSwitchRulePrinterInt {
 
-	private final StatementPrinter StatementPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public DefaultSwitchRulePrinter(jamopp.printer.implementation.StatementPrinter statementPrinter) {
-		super();
+	public DefaultSwitchRulePrinter(StatementPrinterInt statementPrinter) {
 		StatementPrinter = statementPrinter;
 	}
 
@@ -28,5 +28,7 @@ public class DefaultSwitchRulePrinter implements DefaultSwitchRulePrinterInt {
 			StatementPrinter.print(s, writer);
 		}
 	}
+
+	
 
 }

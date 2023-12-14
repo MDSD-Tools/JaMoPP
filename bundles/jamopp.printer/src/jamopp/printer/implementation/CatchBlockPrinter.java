@@ -9,17 +9,17 @@ import org.emftext.language.java.statements.CatchBlock;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.BlockPrinterInt;
 import jamopp.printer.interfaces.printer.CatchBlockPrinterInt;
+import jamopp.printer.interfaces.printer.CatchParameterPrinterInt;
 
 public class CatchBlockPrinter implements CatchBlockPrinterInt {
 
-	private final CatchParameterPrinter CatchParameterPrinter;
-	private final BlockPrinter BlockPrinter;
+	private final CatchParameterPrinterInt CatchParameterPrinter;
+	private final BlockPrinterInt BlockPrinter;
 
 	@Inject
-	public CatchBlockPrinter(jamopp.printer.implementation.CatchParameterPrinter catchParameterPrinter,
-			jamopp.printer.implementation.BlockPrinter blockPrinter) {
-		super();
+	public CatchBlockPrinter(CatchParameterPrinterInt catchParameterPrinter, BlockPrinterInt blockPrinter) {
 		CatchParameterPrinter = catchParameterPrinter;
 		BlockPrinter = blockPrinter;
 	}

@@ -10,18 +10,18 @@ import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExclusiveOrExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.ExclusiveOrExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.InclusiveOrExpressionChildPrinterInt;
 
 public class InclusiveOrExpressionChildPrinter implements InclusiveOrExpressionChildPrinterInt {
 
-	private final ExclusiveOrExpressionPrinter ExclusiveOrExpressionPrinter;
-	private final ExclusiveOrExpressionChildPrinter ExclusiveOrExpressionChildPrinter;
+	private final ExclusiveOrExpressionPrinterInt ExclusiveOrExpressionPrinter;
+	private final ExclusiveOrExpressionChildPrinterInt ExclusiveOrExpressionChildPrinter;
 
 	@Inject
-	public InclusiveOrExpressionChildPrinter(
-			jamopp.printer.implementation.ExclusiveOrExpressionPrinter exclusiveOrExpressionPrinter,
-			jamopp.printer.implementation.ExclusiveOrExpressionChildPrinter exclusiveOrExpressionChildPrinter) {
-		super();
+	public InclusiveOrExpressionChildPrinter(ExclusiveOrExpressionPrinterInt exclusiveOrExpressionPrinter,
+			ExclusiveOrExpressionChildPrinterInt exclusiveOrExpressionChildPrinter) {
 		ExclusiveOrExpressionPrinter = exclusiveOrExpressionPrinter;
 		ExclusiveOrExpressionChildPrinter = exclusiveOrExpressionChildPrinter;
 	}

@@ -8,15 +8,15 @@ import org.emftext.language.java.references.SelfReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.SelfPrinterInt;
 import jamopp.printer.interfaces.printer.SelfReferencePrinterInt;
 
 public class SelfReferencePrinter implements SelfReferencePrinterInt {
 
-	private final SelfPrinter SelfPrinter;
+	private final SelfPrinterInt SelfPrinter;
 
 	@Inject
-	public SelfReferencePrinter(jamopp.printer.implementation.SelfPrinter selfPrinter) {
-		super();
+	public SelfReferencePrinter(SelfPrinterInt selfPrinter) {
 		SelfPrinter = selfPrinter;
 	}
 

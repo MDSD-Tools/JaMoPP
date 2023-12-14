@@ -10,14 +10,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CompilationUnitPrinterInt;
+import jamopp.printer.interfaces.printer.ConcreteClassifierPrinterInt;
 
 public class CompilationUnitPrinter implements CompilationUnitPrinterInt {
 
-	private final ConcreteClassifierPrinter ConcreteClassifierPrinter;
+	private final ConcreteClassifierPrinterInt ConcreteClassifierPrinter;
 
 	@Inject
-	public CompilationUnitPrinter(jamopp.printer.implementation.ConcreteClassifierPrinter concreteClassifierPrinter) {
-		super();
+	public CompilationUnitPrinter(ConcreteClassifierPrinterInt concreteClassifierPrinter) {
 		ConcreteClassifierPrinter = concreteClassifierPrinter;
 	}
 

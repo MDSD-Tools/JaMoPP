@@ -8,22 +8,23 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
 import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class OrdinaryParameterPrinter implements OrdinaryParameterPrinterInt {
 
-	private final AnnotableAndModifiablePrinter AnnotableAndModifiablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final TypeArgumentablePrinter TypeArgumentablePrinter;
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
 
 	@Inject
-	public OrdinaryParameterPrinter(
-			AnnotableAndModifiablePrinter annotableAndModifiablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
-			ArrayDimensionsPrinter arrayDimensionsPrinter) {
-		super();
+	public OrdinaryParameterPrinter(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
+			ArrayDimensionsPrinterInt arrayDimensionsPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;

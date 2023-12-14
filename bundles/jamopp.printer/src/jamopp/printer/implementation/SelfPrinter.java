@@ -7,7 +7,6 @@ import org.emftext.language.java.literals.Self;
 import org.emftext.language.java.literals.Super;
 import org.emftext.language.java.literals.This;
 
-import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.SelfPrinterInt;
 
 public class SelfPrinter implements SelfPrinterInt{

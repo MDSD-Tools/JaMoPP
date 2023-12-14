@@ -8,16 +8,15 @@ import org.emftext.language.java.expressions.ExclusiveOrExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExclusiveOrExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.ExclusiveOrExpressionPrinterInt;
 
 public class ExclusiveOrExpressionPrinter implements ExclusiveOrExpressionPrinterInt {
 
-	private final ExclusiveOrExpressionChildPrinter ExclusiveOrExpressionChildPrinter;
+	private final ExclusiveOrExpressionChildPrinterInt ExclusiveOrExpressionChildPrinter;
 
 	@Inject
-	public ExclusiveOrExpressionPrinter(
-			jamopp.printer.implementation.ExclusiveOrExpressionChildPrinter exclusiveOrExpressionChildPrinter) {
-		super();
+	public ExclusiveOrExpressionPrinter(ExclusiveOrExpressionChildPrinterInt exclusiveOrExpressionChildPrinter) {
 		ExclusiveOrExpressionChildPrinter = exclusiveOrExpressionChildPrinter;
 	}
 
@@ -29,5 +28,7 @@ public class ExclusiveOrExpressionPrinter implements ExclusiveOrExpressionPrinte
 			ExclusiveOrExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
+
+
 
 }

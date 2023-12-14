@@ -7,14 +7,17 @@ import org.emftext.language.java.members.AdditionalField;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.printer.AdditionalFieldPrinterInt;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
-public class AdditionalFieldPrinter implements  AdditionalFieldPrinterInt {
+public class AdditionalFieldPrinter implements AdditionalFieldPrinterInt {
 
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public AdditionalFieldPrinter(ExpressionPrinter expressionPrinter, ArrayDimensionsPrinter arrayDimensionsPrinter) {
+	public AdditionalFieldPrinter(ExpressionPrinterInt expressionPrinter,
+			ArrayDimensionsPrinterInt arrayDimensionsPrinter) {
 		this.ArrayDimensionsPrinter = arrayDimensionsPrinter;
 		this.ExpressionPrinter = expressionPrinter;
 	}

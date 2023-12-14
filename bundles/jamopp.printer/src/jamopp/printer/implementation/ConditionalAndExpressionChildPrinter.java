@@ -11,17 +11,17 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConditionalAndExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.InclusiveOrExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.InclusiveOrExpressionPrinterInt;
 
 public class ConditionalAndExpressionChildPrinter implements ConditionalAndExpressionChildPrinterInt {
 
-	private final InclusiveOrExpressionPrinter InclusiveOrExpressionPrinter;
-	private final InclusiveOrExpressionChildPrinter InclusiveOrExpressionChildPrinter;
+	private final InclusiveOrExpressionPrinterInt InclusiveOrExpressionPrinter;
+	private final InclusiveOrExpressionChildPrinterInt InclusiveOrExpressionChildPrinter;
 
 	@Inject
-	public ConditionalAndExpressionChildPrinter(
-			jamopp.printer.implementation.InclusiveOrExpressionPrinter inclusiveOrExpressionPrinter,
-			jamopp.printer.implementation.InclusiveOrExpressionChildPrinter inclusiveOrExpressionChildPrinter) {
-		super();
+	public ConditionalAndExpressionChildPrinter(InclusiveOrExpressionPrinterInt inclusiveOrExpressionPrinter,
+			InclusiveOrExpressionChildPrinterInt inclusiveOrExpressionChildPrinter) {
 		InclusiveOrExpressionPrinter = inclusiveOrExpressionPrinter;
 		InclusiveOrExpressionChildPrinter = inclusiveOrExpressionChildPrinter;
 	}

@@ -8,17 +8,17 @@ import org.emftext.language.java.arrays.ArraySelector;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.ArraySelectorPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
 public class ArraySelectorPrinter implements ArraySelectorPrinterInt {
 
-	private final AnnotablePrinter AnnotablePrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final AnnotablePrinterInt AnnotablePrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public ArraySelectorPrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public ArraySelectorPrinter(AnnotablePrinterInt annotablePrinter, ExpressionPrinterInt expressionPrinter) {
 		AnnotablePrinter = annotablePrinter;
 		ExpressionPrinter = expressionPrinter;
 	}
@@ -30,5 +30,7 @@ public class ArraySelectorPrinter implements ArraySelectorPrinterInt {
 		ExpressionPrinter.print(element.getPosition(), writer);
 		writer.append("]");
 	}
+
+	
 
 }

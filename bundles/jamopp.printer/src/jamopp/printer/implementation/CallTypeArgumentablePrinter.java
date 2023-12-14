@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentPrinterInt;
 
 public class CallTypeArgumentablePrinter implements CallTypeArgumentablePrinterInt {
 
-	private final TypeArgumentPrinter TypeArgumentPrinter;
+	private final TypeArgumentPrinterInt TypeArgumentPrinter;
 
 	@Inject
-	public CallTypeArgumentablePrinter(jamopp.printer.implementation.TypeArgumentPrinter typeArgumentPrinter) {
-		super();
+	public CallTypeArgumentablePrinter(TypeArgumentPrinterInt typeArgumentPrinter) {
 		TypeArgumentPrinter = typeArgumentPrinter;
 	}
 

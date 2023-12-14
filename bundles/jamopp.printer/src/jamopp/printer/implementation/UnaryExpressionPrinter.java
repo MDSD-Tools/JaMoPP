@@ -9,17 +9,18 @@ import org.emftext.language.java.operators.UnaryOperator;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.UnaryExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.UnaryExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.UnaryOperatorPrinterInt;
 
 public class UnaryExpressionPrinter implements UnaryExpressionPrinterInt {
 
-	private final UnaryOperatorPrinter UnaryOperatorPrinter;
-	private final UnaryExpressionChildPrinter UnaryExpressionChildPrinter;
+	private final UnaryOperatorPrinterInt UnaryOperatorPrinter;
+	private final UnaryExpressionChildPrinterInt UnaryExpressionChildPrinter;
 
 	@Inject
-	public UnaryExpressionPrinter(jamopp.printer.implementation.UnaryOperatorPrinter unaryOperatorPrinter,
-			jamopp.printer.implementation.UnaryExpressionChildPrinter unaryExpressionChildPrinter) {
-		super();
+	public UnaryExpressionPrinter(UnaryOperatorPrinterInt unaryOperatorPrinter,
+			UnaryExpressionChildPrinterInt unaryExpressionChildPrinter) {
 		UnaryOperatorPrinter = unaryOperatorPrinter;
 		UnaryExpressionChildPrinter = unaryExpressionChildPrinter;
 	}
@@ -31,5 +32,7 @@ public class UnaryExpressionPrinter implements UnaryExpressionPrinterInt {
 		}
 		UnaryExpressionChildPrinter.print(element.getChild(), writer);
 	}
+
+	
 
 }

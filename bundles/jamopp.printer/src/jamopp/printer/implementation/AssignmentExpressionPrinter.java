@@ -8,20 +8,20 @@ import org.emftext.language.java.expressions.AssignmentExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AssignmentExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.AssignmentExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.AssignmentOperatorPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
 public class AssignmentExpressionPrinter implements AssignmentExpressionPrinterInt {
 
-	private final AssignmentExpressionChildPrinter AssignmentExpressionChildPrinter;
-	private final AssignmentOperatorPrinter AssignmentOperatorPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final AssignmentExpressionChildPrinterInt AssignmentExpressionChildPrinter;
+	private final AssignmentOperatorPrinterInt AssignmentOperatorPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public AssignmentExpressionPrinter(
-			jamopp.printer.implementation.AssignmentExpressionChildPrinter assignmentExpressionChildPrinter,
-			jamopp.printer.implementation.AssignmentOperatorPrinter assignmentOperatorPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public AssignmentExpressionPrinter(AssignmentExpressionChildPrinterInt assignmentExpressionChildPrinter,
+			AssignmentOperatorPrinterInt assignmentOperatorPrinter, ExpressionPrinterInt expressionPrinter) {
 		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
 		AssignmentOperatorPrinter = assignmentOperatorPrinter;
 		ExpressionPrinter = expressionPrinter;

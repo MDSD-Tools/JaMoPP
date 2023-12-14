@@ -7,19 +7,20 @@ import org.emftext.language.java.references.IdentifierReference;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
 import jamopp.printer.interfaces.printer.IdentifierReferencePrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
 
 public class IdentifierReferencePrinter implements IdentifierReferencePrinterInt {
 
-	private final AnnotablePrinter AnnotablePrinter;
-	private final TypeArgumentablePrinter TypeArgumentablePrinter;
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
+	private final AnnotablePrinterInt AnnotablePrinter;
+	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
 
 	@Inject
-	public IdentifierReferencePrinter(jamopp.printer.implementation.AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter) {
-		super();
+	public IdentifierReferencePrinter(AnnotablePrinterInt annotablePrinter,
+			TypeArgumentablePrinterInt typeArgumentablePrinter, ArrayDimensionsPrinterInt arrayDimensionsPrinter) {
 		AnnotablePrinter = annotablePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;

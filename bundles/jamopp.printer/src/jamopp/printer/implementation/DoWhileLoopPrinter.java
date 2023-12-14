@@ -9,16 +9,16 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.DoWhileLoopPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class DoWhileLoopPrinter implements DoWhileLoopPrinterInt {
 
-	private final StatementPrinter StatementPrinter;
-	private final ExpressionPrinter ExpressionPrinter;
+	private final StatementPrinterInt StatementPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public DoWhileLoopPrinter(jamopp.printer.implementation.StatementPrinter statementPrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public DoWhileLoopPrinter(StatementPrinterInt statementPrinter, ExpressionPrinterInt expressionPrinter) {
 		StatementPrinter = statementPrinter;
 		ExpressionPrinter = expressionPrinter;
 	}

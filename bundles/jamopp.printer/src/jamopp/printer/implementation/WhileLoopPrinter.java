@@ -8,17 +8,17 @@ import org.emftext.language.java.statements.WhileLoop;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.StatementPrinterInt;
 import jamopp.printer.interfaces.printer.WhileLoopPrinterInt;
 
 public class WhileLoopPrinter implements WhileLoopPrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
-	private final StatementPrinter StatementPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public WhileLoopPrinter(ExpressionPrinter expressionPrinter,
-			StatementPrinter statementPrinter) {
-		super();
+	public WhileLoopPrinter(ExpressionPrinterInt expressionPrinter, StatementPrinterInt statementPrinter) {
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;
 	}

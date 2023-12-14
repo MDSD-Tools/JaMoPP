@@ -9,17 +9,17 @@ import org.emftext.language.java.statements.SwitchCase;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.SwitchCasePrinterInt;
 import jamopp.printer.interfaces.printer.SwitchPrinterInt;
 
 public class SwitchPrinter implements SwitchPrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
-	private final SwitchCasePrinter SwitchCasePrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final SwitchCasePrinterInt SwitchCasePrinter;
 
 	@Inject
-	public SwitchPrinter(ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.SwitchCasePrinter switchCasePrinter) {
-		super();
+	public SwitchPrinter(ExpressionPrinterInt expressionPrinter, SwitchCasePrinterInt switchCasePrinter) {
 		ExpressionPrinter = expressionPrinter;
 		SwitchCasePrinter = switchCasePrinter;
 	}

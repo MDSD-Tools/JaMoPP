@@ -8,17 +8,18 @@ import org.emftext.language.java.references.MethodCall;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.MethodCallPrinterInt;
 
 public class MethodCallPrinter implements MethodCallPrinterInt {
 
-	private final CallTypeArgumentablePrinter CallTypeArgumentablePrinter;
-	private final ArgumentablePrinter ArgumentablePrinter;
+	private final CallTypeArgumentablePrinterInt CallTypeArgumentablePrinter;
+	private final ArgumentablePrinterInt ArgumentablePrinter;
 
 	@Inject
-	public MethodCallPrinter(jamopp.printer.implementation.CallTypeArgumentablePrinter callTypeArgumentablePrinter,
-			jamopp.printer.implementation.ArgumentablePrinter argumentablePrinter) {
-		super();
+	public MethodCallPrinter(CallTypeArgumentablePrinterInt callTypeArgumentablePrinter,
+			ArgumentablePrinterInt argumentablePrinter) {
 		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
 		ArgumentablePrinter = argumentablePrinter;
 	}

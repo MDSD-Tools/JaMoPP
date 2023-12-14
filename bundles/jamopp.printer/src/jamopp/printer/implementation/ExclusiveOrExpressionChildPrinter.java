@@ -10,17 +10,18 @@ import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
+import jamopp.printer.interfaces.printer.AndExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.ExclusiveOrExpressionChildPrinterInt;
 
 public class ExclusiveOrExpressionChildPrinter implements ExclusiveOrExpressionChildPrinterInt {
 
-	private final AndExpressionPrinter AndExpressionPrinter;
-	private final AndExpressionChildPrinter AndExpressionChildPrinter;
+	private final AndExpressionPrinterInt AndExpressionPrinter;
+	private final AndExpressionChildPrinterInt AndExpressionChildPrinter;
 
 	@Inject
-	public ExclusiveOrExpressionChildPrinter(jamopp.printer.implementation.AndExpressionPrinter andExpressionPrinter,
-			jamopp.printer.implementation.AndExpressionChildPrinter andExpressionChildPrinter) {
-		super();
+	public ExclusiveOrExpressionChildPrinter(AndExpressionPrinterInt andExpressionPrinter,
+			AndExpressionChildPrinterInt andExpressionChildPrinter) {
 		AndExpressionPrinter = andExpressionPrinter;
 		AndExpressionChildPrinter = andExpressionChildPrinter;
 	}
@@ -33,5 +34,7 @@ public class ExclusiveOrExpressionChildPrinter implements ExclusiveOrExpressionC
 			AndExpressionChildPrinter.print((AndExpressionChild) element, writer);
 		}
 	}
+
+
 
 }

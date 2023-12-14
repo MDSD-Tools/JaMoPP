@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AssertPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
 public class AssertPrinter implements AssertPrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public AssertPrinter(jamopp.printer.implementation.ExpressionPrinter expressionPrinter) {
-		super();
+	public AssertPrinter(ExpressionPrinterInt expressionPrinter) {
 		ExpressionPrinter = expressionPrinter;
 	}
 
@@ -30,5 +30,7 @@ public class AssertPrinter implements AssertPrinterInt {
 		}
 		writer.append(";\n");
 	}
+
+	
 
 }

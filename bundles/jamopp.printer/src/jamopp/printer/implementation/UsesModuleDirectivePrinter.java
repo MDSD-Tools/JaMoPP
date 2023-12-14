@@ -8,15 +8,15 @@ import org.emftext.language.java.modules.UsesModuleDirective;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 import jamopp.printer.interfaces.printer.UsesModuleDirectivePrinterInt;
 
 public class UsesModuleDirectivePrinter implements UsesModuleDirectivePrinterInt {
 
-	private final TypeReferencePrinter TypeReferencePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
-	public UsesModuleDirectivePrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter) {
-		super();
+	public UsesModuleDirectivePrinter(TypeReferencePrinterInt typeReferencePrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
@@ -26,5 +26,7 @@ public class UsesModuleDirectivePrinter implements UsesModuleDirectivePrinterInt
 		TypeReferencePrinter.print(element.getTypeReference(), writer);
 		writer.append(";\n");
 	}
+
+	
 
 }

@@ -8,19 +8,20 @@ import org.emftext.language.java.parameters.ReceiverParameter;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.ReceiverParameterPrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ReceiverParameterPrinter implements ReceiverParameterPrinterInt {
 
-	private final AnnotablePrinter AnnotablePrinter;
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final TypeArgumentablePrinter TypeArgumentablePrinter;
+	private final AnnotablePrinterInt AnnotablePrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
 
 	@Inject
-	public ReceiverParameterPrinter(AnnotablePrinter annotablePrinter,
-			jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter) {
-		super();
+	public ReceiverParameterPrinter(AnnotablePrinterInt annotablePrinter, TypeReferencePrinterInt typeReferencePrinter,
+			TypeArgumentablePrinterInt typeArgumentablePrinter) {
 		AnnotablePrinter = annotablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;

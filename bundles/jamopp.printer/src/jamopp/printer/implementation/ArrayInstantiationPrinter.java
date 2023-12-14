@@ -11,24 +11,25 @@ import org.emftext.language.java.expressions.Expression;
 
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
+import jamopp.printer.interfaces.printer.ArrayInitializerPrinterInt;
 import jamopp.printer.interfaces.printer.ArrayInstantiationPrinterInt;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
+import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ArrayInstantiationPrinter implements ArrayInstantiationPrinterInt {
 
-	private final TypeReferencePrinter TypeReferencePrinter;
-	private final TypeArgumentablePrinter TypeArgumentablePrinter;
-	private final ExpressionPrinter ExpressionPrinter;
-	private final ArrayDimensionsPrinter ArrayDimensionsPrinter;
-	private final ArrayInitializerPrinter ArrayInitializerPrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
+	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
+	private final ArrayInitializerPrinterInt ArrayInitializerPrinter;
 
 	@Inject
-	public ArrayInstantiationPrinter(jamopp.printer.implementation.TypeReferencePrinter typeReferencePrinter,
-			jamopp.printer.implementation.TypeArgumentablePrinter typeArgumentablePrinter,
-			jamopp.printer.implementation.ExpressionPrinter expressionPrinter,
-			jamopp.printer.implementation.ArrayDimensionsPrinter arrayDimensionsPrinter,
-			jamopp.printer.implementation.ArrayInitializerPrinter arrayInitializerPrinter) {
-		super();
+	public ArrayInstantiationPrinter(TypeReferencePrinterInt typeReferencePrinter,
+			TypeArgumentablePrinterInt typeArgumentablePrinter, ExpressionPrinterInt expressionPrinter,
+			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ArrayInitializerPrinterInt arrayInitializerPrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;
 		ExpressionPrinter = expressionPrinter;

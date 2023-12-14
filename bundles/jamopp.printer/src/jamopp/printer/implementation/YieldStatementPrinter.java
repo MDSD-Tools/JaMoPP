@@ -8,15 +8,15 @@ import org.emftext.language.java.statements.YieldStatement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
+import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.YieldStatementPrinterInt;
 
 public class YieldStatementPrinter implements YieldStatementPrinterInt {
 
-	private final ExpressionPrinter ExpressionPrinter;
+	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public YieldStatementPrinter(ExpressionPrinter expressionPrinter) {
-		super();
+	public YieldStatementPrinter(ExpressionPrinterInt expressionPrinter) {
 		ExpressionPrinter = expressionPrinter;
 	}
 
