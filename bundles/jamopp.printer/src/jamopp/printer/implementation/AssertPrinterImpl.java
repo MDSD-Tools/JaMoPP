@@ -6,27 +6,27 @@ import java.io.IOException;
 import org.emftext.language.java.statements.Assert;
 
 import com.google.inject.Inject;
-
+import com.google.inject.Provider;
 
 import jamopp.printer.interfaces.printer.AssertPrinterInt;
 import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
 public class AssertPrinterImpl implements AssertPrinterInt {
 
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Provider<ExpressionPrinterInt> ExpressionPrinter;
 
 	@Inject
-	public AssertPrinterImpl(ExpressionPrinterInt expressionPrinter) {
+	public AssertPrinterImpl(Provider<ExpressionPrinterInt> expressionPrinter) {
 		ExpressionPrinter = expressionPrinter;
 	}
 
 	@Override
 	public void print(Assert element, BufferedWriter writer) throws IOException {
 		writer.append("assert ");
-		ExpressionPrinter.print(element.getCondition(), writer);
+		ExpressionPrinter.get().print(element.getCondition(), writer);
 		if (element.getErrorMessage() != null) {
 			writer.append(" : ");
-			ExpressionPrinter.print(element.getErrorMessage(), writer);
+			ExpressionPrinter.get().print(element.getErrorMessage(), writer);
 		}
 		writer.append(";\n");
 	}

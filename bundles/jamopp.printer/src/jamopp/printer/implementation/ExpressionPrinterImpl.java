@@ -9,7 +9,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.LambdaExpression;
 
 import com.google.inject.Inject;
-
+import com.google.inject.Provider;
 
 import jamopp.printer.interfaces.printer.AssignmentExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.AssignmentExpressionPrinterInt;
@@ -18,14 +18,14 @@ import jamopp.printer.interfaces.printer.LambdaExpressionPrinterInt;
 
 public class ExpressionPrinterImpl implements ExpressionPrinterInt {
 
-	private final LambdaExpressionPrinterInt LambdaExpressionPrinter;
-	private final AssignmentExpressionPrinterInt AssignmentExpressionPrinter;
-	private final AssignmentExpressionChildPrinterInt AssignmentExpressionChildPrinter;
+	private final Provider<LambdaExpressionPrinterInt> LambdaExpressionPrinter;
+	private final Provider<AssignmentExpressionPrinterInt> AssignmentExpressionPrinter;
+	private final Provider<AssignmentExpressionChildPrinterInt> AssignmentExpressionChildPrinter;
 
 	@Inject
-	public ExpressionPrinterImpl(LambdaExpressionPrinterInt lambdaExpressionPrinter,
-			AssignmentExpressionPrinterInt assignmentExpressionPrinter,
-			AssignmentExpressionChildPrinterInt assignmentExpressionChildPrinter) {
+	public ExpressionPrinterImpl(Provider<LambdaExpressionPrinterInt> lambdaExpressionPrinter,
+			Provider<AssignmentExpressionPrinterInt> assignmentExpressionPrinter,
+			Provider<AssignmentExpressionChildPrinterInt> assignmentExpressionChildPrinter) {
 		LambdaExpressionPrinter = lambdaExpressionPrinter;
 		AssignmentExpressionPrinter = assignmentExpressionPrinter;
 		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
@@ -34,11 +34,11 @@ public class ExpressionPrinterImpl implements ExpressionPrinterInt {
 	@Override
 	public void print(Expression element, BufferedWriter writer) throws IOException {
 		if (element instanceof LambdaExpression) {
-			LambdaExpressionPrinter.print((LambdaExpression) element, writer);
+			LambdaExpressionPrinter.get().print((LambdaExpression) element, writer);
 		} else if (element instanceof AssignmentExpression) {
-			AssignmentExpressionPrinter.print((AssignmentExpression) element, writer);
+			AssignmentExpressionPrinter.get().print((AssignmentExpression) element, writer);
 		} else {
-			AssignmentExpressionChildPrinter.print((AssignmentExpressionChild) element, writer);
+			AssignmentExpressionChildPrinter.get().print((AssignmentExpressionChild) element, writer);
 		}
 	}
 

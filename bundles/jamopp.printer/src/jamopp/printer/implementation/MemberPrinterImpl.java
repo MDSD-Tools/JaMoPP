@@ -12,7 +12,7 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.statements.Block;
 
 import com.google.inject.Inject;
-
+import com.google.inject.Provider;
 
 import jamopp.printer.interfaces.printer.BlockPrinterInt;
 import jamopp.printer.interfaces.printer.ClassMethodPrinterInt;
@@ -25,19 +25,20 @@ import jamopp.printer.interfaces.printer.MemberPrinterInt;
 
 public class MemberPrinterImpl implements MemberPrinterInt {
 
-	private final FieldPrinterInt FieldPrinter;
-	private final ConstructorPrinterInt ConstructorPrinter;
-	private final ClassMethodPrinterInt ClassMethodPrinter;
-	private final InterfaceMethodPrinterInt InterfaceMethodPrinter;
-	private final ConcreteClassifierPrinterInt ConcreteClassifierPrinter;
-	private final BlockPrinterInt BlockPrinter;
-	private final EmptyMemberPrinterInt EmptyMemberPrinter;
+	private final Provider<FieldPrinterInt> FieldPrinter;
+	private final Provider<ConstructorPrinterInt> ConstructorPrinter;
+	private final Provider<ClassMethodPrinterInt> ClassMethodPrinter;
+	private final Provider<InterfaceMethodPrinterInt> InterfaceMethodPrinter;
+	private final Provider<ConcreteClassifierPrinterInt> ConcreteClassifierPrinter;
+	private final Provider<BlockPrinterInt> BlockPrinter;
+	private final Provider<EmptyMemberPrinterInt> EmptyMemberPrinter;
 
 	@Inject
-	public MemberPrinterImpl(FieldPrinterInt fieldPrinter, ConstructorPrinterInt constructorPrinter,
-			ClassMethodPrinterInt classMethodPrinter, InterfaceMethodPrinterInt interfaceMethodPrinter,
-			ConcreteClassifierPrinterInt concreteClassifierPrinter, BlockPrinterInt blockPrinter,
-			EmptyMemberPrinterInt emptyMemberPrinter) {
+	public MemberPrinterImpl(Provider<FieldPrinterInt> fieldPrinter, Provider<ConstructorPrinterInt> constructorPrinter,
+			Provider<ClassMethodPrinterInt> classMethodPrinter,
+			Provider<InterfaceMethodPrinterInt> interfaceMethodPrinter,
+			Provider<ConcreteClassifierPrinterInt> concreteClassifierPrinter, Provider<BlockPrinterInt> blockPrinter,
+			Provider<EmptyMemberPrinterInt> emptyMemberPrinter) {
 		FieldPrinter = fieldPrinter;
 		ConstructorPrinter = constructorPrinter;
 		ClassMethodPrinter = classMethodPrinter;
@@ -46,24 +47,26 @@ public class MemberPrinterImpl implements MemberPrinterInt {
 		BlockPrinter = blockPrinter;
 		EmptyMemberPrinter = emptyMemberPrinter;
 	}
-
+	
 	@Override
 	public void print(Member element, BufferedWriter writer) throws IOException {
 		if (element instanceof Field) {
-			FieldPrinter.print((Field) element, writer);
+			FieldPrinter.get().print((Field) element, writer);
 		} else if (element instanceof Constructor) {
-			ConstructorPrinter.print((Constructor) element, writer);
+			ConstructorPrinter.get().print((Constructor) element, writer);
 		} else if (element instanceof ClassMethod) {
-			ClassMethodPrinter.print((ClassMethod) element, writer);
+			ClassMethodPrinter.get().print((ClassMethod) element, writer);
 		} else if (element instanceof InterfaceMethod) {
-			InterfaceMethodPrinter.print((InterfaceMethod) element, writer);
+			InterfaceMethodPrinter.get().print((InterfaceMethod) element, writer);
 		} else if (element instanceof ConcreteClassifier) {
-			ConcreteClassifierPrinter.print((ConcreteClassifier) element, writer);
+			ConcreteClassifierPrinter.get().print((ConcreteClassifier) element, writer);
 		} else if (element instanceof Block) {
-			BlockPrinter.print((Block) element, writer);
+			BlockPrinter.get().print((Block) element, writer);
 		} else {
-			EmptyMemberPrinter.print(writer);
+			EmptyMemberPrinter.get().print(writer);
 		}
 	}
+
+
 
 }

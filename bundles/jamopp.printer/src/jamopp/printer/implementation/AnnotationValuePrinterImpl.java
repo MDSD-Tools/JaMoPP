@@ -9,7 +9,7 @@ import org.emftext.language.java.arrays.ArrayInitializer;
 import org.emftext.language.java.expressions.Expression;
 
 import com.google.inject.Inject;
-
+import com.google.inject.Provider;
 
 import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
 import jamopp.printer.interfaces.printer.AnnotationValuePrinterInt;
@@ -18,12 +18,12 @@ import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 
 public class AnnotationValuePrinterImpl implements AnnotationValuePrinterInt {
 
-	private final AnnotationInstancePrinterInt AnnotationInstancePrinter;
+	private final Provider<AnnotationInstancePrinterInt> AnnotationInstancePrinter;
 	private final ArrayInitializerPrinterInt ArrayInitializerPrinter;
 	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
-	public AnnotationValuePrinterImpl(AnnotationInstancePrinterInt annotationInstancePrinter,
+	public AnnotationValuePrinterImpl(Provider<AnnotationInstancePrinterInt> annotationInstancePrinter,
 			ArrayInitializerPrinterInt arrayInitializerPrinter, ExpressionPrinterInt expressionPrinter) {
 		AnnotationInstancePrinter = annotationInstancePrinter;
 		ArrayInitializerPrinter = arrayInitializerPrinter;
@@ -33,7 +33,7 @@ public class AnnotationValuePrinterImpl implements AnnotationValuePrinterInt {
 	@Override
 	public void print(AnnotationValue element, BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
-			AnnotationInstancePrinter.print((AnnotationInstance) element, writer);
+			AnnotationInstancePrinter.get().print((AnnotationInstance) element, writer);
 		} else if (element instanceof ArrayInitializer) {
 			ArrayInitializerPrinter.print((ArrayInitializer) element, writer);
 		} else {

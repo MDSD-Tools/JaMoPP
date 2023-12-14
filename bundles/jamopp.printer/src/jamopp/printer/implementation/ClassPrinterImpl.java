@@ -35,7 +35,7 @@ public class ClassPrinterImpl implements ClassPrinterInt {
 	@Override
 	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer) throws IOException {
 		AnnotableAndModifiablePrinter.print(element, writer);
-		writer.append("public class " + element.getName());
+		writer.append("class " + element.getName());
 		TypeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
 		if (element.getExtends() != null) {
