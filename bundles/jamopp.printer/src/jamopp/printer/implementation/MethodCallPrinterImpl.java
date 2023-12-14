@@ -10,14 +10,11 @@ import org.emftext.language.java.references.MethodCall;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.MethodCallPrinterInt;
 
-public class MethodCallPrinterImpl implements MethodCallPrinterInt {
+public class MethodCallPrinterImpl implements Printer<MethodCall> {
 
-	private final Printer<CallTypeArgumentable> CallTypeArgumentablePrinter;
 	private final Printer<Argumentable> ArgumentablePrinter;
+	private final Printer<CallTypeArgumentable> CallTypeArgumentablePrinter;
 
 	@Inject
 	public MethodCallPrinterImpl(Printer<CallTypeArgumentable> callTypeArgumentablePrinter,

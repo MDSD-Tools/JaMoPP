@@ -10,18 +10,15 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.CatchParameterPrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class CatchParameterPrinterImpl implements Printer<CatchParameter> {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-public CatchParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeReferencePrinterInt typeReferencePrinter) {
+	public CatchParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			Printer<TypeReference> typeReferencePrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 	}
@@ -39,6 +36,6 @@ public CatchParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndMod
 		writer.append(" " + element.getName());
 	}
 
-	
+
 
 }

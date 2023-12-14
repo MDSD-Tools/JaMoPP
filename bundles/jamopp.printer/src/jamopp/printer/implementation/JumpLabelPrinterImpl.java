@@ -4,19 +4,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.statements.JumpLabel;
+import org.emftext.language.java.statements.Statement;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.JumpLabelPrinterInt;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
+public class JumpLabelPrinterImpl implements Printer<JumpLabel> {
 
-public class JumpLabelPrinterImpl implements JumpLabelPrinterInt {
-
-	private final StatementPrinterInt StatementPrinter;
+	private final Printer<Statement> StatementPrinter;
 
 	@Inject
-	public JumpLabelPrinterImpl(StatementPrinterInt statementPrinter) {
+	public JumpLabelPrinterImpl(Printer<Statement> statementPrinter) {
 		StatementPrinter = statementPrinter;
 	}
 

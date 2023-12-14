@@ -9,19 +9,16 @@ import org.emftext.language.java.expressions.UnaryExpressionChild;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.MultiplicativeExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryExpressionPrinterInt;
+public class MultiplicativeExpressionChildPrinterImpl implements Printer<MultiplicativeExpressionChild> {
 
-public class MultiplicativeExpressionChildPrinterImpl implements MultiplicativeExpressionChildPrinterInt {
-
-	private final UnaryExpressionPrinterInt UnaryExpressionPrinter;
-	private final UnaryExpressionChildPrinterInt UnaryExpressionChildPrinter;
+	private final Printer<UnaryExpressionChild> UnaryExpressionChildPrinter;
+	private final Printer<UnaryExpression> UnaryExpressionPrinter;
 
 	@Inject
-	public MultiplicativeExpressionChildPrinterImpl(UnaryExpressionPrinterInt unaryExpressionPrinter,
-			UnaryExpressionChildPrinterInt unaryExpressionChildPrinter) {
+	public MultiplicativeExpressionChildPrinterImpl(Printer<UnaryExpression> unaryExpressionPrinter,
+			Printer<UnaryExpressionChild> unaryExpressionChildPrinter) {
 		UnaryExpressionPrinter = unaryExpressionPrinter;
 		UnaryExpressionChildPrinter = unaryExpressionChildPrinter;
 	}

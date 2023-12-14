@@ -4,23 +4,21 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.UnaryExpression;
+import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.UnaryExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryOperatorPrinterInt;
+public class UnaryExpressionPrinterImpl implements Printer<UnaryExpression> {
 
-public class UnaryExpressionPrinterImpl implements UnaryExpressionPrinterInt {
-
-	private final UnaryOperatorPrinterInt UnaryOperatorPrinter;
-	private final UnaryExpressionChildPrinterInt UnaryExpressionChildPrinter;
+	private final Printer<UnaryExpressionChild> UnaryExpressionChildPrinter;
+	private final Printer<UnaryOperator> UnaryOperatorPrinter;
 
 	@Inject
-	public UnaryExpressionPrinterImpl(UnaryOperatorPrinterInt unaryOperatorPrinter,
-			UnaryExpressionChildPrinterInt unaryExpressionChildPrinter) {
+	public UnaryExpressionPrinterImpl(Printer<UnaryOperator> unaryOperatorPrinter,
+			Printer<UnaryExpressionChild> unaryExpressionChildPrinter) {
 		UnaryOperatorPrinter = unaryOperatorPrinter;
 		UnaryExpressionChildPrinter = unaryExpressionChildPrinter;
 	}
@@ -33,6 +31,6 @@ public class UnaryExpressionPrinterImpl implements UnaryExpressionPrinterInt {
 		UnaryExpressionChildPrinter.print(element.getChild(), writer);
 	}
 
-	
+
 
 }

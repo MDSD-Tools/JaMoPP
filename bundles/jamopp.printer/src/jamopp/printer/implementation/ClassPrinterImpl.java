@@ -3,30 +3,28 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.classifiers.Implementor;
+import org.emftext.language.java.generics.TypeParametrizable;
+import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.ClassPrinterInt;
-import jamopp.printer.interfaces.printer.ImplementorPrinterInt;
-import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
-import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class ClassPrinterImpl implements ClassPrinterInt {
+public class ClassPrinterImpl implements Printer<org.emftext.language.java.classifiers.Class> {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
-	private final ImplementorPrinterInt ImplementorPrinter;
-	private final MemberContainerPrinterInt MemberContainerPrinter;
+	private final Printer<Implementor> ImplementorPrinter;
+	private final Printer<MemberContainer> MemberContainerPrinter;
+	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
 	public ClassPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
-			ImplementorPrinterInt implementorPrinter, MemberContainerPrinterInt memberContainerPrinter) {
+			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<TypeReference> typeReferencePrinter,
+			Printer<Implementor> implementorPrinter, Printer<MemberContainer> memberContainerPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

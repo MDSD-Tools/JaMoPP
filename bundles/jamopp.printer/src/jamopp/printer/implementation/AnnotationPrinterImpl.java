@@ -4,23 +4,21 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Annotation;
+import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.AnnotationPrinterInt;
-import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
 
 public class AnnotationPrinterImpl implements Printer<Annotation> {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final MemberContainerPrinterInt MemberContainerPrinter;
+	private final Printer<MemberContainer> MemberContainerPrinter;
 
 	@Inject
 	public AnnotationPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			MemberContainerPrinterInt memberContainerPrinter) {
+			Printer<MemberContainer> memberContainerPrinter) {
 
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		MemberContainerPrinter = memberContainerPrinter;

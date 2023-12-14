@@ -6,22 +6,22 @@ import java.util.List;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.references.IdentifierReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
 
 public class IdentifierReferencePrinterImpl implements Printer<IdentifierReference> {
 
 	private final Printer<Annotable> AnnotablePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
-	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
+	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
 
 	@Inject
 	public IdentifierReferencePrinterImpl(Printer<Annotable> annotablePrinter,
-			TypeArgumentablePrinterInt typeArgumentablePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
+			Printer<TypeArgumentable> typeArgumentablePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		AnnotablePrinter = annotablePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;

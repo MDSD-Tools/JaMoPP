@@ -8,16 +8,14 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.ProvidesModuleDirectivePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
+public class ProvidesModuleDirectivePrinterImpl implements Printer<ProvidesModuleDirective> {
 
-public class ProvidesModuleDirectivePrinterImpl implements ProvidesModuleDirectivePrinterInt {
-
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-	public ProvidesModuleDirectivePrinterImpl(TypeReferencePrinterInt typeReferencePrinter) {
+	public ProvidesModuleDirectivePrinterImpl(Printer<TypeReference> typeReferencePrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
@@ -26,8 +24,8 @@ public class ProvidesModuleDirectivePrinterImpl implements ProvidesModuleDirecti
 		writer.append("provides ");
 		TypeReferencePrinter.print(element.getTypeReference(), writer);
 		writer.append(" with ");
-		for (int index = 0; index < element.getServiceProviders().size(); index++) {
-			TypeReference ref = element.getServiceProviders().get(index);
+		for (var index = 0; index < element.getServiceProviders().size(); index++) {
+			var ref = element.getServiceProviders().get(index);
 			TypeReferencePrinter.print(ref, writer);
 			if (index < element.getServiceProviders().size() - 1) {
 				writer.append(".");

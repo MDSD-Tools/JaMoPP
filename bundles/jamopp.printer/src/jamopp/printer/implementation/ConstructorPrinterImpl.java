@@ -3,28 +3,28 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.generics.TypeParametrizable;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.ExceptionThrower;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import org.emftext.language.java.parameters.Parametrizable;
 import org.emftext.language.java.statements.Block;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ParametrizablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
 
 public class ConstructorPrinterImpl implements Printer<Constructor> {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
 	private final Printer<Block> BlockPrinter;
 	private final Printer<ExceptionThrower> ExceptionThrowerPrinter;
-	private final ParametrizablePrinterInt ParametrizablePrinter;
-	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
+	private final Printer<Parametrizable> ParametrizablePrinter;
+	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
 
 	@Inject
 	public ConstructorPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeParametrizablePrinterInt typeParametrizablePrinter, ParametrizablePrinterInt parametrizablePrinter,
+			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<Parametrizable> parametrizablePrinter,
 			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<Block> blockPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;

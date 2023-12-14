@@ -5,19 +5,19 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.DoWhileLoop;
+import org.emftext.language.java.statements.Statement;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class DoWhileLoopPrinterImpl implements Printer<DoWhileLoop> {
 
 	private final Printer<Expression> ExpressionPrinter;
-	private final StatementPrinterInt StatementPrinter;
+	private final Printer<Statement> StatementPrinter;
 
 	@Inject
-	public DoWhileLoopPrinterImpl(StatementPrinterInt statementPrinter, Printer<Expression> expressionPrinter) {
+	public DoWhileLoopPrinterImpl(Printer<Statement> statementPrinter, Printer<Expression> expressionPrinter) {
 		StatementPrinter = statementPrinter;
 		ExpressionPrinter = expressionPrinter;
 	}

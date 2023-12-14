@@ -28,20 +28,10 @@ import org.emftext.language.java.statements.YieldStatement;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.printer.interfaces.EmptyStatementPrinterInt;
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.EmptyStatementPrinterInt;
-import jamopp.printer.interfaces.printer.JumpLabelPrinterInt;
-import jamopp.printer.interfaces.printer.LocalVariableStatementPrinterInt;
-import jamopp.printer.interfaces.printer.ReturnPrinterInt;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
-import jamopp.printer.interfaces.printer.SwitchPrinterInt;
-import jamopp.printer.interfaces.printer.SynchronizedBlockPrinterInt;
-import jamopp.printer.interfaces.printer.ThrowPrinterInt;
-import jamopp.printer.interfaces.printer.TryBlockPrinterInt;
-import jamopp.printer.interfaces.printer.WhileLoopPrinterInt;
-import jamopp.printer.interfaces.printer.YieldStatementPrinterInt;
 
-public class StatementPrinterImpl implements StatementPrinterInt {
+public class StatementPrinterImpl implements Printer<Statement> {
 
 	private final Provider<Printer<Assert>> AssertPrinter;
 	private final Provider<Printer<Block>> BlockPrinter;
@@ -54,15 +44,15 @@ public class StatementPrinterImpl implements StatementPrinterInt {
 	private final Provider<Printer<ExpressionStatement>> ExpressionStatementPrinter;
 	private final Provider<Printer<ForEachLoop>> ForEachLoopPrinter;
 	private final Provider<Printer<ForLoop>> ForLoopPrinter;
-	private final Provider<JumpLabelPrinterInt> JumpLabelPrinter;
-	private final Provider<LocalVariableStatementPrinterInt> LocalVariableStatementPrinter;
-	private final Provider<ReturnPrinterInt> ReturnPrinter;
-	private final Provider<SwitchPrinterInt> SwitchPrinter;
-	private final Provider<SynchronizedBlockPrinterInt> SynchronizedBlockPrinter;
-	private final Provider<ThrowPrinterInt> ThrowPrinter;
-	private final Provider<TryBlockPrinterInt> TryBlockPrinter;
-	private final Provider<WhileLoopPrinterInt> WhileLoopPrinter;
-	private final Provider<YieldStatementPrinterInt> YieldStatementPrinter;
+	private final Provider<Printer<JumpLabel>> JumpLabelPrinter;
+	private final Provider<Printer<LocalVariableStatement>> LocalVariableStatementPrinter;
+	private final Provider<Printer<Return>> ReturnPrinter;
+	private final Provider<Printer<Switch>> SwitchPrinter;
+	private final Provider<Printer<SynchronizedBlock>> SynchronizedBlockPrinter;
+	private final Provider<Printer<Throw>> ThrowPrinter;
+	private final Provider<Printer<TryBlock>> TryBlockPrinter;
+	private final Provider<Printer<WhileLoop>> WhileLoopPrinter;
+	private final Provider<Printer<YieldStatement>> YieldStatementPrinter;
 
 	@Inject
 	public StatementPrinterImpl(Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter,
@@ -71,12 +61,12 @@ public class StatementPrinterImpl implements StatementPrinterInt {
 			Provider<Printer<ExpressionStatement>> expressionStatementPrinter,
 			Provider<Printer<ForLoop>> forLoopPrinter, Provider<Printer<ForEachLoop>> forEachLoopPrinter,
 			Provider<Printer<Break>> breakPrinter, Provider<Printer<Continue>> continuePrinter,
-			Provider<JumpLabelPrinterInt> jumpLabelPrinter,
-			Provider<LocalVariableStatementPrinterInt> localVariableStatementPrinter,
-			Provider<ReturnPrinterInt> returnPrinter, Provider<SwitchPrinterInt> switchPrinter,
-			Provider<SynchronizedBlockPrinterInt> synchronizedBlockPrinter, Provider<ThrowPrinterInt> throwPrinter,
-			Provider<TryBlockPrinterInt> tryBlockPrinter, Provider<Printer<DoWhileLoop>> doWhileLoopPrinter,
-			Provider<WhileLoopPrinterInt> whileLoopPrinter, Provider<YieldStatementPrinterInt> yieldStatementPrinter) {
+			Provider<Printer<JumpLabel>> jumpLabelPrinter,
+			Provider<Printer<LocalVariableStatement>> localVariableStatementPrinter,
+			Provider<Printer<Return>> returnPrinter, Provider<Printer<Switch>> switchPrinter,
+			Provider<Printer<SynchronizedBlock>> synchronizedBlockPrinter, Provider<Printer<Throw>> throwPrinter,
+			Provider<Printer<TryBlock>> tryBlockPrinter, Provider<Printer<DoWhileLoop>> doWhileLoopPrinter,
+			Provider<Printer<WhileLoop>> whileLoopPrinter, Provider<Printer<YieldStatement>> yieldStatementPrinter) {
 		ConcreteClassifierPrinter = concreteClassifierPrinter;
 		AssertPrinter = assertPrinter;
 		BlockPrinter = blockPrinter;

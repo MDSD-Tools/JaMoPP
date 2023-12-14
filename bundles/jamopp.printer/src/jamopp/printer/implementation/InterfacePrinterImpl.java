@@ -4,28 +4,26 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Interface;
+import org.emftext.language.java.generics.TypeParametrizable;
+import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.InterfacePrinterInt;
-import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
-import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class InterfacePrinterImpl implements InterfacePrinterInt {
+public class InterfacePrinterImpl implements Printer<Interface> {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
-	private final MemberContainerPrinterInt MemberContainerPrinter;
+	private final Printer<MemberContainer> MemberContainerPrinter;
+	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
 	public InterfacePrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
-			MemberContainerPrinterInt memberContainerPrinter) {
+			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<TypeReference> typeReferencePrinter,
+			Printer<MemberContainer> memberContainerPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
@@ -41,7 +39,7 @@ public class InterfacePrinterImpl implements InterfacePrinterInt {
 		if (!element.getExtends().isEmpty()) {
 			writer.append("extends ");
 			TypeReferencePrinter.print(element.getExtends().get(0), writer);
-			for (int index = 1; index < element.getExtends().size(); index++) {
+			for (var index = 1; index < element.getExtends().size(); index++) {
 				writer.append(", ");
 				TypeReferencePrinter.print(element.getExtends().get(index), writer);
 			}

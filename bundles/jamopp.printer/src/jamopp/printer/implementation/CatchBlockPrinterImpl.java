@@ -10,14 +10,11 @@ import org.emftext.language.java.statements.CatchBlock;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.BlockPrinterInt;
-import jamopp.printer.interfaces.printer.CatchBlockPrinterInt;
-import jamopp.printer.interfaces.printer.CatchParameterPrinterInt;
 
 public class CatchBlockPrinterImpl implements Printer<CatchBlock> {
 
-	private final Printer<CatchParameter> CatchParameterPrinter;
 	private final Printer<Block> BlockPrinter;
+	private final Printer<CatchParameter> CatchParameterPrinter;
 
 	@Inject
 	public CatchBlockPrinterImpl(Printer<CatchParameter> catchParameterPrinter, Printer<Block> blockPrinter) {

@@ -10,18 +10,15 @@ import org.emftext.language.java.modifiers.Modifier;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotationInstanceOrModifierPrinterInt;
-import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
-import jamopp.printer.interfaces.printer.ModifierPrinterInt;
 
 public class AnnotationInstanceOrModifierPrinterImpl implements Printer<AnnotationInstanceOrModifier> {
 
 	private final Printer<AnnotationInstance> AnnotationInstancePrinter;
-	private final ModifierPrinterInt ModifierPrinter;
+	private final Printer<Modifier> ModifierPrinter;
 
 	@Inject
 	public AnnotationInstanceOrModifierPrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
-			ModifierPrinterInt modifierPrinter) {
+			Printer<Modifier> modifierPrinter) {
 		AnnotationInstancePrinter = annotationInstancePrinter;
 		ModifierPrinter = modifierPrinter;
 	}

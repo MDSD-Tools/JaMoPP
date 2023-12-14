@@ -4,23 +4,22 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.SuffixUnaryModificationExpression;
+import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
+import org.emftext.language.java.operators.UnaryModificationOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.SuffixUnaryModificationExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryModificationExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryModificationOperatorPrinterInt;
+public class SuffixUnaryModificationExpressionPrinterImpl implements Printer<SuffixUnaryModificationExpression> {
 
-public class SuffixUnaryModificationExpressionPrinterImpl implements SuffixUnaryModificationExpressionPrinterInt {
-
-	private final UnaryModificationExpressionChildPrinterInt UnaryModificationExpressionChildPrinter;
-	private final UnaryModificationOperatorPrinterInt UnaryModificationOperatorPrinter;
+	private final Printer<UnaryModificationExpressionChild> UnaryModificationExpressionChildPrinter;
+	private final Printer<UnaryModificationOperator> UnaryModificationOperatorPrinter;
 
 	@Inject
 	public SuffixUnaryModificationExpressionPrinterImpl(
-			UnaryModificationExpressionChildPrinterInt unaryModificationExpressionChildPrinter,
-			UnaryModificationOperatorPrinterInt unaryModificationOperatorPrinter) {
+			Printer<UnaryModificationExpressionChild> unaryModificationExpressionChildPrinter,
+			Printer<UnaryModificationOperator> unaryModificationOperatorPrinter) {
 		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
 		UnaryModificationOperatorPrinter = unaryModificationOperatorPrinter;
 	}

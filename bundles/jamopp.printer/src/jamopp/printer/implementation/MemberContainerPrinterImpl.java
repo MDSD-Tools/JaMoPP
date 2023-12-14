@@ -8,16 +8,14 @@ import org.emftext.language.java.members.MemberContainer;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
-import jamopp.printer.interfaces.printer.MemberPrinterInt;
+public class MemberContainerPrinterImpl implements Printer<MemberContainer> {
 
-public class MemberContainerPrinterImpl implements MemberContainerPrinterInt {
-
-	private final MemberPrinterInt MemberPrinter;
+	private final Printer<Member> MemberPrinter;
 
 	@Inject
-	public MemberContainerPrinterImpl(MemberPrinterInt memberPrinter) {
+	public MemberContainerPrinterImpl(Printer<Member> memberPrinter) {
 		MemberPrinter = memberPrinter;
 	}
 

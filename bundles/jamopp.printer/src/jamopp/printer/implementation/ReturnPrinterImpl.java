@@ -9,9 +9,8 @@ import org.emftext.language.java.statements.Return;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ReturnPrinterInt;
 
-public class ReturnPrinterImpl implements ReturnPrinterInt {
+public class ReturnPrinterImpl implements Printer<Return> {
 
 	private final Printer<Expression> ExpressionPrinter;
 

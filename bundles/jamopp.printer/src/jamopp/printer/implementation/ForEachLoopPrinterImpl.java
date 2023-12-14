@@ -4,23 +4,23 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.statements.ForEachLoop;
+import org.emftext.language.java.statements.Statement;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class ForEachLoopPrinterImpl implements Printer<ForEachLoop> {
 
 	private final Printer<Expression> ExpressionPrinter;
-	private final OrdinaryParameterPrinterInt OrdinaryParameterPrinter;
-	private final StatementPrinterInt StatementPrinter;
+	private final Printer<OrdinaryParameter> OrdinaryParameterPrinter;
+	private final Printer<Statement> StatementPrinter;
 
 	@Inject
-	public ForEachLoopPrinterImpl(OrdinaryParameterPrinterInt ordinaryParameterPrinter,
-			Printer<Expression> expressionPrinter, StatementPrinterInt statementPrinter) {
+	public ForEachLoopPrinterImpl(Printer<OrdinaryParameter> ordinaryParameterPrinter,
+			Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
 		OrdinaryParameterPrinter = ordinaryParameterPrinter;
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;

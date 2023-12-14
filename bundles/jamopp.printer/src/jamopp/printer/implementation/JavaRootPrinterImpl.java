@@ -6,25 +6,21 @@ import java.io.IOException;
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
+import org.emftext.language.java.imports.ImportingElement;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.CompilationUnitPrinterInt;
-import jamopp.printer.interfaces.printer.ImportingElementPrinterInt;
-import jamopp.printer.interfaces.printer.JavaRootPrinterInt;
-import jamopp.printer.interfaces.printer.ModulePrinterInt;
 
-public class JavaRootPrinterImpl implements JavaRootPrinterInt {
+public class JavaRootPrinterImpl implements Printer<JavaRoot> {
 
-	private final ImportingElementPrinterInt ImportingElementPrinter;
-	private final ModulePrinterInt ModulePrinter;
 	private final Printer<Annotable> AnnotablePrinter;
 	private final Printer<CompilationUnit> CompilationUnitPrinter;
+	private final Printer<ImportingElement> ImportingElementPrinter;
+	private final Printer<org.emftext.language.java.containers.Module> ModulePrinter;
 
 	@Inject
-	public JavaRootPrinterImpl(ImportingElementPrinterInt importingElementPrinter, ModulePrinterInt modulePrinter,
+	public JavaRootPrinterImpl(Printer<ImportingElement> importingElementPrinter, Printer<org.emftext.language.java.containers.Module> modulePrinter,
 			Printer<Annotable> annotablePrinter, Printer<CompilationUnit> compilationUnitPrinter) {
 		ImportingElementPrinter = importingElementPrinter;
 		ModulePrinter = modulePrinter;

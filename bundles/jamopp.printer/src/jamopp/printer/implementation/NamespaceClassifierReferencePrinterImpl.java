@@ -9,10 +9,8 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ClassifierReferencePrinterInt;
-import jamopp.printer.interfaces.printer.NamespaceClassifierReferencePrinterInt;
 
-public class NamespaceClassifierReferencePrinterImpl implements NamespaceClassifierReferencePrinterInt {
+public class NamespaceClassifierReferencePrinterImpl implements Printer<NamespaceClassifierReference> {
 
 	private final Printer<ClassifierReference> ClassifierReferencePrinter;
 
@@ -27,12 +25,12 @@ public class NamespaceClassifierReferencePrinterImpl implements NamespaceClassif
 		if (!element.getNamespaces().isEmpty()) {
 			writer.append(".");
 		}
-		for (int index = 0; index < element.getClassifierReferences().size() - 1; index++) {
+		for (var index = 0; index < element.getClassifierReferences().size() - 1; index++) {
 			ClassifierReferencePrinter.print(element.getClassifierReferences().get(index), writer);
 			writer.append(".");
 		}
 		ClassifierReferencePrinter
-				.print(element.getClassifierReferences().get(element.getClassifierReferences().size() - 1), writer);
+		.print(element.getClassifierReferences().get(element.getClassifierReferences().size() - 1), writer);
 	}
 
 }

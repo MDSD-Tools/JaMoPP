@@ -12,24 +12,19 @@ import org.emftext.language.java.statements.Switch;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.CastExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.MethodReferenceExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.MethodReferenceExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.SwitchPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryModificationExpressionChildPrinterInt;
 
-public class UnaryModificationExpressionChildPrinterImpl implements UnaryModificationExpressionChildPrinterInt {
+public class UnaryModificationExpressionChildPrinterImpl implements Printer<UnaryModificationExpressionChild> {
 
-	private final SwitchPrinterInt SwitchPrinter;
 	private final Printer<CastExpression> CastExpressionPrinter;
-	private final MethodReferenceExpressionPrinterInt MethodReferenceExpressionPrinter;
-	private final MethodReferenceExpressionChildPrinterInt MethodReferenceExpressionChildPrinter;
+	private final Printer<MethodReferenceExpressionChild> MethodReferenceExpressionChildPrinter;
+	private final Printer<MethodReferenceExpression> MethodReferenceExpressionPrinter;
+	private final Printer<Switch> SwitchPrinter;
 
 	@Inject
-	public UnaryModificationExpressionChildPrinterImpl(SwitchPrinterInt switchPrinter,
+	public UnaryModificationExpressionChildPrinterImpl(Printer<Switch> switchPrinter,
 			Printer<CastExpression> castExpressionPrinter,
-			MethodReferenceExpressionPrinterInt methodReferenceExpressionPrinter,
-			MethodReferenceExpressionChildPrinterInt methodReferenceExpressionChildPrinter) {
+			Printer<MethodReferenceExpression> methodReferenceExpressionPrinter,
+			Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter) {
 		SwitchPrinter = switchPrinter;
 		CastExpressionPrinter = castExpressionPrinter;
 		MethodReferenceExpressionPrinter = methodReferenceExpressionPrinter;

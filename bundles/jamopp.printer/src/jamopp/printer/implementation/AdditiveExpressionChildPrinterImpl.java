@@ -10,18 +10,15 @@ import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AdditiveExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.MultiplicativeExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.MultiplicativeExpressionPrinterInt;
 
 public class AdditiveExpressionChildPrinterImpl implements Printer<AdditiveExpressionChild> {
 
-	private final MultiplicativeExpressionPrinterInt MultiplicativeExpressionPrinter;
-	private final MultiplicativeExpressionChildPrinterInt MultiplicativeExpressionChildPrinter;
+	private final Printer<MultiplicativeExpressionChild> MultiplicativeExpressionChildPrinter;
+	private final Printer<MultiplicativeExpression> MultiplicativeExpressionPrinter;
 
 	@Inject
-	public AdditiveExpressionChildPrinterImpl(MultiplicativeExpressionPrinterInt multiplicativeExpressionPrinter,
-			MultiplicativeExpressionChildPrinterInt multiplicativeExpressionChildPrinter) {
+	public AdditiveExpressionChildPrinterImpl(Printer<MultiplicativeExpression> multiplicativeExpressionPrinter,
+			Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter) {
 		MultiplicativeExpressionPrinter = multiplicativeExpressionPrinter;
 		MultiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
 	}

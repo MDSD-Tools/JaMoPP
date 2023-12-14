@@ -5,21 +5,19 @@ import java.io.IOException;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.generics.TypeParameter;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeParameterPrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class TypeParameterPrinterImpl implements TypeParameterPrinterInt {
+public class TypeParameterPrinterImpl implements Printer<TypeParameter> {
 
 	private final Printer<Annotable> AnnotablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-	public TypeParameterPrinterImpl(Printer<Annotable> annotablePrinter, TypeReferencePrinterInt typeReferencePrinter) {
+	public TypeParameterPrinterImpl(Printer<Annotable> annotablePrinter, Printer<TypeReference> typeReferencePrinter) {
 		AnnotablePrinter = annotablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 	}
@@ -31,7 +29,7 @@ public class TypeParameterPrinterImpl implements TypeParameterPrinterInt {
 		if (!element.getExtendTypes().isEmpty()) {
 			writer.append(" extends ");
 			TypeReferencePrinter.print(element.getExtendTypes().get(0), writer);
-			for (int index = 1; index < element.getExtendTypes().size(); index++) {
+			for (var index = 1; index < element.getExtendTypes().size(); index++) {
 				writer.append(" & ");
 				TypeReferencePrinter.print(element.getExtendTypes().get(index), writer);
 			}

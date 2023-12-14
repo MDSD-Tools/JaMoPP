@@ -9,8 +9,6 @@ import org.emftext.language.java.expressions.AndExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.AndExpressionPrinterInt;
 
 public class AndExpressionPrinterImpl implements Printer<AndExpression> {
 
@@ -24,7 +22,7 @@ public class AndExpressionPrinterImpl implements Printer<AndExpression> {
 	@Override
 	public void print(AndExpression element, BufferedWriter writer) throws IOException {
 		AndExpressionChildPrinter.print(element.getChildren().get(0), writer);
-		for (int index = 1; index < element.getChildren().size(); index++) {
+		for (var index = 1; index < element.getChildren().size(); index++) {
 			writer.append(" & ");
 			AndExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}

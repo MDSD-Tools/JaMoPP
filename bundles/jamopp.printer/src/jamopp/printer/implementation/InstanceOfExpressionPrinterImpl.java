@@ -6,24 +6,22 @@ import java.util.List;
 
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.expressions.InstanceOfExpression;
+import org.emftext.language.java.expressions.InstanceOfExpressionChild;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.InstanceOfExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.InstanceOfExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class InstanceOfExpressionPrinterImpl implements InstanceOfExpressionPrinterInt {
+public class InstanceOfExpressionPrinterImpl implements Printer<InstanceOfExpression> {
 
-	private final InstanceOfExpressionChildPrinterInt InstanceOfExpressionChildPrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<InstanceOfExpressionChild> InstanceOfExpressionChildPrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-	public InstanceOfExpressionPrinterImpl(InstanceOfExpressionChildPrinterInt instanceOfExpressionChildPrinter,
-			TypeReferencePrinterInt typeReferencePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
+	public InstanceOfExpressionPrinterImpl(Printer<InstanceOfExpressionChild> instanceOfExpressionChildPrinter,
+			Printer<TypeReference> typeReferencePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		InstanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;

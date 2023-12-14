@@ -4,23 +4,22 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.PrefixUnaryModificationExpression;
+import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
+import org.emftext.language.java.operators.UnaryModificationOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.PrefixUnaryModificationExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryModificationExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryModificationOperatorPrinterInt;
+public class PrefixUnaryModificationExpressionPrinterImpl implements Printer<PrefixUnaryModificationExpression> {
 
-public class PrefixUnaryModificationExpressionPrinterImpl implements PrefixUnaryModificationExpressionPrinterInt {
-
-	private final UnaryModificationOperatorPrinterInt UnaryModificationOperatorPrinter;
-	private final UnaryModificationExpressionChildPrinterInt UnaryModificationExpressionChildPrinter;
+	private final Printer<UnaryModificationExpressionChild> UnaryModificationExpressionChildPrinter;
+	private final Printer<UnaryModificationOperator> UnaryModificationOperatorPrinter;
 
 	@Inject
 	public PrefixUnaryModificationExpressionPrinterImpl(
-			UnaryModificationOperatorPrinterInt unaryModificationOperatorPrinter,
-			UnaryModificationExpressionChildPrinterInt unaryModificationExpressionChildPrinter) {
+			Printer<UnaryModificationOperator> unaryModificationOperatorPrinter,
+			Printer<UnaryModificationExpressionChild> unaryModificationExpressionChildPrinter) {
 		UnaryModificationOperatorPrinter = unaryModificationOperatorPrinter;
 		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
 	}

@@ -9,9 +9,8 @@ import org.emftext.language.java.statements.Throw;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ThrowPrinterInt;
 
-public class ThrowPrinterImpl implements ThrowPrinterInt {
+public class ThrowPrinterImpl implements Printer<Throw> {
 
 	private final Printer<Expression> ExpressionPrinter;
 

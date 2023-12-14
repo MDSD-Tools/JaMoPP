@@ -6,30 +6,26 @@ import java.util.List;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.parameters.VariableLengthParameter;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
-import jamopp.printer.interfaces.printer.VariableLengthParameterPrinterInt;
 
-public class VariableLengthParameterPrinterImpl implements VariableLengthParameterPrinterInt {
+public class VariableLengthParameterPrinterImpl implements Printer<VariableLengthParameter> {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
-	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
-	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
 	private final Printer<Annotable> AnnotablePrinter;
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
 	public VariableLengthParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
+			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Annotable> annotablePrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

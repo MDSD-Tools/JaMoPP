@@ -3,7 +3,6 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationParameterList;
 import org.emftext.language.java.annotations.AnnotationValue;
@@ -13,8 +12,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
-import jamopp.printer.interfaces.printer.AnnotationValuePrinterInt;
 
 public class AnnotationInstancePrinterImpl implements Printer<AnnotationInstance> {
 
@@ -34,9 +31,9 @@ public class AnnotationInstancePrinterImpl implements Printer<AnnotationInstance
 				AnnotationValuePrinter.get().print(((SingleAnnotationParameter) element.getParameter()).getValue(),
 						writer);
 			} else {
-				AnnotationParameterList list = (AnnotationParameterList) element.getParameter();
-				for (int index = 0; index < list.getSettings().size(); index++) {
-					AnnotationAttributeSetting setting = list.getSettings().get(index);
+				var list = (AnnotationParameterList) element.getParameter();
+				for (var index = 0; index < list.getSettings().size(); index++) {
+					var setting = list.getSettings().get(index);
 					writer.append(setting.getAttribute().getName() + " = ");
 					AnnotationValuePrinter.get().print(setting.getValue(), writer);
 					if (index < list.getSettings().size() - 1) {

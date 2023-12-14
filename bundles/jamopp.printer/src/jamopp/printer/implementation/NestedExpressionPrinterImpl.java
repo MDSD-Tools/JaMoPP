@@ -9,9 +9,8 @@ import org.emftext.language.java.expressions.NestedExpression;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.NestedExpressionPrinterInt;
 
-public class NestedExpressionPrinterImpl implements NestedExpressionPrinterInt {
+public class NestedExpressionPrinterImpl implements Printer<NestedExpression> {
 
 	private final Printer<Expression> ExpressionPrinter;
 

@@ -6,36 +6,35 @@ import java.util.List;
 
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.generics.TypeParametrizable;
 import org.emftext.language.java.members.ExceptionThrower;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import org.emftext.language.java.parameters.Parametrizable;
+import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.InterfaceMethodPrinterInt;
-import jamopp.printer.interfaces.printer.ParametrizablePrinterInt;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
-import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class InterfaceMethodPrinterImpl implements InterfaceMethodPrinterInt {
+public class InterfaceMethodPrinterImpl implements Printer<InterfaceMethod>  {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
 	private final Printer<AnnotationValue> AnnotationValuePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
 	private final Printer<ExceptionThrower> ExceptionThrowerPrinter;
-	private final ParametrizablePrinterInt ParametrizablePrinter;
-	private final StatementPrinterInt StatementPrinter;
-	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<Parametrizable> ParametrizablePrinter;
+	private final Printer<Statement> StatementPrinter;
+	private final Printer<TypeParametrizable> TypeParametrizablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
 	public InterfaceMethodPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter, ParametrizablePrinterInt parametrizablePrinter,
+			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<TypeReference> typeReferencePrinter,
+			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Parametrizable> parametrizablePrinter,
 			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<AnnotationValue> annotationValuePrinter,
-			StatementPrinterInt statementPrinter) {
+			Printer<Statement> statementPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

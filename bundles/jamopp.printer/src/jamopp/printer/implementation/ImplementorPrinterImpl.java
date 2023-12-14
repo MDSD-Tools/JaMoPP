@@ -4,19 +4,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.classifiers.Implementor;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.ImplementorPrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
+public class ImplementorPrinterImpl implements Printer<Implementor> {
 
-public class ImplementorPrinterImpl implements ImplementorPrinterInt {
-
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-	public ImplementorPrinterImpl(TypeReferencePrinterInt typeReferencePrinter) {
+	public ImplementorPrinterImpl(Printer<TypeReference> typeReferencePrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 
@@ -25,7 +24,7 @@ public class ImplementorPrinterImpl implements ImplementorPrinterInt {
 		if (!element.getImplements().isEmpty()) {
 			writer.append("implements ");
 			TypeReferencePrinter.print(element.getImplements().get(0), writer);
-			for (int index = 1; index < element.getImplements().size(); index++) {
+			for (var index = 1; index < element.getImplements().size(); index++) {
 				writer.append(", ");
 				TypeReferencePrinter.print(element.getImplements().get(index), writer);
 			}

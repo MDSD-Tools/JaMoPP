@@ -10,23 +10,19 @@ import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.PrefixUnaryModificationExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.SuffixUnaryModificationExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.UnaryModificationExpressionChildPrinterInt;
+public class UnaryExpressionChildPrinterImpl implements Printer<UnaryExpressionChild> {
 
-public class UnaryExpressionChildPrinterImpl implements UnaryExpressionChildPrinterInt {
-
-	private final PrefixUnaryModificationExpressionPrinterInt PrefixUnaryModificationExpressionPrinter;
-	private final SuffixUnaryModificationExpressionPrinterInt SuffixUnaryModificationExpressionPrinter;
-	private final UnaryModificationExpressionChildPrinterInt UnaryModificationExpressionChildPrinter;
+	private final Printer<PrefixUnaryModificationExpression> PrefixUnaryModificationExpressionPrinter;
+	private final Printer<SuffixUnaryModificationExpression> SuffixUnaryModificationExpressionPrinter;
+	private final Printer<UnaryModificationExpressionChild> UnaryModificationExpressionChildPrinter;
 
 	@Inject
 	public UnaryExpressionChildPrinterImpl(
-			PrefixUnaryModificationExpressionPrinterInt prefixUnaryModificationExpressionPrinter,
-			SuffixUnaryModificationExpressionPrinterInt suffixUnaryModificationExpressionPrinter,
-			UnaryModificationExpressionChildPrinterInt unaryModificationExpressionChildPrinter) {
+			Printer<PrefixUnaryModificationExpression> prefixUnaryModificationExpressionPrinter,
+			Printer<SuffixUnaryModificationExpression> suffixUnaryModificationExpressionPrinter,
+			Printer<UnaryModificationExpressionChild> unaryModificationExpressionChildPrinter) {
 		PrefixUnaryModificationExpressionPrinter = prefixUnaryModificationExpressionPrinter;
 		SuffixUnaryModificationExpressionPrinter = suffixUnaryModificationExpressionPrinter;
 		UnaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;

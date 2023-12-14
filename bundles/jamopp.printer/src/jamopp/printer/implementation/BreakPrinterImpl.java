@@ -6,9 +6,8 @@ import java.io.IOException;
 import org.emftext.language.java.statements.Break;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.BreakPrinterInt;
 
-public class BreakPrinterImpl implements Printer<Break>{
+public class BreakPrinterImpl implements Printer<Break> {
 
 	@Override
 	public void print(Break element, BufferedWriter writer) throws IOException {

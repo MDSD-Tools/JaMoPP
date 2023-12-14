@@ -6,10 +6,9 @@ import java.io.IOException;
 import org.emftext.language.java.operators.PlusPlus;
 import org.emftext.language.java.operators.UnaryModificationOperator;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.UnaryModificationOperatorPrinterInt;
-
-public class UnaryModificationOperatorPrinterImpl implements UnaryModificationOperatorPrinterInt{
+public class UnaryModificationOperatorPrinterImpl implements Printer<UnaryModificationOperator>{
 
 	@Override
 	public void print(UnaryModificationOperator element, BufferedWriter writer)

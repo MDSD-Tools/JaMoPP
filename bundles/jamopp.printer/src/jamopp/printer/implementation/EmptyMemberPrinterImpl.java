@@ -3,7 +3,7 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import jamopp.printer.interfaces.printer.EmptyMemberPrinterInt;
+import jamopp.printer.interfaces.EmptyMemberPrinterInt;
 
 public class EmptyMemberPrinterImpl implements EmptyMemberPrinterInt {
 

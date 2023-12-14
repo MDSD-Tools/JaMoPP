@@ -6,15 +6,15 @@ import java.util.List;
 
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class FieldPrinterImpl implements Printer<Field> {
 
@@ -22,12 +22,12 @@ public class FieldPrinterImpl implements Printer<Field> {
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
 	private final Printer<Expression> ExpressionPrinter;
-	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
 	public FieldPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
+			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter,
 			Printer<AdditionalField> additionalFieldPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;

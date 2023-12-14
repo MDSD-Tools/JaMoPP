@@ -4,19 +4,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.statements.LocalVariableStatement;
+import org.emftext.language.java.variables.LocalVariable;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.LocalVariablePrinterInt;
-import jamopp.printer.interfaces.printer.LocalVariableStatementPrinterInt;
+public class LocalVariableStatementPrinterImpl implements Printer<LocalVariableStatement> {
 
-public class LocalVariableStatementPrinterImpl implements LocalVariableStatementPrinterInt {
-
-	private final LocalVariablePrinterInt LocalVariablePrinter;
+	private final Printer<LocalVariable> LocalVariablePrinter;
 
 	@Inject
-	public LocalVariableStatementPrinterImpl(LocalVariablePrinterInt localVariablePrinter) {
+	public LocalVariableStatementPrinterImpl(Printer<LocalVariable> localVariablePrinter) {
 		LocalVariablePrinter = localVariablePrinter;
 	}
 

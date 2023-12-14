@@ -5,22 +5,21 @@ import java.io.IOException;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.LambdaExpression;
+import org.emftext.language.java.expressions.LambdaParameters;
 import org.emftext.language.java.statements.Block;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.LambdaExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.LambdaParametersPrinterInt;
 
-public class LambdaExpressionPrinterImpl implements LambdaExpressionPrinterInt {
+public class LambdaExpressionPrinterImpl implements Printer<LambdaExpression> {
 
 	private final Printer<Block> BlockPrinter;
 	private final Printer<Expression> ExpressionPrinter;
-	private final LambdaParametersPrinterInt LambdaParametersPrinter;
+	private final Printer<LambdaParameters> LambdaParametersPrinter;
 
 	@Inject
-	public LambdaExpressionPrinterImpl(LambdaParametersPrinterInt lambdaParametersPrinter, Printer<Block> blockPrinter,
+	public LambdaExpressionPrinterImpl(Printer<LambdaParameters> lambdaParametersPrinter, Printer<Block> blockPrinter,
 			Printer<Expression> expressionPrinter) {
 		LambdaParametersPrinter = lambdaParametersPrinter;
 		BlockPrinter = blockPrinter;

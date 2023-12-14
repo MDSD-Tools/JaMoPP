@@ -3,7 +3,7 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import jamopp.printer.interfaces.printer.ReflectiveClassReferencePrinterInt;
+import jamopp.printer.interfaces.ReflectiveClassReferencePrinterInt;
 
 public class ReflectiveClassReferencePrinterImpl implements  ReflectiveClassReferencePrinterInt {
 

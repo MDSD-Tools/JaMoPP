@@ -13,25 +13,20 @@ import org.emftext.language.java.modules.UsesModuleDirective;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ModulePrinterInt;
-import jamopp.printer.interfaces.printer.OpensModuleDirectivePrinterInt;
-import jamopp.printer.interfaces.printer.ProvidesModuleDirectivePrinterInt;
-import jamopp.printer.interfaces.printer.RequiresModuleDirectivePrinterInt;
-import jamopp.printer.interfaces.printer.UsesModuleDirectivePrinterInt;
 
-public class ModulePrinterImpl implements ModulePrinterInt {
+public class ModulePrinterImpl implements Printer<org.emftext.language.java.containers.Module> {
 
 	private final Printer<ExportsModuleDirective> ExportsModuleDirectivePrinter;
-	private final OpensModuleDirectivePrinterInt OpensModuleDirectivePrinter;
-	private final ProvidesModuleDirectivePrinterInt ProvidesModuleDirectivePrinter;
-	private final RequiresModuleDirectivePrinterInt RequiresModuleDirectivePrinter;
-	private final UsesModuleDirectivePrinterInt UsesModuleDirectivePrinter;
+	private final Printer<OpensModuleDirective> OpensModuleDirectivePrinter;
+	private final Printer<ProvidesModuleDirective> ProvidesModuleDirectivePrinter;
+	private final Printer<RequiresModuleDirective> RequiresModuleDirectivePrinter;
+	private final Printer<UsesModuleDirective> UsesModuleDirectivePrinter;
 
 	@Inject
-	public ModulePrinterImpl(UsesModuleDirectivePrinterInt usesModuleDirectivePrinter,
-			ProvidesModuleDirectivePrinterInt providesModuleDirectivePrinter,
-			RequiresModuleDirectivePrinterInt requiresModuleDirectivePrinter,
-			OpensModuleDirectivePrinterInt opensModuleDirectivePrinter,
+	public ModulePrinterImpl(Printer<UsesModuleDirective> usesModuleDirectivePrinter,
+			Printer<ProvidesModuleDirective> providesModuleDirectivePrinter,
+			Printer<RequiresModuleDirective> requiresModuleDirectivePrinter,
+			Printer<OpensModuleDirective> opensModuleDirectivePrinter,
 			Printer<ExportsModuleDirective> exportsModuleDirectivePrinter) {
 		UsesModuleDirectivePrinter = usesModuleDirectivePrinter;
 		ProvidesModuleDirectivePrinter = providesModuleDirectivePrinter;

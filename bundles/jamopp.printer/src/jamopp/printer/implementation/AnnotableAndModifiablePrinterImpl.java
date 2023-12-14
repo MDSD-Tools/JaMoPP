@@ -9,8 +9,6 @@ import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.AnnotationInstanceOrModifierPrinterInt;
 
 public class AnnotableAndModifiablePrinterImpl implements Printer<AnnotableAndModifiable> {
 
@@ -29,3 +27,4 @@ public class AnnotableAndModifiablePrinterImpl implements Printer<AnnotableAndMo
 	}
 
 }
+

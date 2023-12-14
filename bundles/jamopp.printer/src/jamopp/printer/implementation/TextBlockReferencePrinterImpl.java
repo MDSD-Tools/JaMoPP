@@ -5,10 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.references.TextBlockReference;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.TextBlockReferencePrinterInt;
-
-public class TextBlockReferencePrinterImpl implements TextBlockReferencePrinterInt{
+public class TextBlockReferencePrinterImpl implements Printer<TextBlockReference>{
 
 	@Override
 	public void print(TextBlockReference element, BufferedWriter writer) throws IOException {

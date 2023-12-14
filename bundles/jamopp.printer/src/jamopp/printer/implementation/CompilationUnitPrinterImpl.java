@@ -9,8 +9,6 @@ import org.emftext.language.java.containers.CompilationUnit;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.CompilationUnitPrinterInt;
-import jamopp.printer.interfaces.printer.ConcreteClassifierPrinterInt;
 
 public class CompilationUnitPrinterImpl implements Printer<CompilationUnit> {
 

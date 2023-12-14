@@ -11,24 +11,24 @@ import org.emftext.language.java.arrays.ArrayInstantiationBySize;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesUntyped;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.generics.TypeArgumentable;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation> {
 
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
 	private final Printer<ArrayInitializer> ArrayInitializerPrinter;
 	private final Printer<Expression> ExpressionPrinter;
-	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-	public ArrayInstantiationPrinterImpl(TypeReferencePrinterInt typeReferencePrinter,
-			TypeArgumentablePrinterInt typeArgumentablePrinter, Printer<Expression> expressionPrinter,
+	public ArrayInstantiationPrinterImpl(Printer<TypeReference> typeReferencePrinter,
+			Printer<TypeArgumentable> typeArgumentablePrinter, Printer<Expression> expressionPrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<ArrayInitializer> arrayInitializerPrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;

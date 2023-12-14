@@ -12,17 +12,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.LambdaExpressionPrinterInt;
 
-public class ExpressionPrinterImpl implements ExpressionPrinterInt {
+public class ExpressionPrinterImpl implements Printer<Expression> {
 
 	private final Provider<Printer<AssignmentExpressionChild>> AssignmentExpressionChildPrinter;
 	private final Provider<Printer<AssignmentExpression>> AssignmentExpressionPrinter;
-	private final Provider<LambdaExpressionPrinterInt> LambdaExpressionPrinter;
+	private final Provider<Printer<LambdaExpression>> LambdaExpressionPrinter;
 
 	@Inject
-	public ExpressionPrinterImpl(Provider<LambdaExpressionPrinterInt> lambdaExpressionPrinter,
+	public ExpressionPrinterImpl(Provider<Printer<LambdaExpression>> lambdaExpressionPrinter,
 			Provider<Printer<AssignmentExpression>> assignmentExpressionPrinter,
 			Provider<Printer<AssignmentExpressionChild>> assignmentExpressionChildPrinter) {
 		LambdaExpressionPrinter = lambdaExpressionPrinter;

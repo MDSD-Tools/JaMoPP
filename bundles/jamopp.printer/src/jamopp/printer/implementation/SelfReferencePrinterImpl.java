@@ -3,20 +3,19 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.literals.Self;
 import org.emftext.language.java.references.SelfReference;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.SelfPrinterInt;
-import jamopp.printer.interfaces.printer.SelfReferencePrinterInt;
+public class SelfReferencePrinterImpl implements Printer<SelfReference> {
 
-public class SelfReferencePrinterImpl implements SelfReferencePrinterInt {
-
-	private final SelfPrinterInt SelfPrinter;
+	private final Printer<Self> SelfPrinter;
 
 	@Inject
-	public SelfReferencePrinterImpl(SelfPrinterInt selfPrinter) {
+	public SelfReferencePrinterImpl(Printer<Self> selfPrinter) {
 		SelfPrinter = selfPrinter;
 	}
 

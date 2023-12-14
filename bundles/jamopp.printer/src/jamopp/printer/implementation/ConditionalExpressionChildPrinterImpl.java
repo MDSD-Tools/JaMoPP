@@ -10,14 +10,11 @@ import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ConditionalExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.ConditionalOrExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.ConditionalOrExpressionPrinterInt;
 
 public class ConditionalExpressionChildPrinterImpl implements Printer<ConditionalExpressionChild> {
 
-	private final Printer<ConditionalOrExpression> ConditionalOrExpressionPrinter;
 	private final Printer<ConditionalOrExpressionChild> ConditionalOrExpressionChildPrinter;
+	private final Printer<ConditionalOrExpression> ConditionalOrExpressionPrinter;
 
 	@Inject
 	public ConditionalExpressionChildPrinterImpl(Printer<ConditionalOrExpression> conditionalOrExpressionPrinter,

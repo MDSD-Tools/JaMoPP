@@ -4,22 +4,21 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.RelationExpression;
+import org.emftext.language.java.expressions.RelationExpressionChild;
+import org.emftext.language.java.operators.RelationOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.RelationExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.RelationExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.RelationOperatorPrinterInt;
+public class RelationExpressionPrinterImpl implements Printer<RelationExpression> {
 
-public class RelationExpressionPrinterImpl implements RelationExpressionPrinterInt {
-
-	private final RelationExpressionChildPrinterInt RelationExpressionChildPrinter;
-	private final RelationOperatorPrinterInt RelationOperatorPrinter;
+	private final Printer<RelationExpressionChild> RelationExpressionChildPrinter;
+	private final Printer<RelationOperator> RelationOperatorPrinter;
 
 	@Inject
-	public RelationExpressionPrinterImpl(RelationExpressionChildPrinterInt relationExpressionChildPrinter,
-			RelationOperatorPrinterInt relationOperatorPrinter) {
+	public RelationExpressionPrinterImpl(Printer<RelationExpressionChild> relationExpressionChildPrinter,
+			Printer<RelationOperator> relationOperatorPrinter) {
 		RelationExpressionChildPrinter = relationExpressionChildPrinter;
 		RelationOperatorPrinter = relationOperatorPrinter;
 	}
@@ -27,7 +26,7 @@ public class RelationExpressionPrinterImpl implements RelationExpressionPrinterI
 	@Override
 	public void print(RelationExpression element, BufferedWriter writer) throws IOException {
 		RelationExpressionChildPrinter.print(element.getChildren().get(0), writer);
-		for (int index = 1; index < element.getChildren().size(); index++) {
+		for (var index = 1; index < element.getChildren().size(); index++) {
 			RelationOperatorPrinter.print(element.getRelationOperators().get(index - 1), writer);
 			RelationExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}

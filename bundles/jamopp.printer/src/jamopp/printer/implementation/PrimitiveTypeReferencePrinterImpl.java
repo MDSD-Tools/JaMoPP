@@ -6,21 +6,19 @@ import java.util.List;
 
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.references.PrimitiveTypeReference;
+import org.emftext.language.java.types.PrimitiveType;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.PrimitiveTypePrinterInt;
-import jamopp.printer.interfaces.printer.PrimitiveTypeReferencePrinterInt;
 
-public class PrimitiveTypeReferencePrinterImpl implements PrimitiveTypeReferencePrinterInt {
+public class PrimitiveTypeReferencePrinterImpl implements Printer<PrimitiveTypeReference> {
 
-	private final PrimitiveTypePrinterInt PrimitiveTypePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<PrimitiveType> PrimitiveTypePrinter;
 
 	@Inject
-	public PrimitiveTypeReferencePrinterImpl(PrimitiveTypePrinterInt primitiveTypePrinter,
+	public PrimitiveTypeReferencePrinterImpl(Printer<PrimitiveType> primitiveTypePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		PrimitiveTypePrinter = primitiveTypePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;

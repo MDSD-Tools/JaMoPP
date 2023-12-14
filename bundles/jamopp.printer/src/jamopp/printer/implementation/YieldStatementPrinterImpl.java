@@ -9,9 +9,8 @@ import org.emftext.language.java.statements.YieldStatement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.YieldStatementPrinterInt;
 
-public class YieldStatementPrinterImpl implements YieldStatementPrinterInt {
+public class YieldStatementPrinterImpl implements Printer<YieldStatement> {
 
 	private final Printer<Expression> ExpressionPrinter;
 

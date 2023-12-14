@@ -8,16 +8,14 @@ import org.emftext.language.java.imports.ImportingElement;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.ImportPrinterInt;
-import jamopp.printer.interfaces.printer.ImportingElementPrinterInt;
+public class ImportingElementPrinterImpl implements Printer<ImportingElement> {
 
-public class ImportingElementPrinterImpl implements ImportingElementPrinterInt {
-
-	private final ImportPrinterInt ImportPrinter;
+	private final Printer<Import> ImportPrinter;
 
 	@Inject
-	public ImportingElementPrinterImpl(ImportPrinterInt importPrinter) {
+	public ImportingElementPrinterImpl(Printer<Import> importPrinter) {
 		ImportPrinter = importPrinter;
 	}
 

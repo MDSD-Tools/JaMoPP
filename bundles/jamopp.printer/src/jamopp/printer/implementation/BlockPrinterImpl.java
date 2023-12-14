@@ -10,17 +10,14 @@ import org.emftext.language.java.statements.Statement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.BlockPrinterInt;
-import jamopp.printer.interfaces.printer.ModifierPrinterInt;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class BlockPrinterImpl implements Printer<Block> {
 
-	private final ModifierPrinterInt ModifierPrinter;
-	private final StatementPrinterInt StatementPrinter;
+	private final Printer<Modifier> ModifierPrinter;
+	private final Printer<Statement> StatementPrinter;
 
 	@Inject
-	public BlockPrinterImpl(ModifierPrinterInt modifierPrinter, StatementPrinterInt statementPrinter) {
+	public BlockPrinterImpl(Printer<Modifier> modifierPrinter, Printer<Statement> statementPrinter) {
 		ModifierPrinter = modifierPrinter;
 		StatementPrinter = statementPrinter;
 	}

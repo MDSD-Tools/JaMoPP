@@ -9,19 +9,16 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.RelationExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.ShiftExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.ShiftExpressionPrinterInt;
+public class RelationExpressionChildPrinterImpl implements Printer<RelationExpressionChild> {
 
-public class RelationExpressionChildPrinterImpl implements RelationExpressionChildPrinterInt {
-
-	private final ShiftExpressionPrinterInt ShiftExpressionPrinter;
-	private final ShiftExpressionChildPrinterInt ShiftExpressionChildPrinter;
+	private final Printer<ShiftExpressionChild> ShiftExpressionChildPrinter;
+	private final Printer<ShiftExpression> ShiftExpressionPrinter;
 
 	@Inject
-	public RelationExpressionChildPrinterImpl(ShiftExpressionPrinterInt shiftExpressionPrinter,
-			ShiftExpressionChildPrinterInt shiftExpressionChildPrinter) {
+	public RelationExpressionChildPrinterImpl(Printer<ShiftExpression> shiftExpressionPrinter,
+			Printer<ShiftExpressionChild> shiftExpressionChildPrinter) {
 		ShiftExpressionPrinter = shiftExpressionPrinter;
 		ShiftExpressionChildPrinter = shiftExpressionChildPrinter;
 	}

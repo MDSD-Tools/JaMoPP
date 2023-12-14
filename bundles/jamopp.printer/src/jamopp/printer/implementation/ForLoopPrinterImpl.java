@@ -6,21 +6,21 @@ import java.io.IOException;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.ForLoopInitializer;
+import org.emftext.language.java.statements.Statement;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class ForLoopPrinterImpl implements Printer<ForLoop> {
 
 	private final Printer<Expression> ExpressionPrinter;
 	private final Printer<ForLoopInitializer> ForLoopInitializerPrinter;
-	private final StatementPrinterInt StatementPrinter;
+	private final Printer<Statement> StatementPrinter;
 
 	@Inject
 	public ForLoopPrinterImpl(Printer<ForLoopInitializer> forLoopInitializerPrinter,
-			Printer<Expression> expressionPrinter, StatementPrinterInt statementPrinter) {
+			Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
 		ForLoopInitializerPrinter = forLoopInitializerPrinter;
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;

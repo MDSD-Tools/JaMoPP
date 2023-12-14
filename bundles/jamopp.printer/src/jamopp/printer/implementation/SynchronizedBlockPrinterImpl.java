@@ -10,9 +10,8 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.SynchronizedBlockPrinterInt;
 
-public class SynchronizedBlockPrinterImpl implements SynchronizedBlockPrinterInt {
+public class SynchronizedBlockPrinterImpl implements Printer<SynchronizedBlock> {
 
 	private final Printer<Block> BlockPrinter;
 	private final Printer<Expression> ExpressionPrinter;

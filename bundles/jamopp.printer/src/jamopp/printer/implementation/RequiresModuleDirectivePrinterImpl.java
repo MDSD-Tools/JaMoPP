@@ -6,10 +6,9 @@ import java.io.IOException;
 import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.RequiresModuleDirectivePrinterInt;
-
-public class RequiresModuleDirectivePrinterImpl implements RequiresModuleDirectivePrinterInt{
+public class RequiresModuleDirectivePrinterImpl implements Printer<RequiresModuleDirective>{
 
 	@Override
 	public void print(RequiresModuleDirective element, BufferedWriter writer)

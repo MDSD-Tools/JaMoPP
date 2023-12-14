@@ -4,19 +4,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.classifiers.AnonymousClass;
+import org.emftext.language.java.members.MemberContainer;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
-import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
 
 public class AnonymousClassPrinterImpl implements Printer<AnonymousClass> {
 
-	private final MemberContainerPrinterInt MemberContainerPrinter;
+	private final Printer<MemberContainer> MemberContainerPrinter;
 
 	@Inject
-	public AnonymousClassPrinterImpl(MemberContainerPrinterInt memberContainerPrinter) {
+	public AnonymousClassPrinterImpl(Printer<MemberContainer> memberContainerPrinter) {
 		MemberContainerPrinter = memberContainerPrinter;
 	}
 

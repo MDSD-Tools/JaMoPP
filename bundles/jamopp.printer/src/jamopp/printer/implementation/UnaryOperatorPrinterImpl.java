@@ -8,10 +8,9 @@ import org.emftext.language.java.operators.Negate;
 import org.emftext.language.java.operators.Subtraction;
 import org.emftext.language.java.operators.UnaryOperator;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.UnaryOperatorPrinterInt;
-
-public class UnaryOperatorPrinterImpl implements UnaryOperatorPrinterInt{
+public class UnaryOperatorPrinterImpl implements Printer<UnaryOperator>{
 
 	@Override
 	public void print(UnaryOperator element, BufferedWriter writer) throws IOException {

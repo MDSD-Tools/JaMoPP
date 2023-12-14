@@ -10,16 +10,14 @@ import org.emftext.language.java.statements.SwitchCase;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.SwitchCasePrinterInt;
-import jamopp.printer.interfaces.printer.SwitchPrinterInt;
 
-public class SwitchPrinterImpl implements SwitchPrinterInt {
+public class SwitchPrinterImpl implements Printer<Switch> {
 
 	private final Printer<Expression> ExpressionPrinter;
-	private final SwitchCasePrinterInt SwitchCasePrinter;
+	private final Printer<SwitchCase> SwitchCasePrinter;
 
 	@Inject
-	public SwitchPrinterImpl(Printer<Expression> expressionPrinter, SwitchCasePrinterInt switchCasePrinter) {
+	public SwitchPrinterImpl(Printer<Expression> expressionPrinter, Printer<SwitchCase> switchCasePrinter) {
 		ExpressionPrinter = expressionPrinter;
 		SwitchCasePrinter = switchCasePrinter;
 	}

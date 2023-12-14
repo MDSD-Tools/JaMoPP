@@ -6,29 +6,28 @@ import java.util.List;
 
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.LocalVariablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class LocalVariablePrinterImpl implements LocalVariablePrinterInt {
+public class LocalVariablePrinterImpl implements Printer<LocalVariable> {
 
 	private final Printer<AdditionalLocalVariable> AdditionalLocalVariablePrinter;
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
 	private final Printer<Expression> ExpressionPrinter;
-	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
 	public LocalVariablePrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
+			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter,
 			Printer<AdditionalLocalVariable> additionalLocalVariablePrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;

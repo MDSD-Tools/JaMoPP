@@ -5,10 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.RemainingAccessProvidingModuleDirectivePrinterInt;
-
-public class RemainingAccessProvidingModuleDirectivePrinterImpl implements RemainingAccessProvidingModuleDirectivePrinterInt{
+public class RemainingAccessProvidingModuleDirectivePrinterImpl implements Printer<AccessProvidingModuleDirective>{
 
 	@Override
 	public void print(AccessProvidingModuleDirective element,
@@ -17,7 +16,7 @@ public class RemainingAccessProvidingModuleDirectivePrinterImpl implements Remai
 		if (!element.getModules().isEmpty()) {
 			writer.append(" to ");
 			writer.append(element.getModules().get(0).getTarget().getNamespacesAsString());
-			for (int index = 1; index < element.getModules().size(); index++) {
+			for (var index = 1; index < element.getModules().size(); index++) {
 				writer.append(", ");
 				writer.append(element.getModules().get(index).getTarget().getNamespacesAsString());
 			}

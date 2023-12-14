@@ -11,23 +11,19 @@ import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.InferableTypePrinterInt;
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ClassifierReferencePrinterInt;
-import jamopp.printer.interfaces.printer.InferableTypePrinterInt;
-import jamopp.printer.interfaces.printer.NamespaceClassifierReferencePrinterInt;
-import jamopp.printer.interfaces.printer.PrimitiveTypePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class TypeReferencePrinterImpl implements TypeReferencePrinterInt {
+public class TypeReferencePrinterImpl implements Printer<TypeReference> {
 
-	private final NamespaceClassifierReferencePrinterInt NamespaceClassifierReferencePrinter;
 	private final Printer<ClassifierReference> ClassifierReferencePrinter;
-	private final PrimitiveTypePrinterInt PrimitiveTypePrinter;
 	private final InferableTypePrinterInt InferableTypePrinter;
+	private final Printer<NamespaceClassifierReference> NamespaceClassifierReferencePrinter;
+	private final Printer<PrimitiveType> PrimitiveTypePrinter;
 
 	@Inject
-	public TypeReferencePrinterImpl(NamespaceClassifierReferencePrinterInt namespaceClassifierReferencePrinter,
-			Printer<ClassifierReference> classifierReferencePrinter, PrimitiveTypePrinterInt primitiveTypePrinter,
+	public TypeReferencePrinterImpl(Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter,
+			Printer<ClassifierReference> classifierReferencePrinter, Printer<PrimitiveType> primitiveTypePrinter,
 			InferableTypePrinterInt inferableTypePrinter) {
 		NamespaceClassifierReferencePrinter = namespaceClassifierReferencePrinter;
 		ClassifierReferencePrinter = classifierReferencePrinter;

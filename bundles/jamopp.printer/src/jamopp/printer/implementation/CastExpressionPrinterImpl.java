@@ -12,16 +12,15 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class CastExpressionPrinterImpl implements Printer<CastExpression> {
 
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
 	private final Printer<Expression> ExpressionPrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-	public CastExpressionPrinterImpl(TypeReferencePrinterInt typeReferencePrinter,
+	public CastExpressionPrinterImpl(Printer<TypeReference> typeReferencePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;

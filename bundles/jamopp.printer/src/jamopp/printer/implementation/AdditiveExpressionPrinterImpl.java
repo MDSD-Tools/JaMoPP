@@ -10,9 +10,6 @@ import org.emftext.language.java.operators.AdditiveOperator;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AdditiveExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.AdditiveExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.AdditiveOperatorPrinterInt;
 
 public class AdditiveExpressionPrinterImpl implements Printer<AdditiveExpression> {
 
@@ -29,7 +26,7 @@ public class AdditiveExpressionPrinterImpl implements Printer<AdditiveExpression
 	@Override
 	public void print(AdditiveExpression element, BufferedWriter writer) throws IOException {
 		AdditiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
-		for (int index = 1; index < element.getChildren().size(); index++) {
+		for (var index = 1; index < element.getChildren().size(); index++) {
 			AdditiveOperatorPrinter.print(element.getAdditiveOperators().get(index - 1), writer);
 			AdditiveExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}

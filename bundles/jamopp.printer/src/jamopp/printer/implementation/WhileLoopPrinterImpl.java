@@ -4,21 +4,20 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.WhileLoop;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
-import jamopp.printer.interfaces.printer.WhileLoopPrinterInt;
 
-public class WhileLoopPrinterImpl implements WhileLoopPrinterInt {
+public class WhileLoopPrinterImpl implements Printer<WhileLoop> {
 
 	private final Printer<Expression> ExpressionPrinter;
-	private final StatementPrinterInt StatementPrinter;
+	private final Printer<Statement> StatementPrinter;
 
 	@Inject
-	public WhileLoopPrinterImpl(Printer<Expression> expressionPrinter, StatementPrinterInt statementPrinter) {
+	public WhileLoopPrinterImpl(Printer<Expression> expressionPrinter, Printer<Statement> statementPrinter) {
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;
 	}

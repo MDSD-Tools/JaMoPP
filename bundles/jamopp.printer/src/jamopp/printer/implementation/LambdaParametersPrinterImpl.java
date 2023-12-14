@@ -7,24 +7,20 @@ import org.emftext.language.java.expressions.ImplicitlyTypedLambdaParameters;
 import org.emftext.language.java.expressions.LambdaParameters;
 import org.emftext.language.java.expressions.SingleImplicitLambdaParameter;
 import org.emftext.language.java.parameters.OrdinaryParameter;
-import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.VariableLengthParameter;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.LambdaParametersPrinterInt;
-import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
-import jamopp.printer.interfaces.printer.VariableLengthParameterPrinterInt;
+public class LambdaParametersPrinterImpl implements Printer<LambdaParameters> {
 
-public class LambdaParametersPrinterImpl implements LambdaParametersPrinterInt {
-
-	private final OrdinaryParameterPrinterInt OrdinaryParameterPrinter;
-	private final VariableLengthParameterPrinterInt VariableLengthParameterPrinter;
+	private final Printer<OrdinaryParameter> OrdinaryParameterPrinter;
+	private final Printer<VariableLengthParameter> VariableLengthParameterPrinter;
 
 	@Inject
-	public LambdaParametersPrinterImpl(OrdinaryParameterPrinterInt ordinaryParameterPrinter,
-			VariableLengthParameterPrinterInt variableLengthParameterPrinter) {
+	public LambdaParametersPrinterImpl(Printer<OrdinaryParameter> ordinaryParameterPrinter,
+			Printer<VariableLengthParameter> variableLengthParameterPrinter) {
 		OrdinaryParameterPrinter = ordinaryParameterPrinter;
 		VariableLengthParameterPrinter = variableLengthParameterPrinter;
 	}
@@ -36,7 +32,7 @@ public class LambdaParametersPrinterImpl implements LambdaParametersPrinterInt {
 		} else {
 			if (element instanceof ImplicitlyTypedLambdaParameters) {
 				writer.append("(");
-				for (int index = 0; index < element.getParameters().size(); index++) {
+				for (var index = 0; index < element.getParameters().size(); index++) {
 					writer.append(element.getParameters().get(index).getName());
 					if (index < element.getParameters().size() - 1) {
 						writer.append(", ");
@@ -44,8 +40,8 @@ public class LambdaParametersPrinterImpl implements LambdaParametersPrinterInt {
 				}
 			} else {
 				writer.append("(");
-				for (int index = 0; index < element.getParameters().size(); index++) {
-					Parameter param = element.getParameters().get(index);
+				for (var index = 0; index < element.getParameters().size(); index++) {
+					var param = element.getParameters().get(index);
 					if (param instanceof OrdinaryParameter) {
 						OrdinaryParameterPrinter.print((OrdinaryParameter) param, writer);
 					} else {

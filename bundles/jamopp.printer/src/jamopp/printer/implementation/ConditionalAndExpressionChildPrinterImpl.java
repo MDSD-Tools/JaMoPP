@@ -10,18 +10,15 @@ import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.ConditionalAndExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.InclusiveOrExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.InclusiveOrExpressionPrinterInt;
 
 public class ConditionalAndExpressionChildPrinterImpl implements Printer<ConditionalAndExpressionChild> {
 
-	private final InclusiveOrExpressionPrinterInt InclusiveOrExpressionPrinter;
-	private final InclusiveOrExpressionChildPrinterInt InclusiveOrExpressionChildPrinter;
+	private final Printer<InclusiveOrExpressionChild> InclusiveOrExpressionChildPrinter;
+	private final Printer<InclusiveOrExpression> InclusiveOrExpressionPrinter;
 
 	@Inject
-	public ConditionalAndExpressionChildPrinterImpl(InclusiveOrExpressionPrinterInt inclusiveOrExpressionPrinter,
-			InclusiveOrExpressionChildPrinterInt inclusiveOrExpressionChildPrinter) {
+	public ConditionalAndExpressionChildPrinterImpl(Printer<InclusiveOrExpression> inclusiveOrExpressionPrinter,
+			Printer<InclusiveOrExpressionChild> inclusiveOrExpressionChildPrinter) {
 		InclusiveOrExpressionPrinter = inclusiveOrExpressionPrinter;
 		InclusiveOrExpressionChildPrinter = inclusiveOrExpressionChildPrinter;
 	}

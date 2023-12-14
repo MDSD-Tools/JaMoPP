@@ -3,20 +3,20 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 import org.emftext.language.java.modules.ExportsModuleDirective;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.RemainingAccessProvidingModuleDirectivePrinterInt;
 
 public class ExportsModuleDirectivePrinterImpl implements Printer<ExportsModuleDirective> {
 
-	private final RemainingAccessProvidingModuleDirectivePrinterInt RemainingAccessProvidingModuleDirectivePrinter;
+	private final Printer<AccessProvidingModuleDirective> RemainingAccessProvidingModuleDirectivePrinter;
 
 	@Inject
 	public ExportsModuleDirectivePrinterImpl(
-			RemainingAccessProvidingModuleDirectivePrinterInt remainingAccessProvidingModuleDirectivePrinter) {
+			Printer<AccessProvidingModuleDirective> remainingAccessProvidingModuleDirectivePrinter) {
 		RemainingAccessProvidingModuleDirectivePrinter = remainingAccessProvidingModuleDirectivePrinter;
 	}
 

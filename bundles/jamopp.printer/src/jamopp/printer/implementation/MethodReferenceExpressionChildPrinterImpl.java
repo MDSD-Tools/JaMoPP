@@ -9,19 +9,16 @@ import org.emftext.language.java.references.Reference;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.LiteralPrinterInt;
-import jamopp.printer.interfaces.printer.MethodReferenceExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.ReferencePrinterInt;
+public class MethodReferenceExpressionChildPrinterImpl implements Printer<MethodReferenceExpressionChild> {
 
-public class MethodReferenceExpressionChildPrinterImpl implements MethodReferenceExpressionChildPrinterInt {
-
-	private final LiteralPrinterInt LiteralPrinter;
-	private final ReferencePrinterInt ReferencePrinter;
+	private final Printer<Literal> LiteralPrinter;
+	private final Printer<Reference> ReferencePrinter;
 
 	@Inject
-	public MethodReferenceExpressionChildPrinterImpl(LiteralPrinterInt literalPrinter,
-			ReferencePrinterInt referencePrinter) {
+	public MethodReferenceExpressionChildPrinterImpl(Printer<Literal> literalPrinter,
+			Printer<Reference> referencePrinter) {
 		LiteralPrinter = literalPrinter;
 		ReferencePrinter = referencePrinter;
 	}

@@ -11,24 +11,21 @@ import org.emftext.language.java.generics.QualifiedTypeArgument;
 import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.UnknownTypeArgument;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.TypeArgumentPrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class TypeArgumentPrinterImpl implements TypeArgumentPrinterInt {
+public class TypeArgumentPrinterImpl implements Printer<TypeArgument> {
 
-	private final Provider<TypeReferencePrinterInt> TypeReferencePrinter;
 	private final Printer<Annotable> AnnotablePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Provider<Printer<TypeReference>> TypeReferencePrinter;
 
 	@Inject
-	public TypeArgumentPrinterImpl(Provider<TypeReferencePrinterInt> typeReferencePrinter,
+	public TypeArgumentPrinterImpl(Provider<Printer<TypeReference>> typeReferencePrinter,
 			Printer<Annotable> annotablePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 		AnnotablePrinter = annotablePrinter;
@@ -47,7 +44,7 @@ public class TypeArgumentPrinterImpl implements TypeArgumentPrinterInt {
 			writer.append("? super ");
 			TypeReferencePrinter.get().print(arg.getSuperType(), writer);
 		} else {
-			ExtendsTypeArgument arg = (ExtendsTypeArgument) element;
+			var arg = (ExtendsTypeArgument) element;
 			AnnotablePrinter.print(arg, writer);
 			writer.append("? extends ");
 			TypeReferencePrinter.get().print(arg.getExtendType(), writer);

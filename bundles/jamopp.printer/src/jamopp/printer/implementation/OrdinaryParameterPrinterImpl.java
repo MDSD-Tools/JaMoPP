@@ -5,28 +5,25 @@ import java.io.IOException;
 import java.util.List;
 
 import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.parameters.OrdinaryParameter;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
-import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class OrdinaryParameterPrinterImpl implements OrdinaryParameterPrinterInt {
+public class OrdinaryParameterPrinterImpl implements Printer<OrdinaryParameter> {
 
 	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
-	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
 	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<TypeArgumentable> TypeArgumentablePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
 	public OrdinaryParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
+			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

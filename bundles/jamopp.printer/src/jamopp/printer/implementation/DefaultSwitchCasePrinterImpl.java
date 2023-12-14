@@ -9,14 +9,13 @@ import org.emftext.language.java.statements.Statement;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
 public class DefaultSwitchCasePrinterImpl implements Printer<DefaultSwitchCase> {
 
-	private final StatementPrinterInt StatementPrinter;
+	private final Printer<Statement> StatementPrinter;
 
 	@Inject
-	public DefaultSwitchCasePrinterImpl(StatementPrinterInt statementPrinter) {
+	public DefaultSwitchCasePrinterImpl(Printer<Statement> statementPrinter) {
 		StatementPrinter = statementPrinter;
 	}
 

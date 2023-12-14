@@ -3,7 +3,7 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import jamopp.printer.interfaces.printer.InferableTypePrinterInt;
+import jamopp.printer.interfaces.InferableTypePrinterInt;
 
 public class InferableTypePrinterImpl implements  InferableTypePrinterInt{
 

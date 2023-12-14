@@ -5,13 +5,12 @@ import java.io.IOException;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.types.PrimitiveType;
+
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.PrimitiveTypePrinterInt;
 
-public class PrimitiveTypePrinterImpl implements PrimitiveTypePrinterInt {
+public class PrimitiveTypePrinterImpl implements Printer<PrimitiveType> {
 
 	private final Printer<Annotable> AnnotablePrinter;
 

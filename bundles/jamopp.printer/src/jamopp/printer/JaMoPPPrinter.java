@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import org.emftext.language.java.containers.JavaRoot;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 import jamopp.printer.implementation.JavaRootPrinterImpl;
 import jamopp.printer.injection.ModulePrinterInjection;
@@ -24,14 +23,8 @@ public final class JaMoPPPrinter {
 	private final static JavaRootPrinterImpl javaRootPrinterImpl;
 
 	static {
-		Injector injector = Guice.createInjector(new ModulePrinterInjection());
+		var injector = Guice.createInjector(new ModulePrinterInjection());
 		javaRootPrinterImpl = injector.getInstance(JavaRootPrinterImpl.class);
-	}
-
-	/**
-	 * Private constructor to avoid instantiation.
-	 */
-	private JaMoPPPrinter() {
 	}
 
 	/**
@@ -41,8 +34,8 @@ public final class JaMoPPPrinter {
 	 * @param output the output for printing.
 	 */
 	public static void print(JavaRoot root, OutputStream output) {
-		try (OutputStreamWriter outWriter = new OutputStreamWriter(output, StandardCharsets.UTF_8);
-				BufferedWriter buffWriter = new BufferedWriter(outWriter)) {
+		try (var outWriter = new OutputStreamWriter(output, StandardCharsets.UTF_8);
+				var buffWriter = new BufferedWriter(outWriter)) {
 			javaRootPrinterImpl.print(root, buffWriter);
 		} catch (IOException e) {
 		}
@@ -55,9 +48,16 @@ public final class JaMoPPPrinter {
 	 * @param file the file for printing.
 	 */
 	public static void print(JavaRoot root, Path file) {
-		try (BufferedWriter writer = Files.newBufferedWriter(file)) {
+		try (var writer = Files.newBufferedWriter(file)) {
 			javaRootPrinterImpl.print(root, writer);
 		} catch (IOException e) {
 		}
 	}
+
+	/**
+	 * Private constructor to avoid instantiation.
+	 */
+	private JaMoPPPrinter() {
+	}
+
 }

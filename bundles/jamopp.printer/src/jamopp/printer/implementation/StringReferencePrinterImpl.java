@@ -5,10 +5,9 @@ import java.io.IOException;
 
 import org.emftext.language.java.references.StringReference;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.StringReferencePrinterInt;
-
-public class StringReferencePrinterImpl implements StringReferencePrinterInt{
+public class StringReferencePrinterImpl implements Printer<StringReference>{
 
 	@Override
 	public void print(StringReference element, BufferedWriter writer) throws IOException {

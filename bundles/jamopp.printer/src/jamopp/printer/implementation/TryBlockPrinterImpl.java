@@ -6,23 +6,20 @@ import java.io.IOException;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.TryBlock;
+import org.emftext.language.java.variables.Resource;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.BlockPrinterInt;
-import jamopp.printer.interfaces.printer.CatchBlockPrinterInt;
-import jamopp.printer.interfaces.printer.ResourcePrinterInt;
-import jamopp.printer.interfaces.printer.TryBlockPrinterInt;
 
-public class TryBlockPrinterImpl implements TryBlockPrinterInt {
+public class TryBlockPrinterImpl implements Printer<TryBlock> {
 
-	private final ResourcePrinterInt ResourcePrinter;
 	private final Printer<Block> BlockPrinter;
 	private final Printer<CatchBlock> CatchBlockPrinter;
+	private final Printer<Resource> ResourcePrinter;
 
 	@Inject
-	public TryBlockPrinterImpl(ResourcePrinterInt resourcePrinter, Printer<Block> blockPrinter,
+	public TryBlockPrinterImpl(Printer<Resource> resourcePrinter, Printer<Block> blockPrinter,
 			Printer<CatchBlock> catchBlockPrinter) {
 		ResourcePrinter = resourcePrinter;
 		BlockPrinter = blockPrinter;
@@ -35,7 +32,7 @@ public class TryBlockPrinterImpl implements TryBlockPrinterInt {
 		if (!element.getResources().isEmpty()) {
 			writer.append("(");
 			ResourcePrinter.print(element.getResources().get(0), writer);
-			for (int index = 1; index < element.getResources().size(); index++) {
+			for (var index = 1; index < element.getResources().size(); index++) {
 				writer.append("; ");
 				ResourcePrinter.print(element.getResources().get(index), writer);
 			}

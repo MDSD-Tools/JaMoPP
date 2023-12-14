@@ -10,8 +10,6 @@ import org.emftext.language.java.arrays.ArrayDimension;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
 
 public class ArrayDimensionsPrinterImpl implements Printer<List<ArrayDimension>> {
 

@@ -12,22 +12,18 @@ import org.emftext.language.java.statements.SwitchCase;
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.DefaultSwitchRulePrinterInt;
-import jamopp.printer.interfaces.printer.NormalSwitchCasePrinterInt;
-import jamopp.printer.interfaces.printer.NormalSwitchRulePrinterInt;
-import jamopp.printer.interfaces.printer.SwitchCasePrinterInt;
 
-public class SwitchCasePrinterImpl implements SwitchCasePrinterInt {
+public class SwitchCasePrinterImpl implements Printer<SwitchCase> {
 
 	private final Printer<DefaultSwitchCase> DefaultSwitchCasePrinter;
-	private final DefaultSwitchRulePrinterInt DefaultSwitchRulePrinter;
-	private final NormalSwitchCasePrinterInt NormalSwitchCasePrinter;
-	private final NormalSwitchRulePrinterInt NormalSwitchRulePrinter;
+	private final Printer<DefaultSwitchRule> DefaultSwitchRulePrinter;
+	private final Printer<NormalSwitchCase> NormalSwitchCasePrinter;
+	private final Printer<NormalSwitchRule> NormalSwitchRulePrinter;
 
 	@Inject
 	public SwitchCasePrinterImpl(Printer<DefaultSwitchCase> defaultSwitchCasePrinter,
-			NormalSwitchCasePrinterInt normalSwitchCasePrinter, DefaultSwitchRulePrinterInt defaultSwitchRulePrinter,
-			NormalSwitchRulePrinterInt normalSwitchRulePrinter) {
+			Printer<NormalSwitchCase> normalSwitchCasePrinter, Printer<DefaultSwitchRule> defaultSwitchRulePrinter,
+			Printer<NormalSwitchRule> normalSwitchRulePrinter) {
 		DefaultSwitchCasePrinter = defaultSwitchCasePrinter;
 		NormalSwitchCasePrinter = normalSwitchCasePrinter;
 		DefaultSwitchRulePrinter = defaultSwitchRulePrinter;

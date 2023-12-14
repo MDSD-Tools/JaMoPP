@@ -4,18 +4,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.members.ExceptionThrower;
+import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ExceptionThrowerPrinterImpl implements Printer<ExceptionThrower> {
 
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<TypeReference> TypeReferencePrinter;
 
 	@Inject
-	public ExceptionThrowerPrinterImpl(TypeReferencePrinterInt typeReferencePrinter) {
+	public ExceptionThrowerPrinterImpl(Printer<TypeReference> typeReferencePrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 	}
 

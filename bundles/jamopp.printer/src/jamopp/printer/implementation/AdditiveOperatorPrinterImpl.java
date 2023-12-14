@@ -7,7 +7,6 @@ import org.emftext.language.java.operators.Addition;
 import org.emftext.language.java.operators.AdditiveOperator;
 
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.printer.AdditiveOperatorPrinterInt;
 
 public class AdditiveOperatorPrinterImpl implements Printer<AdditiveOperator> {
 

@@ -4,22 +4,21 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.ShiftExpression;
+import org.emftext.language.java.expressions.ShiftExpressionChild;
+import org.emftext.language.java.operators.ShiftOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.ShiftExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.ShiftExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.ShiftOperatorPrinterInt;
+public class ShiftExpressionPrinterImpl implements Printer<ShiftExpression> {
 
-public class ShiftExpressionPrinterImpl implements ShiftExpressionPrinterInt {
-
-	private final ShiftExpressionChildPrinterInt ShiftExpressionChildPrinter;
-	private final ShiftOperatorPrinterInt ShiftOperatorPrinter;
+	private final Printer<ShiftExpressionChild> ShiftExpressionChildPrinter;
+	private final Printer<ShiftOperator> ShiftOperatorPrinter;
 
 	@Inject
-	public ShiftExpressionPrinterImpl(ShiftExpressionChildPrinterInt shiftExpressionChildPrinter,
-			ShiftOperatorPrinterInt shiftOperatorPrinter) {
+	public ShiftExpressionPrinterImpl(Printer<ShiftExpressionChild> shiftExpressionChildPrinter,
+			Printer<ShiftOperator> shiftOperatorPrinter) {
 		ShiftExpressionChildPrinter = shiftExpressionChildPrinter;
 		ShiftOperatorPrinter = shiftOperatorPrinter;
 	}
@@ -27,7 +26,7 @@ public class ShiftExpressionPrinterImpl implements ShiftExpressionPrinterInt {
 	@Override
 	public void print(ShiftExpression element, BufferedWriter writer) throws IOException {
 		ShiftExpressionChildPrinter.print(element.getChildren().get(0), writer);
-		for (int index = 1; index < element.getChildren().size(); index++) {
+		for (var index = 1; index < element.getChildren().size(); index++) {
 			ShiftOperatorPrinter.print(element.getShiftOperators().get(index - 1), writer);
 			ShiftExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
