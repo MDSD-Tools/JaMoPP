@@ -3,20 +3,20 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.NestedExpression;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.NestedExpressionPrinterInt;
 
 public class NestedExpressionPrinterImpl implements NestedExpressionPrinterInt {
 
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 
 	@Inject
-	public NestedExpressionPrinterImpl(ExpressionPrinterInt expressionPrinter) {
+	public NestedExpressionPrinterImpl(Printer<Expression> expressionPrinter) {
 		ExpressionPrinter = expressionPrinter;
 	}
 

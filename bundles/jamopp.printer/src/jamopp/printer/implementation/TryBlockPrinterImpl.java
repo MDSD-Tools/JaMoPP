@@ -3,12 +3,13 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.TryBlock;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.BlockPrinterInt;
 import jamopp.printer.interfaces.printer.CatchBlockPrinterInt;
 import jamopp.printer.interfaces.printer.ResourcePrinterInt;
@@ -17,12 +18,12 @@ import jamopp.printer.interfaces.printer.TryBlockPrinterInt;
 public class TryBlockPrinterImpl implements TryBlockPrinterInt {
 
 	private final ResourcePrinterInt ResourcePrinter;
-	private final BlockPrinterInt BlockPrinter;
-	private final CatchBlockPrinterInt CatchBlockPrinter;
+	private final Printer<Block> BlockPrinter;
+	private final Printer<CatchBlock> CatchBlockPrinter;
 
 	@Inject
-	public TryBlockPrinterImpl(ResourcePrinterInt resourcePrinter, BlockPrinterInt blockPrinter,
-			CatchBlockPrinterInt catchBlockPrinter) {
+	public TryBlockPrinterImpl(ResourcePrinterInt resourcePrinter, Printer<Block> blockPrinter,
+			Printer<CatchBlock> catchBlockPrinter) {
 		ResourcePrinter = resourcePrinter;
 		BlockPrinter = blockPrinter;
 		CatchBlockPrinter = catchBlockPrinter;

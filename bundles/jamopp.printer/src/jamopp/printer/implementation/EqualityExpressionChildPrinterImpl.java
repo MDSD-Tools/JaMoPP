@@ -9,14 +9,14 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.printer.EqualityExpressionChildPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InstanceOfExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.InstanceOfExpressionPrinterInt;
 
-public class EqualityExpressionChildPrinterImpl implements EqualityExpressionChildPrinterInt {
+public class EqualityExpressionChildPrinterImpl implements Printer<EqualityExpressionChild> {
 
-	private final InstanceOfExpressionPrinterInt InstanceOfExpressionPrinter;
 	private final InstanceOfExpressionChildPrinterInt InstanceOfExpressionChildPrinter;
+	private final InstanceOfExpressionPrinterInt InstanceOfExpressionPrinter;
 
 	@Inject
 	public EqualityExpressionChildPrinterImpl(InstanceOfExpressionPrinterInt instanceOfExpressionPrinter,

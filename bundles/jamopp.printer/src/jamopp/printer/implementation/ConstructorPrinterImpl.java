@@ -4,29 +4,28 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.ExceptionThrower;
+import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import org.emftext.language.java.statements.Block;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.BlockPrinterInt;
-import jamopp.printer.interfaces.printer.ConstructorPrinterInt;
-import jamopp.printer.interfaces.printer.ExceptionThrowerPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ParametrizablePrinterInt;
 import jamopp.printer.interfaces.printer.TypeParametrizablePrinterInt;
 
-public class ConstructorPrinterImpl implements ConstructorPrinterInt {
+public class ConstructorPrinterImpl implements Printer<Constructor> {
 
-	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
-	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
+	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
+	private final Printer<Block> BlockPrinter;
+	private final Printer<ExceptionThrower> ExceptionThrowerPrinter;
 	private final ParametrizablePrinterInt ParametrizablePrinter;
-	private final ExceptionThrowerPrinterInt ExceptionThrowerPrinter;
-	private final BlockPrinterInt BlockPrinter;
+	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
 
 	@Inject
-	public ConstructorPrinterImpl(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+	public ConstructorPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			TypeParametrizablePrinterInt typeParametrizablePrinter, ParametrizablePrinterInt parametrizablePrinter,
-			ExceptionThrowerPrinterInt exceptionThrowerPrinter, BlockPrinterInt blockPrinter) {
+			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<Block> blockPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;
 		ParametrizablePrinter = parametrizablePrinter;

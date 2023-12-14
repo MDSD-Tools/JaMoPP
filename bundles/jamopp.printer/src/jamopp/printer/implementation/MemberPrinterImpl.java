@@ -14,30 +14,26 @@ import org.emftext.language.java.statements.Block;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.printer.interfaces.printer.BlockPrinterInt;
-import jamopp.printer.interfaces.printer.ClassMethodPrinterInt;
-import jamopp.printer.interfaces.printer.ConcreteClassifierPrinterInt;
-import jamopp.printer.interfaces.printer.ConstructorPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.EmptyMemberPrinterInt;
-import jamopp.printer.interfaces.printer.FieldPrinterInt;
 import jamopp.printer.interfaces.printer.InterfaceMethodPrinterInt;
 import jamopp.printer.interfaces.printer.MemberPrinterInt;
 
 public class MemberPrinterImpl implements MemberPrinterInt {
 
-	private final Provider<FieldPrinterInt> FieldPrinter;
-	private final Provider<ConstructorPrinterInt> ConstructorPrinter;
-	private final Provider<ClassMethodPrinterInt> ClassMethodPrinter;
-	private final Provider<InterfaceMethodPrinterInt> InterfaceMethodPrinter;
-	private final Provider<ConcreteClassifierPrinterInt> ConcreteClassifierPrinter;
-	private final Provider<BlockPrinterInt> BlockPrinter;
+	private final Provider<Printer<Block>> BlockPrinter;
+	private final Provider<Printer<ClassMethod>> ClassMethodPrinter;
+	private final Provider<Printer<ConcreteClassifier>> ConcreteClassifierPrinter;
+	private final Provider<Printer<Constructor>> ConstructorPrinter;
 	private final Provider<EmptyMemberPrinterInt> EmptyMemberPrinter;
+	private final Provider<Printer<Field>> FieldPrinter;
+	private final Provider<InterfaceMethodPrinterInt> InterfaceMethodPrinter;
 
 	@Inject
-	public MemberPrinterImpl(Provider<FieldPrinterInt> fieldPrinter, Provider<ConstructorPrinterInt> constructorPrinter,
-			Provider<ClassMethodPrinterInt> classMethodPrinter,
+	public MemberPrinterImpl(Provider<Printer<Field>> fieldPrinter, Provider<Printer<Constructor>> constructorPrinter,
+			Provider<Printer<ClassMethod>> classMethodPrinter,
 			Provider<InterfaceMethodPrinterInt> interfaceMethodPrinter,
-			Provider<ConcreteClassifierPrinterInt> concreteClassifierPrinter, Provider<BlockPrinterInt> blockPrinter,
+			Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter, Provider<Printer<Block>> blockPrinter,
 			Provider<EmptyMemberPrinterInt> emptyMemberPrinter) {
 		FieldPrinter = fieldPrinter;
 		ConstructorPrinter = constructorPrinter;
@@ -47,7 +43,7 @@ public class MemberPrinterImpl implements MemberPrinterInt {
 		BlockPrinter = blockPrinter;
 		EmptyMemberPrinter = emptyMemberPrinter;
 	}
-	
+
 	@Override
 	public void print(Member element, BufferedWriter writer) throws IOException {
 		if (element instanceof Field) {
@@ -66,7 +62,5 @@ public class MemberPrinterImpl implements MemberPrinterInt {
 			EmptyMemberPrinter.get().print(writer);
 		}
 	}
-
-
 
 }

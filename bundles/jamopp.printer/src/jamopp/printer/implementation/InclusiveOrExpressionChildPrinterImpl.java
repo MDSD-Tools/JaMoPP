@@ -9,23 +9,22 @@ import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.ExclusiveOrExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.ExclusiveOrExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InclusiveOrExpressionChildPrinterInt;
 
 public class InclusiveOrExpressionChildPrinterImpl implements InclusiveOrExpressionChildPrinterInt {
 
-	private final ExclusiveOrExpressionPrinterInt ExclusiveOrExpressionPrinter;
-	private final ExclusiveOrExpressionChildPrinterInt ExclusiveOrExpressionChildPrinter;
+	private final Printer<ExclusiveOrExpressionChild> ExclusiveOrExpressionChildPrinter;
+	private final Printer<ExclusiveOrExpression> ExclusiveOrExpressionPrinter;
 
 	@Inject
-	public InclusiveOrExpressionChildPrinterImpl(ExclusiveOrExpressionPrinterInt exclusiveOrExpressionPrinter,
-			ExclusiveOrExpressionChildPrinterInt exclusiveOrExpressionChildPrinter) {
+	public InclusiveOrExpressionChildPrinterImpl(Printer<ExclusiveOrExpression> exclusiveOrExpressionPrinter,
+			Printer<ExclusiveOrExpressionChild> exclusiveOrExpressionChildPrinter) {
 		ExclusiveOrExpressionPrinter = exclusiveOrExpressionPrinter;
 		ExclusiveOrExpressionChildPrinter = exclusiveOrExpressionChildPrinter;
 	}
 
+	@Override
 	public void print(InclusiveOrExpressionChild element, BufferedWriter writer) throws IOException {
 		if (element instanceof ExclusiveOrExpression) {
 			ExclusiveOrExpressionPrinter.print((ExclusiveOrExpression) element, writer);

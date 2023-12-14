@@ -6,10 +6,10 @@ import java.io.IOException;
 import org.emftext.language.java.operators.Addition;
 import org.emftext.language.java.operators.AdditiveOperator;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AdditiveOperatorPrinterInt;
 
-public class AdditiveOperatorPrinterImpl implements AdditiveOperatorPrinterInt {
+public class AdditiveOperatorPrinterImpl implements Printer<AdditiveOperator> {
 
 	@Override
 	public void print(AdditiveOperator element, BufferedWriter writer) throws IOException {

@@ -9,19 +9,16 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.EqualityExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.EqualityExpressionPrinterInt;
+public class AndExpressionChildPrinterImpl implements Printer<AndExpressionChild> {
 
-public class AndExpressionChildPrinterImpl implements AndExpressionChildPrinterInt {
-
-	private final EqualityExpressionPrinterInt EqualityExpressionPrinter;
-	private final EqualityExpressionChildPrinterInt EqualityExpressionChildPrinter;
+	private final Printer<EqualityExpressionChild> EqualityExpressionChildPrinter;
+	private final Printer<EqualityExpression> EqualityExpressionPrinter;
 
 	@Inject
-	public AndExpressionChildPrinterImpl(EqualityExpressionPrinterInt equalityExpressionPrinter,
-			EqualityExpressionChildPrinterInt equalityExpressionChildPrinter) {
+	public AndExpressionChildPrinterImpl(Printer<EqualityExpression> equalityExpressionPrinter,
+			Printer<EqualityExpressionChild> equalityExpressionChildPrinter) {
 
 		EqualityExpressionPrinter = equalityExpressionPrinter;
 		EqualityExpressionChildPrinter = equalityExpressionChildPrinter;

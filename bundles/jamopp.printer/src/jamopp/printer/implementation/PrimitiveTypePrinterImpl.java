@@ -3,19 +3,20 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.types.PrimitiveType;
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.PrimitiveTypePrinterInt;
 
 public class PrimitiveTypePrinterImpl implements PrimitiveTypePrinterInt {
 
-	private final AnnotablePrinterInt AnnotablePrinter;
+	private final Printer<Annotable> AnnotablePrinter;
 
 	@Inject
-	public PrimitiveTypePrinterImpl(AnnotablePrinterInt annotablePrinter) {
+	public PrimitiveTypePrinterImpl(Printer<Annotable> annotablePrinter) {
 		AnnotablePrinter = annotablePrinter;
 	}
 

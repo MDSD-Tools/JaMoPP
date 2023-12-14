@@ -6,20 +6,22 @@ import java.io.IOException;
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationParameterList;
+import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.SingleAnnotationParameter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
 import jamopp.printer.interfaces.printer.AnnotationValuePrinterInt;
 
-public class AnnotationInstancePrinterImpl implements AnnotationInstancePrinterInt {
+public class AnnotationInstancePrinterImpl implements Printer<AnnotationInstance> {
 
-	private final Provider<AnnotationValuePrinterInt> AnnotationValuePrinter;
+	private final Provider<Printer<AnnotationValue>> AnnotationValuePrinter;
 
 	@Inject
-	public AnnotationInstancePrinterImpl(Provider<AnnotationValuePrinterInt> annotationValuePrinter) {
+	public AnnotationInstancePrinterImpl(Provider<Printer<AnnotationValue>> annotationValuePrinter) {
 		AnnotationValuePrinter = annotationValuePrinter;
 	}
 

@@ -9,12 +9,12 @@ import org.emftext.language.java.statements.Statement;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.BlockPrinterInt;
 import jamopp.printer.interfaces.printer.ModifierPrinterInt;
 import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
-public class BlockPrinterImpl implements BlockPrinterInt {
+public class BlockPrinterImpl implements Printer<Block> {
 
 	private final ModifierPrinterInt ModifierPrinter;
 	private final StatementPrinterInt StatementPrinter;

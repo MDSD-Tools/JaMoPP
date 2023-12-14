@@ -2,15 +2,18 @@ package jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.List;
 
+import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.expressions.ArrayConstructorReferenceExpression;
 import org.emftext.language.java.expressions.ClassTypeConstructorReferenceExpression;
 import org.emftext.language.java.expressions.MethodReferenceExpression;
 import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
+import org.emftext.language.java.generics.CallTypeArgumentable;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
 import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.MethodReferenceExpressionChildPrinterInt;
@@ -21,16 +24,16 @@ import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 public class MethodReferenceExpressionPrinterImpl implements MethodReferenceExpressionPrinterInt {
 
 	private final MethodReferenceExpressionChildPrinterInt MethodReferenceExpressionChildPrinter;
-	private final CallTypeArgumentablePrinterInt CallTypeArgumentablePrinter;
+	private final Printer<CallTypeArgumentable> CallTypeArgumentablePrinter;
 	private final ReferencePrinterInt ReferencePrinter;
 	private final TypeReferencePrinterInt TypeReferencePrinter;
-	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
 
 	@Inject
 	public MethodReferenceExpressionPrinterImpl(
 			MethodReferenceExpressionChildPrinterInt methodReferenceExpressionChildPrinter,
-			CallTypeArgumentablePrinterInt callTypeArgumentablePrinter, ReferencePrinterInt referencePrinter,
-			TypeReferencePrinterInt typeReferencePrinter, ArrayDimensionsPrinterInt arrayDimensionsPrinter) {
+			Printer<CallTypeArgumentable> callTypeArgumentablePrinter, ReferencePrinterInt referencePrinter,
+			TypeReferencePrinterInt typeReferencePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		MethodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
 		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
 		ReferencePrinter = referencePrinter;

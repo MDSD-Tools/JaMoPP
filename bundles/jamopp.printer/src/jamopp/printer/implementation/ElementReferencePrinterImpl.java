@@ -9,18 +9,16 @@ import org.emftext.language.java.references.MethodCall;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.ElementReferencePrinterInt;
-import jamopp.printer.interfaces.printer.IdentifierReferencePrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.MethodCallPrinterInt;
 
-public class ElementReferencePrinterImpl implements ElementReferencePrinterInt {
+public class ElementReferencePrinterImpl implements Printer<ElementReference> {
 
-	private final IdentifierReferencePrinterInt IdentifierReferencePrinter;
+	private final Printer<IdentifierReference> IdentifierReferencePrinter;
 	private final MethodCallPrinterInt MethodCallPrinter;
 
 	@Inject
-	public ElementReferencePrinterImpl(IdentifierReferencePrinterInt identifierReferencePrinter,
+	public ElementReferencePrinterImpl(Printer<IdentifierReference> identifierReferencePrinter,
 			MethodCallPrinterInt methodCallPrinter) {
 		IdentifierReferencePrinter = identifierReferencePrinter;
 		MethodCallPrinter = methodCallPrinter;
@@ -35,6 +33,6 @@ public class ElementReferencePrinterImpl implements ElementReferencePrinterInt {
 		}
 	}
 
-	
+
 
 }

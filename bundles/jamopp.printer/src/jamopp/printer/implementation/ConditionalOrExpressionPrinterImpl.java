@@ -4,19 +4,20 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.ConditionalOrExpression;
+import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConditionalOrExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.ConditionalOrExpressionPrinterInt;
 
-public class ConditionalOrExpressionPrinterImpl implements ConditionalOrExpressionPrinterInt {
+public class ConditionalOrExpressionPrinterImpl implements Printer<ConditionalOrExpression> {
 
-	private final ConditionalOrExpressionChildPrinterInt ConditionalOrExpressionChildPrinter;
+	private final Printer<ConditionalOrExpressionChild> ConditionalOrExpressionChildPrinter;
 
 	@Inject
-	public ConditionalOrExpressionPrinterImpl(ConditionalOrExpressionChildPrinterInt conditionalOrExpressionChildPrinter) {
+	public ConditionalOrExpressionPrinterImpl(Printer<ConditionalOrExpressionChild> conditionalOrExpressionChildPrinter) {
 		ConditionalOrExpressionChildPrinter = conditionalOrExpressionChildPrinter;
 	}
 

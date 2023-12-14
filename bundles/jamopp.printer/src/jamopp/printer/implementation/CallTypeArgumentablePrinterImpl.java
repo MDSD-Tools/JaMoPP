@@ -7,11 +7,11 @@ import org.emftext.language.java.generics.CallTypeArgumentable;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.TypeArgumentPrinterInt;
 
-public class CallTypeArgumentablePrinterImpl implements CallTypeArgumentablePrinterInt {
+public class CallTypeArgumentablePrinterImpl implements Printer<CallTypeArgumentable> {
 
 	private final TypeArgumentPrinterInt TypeArgumentPrinter;
 

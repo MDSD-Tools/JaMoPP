@@ -4,22 +4,24 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.AdditiveExpression;
+import org.emftext.language.java.expressions.AdditiveExpressionChild;
+import org.emftext.language.java.operators.AdditiveOperator;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AdditiveExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.AdditiveExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.AdditiveOperatorPrinterInt;
 
-public class AdditiveExpressionPrinterImpl implements AdditiveExpressionPrinterInt {
+public class AdditiveExpressionPrinterImpl implements Printer<AdditiveExpression> {
 
-	private final AdditiveExpressionChildPrinterInt AdditiveExpressionChildPrinter;
-	private final AdditiveOperatorPrinterInt AdditiveOperatorPrinter;
+	private final Printer<AdditiveExpressionChild> AdditiveExpressionChildPrinter;
+	private final Printer<AdditiveOperator> AdditiveOperatorPrinter;
 
 	@Inject
-	public AdditiveExpressionPrinterImpl(AdditiveExpressionChildPrinterInt additiveExpressionChildPrinter,
-			AdditiveOperatorPrinterInt additiveOperatorPrinter) {
+	public AdditiveExpressionPrinterImpl(Printer<AdditiveExpressionChild> additiveExpressionChildPrinter,
+			Printer<AdditiveOperator> additiveOperatorPrinter) {
 		AdditiveExpressionChildPrinter = additiveExpressionChildPrinter;
 		AdditiveOperatorPrinter = additiveOperatorPrinter;
 	}

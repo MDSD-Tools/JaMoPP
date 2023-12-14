@@ -3,25 +3,24 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.annotations.Annotable;
+import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.members.EnumConstant;
+import org.emftext.language.java.references.Argumentable;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
-import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
-import jamopp.printer.interfaces.printer.EnumConstantPrinterInt;
+public class EnumConstantPrinterImpl implements Printer<EnumConstant> {
 
-public class EnumConstantPrinterImpl implements EnumConstantPrinterInt {
-
-	private final AnnotablePrinterInt AnnotablePrinter;
-	private final ArgumentablePrinterInt ArgumentablePrinter;
-	private final AnonymousClassPrinterInt AnonymousClassPrinter;
+	private final Printer<Annotable> AnnotablePrinter;
+	private final Printer<AnonymousClass> AnonymousClassPrinter;
+	private final Printer<Argumentable> ArgumentablePrinter;
 
 	@Inject
-	public EnumConstantPrinterImpl(AnnotablePrinterInt annotablePrinter, ArgumentablePrinterInt argumentablePrinter,
-			AnonymousClassPrinterInt anonymousClassPrinter) {
+	public EnumConstantPrinterImpl(Printer<Annotable> annotablePrinter, Printer<Argumentable> argumentablePrinter,
+			Printer<AnonymousClass> anonymousClassPrinter) {
 		AnnotablePrinter = annotablePrinter;
 		ArgumentablePrinter = argumentablePrinter;
 		AnonymousClassPrinter = anonymousClassPrinter;

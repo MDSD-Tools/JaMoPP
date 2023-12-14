@@ -4,22 +4,23 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.parameters.CatchParameter;
+import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.CatchBlock;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.BlockPrinterInt;
 import jamopp.printer.interfaces.printer.CatchBlockPrinterInt;
 import jamopp.printer.interfaces.printer.CatchParameterPrinterInt;
 
-public class CatchBlockPrinterImpl implements CatchBlockPrinterInt {
+public class CatchBlockPrinterImpl implements Printer<CatchBlock> {
 
-	private final CatchParameterPrinterInt CatchParameterPrinter;
-	private final BlockPrinterInt BlockPrinter;
+	private final Printer<CatchParameter> CatchParameterPrinter;
+	private final Printer<Block> BlockPrinter;
 
 	@Inject
-	public CatchBlockPrinterImpl(CatchParameterPrinterInt catchParameterPrinter, BlockPrinterInt blockPrinter) {
+	public CatchBlockPrinterImpl(Printer<CatchParameter> catchParameterPrinter, Printer<Block> blockPrinter) {
 		CatchParameterPrinter = catchParameterPrinter;
 		BlockPrinter = blockPrinter;
 	}

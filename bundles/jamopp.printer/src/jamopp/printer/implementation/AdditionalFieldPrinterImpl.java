@@ -2,24 +2,26 @@ package jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.List;
 
+import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.members.AdditionalField;
+
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.printer.AdditionalFieldPrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 
-public class AdditionalFieldPrinterImpl implements AdditionalFieldPrinterInt {
+public class AdditionalFieldPrinterImpl implements Printer<AdditionalField> {
 
-	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 
 	@Inject
-	public AdditionalFieldPrinterImpl(ExpressionPrinterInt expressionPrinter,
-			ArrayDimensionsPrinterInt arrayDimensionsPrinter) {
-		this.ArrayDimensionsPrinter = arrayDimensionsPrinter;
-		this.ExpressionPrinter = expressionPrinter;
+	public AdditionalFieldPrinterImpl(Printer<Expression> expressionPrinter,
+			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
+		ArrayDimensionsPrinter = arrayDimensionsPrinter;
+		ExpressionPrinter = expressionPrinter;
 	}
 
 	@Override

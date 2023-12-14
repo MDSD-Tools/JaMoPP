@@ -8,16 +8,16 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
 
-public class AnnotablePrinterImpl implements AnnotablePrinterInt {
+public class AnnotablePrinterImpl implements Printer<Annotable> {
 
-	private final AnnotationInstancePrinterInt AnnotationInstancePrinter;
+	private final Printer<AnnotationInstance> AnnotationInstancePrinter;
 
 	@Inject
-	public AnnotablePrinterImpl(AnnotationInstancePrinterInt annotationInstancePrinter) {
+	public AnnotablePrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter) {
 		AnnotationInstancePrinter = annotationInstancePrinter;
 	}
 

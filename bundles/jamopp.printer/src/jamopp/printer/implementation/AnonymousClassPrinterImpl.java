@@ -7,11 +7,11 @@ import org.emftext.language.java.classifiers.AnonymousClass;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
 import jamopp.printer.interfaces.printer.MemberContainerPrinterInt;
 
-public class AnonymousClassPrinterImpl implements AnonymousClassPrinterInt {
+public class AnonymousClassPrinterImpl implements Printer<AnonymousClass> {
 
 	private final MemberContainerPrinterInt MemberContainerPrinter;
 

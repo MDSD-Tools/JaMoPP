@@ -10,23 +10,19 @@ import org.emftext.language.java.classifiers.Interface;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.AnnotationPrinterInt;
-import jamopp.printer.interfaces.printer.ClassPrinterInt;
-import jamopp.printer.interfaces.printer.ConcreteClassifierPrinterInt;
-import jamopp.printer.interfaces.printer.EnumerationPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InterfacePrinterInt;
 
-public class ConcreteClassifierPrinterImpl implements ConcreteClassifierPrinterInt {
+public class ConcreteClassifierPrinterImpl implements Printer<ConcreteClassifier> {
 
-	private final ClassPrinterInt ClassPrinter;
+	private final Printer<Annotation> AnnotationPrinter;
+	private final Printer<org.emftext.language.java.classifiers.Class> ClassPrinter;
+	private final Printer<Enumeration> EnumerationPrinter;
 	private final InterfacePrinterInt InterfacePrinter;
-	private final EnumerationPrinterInt EnumerationPrinter;
-	private final AnnotationPrinterInt AnnotationPrinter;
 
 	@Inject
-	public ConcreteClassifierPrinterImpl(ClassPrinterInt classPrinter, InterfacePrinterInt interfacePrinter,
-			EnumerationPrinterInt enumerationPrinter, AnnotationPrinterInt annotationPrinter) {
+	public ConcreteClassifierPrinterImpl(Printer<org.emftext.language.java.classifiers.Class> classPrinter, InterfacePrinterInt interfacePrinter,
+			Printer<Enumeration> enumerationPrinter, Printer<Annotation> annotationPrinter) {
 		ClassPrinter = classPrinter;
 		InterfacePrinter = interfacePrinter;
 		EnumerationPrinter = enumerationPrinter;

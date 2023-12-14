@@ -2,24 +2,24 @@ package jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.List;
 
+import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.AdditionalLocalVariablePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+public class AdditionalLocalVariablePrinterImpl implements Printer<AdditionalLocalVariable> {
 
-public class AdditionalLocalVariablePrinterImpl implements AdditionalLocalVariablePrinterInt {
-
-	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 
 	@Inject
-	public AdditionalLocalVariablePrinterImpl(ArrayDimensionsPrinterInt arrayDimensionsPrinter,
-			ExpressionPrinterInt expressionPrinter) {
+	public AdditionalLocalVariablePrinterImpl(Printer<List<ArrayDimension>> arrayDimensionsPrinter,
+			Printer<Expression> expressionPrinter) {
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 		ExpressionPrinter = expressionPrinter;
 	}

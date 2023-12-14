@@ -4,24 +4,23 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.AssignmentExpression;
+import org.emftext.language.java.expressions.AssignmentExpressionChild;
+import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.operators.AssignmentOperator;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.AssignmentExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.AssignmentExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.AssignmentOperatorPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+public class AssignmentExpressionPrinterImpl implements Printer<AssignmentExpression> {
 
-public class AssignmentExpressionPrinterImpl implements AssignmentExpressionPrinterInt {
-
-	private final AssignmentExpressionChildPrinterInt AssignmentExpressionChildPrinter;
-	private final AssignmentOperatorPrinterInt AssignmentOperatorPrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Printer<AssignmentExpressionChild> AssignmentExpressionChildPrinter;
+	private final Printer<AssignmentOperator> AssignmentOperatorPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 
 	@Inject
-	public AssignmentExpressionPrinterImpl(AssignmentExpressionChildPrinterInt assignmentExpressionChildPrinter,
-			AssignmentOperatorPrinterInt assignmentOperatorPrinter, ExpressionPrinterInt expressionPrinter) {
+	public AssignmentExpressionPrinterImpl(Printer<AssignmentExpressionChild> assignmentExpressionChildPrinter,
+			Printer<AssignmentOperator> assignmentOperatorPrinter, Printer<Expression> expressionPrinter) {
 		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
 		AssignmentOperatorPrinter = assignmentOperatorPrinter;
 		ExpressionPrinter = expressionPrinter;

@@ -3,14 +3,17 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.classifiers.AnonymousClass;
+import org.emftext.language.java.generics.CallTypeArgumentable;
 import org.emftext.language.java.instantiations.ExplicitConstructorCall;
 import org.emftext.language.java.instantiations.Instantiation;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
+import org.emftext.language.java.references.Argumentable;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnonymousClassPrinterInt;
 import jamopp.printer.interfaces.printer.ArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.CallTypeArgumentablePrinterInt;
@@ -21,17 +24,17 @@ import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class InstantiationPrinterImpl implements InstantiationPrinterInt {
 
-	private final CallTypeArgumentablePrinterInt CallTypeArgumentablePrinter;
+	private final Printer<CallTypeArgumentable> CallTypeArgumentablePrinter;
 	private final TypeReferencePrinterInt TypeReferencePrinter;
 	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
-	private final ArgumentablePrinterInt ArgumentablePrinter;
-	private final AnonymousClassPrinterInt AnonymousClassPrinter;
+	private final Printer<Argumentable> ArgumentablePrinter;
+	private final Printer<AnonymousClass> AnonymousClassPrinter;
 	private final SelfPrinterInt SelfPrinter;
 
 	@Inject
-	public InstantiationPrinterImpl(CallTypeArgumentablePrinterInt callTypeArgumentablePrinter,
+	public InstantiationPrinterImpl(Printer<CallTypeArgumentable> callTypeArgumentablePrinter,
 			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
-			ArgumentablePrinterInt argumentablePrinter, AnonymousClassPrinterInt anonymousClassPrinter,
+			Printer<Argumentable> argumentablePrinter, Printer<AnonymousClass> anonymousClassPrinter,
 			SelfPrinterInt selfPrinter) {
 		CallTypeArgumentablePrinter = callTypeArgumentablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;

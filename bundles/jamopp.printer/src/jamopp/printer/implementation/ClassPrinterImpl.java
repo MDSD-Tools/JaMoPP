@@ -3,9 +3,11 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
 import jamopp.printer.interfaces.printer.ClassPrinterInt;
 import jamopp.printer.interfaces.printer.ImplementorPrinterInt;
@@ -15,14 +17,14 @@ import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class ClassPrinterImpl implements ClassPrinterInt {
 
-	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
 	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
 	private final TypeReferencePrinterInt TypeReferencePrinter;
 	private final ImplementorPrinterInt ImplementorPrinter;
 	private final MemberContainerPrinterInt MemberContainerPrinter;
 
 	@Inject
-	public ClassPrinterImpl(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+	public ClassPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
 			ImplementorPrinterInt implementorPrinter, MemberContainerPrinterInt memberContainerPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;

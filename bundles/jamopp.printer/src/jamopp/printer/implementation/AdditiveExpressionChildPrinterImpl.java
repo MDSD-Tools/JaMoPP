@@ -9,12 +9,12 @@ import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AdditiveExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.MultiplicativeExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.MultiplicativeExpressionPrinterInt;
 
-public class AdditiveExpressionChildPrinterImpl implements AdditiveExpressionChildPrinterInt {
+public class AdditiveExpressionChildPrinterImpl implements Printer<AdditiveExpressionChild> {
 
 	private final MultiplicativeExpressionPrinterInt MultiplicativeExpressionPrinter;
 	private final MultiplicativeExpressionChildPrinterInt MultiplicativeExpressionChildPrinter;

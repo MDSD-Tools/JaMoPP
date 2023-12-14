@@ -9,19 +9,16 @@ import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.AndExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.ExclusiveOrExpressionChildPrinterInt;
+public class ExclusiveOrExpressionChildPrinterImpl implements Printer<ExclusiveOrExpressionChild> {
 
-public class ExclusiveOrExpressionChildPrinterImpl implements ExclusiveOrExpressionChildPrinterInt {
-
-	private final AndExpressionPrinterInt AndExpressionPrinter;
-	private final AndExpressionChildPrinterInt AndExpressionChildPrinter;
+	private final Printer<AndExpressionChild> AndExpressionChildPrinter;
+	private final Printer<AndExpression> AndExpressionPrinter;
 
 	@Inject
-	public ExclusiveOrExpressionChildPrinterImpl(AndExpressionPrinterInt andExpressionPrinter,
-			AndExpressionChildPrinterInt andExpressionChildPrinter) {
+	public ExclusiveOrExpressionChildPrinterImpl(Printer<AndExpression> andExpressionPrinter,
+			Printer<AndExpressionChild> andExpressionChildPrinter) {
 		AndExpressionPrinter = andExpressionPrinter;
 		AndExpressionChildPrinter = andExpressionChildPrinter;
 	}

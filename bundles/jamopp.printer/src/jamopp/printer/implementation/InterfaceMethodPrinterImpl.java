@@ -2,16 +2,17 @@ package jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.List;
 
+import org.emftext.language.java.annotations.AnnotationValue;
+import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.members.ExceptionThrower;
 import org.emftext.language.java.members.InterfaceMethod;
+import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.AnnotationValuePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.ExceptionThrowerPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InterfaceMethodPrinterInt;
 import jamopp.printer.interfaces.printer.ParametrizablePrinterInt;
 import jamopp.printer.interfaces.printer.StatementPrinterInt;
@@ -20,20 +21,20 @@ import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
 public class InterfaceMethodPrinterImpl implements InterfaceMethodPrinterInt {
 
-	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
+	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
+	private final Printer<AnnotationValue> AnnotationValuePrinter;
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<ExceptionThrower> ExceptionThrowerPrinter;
+	private final ParametrizablePrinterInt ParametrizablePrinter;
+	private final StatementPrinterInt StatementPrinter;
 	private final TypeParametrizablePrinterInt TypeParametrizablePrinter;
 	private final TypeReferencePrinterInt TypeReferencePrinter;
-	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
-	private final ParametrizablePrinterInt ParametrizablePrinter;
-	private final ExceptionThrowerPrinterInt ExceptionThrowerPrinter;
-	private final AnnotationValuePrinterInt AnnotationValuePrinter;
-	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
-	public InterfaceMethodPrinterImpl(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+	public InterfaceMethodPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			TypeParametrizablePrinterInt typeParametrizablePrinter, TypeReferencePrinterInt typeReferencePrinter,
-			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ParametrizablePrinterInt parametrizablePrinter,
-			ExceptionThrowerPrinterInt exceptionThrowerPrinter, AnnotationValuePrinterInt annotationValuePrinter,
+			Printer<List<ArrayDimension>> arrayDimensionsPrinter, ParametrizablePrinterInt parametrizablePrinter,
+			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<AnnotationValue> annotationValuePrinter,
 			StatementPrinterInt statementPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeParametrizablePrinter = typeParametrizablePrinter;

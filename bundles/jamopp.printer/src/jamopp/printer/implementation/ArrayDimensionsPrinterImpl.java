@@ -4,19 +4,21 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.arrays.ArrayDimension;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
 
-public class ArrayDimensionsPrinterImpl implements ArrayDimensionsPrinterInt {
+public class ArrayDimensionsPrinterImpl implements Printer<List<ArrayDimension>> {
 
-	private final AnnotablePrinterInt AnnotablePrinter;
+	private final Printer<Annotable> AnnotablePrinter;
 
 	@Inject
-	public ArrayDimensionsPrinterImpl(AnnotablePrinterInt annotablePrinter) {
+	public ArrayDimensionsPrinterImpl(Printer<Annotable> annotablePrinter) {
 		AnnotablePrinter = annotablePrinter;
 	}
 

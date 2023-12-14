@@ -2,27 +2,27 @@ package jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.List;
 
+import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.expressions.CastExpression;
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.CastExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class CastExpressionPrinterImpl implements CastExpressionPrinterInt {
+public class CastExpressionPrinterImpl implements Printer<CastExpression> {
 
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 	private final TypeReferencePrinterInt TypeReferencePrinter;
-	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
 
 	@Inject
 	public CastExpressionPrinterImpl(TypeReferencePrinterInt typeReferencePrinter,
-			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ExpressionPrinterInt expressionPrinter) {
+			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 		ArrayDimensionsPrinter = arrayDimensionsPrinter;
 		ExpressionPrinter = expressionPrinter;

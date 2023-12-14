@@ -11,20 +11,17 @@ import org.emftext.language.java.expressions.Expression;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
-import jamopp.printer.interfaces.printer.AnnotationValuePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayInitializerPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 
-public class AnnotationValuePrinterImpl implements AnnotationValuePrinterInt {
+public class AnnotationValuePrinterImpl implements Printer<AnnotationValue> {
 
-	private final Provider<AnnotationInstancePrinterInt> AnnotationInstancePrinter;
-	private final ArrayInitializerPrinterInt ArrayInitializerPrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Provider<Printer<AnnotationInstance>> AnnotationInstancePrinter;
+	private final Printer<ArrayInitializer> ArrayInitializerPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 
 	@Inject
-	public AnnotationValuePrinterImpl(Provider<AnnotationInstancePrinterInt> annotationInstancePrinter,
-			ArrayInitializerPrinterInt arrayInitializerPrinter, ExpressionPrinterInt expressionPrinter) {
+	public AnnotationValuePrinterImpl(Provider<Printer<AnnotationInstance>> annotationInstancePrinter,
+			Printer<ArrayInitializer> arrayInitializerPrinter, Printer<Expression> expressionPrinter) {
 		AnnotationInstancePrinter = annotationInstancePrinter;
 		ArrayInitializerPrinter = arrayInitializerPrinter;
 		ExpressionPrinter = expressionPrinter;

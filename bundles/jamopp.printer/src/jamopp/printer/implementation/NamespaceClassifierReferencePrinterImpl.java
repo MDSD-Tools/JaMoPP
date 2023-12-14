@@ -3,20 +3,21 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ClassifierReferencePrinterInt;
 import jamopp.printer.interfaces.printer.NamespaceClassifierReferencePrinterInt;
 
 public class NamespaceClassifierReferencePrinterImpl implements NamespaceClassifierReferencePrinterInt {
 
-	private final ClassifierReferencePrinterInt ClassifierReferencePrinter;
+	private final Printer<ClassifierReference> ClassifierReferencePrinter;
 
 	@Inject
-	public NamespaceClassifierReferencePrinterImpl(ClassifierReferencePrinterInt classifierReferencePrinter) {
+	public NamespaceClassifierReferencePrinterImpl(Printer<ClassifierReference> classifierReferencePrinter) {
 		ClassifierReferencePrinter = classifierReferencePrinter;
 	}
 

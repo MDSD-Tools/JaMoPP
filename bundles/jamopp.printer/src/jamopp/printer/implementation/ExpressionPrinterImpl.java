@@ -11,21 +11,20 @@ import org.emftext.language.java.expressions.LambdaExpression;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.printer.interfaces.printer.AssignmentExpressionChildPrinterInt;
-import jamopp.printer.interfaces.printer.AssignmentExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.LambdaExpressionPrinterInt;
 
 public class ExpressionPrinterImpl implements ExpressionPrinterInt {
 
+	private final Provider<Printer<AssignmentExpressionChild>> AssignmentExpressionChildPrinter;
+	private final Provider<Printer<AssignmentExpression>> AssignmentExpressionPrinter;
 	private final Provider<LambdaExpressionPrinterInt> LambdaExpressionPrinter;
-	private final Provider<AssignmentExpressionPrinterInt> AssignmentExpressionPrinter;
-	private final Provider<AssignmentExpressionChildPrinterInt> AssignmentExpressionChildPrinter;
 
 	@Inject
 	public ExpressionPrinterImpl(Provider<LambdaExpressionPrinterInt> lambdaExpressionPrinter,
-			Provider<AssignmentExpressionPrinterInt> assignmentExpressionPrinter,
-			Provider<AssignmentExpressionChildPrinterInt> assignmentExpressionChildPrinter) {
+			Provider<Printer<AssignmentExpression>> assignmentExpressionPrinter,
+			Provider<Printer<AssignmentExpressionChild>> assignmentExpressionChildPrinter) {
 		LambdaExpressionPrinter = lambdaExpressionPrinter;
 		AssignmentExpressionPrinter = assignmentExpressionPrinter;
 		AssignmentExpressionChildPrinter = assignmentExpressionChildPrinter;

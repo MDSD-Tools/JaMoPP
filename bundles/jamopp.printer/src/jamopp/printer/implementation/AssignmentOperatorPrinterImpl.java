@@ -16,10 +16,10 @@ import org.emftext.language.java.operators.AssignmentOr;
 import org.emftext.language.java.operators.AssignmentPlus;
 import org.emftext.language.java.operators.AssignmentRightShift;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AssignmentOperatorPrinterInt;
 
-public class AssignmentOperatorPrinterImpl implements AssignmentOperatorPrinterInt{
+public class AssignmentOperatorPrinterImpl implements Printer<AssignmentOperator>{
 
 	@Override
 	public void print(AssignmentOperator element, BufferedWriter writer) throws IOException {

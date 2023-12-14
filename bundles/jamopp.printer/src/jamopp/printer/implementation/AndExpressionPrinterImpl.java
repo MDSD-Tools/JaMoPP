@@ -4,19 +4,20 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.AndExpression;
+import org.emftext.language.java.expressions.AndExpressionChild;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AndExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.AndExpressionPrinterInt;
 
-public class AndExpressionPrinterImpl implements AndExpressionPrinterInt {
+public class AndExpressionPrinterImpl implements Printer<AndExpression> {
 
-	private final AndExpressionChildPrinterInt AndExpressionChildPrinter;
+	private final Printer<AndExpressionChild> AndExpressionChildPrinter;
 
 	@Inject
-	public AndExpressionPrinterImpl(AndExpressionChildPrinterInt andExpressionChildPrinter) {
+	public AndExpressionPrinterImpl(Printer<AndExpressionChild> andExpressionChildPrinter) {
 		AndExpressionChildPrinter = andExpressionChildPrinter;
 	}
 

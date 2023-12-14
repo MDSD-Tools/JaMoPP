@@ -2,7 +2,10 @@ package jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.List;
 
+import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.arrays.ArrayInitializer;
 import org.emftext.language.java.arrays.ArrayInstantiation;
 import org.emftext.language.java.arrays.ArrayInstantiationBySize;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
@@ -11,25 +14,22 @@ import org.emftext.language.java.expressions.Expression;
 
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.ArrayInitializerPrinterInt;
-import jamopp.printer.interfaces.printer.ArrayInstantiationPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class ArrayInstantiationPrinterImpl implements ArrayInstantiationPrinterInt {
+public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation> {
 
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<ArrayInitializer> ArrayInitializerPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
-	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
-	private final ArrayInitializerPrinterInt ArrayInitializerPrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
 	public ArrayInstantiationPrinterImpl(TypeReferencePrinterInt typeReferencePrinter,
-			TypeArgumentablePrinterInt typeArgumentablePrinter, ExpressionPrinterInt expressionPrinter,
-			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ArrayInitializerPrinterInt arrayInitializerPrinter) {
+			TypeArgumentablePrinterInt typeArgumentablePrinter, Printer<Expression> expressionPrinter,
+			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<ArrayInitializer> arrayInitializerPrinter) {
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;
 		ExpressionPrinter = expressionPrinter;
@@ -54,7 +54,7 @@ public class ArrayInstantiationPrinterImpl implements ArrayInstantiationPrinterI
 		} else if (element instanceof ArrayInstantiationByValuesUntyped inst) {
 			ArrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
 		} else {
-			ArrayInstantiationByValuesTyped inst = (ArrayInstantiationByValuesTyped) element;
+			var inst = (ArrayInstantiationByValuesTyped) element;
 			writer.append("new ");
 			TypeReferencePrinter.print(inst.getTypeReference(), writer);
 			TypeArgumentablePrinter.print(inst, writer);

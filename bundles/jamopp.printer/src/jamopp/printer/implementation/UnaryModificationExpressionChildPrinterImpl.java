@@ -11,7 +11,7 @@ import org.emftext.language.java.statements.Switch;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.CastExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.MethodReferenceExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.MethodReferenceExpressionPrinterInt;
@@ -21,13 +21,13 @@ import jamopp.printer.interfaces.printer.UnaryModificationExpressionChildPrinter
 public class UnaryModificationExpressionChildPrinterImpl implements UnaryModificationExpressionChildPrinterInt {
 
 	private final SwitchPrinterInt SwitchPrinter;
-	private final CastExpressionPrinterInt CastExpressionPrinter;
+	private final Printer<CastExpression> CastExpressionPrinter;
 	private final MethodReferenceExpressionPrinterInt MethodReferenceExpressionPrinter;
 	private final MethodReferenceExpressionChildPrinterInt MethodReferenceExpressionChildPrinter;
 
 	@Inject
 	public UnaryModificationExpressionChildPrinterImpl(SwitchPrinterInt switchPrinter,
-			CastExpressionPrinterInt castExpressionPrinter,
+			Printer<CastExpression> castExpressionPrinter,
 			MethodReferenceExpressionPrinterInt methodReferenceExpressionPrinter,
 			MethodReferenceExpressionChildPrinterInt methodReferenceExpressionChildPrinter) {
 		SwitchPrinter = switchPrinter;

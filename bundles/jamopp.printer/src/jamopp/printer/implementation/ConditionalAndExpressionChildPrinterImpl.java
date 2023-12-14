@@ -9,12 +9,12 @@ import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConditionalAndExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.InclusiveOrExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.InclusiveOrExpressionPrinterInt;
 
-public class ConditionalAndExpressionChildPrinterImpl implements ConditionalAndExpressionChildPrinterInt {
+public class ConditionalAndExpressionChildPrinterImpl implements Printer<ConditionalAndExpressionChild> {
 
 	private final InclusiveOrExpressionPrinterInt InclusiveOrExpressionPrinter;
 	private final InclusiveOrExpressionChildPrinterInt InclusiveOrExpressionChildPrinter;

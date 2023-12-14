@@ -3,12 +3,13 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
 import jamopp.printer.interfaces.printer.CompilationUnitPrinterInt;
 import jamopp.printer.interfaces.printer.ImportingElementPrinterInt;
@@ -19,12 +20,12 @@ public class JavaRootPrinterImpl implements JavaRootPrinterInt {
 
 	private final ImportingElementPrinterInt ImportingElementPrinter;
 	private final ModulePrinterInt ModulePrinter;
-	private final AnnotablePrinterInt AnnotablePrinter;
-	private final CompilationUnitPrinterInt CompilationUnitPrinter;
+	private final Printer<Annotable> AnnotablePrinter;
+	private final Printer<CompilationUnit> CompilationUnitPrinter;
 
 	@Inject
 	public JavaRootPrinterImpl(ImportingElementPrinterInt importingElementPrinter, ModulePrinterInt modulePrinter,
-			AnnotablePrinterInt annotablePrinter, CompilationUnitPrinterInt compilationUnitPrinter) {
+			Printer<Annotable> annotablePrinter, Printer<CompilationUnit> compilationUnitPrinter) {
 		ImportingElementPrinter = importingElementPrinter;
 		ModulePrinter = modulePrinter;
 		AnnotablePrinter = annotablePrinter;

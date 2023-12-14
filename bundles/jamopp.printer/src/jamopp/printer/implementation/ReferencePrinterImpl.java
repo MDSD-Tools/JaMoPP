@@ -18,11 +18,7 @@ import org.emftext.language.java.references.TextBlockReference;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayInstantiationPrinterInt;
-import jamopp.printer.interfaces.printer.ArraySelectorPrinterInt;
-import jamopp.printer.interfaces.printer.ElementReferencePrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.InstantiationPrinterInt;
 import jamopp.printer.interfaces.printer.NestedExpressionPrinterInt;
 import jamopp.printer.interfaces.printer.PrimitiveTypeReferencePrinterInt;
@@ -34,27 +30,27 @@ import jamopp.printer.interfaces.printer.TextBlockReferencePrinterInt;
 
 public class ReferencePrinterImpl implements ReferencePrinterInt {
 
-	private final AnnotationInstancePrinterInt AnnotationInstancePrinter;
-	private final NestedExpressionPrinterInt NestedExpressionPrinter;
-	private final ReflectiveClassReferencePrinterInt ReflectiveClassReferencePrinter;
-	private final PrimitiveTypeReferencePrinterInt PrimitiveTypeReferencePrinter;
-	private final StringReferencePrinterInt StringReferencePrinter;
-	private final SelfReferencePrinterInt SelfReferencePrinter;
-	private final ArrayInstantiationPrinterInt ArrayInstantiationPrinter;
+	private final Printer<AnnotationInstance> AnnotationInstancePrinter;
+	private final Printer<ArrayInstantiation> ArrayInstantiationPrinter;
+	private final Printer<ArraySelector> ArraySelectorPrinter;
+	private final Printer<ElementReference> ElementReferencePrinter;
 	private final InstantiationPrinterInt InstantiationPrinter;
+	private final NestedExpressionPrinterInt NestedExpressionPrinter;
+	private final PrimitiveTypeReferencePrinterInt PrimitiveTypeReferencePrinter;
+	private final ReflectiveClassReferencePrinterInt ReflectiveClassReferencePrinter;
+	private final SelfReferencePrinterInt SelfReferencePrinter;
+	private final StringReferencePrinterInt StringReferencePrinter;
 	private final TextBlockReferencePrinterInt TextBlockReferencePrinter;
-	private final ElementReferencePrinterInt ElementReferencePrinter;
-	private final ArraySelectorPrinterInt ArraySelectorPrinter;
 
 	@Inject
-	public ReferencePrinterImpl(AnnotationInstancePrinterInt annotationInstancePrinter,
+	public ReferencePrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
 			NestedExpressionPrinterInt nestedExpressionPrinter,
 			ReflectiveClassReferencePrinterInt reflectiveClassReferencePrinter,
 			PrimitiveTypeReferencePrinterInt primitiveTypeReferencePrinter,
 			StringReferencePrinterInt stringReferencePrinter, SelfReferencePrinterInt selfReferencePrinter,
-			ArrayInstantiationPrinterInt arrayInstantiationPrinter, InstantiationPrinterInt instantiationPrinter,
-			TextBlockReferencePrinterInt textBlockReferencePrinter, ElementReferencePrinterInt elementReferencePrinter,
-			ArraySelectorPrinterInt arraySelectorPrinter) {
+			Printer<ArrayInstantiation> arrayInstantiationPrinter, InstantiationPrinterInt instantiationPrinter,
+			TextBlockReferencePrinterInt textBlockReferencePrinter, Printer<ElementReference> elementReferencePrinter,
+			Printer<ArraySelector> arraySelectorPrinter) {
 		AnnotationInstancePrinter = annotationInstancePrinter;
 		NestedExpressionPrinter = nestedExpressionPrinter;
 		ReflectiveClassReferencePrinter = reflectiveClassReferencePrinter;

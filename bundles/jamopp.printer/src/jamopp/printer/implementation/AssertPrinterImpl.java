@@ -3,20 +3,20 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Assert;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import jamopp.printer.interfaces.printer.AssertPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+import jamopp.printer.interfaces.Printer;
 
-public class AssertPrinterImpl implements AssertPrinterInt {
+public class AssertPrinterImpl implements Printer<Assert> {
 
-	private final Provider<ExpressionPrinterInt> ExpressionPrinter;
+	private final Provider<Printer<Expression>> ExpressionPrinter;
 
 	@Inject
-	public AssertPrinterImpl(Provider<ExpressionPrinterInt> expressionPrinter) {
+	public AssertPrinterImpl(Provider<Printer<Expression>> expressionPrinter) {
 		ExpressionPrinter = expressionPrinter;
 	}
 
@@ -31,6 +31,6 @@ public class AssertPrinterImpl implements AssertPrinterInt {
 		writer.append(";\n");
 	}
 
-	
+
 
 }

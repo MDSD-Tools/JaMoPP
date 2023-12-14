@@ -2,35 +2,34 @@ package jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.List;
 
+import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Field;
+import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.AdditionalFieldPrinterInt;
-import jamopp.printer.interfaces.printer.AnnotableAndModifiablePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayDimensionsPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.FieldPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.TypeArgumentablePrinterInt;
 import jamopp.printer.interfaces.printer.TypeReferencePrinterInt;
 
-public class FieldPrinterImpl implements FieldPrinterInt {
+public class FieldPrinterImpl implements Printer<Field> {
 
-	private final AnnotableAndModifiablePrinterInt AnnotableAndModifiablePrinter;
-	private final TypeReferencePrinterInt TypeReferencePrinter;
+	private final Printer<AdditionalField> AdditionalFieldPrinter;
+	private final Printer<AnnotableAndModifiable> AnnotableAndModifiablePrinter;
+	private final Printer<List<ArrayDimension>> ArrayDimensionsPrinter;
+	private final Printer<Expression> ExpressionPrinter;
 	private final TypeArgumentablePrinterInt TypeArgumentablePrinter;
-	private final ArrayDimensionsPrinterInt ArrayDimensionsPrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
-	private final AdditionalFieldPrinterInt AdditionalFieldPrinter;
+	private final TypeReferencePrinterInt TypeReferencePrinter;
 
 	@Inject
-	public FieldPrinterImpl(AnnotableAndModifiablePrinterInt annotableAndModifiablePrinter,
+	public FieldPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
 			TypeReferencePrinterInt typeReferencePrinter, TypeArgumentablePrinterInt typeArgumentablePrinter,
-			ArrayDimensionsPrinterInt arrayDimensionsPrinter, ExpressionPrinterInt expressionPrinter,
-			AdditionalFieldPrinterInt additionalFieldPrinter) {
+			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter,
+			Printer<AdditionalField> additionalFieldPrinter) {
 		AnnotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		TypeReferencePrinter = typeReferencePrinter;
 		TypeArgumentablePrinter = typeArgumentablePrinter;

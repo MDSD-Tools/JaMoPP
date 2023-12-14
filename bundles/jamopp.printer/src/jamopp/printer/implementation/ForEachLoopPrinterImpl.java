@@ -3,24 +3,24 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.ForEachLoop;
 
 import com.google.inject.Inject;
 
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
-import jamopp.printer.interfaces.printer.ForEachLoopPrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.OrdinaryParameterPrinterInt;
 import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
-public class ForEachLoopPrinterImpl implements ForEachLoopPrinterInt {
+public class ForEachLoopPrinterImpl implements Printer<ForEachLoop> {
 
+	private final Printer<Expression> ExpressionPrinter;
 	private final OrdinaryParameterPrinterInt OrdinaryParameterPrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
 	private final StatementPrinterInt StatementPrinter;
 
 	@Inject
 	public ForEachLoopPrinterImpl(OrdinaryParameterPrinterInt ordinaryParameterPrinter,
-			ExpressionPrinterInt expressionPrinter, StatementPrinterInt statementPrinter) {
+			Printer<Expression> expressionPrinter, StatementPrinterInt statementPrinter) {
 		OrdinaryParameterPrinter = ordinaryParameterPrinter;
 		ExpressionPrinter = expressionPrinter;
 		StatementPrinter = statementPrinter;

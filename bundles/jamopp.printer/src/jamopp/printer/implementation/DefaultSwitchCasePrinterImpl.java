@@ -8,11 +8,10 @@ import org.emftext.language.java.statements.Statement;
 
 import com.google.inject.Inject;
 
-
-import jamopp.printer.interfaces.printer.DefaultSwitchCasePrinterInt;
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.StatementPrinterInt;
 
-public class DefaultSwitchCasePrinterImpl implements DefaultSwitchCasePrinterInt {
+public class DefaultSwitchCasePrinterImpl implements Printer<DefaultSwitchCase> {
 
 	private final StatementPrinterInt StatementPrinter;
 
@@ -20,6 +19,7 @@ public class DefaultSwitchCasePrinterImpl implements DefaultSwitchCasePrinterInt
 	public DefaultSwitchCasePrinterImpl(StatementPrinterInt statementPrinter) {
 		StatementPrinter = statementPrinter;
 	}
+
 
 	@Override
 	public void print(DefaultSwitchCase element, BufferedWriter writer) throws IOException {

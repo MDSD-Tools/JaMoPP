@@ -4,20 +4,21 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.expressions.ConditionalAndExpression;
+import org.emftext.language.java.expressions.ConditionalAndExpressionChild;
 
 import com.google.inject.Inject;
 
-
+import jamopp.printer.interfaces.Printer;
 import jamopp.printer.interfaces.printer.ConditionalAndExpressionChildPrinterInt;
 import jamopp.printer.interfaces.printer.ConditionalAndExpressionPrinterInt;
 
-public class ConditionalAndExpressionPrinterImpl implements ConditionalAndExpressionPrinterInt {
+public class ConditionalAndExpressionPrinterImpl implements Printer<ConditionalAndExpression> {
 
-	private final ConditionalAndExpressionChildPrinterInt ConditionalAndExpressionChildPrinter;
+	private final Printer<ConditionalAndExpressionChild> ConditionalAndExpressionChildPrinter;
 
 	@Inject
 	public ConditionalAndExpressionPrinterImpl(
-			ConditionalAndExpressionChildPrinterInt conditionalAndExpressionChildPrinter) {
+			Printer<ConditionalAndExpressionChild> conditionalAndExpressionChildPrinter) {
 		ConditionalAndExpressionChildPrinter = conditionalAndExpressionChildPrinter;
 	}
 

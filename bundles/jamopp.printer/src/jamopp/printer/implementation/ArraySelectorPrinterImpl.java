@@ -3,22 +3,21 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.arrays.ArraySelector;
+import org.emftext.language.java.expressions.Expression;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.AnnotablePrinterInt;
-import jamopp.printer.interfaces.printer.ArraySelectorPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+public class ArraySelectorPrinterImpl implements Printer<ArraySelector> {
 
-public class ArraySelectorPrinterImpl implements ArraySelectorPrinterInt {
-
-	private final AnnotablePrinterInt AnnotablePrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Printer<Annotable> AnnotablePrinter;
+	private final Printer<Expression> ExpressionPrinter;
 
 	@Inject
-	public ArraySelectorPrinterImpl(AnnotablePrinterInt annotablePrinter, ExpressionPrinterInt expressionPrinter) {
+	public ArraySelectorPrinterImpl(Printer<Annotable> annotablePrinter, Printer<Expression> expressionPrinter) {
 		AnnotablePrinter = annotablePrinter;
 		ExpressionPrinter = expressionPrinter;
 	}
@@ -31,6 +30,6 @@ public class ArraySelectorPrinterImpl implements ArraySelectorPrinterInt {
 		writer.append("]");
 	}
 
-	
+
 
 }

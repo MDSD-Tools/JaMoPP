@@ -4,25 +4,21 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.arrays.ArrayInitializationValue;
 import org.emftext.language.java.arrays.ArrayInitializer;
 import org.emftext.language.java.expressions.Expression;
 
 import com.google.inject.Inject;
 
+import jamopp.printer.interfaces.Printer;
 
-import jamopp.printer.interfaces.printer.AnnotationInstancePrinterInt;
-import jamopp.printer.interfaces.printer.ArrayInitializerPrinterInt;
-import jamopp.printer.interfaces.printer.ExpressionPrinterInt;
+public class ArrayInitializerPrinterImpl implements Printer<ArrayInitializer> {
 
-public class ArrayInitializerPrinterImpl implements ArrayInitializerPrinterInt {
-
-	private final AnnotationInstancePrinterInt AnnotationInstancePrinter;
-	private final ExpressionPrinterInt ExpressionPrinter;
+	private final Printer<AnnotationInstance> AnnotationInstancePrinter;
+	private final Printer<Expression> ExpressionPrinter;
 
 	@Inject
-	public ArrayInitializerPrinterImpl(AnnotationInstancePrinterInt annotationInstancePrinter,
-			ExpressionPrinterInt expressionPrinter) {
+	public ArrayInitializerPrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
+			Printer<Expression> expressionPrinter) {
 		AnnotationInstancePrinter = annotationInstancePrinter;
 		ExpressionPrinter = expressionPrinter;
 	}
@@ -30,8 +26,8 @@ public class ArrayInitializerPrinterImpl implements ArrayInitializerPrinterInt {
 	@Override
 	public void print(ArrayInitializer element, BufferedWriter writer) throws IOException {
 		writer.append("{");
-		for (int index = 0; index < element.getInitialValues().size(); index++) {
-			ArrayInitializationValue val = element.getInitialValues().get(index);
+		for (var index = 0; index < element.getInitialValues().size(); index++) {
+			var val = element.getInitialValues().get(index);
 			if (val instanceof AnnotationInstance) {
 				AnnotationInstancePrinter.print((AnnotationInstance) val, writer);
 			} else if (val instanceof ArrayInitializer) {
