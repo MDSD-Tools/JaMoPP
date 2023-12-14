@@ -9,7 +9,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.ArrayDimensionsPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(ArrayDimensionsPrinter.class)
+
 public interface ArrayDimensionsPrinterInt extends Printer<List<ArrayDimension>> {
 
 }

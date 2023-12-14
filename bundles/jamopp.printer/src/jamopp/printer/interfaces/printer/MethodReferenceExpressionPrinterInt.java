@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.MethodReferenceExpressionPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(MethodReferenceExpressionPrinter.class)
+
 public interface MethodReferenceExpressionPrinterInt extends Printer<MethodReferenceExpression> {
 
 }

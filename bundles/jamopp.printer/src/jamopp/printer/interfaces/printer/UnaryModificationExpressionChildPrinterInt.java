@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.UnaryModificationExpressionChildPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(UnaryModificationExpressionChildPrinter.class)
+
 public interface UnaryModificationExpressionChildPrinterInt extends Printer<UnaryModificationExpressionChild> {
 
 }

@@ -14,7 +14,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import jamopp.printer.implementation.JavaRootPrinter;
-import jamopp.printer.injection.ModulePrinter;
+import jamopp.printer.injection.ModulePrinterInjection;
 
 /**
  * This public class provides methods to print JaMoPP model instances.
@@ -24,7 +24,7 @@ public final class JaMoPPPrinter {
 	private final static JavaRootPrinter javaRootPrinter;
 
 	static {
-		Injector injector = Guice.createInjector(new ModulePrinter());
+		Injector injector = Guice.createInjector(new ModulePrinterInjection());
 		javaRootPrinter = injector.getInstance(JavaRootPrinter.class);
 	}
 

@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.AssignmentExpressionChildPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(AssignmentExpressionChildPrinter.class)
+
 public interface AssignmentExpressionChildPrinterInt extends Printer<AssignmentExpressionChild> {
 
 }

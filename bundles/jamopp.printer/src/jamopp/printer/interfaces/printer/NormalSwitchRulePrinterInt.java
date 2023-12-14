@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.NormalSwitchRulePrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(NormalSwitchRulePrinter.class)
+
 public interface NormalSwitchRulePrinterInt extends Printer<NormalSwitchRule> {
 
 }

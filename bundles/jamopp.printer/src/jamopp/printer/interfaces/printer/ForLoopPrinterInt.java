@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.ForLoopPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(ForLoopPrinter.class)
+
 public interface ForLoopPrinterInt extends Printer<ForLoop> {
 
 }

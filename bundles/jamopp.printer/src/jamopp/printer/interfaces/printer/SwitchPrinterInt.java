@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.SwitchPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(SwitchPrinter.class)
+
 public interface SwitchPrinterInt extends Printer<Switch> {
 
 }

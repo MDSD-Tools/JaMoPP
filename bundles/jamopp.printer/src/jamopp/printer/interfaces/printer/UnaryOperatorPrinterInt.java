@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.UnaryOperatorPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(UnaryOperatorPrinter.class)
+
 public interface UnaryOperatorPrinterInt extends Printer<UnaryOperator> {
 
 }

@@ -6,6 +6,7 @@ Bundle-Version: 5.1.0.qualifier
 Automatic-Module-Name: jamopp.printer
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: MDSD-Tools
-Require-Bundle: org.emftext.language.java
+Require-Bundle: org.emftext.language.java,
+ com.google.inject
 Export-Package: jamopp.printer
 Import-Package: com.google.inject

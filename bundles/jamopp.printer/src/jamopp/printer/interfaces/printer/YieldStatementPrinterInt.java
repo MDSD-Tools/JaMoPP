@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.YieldStatementPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(YieldStatementPrinter.class)
+
 public interface YieldStatementPrinterInt extends Printer<YieldStatement> {
 
 }

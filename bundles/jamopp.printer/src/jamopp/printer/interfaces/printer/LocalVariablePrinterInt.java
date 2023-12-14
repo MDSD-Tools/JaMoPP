@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.LocalVariablePrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(LocalVariablePrinter.class)
+
 public interface LocalVariablePrinterInt extends Printer<LocalVariable> {
 
 }

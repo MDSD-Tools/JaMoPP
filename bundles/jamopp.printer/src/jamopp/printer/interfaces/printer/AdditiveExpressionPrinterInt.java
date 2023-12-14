@@ -7,6 +7,6 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.AdditiveExpressionPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(AdditiveExpressionPrinter.class)
+
 public interface AdditiveExpressionPrinterInt extends Printer<AdditiveExpression> {
 }

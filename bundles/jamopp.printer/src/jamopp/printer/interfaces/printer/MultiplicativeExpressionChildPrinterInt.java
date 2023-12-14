@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.MultiplicativeExpressionChildPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(MultiplicativeExpressionChildPrinter.class)
+
 public interface MultiplicativeExpressionChildPrinterInt extends Printer<MultiplicativeExpressionChild> {
 
 }

@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.SelfReferencePrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(SelfReferencePrinter.class)
+
 public interface SelfReferencePrinterInt extends Printer<SelfReference> {
 
 }

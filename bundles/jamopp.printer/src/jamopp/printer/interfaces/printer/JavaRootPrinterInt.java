@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.JavaRootPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(JavaRootPrinter.class)
+
 public interface JavaRootPrinterInt extends Printer<JavaRoot> {
 
 }

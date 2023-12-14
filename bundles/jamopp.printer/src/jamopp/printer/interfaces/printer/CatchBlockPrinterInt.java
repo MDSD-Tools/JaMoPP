@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.CatchBlockPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(CatchBlockPrinter.class)
+
 public interface CatchBlockPrinterInt extends Printer<CatchBlock> {
 
 }

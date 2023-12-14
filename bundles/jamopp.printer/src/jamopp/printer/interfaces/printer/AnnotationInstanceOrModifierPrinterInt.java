@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.AnnotationInstanceOrModifierPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(AnnotationInstanceOrModifierPrinter.class)
+
 public interface AnnotationInstanceOrModifierPrinterInt extends Printer<AnnotationInstanceOrModifier> {
 
 }

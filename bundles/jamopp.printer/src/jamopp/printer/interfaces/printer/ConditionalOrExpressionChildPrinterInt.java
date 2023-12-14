@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.ConditionalOrExpressionChildPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(ConditionalOrExpressionChildPrinter.class)
+
 public interface ConditionalOrExpressionChildPrinterInt extends Printer<ConditionalOrExpressionChild> {
 
 }

@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.VariableLengthParameterPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(VariableLengthParameterPrinter.class)
+
 public interface VariableLengthParameterPrinterInt extends Printer<VariableLengthParameter> {
 
 }

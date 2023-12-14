@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.ExceptionThrowerPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(ExceptionThrowerPrinter.class)
+
 public interface ExceptionThrowerPrinterInt extends Printer<ExceptionThrower> {
 
 }

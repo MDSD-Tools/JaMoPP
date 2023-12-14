@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.RelationExpressionPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(RelationExpressionPrinter.class)
+
 public interface RelationExpressionPrinterInt extends Printer<RelationExpression> {
 
 }

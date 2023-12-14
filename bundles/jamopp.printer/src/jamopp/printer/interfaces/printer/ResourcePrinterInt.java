@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.ResourcePrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(ResourcePrinter.class)
+
 public interface ResourcePrinterInt extends Printer<Resource> {
 
 }

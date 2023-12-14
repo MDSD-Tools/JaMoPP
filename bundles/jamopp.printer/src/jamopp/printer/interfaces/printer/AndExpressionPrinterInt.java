@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.AndExpressionPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(AndExpressionPrinter.class)
+
 public interface AndExpressionPrinterInt extends Printer<AndExpression> {
 
 }

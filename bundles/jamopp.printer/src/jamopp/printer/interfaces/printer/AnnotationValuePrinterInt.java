@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.AnnotationValuePrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(AnnotationValuePrinter.class)
+
 public interface AnnotationValuePrinterInt extends Printer<AnnotationValue> {
 
 }

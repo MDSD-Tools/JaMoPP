@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 import jamopp.printer.implementation.InclusiveOrExpressionChildPrinter;
 import jamopp.printer.interfaces.Printer;
 
-@ImplementedBy(InclusiveOrExpressionChildPrinter.class)
+
 public interface InclusiveOrExpressionChildPrinterInt extends Printer<InclusiveOrExpressionChild> {
 
 }
