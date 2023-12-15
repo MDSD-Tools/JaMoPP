@@ -35,10 +35,6 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.implementation.jamopp.JamoppClasspathEntriesSearcherImpl;
-import jamopp.parser.jdt.implementation.jamopp.JamoppCompilationUnitsFactoryImpl;
-import jamopp.parser.jdt.implementation.jamopp.JamoppFileWithJDTParserImpl;
-import jamopp.parser.jdt.implementation.jamopp.JamoppJavaParserFactoryImpl;
 import jamopp.parser.jdt.injection.ConverterModule;
 import jamopp.parser.jdt.injection.FactoryModule;
 import jamopp.parser.jdt.injection.HandlerModule;
@@ -79,10 +75,10 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		typeInstructionSeparationUtility = injector.getInstance(UtilTypeInstructionSeparation.class);
 		containersFactory = injector.getInstance(ContainersFactory.class);
 		logger = injector.getInstance(Logger.class);
-		jamoppClasspathEntriesSearcher = injector.getInstance(JamoppClasspathEntriesSearcherImpl.class);
-		jamoppCompilationUnitsFactory = injector.getInstance(JamoppCompilationUnitsFactoryImpl.class);
-		jamoppJavaParserFactory = injector.getInstance(JamoppJavaParserFactoryImpl.class);
-		jamoppFileWithJDTParser = injector.getInstance(JamoppFileWithJDTParserImpl.class);
+		jamoppClasspathEntriesSearcher = injector.getInstance(JamoppClasspathEntriesSearcher.class);
+		jamoppCompilationUnitsFactory = injector.getInstance(JamoppCompilationUnitsFactory.class);
+		jamoppJavaParserFactory = injector.getInstance(JamoppJavaParserFactory.class);
+		jamoppFileWithJDTParser = injector.getInstance(JamoppFileWithJDTParser.class);
 	}
 
 	public static String[] getClasspathEntries(Path dir) {
