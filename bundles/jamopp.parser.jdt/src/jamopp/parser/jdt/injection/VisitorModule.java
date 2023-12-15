@@ -2,8 +2,8 @@ package jamopp.parser.jdt.injection;
 
 import com.google.inject.AbstractModule;
 
-import jamopp.parser.jdt.visitor.AbstractVisitor;
-import jamopp.parser.jdt.visitor.VisitorAndConverterAbstractAndEmptyModelJDTAST;
+import jamopp.parser.jdt.implementation.visitor.VisitorAndConverterAbstractAndEmptyModelJDTAST;
+import jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public class VisitorModule extends AbstractModule {
 

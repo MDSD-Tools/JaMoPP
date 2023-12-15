@@ -17,6 +17,7 @@ public class AdditionalFieldPrinterImpl implements Printer<AdditionalField> {
 	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
 	private final Printer<Expression> expressionPrinter;
 
+	
 	@Inject
 	public AdditionalFieldPrinterImpl(Printer<Expression> expressionPrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
