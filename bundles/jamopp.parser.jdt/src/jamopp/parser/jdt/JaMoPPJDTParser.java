@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
@@ -24,61 +26,54 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 
-import com.google.inject.Guice;
-import com.google.inject.Key;
-import com.google.inject.name.Names;
-
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.injection.ConverterModule;
-import jamopp.parser.jdt.injection.FactoryModule;
-import jamopp.parser.jdt.injection.HandlerModule;
-import jamopp.parser.jdt.injection.JamoppModule;
-import jamopp.parser.jdt.injection.UtilModule;
-import jamopp.parser.jdt.injection.VisitorModule;
-import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.interfaces.jamopp.JamoppClasspathEntriesSearcher;
-import jamopp.parser.jdt.interfaces.jamopp.JamoppCompilationUnitsFactory;
-import jamopp.parser.jdt.interfaces.jamopp.JamoppFileWithJDTParser;
-import jamopp.parser.jdt.interfaces.jamopp.JamoppJavaParserFactory;
-import jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.injector.Injector;
+import jamopp.parser.jdt.other.JamoppClasspathEntriesSearcher;
+import jamopp.parser.jdt.other.JamoppCompilationUnitsFactory;
+import jamopp.parser.jdt.other.JamoppFileWithJDTParser;
+import jamopp.parser.jdt.other.JamoppJavaParserFactory;
+import jamopp.parser.jdt.visitor.AbstractVisitor;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
-	private static final ContainersFactory containersFactory;
 	public static final String DEFAULT_ENCODING;
-
 	public static final String DEFAULT_JAVA_VERSION;
+
+	private static final Logger logger;
+
+	private static final IUtilJdtResolver jdtResolverUtility;
+	private static final ContainersFactory containersFactory;
+	private static final AbstractVisitor converter;
+	private static final IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
+
 	private static final JamoppClasspathEntriesSearcher jamoppClasspathEntriesSearcher;
 	private static final JamoppCompilationUnitsFactory jamoppCompilationUnitsFactory;
 	private static final JamoppFileWithJDTParser jamoppFileWithJDTParser;
 	private static final JamoppJavaParserFactory jamoppJavaParserFactory;
-	private static final UtilJdtResolver jdtResolverUtility;
-	private static final Logger logger;
-	private static final UtilTypeInstructionSeparation typeInstructionSeparationUtility;
-	private static final AbstractVisitor visitor;
 
 	static {
-		var injector = Guice.createInjector(new UtilModule(), new FactoryModule(), new ConverterModule(),
-				new HandlerModule(), new VisitorModule(), new JamoppModule());
+		DEFAULT_ENCODING = StandardCharsets.UTF_8.toString();
+		DEFAULT_JAVA_VERSION = "14";
 
-		DEFAULT_ENCODING = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_ENCODING")));
-		DEFAULT_JAVA_VERSION = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_JAVA_VERSION")));
-		visitor = injector.getInstance(AbstractVisitor.class);
-		jdtResolverUtility = injector.getInstance(UtilJdtResolver.class);
-		typeInstructionSeparationUtility = injector.getInstance(UtilTypeInstructionSeparation.class);
-		containersFactory = injector.getInstance(ContainersFactory.class);
-		logger = injector.getInstance(Logger.class);
-		jamoppClasspathEntriesSearcher = injector.getInstance(JamoppClasspathEntriesSearcher.class);
-		jamoppCompilationUnitsFactory = injector.getInstance(JamoppCompilationUnitsFactory.class);
-		jamoppJavaParserFactory = injector.getInstance(JamoppJavaParserFactory.class);
-		jamoppFileWithJDTParser = injector.getInstance(JamoppFileWithJDTParser.class);
+		typeInstructionSeparationUtility = Injector.getTypeInstructionSeparationUtility();
+		jdtResolverUtility = Injector.getJDTResolverUtility();
+		converter = Injector.getVisitor();
+		containersFactory = Injector.getContainersFactory();
+
+		logger = Logger.getLogger(JaMoPPJDTParser.class.getSimpleName());
+		jamoppClasspathEntriesSearcher = new JamoppClasspathEntriesSearcher(logger);
+		jamoppCompilationUnitsFactory = new JamoppCompilationUnitsFactory(logger);
+		jamoppJavaParserFactory = new JamoppJavaParserFactory(logger);
+		jamoppFileWithJDTParser = new JamoppFileWithJDTParser(jamoppJavaParserFactory, DEFAULT_JAVA_VERSION);
 	}
 
 	public static String[] getClasspathEntries(Path dir) {
@@ -105,8 +100,8 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 	public List<JavaRoot> convertCompilationUnits(Map<String, CompilationUnit> compilationUnits) {
 		final List<JavaRoot> result = new ArrayList<>();
 		for (final String sourceFilePath : compilationUnits.keySet()) {
-			compilationUnits.get(sourceFilePath).accept(visitor);
-			final var root = visitor.getConvertedElement();
+			compilationUnits.get(sourceFilePath).accept(converter);
+			final JavaRoot root = converter.getConvertedElement();
 			Resource newResource;
 			if (root.eResource() == null) {
 				newResource = JaMoPPJDTParser.this.resourceSet.createResource(URI.createFileURI(sourceFilePath));
@@ -142,28 +137,28 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		final var other = (JaMoPPJDTParser) obj;
+		final JaMoPPJDTParser other = (JaMoPPJDTParser) obj;
 		return Objects.equals(this.resourceSet, other.resourceSet);
 	}
 
 	public <T> Set<T> get(Class<T> type) {
-		return this.resourceSet.getResources().stream().filter(Objects::nonNull)
+		return resourceSet.getResources().stream().filter(Objects::nonNull)
 				.filter(r -> (!r.getContents().isEmpty() && !"file".equals(r.getURI().scheme())))
 				.map(r -> r.getContents().get(0)).filter(Objects::nonNull).filter(type::isInstance).map(type::cast)
 				.collect(Collectors.toSet());
 	}
 
 	public ResourceSet getResourceSet() {
-		return this.resourceSet;
+		return resourceSet;
 	}
 
 	public String[] getSourcepathEntries(Path dir) {
-		try (var paths = Files.walk(dir)) {
+		try (Stream<Path> paths = Files.walk(dir)) {
 			return paths
 					.filter(path -> Files.isRegularFile(path)
 							&& path.getFileName().toString().toLowerCase().endsWith("java"))
 					.map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).filter(p -> {
-						final var r = JavaClasspath.get().getResource(URI.createFileURI(p));
+						final Resource r = JavaClasspath.get().getResource(URI.createFileURI(p));
 						if (r != null) {
 							JaMoPPJDTParser.this.resourceSet.getResources().add(r);
 							return false;
@@ -183,34 +178,34 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public JavaRoot parse(String fileName, InputStream input) {
-		final var r = JavaClasspath.get().getResource(URI.createFileURI(fileName));
+		final Resource r = JavaClasspath.get().getResource(URI.createFileURI(fileName));
 		if (r != null) {
 			return (JavaRoot) r.getContents().get(0);
 		}
-		final var builder = new StringBuilder();
-		final var lineSep = System.lineSeparator();
-		try (var buffReader = new BufferedReader(new InputStreamReader(input))) {
+		final StringBuilder builder = new StringBuilder();
+		final String lineSep = System.lineSeparator();
+		try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(input))) {
 			buffReader.lines().forEach(line -> builder.append(line + lineSep));
 		} catch (final IOException e) {
 			logger.error(input, e);
 		}
-		final var src = builder.toString();
-		final var ast = jamoppFileWithJDTParser.parseFileWithJDT(src, fileName);
-		visitor.setSource(src);
-		ast.accept(visitor);
+		final String src = builder.toString();
+		final ASTNode ast = jamoppFileWithJDTParser.parseFileWithJDT(src, fileName);
+		converter.setSource(src);
+		ast.accept(converter);
 		typeInstructionSeparationUtility.convertAll();
 		jdtResolverUtility.completeResolution();
 		this.resourceSet = null;
-		return visitor.getConvertedElement();
+		return converter.getConvertedElement();
 	}
 
 	public ResourceSet parseDirectory(ASTParser parser, Path dir) {
-		final var sources = getSourcepathEntries(dir);
-		final var encodings = new String[sources.length];
+		final String[] sources = getSourcepathEntries(dir);
+		final String[] encodings = new String[sources.length];
 		Arrays.fill(encodings, DEFAULT_ENCODING);
 		this.parseFilesWithJDT(parser, getClasspathEntries(dir), sources, encodings);
 
-		final var result = this.resourceSet;
+		final ResourceSet result = this.resourceSet;
 		this.resourceSet = null;
 		return result;
 	}
@@ -222,7 +217,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public Resource parseFile(Path file) {
-		var result = JavaClasspath.get().getResource(URI.createFileURI(file.toAbsolutePath().toString()));
+		Resource result = JavaClasspath.get().getResource(URI.createFileURI(file.toAbsolutePath().toString()));
 		if (result != null) {
 			return result;
 		}
@@ -236,7 +231,8 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	private List<JavaRoot> parseFilesWithJDT(ASTParser parser, String[] classpathEntries, String[] sources,
 			String[] encodings) {
-		final var compilationUnits = getCompilationUnits(parser, classpathEntries, sources, encodings);
+		final Map<String, CompilationUnit> compilationUnits = getCompilationUnits(parser, classpathEntries, sources,
+				encodings);
 		return convertCompilationUnits(compilationUnits);
 	}
 
@@ -255,7 +251,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 
 		this.convertCompilationUnits(compilationUnits);
-		final var result = this.resourceSet;
+		final ResourceSet result = this.resourceSet;
 		this.resourceSet = null;
 		return result;
 	}
@@ -277,7 +273,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 
 		this.convertCompilationUnits(compilationUnits);
-		final var result = this.resourceSet;
+		final ResourceSet result = this.resourceSet;
 		this.resourceSet = null;
 		return result;
 	}
@@ -289,7 +285,7 @@ public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public String toString() {
-		return "JaMoPPJDTParser [resourceSet=" + this.resourceSet + "]";
+		return "JaMoPPJDTParser [resourceSet=" + resourceSet + "]";
 	}
 
 }
