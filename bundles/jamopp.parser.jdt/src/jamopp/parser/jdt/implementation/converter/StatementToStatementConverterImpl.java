@@ -54,7 +54,7 @@ import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConver
 import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class StatementToStatementConverterImpl
-		implements Converter<Statement, org.emftext.language.java.statements.Statement> {
+implements Converter<Statement, org.emftext.language.java.statements.Statement> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
@@ -116,229 +116,317 @@ public class StatementToStatementConverterImpl
 		this.toAdditionalLocalVariableConverter = toAdditionalLocalVariableConverter;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public org.emftext.language.java.statements.Statement convert(Statement statement) {
 		if (statement.getNodeType() == ASTNode.ASSERT_STATEMENT) {
-			AssertStatement assertSt = (AssertStatement) statement;
-			org.emftext.language.java.statements.Assert result = statementsFactory.createAssert();
-			result.setCondition(expressionConverterUtility.convert(assertSt.getExpression()));
-			if (assertSt.getMessage() != null) {
-				result.setErrorMessage(expressionConverterUtility.convert(assertSt.getMessage()));
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, assertSt);
-			return result;
+			return handleAssertStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.BLOCK) {
-			return blockToBlockConverter.convert((Block) statement);
+			return handleBlock(statement);
 		}
 		if (statement.getNodeType() == ASTNode.BREAK_STATEMENT) {
-			BreakStatement breakSt = (BreakStatement) statement;
-			org.emftext.language.java.statements.Break result = statementsFactory.createBreak();
-			if (breakSt.getLabel() != null) {
-				org.emftext.language.java.statements.JumpLabel proxyTarget = currentJumpLabels.stream()
-						.filter(label -> label.getName().equals(breakSt.getLabel().getIdentifier())).findFirst().get();
-				result.setTarget(proxyTarget);
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, breakSt);
-			return result;
+			return handleBreakStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.CONTINUE_STATEMENT) {
-			ContinueStatement conSt = (ContinueStatement) statement;
-			org.emftext.language.java.statements.Continue result = statementsFactory.createContinue();
-			if (conSt.getLabel() != null) {
-				org.emftext.language.java.statements.JumpLabel proxyTarget = currentJumpLabels.stream()
-						.filter(label -> label.getName().equals(conSt.getLabel().getIdentifier())).findFirst().get();
-				result.setTarget(proxyTarget);
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, conSt);
-			return result;
+			return handleContinueStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.DO_STATEMENT) {
-			DoStatement doSt = (DoStatement) statement;
-			org.emftext.language.java.statements.DoWhileLoop result = statementsFactory.createDoWhileLoop();
-			result.setCondition(expressionConverterUtility.convert(doSt.getExpression()));
-			result.setStatement(convert(doSt.getBody()));
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, doSt);
-			return result;
+			return handleDoStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.EMPTY_STATEMENT) {
-			org.emftext.language.java.statements.EmptyStatement result = statementsFactory.createEmptyStatement();
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, statement);
-			return result;
+			return handleEmptyStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.ENHANCED_FOR_STATEMENT) {
-			EnhancedForStatement forSt = (EnhancedForStatement) statement;
-			org.emftext.language.java.statements.ForEachLoop result = statementsFactory.createForEachLoop();
-			result.setNext(toOrdinaryParameterConverter.convert(forSt.getParameter()));
-			result.setCollection(expressionConverterUtility.convert(forSt.getExpression()));
-			result.setStatement(convert(forSt.getBody()));
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
-			return result;
+			return handleEnhancedForStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.EXPRESSION_STATEMENT) {
-			ExpressionStatement exprSt = (ExpressionStatement) statement;
-			if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {
-				org.emftext.language.java.statements.LocalVariableStatement result = statementsFactory
-						.createLocalVariableStatement();
-				result.setVariable(
-						toLocalVariableConverter.convert((VariableDeclarationExpression) exprSt.getExpression()));
-				layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
-				return result;
-			}
-			org.emftext.language.java.statements.ExpressionStatement result = statementsFactory
-					.createExpressionStatement();
-			result.setExpression(expressionConverterUtility.convert(exprSt.getExpression()));
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
-			return result;
+			return handleExpressionStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.FOR_STATEMENT) {
-			ForStatement forSt = (ForStatement) statement;
-			org.emftext.language.java.statements.ForLoop result = statementsFactory.createForLoop();
-			if (forSt.initializers().size() == 1
-					&& forSt.initializers().get(0) instanceof VariableDeclarationExpression) {
-				result.setInit(
-						toLocalVariableConverter.convert((VariableDeclarationExpression) forSt.initializers().get(0)));
-			} else {
-				org.emftext.language.java.expressions.ExpressionList ini = expressionsFactory.createExpressionList();
-				forSt.initializers()
-						.forEach(obj -> ini.getExpressions().add(expressionConverterUtility.convert((Expression) obj)));
-				result.setInit(ini);
-			}
-			if (forSt.getExpression() != null) {
-				result.setCondition(expressionConverterUtility.convert(forSt.getExpression()));
-			}
-			forSt.updaters()
-					.forEach(obj -> result.getUpdates().add(expressionConverterUtility.convert((Expression) obj)));
-			result.setStatement(convert(forSt.getBody()));
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
-			return result;
+			return handleForStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.IF_STATEMENT) {
-			IfStatement ifSt = (IfStatement) statement;
-			org.emftext.language.java.statements.Condition result = statementsFactory.createCondition();
-			result.setCondition(expressionConverterUtility.convert(ifSt.getExpression()));
-			result.setStatement(convert(ifSt.getThenStatement()));
-			if (ifSt.getElseStatement() != null) {
-				result.setElseStatement(convert(ifSt.getElseStatement()));
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, ifSt);
-			return result;
+			return handleIfStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.LABELED_STATEMENT) {
-			LabeledStatement labelSt = (LabeledStatement) statement;
-			org.emftext.language.java.statements.JumpLabel result = statementsFactory.createJumpLabel();
-			utilNamedElement.setNameOfElement(labelSt.getLabel(), result);
-			currentJumpLabels.add(result);
-			result.setStatement(convert(labelSt.getBody()));
-			currentJumpLabels.remove(result);
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, labelSt);
-			return result;
+			return handleLabeledStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.RETURN_STATEMENT) {
-			ReturnStatement retSt = (ReturnStatement) statement;
-			org.emftext.language.java.statements.Return result = statementsFactory.createReturn();
-			if (retSt.getExpression() != null) {
-				result.setReturnValue(expressionConverterUtility.convert(retSt.getExpression()));
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, retSt);
-			return result;
+			return handleReturnStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.SWITCH_STATEMENT) {
-			return switchToSwitchConverter.convert((SwitchStatement) statement);
+			return handleSwitchStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
-			SynchronizedStatement synSt = (SynchronizedStatement) statement;
-			org.emftext.language.java.statements.SynchronizedBlock result = statementsFactory.createSynchronizedBlock();
-			result.setLockProvider(expressionConverterUtility.convert(synSt.getExpression()));
-			result.setBlock(blockToBlockConverter.convert(synSt.getBody()));
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, synSt);
-			return result;
+			return handleSynchonizedStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.THROW_STATEMENT) {
-			ThrowStatement throwSt = (ThrowStatement) statement;
-			org.emftext.language.java.statements.Throw result = statementsFactory.createThrow();
-			result.setThrowable(expressionConverterUtility.convert(throwSt.getExpression()));
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, throwSt);
-			return result;
+			return handleThrowStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.TRY_STATEMENT) {
-			TryStatement trySt = (TryStatement) statement;
-			org.emftext.language.java.statements.TryBlock result = statementsFactory.createTryBlock();
-			trySt.resources().forEach(obj -> {
-				Expression resExpr = (Expression) obj;
-				if (resExpr instanceof VariableDeclarationExpression) {
-					result.getResources()
-							.add(toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
-				} else {
-					result.getResources()
-							.add((org.emftext.language.java.references.ElementReference) utilReferenceWalker
-									.walkUp(toReferenceConverterFromExpression.convert(resExpr)));
-				}
-			});
-			result.setBlock(blockToBlockConverter.convert(trySt.getBody()));
-			trySt.catchClauses()
-					.forEach(obj -> result.getCatchBlocks().add(toCatchblockConverter.convert((CatchClause) obj)));
-			if (trySt.getFinally() != null) {
-				result.setFinallyBlock(blockToBlockConverter.convert(trySt.getFinally()));
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, trySt);
-			return result;
+			return handleTryStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.TYPE_DECLARATION_STATEMENT) {
-			TypeDeclarationStatement declSt = (TypeDeclarationStatement) statement;
-			return classifierConverterUtility.convert(declSt.getDeclaration());
+			return handleTypeDeclarationStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.VARIABLE_DECLARATION_STATEMENT) {
-			VariableDeclarationStatement varSt = (VariableDeclarationStatement) statement;
-			org.emftext.language.java.statements.LocalVariableStatement result = statementsFactory
-					.createLocalVariableStatement();
-			VariableDeclarationFragment frag = (VariableDeclarationFragment) varSt.fragments().get(0);
-			org.emftext.language.java.variables.LocalVariable locVar;
-			IVariableBinding binding = frag.resolveBinding();
-			if (binding == null) {
-				locVar = jdtResolverUtility.getLocalVariable(frag.getName().getIdentifier() + "-" + frag.hashCode());
-			} else {
-				locVar = jdtResolverUtility.getLocalVariable(binding);
-			}
-			utilNamedElement.setNameOfElement(frag.getName(), locVar);
-			varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
-					.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
-			locVar.setTypeReference(toTypeReferenceConverter.convert(varSt.getType()));
-			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
-			frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-					.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
-			if (frag.getInitializer() != null) {
-				locVar.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
-			}
-			for (int index = 1; index < varSt.fragments().size(); index++) {
-				locVar.getAdditionalLocalVariables().add(toAdditionalLocalVariableConverter
-						.convert((VariableDeclarationFragment) varSt.fragments().get(index)));
-			}
-			result.setVariable(locVar);
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, varSt);
-			return result;
+			return handleVariableDeclarationStatement(statement);
 		}
 		if (statement.getNodeType() == ASTNode.WHILE_STATEMENT) {
-			WhileStatement whileSt = (WhileStatement) statement;
-			org.emftext.language.java.statements.WhileLoop result = statementsFactory.createWhileLoop();
-			result.setCondition(expressionConverterUtility.convert(whileSt.getExpression()));
-			result.setStatement(convert(whileSt.getBody()));
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, whileSt);
-			return result;
+			return handleWhileStatement(statement);
 		}
 		if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
-			org.emftext.language.java.statements.ExpressionStatement result = statementsFactory
-					.createExpressionStatement();
-			result.setExpression(utilReferenceWalker.walkUp(toReferenceConverterFromStatement.convert(statement)));
+			return handleOther(statement);
+		}
+
+		return handleYieldStatement(statement);
+	}
+
+	private org.emftext.language.java.statements.Statement handleYieldStatement(Statement statement) {
+		YieldStatement yieldSt = (YieldStatement) statement;
+		org.emftext.language.java.statements.YieldStatement result = this.statementsFactory.createYieldStatement();
+		if (yieldSt.getExpression() != null) {
+			result.setYieldExpression(this.expressionConverterUtility.convert(yieldSt.getExpression()));
+		}
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, yieldSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleOther(Statement statement) {
+		org.emftext.language.java.statements.ExpressionStatement result = this.statementsFactory
+				.createExpressionStatement();
+		result.setExpression(
+				this.utilReferenceWalker.walkUp(this.toReferenceConverterFromStatement.convert(statement)));
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleWhileStatement(Statement statement) {
+		WhileStatement whileSt = (WhileStatement) statement;
+		org.emftext.language.java.statements.WhileLoop result = this.statementsFactory.createWhileLoop();
+		result.setCondition(this.expressionConverterUtility.convert(whileSt.getExpression()));
+		result.setStatement(convert(whileSt.getBody()));
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, whileSt);
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private org.emftext.language.java.statements.Statement handleVariableDeclarationStatement(Statement statement) {
+		VariableDeclarationStatement varSt = (VariableDeclarationStatement) statement;
+		org.emftext.language.java.statements.LocalVariableStatement result = this.statementsFactory
+				.createLocalVariableStatement();
+		VariableDeclarationFragment frag = (VariableDeclarationFragment) varSt.fragments().get(0);
+		org.emftext.language.java.variables.LocalVariable locVar;
+		IVariableBinding binding = frag.resolveBinding();
+		if (binding == null) {
+			locVar = this.jdtResolverUtility.getLocalVariable(frag.getName().getIdentifier() + "-" + frag.hashCode());
+		} else {
+			locVar = this.jdtResolverUtility.getLocalVariable(binding);
+		}
+		this.utilNamedElement.setNameOfElement(frag.getName(), locVar);
+		varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
+				.add(this.annotationInstanceConverter.convert((IExtendedModifier) obj)));
+		locVar.setTypeReference(this.toTypeReferenceConverter.convert(varSt.getType()));
+		this.utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
+		frag.extraDimensions().forEach(obj -> this.utilToArrayDimensionAfterAndSetConverter
+				.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
+		if (frag.getInitializer() != null) {
+			locVar.setInitialValue(this.expressionConverterUtility.convert(frag.getInitializer()));
+		}
+		for (int index = 1; index < varSt.fragments().size(); index++) {
+			locVar.getAdditionalLocalVariables().add(this.toAdditionalLocalVariableConverter
+					.convert((VariableDeclarationFragment) varSt.fragments().get(index)));
+		}
+		result.setVariable(locVar);
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, varSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleTypeDeclarationStatement(Statement statement) {
+		TypeDeclarationStatement declSt = (TypeDeclarationStatement) statement;
+		return this.classifierConverterUtility.convert(declSt.getDeclaration());
+	}
+
+	@SuppressWarnings("unchecked")
+	private org.emftext.language.java.statements.Statement handleTryStatement(Statement statement) {
+		TryStatement trySt = (TryStatement) statement;
+		org.emftext.language.java.statements.TryBlock result = this.statementsFactory.createTryBlock();
+		trySt.resources().forEach(obj -> {
+			Expression resExpr = (Expression) obj;
+			if (resExpr instanceof VariableDeclarationExpression) {
+				result.getResources()
+				.add(this.toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
+			} else {
+				result.getResources()
+				.add((org.emftext.language.java.references.ElementReference) this.utilReferenceWalker
+						.walkUp(this.toReferenceConverterFromExpression.convert(resExpr)));
+			}
+		});
+		result.setBlock(this.blockToBlockConverter.convert(trySt.getBody()));
+		trySt.catchClauses()
+		.forEach(obj -> result.getCatchBlocks().add(this.toCatchblockConverter.convert((CatchClause) obj)));
+		if (trySt.getFinally() != null) {
+			result.setFinallyBlock(this.blockToBlockConverter.convert(trySt.getFinally()));
+		}
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, trySt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleThrowStatement(Statement statement) {
+		ThrowStatement throwSt = (ThrowStatement) statement;
+		org.emftext.language.java.statements.Throw result = this.statementsFactory.createThrow();
+		result.setThrowable(this.expressionConverterUtility.convert(throwSt.getExpression()));
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, throwSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleSynchonizedStatement(Statement statement) {
+		SynchronizedStatement synSt = (SynchronizedStatement) statement;
+		org.emftext.language.java.statements.SynchronizedBlock result = this.statementsFactory
+				.createSynchronizedBlock();
+		result.setLockProvider(this.expressionConverterUtility.convert(synSt.getExpression()));
+		result.setBlock(this.blockToBlockConverter.convert(synSt.getBody()));
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, synSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleSwitchStatement(Statement statement) {
+		return this.switchToSwitchConverter.convert((SwitchStatement) statement);
+	}
+
+	private org.emftext.language.java.statements.Statement handleReturnStatement(Statement statement) {
+		ReturnStatement retSt = (ReturnStatement) statement;
+		org.emftext.language.java.statements.Return result = this.statementsFactory.createReturn();
+		if (retSt.getExpression() != null) {
+			result.setReturnValue(this.expressionConverterUtility.convert(retSt.getExpression()));
+		}
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, retSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleLabeledStatement(Statement statement) {
+		LabeledStatement labelSt = (LabeledStatement) statement;
+		org.emftext.language.java.statements.JumpLabel result = this.statementsFactory.createJumpLabel();
+		this.utilNamedElement.setNameOfElement(labelSt.getLabel(), result);
+		this.currentJumpLabels.add(result);
+		result.setStatement(convert(labelSt.getBody()));
+		this.currentJumpLabels.remove(result);
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, labelSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleIfStatement(Statement statement) {
+		IfStatement ifSt = (IfStatement) statement;
+		org.emftext.language.java.statements.Condition result = this.statementsFactory.createCondition();
+		result.setCondition(this.expressionConverterUtility.convert(ifSt.getExpression()));
+		result.setStatement(convert(ifSt.getThenStatement()));
+		if (ifSt.getElseStatement() != null) {
+			result.setElseStatement(convert(ifSt.getElseStatement()));
+		}
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, ifSt);
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private org.emftext.language.java.statements.Statement handleForStatement(Statement statement) {
+		ForStatement forSt = (ForStatement) statement;
+		org.emftext.language.java.statements.ForLoop result = this.statementsFactory.createForLoop();
+		if (forSt.initializers().size() == 1 && forSt.initializers().get(0) instanceof VariableDeclarationExpression) {
+			result.setInit(
+					this.toLocalVariableConverter.convert((VariableDeclarationExpression) forSt.initializers().get(0)));
+		} else {
+			org.emftext.language.java.expressions.ExpressionList ini = this.expressionsFactory.createExpressionList();
+			forSt.initializers().forEach(
+					obj -> ini.getExpressions().add(this.expressionConverterUtility.convert((Expression) obj)));
+			result.setInit(ini);
+		}
+		if (forSt.getExpression() != null) {
+			result.setCondition(this.expressionConverterUtility.convert(forSt.getExpression()));
+		}
+		forSt.updaters()
+		.forEach(obj -> result.getUpdates().add(this.expressionConverterUtility.convert((Expression) obj)));
+		result.setStatement(convert(forSt.getBody()));
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleExpressionStatement(Statement statement) {
+		ExpressionStatement exprSt = (ExpressionStatement) statement;
+		if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {
+			org.emftext.language.java.statements.LocalVariableStatement result = this.statementsFactory
+					.createLocalVariableStatement();
+			result.setVariable(
+					this.toLocalVariableConverter.convert((VariableDeclarationExpression) exprSt.getExpression()));
+			this.layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 			return result;
 		}
-		YieldStatement yieldSt = (YieldStatement) statement;
+		org.emftext.language.java.statements.ExpressionStatement result = this.statementsFactory
+				.createExpressionStatement();
+		result.setExpression(this.expressionConverterUtility.convert(exprSt.getExpression()));
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
+		return result;
+	}
 
-		org.emftext.language.java.statements.YieldStatement result = statementsFactory.createYieldStatement();
-		if (yieldSt.getExpression() != null) {
-			result.setYieldExpression(expressionConverterUtility.convert(yieldSt.getExpression()));
+	private org.emftext.language.java.statements.Statement handleEnhancedForStatement(Statement statement) {
+		EnhancedForStatement forSt = (EnhancedForStatement) statement;
+		org.emftext.language.java.statements.ForEachLoop result = this.statementsFactory.createForEachLoop();
+		result.setNext(this.toOrdinaryParameterConverter.convert(forSt.getParameter()));
+		result.setCollection(this.expressionConverterUtility.convert(forSt.getExpression()));
+		result.setStatement(convert(forSt.getBody()));
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleEmptyStatement(Statement statement) {
+		org.emftext.language.java.statements.EmptyStatement result = this.statementsFactory.createEmptyStatement();
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, statement);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleDoStatement(Statement statement) {
+		DoStatement doSt = (DoStatement) statement;
+		org.emftext.language.java.statements.DoWhileLoop result = this.statementsFactory.createDoWhileLoop();
+		result.setCondition(this.expressionConverterUtility.convert(doSt.getExpression()));
+		result.setStatement(convert(doSt.getBody()));
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, doSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleContinueStatement(Statement statement) {
+		ContinueStatement conSt = (ContinueStatement) statement;
+		org.emftext.language.java.statements.Continue result = this.statementsFactory.createContinue();
+		if (conSt.getLabel() != null) {
+			org.emftext.language.java.statements.JumpLabel proxyTarget = this.currentJumpLabels.stream()
+					.filter(label -> label.getName().equals(conSt.getLabel().getIdentifier())).findFirst().get();
+			result.setTarget(proxyTarget);
 		}
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, yieldSt);
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, conSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleBreakStatement(Statement statement) {
+		BreakStatement breakSt = (BreakStatement) statement;
+		org.emftext.language.java.statements.Break result = this.statementsFactory.createBreak();
+		if (breakSt.getLabel() != null) {
+			org.emftext.language.java.statements.JumpLabel proxyTarget = this.currentJumpLabels.stream()
+					.filter(label -> label.getName().equals(breakSt.getLabel().getIdentifier())).findFirst().get();
+			result.setTarget(proxyTarget);
+		}
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, breakSt);
+		return result;
+	}
+
+	private org.emftext.language.java.statements.Statement handleBlock(Statement statement) {
+		return this.blockToBlockConverter.convert((Block) statement);
+	}
+
+	private org.emftext.language.java.statements.Statement handleAssertStatement(Statement statement) {
+		AssertStatement assertSt = (AssertStatement) statement;
+		org.emftext.language.java.statements.Assert result = this.statementsFactory.createAssert();
+		result.setCondition(this.expressionConverterUtility.convert(assertSt.getExpression()));
+		if (assertSt.getMessage() != null) {
+			result.setErrorMessage(this.expressionConverterUtility.convert(assertSt.getMessage()));
+		}
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, assertSt);
 		return result;
 	}
 
