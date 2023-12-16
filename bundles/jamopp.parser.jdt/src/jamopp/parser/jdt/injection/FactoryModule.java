@@ -1,4 +1,4 @@
-package jamopp.parser.jdt.injector;
+package jamopp.parser.jdt.injection;
 
 import org.emftext.commons.layout.LayoutFactory;
 import org.emftext.language.java.annotations.AnnotationsFactory;

@@ -11,16 +11,19 @@ import org.eclipse.jdt.core.dom.FileASTRequestor;
 
 import com.google.inject.Inject;
 
-public class JamoppCompilationUnitsFactory {
+import jamopp.parser.jdt.interfaces.jamopp.JamoppCompilationUnitsFactory;
+
+public class JamoppCompilationUnitsFactoryImpl implements JamoppCompilationUnitsFactory {
 
 	private final Logger logger;
 
 	@Inject
 	public
-	JamoppCompilationUnitsFactory(Logger logger) {
+	JamoppCompilationUnitsFactoryImpl(Logger logger) {
 		this.logger = logger;
 	}
 
+	@Override
 	public Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries, String[] sources,
 			String[] encodings) {
 		final Map<String, CompilationUnit> compilationUnits = new HashMap<>();

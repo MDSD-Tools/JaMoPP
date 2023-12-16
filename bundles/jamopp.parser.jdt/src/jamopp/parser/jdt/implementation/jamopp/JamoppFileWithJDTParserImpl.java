@@ -5,18 +5,22 @@ import org.eclipse.jdt.core.dom.ASTParser;
 
 import com.google.inject.Inject;
 
-public class JamoppFileWithJDTParser {
+import jamopp.parser.jdt.interfaces.jamopp.JamoppFileWithJDTParser;
+import jamopp.parser.jdt.interfaces.jamopp.JamoppJavaParserFactory;
+
+public class JamoppFileWithJDTParserImpl implements JamoppFileWithJDTParser {
 
 	private final String javaVersion;
 	private final JamoppJavaParserFactory jamoppJavaParserFactory;
 
 	@Inject
 	public
-	JamoppFileWithJDTParser(JamoppJavaParserFactory jamoppJavaParserFactory, String javaVersion) {
+	JamoppFileWithJDTParserImpl(JamoppJavaParserFactory jamoppJavaParserFactory, String javaVersion) {
 		this.javaVersion = javaVersion;
 		this.jamoppJavaParserFactory = jamoppJavaParserFactory;
 	}
 
+	@Override
 	public ASTNode parseFileWithJDT(String fileContent, String fileName) {
 		final ASTParser parser = jamoppJavaParserFactory.getJavaParser(javaVersion);
 		parser.setUnitName(fileName);

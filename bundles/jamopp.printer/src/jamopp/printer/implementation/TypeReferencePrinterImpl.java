@@ -25,7 +25,7 @@ public class TypeReferencePrinterImpl implements Printer<TypeReference> {
 	@Inject
 	public TypeReferencePrinterImpl(Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter,
 			Printer<ClassifierReference> classifierReferencePrinter, Printer<PrimitiveType> primitiveTypePrinter,
-			@Named("InferableTypePrinte") EmptyPrinter inferableTypePrinter) {
+			@Named("InferableTypePrinter") EmptyPrinter inferableTypePrinter) {
 		this.namespaceClassifierReferencePrinter = namespaceClassifierReferencePrinter;
 		this.classifierReferencePrinter = classifierReferencePrinter;
 		this.primitiveTypePrinter = primitiveTypePrinter;

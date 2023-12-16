@@ -9,15 +9,18 @@ import org.eclipse.jdt.core.dom.ASTParser;
 
 import com.google.inject.Inject;
 
-public class JamoppJavaParserFactory {
+import jamopp.parser.jdt.interfaces.jamopp.JamoppJavaParserFactory;
+
+public class JamoppJavaParserFactoryImpl implements JamoppJavaParserFactory {
 
 	private final Logger logger;
 
 	@Inject
-	public JamoppJavaParserFactory(Logger logger) {
+	public JamoppJavaParserFactoryImpl(Logger logger) {
 		this.logger = logger;
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
 	public ASTParser getJavaParser(String version) {
 		final String javaCoreVersion;

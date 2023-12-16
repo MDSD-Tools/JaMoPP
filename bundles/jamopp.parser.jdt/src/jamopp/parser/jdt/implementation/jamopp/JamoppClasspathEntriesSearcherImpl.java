@@ -9,16 +9,19 @@ import org.apache.log4j.Logger;
 
 import com.google.inject.Inject;
 
-public class JamoppClasspathEntriesSearcher {
+import jamopp.parser.jdt.interfaces.jamopp.JamoppClasspathEntriesSearcher;
+
+public class JamoppClasspathEntriesSearcherImpl implements JamoppClasspathEntriesSearcher {
 
 	private final Logger logger;
 
 	@Inject
 	public
-	JamoppClasspathEntriesSearcher(Logger logger) {
+	JamoppClasspathEntriesSearcherImpl(Logger logger) {
 		this.logger = logger;
 	}
 
+	@Override
 	public String[] getClasspathEntries(Path dir) {
 		try (Stream<Path> paths = Files.walk(dir)) {
 			return paths
