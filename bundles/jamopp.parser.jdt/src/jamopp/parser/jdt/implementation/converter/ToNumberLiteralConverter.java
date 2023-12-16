@@ -82,14 +82,12 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	}
 
 	private org.emftext.language.java.literals.Literal handleOctalInteger(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.OctalIntegerLiteral lit = this.lieteralsFactory.createOctalIntegerLiteral();
 		lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length()), OCT_BASE));
 		return lit;
 	}
 
 	private org.emftext.language.java.literals.Literal handleOctalLong(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.OctalLongLiteral lit = this.lieteralsFactory.createOctalLongLiteral();
 		lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
 				OCT_BASE));
@@ -97,7 +95,6 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	}
 
 	private org.emftext.language.java.literals.Literal handleDecimalInteger(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.DecimalIntegerLiteral lit = this.lieteralsFactory
 				.createDecimalIntegerLiteral();
 		lit.setDecimalValue(new BigInteger(string, DEC_BASE));
@@ -105,14 +102,12 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	}
 
 	private org.emftext.language.java.literals.Literal handleDecimalLong(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.DecimalLongLiteral lit = this.lieteralsFactory.createDecimalLongLiteral();
 		lit.setDecimalValue(new BigInteger(string.substring(0, string.length() - LONG_SUFFIX.length()), DEC_BASE));
 		return lit;
 	}
 
 	private org.emftext.language.java.literals.Literal handleDecimalDouble(String string) {
-		org.emftext.language.java.literals.Literal result;
 		if (string.endsWith(DOUBLE_SUFFIX)) {
 			string = string.substring(0, string.length() - DOUBLE_SUFFIX.length());
 		}
@@ -123,21 +118,18 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	}
 
 	private org.emftext.language.java.literals.Literal handleDecimalFloat(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.DecimalFloatLiteral lit = this.lieteralsFactory.createDecimalFloatLiteral();
 		lit.setDecimalValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
 		return lit;
 	}
 
 	private org.emftext.language.java.literals.Literal handleHexInteger(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.HexIntegerLiteral lit = this.lieteralsFactory.createHexIntegerLiteral();
 		lit.setHexValue(new BigInteger(string.substring(HEX_PREFIX.length()), HEX_BASE));
 		return lit;
 	}
 
 	private org.emftext.language.java.literals.Literal handleHexLong(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.HexLongLiteral lit = this.lieteralsFactory.createHexLongLiteral();
 		lit.setHexValue(new BigInteger(string.substring(HEX_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
 				HEX_BASE));
@@ -145,7 +137,6 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	}
 
 	private org.emftext.language.java.literals.Literal handleHexDouble(String string) {
-		org.emftext.language.java.literals.Literal result;
 		if (string.endsWith(DOUBLE_SUFFIX)) {
 			string = string.substring(0, string.length() - DOUBLE_SUFFIX.length());
 		}
@@ -155,14 +146,12 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	}
 
 	private org.emftext.language.java.literals.Literal handleHexFloat(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.HexFloatLiteral lit = this.lieteralsFactory.createHexFloatLiteral();
 		lit.setHexValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
 		return lit;
 	}
 
 	private org.emftext.language.java.literals.Literal handleBinaryInteger(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.BinaryIntegerLiteral lit = this.lieteralsFactory
 				.createBinaryIntegerLiteral();
 		lit.setBinaryValue(new BigInteger(string.substring(BIN_PREFIX.length()), BIN_BASE));
@@ -170,7 +159,6 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	}
 
 	private org.emftext.language.java.literals.Literal handleBinaryLong(String string) {
-		org.emftext.language.java.literals.Literal result;
 		org.emftext.language.java.literals.BinaryLongLiteral lit = this.lieteralsFactory.createBinaryLongLiteral();
 		lit.setBinaryValue(new BigInteger(string.substring(BIN_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
 				BIN_BASE));
