@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2020, Martin Armbruster
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Martin Armbruster
  *      - Initial implementation
@@ -51,6 +51,133 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	@Override
 	public org.emftext.language.java.literals.Literal convert(NumberLiteral literal) {
 		org.emftext.language.java.literals.Literal result = null;
+		String string = buildString(literal);
+		if (string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX)) {
+			result = handleBinaryLong(string);
+		} else if (string.startsWith(BIN_PREFIX)) {
+			result = handleBinaryInteger(string);
+		} else if (string.contains(HEX_EXPONENT) && string.endsWith(FLOAT_SUFFIX)) {
+			result = handleHexFloat(string);
+		} else if (string.contains(HEX_EXPONENT)) {
+			result = handleHexDouble(string);
+		} else if (string.startsWith(HEX_PREFIX) && string.endsWith(LONG_SUFFIX)) {
+			result = handleHexLong(string);
+		} else if (string.startsWith(HEX_PREFIX)) {
+			result = handleHexInteger(string);
+		} else if (string.endsWith(FLOAT_SUFFIX)) {
+			result = handleDecimalFloat(string);
+		} else if (string.contains(".") || string.contains(DECIMAL_EXPONENT) || string.endsWith(DOUBLE_SUFFIX)) {
+			result = handleDecimalDouble(string);
+		} else if ("0l".equals(string) || !string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX)) {
+			result = handleDecimalLong(string);
+		} else if ("0".equals(string) || !string.startsWith(OCT_PREFIX)) {
+			result = handleDecimalInteger(string);
+		} else if (string.endsWith(LONG_SUFFIX)) {
+			result = handleOctalLong(string);
+		} else {
+			result = handleOctalInteger(string);
+		}
+		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, literal);
+		return result;
+	}
+
+	private org.emftext.language.java.literals.Literal handleOctalInteger(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.OctalIntegerLiteral lit = this.lieteralsFactory.createOctalIntegerLiteral();
+		lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length()), OCT_BASE));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleOctalLong(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.OctalLongLiteral lit = this.lieteralsFactory.createOctalLongLiteral();
+		lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
+				OCT_BASE));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleDecimalInteger(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.DecimalIntegerLiteral lit = this.lieteralsFactory
+				.createDecimalIntegerLiteral();
+		lit.setDecimalValue(new BigInteger(string, DEC_BASE));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleDecimalLong(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.DecimalLongLiteral lit = this.lieteralsFactory.createDecimalLongLiteral();
+		lit.setDecimalValue(new BigInteger(string.substring(0, string.length() - LONG_SUFFIX.length()), DEC_BASE));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleDecimalDouble(String string) {
+		org.emftext.language.java.literals.Literal result;
+		if (string.endsWith(DOUBLE_SUFFIX)) {
+			string = string.substring(0, string.length() - DOUBLE_SUFFIX.length());
+		}
+		org.emftext.language.java.literals.DecimalDoubleLiteral lit = this.lieteralsFactory
+				.createDecimalDoubleLiteral();
+		lit.setDecimalValue(Double.parseDouble(string));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleDecimalFloat(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.DecimalFloatLiteral lit = this.lieteralsFactory.createDecimalFloatLiteral();
+		lit.setDecimalValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleHexInteger(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.HexIntegerLiteral lit = this.lieteralsFactory.createHexIntegerLiteral();
+		lit.setHexValue(new BigInteger(string.substring(HEX_PREFIX.length()), HEX_BASE));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleHexLong(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.HexLongLiteral lit = this.lieteralsFactory.createHexLongLiteral();
+		lit.setHexValue(new BigInteger(string.substring(HEX_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
+				HEX_BASE));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleHexDouble(String string) {
+		org.emftext.language.java.literals.Literal result;
+		if (string.endsWith(DOUBLE_SUFFIX)) {
+			string = string.substring(0, string.length() - DOUBLE_SUFFIX.length());
+		}
+		org.emftext.language.java.literals.HexDoubleLiteral lit = this.lieteralsFactory.createHexDoubleLiteral();
+		lit.setHexValue(Double.parseDouble(string));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleHexFloat(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.HexFloatLiteral lit = this.lieteralsFactory.createHexFloatLiteral();
+		lit.setHexValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleBinaryInteger(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.BinaryIntegerLiteral lit = this.lieteralsFactory
+				.createBinaryIntegerLiteral();
+		lit.setBinaryValue(new BigInteger(string.substring(BIN_PREFIX.length()), BIN_BASE));
+		return lit;
+	}
+
+	private org.emftext.language.java.literals.Literal handleBinaryLong(String string) {
+		org.emftext.language.java.literals.Literal result;
+		org.emftext.language.java.literals.BinaryLongLiteral lit = this.lieteralsFactory.createBinaryLongLiteral();
+		lit.setBinaryValue(new BigInteger(string.substring(BIN_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
+				BIN_BASE));
+		return lit;
+	}
+
+	private String buildString(NumberLiteral literal) {
 		String string = literal.getToken();
 		if (string.contains("\\u")) {
 			StringBuilder actualLiteral = new StringBuilder();
@@ -67,67 +194,6 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 			string = actualLiteral.toString();
 		}
 		string = string.replace(UNDER_SCORE, "");
-		string = string.toLowerCase();
-		if (string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX)) {
-			org.emftext.language.java.literals.BinaryLongLiteral lit = lieteralsFactory.createBinaryLongLiteral();
-			lit.setBinaryValue(new BigInteger(
-					string.substring(BIN_PREFIX.length(), string.length() - LONG_SUFFIX.length()), BIN_BASE));
-			result = lit;
-		} else if (string.startsWith(BIN_PREFIX)) {
-			org.emftext.language.java.literals.BinaryIntegerLiteral lit = lieteralsFactory.createBinaryIntegerLiteral();
-			lit.setBinaryValue(new BigInteger(string.substring(BIN_PREFIX.length()), BIN_BASE));
-			result = lit;
-		} else if (string.contains(HEX_EXPONENT) && string.endsWith(FLOAT_SUFFIX)) {
-			org.emftext.language.java.literals.HexFloatLiteral lit = lieteralsFactory.createHexFloatLiteral();
-			lit.setHexValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
-			result = lit;
-		} else if (string.contains(HEX_EXPONENT)) {
-			if (string.endsWith(DOUBLE_SUFFIX)) {
-				string = string.substring(0, string.length() - DOUBLE_SUFFIX.length());
-			}
-			org.emftext.language.java.literals.HexDoubleLiteral lit = lieteralsFactory.createHexDoubleLiteral();
-			lit.setHexValue(Double.parseDouble(string));
-			result = lit;
-		} else if (string.startsWith(HEX_PREFIX) && string.endsWith(LONG_SUFFIX)) {
-			org.emftext.language.java.literals.HexLongLiteral lit = lieteralsFactory.createHexLongLiteral();
-			lit.setHexValue(new BigInteger(
-					string.substring(HEX_PREFIX.length(), string.length() - LONG_SUFFIX.length()), HEX_BASE));
-			result = lit;
-		} else if (string.startsWith(HEX_PREFIX)) {
-			org.emftext.language.java.literals.HexIntegerLiteral lit = lieteralsFactory.createHexIntegerLiteral();
-			lit.setHexValue(new BigInteger(string.substring(HEX_PREFIX.length()), HEX_BASE));
-			result = lit;
-		} else if (string.endsWith(FLOAT_SUFFIX)) {
-			org.emftext.language.java.literals.DecimalFloatLiteral lit = lieteralsFactory.createDecimalFloatLiteral();
-			lit.setDecimalValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
-			result = lit;
-		} else if (string.contains(".") || string.contains(DECIMAL_EXPONENT) || string.endsWith(DOUBLE_SUFFIX)) {
-			if (string.endsWith(DOUBLE_SUFFIX)) {
-				string = string.substring(0, string.length() - DOUBLE_SUFFIX.length());
-			}
-			org.emftext.language.java.literals.DecimalDoubleLiteral lit = lieteralsFactory.createDecimalDoubleLiteral();
-			lit.setDecimalValue(Double.parseDouble(string));
-			result = lit;
-		} else if ("0l".equals(string) || (!string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX))) {
-			org.emftext.language.java.literals.DecimalLongLiteral lit = lieteralsFactory.createDecimalLongLiteral();
-			lit.setDecimalValue(new BigInteger(string.substring(0, string.length() - LONG_SUFFIX.length()), DEC_BASE));
-			result = lit;
-		} else if ("0".equals(string) || !string.startsWith(OCT_PREFIX)) {
-			org.emftext.language.java.literals.DecimalIntegerLiteral lit = lieteralsFactory
-					.createDecimalIntegerLiteral();
-			lit.setDecimalValue(new BigInteger(string, DEC_BASE));
-			result = lit;
-		} else if (string.endsWith(LONG_SUFFIX)) {
-			org.emftext.language.java.literals.OctalLongLiteral lit = lieteralsFactory.createOctalLongLiteral();
-			lit.setOctalValue(new BigInteger(
-					string.substring(OCT_PREFIX.length(), string.length() - LONG_SUFFIX.length()), OCT_BASE));
-			result = lit;
-		} else {
-			org.emftext.language.java.literals.OctalIntegerLiteral lit = lieteralsFactory.createOctalIntegerLiteral();
-			lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length()), OCT_BASE));
-			result = lit;
-		}
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, literal);
-		return result;
+		return string.toLowerCase();
 	}
 }
