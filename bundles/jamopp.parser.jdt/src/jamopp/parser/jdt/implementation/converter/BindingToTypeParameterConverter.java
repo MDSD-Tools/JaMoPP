@@ -12,21 +12,21 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 @SuppressWarnings("restriction")
 public class BindingToTypeParameterConverter implements Converter<ITypeBinding, TypeParameter> {
 
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver jdtTResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver jdtTResolverUtility;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	BindingToTypeParameterConverter(IUtilNamedElement utilNamedElement,
+	BindingToTypeParameterConverter(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			IUtilJdtResolver jdtTResolverUtility,
+			UtilJdtResolver jdtTResolverUtility,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;

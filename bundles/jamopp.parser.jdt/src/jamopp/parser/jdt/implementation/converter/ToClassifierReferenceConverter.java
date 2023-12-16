@@ -9,15 +9,15 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 public class ToClassifierReferenceConverter implements Converter<SimpleName, ClassifierReference> {
 
 	private final TypesFactory typesFactory;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 
 	@Inject
-	ToClassifierReferenceConverter(IUtilJdtResolver jdtResolverUtility, TypesFactory typesFactory) {
+	ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility, TypesFactory typesFactory) {
 		this.typesFactory = typesFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 	}

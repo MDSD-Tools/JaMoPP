@@ -38,15 +38,14 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.implementation.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.injection.ConverterModule;
 import jamopp.parser.jdt.injection.FactoryModule;
 import jamopp.parser.jdt.injection.HandlerModule;
 import jamopp.parser.jdt.injection.JamoppModule;
 import jamopp.parser.jdt.injection.UtilModule;
 import jamopp.parser.jdt.injection.VisitorModule;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 import jamopp.parser.jdt.interfaces.jamopp.JamoppClasspathEntriesSearcher;
 import jamopp.parser.jdt.interfaces.jamopp.JamoppCompilationUnitsFactory;
 import jamopp.parser.jdt.interfaces.jamopp.JamoppFileWithJDTParser;
@@ -65,8 +64,8 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private static JamoppCompilationUnitsFactory JAMOPP_COMPILATION_UNITS_FACTORY;
 	private static JamoppFileWithJDTParser JAMOPP_FILE_WITH_JDT_PARSER;
 	private static JamoppJavaParserFactory JAMOPP_JAVA_PARSER_FACTORY;
-	private static IUtilJdtResolver UTIL_JDT_RESOLVER;
-	private static IUtilTypeInstructionSeparation UTIL_TYPE_INSTRUCTION_SEPARATION;
+	private static UtilJdtResolver UTIL_JDT_RESOLVER;
+	private static UtilTypeInstructionSeparation UTIL_TYPE_INSTRUCTION_SEPARATION;
 
 	static {
 		Injector injector = Guice.createInjector(new UtilModule(), new FactoryModule(), new ConverterModule(),
@@ -75,7 +74,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		DEFAULT_ENCODING = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_ENCODING")));
 		DEFAULT_JAVA_VERSION = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_JAVA_VERSION")));
 		VISITOR = injector.getInstance(AbstractVisitor.class);
-		UTIL_JDT_RESOLVER = injector.getInstance(IUtilJdtResolver.class);
+		UTIL_JDT_RESOLVER = injector.getInstance(UtilJdtResolver.class);
 		UTIL_TYPE_INSTRUCTION_SEPARATION = injector.getInstance(UtilTypeInstructionSeparation.class);
 		CONTAINERS_FACTORY = injector.getInstance(ContainersFactory.class);
 		LOGGER = injector.getInstance(Logger.class);

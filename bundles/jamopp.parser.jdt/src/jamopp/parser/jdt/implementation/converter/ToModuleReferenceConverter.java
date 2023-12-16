@@ -7,18 +7,18 @@ import org.emftext.language.java.modules.ModulesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToModuleReferenceConverter implements Converter<Name, ModuleReference> {
 
 	private final ModulesFactory modulesFactory;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToModuleReferenceConverter(IUtilNamedElement utilNamedElement, ModulesFactory modulesFactory,
-			IUtilJdtResolver jdtResolverUtility) {
+	public ToModuleReferenceConverter(UtilNamedElement utilNamedElement, ModulesFactory modulesFactory,
+			UtilJdtResolver jdtResolverUtility) {
 		this.modulesFactory = modulesFactory;
 		this.utilNamedElement = utilNamedElement;
 		this.jdtResolverUtility = jdtResolverUtility;

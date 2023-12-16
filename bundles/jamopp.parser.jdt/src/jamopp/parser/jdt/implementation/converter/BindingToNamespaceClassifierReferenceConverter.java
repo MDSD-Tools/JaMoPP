@@ -10,16 +10,16 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 public class BindingToNamespaceClassifierReferenceConverter
 		implements Converter<ITypeBinding, NamespaceClassifierReference> {
 
 	private final TypesFactory typesFactory;
-	private final IUtilJdtResolver jdtTResolverUtility;
+	private final UtilJdtResolver jdtTResolverUtility;
 
 	@Inject
-	BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, IUtilJdtResolver jdtTResolverUtility) {
+	BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, UtilJdtResolver jdtTResolverUtility) {
 		this.typesFactory = typesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}

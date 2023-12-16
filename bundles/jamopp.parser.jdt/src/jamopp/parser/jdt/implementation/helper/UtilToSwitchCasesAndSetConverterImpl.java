@@ -11,9 +11,9 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
 
-public class UtilToSwitchCasesAndSetConverter implements IUtilToSwitchCasesAndSetConverter {
+public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAndSetConverter {
 
 	private final StatementsFactory statementsFactory;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
@@ -21,7 +21,7 @@ public class UtilToSwitchCasesAndSetConverter implements IUtilToSwitchCasesAndSe
 	private final Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
-	UtilToSwitchCasesAndSetConverter(
+	UtilToSwitchCasesAndSetConverterImpl(
 			Converter<SwitchCase, org.emftext.language.java.statements.SwitchCase> toSwitchCaseConverter,
 			StatementsFactory statementsFactory,
 			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,

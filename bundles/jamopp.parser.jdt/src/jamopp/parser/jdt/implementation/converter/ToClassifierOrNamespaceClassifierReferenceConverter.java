@@ -25,16 +25,16 @@ import org.emftext.language.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToClassifierOrNamespaceClassifierReferenceConverter implements Converter<Name, TypeReference> {
 
 	private final TypesFactory typesFactory;
-	private final IUtilNamedElement utilNamedElement;
+	private final UtilNamedElement utilNamedElement;
 	private final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
 
 	@Inject
-	ToClassifierOrNamespaceClassifierReferenceConverter(IUtilNamedElement utilNamedElement,
+	ToClassifierOrNamespaceClassifierReferenceConverter(UtilNamedElement utilNamedElement,
 			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter, TypesFactory typesFactory) {
 		this.typesFactory = typesFactory;
 		this.utilNamedElement = utilNamedElement;

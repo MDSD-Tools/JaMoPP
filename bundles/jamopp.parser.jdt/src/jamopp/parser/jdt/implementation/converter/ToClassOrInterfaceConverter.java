@@ -13,18 +13,18 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, ConcreteClassifier> {
 
-	private final IUtilJdtResolver iUtilJdtResolver;
+	private final UtilJdtResolver iUtilJdtResolver;
 	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 	private final Converter<BodyDeclaration, Member> toInterfaceMemberConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
 
 	@Inject
-	ToClassOrInterfaceConverter(IUtilJdtResolver iUtilJdtResolver,
+	ToClassOrInterfaceConverter(UtilJdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
 			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMemberConverter,

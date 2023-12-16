@@ -12,21 +12,21 @@ import org.emftext.language.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToEnumConstantConverter implements Converter<EnumConstantDeclaration, EnumConstant> {
 
-	private final IUtilJdtResolver iUtilJdtResolver;
-	private final IUtilLayout utilLayout;
-	private final IUtilNamedElement utilNamedElement;
+	private final UtilJdtResolver iUtilJdtResolver;
+	private final UtilLayout utilLayout;
+	private final UtilNamedElement utilNamedElement;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
 	private final Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
 
 	@Inject
-	ToEnumConstantConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
+	ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
 			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {

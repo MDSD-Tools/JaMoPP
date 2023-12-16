@@ -9,16 +9,16 @@ import org.emftext.language.java.arrays.ArraysFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToArrayDimensionConverter implements Converter<Dimension, ArrayDimension> {
 
 	private final ArraysFactory arraysFactory;
-	private final IUtilLayout utilLayout;
+	private final UtilLayout utilLayout;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToArrayDimensionConverter(IUtilLayout utilLayout,
+	ToArrayDimensionConverter(UtilLayout utilLayout,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;

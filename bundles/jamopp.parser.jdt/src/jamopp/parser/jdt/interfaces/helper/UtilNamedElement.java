@@ -5,7 +5,7 @@ import org.eclipse.jdt.core.dom.Name;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
-public interface IUtilNamedElement {
+public interface UtilNamedElement {
 
 	void addNameToNameSpaceAndElement(Name name, NamespaceAwareElement namespaceElement, NamedElement namedElement);
 

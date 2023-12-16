@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.JavaRoot;
 
-public interface IUtilLayout {
+public interface UtilLayout {
 
 	void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode);
 

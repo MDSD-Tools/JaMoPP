@@ -12,17 +12,17 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToReferenceConverterFromSimpleName implements Converter<SimpleName, IdentifierReference>{
 
 	private final ReferencesFactory referencesFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
 	
 	@Inject
-	public ToReferenceConverterFromSimpleName(ReferencesFactory referencesFactory, IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility) {
+	public ToReferenceConverterFromSimpleName(ReferencesFactory referencesFactory, UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

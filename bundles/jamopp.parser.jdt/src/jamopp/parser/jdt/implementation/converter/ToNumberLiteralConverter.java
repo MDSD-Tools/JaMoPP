@@ -21,12 +21,12 @@ import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.emftext.language.java.literals.Literal> {
 
 	private final LiteralsFactory lieteralsFactory;
-	private final IUtilLayout layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 
 	private static final String HEX_PREFIX = "0x";
 	private static final String BIN_PREFIX = "0b";
@@ -43,7 +43,7 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, org.em
 	private static final String UNDER_SCORE = "_";
 
 	@Inject
-	ToNumberLiteralConverter(IUtilLayout layoutInformationConverter, LiteralsFactory lieteralsFactory) {
+	ToNumberLiteralConverter(UtilLayout layoutInformationConverter, LiteralsFactory lieteralsFactory) {
 		this.lieteralsFactory = lieteralsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 	}

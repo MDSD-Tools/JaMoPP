@@ -16,12 +16,12 @@ package jamopp.parser.jdt.implementation.helper;
 import org.emftext.language.java.references.Reference;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.interfaces.helper.IUtilReferenceWalker;
+import jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 
-public class UtilReferenceWalker implements IUtilReferenceWalker {
+public class UtilReferenceWalkerImpl implements UtilReferenceWalker {
 
 	@Inject
-	UtilReferenceWalker() {
+	UtilReferenceWalkerImpl() {
 
 	}
 

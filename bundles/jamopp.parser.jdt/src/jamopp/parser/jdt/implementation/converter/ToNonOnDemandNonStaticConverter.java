@@ -12,20 +12,20 @@ import org.emftext.language.java.imports.ImportsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToNonOnDemandNonStaticConverter implements Converter<ImportDeclaration, Import> {
 
 	private final ImportsFactory importsFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToNonOnDemandNonStaticConverter(IUtilNamedElement utilNamedElement, IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility, ImportsFactory importsFactory) {
+	public ToNonOnDemandNonStaticConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
+			UtilJdtResolver jdtResolverUtility, ImportsFactory importsFactory) {
 		this.importsFactory = importsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilNamedElement = utilNamedElement;

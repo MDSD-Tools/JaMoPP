@@ -8,24 +8,24 @@ import org.emftext.language.java.members.AdditionalField;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToAdditionalFieldConverter implements Converter<VariableDeclarationFragment, AdditionalField> {
 
-	private final IUtilJdtResolver iUtilJdtResolver;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final IUtilTypeInstructionSeparation toInstructionSeparation;
-	private final IUtilLayout utilLayout;
+	private final UtilJdtResolver iUtilJdtResolver;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final UtilTypeInstructionSeparation toInstructionSeparation;
+	private final UtilLayout utilLayout;
 
 	@Inject
-	ToAdditionalFieldConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout,
-			IUtilJdtResolver iUtilJdtResolver, IUtilTypeInstructionSeparation toInstructionSeparation,
-			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
+	ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+			UtilJdtResolver iUtilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;

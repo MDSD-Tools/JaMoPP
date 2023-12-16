@@ -10,17 +10,17 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToAnonymousClassConverter implements Converter<AnonymousClassDeclaration, AnonymousClass> {
 
-	private final IUtilJdtResolver utilJDTResolver;
-	private final IUtilLayout utilLayout;
+	private final UtilJdtResolver utilJDTResolver;
+	private final UtilLayout utilLayout;
 	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	ToAnonymousClassConverter(IUtilLayout utilLayout, IUtilJdtResolver utilJDTResolver,
+	ToAnonymousClassConverter(UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
 			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.utilLayout = utilLayout;

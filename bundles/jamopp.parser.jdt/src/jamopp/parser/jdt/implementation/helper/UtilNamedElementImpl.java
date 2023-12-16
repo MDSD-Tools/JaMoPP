@@ -9,9 +9,9 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
-public class UtilNamedElement implements IUtilNamedElement {
+public class UtilNamedElementImpl implements UtilNamedElement {
 
 	
 	@Override

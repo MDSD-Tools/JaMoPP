@@ -46,24 +46,24 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilReferenceWalker;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class StatementToStatementConverterImpl
 		implements Converter<Statement, org.emftext.language.java.statements.Statement> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilReferenceWalker utilReferenceWalker;
-	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilReferenceWalker utilReferenceWalker;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
@@ -81,21 +81,21 @@ public class StatementToStatementConverterImpl
 	private Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
-	StatementToStatementConverterImpl(IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
-			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			IUtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
+	StatementToStatementConverterImpl(UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			Converter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> toLocalVariableConverter,
 			Converter<CatchClause, CatchBlock> toCatchblockConverter,
 			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
 			Converter<SwitchStatement, Switch> switchToSwitchConverter, StatementsFactory statementsFactory,
-			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ExpressionsFactory expressionsFactory,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
 			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
-			IUtilReferenceWalker utilReferenceWalker) {
+			UtilReferenceWalker utilReferenceWalker) {
 		this.expressionsFactory = expressionsFactory;
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

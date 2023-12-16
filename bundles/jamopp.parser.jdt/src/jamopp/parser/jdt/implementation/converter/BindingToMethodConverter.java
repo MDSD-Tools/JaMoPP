@@ -22,8 +22,8 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilArrays;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilArrays;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingToMethodConverter implements Converter<IMethodBinding, Method> {
@@ -31,8 +31,8 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	private final StatementsFactory statementsFactory;
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
-	private final IUtilJdtResolver jdtTResolverUtility;
-	private final IUtilArrays utilJdtBindingConverter;
+	private final UtilJdtResolver jdtTResolverUtility;
+	private final UtilArrays utilJdtBindingConverter;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
@@ -41,12 +41,12 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	private final Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	BindingToMethodConverter(IUtilArrays utilJdtBindingConverter,
+	BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
 			Converter<Object, AnnotationValue> objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
-			IUtilJdtResolver jdtTResolverUtility,
+			UtilJdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {

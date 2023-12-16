@@ -9,17 +9,17 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
 import jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class HandlerPostfixExpression implements ExpressionHandler {
 
 	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;
-	private final IUtilLayout utilLayout;
+	private final UtilLayout utilLayout;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerPostfixExpression(IUtilLayout utilLayout,
+	HandlerPostfixExpression(UtilLayout utilLayout,
 			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;

@@ -18,18 +18,18 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilReferenceWalker;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class ToMethodReferenceExpressionConverter implements Converter<MethodReference, MethodReferenceExpression> {
 
 	private final LiteralsFactory literalsFactory;
 	private final ReferencesFactory referencesFactory;
 	private final ExpressionsFactory expressionsFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilReferenceWalker utilReferenceWalker;
-	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilReferenceWalker utilReferenceWalker;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
@@ -39,12 +39,12 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 	@Inject
 	ToMethodReferenceExpressionConverter(
 			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
-			IUtilLayout layoutInformationConverter, Converter<Type, TypeReference> toTypeReferenceConverter,
+			UtilLayout layoutInformationConverter, Converter<Type, TypeReference> toTypeReferenceConverter,
 			ExpressionsFactory expressionsFactory, ReferencesFactory referencesFactory, LiteralsFactory literalsFactory,
 			Converter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType,
 			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			Converter<Type, TypeArgument> typeToTypeArgumentConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, IUtilReferenceWalker utilReferenceWalker) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, UtilReferenceWalker utilReferenceWalker) {
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
 		this.expressionsFactory = expressionsFactory;

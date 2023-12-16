@@ -15,32 +15,32 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class ToParameterConverter implements Converter<SingleVariableDeclaration, Parameter> {
 
-	private final IUtilJdtResolver utilJDTResolver;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilLayout utilLayout;
-	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilJdtResolver utilJDTResolver;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilLayout utilLayout;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToParameterConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver utilJDTResolver,
+	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.utilNamedElement = utilNamedElement;

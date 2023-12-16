@@ -3,7 +3,7 @@ package jamopp.parser.jdt.interfaces.helper;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 
-public interface IUtilTypeInstructionSeparation {
+public interface UtilTypeInstructionSeparation {
 
 	void convertAll();
 

@@ -7,17 +7,17 @@ import org.emftext.language.java.imports.PackageImport;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToOnDemandNonStaticConverter implements Converter<ImportDeclaration, Import> {
 
 	private final ImportsFactory importsFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilNamedElement utilNamedElement;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilNamedElement utilNamedElement;
 
 	@Inject
-	public ToOnDemandNonStaticConverter(IUtilNamedElement utilNamedElement, IUtilLayout layoutInformationConverter,
+	public ToOnDemandNonStaticConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
 			ImportsFactory importsFactory) {
 		this.importsFactory = importsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

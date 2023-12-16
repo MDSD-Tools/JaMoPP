@@ -2,26 +2,26 @@ package jamopp.parser.jdt.injection;
 
 import com.google.inject.AbstractModule;
 
-import jamopp.parser.jdt.implementation.helper.UtilArrays;
-import jamopp.parser.jdt.implementation.helper.UtilBindingInfoToConcreteClassifierConverter;
-import jamopp.parser.jdt.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.implementation.helper.UtilNamedElement;
-import jamopp.parser.jdt.implementation.helper.UtilReferenceWalker;
-import jamopp.parser.jdt.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.implementation.helper.UtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.implementation.helper.UtilToSwitchCasesAndSetConverter;
-import jamopp.parser.jdt.implementation.helper.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.interfaces.helper.IUtilArrays;
-import jamopp.parser.jdt.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilReferenceWalker;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.implementation.helper.UtilArraysImpl;
+import jamopp.parser.jdt.implementation.helper.UtilBindingInfoToConcreteClassifierConverterImpl;
+import jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
+import jamopp.parser.jdt.implementation.helper.UtilLayoutImpl;
+import jamopp.parser.jdt.implementation.helper.UtilNamedElementImpl;
+import jamopp.parser.jdt.implementation.helper.UtilReferenceWalkerImpl;
+import jamopp.parser.jdt.implementation.helper.UtilToArrayDimensionAfterAndSetConverterImpl;
+import jamopp.parser.jdt.implementation.helper.UtilToArrayDimensionsAndSetConverterImpl;
+import jamopp.parser.jdt.implementation.helper.UtilToSwitchCasesAndSetConverterImpl;
+import jamopp.parser.jdt.implementation.helper.UtilTypeInstructionSeparationImpl;
+import jamopp.parser.jdt.interfaces.helper.UtilArrays;
+import jamopp.parser.jdt.interfaces.helper.UtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class UtilModule extends AbstractModule {
 
@@ -29,17 +29,17 @@ public class UtilModule extends AbstractModule {
 	protected void configure() {
 		super.configure();
 
-		bind(IUtilArrays.class).to(UtilArrays.class);
-		bind(IUtilBindingInfoToConcreteClassifierConverter.class)
-				.to(UtilBindingInfoToConcreteClassifierConverter.class);
-		bind(IUtilJdtResolver.class).to(UtilJdtResolver.class);
-		bind(IUtilLayout.class).to(UtilLayout.class);
-		bind(IUtilNamedElement.class).to(UtilNamedElement.class);
-		bind(IUtilReferenceWalker.class).to(UtilReferenceWalker.class);
-		bind(IUtilToArrayDimensionAfterAndSetConverter.class).to(UtilToArrayDimensionAfterAndSetConverter.class);
-		bind(IUtilToArrayDimensionsAndSetConverter.class).to(UtilToArrayDimensionsAndSetConverter.class);
-		bind(IUtilToSwitchCasesAndSetConverter.class).to(UtilToSwitchCasesAndSetConverter.class);
-		bind(IUtilTypeInstructionSeparation.class).to(UtilTypeInstructionSeparation.class);
+		bind(UtilArrays.class).to(UtilArraysImpl.class);
+		bind(UtilBindingInfoToConcreteClassifierConverter.class)
+				.to(UtilBindingInfoToConcreteClassifierConverterImpl.class);
+		bind(UtilJdtResolver.class).to(UtilJdtResolverImpl.class);
+		bind(UtilLayout.class).to(UtilLayoutImpl.class);
+		bind(UtilNamedElement.class).to(UtilNamedElementImpl.class);
+		bind(UtilReferenceWalker.class).to(UtilReferenceWalkerImpl.class);
+		bind(UtilToArrayDimensionAfterAndSetConverter.class).to(UtilToArrayDimensionAfterAndSetConverterImpl.class);
+		bind(UtilToArrayDimensionsAndSetConverter.class).to(UtilToArrayDimensionsAndSetConverterImpl.class);
+		bind(UtilToSwitchCasesAndSetConverter.class).to(UtilToSwitchCasesAndSetConverterImpl.class);
+		bind(UtilTypeInstructionSeparation.class).to(UtilTypeInstructionSeparationImpl.class);
 	}
 
 }

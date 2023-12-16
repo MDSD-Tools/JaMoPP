@@ -14,34 +14,34 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class ToLocalVariableConverter
 		implements Converter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> {
 
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	ToLocalVariableConverter(IUtilNamedElement utilNamedElement,
+	ToLocalVariableConverter(UtilNamedElement utilNamedElement,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;

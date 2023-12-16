@@ -12,20 +12,20 @@ import org.emftext.language.java.literals.LiteralsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToReferenceConverterFromStatement
 		implements Converter<Statement, org.emftext.language.java.references.Reference> {
 
 	private final LiteralsFactory literalsFactory;
 	private final InstantiationsFactory instantiationsFactory;
-	private final IUtilLayout layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromStatement(LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter,
+	ToReferenceConverterFromStatement(LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
 			InstantiationsFactory instantiationsFactory,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,

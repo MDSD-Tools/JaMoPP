@@ -9,17 +9,17 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
 import jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class HandlerAssignment implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final IUtilLayout utilLayout;
+	private final UtilLayout utilLayout;
 	private final Converter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerAssignment(IUtilLayout utilLayout,
+	HandlerAssignment(UtilLayout utilLayout,
 			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			Converter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter,
 			ExpressionsFactory expressionsFactory) {

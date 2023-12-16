@@ -11,24 +11,24 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToReferenceConverterFromMethodInvocation implements Converter<MethodInvocation, MethodCall> {
 
 	private final ReferencesFactory referencesFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
-	private final IUtilNamedElement utilNamedElement;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
+	private final UtilNamedElement utilNamedElement;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromMethodInvocation(IUtilNamedElement utilNamedElement,
+	ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter, ReferencesFactory referencesFactory,
-			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
 			Converter<Type, TypeArgument> typeToTypeArgumentConverter) {

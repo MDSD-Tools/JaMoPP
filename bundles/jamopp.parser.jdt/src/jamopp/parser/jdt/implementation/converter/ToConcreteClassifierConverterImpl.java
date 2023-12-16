@@ -15,15 +15,15 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToConcreteClassifierConverterImpl implements Converter<AbstractTypeDeclaration, ConcreteClassifier> {
 
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
-	private final IUtilNamedElement utilNamedElement;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
+	private final UtilNamedElement utilNamedElement;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<BodyDeclaration, Member> toInterfaceMember;
 	private final Converter<TypeDeclaration, ConcreteClassifier> toClassOrInterface;
@@ -32,8 +32,8 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 	@Inject
 	ToConcreteClassifierConverterImpl(
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
-			IUtilNamedElement utilNamedElement,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			UtilNamedElement utilNamedElement,
 			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMember,
 			Converter<EnumDeclaration, Enumeration> toEnumConverter,
 			Converter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {

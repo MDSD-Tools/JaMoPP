@@ -22,15 +22,15 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 @SuppressWarnings("restriction")
-public class UtilBindingInfoToConcreteClassifierConverter implements IUtilBindingInfoToConcreteClassifierConverter {
+public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBindingInfoToConcreteClassifierConverter {
 
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver jdtTResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver jdtTResolverUtility;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final Converter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter;
 	private final Converter<IMethodBinding, Method> bindingToMethodConverter;
@@ -41,10 +41,10 @@ public class UtilBindingInfoToConcreteClassifierConverter implements IUtilBindin
 	private final Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	UtilBindingInfoToConcreteClassifierConverter(IUtilNamedElement utilNamedElement,
+	UtilBindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
-			IUtilJdtResolver jdtTResolverUtility,
+			UtilJdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<IMethodBinding, Method> bindingToMethodConverter,
 			Converter<IVariableBinding, Field> bindingToFieldConverter,

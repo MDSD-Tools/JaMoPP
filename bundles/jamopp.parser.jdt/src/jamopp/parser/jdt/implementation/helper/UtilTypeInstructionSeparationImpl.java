@@ -14,13 +14,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 @Singleton
-public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSeparation {
+public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSeparation {
 
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<Expression, AnnotationValue> toAnnotationValueConverter;
 	private final Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
@@ -37,9 +37,9 @@ public class UtilTypeInstructionSeparation implements IUtilTypeInstructionSepara
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
 	@Inject
-	UtilTypeInstructionSeparation(Converter<Expression, AnnotationValue> toAnnotationValueConverter,
+	UtilTypeInstructionSeparationImpl(Converter<Expression, AnnotationValue> toAnnotationValueConverter,
 			Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter,
-			IUtilJdtResolver jdtResolverUtility,
+			UtilJdtResolver jdtResolverUtility,
 			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;

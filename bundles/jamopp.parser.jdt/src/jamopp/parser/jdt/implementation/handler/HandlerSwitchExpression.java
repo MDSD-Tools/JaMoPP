@@ -8,18 +8,18 @@ import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
 import jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
 
 public class HandlerSwitchExpression implements ExpressionHandler {
 
 	private final StatementsFactory statementsFactory;
-	private final IUtilLayout utilLayout;
-	private final IUtilToSwitchCasesAndSetConverter utilStatementConverter;
+	private final UtilLayout utilLayout;
+	private final UtilToSwitchCasesAndSetConverter utilStatementConverter;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerSwitchExpression(IUtilToSwitchCasesAndSetConverter utilStatementConverter, IUtilLayout utilLayout,
+	HandlerSwitchExpression(UtilToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
 			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;

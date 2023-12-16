@@ -36,11 +36,11 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilReferenceWalker;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class ToReferenceConverterFromExpression
 		implements Converter<Expression, org.emftext.language.java.references.Reference> {
@@ -50,10 +50,10 @@ public class ToReferenceConverterFromExpression
 	private ReferencesFactory referencesFactory;
 	private InstantiationsFactory instantiationsFactory;
 	private ArraysFactory arraysFactory;
-	private IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private IUtilLayout layoutInformationConverter;
-	private IUtilJdtResolver jdtResolverUtility;
-	private IUtilNamedElement utilNamedElement;
+	private UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private UtilLayout layoutInformationConverter;
+	private UtilJdtResolver jdtResolverUtility;
+	private UtilNamedElement utilNamedElement;
 	private Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 	private Converter<Type, TypeReference> toTypeReferenceConverter;
 	private Converter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierConverter;
@@ -65,7 +65,7 @@ public class ToReferenceConverterFromExpression
 	private Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	void setMembers(IUtilNamedElement utilNamedElement,
+	void setMembers(UtilNamedElement utilNamedElement,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType,
 			Converter<SimpleName, IdentifierReference> toReferenceConverterFromName,
@@ -73,13 +73,13 @@ public class ToReferenceConverterFromExpression
 			Converter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierConverter,
 			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			ReferencesFactory referencesFactory, IUtilReferenceWalker utilReferenceWalker,
-			LiteralsFactory literalsFactory, IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility, InstantiationsFactory instantiationsFactory,
+			ReferencesFactory referencesFactory, UtilReferenceWalker utilReferenceWalker,
+			LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
+			UtilJdtResolver jdtResolverUtility, InstantiationsFactory instantiationsFactory,
 			ExpressionsFactory expressionsFactory,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
 			ArraysFactory arraysFactory, Converter<Type, TypeArgument> typeArgumentConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;

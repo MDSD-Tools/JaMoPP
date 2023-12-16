@@ -8,19 +8,19 @@ import org.emftext.language.java.statements.Switch;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
 
 public class SwitchToSwitchConverter implements Converter<SwitchStatement, Switch> {
 
 	private final StatementsFactory statementsFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	SwitchToSwitchConverter(IUtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
-			StatementsFactory statementsFactory, IUtilLayout layoutInformationConverter,
+	SwitchToSwitchConverter(UtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
+			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

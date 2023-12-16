@@ -9,24 +9,24 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
 
 public class ToAdditionalLocalVariableConverter
 		implements Converter<VariableDeclarationFragment, AdditionalLocalVariable> {
 
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	ToAdditionalLocalVariableConverter(IUtilNamedElement utilNamedElement,
-			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
+	ToAdditionalLocalVariableConverter(UtilNamedElement utilNamedElement,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;

@@ -16,23 +16,23 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 @Singleton
 public class ToAnnotationInstanceConverter implements Converter<Annotation, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
-	private final IUtilNamedElement utilNamedElement;
-	private IUtilTypeInstructionSeparation typeInstructionSeparationUtility;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	@Inject
-	ToAnnotationInstanceConverter(IUtilNamedElement utilNamedElement, IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
+	ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
+			UtilJdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -86,7 +86,7 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 	}
 
 	@Inject
-	public void setTypeInstructionSeparationUtility(IUtilTypeInstructionSeparation typeInstructionSeparationUtility) {
+	public void setTypeInstructionSeparationUtility(UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 

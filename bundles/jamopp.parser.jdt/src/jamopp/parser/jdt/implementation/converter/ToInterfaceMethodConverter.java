@@ -12,30 +12,30 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> {
 
 	private final StatementsFactory statementsFactory;
-	private final IUtilJdtResolver iUtilJdtResolver;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
-	private final IUtilLayout utilLayout;
-	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilJdtResolver iUtilJdtResolver;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
+	private final UtilLayout utilLayout;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToInterfaceMethodConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
+	ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			StatementsFactory statementsFactory,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;

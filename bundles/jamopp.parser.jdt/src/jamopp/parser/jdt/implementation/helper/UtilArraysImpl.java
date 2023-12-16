@@ -4,14 +4,14 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.emftext.language.java.arrays.ArraysFactory;
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.interfaces.helper.IUtilArrays;
+import jamopp.parser.jdt.interfaces.helper.UtilArrays;
 
-public class UtilArrays implements IUtilArrays {
+public class UtilArraysImpl implements UtilArrays {
 
 	private final ArraysFactory arraysFactory;
 
 	@Inject
-	UtilArrays(ArraysFactory arraysFactory) {
+	UtilArraysImpl(ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 	}
 

@@ -9,26 +9,26 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public class ToModuleConverter implements Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> {
 
 	private final ModifiersFactory modifiersFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final AbstractVisitor visitor;
 	private final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	private final Converter<ModuleDirective, org.emftext.language.java.modules.ModuleDirective> toDirectiveConverter;
 
 	@Inject
-	public ToModuleConverter(AbstractVisitor visitor, IUtilNamedElement utilNamedElement,
+	public ToModuleConverter(AbstractVisitor visitor, UtilNamedElement utilNamedElement,
 			Converter<ModuleDirective, org.emftext.language.java.modules.ModuleDirective> toDirectiveConverter,
-			ModifiersFactory modifiersFactory, IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility,
+			ModifiersFactory modifiersFactory, UtilLayout layoutInformationConverter,
+			UtilJdtResolver jdtResolverUtility,
 			Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

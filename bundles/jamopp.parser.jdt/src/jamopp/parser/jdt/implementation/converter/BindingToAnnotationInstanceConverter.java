@@ -9,18 +9,18 @@ import org.emftext.language.java.classifiers.Annotation;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class BindingToAnnotationInstanceConverter implements Converter<IAnnotationBinding, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
-	private final IUtilNamedElement utilNamedElement;
-	private IUtilJdtResolver jdtTResolverUtility;
+	private final UtilNamedElement utilNamedElement;
+	private UtilJdtResolver jdtTResolverUtility;
 	private Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
 
 	@Inject
-	BindingToAnnotationInstanceConverter(IUtilNamedElement utilNamedElement, AnnotationsFactory annotationsFactory) {
+	BindingToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.utilNamedElement = utilNamedElement;
 	}
@@ -48,7 +48,7 @@ public class BindingToAnnotationInstanceConverter implements Converter<IAnnotati
 	}
 
 	@Inject
-	public void setJdtTResolverUtility(IUtilJdtResolver jdtTResolverUtility) {
+	public void setJdtTResolverUtility(UtilJdtResolver jdtTResolverUtility) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 

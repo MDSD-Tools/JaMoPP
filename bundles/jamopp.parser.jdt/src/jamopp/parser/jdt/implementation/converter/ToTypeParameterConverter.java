@@ -9,21 +9,21 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToTypeParameterConverter implements
 		Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> {
 
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver utilJDTResolver;
-	private final IUtilLayout utilLayout;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver utilJDTResolver;
+	private final UtilLayout utilLayout;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToTypeParameterConverter(IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver utilJDTResolver,
+	ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
 			ToTypeReferenceConverter toTypeReferenceConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;

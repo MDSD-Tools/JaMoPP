@@ -20,16 +20,16 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilArrays;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilArrays;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingToConstructorConverter implements Converter<IMethodBinding, Constructor> {
 
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
-	private final IUtilJdtResolver jdtTResolverUtility;
-	private final IUtilArrays utilJdtBindingConverter;
+	private final UtilJdtResolver jdtTResolverUtility;
+	private final UtilArrays utilJdtBindingConverter;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 	private final Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter;
 	private final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
@@ -37,10 +37,10 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	BindingToConstructorConverter(IUtilArrays utilJdtBindingConverter,
+	BindingToConstructorConverter(UtilArrays utilJdtBindingConverter,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
-			ParametersFactory parametersFactory, LiteralsFactory literalsFactory, IUtilJdtResolver jdtTResolverUtility,
+			ParametersFactory parametersFactory, LiteralsFactory literalsFactory, UtilJdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {

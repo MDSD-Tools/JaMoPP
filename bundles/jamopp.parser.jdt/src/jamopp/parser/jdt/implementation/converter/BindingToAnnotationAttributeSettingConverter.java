@@ -7,18 +7,18 @@ import org.emftext.language.java.annotations.AnnotationsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 public class BindingToAnnotationAttributeSettingConverter
 		implements Converter<IMemberValuePairBinding, AnnotationAttributeSetting> {
 
 	private final AnnotationsFactory annotationsFactory;
-	private final IUtilJdtResolver jdtTResolverUtility;
+	private final UtilJdtResolver jdtTResolverUtility;
 	private final Converter<Object, AnnotationValue> objectToAnnotationValueConverter;
 
 	@Inject
 	BindingToAnnotationAttributeSettingConverter(Converter<Object, AnnotationValue> objectToAnnotationValueConverter,
-			IUtilJdtResolver jdtTResolverUtility, AnnotationsFactory annotationsFactory) {
+			UtilJdtResolver jdtTResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.objectToAnnotationValueConverter = objectToAnnotationValueConverter;

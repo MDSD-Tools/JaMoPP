@@ -6,14 +6,14 @@ import org.emftext.language.java.arrays.ArrayTypeable;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
 
-public class UtilToArrayDimensionAfterAndSetConverter implements IUtilToArrayDimensionAfterAndSetConverter {
+public class UtilToArrayDimensionAfterAndSetConverterImpl implements UtilToArrayDimensionAfterAndSetConverter {
 
 	private final Converter<Dimension, ArrayDimension> toArrayDimensionConverter;
 
 	@Inject
-	UtilToArrayDimensionAfterAndSetConverter(Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
+	UtilToArrayDimensionAfterAndSetConverterImpl(Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 

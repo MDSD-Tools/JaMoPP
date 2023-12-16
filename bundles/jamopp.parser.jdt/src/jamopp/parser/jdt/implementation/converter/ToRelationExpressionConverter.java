@@ -9,19 +9,19 @@ import org.emftext.language.java.operators.RelationOperator;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToRelationExpressionConverter implements Converter<InfixExpression, RelationExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final IUtilLayout layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final Converter<InfixExpression.Operator, RelationOperator> toRelationOperatorConverter;
 
 	@Inject
 	ToRelationExpressionConverter(Converter<InfixExpression.Operator, RelationOperator> toRelationOperatorConverter,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
-			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;

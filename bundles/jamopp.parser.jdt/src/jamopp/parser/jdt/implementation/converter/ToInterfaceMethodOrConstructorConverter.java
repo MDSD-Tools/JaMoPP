@@ -20,22 +20,22 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToInterfaceMethodOrConstructorConverter implements Converter<MethodDeclaration, Member> {
 
 	private final StatementsFactory statementsFactory;
-	private final IUtilTypeInstructionSeparation utilTypeInstructionSeparation;
-	private final IUtilLayout utilLayout;
-	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final IUtilJdtResolver iUtilJdtResolver;
-	private final IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final IUtilNamedElement utilNamedElement;
+	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
+	private final UtilLayout utilLayout;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilJdtResolver iUtilJdtResolver;
+	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final UtilNamedElement utilNamedElement;
 	private final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
@@ -45,18 +45,18 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 	private final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
-	ToInterfaceMethodOrConstructorConverter(IUtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			IUtilNamedElement utilNamedElement, IUtilLayout utilLayout, IUtilJdtResolver iUtilJdtResolver,
+	ToInterfaceMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
 			Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
 			Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			@Named("ToClassMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
-			IUtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
 		this.iUtilJdtResolver = iUtilJdtResolver;

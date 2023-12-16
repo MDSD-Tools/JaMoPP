@@ -10,12 +10,12 @@ import org.emftext.language.java.operators.AdditiveOperator;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToAdditiveExpressionConverter implements Converter<InfixExpression, AdditiveExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final IUtilLayout layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final Converter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter;
 
@@ -23,7 +23,7 @@ public class ToAdditiveExpressionConverter implements Converter<InfixExpression,
 	ToAdditiveExpressionConverter(
 			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
 			Converter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter,
-			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;

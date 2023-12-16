@@ -13,16 +13,16 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilArrays;
+import jamopp.parser.jdt.interfaces.helper.UtilArrays;
 
 public class ToTypeArgumentConverter implements Converter<ITypeBinding, TypeArgument> {
 
 	private final GenericsFactory genericsFactory;
-	private final IUtilArrays utilJdtBindingConverter;
+	private final UtilArrays utilJdtBindingConverter;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	ToTypeArgumentConverter(IUtilArrays utilJdtBindingConverter,
+	ToTypeArgumentConverter(UtilArrays utilJdtBindingConverter,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.utilJdtBindingConverter = utilJdtBindingConverter;

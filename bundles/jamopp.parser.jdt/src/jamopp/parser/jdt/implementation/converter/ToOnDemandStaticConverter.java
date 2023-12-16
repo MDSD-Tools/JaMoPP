@@ -12,21 +12,21 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToOnDemandStaticConverter implements Converter<ImportDeclaration, Import> {
 
 	private final ModifiersFactory modifiersFactory;
 	private final ImportsFactory importsFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToOnDemandStaticConverter(IUtilNamedElement utilNamedElement, ModifiersFactory modifiersFactory,
-			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
+	public ToOnDemandStaticConverter(UtilNamedElement utilNamedElement, ModifiersFactory modifiersFactory,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ImportsFactory importsFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;

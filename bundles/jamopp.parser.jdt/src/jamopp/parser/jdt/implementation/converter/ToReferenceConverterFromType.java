@@ -13,8 +13,8 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.emftext.language.java.references.IdentifierReference;
@@ -23,8 +23,8 @@ import org.eclipse.jdt.core.dom.Name;
 public class ToReferenceConverterFromType implements Converter<Type, org.emftext.language.java.references.Reference> {
 
 	private final ReferencesFactory referencesFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	
@@ -35,8 +35,8 @@ public class ToReferenceConverterFromType implements Converter<Type, org.emftext
 	ToReferenceConverterFromType(Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<Name, IdentifierReference> toReferenceConverterFromName,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			ReferencesFactory referencesFactory, IUtilLayout layoutInformationConverter,
-			IUtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
+			ReferencesFactory referencesFactory, UtilLayout layoutInformationConverter,
+			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;

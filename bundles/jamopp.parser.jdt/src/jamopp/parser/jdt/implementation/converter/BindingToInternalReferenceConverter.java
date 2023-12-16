@@ -7,15 +7,15 @@ import org.emftext.language.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 public class BindingToInternalReferenceConverter implements Converter<ITypeBinding, Reference> {
 
 	private final ReferencesFactory referencesFactory;
-	private final IUtilJdtResolver jdtTResolverUtility;
+	private final UtilJdtResolver jdtTResolverUtility;
 
 	@Inject
-	BindingToInternalReferenceConverter(ReferencesFactory referencesFactory, IUtilJdtResolver jdtTResolverUtility) {
+	BindingToInternalReferenceConverter(ReferencesFactory referencesFactory, UtilJdtResolver jdtTResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}

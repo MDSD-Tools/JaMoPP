@@ -17,24 +17,24 @@ import org.emftext.language.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToDirectiveConverter
 		implements Converter<ModuleDirective, org.emftext.language.java.modules.ModuleDirective> {
 
 	private final ModulesFactory modulesFactory;
 	private final ModifiersFactory modifiersFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final Converter<Name, TypeReference> utilBaseConverter;
 	private final Converter<Name, ModuleReference> toModuleReferenceConverter;
 
 	@Inject
 	public ToDirectiveConverter(Converter<Name, TypeReference> utilBaseConverter,
 			Converter<Name, ModuleReference> toModuleReferenceConverter, ModulesFactory modulesFactory,
-			ModifiersFactory modifiersFactory, IUtilLayout layoutInformationConverter,
-			IUtilJdtResolver jdtResolverUtility) {
+			ModifiersFactory modifiersFactory, UtilLayout layoutInformationConverter,
+			UtilJdtResolver jdtResolverUtility) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

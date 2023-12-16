@@ -21,15 +21,15 @@ import org.emftext.language.java.containers.JavaRoot;
 
 import com.google.inject.Inject;
 
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class UtilLayout implements IUtilLayout {
+public class UtilLayoutImpl implements UtilLayout {
 
 	private final LayoutFactory layoutFactory;
 	private static MinimalLayoutInformation currentRootLayout;
 
 	@Inject
-	public UtilLayout(LayoutFactory layoutFactory) {
+	public UtilLayoutImpl(LayoutFactory layoutFactory) {
 		this.layoutFactory = layoutFactory;
 	}
 

@@ -7,16 +7,16 @@ import org.emftext.language.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToSwitchCaseConverter implements Converter<SwitchCase, org.emftext.language.java.statements.SwitchCase> {
 
 	private final StatementsFactory statementsFactory;
-	private final IUtilLayout layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	ToSwitchCaseConverter(StatementsFactory statementsFactory, IUtilLayout layoutInformationConverter,
+	ToSwitchCaseConverter(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

@@ -9,12 +9,12 @@ import org.emftext.language.java.operators.MultiplicativeOperator;
 import com.google.inject.Inject;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToMultiplicativeExpressionConverter implements Converter<InfixExpression, MultiplicativeExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
-	private final IUtilLayout layoutInformationConverter;
+	private final UtilLayout layoutInformationConverter;
 	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
 	private final Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter;
 
@@ -22,7 +22,7 @@ public class ToMultiplicativeExpressionConverter implements Converter<InfixExpre
 	ToMultiplicativeExpressionConverter(
 			Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter,
 			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
-			IUtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;

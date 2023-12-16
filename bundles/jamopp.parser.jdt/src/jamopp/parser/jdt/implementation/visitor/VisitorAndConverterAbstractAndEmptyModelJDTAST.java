@@ -26,18 +26,18 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import jamopp.parser.jdt.interfaces.converter.Converter;
-import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 @Singleton
 public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisitor {
 
 	private final ContainersFactory containersFactory;
-	private final IUtilLayout layoutInformationConverter;
-	private final IUtilNamedElement utilNamedElement;
-	private final IUtilJdtResolver jdtResolverUtility;
+	private final UtilLayout layoutInformationConverter;
+	private final UtilNamedElement utilNamedElement;
+	private final UtilJdtResolver jdtResolverUtility;
 	private final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	private final Converter<ImportDeclaration, Import> toImportConverter;
 
@@ -48,9 +48,9 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	private String originalSource;
 
 	@Inject
-	public VisitorAndConverterAbstractAndEmptyModelJDTAST(IUtilNamedElement utilNamedElement,
+	public VisitorAndConverterAbstractAndEmptyModelJDTAST(UtilNamedElement utilNamedElement,
 			@Named("ToImportConverter") Converter<ImportDeclaration, Import> toImportConverter,
-			IUtilLayout layoutInformationConverter, IUtilJdtResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ContainersFactory containersFactory,
 			Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
 		this.containersFactory = containersFactory;
