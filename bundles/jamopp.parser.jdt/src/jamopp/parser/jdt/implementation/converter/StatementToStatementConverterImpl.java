@@ -54,7 +54,7 @@ import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConver
 import jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class StatementToStatementConverterImpl
-implements Converter<Statement, org.emftext.language.java.statements.Statement> {
+		implements Converter<Statement, org.emftext.language.java.statements.Statement> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
@@ -120,66 +120,47 @@ implements Converter<Statement, org.emftext.language.java.statements.Statement> 
 	public org.emftext.language.java.statements.Statement convert(Statement statement) {
 		if (statement.getNodeType() == ASTNode.ASSERT_STATEMENT) {
 			return handleAssertStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.BLOCK) {
+		} else if (statement.getNodeType() == ASTNode.BLOCK) {
 			return handleBlock(statement);
-		}
-		if (statement.getNodeType() == ASTNode.BREAK_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.BREAK_STATEMENT) {
 			return handleBreakStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.CONTINUE_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.CONTINUE_STATEMENT) {
 			return handleContinueStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.DO_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.DO_STATEMENT) {
 			return handleDoStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.EMPTY_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.EMPTY_STATEMENT) {
 			return handleEmptyStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.ENHANCED_FOR_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.ENHANCED_FOR_STATEMENT) {
 			return handleEnhancedForStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.EXPRESSION_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.EXPRESSION_STATEMENT) {
 			return handleExpressionStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.FOR_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.FOR_STATEMENT) {
 			return handleForStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.IF_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.IF_STATEMENT) {
 			return handleIfStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.LABELED_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.LABELED_STATEMENT) {
 			return handleLabeledStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.RETURN_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.RETURN_STATEMENT) {
 			return handleReturnStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.SWITCH_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.SWITCH_STATEMENT) {
 			return handleSwitchStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
 			return handleSynchonizedStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.THROW_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.THROW_STATEMENT) {
 			return handleThrowStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.TRY_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.TRY_STATEMENT) {
 			return handleTryStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.TYPE_DECLARATION_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.TYPE_DECLARATION_STATEMENT) {
 			return handleTypeDeclarationStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.VARIABLE_DECLARATION_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.VARIABLE_DECLARATION_STATEMENT) {
 			return handleVariableDeclarationStatement(statement);
-		}
-		if (statement.getNodeType() == ASTNode.WHILE_STATEMENT) {
+		} else if (statement.getNodeType() == ASTNode.WHILE_STATEMENT) {
 			return handleWhileStatement(statement);
-		}
-		if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
+		} else if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
 			return handleOther(statement);
+		} else {
+			return handleYieldStatement(statement);
 		}
-
-		return handleYieldStatement(statement);
 	}
 
 	private org.emftext.language.java.statements.Statement handleYieldStatement(Statement statement) {
@@ -254,16 +235,16 @@ implements Converter<Statement, org.emftext.language.java.statements.Statement> 
 			Expression resExpr = (Expression) obj;
 			if (resExpr instanceof VariableDeclarationExpression) {
 				result.getResources()
-				.add(this.toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
+						.add(this.toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
 			} else {
 				result.getResources()
-				.add((org.emftext.language.java.references.ElementReference) this.utilReferenceWalker
-						.walkUp(this.toReferenceConverterFromExpression.convert(resExpr)));
+						.add((org.emftext.language.java.references.ElementReference) this.utilReferenceWalker
+								.walkUp(this.toReferenceConverterFromExpression.convert(resExpr)));
 			}
 		});
 		result.setBlock(this.blockToBlockConverter.convert(trySt.getBody()));
 		trySt.catchClauses()
-		.forEach(obj -> result.getCatchBlocks().add(this.toCatchblockConverter.convert((CatchClause) obj)));
+				.forEach(obj -> result.getCatchBlocks().add(this.toCatchblockConverter.convert((CatchClause) obj)));
 		if (trySt.getFinally() != null) {
 			result.setFinallyBlock(this.blockToBlockConverter.convert(trySt.getFinally()));
 		}
@@ -343,7 +324,7 @@ implements Converter<Statement, org.emftext.language.java.statements.Statement> 
 			result.setCondition(this.expressionConverterUtility.convert(forSt.getExpression()));
 		}
 		forSt.updaters()
-		.forEach(obj -> result.getUpdates().add(this.expressionConverterUtility.convert((Expression) obj)));
+				.forEach(obj -> result.getUpdates().add(this.expressionConverterUtility.convert((Expression) obj)));
 		result.setStatement(convert(forSt.getBody()));
 		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, forSt);
 		return result;
