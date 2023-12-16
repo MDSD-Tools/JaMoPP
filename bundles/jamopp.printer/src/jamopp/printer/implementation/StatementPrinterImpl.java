@@ -27,8 +27,9 @@ import org.emftext.language.java.statements.YieldStatement;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
-import jamopp.printer.interfaces.EmptyStatementPrinterInt;
+import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.Printer;
 
 public class StatementPrinterImpl implements Printer<Statement> {
@@ -40,7 +41,7 @@ public class StatementPrinterImpl implements Printer<Statement> {
 	private final Provider<Printer<Condition>> conditionPrinter;
 	private final Provider<Printer<Continue>> continuePrinter;
 	private final Provider<Printer<DoWhileLoop>> doWhileLoopPrinter;
-	private final Provider<EmptyStatementPrinterInt> emptyStatementPrinter;
+	private final Provider<EmptyPrinter> emptyStatementPrinter;
 	private final Provider<Printer<ExpressionStatement>> expressionStatementPrinter;
 	private final Provider<Printer<ForEachLoop>> forEachLoopPrinter;
 	private final Provider<Printer<ForLoop>> forLoopPrinter;
@@ -57,7 +58,8 @@ public class StatementPrinterImpl implements Printer<Statement> {
 	@Inject
 	public StatementPrinterImpl(Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter,
 			Provider<Printer<Assert>> assertPrinter, Provider<Printer<Block>> blockPrinter,
-			Provider<Printer<Condition>> conditionPrinter, Provider<EmptyStatementPrinterInt> emptyStatementPrinter,
+			Provider<Printer<Condition>> conditionPrinter,
+			@Named("EmptyStatementPrinter") Provider<EmptyPrinter> emptyStatementPrinter,
 			Provider<Printer<ExpressionStatement>> expressionStatementPrinter,
 			Provider<Printer<ForLoop>> forLoopPrinter, Provider<Printer<ForEachLoop>> forEachLoopPrinter,
 			Provider<Printer<Break>> breakPrinter, Provider<Printer<Continue>> continuePrinter,

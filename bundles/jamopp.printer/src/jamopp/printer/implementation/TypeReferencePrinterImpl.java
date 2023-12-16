@@ -10,21 +10,22 @@ import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypeReference;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
-import jamopp.printer.interfaces.InferableTypePrinterInt;
+import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.Printer;
 
 public class TypeReferencePrinterImpl implements Printer<TypeReference> {
 
 	private final Printer<ClassifierReference> classifierReferencePrinter;
-	private final InferableTypePrinterInt inferableTypePrinter;
+	private final EmptyPrinter inferableTypePrinter;
 	private final Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter;
 	private final Printer<PrimitiveType> primitiveTypePrinter;
 
 	@Inject
 	public TypeReferencePrinterImpl(Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter,
 			Printer<ClassifierReference> classifierReferencePrinter, Printer<PrimitiveType> primitiveTypePrinter,
-			InferableTypePrinterInt inferableTypePrinter) {
+			@Named("InferableTypePrinte") EmptyPrinter inferableTypePrinter) {
 		this.namespaceClassifierReferencePrinter = namespaceClassifierReferencePrinter;
 		this.classifierReferencePrinter = classifierReferencePrinter;
 		this.primitiveTypePrinter = primitiveTypePrinter;

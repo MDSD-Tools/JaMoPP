@@ -17,9 +17,10 @@ import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.references.TextBlockReference;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
+import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.ReflectiveClassReferencePrinterInt;
 
 public class ReferencePrinterImpl implements Printer<Reference> {
 
@@ -30,7 +31,7 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 	private final Printer<Instantiation> instantiationPrinter;
 	private final Printer<NestedExpression> nestedExpressionPrinter;
 	private final Printer<PrimitiveTypeReference> primitiveTypeReferencePrinter;
-	private final ReflectiveClassReferencePrinterInt reflectiveClassReferencePrinter;
+	private final EmptyPrinter reflectiveClassReferencePrinter;
 	private final Printer<SelfReference> selfReferencePrinter;
 	private final Printer<StringReference> stringReferencePrinter;
 	private final Printer<TextBlockReference> textBlockReferencePrinter;
@@ -38,7 +39,7 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 	@Inject
 	public ReferencePrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
 			Printer<NestedExpression> nestedExpressionPrinter,
-			ReflectiveClassReferencePrinterInt reflectiveClassReferencePrinter,
+			@Named("ReflectiveClassReferencePrinter") EmptyPrinter reflectiveClassReferencePrinter,
 			Printer<PrimitiveTypeReference> primitiveTypeReferencePrinter,
 			Printer<StringReference> stringReferencePrinter, Printer<SelfReference> selfReferencePrinter,
 			Printer<ArrayInstantiation> arrayInstantiationPrinter, Printer<Instantiation> instantiationPrinter,

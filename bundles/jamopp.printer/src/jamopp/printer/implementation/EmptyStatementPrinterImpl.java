@@ -3,9 +3,9 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import jamopp.printer.interfaces.EmptyStatementPrinterInt;
+import jamopp.printer.interfaces.EmptyPrinter;
 
-public class EmptyStatementPrinterImpl implements EmptyStatementPrinterInt {
+public class EmptyStatementPrinterImpl implements EmptyPrinter {
 
 	@Override
 	public void print(BufferedWriter writer) throws IOException {

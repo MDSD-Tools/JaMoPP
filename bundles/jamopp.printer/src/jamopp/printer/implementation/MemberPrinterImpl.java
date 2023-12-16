@@ -13,8 +13,9 @@ import org.emftext.language.java.statements.Block;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
-import jamopp.printer.interfaces.EmptyMemberPrinterInt;
+import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.Printer;
 
 public class MemberPrinterImpl implements Printer<Member> {
@@ -23,7 +24,7 @@ public class MemberPrinterImpl implements Printer<Member> {
 	private final Provider<Printer<ClassMethod>> classMethodPrinter;
 	private final Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter;
 	private final Provider<Printer<Constructor>> constructorPrinter;
-	private final Provider<EmptyMemberPrinterInt> emptyMemberPrinter;
+	private final Provider<EmptyPrinter> emptyMemberPrinter;
 	private final Provider<Printer<Field>> fieldPrinter;
 	private final Provider<Printer<InterfaceMethod>> interfaceMethodPrinter;
 
@@ -32,7 +33,7 @@ public class MemberPrinterImpl implements Printer<Member> {
 			Provider<Printer<ClassMethod>> classMethodPrinter,
 			Provider<Printer<InterfaceMethod>> interfaceMethodPrinter,
 			Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter, Provider<Printer<Block>> blockPrinter,
-			Provider<EmptyMemberPrinterInt> emptyMemberPrinter) {
+			@Named("EmptyMemberPrinter") Provider<EmptyPrinter> emptyMemberPrinter) {
 		this.fieldPrinter = fieldPrinter;
 		this.constructorPrinter = constructorPrinter;
 		this.classMethodPrinter = classMethodPrinter;

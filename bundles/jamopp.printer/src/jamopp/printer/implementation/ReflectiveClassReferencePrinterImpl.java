@@ -3,9 +3,9 @@ package jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import jamopp.printer.interfaces.ReflectiveClassReferencePrinterInt;
+import jamopp.printer.interfaces.EmptyPrinter;
 
-public class ReflectiveClassReferencePrinterImpl implements ReflectiveClassReferencePrinterInt {
+public class ReflectiveClassReferencePrinterImpl implements EmptyPrinter {
 
 	@Override
 	public void print(BufferedWriter writer) throws IOException {

@@ -142,13 +142,11 @@ import org.emftext.language.java.variables.Resource;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
 
 import jamopp.printer.implementation.*;
-import jamopp.printer.interfaces.EmptyMemberPrinterInt;
-import jamopp.printer.interfaces.EmptyStatementPrinterInt;
-import jamopp.printer.interfaces.InferableTypePrinterInt;
+import jamopp.printer.interfaces.EmptyPrinter;
 import jamopp.printer.interfaces.Printer;
-import jamopp.printer.interfaces.ReflectiveClassReferencePrinterInt;
 
 public class ModulePrinterInjection extends AbstractModule {
 
@@ -205,8 +203,6 @@ public class ModulePrinterInjection extends AbstractModule {
 		bind(new TypeLiteral<Printer<DefaultSwitchRule>>(){}).to(DefaultSwitchRulePrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<DoWhileLoop>>(){}).to(DoWhileLoopPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<ElementReference>>(){}).to(ElementReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<EmptyMemberPrinterInt>(){}).to(EmptyMemberPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<EmptyStatementPrinterInt>(){}).to(EmptyStatementPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<EnumConstant>>(){}).to(EnumConstantPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<Enumeration>>(){}).to(EnumerationPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<EqualityExpressionChild>>(){}).to(EqualityExpressionChildPrinterImpl.class).in(Singleton.class);
@@ -228,7 +224,6 @@ public class ModulePrinterInjection extends AbstractModule {
 		bind(new TypeLiteral<Printer<Import>>(){}).to(ImportPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<InclusiveOrExpressionChild>>(){}).to(InclusiveOrExpressionChildPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<InclusiveOrExpression>>(){}).to(InclusiveOrExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<InferableTypePrinterInt>(){}).to(InferableTypePrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<InstanceOfExpressionChild>>(){}).to(InstanceOfExpressionChildPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<InstanceOfExpression>>(){}).to(InstanceOfExpressionPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<Instantiation>>(){}).to(InstantiationPrinterImpl.class).in(Singleton.class);
@@ -264,7 +259,6 @@ public class ModulePrinterInjection extends AbstractModule {
 		bind(new TypeLiteral<Printer<ProvidesModuleDirective>>(){}).to(ProvidesModuleDirectivePrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<ReceiverParameter>>(){}).to(ReceiverParameterPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<Reference>>(){}).to(ReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<ReflectiveClassReferencePrinterInt>(){}).to(ReflectiveClassReferencePrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<RelationExpressionChild>>(){}).to(RelationExpressionChildPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<RelationExpression>>(){}).to(RelationExpressionPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<RelationOperator>>(){}).to(RelationOperatorPrinterImpl.class).in(Singleton.class);
@@ -301,6 +295,12 @@ public class ModulePrinterInjection extends AbstractModule {
 		bind(new TypeLiteral<Printer<WhileLoop>>(){}).to(WhileLoopPrinterImpl.class).in(Singleton.class);
 		bind(new TypeLiteral<Printer<YieldStatement>>(){}).to(YieldStatementPrinterImpl.class).in(Singleton.class);
 
+		bind(new TypeLiteral<EmptyPrinter>(){}).annotatedWith(Names.named("ReflectiveClassReferencePrinter")).to(ReflectiveClassReferencePrinterImpl.class).in(Singleton.class);
+		bind(new TypeLiteral<EmptyPrinter>(){}).annotatedWith(Names.named("InferableTypePrinter")).to(InferableTypePrinterImpl.class).in(Singleton.class);
+		bind(new TypeLiteral<EmptyPrinter>(){}).annotatedWith(Names.named("EmptyMemberPrinter")).to(EmptyMemberPrinterImpl.class).in(Singleton.class);
+		bind(new TypeLiteral<EmptyPrinter>(){}).annotatedWith(Names.named("EmptyStatementPrinter")).to(EmptyStatementPrinterImpl.class).in(Singleton.class);
+		
+		
 	}
 
 }
