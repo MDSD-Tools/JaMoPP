@@ -53,119 +53,146 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public TypeReference convert(Type t) {
 		if (t.isPrimitiveType()) {
-			PrimitiveType primType = (PrimitiveType) t;
-			org.emftext.language.java.types.PrimitiveType convertedType;
-			if (primType.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
-				convertedType = typesFactory.createBoolean();
-			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.BYTE) {
-				convertedType = typesFactory.createByte();
-			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.CHAR) {
-				convertedType = typesFactory.createChar();
-			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.DOUBLE) {
-				convertedType = typesFactory.createDouble();
-			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.FLOAT) {
-				convertedType = typesFactory.createFloat();
-			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.INT) {
-				convertedType = typesFactory.createInt();
-			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.LONG) {
-				convertedType = typesFactory.createLong();
-			} else if (primType.getPrimitiveTypeCode() == PrimitiveType.SHORT) {
-				convertedType = typesFactory.createShort();
-			} else { // primType.getPrimitiveTypeCode() == PrimitiveType.VOID
-				convertedType = typesFactory.createVoid();
+			return handlePrimitiveType(t);
+		} else if (t.isVar()) {
+			return handleVar(t);
+		} else if (t.isArrayType()) {
+			return handleArrayType(t);
+		} else if (t.isSimpleType()) {
+			return handleSimpleType(t);
+		} else if (t.isQualifiedType()) {
+			return handleQualifiedType(t);
+		} else if (t.isNameQualifiedType()) {
+			return handleNameQualifiedType(t);
+		} else if (t.isParameterizedType()) {
+			return handleParameterizedType(t);
+		} else {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private TypeReference handlePrimitiveType(Type t) {
+		PrimitiveType primType = (PrimitiveType) t;
+		org.emftext.language.java.types.PrimitiveType convertedType;
+		if (primType.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
+			convertedType = typesFactory.createBoolean();
+		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.BYTE) {
+			convertedType = typesFactory.createByte();
+		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.CHAR) {
+			convertedType = typesFactory.createChar();
+		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.DOUBLE) {
+			convertedType = typesFactory.createDouble();
+		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.FLOAT) {
+			convertedType = typesFactory.createFloat();
+		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.INT) {
+			convertedType = typesFactory.createInt();
+		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.LONG) {
+			convertedType = typesFactory.createLong();
+		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.SHORT) {
+			convertedType = typesFactory.createShort();
+		} else { // primType.getPrimitiveTypeCode() == PrimitiveType.VOID
+			convertedType = typesFactory.createVoid();
+		}
+		primType.annotations().forEach(
+				obj -> convertedType.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+		layoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
+		return convertedType;
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private TypeReference handleParameterizedType(Type t) {
+		ParameterizedType paramT = (ParameterizedType) t;
+		TypeReference ref = convert(paramT.getType());
+		ClassifierReference container;
+		if (ref instanceof ClassifierReference) {
+			container = (ClassifierReference) ref;
+		} else {
+			NamespaceClassifierReference containerContainer = (NamespaceClassifierReference) ref;
+			container = containerContainer.getClassifierReferences()
+					.get(containerContainer.getClassifierReferences().size() - 1);
+		}
+		paramT.typeArguments()
+				.forEach(obj -> container.getTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
+		return ref;
+	}
+
+	@SuppressWarnings("unchecked")
+	private TypeReference handleNameQualifiedType(Type t) {
+		NameQualifiedType nqT = (NameQualifiedType) t;
+		NamespaceClassifierReference result;
+		TypeReference parentRef = utilBaseConverter.convert(nqT.getQualifier());
+		if (parentRef instanceof ClassifierReference) {
+			result = typesFactory.createNamespaceClassifierReference();
+			result.getClassifierReferences().add((ClassifierReference) parentRef);
+		} else {
+			result = (NamespaceClassifierReference) parentRef;
+		}
+		ClassifierReference child = toClassifierReferenceConverter.convert(nqT.getName());
+		nqT.annotations()
+				.forEach(obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+		result.getClassifierReferences().add(child);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private TypeReference handleQualifiedType(Type t) {
+		QualifiedType qualType = (QualifiedType) t;
+		NamespaceClassifierReference result;
+		TypeReference parentRef = convert(qualType.getQualifier());
+		if (parentRef instanceof ClassifierReference) {
+			result = typesFactory.createNamespaceClassifierReference();
+			result.getClassifierReferences().add((ClassifierReference) parentRef);
+		} else {
+			// parentRef instanceof NamespaceClassifierReference
+			result = (NamespaceClassifierReference) parentRef;
+		}
+		ClassifierReference childRef = toClassifierReferenceConverter.convert(qualType.getName());
+		qualType.annotations()
+				.forEach(obj -> childRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+		result.getClassifierReferences().add(childRef);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
+		return result;
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private TypeReference handleSimpleType(Type t) {
+		SimpleType simT = (SimpleType) t;
+		TypeReference ref;
+		if (!simT.annotations().isEmpty()) {
+			ClassifierReference tempRef = toClassifierReferenceConverter.convert((SimpleName) simT.getName());
+			simT.annotations().forEach(
+					obj -> tempRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+			ref = tempRef;
+		} else {
+			ref = utilBaseConverter.convert(simT.getName());
+		}
+		layoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
+		return ref;
+	}
+
+	private TypeReference handleArrayType(Type t) {
+		ArrayType arrT = (ArrayType) t;
+		return convert(arrT.getElementType());
+	}
+
+	private TypeReference handleVar(Type t) {
+		InferableType ref = typesFactory.createInferableType();
+		ITypeBinding binding = t.resolveBinding();
+		if (binding != null) {
+			ref.getActualTargets().addAll(toTypeReferencesConverter.convert(binding));
+			if (binding.isArray()) {
+				jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding, ref);
+			} else if (binding.isIntersectionType() && binding.getTypeBounds()[0].isArray()) {
+				jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding.getTypeBounds()[0], ref);
 			}
-			primType.annotations().forEach(
-					obj -> convertedType.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
-			layoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
-			return convertedType;
 		}
-		if (t.isVar()) {
-			InferableType ref = typesFactory.createInferableType();
-			ITypeBinding binding = t.resolveBinding();
-			if (binding != null) {
-				ref.getActualTargets().addAll(toTypeReferencesConverter.convert(binding));
-				if (binding.isArray()) {
-					jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding, ref);
-				} else if (binding.isIntersectionType() && binding.getTypeBounds()[0].isArray()) {
-					jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding.getTypeBounds()[0], ref);
-				}
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(ref, t);
-			return ref;
-		}
-		if (t.isArrayType()) {
-			ArrayType arrT = (ArrayType) t;
-			return convert(arrT.getElementType());
-		}
-		if (t.isSimpleType()) {
-			SimpleType simT = (SimpleType) t;
-			TypeReference ref;
-			if (!simT.annotations().isEmpty()) {
-				ClassifierReference tempRef = toClassifierReferenceConverter.convert((SimpleName) simT.getName());
-				simT.annotations().forEach(
-						obj -> tempRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
-				ref = tempRef;
-			} else {
-				ref = utilBaseConverter.convert(simT.getName());
-			}
-			layoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
-			return ref;
-		}
-		if (t.isQualifiedType()) {
-			QualifiedType qualType = (QualifiedType) t;
-			NamespaceClassifierReference result;
-			TypeReference parentRef = convert(qualType.getQualifier());
-			if (parentRef instanceof ClassifierReference) {
-				result = typesFactory.createNamespaceClassifierReference();
-				result.getClassifierReferences().add((ClassifierReference) parentRef);
-			} else {
-				// parentRef instanceof NamespaceClassifierReference
-				result = (NamespaceClassifierReference) parentRef;
-			}
-			ClassifierReference childRef = toClassifierReferenceConverter.convert(qualType.getName());
-			qualType.annotations().forEach(
-					obj -> childRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
-			result.getClassifierReferences().add(childRef);
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
-			return result;
-		}
-		if (t.isNameQualifiedType()) {
-			NameQualifiedType nqT = (NameQualifiedType) t;
-			NamespaceClassifierReference result;
-			TypeReference parentRef = utilBaseConverter.convert(nqT.getQualifier());
-			if (parentRef instanceof ClassifierReference) {
-				result = typesFactory.createNamespaceClassifierReference();
-				result.getClassifierReferences().add((ClassifierReference) parentRef);
-			} else {
-				result = (NamespaceClassifierReference) parentRef;
-			}
-			ClassifierReference child = toClassifierReferenceConverter.convert(nqT.getName());
-			nqT.annotations().forEach(
-					obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
-			result.getClassifierReferences().add(child);
-			layoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
-			return result;
-		}
-		if (t.isParameterizedType()) {
-			ParameterizedType paramT = (ParameterizedType) t;
-			TypeReference ref = convert(paramT.getType());
-			ClassifierReference container;
-			if (ref instanceof ClassifierReference) {
-				container = (ClassifierReference) ref;
-			} else {
-				NamespaceClassifierReference containerContainer = (NamespaceClassifierReference) ref;
-				container = containerContainer.getClassifierReferences()
-						.get(containerContainer.getClassifierReferences().size() - 1);
-			}
-			paramT.typeArguments()
-					.forEach(obj -> container.getTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
-			return ref;
-		}
-		return null;
+		layoutInformationConverter.convertToMinimalLayoutInformation(ref, t);
+		return ref;
 	}
 
 	@Inject
