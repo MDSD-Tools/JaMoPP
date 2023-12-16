@@ -34,14 +34,14 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.implementation.jamopp.JamoppClasspathEntriesSearcher;
+import jamopp.parser.jdt.implementation.jamopp.JamoppCompilationUnitsFactory;
+import jamopp.parser.jdt.implementation.jamopp.JamoppFileWithJDTParser;
+import jamopp.parser.jdt.implementation.jamopp.JamoppJavaParserFactory;
 import jamopp.parser.jdt.injector.Injector;
-import jamopp.parser.jdt.other.JamoppClasspathEntriesSearcher;
-import jamopp.parser.jdt.other.JamoppCompilationUnitsFactory;
-import jamopp.parser.jdt.other.JamoppFileWithJDTParser;
-import jamopp.parser.jdt.other.JamoppJavaParserFactory;
-import jamopp.parser.jdt.visitor.AbstractVisitor;
+import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public final class JaMoPPJDTParser implements JaMoPPParserAPI {
 

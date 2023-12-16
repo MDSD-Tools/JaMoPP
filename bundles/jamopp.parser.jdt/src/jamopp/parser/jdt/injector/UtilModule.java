@@ -2,26 +2,26 @@ package jamopp.parser.jdt.injector;
 
 import com.google.inject.AbstractModule;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilArrays;
-import jamopp.parser.jdt.converter.implementation.helper.UtilBindingInfoToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilJdtResolver;
-import jamopp.parser.jdt.converter.implementation.helper.UtilLayout;
-import jamopp.parser.jdt.converter.implementation.helper.UtilNamedElement;
-import jamopp.parser.jdt.converter.implementation.helper.UtilReferenceWalker;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilToSwitchCasesAndSetConverter;
-import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilArrays;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilLayout;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilNamedElement;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilReferenceWalker;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.implementation.helper.UtilArrays;
+import jamopp.parser.jdt.implementation.helper.UtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.implementation.helper.UtilJdtResolver;
+import jamopp.parser.jdt.implementation.helper.UtilLayout;
+import jamopp.parser.jdt.implementation.helper.UtilNamedElement;
+import jamopp.parser.jdt.implementation.helper.UtilReferenceWalker;
+import jamopp.parser.jdt.implementation.helper.UtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.implementation.helper.UtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.implementation.helper.UtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.implementation.helper.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.helper.IUtilArrays;
+import jamopp.parser.jdt.interfaces.helper.IUtilBindingInfoToConcreteClassifierConverter;
+import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.IUtilLayout;
+import jamopp.parser.jdt.interfaces.helper.IUtilNamedElement;
+import jamopp.parser.jdt.interfaces.helper.IUtilReferenceWalker;
+import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionAfterAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.IUtilToArrayDimensionsAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.IUtilToSwitchCasesAndSetConverter;
+import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
 
 public class UtilModule extends AbstractModule {
 

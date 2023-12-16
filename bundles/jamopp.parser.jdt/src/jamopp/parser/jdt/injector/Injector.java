@@ -4,11 +4,11 @@ import org.emftext.language.java.containers.ContainersFactory;
 
 import com.google.inject.Guice;
 
-import jamopp.parser.jdt.converter.implementation.helper.UtilTypeInstructionSeparation;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilJdtResolver;
-import jamopp.parser.jdt.converter.interfaces.helper.IUtilTypeInstructionSeparation;
-import jamopp.parser.jdt.visitor.AbstractVisitor;
-import jamopp.parser.jdt.visitor.VisitorAndConverterAbstractAndEmptyModelJDTAST;
+import jamopp.parser.jdt.implementation.helper.UtilTypeInstructionSeparation;
+import jamopp.parser.jdt.implementation.visitor.VisitorAndConverterAbstractAndEmptyModelJDTAST;
+import jamopp.parser.jdt.interfaces.helper.IUtilJdtResolver;
+import jamopp.parser.jdt.interfaces.helper.IUtilTypeInstructionSeparation;
+import jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public class Injector {
 

@@ -3,18 +3,18 @@ package jamopp.parser.jdt.injector;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
-import jamopp.parser.jdt.converter.implementation.handler.HandlerAssignment;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerCastExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerConditionalExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerInfixExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerInstanceOf;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerLambdaExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerMethodReference;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerPostfixExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerPrefixExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerPrimaryExpression;
-import jamopp.parser.jdt.converter.implementation.handler.HandlerSwitchExpression;
-import jamopp.parser.jdt.converter.interfaces.handler.ExpressionHandler;
+import jamopp.parser.jdt.implementation.handler.HandlerAssignment;
+import jamopp.parser.jdt.implementation.handler.HandlerCastExpression;
+import jamopp.parser.jdt.implementation.handler.HandlerConditionalExpression;
+import jamopp.parser.jdt.implementation.handler.HandlerInfixExpression;
+import jamopp.parser.jdt.implementation.handler.HandlerInstanceOf;
+import jamopp.parser.jdt.implementation.handler.HandlerLambdaExpression;
+import jamopp.parser.jdt.implementation.handler.HandlerMethodReference;
+import jamopp.parser.jdt.implementation.handler.HandlerPostfixExpression;
+import jamopp.parser.jdt.implementation.handler.HandlerPrefixExpression;
+import jamopp.parser.jdt.implementation.handler.HandlerPrimaryExpression;
+import jamopp.parser.jdt.implementation.handler.HandlerSwitchExpression;
+import jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
 
 public class HandlerModule extends AbstractModule {
 
