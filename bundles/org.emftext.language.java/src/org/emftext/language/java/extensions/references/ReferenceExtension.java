@@ -60,40 +60,14 @@ public class ReferenceExtension {
 
 		Type type = null;
 		if (me instanceof TypedElement) {
-			// Referenced element points to a type
 			type = handleTypedElement(me);
 		} else if (me instanceof SelfReference) {
-			// Element points to this or super
 			return handleSelfReference(me);
 		} else if (me instanceof ReflectiveClassReference) {
-			// Element points to the object's class object
 			return handleReflectiveClassReference(me);
 		} else if (me instanceof ElementReference) {
-			// Referenced element points to an element with a type
-			ReferenceableElement target = ((ElementReference) me).getTarget();
-
-			if (target == null) {
-				return null;
-			}
-			if (target.eIsProxy()) {
-				type = null;
-			}
-
-			// Navigate through AdditionalLocalVariable or Field
-			if (target instanceof AdditionalLocalVariable || target instanceof AdditionalField) {
-				target = (ReferenceableElement) target.eContainer();
-			} else if (target instanceof TypedElement) {
-				TypeReference typeRef = ((TypedElement) target).getTypeReference();
-				if (typeRef != null) {
-					type = typeRef.getBoundTarget(me);
-				}
-			} else if (target instanceof Type/* e.g. Annotation */ ) {
-				return (Type) target;
-			} else if (target instanceof EnumConstant) {
-				type = (Enumeration) target.eContainer();
-			}
+			type = handleElementReference(me, type);
 		} else if (me instanceof StringReference) {
-			// Strings may also appear as reference
 			return handleStringReference(me);
 		} else if (me instanceof NestedExpression) {
 			type = handleNestedExpression(me);
@@ -101,6 +75,33 @@ public class ReferenceExtension {
 			type = handlePrimitiveTypeReference(me);
 		} else {
 			assert false;
+		}
+		return type;
+	}
+
+	private static Type handleElementReference(Reference me, Type type) {
+		// Referenced element points to an element with a type
+		ReferenceableElement target = ((ElementReference) me).getTarget();
+
+		if (target == null) {
+			type = null;
+		}
+		if (target.eIsProxy()) {
+			type = null;
+		}
+
+		// Navigate through AdditionalLocalVariable or Field
+		if (target instanceof AdditionalLocalVariable || target instanceof AdditionalField) {
+			target = (ReferenceableElement) target.eContainer();
+		} else if (target instanceof TypedElement) {
+			TypeReference typeRef = ((TypedElement) target).getTypeReference();
+			if (typeRef != null) {
+				type = typeRef.getBoundTarget(me);
+			}
+		} else if (target instanceof Type/* e.g. Annotation */ ) {
+			type = (Type) target;
+		} else if (target instanceof EnumConstant) {
+			type = (Enumeration) target.eContainer();
 		}
 		return type;
 	}
@@ -114,14 +115,17 @@ public class ReferenceExtension {
 	}
 
 	private static Type handleStringReference(Reference me) {
+		// Strings may also appear as reference
 		return me.getStringClass();
 	}
 
 	private static Type handleReflectiveClassReference(Reference me) {
+		// Element points to the object's class object
 		return me.getClassClass();
 	}
 
 	private static Type handleSelfReference(Reference me) {
+		// Element points to this or super
 		Type thisClass = null;
 		if (me.getPrevious() != null) {
 			thisClass = me.getPrevious().getReferencedType();
@@ -148,6 +152,7 @@ public class ReferenceExtension {
 	}
 
 	private static Type handleTypedElement(Reference me) {
+		// Referenced element points to a type
 		TypeReference typeRef = ((TypedElement) me).getTypeReference();
 		return typeRef.getBoundTarget(me);
 	}
