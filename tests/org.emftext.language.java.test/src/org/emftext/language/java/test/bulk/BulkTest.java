@@ -28,7 +28,7 @@ import org.emftext.language.java.test.AbstractJaMoPPTests;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 // Successful for testMicroservice, testESDA, testTeaStore, testTeammates
 @Disabled("Requires initialization of all submodules and dependency resolution.")

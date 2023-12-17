@@ -38,7 +38,7 @@ import org.emftext.language.java.test.AbstractJaMoPPTests;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 @Disabled("xmiResource is null in line 106.")
 public class JavaXMISerializationTest extends AbstractJaMoPPTests {

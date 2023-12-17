@@ -31,8 +31,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import jamopp.parser.jdt.JaMoPPJDTParser;
 import jamopp.resource.JavaResource2Factory;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
  * Parameterized test for testing the JaMoPPJDTParser-API.

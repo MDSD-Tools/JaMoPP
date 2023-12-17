@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
  * Class for testing the parseDirectory method of the JaMoPPJDTParser.

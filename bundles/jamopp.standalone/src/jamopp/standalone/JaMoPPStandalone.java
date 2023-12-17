@@ -16,8 +16,8 @@ import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Package;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.JaMoPPJDTParser;
 import jamopp.resource.JavaResource2Factory;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
  * Class for the stand alone usage of JaMoPP Palladio

@@ -11,8 +11,8 @@ import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.containers.JavaRoot;
 
 import jamopp.parser.api.JaMoPPParserAPI;
-import jamopp.parser.jdt.JaMoPPJDTParser;
 import jamopp.printer.JaMoPPPrinter;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 public class JavaResource2 extends ResourceImpl {
 	public JavaResource2() {

@@ -25,8 +25,8 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import jamopp.parser.jdt.JaMoPPJDTParser;
 import jamopp.resource.JavaResource2Factory;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
  * Parameterized test for resolving use of JDT-based conversion of Java source
