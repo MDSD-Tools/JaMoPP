@@ -68,21 +68,21 @@ Contributors:
          unpack="false"/>
 
    <plugin
-         id="tools.mdsd.jamopp.commons.jdt"
+         id="org.emftext.commons.jdt"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="tools.mdsd.jamopp.commons.layout"
+         id="org.emftext.commons.layout"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="tools.mdsd.jamopp.commons.layout.edit"
+         id="org.emftext.commons.layout.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"

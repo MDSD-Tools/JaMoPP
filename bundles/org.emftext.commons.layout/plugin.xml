@@ -23,7 +23,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/commons/layout"
-            class="tools.mdsd.jamopp.commons.layout.LayoutPackage"
+            class="org.emftext.commons.layout.LayoutPackage"
             genModel="metamodel/layout.genmodel"/>
    </extension>
 

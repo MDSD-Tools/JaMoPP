@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.jdt.injection;
 
-import tools.mdsd.jamopp.commons.layout.LayoutFactory;
+import org.emftext.commons.layout.LayoutFactory;
 import org.emftext.language.java.annotations.AnnotationsFactory;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.ClassifiersFactory;

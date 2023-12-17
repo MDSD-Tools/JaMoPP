@@ -31,8 +31,8 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.emftext.language.java" export="true"/>
       <import plugin="org.eclipse.emf.edit" export="true"/>
-      <import plugin="tools.mdsd.jamopp.commons.layout" export="true"/>
-      <import plugin="tools.mdsd.jamopp.commons.layout.edit" export="true"/>
+      <import plugin="org.emftext.commons.layout" export="true"/>
+      <import plugin="org.emftext.commons.layout.edit" export="true"/>
    </requires>
 
    <runtime>

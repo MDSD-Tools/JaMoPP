@@ -69,7 +69,7 @@ Export-Package: org.emftext.language.java,
  org.emftext.language.java.variables.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- tools.mdsd.jamopp.commons.layout;visibility:=reexport,
+ org.emftext.commons.layout;visibility:=reexport,
  org.eclipse.emf.common
 Bundle-ActivationPolicy: lazy
 

@@ -5,7 +5,7 @@
     editorDirectory="/org.emftext.language.java.editor/src-gen" modelPluginID="org.emftext.language.java"
     templateDirectory="" modelName="Java" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl"
     importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" containmentProxies="true"
-    complianceLevel="11.0" copyrightFields="false" usedGenPackages="platform:/resource/tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel#//layout">
+    complianceLevel="11.0" copyrightFields="false" usedGenPackages="platform:/resource/org.emftext.commons.layout/metamodel/layout.genmodel#//layout">
   <foreignModel>java.ecore</foreignModel>
   <genPackages prefix="Java" basePackage="org.emftext.language" disposableProviderFactory="true"
       ecorePackage="java.ecore#_WosmsNz1Ed2bJ_pQViWxFg">
