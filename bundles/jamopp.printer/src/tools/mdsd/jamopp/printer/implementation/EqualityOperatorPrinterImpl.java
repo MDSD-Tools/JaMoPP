@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.operators.Equal;
-import org.emftext.language.java.operators.EqualityOperator;
-import org.emftext.language.java.operators.NotEqual;
+import tools.mdsd.jamopp.model.java.operators.Equal;
+import tools.mdsd.jamopp.model.java.operators.EqualityOperator;
+import tools.mdsd.jamopp.model.java.operators.NotEqual;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

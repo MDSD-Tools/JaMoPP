@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.statements.DefaultSwitchCase;
-import org.emftext.language.java.statements.DefaultSwitchRule;
-import org.emftext.language.java.statements.NormalSwitchCase;
-import org.emftext.language.java.statements.NormalSwitchRule;
-import org.emftext.language.java.statements.SwitchCase;
+import tools.mdsd.jamopp.model.java.statements.DefaultSwitchCase;
+import tools.mdsd.jamopp.model.java.statements.DefaultSwitchRule;
+import tools.mdsd.jamopp.model.java.statements.NormalSwitchCase;
+import tools.mdsd.jamopp.model.java.statements.NormalSwitchRule;
+import tools.mdsd.jamopp.model.java.statements.SwitchCase;
 
 import com.google.inject.Inject;
 

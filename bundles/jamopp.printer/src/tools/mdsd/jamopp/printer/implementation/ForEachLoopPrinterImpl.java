@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.parameters.OrdinaryParameter;
-import org.emftext.language.java.statements.ForEachLoop;
-import org.emftext.language.java.statements.Statement;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.statements.ForEachLoop;
+import tools.mdsd.jamopp.model.java.statements.Statement;
 
 import com.google.inject.Inject;
 

@@ -6,10 +6,10 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.classifiers.Enumeration;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.members.Member;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

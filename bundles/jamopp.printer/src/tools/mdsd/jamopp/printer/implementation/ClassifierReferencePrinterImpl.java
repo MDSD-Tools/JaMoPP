@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.generics.TypeArgumentable;
-import org.emftext.language.java.types.ClassifierReference;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
+import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 
 import com.google.inject.Inject;
 

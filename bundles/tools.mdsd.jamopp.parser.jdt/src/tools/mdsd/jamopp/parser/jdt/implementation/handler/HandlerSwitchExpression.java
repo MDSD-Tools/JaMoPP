@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SwitchExpression;
-import org.emftext.language.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
@@ -16,11 +16,11 @@ public class HandlerSwitchExpression implements ExpressionHandler {
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout utilLayout;
 	private final UtilToSwitchCasesAndSetConverter utilStatementConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	HandlerSwitchExpression(UtilToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
-			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -29,9 +29,9 @@ public class HandlerSwitchExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		SwitchExpression switchExpr = (SwitchExpression) expr;
-		org.emftext.language.java.statements.Switch result = statementsFactory.createSwitch();
+		tools.mdsd.jamopp.model.java.statements.Switch result = statementsFactory.createSwitch();
 		result.setVariable(toExpressionConverter.convert(switchExpr.getExpression()));
 		utilStatementConverter.convert(result, switchExpr.statements());
 		utilLayout.convertToMinimalLayoutInformation(result, switchExpr);

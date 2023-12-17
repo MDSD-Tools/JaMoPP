@@ -6,10 +6,10 @@ import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.emftext.language.java.members.AdditionalField;
-import org.emftext.language.java.members.Field;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.members.AdditionalField;
+import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

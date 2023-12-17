@@ -4,9 +4,9 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.references.MethodCall;
-import org.emftext.language.java.references.ReferencesFactory;
+import tools.mdsd.jamopp.model.java.generics.TypeArgument;
+import tools.mdsd.jamopp.model.java.references.MethodCall;
+import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
@@ -21,16 +21,16 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
-	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
 	ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement,
 			ToTypeReferenceConverter toTypeReferenceConverter, ReferencesFactory referencesFactory,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
-			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
 			Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -43,16 +43,16 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 
 	@SuppressWarnings("unchecked")
 	public MethodCall convert(MethodInvocation arr) {
-		org.emftext.language.java.references.Reference parent = null;
+		tools.mdsd.jamopp.model.java.references.Reference parent = null;
 		if (arr.getExpression() != null) {
 			parent = toReferenceConverterFromExpression.convert(arr.getExpression());
 		}
-		org.emftext.language.java.references.MethodCall result = referencesFactory.createMethodCall();
+		tools.mdsd.jamopp.model.java.references.MethodCall result = referencesFactory.createMethodCall();
 		arr.typeArguments()
 				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		arr.arguments().forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 		IMethodBinding methBind = arr.resolveMethodBinding();
-		org.emftext.language.java.members.Method methodProxy = null;
+		tools.mdsd.jamopp.model.java.members.Method methodProxy = null;
 		if (methBind != null) {
 			methodProxy = jdtResolverUtility.getMethod(methBind);
 		} else {

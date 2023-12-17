@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.references.ElementReference;
-import org.emftext.language.java.variables.LocalVariable;
-import org.emftext.language.java.variables.Resource;
+import tools.mdsd.jamopp.model.java.references.ElementReference;
+import tools.mdsd.jamopp.model.java.variables.LocalVariable;
+import tools.mdsd.jamopp.model.java.variables.Resource;
 
 import com.google.inject.Inject;
 

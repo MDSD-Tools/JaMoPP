@@ -7,7 +7,7 @@ Bundle-Vendor: MDSD-Tools
 Automatic-Module-Name: tools.mdsd.jamopp.parser
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: tools.mdsd.jamopp.standalone
-Require-Bundle: org.emftext.language.java,
+Require-Bundle: tools.mdsd.jamopp.model.java,
  org.eclipse.emf
 Import-Package: org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.xmi.impl,

@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.emftext.language.java.members.AdditionalField;
+import tools.mdsd.jamopp.model.java.members.AdditionalField;
 
 import com.google.inject.Inject;
 

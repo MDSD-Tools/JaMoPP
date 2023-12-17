@@ -15,15 +15,15 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.classifiers.ClassifiersFactory;
-import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.generics.GenericsFactory;
-import org.emftext.language.java.members.MembersFactory;
-import org.emftext.language.java.parameters.ParametersFactory;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.TypesFactory;
-import org.emftext.language.java.variables.VariablesFactory;
+import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
+import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
+import tools.mdsd.jamopp.model.java.members.MembersFactory;
+import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.types.TypesFactory;
+import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,29 +43,29 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final ClassifiersFactory classifiersFactory;
 	private final ContainersFactory containersFactory;
 	private final Provider<UtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter;
-	private final Provider<Converter<IPackageBinding, org.emftext.language.java.containers.Package>> bindingToPackageConverter;
-	private final Provider<Converter<IModuleBinding, org.emftext.language.java.containers.Module>> bindingToModuleConverter;
+	private final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter;
+	private final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter;
 
 	private static ResourceSet resourceSet;
-	private static HashMap<String, org.emftext.language.java.containers.Module> modBindToMod = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.containers.Package> nameToPackage = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.classifiers.Annotation> typeBindToAnnot = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.classifiers.Enumeration> typeBindToEnum = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.classifiers.Interface> typeBindToInterface = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.classifiers.Class> typeBindToClass = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.generics.TypeParameter> typeBindToTP = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.members.ClassMethod> methBindToCM = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.members.Constructor> methBindToConstr = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.members.Field> nameToField = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.members.AdditionalField> nameToAddField = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.members.EnumConstant> nameToEnumConst = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.parameters.CatchParameter> nameToCatchParam = new HashMap<>();
-	private static HashMap<String, org.emftext.language.java.classifiers.AnonymousClass> nameToAnonymousClass = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> modBindToMod = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> nameToPackage = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation> typeBindToAnnot = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration> typeBindToEnum = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface> typeBindToInterface = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class> typeBindToClass = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.generics.TypeParameter> typeBindToTP = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.members.ClassMethod> methBindToCM = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.members.Constructor> methBindToConstr = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.members.Field> nameToField = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.members.AdditionalField> nameToAddField = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.members.EnumConstant> nameToEnumConst = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter> nameToCatchParam = new HashMap<>();
+	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass> nameToAnonymousClass = new HashMap<>();
 	private static HashSet<IModuleBinding> moduleBindings = new HashSet<>();
 	private static HashSet<IPackageBinding> packageBindings = new HashSet<>();
 	private static HashSet<ITypeBinding> typeBindings = new HashSet<>();
@@ -82,8 +82,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	UtilJdtResolverImpl(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
 			TypesFactory typesFactory, StatementsFactory statementsFactory, MembersFactory membersFactory,
 			VariablesFactory variablesFactory, ParametersFactory parametersFactory, GenericsFactory genericsFactory,
-			Provider<Converter<IPackageBinding, org.emftext.language.java.containers.Package>> bindingToPackageConverter,
-			Provider<Converter<IModuleBinding, org.emftext.language.java.containers.Module>> bindingToModuleConverter,
+			Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
+			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
 			Provider<UtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter) {
 		this.parametersFactory = parametersFactory;
 		this.variablesFactory = variablesFactory;
@@ -102,16 +102,16 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		resourceSet = set;
 	}
 
-	public org.emftext.language.java.containers.Module getModule(IModuleBinding binding) {
+	public tools.mdsd.jamopp.model.java.containers.Module getModule(IModuleBinding binding) {
 		moduleBindings.add(binding);
 		return getModule(binding.getName());
 	}
 
-	public org.emftext.language.java.containers.Module getModule(String modName) {
+	public tools.mdsd.jamopp.model.java.containers.Module getModule(String modName) {
 		if (modBindToMod.containsKey(modName)) {
 			return modBindToMod.get(modName);
 		}
-		org.emftext.language.java.containers.Module result = JavaClasspath.get().getModule(modName);
+		tools.mdsd.jamopp.model.java.containers.Module result = JavaClasspath.get().getModule(modName);
 		if (result == null) {
 			result = containersFactory.createModule();
 		}
@@ -119,16 +119,16 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.containers.Package getPackage(IPackageBinding binding) {
+	public tools.mdsd.jamopp.model.java.containers.Package getPackage(IPackageBinding binding) {
 		packageBindings.add(binding);
 		return getPackage(binding.getName());
 	}
 
-	private org.emftext.language.java.containers.Package getPackage(String packageName) {
+	private tools.mdsd.jamopp.model.java.containers.Package getPackage(String packageName) {
 		if (nameToPackage.containsKey(packageName)) {
 			return nameToPackage.get(packageName);
 		}
-		org.emftext.language.java.containers.Package result = JavaClasspath.get().getPackage(packageName);
+		tools.mdsd.jamopp.model.java.containers.Package result = JavaClasspath.get().getPackage(packageName);
 		if (result == null) {
 			result = containersFactory.createPackage();
 		}
@@ -170,20 +170,20 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return qualifiedName;
 	}
 
-	public org.emftext.language.java.classifiers.Annotation getAnnotation(ITypeBinding binding) {
+	public tools.mdsd.jamopp.model.java.classifiers.Annotation getAnnotation(ITypeBinding binding) {
 		typeBindings.add(binding);
 		return getAnnotation(convertToTypeName(binding));
 	}
 
-	public org.emftext.language.java.classifiers.Annotation getAnnotation(String annotName) {
+	public tools.mdsd.jamopp.model.java.classifiers.Annotation getAnnotation(String annotName) {
 		if (typeBindToAnnot.containsKey(annotName)) {
 			return typeBindToAnnot.get(annotName);
 		}
-		org.emftext.language.java.classifiers.Annotation result;
-		org.emftext.language.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+		tools.mdsd.jamopp.model.java.classifiers.Annotation result;
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(annotName);
-		if (potClass instanceof org.emftext.language.java.classifiers.Annotation) {
-			result = (org.emftext.language.java.classifiers.Annotation) potClass;
+		if (potClass instanceof tools.mdsd.jamopp.model.java.classifiers.Annotation) {
+			result = (tools.mdsd.jamopp.model.java.classifiers.Annotation) potClass;
 		} else {
 			result = classifiersFactory.createAnnotation();
 		}
@@ -191,17 +191,17 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.classifiers.Enumeration getEnumeration(ITypeBinding binding) {
+	public tools.mdsd.jamopp.model.java.classifiers.Enumeration getEnumeration(ITypeBinding binding) {
 		String enumName = convertToTypeName(binding);
 		if (typeBindToEnum.containsKey(enumName)) {
 			return typeBindToEnum.get(enumName);
 		}
 		typeBindings.add(binding);
-		org.emftext.language.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 				.getConcreteClassifier(enumName);
-		org.emftext.language.java.classifiers.Enumeration result;
-		if (classifier instanceof org.emftext.language.java.classifiers.Enumeration) {
-			result = (org.emftext.language.java.classifiers.Enumeration) classifier;
+		tools.mdsd.jamopp.model.java.classifiers.Enumeration result;
+		if (classifier instanceof tools.mdsd.jamopp.model.java.classifiers.Enumeration) {
+			result = (tools.mdsd.jamopp.model.java.classifiers.Enumeration) classifier;
 		} else {
 			result = classifiersFactory.createEnumeration();
 		}
@@ -209,22 +209,22 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.classifiers.Class getClass(ITypeBinding binding) {
+	public tools.mdsd.jamopp.model.java.classifiers.Class getClass(ITypeBinding binding) {
 		typeBindings.add(binding);
 		return getClass(convertToTypeName(binding));
 	}
 
-	public org.emftext.language.java.classifiers.Interface getInterface(ITypeBinding binding) {
+	public tools.mdsd.jamopp.model.java.classifiers.Interface getInterface(ITypeBinding binding) {
 		String interName = convertToTypeName(binding);
 		if (typeBindToInterface.containsKey(interName)) {
 			return typeBindToInterface.get(interName);
 		}
 		typeBindings.add(binding);
-		org.emftext.language.java.classifiers.Interface result;
-		org.emftext.language.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
+		tools.mdsd.jamopp.model.java.classifiers.Interface result;
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 				.getConcreteClassifier(interName);
-		if (classifier instanceof org.emftext.language.java.classifiers.Interface) {
-			result = (org.emftext.language.java.classifiers.Interface) classifier;
+		if (classifier instanceof tools.mdsd.jamopp.model.java.classifiers.Interface) {
+			result = (tools.mdsd.jamopp.model.java.classifiers.Interface) classifier;
 		} else {
 			result = classifiersFactory.createInterface();
 		}
@@ -250,20 +250,20 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return name;
 	}
 
-	public org.emftext.language.java.generics.TypeParameter getTypeParameter(ITypeBinding binding) {
+	public tools.mdsd.jamopp.model.java.generics.TypeParameter getTypeParameter(ITypeBinding binding) {
 		String paramName = convertToTypeParameterName(binding);
 		if (typeBindToTP.containsKey(paramName)) {
 			return typeBindToTP.get(paramName);
 		}
 		typeBindings.add(binding);
-		org.emftext.language.java.generics.TypeParameter result = genericsFactory.createTypeParameter();
+		tools.mdsd.jamopp.model.java.generics.TypeParameter result = genericsFactory.createTypeParameter();
 		typeBindToTP.put(paramName, result);
 		return result;
 	}
 
-	public org.emftext.language.java.classifiers.Classifier getClassifier(ITypeBinding binding) {
+	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(ITypeBinding binding) {
 		String typeName = convertToTypeName(binding);
-		org.emftext.language.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
 		if (potClass != null) {
 			return potClass;
@@ -323,36 +323,36 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return name;
 	}
 
-	public org.emftext.language.java.members.InterfaceMethod getInterfaceMethod(String methodName) {
+	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(String methodName) {
 		if (methBindToInter.containsKey(methodName)) {
 			return methBindToInter.get(methodName);
 		}
-		org.emftext.language.java.members.InterfaceMethod result = createNewInterfaceMethod();
+		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = createNewInterfaceMethod();
 		methBindToInter.put(methodName, result);
 		return result;
 	}
 
-	private org.emftext.language.java.members.InterfaceMethod createNewInterfaceMethod() {
-		org.emftext.language.java.members.InterfaceMethod result = membersFactory.createInterfaceMethod();
+	private tools.mdsd.jamopp.model.java.members.InterfaceMethod createNewInterfaceMethod() {
+		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = membersFactory.createInterfaceMethod();
 		result.setTypeReference(typesFactory.createVoid());
 		result.setStatement(statementsFactory.createEmptyStatement());
 		return result;
 	}
 
-	public org.emftext.language.java.members.InterfaceMethod getInterfaceMethod(IMethodBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(IMethodBinding binding) {
 		binding = binding.getMethodDeclaration();
 		methodBindings.add(binding);
 		String methName = convertToMethodName(binding);
 		if (methBindToInter.containsKey(methName)) {
 			return methBindToInter.get(methName);
 		}
-		org.emftext.language.java.classifiers.ConcreteClassifier classifier = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
-		org.emftext.language.java.members.InterfaceMethod result = null;
+		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = null;
 		if (classifier != null) {
-			for (org.emftext.language.java.members.Member mem : classifier.getMembers()) {
-				if (mem instanceof org.emftext.language.java.members.InterfaceMethod) {
-					result = checkMethod((org.emftext.language.java.members.Method) mem, binding);
+			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
+				if (mem instanceof tools.mdsd.jamopp.model.java.members.InterfaceMethod) {
+					result = checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
 					if (result != null) {
 						break;
 					}
@@ -366,38 +366,38 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.members.ClassMethod getClassMethod(String methodName) {
+	public tools.mdsd.jamopp.model.java.members.ClassMethod getClassMethod(String methodName) {
 		if (methBindToCM.containsKey(methodName)) {
 			return methBindToCM.get(methodName);
 		}
-		org.emftext.language.java.members.ClassMethod result = createNewClassMethod();
+		tools.mdsd.jamopp.model.java.members.ClassMethod result = createNewClassMethod();
 		methBindToCM.put(methodName, result);
 		return result;
 	}
 
-	private org.emftext.language.java.members.ClassMethod createNewClassMethod() {
-		org.emftext.language.java.members.ClassMethod result = membersFactory.createClassMethod();
+	private tools.mdsd.jamopp.model.java.members.ClassMethod createNewClassMethod() {
+		tools.mdsd.jamopp.model.java.members.ClassMethod result = membersFactory.createClassMethod();
 		result.setTypeReference(typesFactory.createVoid());
-		org.emftext.language.java.statements.Block block = statementsFactory.createBlock();
+		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
 		block.setName("");
 		result.setStatement(block);
 		return result;
 	}
 
-	public org.emftext.language.java.members.ClassMethod getClassMethod(IMethodBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.ClassMethod getClassMethod(IMethodBinding binding) {
 		binding = binding.getMethodDeclaration();
 		methodBindings.add(binding);
 		String methName = convertToMethodName(binding);
 		if (methBindToCM.containsKey(methName)) {
 			return methBindToCM.get(methName);
 		}
-		org.emftext.language.java.classifiers.ConcreteClassifier classifier = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
-		org.emftext.language.java.members.ClassMethod result = null;
+		tools.mdsd.jamopp.model.java.members.ClassMethod result = null;
 		if (classifier != null) {
-			for (org.emftext.language.java.members.Member mem : classifier.getMembers()) {
-				if (mem instanceof org.emftext.language.java.members.ClassMethod) {
-					result = checkMethod((org.emftext.language.java.members.Method) mem, binding);
+			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
+				if (mem instanceof tools.mdsd.jamopp.model.java.members.ClassMethod) {
+					result = checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
 					if (result != null) {
 						break;
 					}
@@ -412,8 +412,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends org.emftext.language.java.members.Method> T checkMethod(
-			org.emftext.language.java.members.Method mem, IMethodBinding binding) {
+	private <T extends tools.mdsd.jamopp.model.java.members.Method> T checkMethod(
+			tools.mdsd.jamopp.model.java.members.Method mem, IMethodBinding binding) {
 		if (mem.getName().equals(binding.getName())) {
 			T meth = (T) mem;
 			if ("clone".equals(meth.getName())) {
@@ -425,7 +425,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			}
 			if (binding.getParameterTypes().length + receiveOffset == meth.getParameters().size()) {
 				if ((receiveOffset == 1 && (!(meth.getParameters()
-						.get(0) instanceof org.emftext.language.java.parameters.ReceiverParameter)
+						.get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
 						|| !convertToTypeName(binding.getDeclaredReceiverType())
 								.equals(convertToTypeName(meth.getParameters().get(0).getTypeReference()))))
 						|| !convertToTypeName(binding.getReturnType())
@@ -434,7 +434,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				}
 				for (int i = 0; i < binding.getParameterTypes().length; i++) {
 					ITypeBinding currentParamType = binding.getParameterTypes()[i];
-					org.emftext.language.java.parameters.Parameter currentParam = meth.getParameters()
+					tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = meth.getParameters()
 							.get(i + receiveOffset);
 					if (!convertToTypeName(currentParamType).equals(convertToTypeName(currentParam.getTypeReference()))
 							|| currentParamType.getDimensions() != currentParam.getArrayDimension()) {
@@ -447,62 +447,62 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return null;
 	}
 
-	private String convertToTypeName(org.emftext.language.java.types.TypeReference ref) {
-		if (ref instanceof org.emftext.language.java.types.ClassifierReference convRef) {
-			if (convRef.getTarget() instanceof org.emftext.language.java.classifiers.ConcreteClassifier) {
-				return ((org.emftext.language.java.classifiers.ConcreteClassifier) convRef.getTarget())
+	private String convertToTypeName(tools.mdsd.jamopp.model.java.types.TypeReference ref) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.ClassifierReference convRef) {
+			if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) {
+				return ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())
 						.getQualifiedName();
 			}
-			if (convRef.getTarget() instanceof org.emftext.language.java.types.InferableType) {
+			if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.types.InferableType) {
 				return "var";
 			}
-			return ((org.emftext.language.java.generics.TypeParameter) convRef.getTarget()).getName();
+			return ((tools.mdsd.jamopp.model.java.generics.TypeParameter) convRef.getTarget()).getName();
 		}
-		if (ref instanceof org.emftext.language.java.types.NamespaceClassifierReference nRef) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference nRef) {
 			if (!nRef.getClassifierReferences().isEmpty()) {
 				return convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
 			}
 			return nRef.getNamespacesAsString();
 		}
-		if (ref instanceof org.emftext.language.java.types.Boolean) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
 			return "boolean";
 		}
-		if (ref instanceof org.emftext.language.java.types.Byte) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Byte) {
 			return "byte";
 		}
-		if (ref instanceof org.emftext.language.java.types.Char) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Char) {
 			return "char";
 		}
-		if (ref instanceof org.emftext.language.java.types.Double) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Double) {
 			return "double";
 		}
-		if (ref instanceof org.emftext.language.java.types.Float) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Float) {
 			return "float";
 		}
-		if (ref instanceof org.emftext.language.java.types.Int) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Int) {
 			return "int";
 		}
-		if (ref instanceof org.emftext.language.java.types.Long) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Long) {
 			return "long";
 		}
-		if (ref instanceof org.emftext.language.java.types.Short) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Short) {
 			return "short";
 		}
 		return "void";
 	}
 
-	public org.emftext.language.java.members.Constructor getConstructor(IMethodBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.Constructor getConstructor(IMethodBinding binding) {
 		String methName = convertToMethodName(binding);
 		if (methBindToConstr.containsKey(methName)) {
 			return methBindToConstr.get(methName);
 		}
 		methodBindings.add(binding);
-		org.emftext.language.java.members.Constructor result = null;
-		org.emftext.language.java.classifiers.ConcreteClassifier potClass = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
+		tools.mdsd.jamopp.model.java.members.Constructor result = null;
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
 		if (potClass != null) {
-			outerLoop: for (org.emftext.language.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof org.emftext.language.java.members.Constructor con
+			outerLoop: for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+				if (mem instanceof tools.mdsd.jamopp.model.java.members.Constructor con
 						&& mem.getName().equals(binding.getName())) {
 					int receiveOffset = 0;
 					if (binding.getDeclaredReceiverType() != null) {
@@ -510,14 +510,14 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 					}
 					if (con.getParameters().size() == binding.getParameterTypes().length + receiveOffset) {
 						if (receiveOffset == 1 && (!(con.getParameters()
-								.get(0) instanceof org.emftext.language.java.parameters.ReceiverParameter)
+								.get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
 								|| !convertToTypeName(binding.getDeclaredReceiverType())
 										.equals(convertToTypeName(con.getParameters().get(0).getTypeReference())))) {
 							continue outerLoop;
 						}
 						for (int i = 0; i < binding.getParameterTypes().length; i++) {
 							ITypeBinding currentType = binding.getParameterTypes()[i];
-							org.emftext.language.java.parameters.Parameter currentParam = con.getParameters()
+							tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = con.getParameters()
 									.get(i + receiveOffset);
 							if (!convertToTypeName(currentType)
 									.equals(convertToTypeName(currentParam.getTypeReference()))
@@ -533,7 +533,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		}
 		if (result == null) {
 			result = membersFactory.createConstructor();
-			org.emftext.language.java.statements.Block block = statementsFactory.createBlock();
+			tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
 			block.setName("");
 			result.setBlock(block);
 		}
@@ -541,34 +541,34 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.members.Constructor getConstructor(String methName) {
+	public tools.mdsd.jamopp.model.java.members.Constructor getConstructor(String methName) {
 		if (methBindToConstr.containsKey(methName)) {
 			return methBindToConstr.get(methName);
 		}
-		org.emftext.language.java.members.Constructor result = membersFactory.createConstructor();
-		org.emftext.language.java.statements.Block block = statementsFactory.createBlock();
+		tools.mdsd.jamopp.model.java.members.Constructor result = membersFactory.createConstructor();
+		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
 		block.setName("");
 		result.setBlock(block);
 		methBindToConstr.put(methName, result);
 		return result;
 	}
 
-	public org.emftext.language.java.members.Method getMethod(IMethodBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.Method getMethod(IMethodBinding binding) {
 		if (binding.getDeclaringClass().isInterface()) {
 			return getInterfaceMethod(binding);
 		}
 		return getClassMethod(binding);
 	}
 
-	public org.emftext.language.java.classifiers.Class getClass(String typeName) {
+	public tools.mdsd.jamopp.model.java.classifiers.Class getClass(String typeName) {
 		if (typeBindToClass.containsKey(typeName)) {
 			return typeBindToClass.get(typeName);
 		}
-		org.emftext.language.java.classifiers.Class result;
-		org.emftext.language.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+		tools.mdsd.jamopp.model.java.classifiers.Class result;
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
-		if (potClass instanceof org.emftext.language.java.classifiers.Class) {
-			result = (org.emftext.language.java.classifiers.Class) potClass;
+		if (potClass instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
+			result = (tools.mdsd.jamopp.model.java.classifiers.Class) potClass;
 		} else {
 			result = classifiersFactory.createClass();
 		}
@@ -576,16 +576,16 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.classifiers.AnonymousClass getAnonymousClass(String typeName) {
+	public tools.mdsd.jamopp.model.java.classifiers.AnonymousClass getAnonymousClass(String typeName) {
 		if (nameToAnonymousClass.containsKey(typeName)) {
 			return nameToAnonymousClass.get(typeName);
 		}
-		org.emftext.language.java.classifiers.AnonymousClass result = classifiersFactory.createAnonymousClass();
+		tools.mdsd.jamopp.model.java.classifiers.AnonymousClass result = classifiersFactory.createAnonymousClass();
 		nameToAnonymousClass.put(typeName, result);
 		return result;
 	}
 
-	public org.emftext.language.java.classifiers.AnonymousClass getAnonymousClass(ITypeBinding binding) {
+	public tools.mdsd.jamopp.model.java.classifiers.AnonymousClass getAnonymousClass(ITypeBinding binding) {
 		String typeName = convertToTypeName(binding);
 		return getAnonymousClass(typeName);
 	}
@@ -602,31 +602,31 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return name;
 	}
 
-	public org.emftext.language.java.members.Field getField(String name) {
+	public tools.mdsd.jamopp.model.java.members.Field getField(String name) {
 		if (nameToField.containsKey(name)) {
 			return nameToField.get(name);
 		}
-		org.emftext.language.java.members.Field result = membersFactory.createField();
+		tools.mdsd.jamopp.model.java.members.Field result = membersFactory.createField();
 		nameToField.put(name, result);
 		return result;
 	}
 
-	public org.emftext.language.java.members.Field getField(IVariableBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.Field getField(IVariableBinding binding) {
 		String varName = convertToFieldName(binding);
 		if (nameToField.containsKey(varName)) {
 			return nameToField.get(varName);
 		}
 		variableBindings.add(binding);
-		org.emftext.language.java.classifiers.ConcreteClassifier potClass = null;
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = null;
 		if (binding.getDeclaringClass() != null) {
-			potClass = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
+			potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 					binding.getDeclaringClass());
 		}
-		org.emftext.language.java.members.Field result = null;
+		tools.mdsd.jamopp.model.java.members.Field result = null;
 		if (potClass != null) {
-			for (org.emftext.language.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof org.emftext.language.java.members.Field && mem.getName().equals(binding.getName())) {
-					result = (org.emftext.language.java.members.Field) mem;
+			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+				if (mem instanceof tools.mdsd.jamopp.model.java.members.Field && mem.getName().equals(binding.getName())) {
+					result = (tools.mdsd.jamopp.model.java.members.Field) mem;
 					break;
 				}
 			}
@@ -639,16 +639,16 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.members.EnumConstant getEnumConstant(IVariableBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(IVariableBinding binding) {
 		String enumCN = convertToFieldName(binding);
 		if (nameToEnumConst.containsKey(enumCN)) {
 			return nameToEnumConst.get(enumCN);
 		}
 		variableBindings.add(binding);
-		org.emftext.language.java.classifiers.Enumeration potPar = getEnumeration(binding.getDeclaringClass());
-		org.emftext.language.java.members.EnumConstant result = null;
+		tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = getEnumeration(binding.getDeclaringClass());
+		tools.mdsd.jamopp.model.java.members.EnumConstant result = null;
 		if (potPar != null) {
-			for (org.emftext.language.java.members.EnumConstant con : potPar.getConstants()) {
+			for (tools.mdsd.jamopp.model.java.members.EnumConstant con : potPar.getConstants()) {
 				if (con.getName().equals(binding.getName())) {
 					result = con;
 					break;
@@ -662,37 +662,37 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return result;
 	}
 
-	public org.emftext.language.java.members.EnumConstant getEnumConstant(String enumCN) {
+	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(String enumCN) {
 		if (nameToEnumConst.containsKey(enumCN)) {
 			return nameToEnumConst.get(enumCN);
 		}
-		org.emftext.language.java.members.EnumConstant result = membersFactory.createEnumConstant();
+		tools.mdsd.jamopp.model.java.members.EnumConstant result = membersFactory.createEnumConstant();
 		nameToEnumConst.put(enumCN, result);
 		return result;
 	}
 
-	public org.emftext.language.java.members.AdditionalField getAdditionalField(String name) {
+	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(String name) {
 		if (nameToAddField.containsKey(name)) {
 			return nameToAddField.get(name);
 		}
-		org.emftext.language.java.members.AdditionalField result = membersFactory.createAdditionalField();
+		tools.mdsd.jamopp.model.java.members.AdditionalField result = membersFactory.createAdditionalField();
 		nameToAddField.put(name, result);
 		return result;
 	}
 
-	public org.emftext.language.java.members.AdditionalField getAdditionalField(IVariableBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(IVariableBinding binding) {
 		String varName = convertToFieldName(binding);
 		if (nameToAddField.containsKey(varName)) {
 			return nameToAddField.get(varName);
 		}
 		variableBindings.add(binding);
-		org.emftext.language.java.members.AdditionalField result = null;
-		org.emftext.language.java.classifiers.ConcreteClassifier potClass = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
+		tools.mdsd.jamopp.model.java.members.AdditionalField result = null;
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
 		if (potClass != null) {
-			outerLoop: for (org.emftext.language.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof org.emftext.language.java.members.Field field) {
-					for (org.emftext.language.java.members.AdditionalField af : field.getAdditionalFields()) {
+			outerLoop: for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+				if (mem instanceof tools.mdsd.jamopp.model.java.members.Field field) {
+					for (tools.mdsd.jamopp.model.java.members.AdditionalField af : field.getAdditionalFields()) {
 						if (af.getName().equals(binding.getName())) {
 							result = af;
 							break outerLoop;
@@ -731,74 +731,74 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return name;
 	}
 
-	public org.emftext.language.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
+	public tools.mdsd.jamopp.model.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getLocalVariable(convertToParameterName(binding, true));
 	}
 
-	public org.emftext.language.java.variables.LocalVariable getLocalVariable(String varName) {
+	public tools.mdsd.jamopp.model.java.variables.LocalVariable getLocalVariable(String varName) {
 		if (nameToLocVar.containsKey(varName)) {
 			return nameToLocVar.get(varName);
 		}
-		org.emftext.language.java.variables.LocalVariable result = variablesFactory.createLocalVariable();
+		tools.mdsd.jamopp.model.java.variables.LocalVariable result = variablesFactory.createLocalVariable();
 		nameToLocVar.put(varName, result);
 		return result;
 	}
 
-	public org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(
+	public tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(
 			IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getAdditionalLocalVariable(convertToParameterName(binding, true));
 	}
 
-	public org.emftext.language.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
+	public tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
 		if (nameToAddLocVar.containsKey(varName)) {
 			return nameToAddLocVar.get(varName);
 		}
-		org.emftext.language.java.variables.AdditionalLocalVariable result = variablesFactory
+		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable result = variablesFactory
 				.createAdditionalLocalVariable();
 		nameToAddLocVar.put(varName, result);
 		return result;
 	}
 
-	public org.emftext.language.java.parameters.OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
+	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
 		variableBindings.add(binding);
 		String paramName = convertToParameterName(binding, true);
 		return getOrdinaryParameter(paramName);
 	}
 
-	public org.emftext.language.java.parameters.OrdinaryParameter getOrdinaryParameter(String paramName) {
+	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(String paramName) {
 		if (nameToOrdParam.containsKey(paramName)) {
 			return nameToOrdParam.get(paramName);
 		}
-		org.emftext.language.java.parameters.OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
+		tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
 		nameToOrdParam.put(paramName, result);
 		return result;
 	}
 
-	public org.emftext.language.java.parameters.VariableLengthParameter getVariableLengthParameter(
+	public tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter getVariableLengthParameter(
 			IVariableBinding binding) {
 		String paramName = convertToParameterName(binding, true);
 		if (nameToVarLenParam.containsKey(paramName)) {
 			return nameToVarLenParam.get(paramName);
 		}
 		variableBindings.add(binding);
-		org.emftext.language.java.parameters.VariableLengthParameter result = parametersFactory
+		tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter result = parametersFactory
 				.createVariableLengthParameter();
 		nameToVarLenParam.put(paramName, result);
 		return result;
 	}
 
-	public org.emftext.language.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
+	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getCatchParameter(convertToParameterName(binding, true));
 	}
 
-	public org.emftext.language.java.parameters.CatchParameter getCatchParameter(String paramName) {
+	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(String paramName) {
 		if (nameToCatchParam.containsKey(paramName)) {
 			return nameToCatchParam.get(paramName);
 		}
-		org.emftext.language.java.parameters.CatchParameter result = parametersFactory.createCatchParameter();
+		tools.mdsd.jamopp.model.java.parameters.CatchParameter result = parametersFactory.createCatchParameter();
 		nameToCatchParam.put(paramName, result);
 		return result;
 	}
@@ -807,7 +807,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		uid++;
 	}
 
-	public org.emftext.language.java.references.ReferenceableElement getReferencableElement(IVariableBinding binding) {
+	public tools.mdsd.jamopp.model.java.references.ReferenceableElement getReferencableElement(IVariableBinding binding) {
 		if (binding.isEnumConstant()) {
 			return getEnumConstant(binding);
 		}
@@ -847,7 +847,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return getLocalVariable(binding);
 	}
 
-	public org.emftext.language.java.references.ReferenceableElement getReferenceableElementByNameMatching(
+	public tools.mdsd.jamopp.model.java.references.ReferenceableElement getReferenceableElementByNameMatching(
 			String name) {
 		IVariableBinding vBinding = variableBindings.stream().filter(var -> var != null && var.getName().equals(name))
 				.findFirst().orElse(null);
@@ -864,7 +864,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (tBinding != null) {
 			return getClassifier(tBinding);
 		}
-		org.emftext.language.java.variables.Variable par = nameToCatchParam.values().stream()
+		tools.mdsd.jamopp.model.java.variables.Variable par = nameToCatchParam.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (par != null) {
 			return par;
@@ -873,7 +873,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (par != null) {
 			return par;
 		}
-		org.emftext.language.java.variables.AdditionalLocalVariable addLocVar = nameToAddLocVar.values().stream()
+		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable addLocVar = nameToAddLocVar.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (addLocVar != null) {
 			return addLocVar;
@@ -887,22 +887,22 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (par != null) {
 			return par;
 		}
-		org.emftext.language.java.members.EnumConstant enumConst = nameToEnumConst.values().stream()
+		tools.mdsd.jamopp.model.java.members.EnumConstant enumConst = nameToEnumConst.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (enumConst != null) {
 			return enumConst;
 		}
-		org.emftext.language.java.members.Field field = nameToField.values().stream()
+		tools.mdsd.jamopp.model.java.members.Field field = nameToField.values().stream()
 				.filter(param -> param != null && param.getName().equals(name)).findFirst().orElse(null);
 		if (field != null) {
 			return field;
 		}
-		org.emftext.language.java.members.AdditionalField addField = nameToAddField.values().stream()
+		tools.mdsd.jamopp.model.java.members.AdditionalField addField = nameToAddField.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (addField != null) {
 			return addField;
 		}
-		org.emftext.language.java.members.Method meth = methBindToCM.values().stream()
+		tools.mdsd.jamopp.model.java.members.Method meth = methBindToCM.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (meth != null) {
 			return meth;
@@ -911,7 +911,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (meth != null) {
 			return meth;
 		}
-		org.emftext.language.java.classifiers.Classifier c = typeBindToTP.values().stream()
+		tools.mdsd.jamopp.model.java.classifiers.Classifier c = typeBindToTP.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (c != null) {
 			return c;
@@ -959,11 +959,11 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				if (varBind == null || varBind.getDeclaringClass() == null) {
 					addToSyntheticClass(field);
 				} else {
-					org.emftext.language.java.classifiers.Classifier cla = getClassifier(varBind.getDeclaringClass());
+					tools.mdsd.jamopp.model.java.classifiers.Classifier cla = getClassifier(varBind.getDeclaringClass());
 					if (cla == null) {
 						String typeName = convertToTypeName(varBind.getDeclaringClass());
 						if (nameToAnonymousClass.containsKey(typeName)) {
-							org.emftext.language.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
+							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
 									.get(typeName);
 							if (!anonClass.getMembers().contains(field)) {
 								anonClass.getMembers().add(field);
@@ -972,7 +972,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 							addToSyntheticClass(field);
 						}
 					} else if (!extractAdditionalInformationFromTypeBindings
-							&& cla instanceof org.emftext.language.java.classifiers.ConcreteClassifier i) {
+							&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i) {
 						if (!i.getMembers().contains(field)) {
 							i.getMembers().add(field);
 						}
@@ -1027,16 +1027,16 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	@SuppressWarnings("unused")
-	private void completeMethod(String methodName, org.emftext.language.java.members.Member method) {
+	private void completeMethod(String methodName, tools.mdsd.jamopp.model.java.members.Member method) {
 		if (method.eContainer() == null) {
 			IMethodBinding methBind = methodBindings.stream()
 					.filter(meth -> methodName.equals(convertToMethodName(meth))).findFirst().orElse(null);
 			if (methBind != null) {
-				org.emftext.language.java.classifiers.Classifier cla = getClassifier(methBind.getDeclaringClass());
+				tools.mdsd.jamopp.model.java.classifiers.Classifier cla = getClassifier(methBind.getDeclaringClass());
 				if (cla == null) {
 					String typeName = convertToTypeName(methBind.getDeclaringClass());
 					if (nameToAnonymousClass.containsKey(typeName)) {
-						org.emftext.language.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
+						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
 								.get(typeName);
 						if (!anonClass.getMembers().contains(method)) {
 							anonClass.getMembers().add(method);
@@ -1045,7 +1045,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 						addToSyntheticClass(method);
 					}
 				} else if (!extractAdditionalInformationFromTypeBindings
-						&& cla instanceof org.emftext.language.java.classifiers.ConcreteClassifier i) {
+						&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i) {
 					if (!i.getMembers().contains(method)) {
 						i.getMembers().add(method);
 					}
@@ -1056,8 +1056,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		}
 	}
 
-	private void addToSyntheticClass(org.emftext.language.java.members.Member member) {
-		org.emftext.language.java.classifiers.Class container = getClass(SYNTH_CLASS);
+	private void addToSyntheticClass(tools.mdsd.jamopp.model.java.members.Member member) {
+		tools.mdsd.jamopp.model.java.classifiers.Class container = getClass(SYNTH_CLASS);
 		container.setName(SYNTH_CLASS);
 		if (!container.getMembers().contains(member)) {
 			container.getMembers().add(member);
@@ -1071,19 +1071,19 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				+ typeBindToClass.size() + modBindToMod.size() + nameToPackage.size();
 		do {
 			oldSize = newSize;
-			HashMap<String, ? extends org.emftext.language.java.classifiers.ConcreteClassifier> map = (HashMap<String, org.emftext.language.java.classifiers.Annotation>) typeBindToAnnot
+			HashMap<String, ? extends tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier> map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation>) typeBindToAnnot
 					.clone();
 			map.forEach(this::convertPureTypeBinding);
-			map = (HashMap<String, org.emftext.language.java.classifiers.Enumeration>) typeBindToEnum.clone();
+			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration>) typeBindToEnum.clone();
 			map.forEach(this::convertPureTypeBinding);
-			map = (HashMap<String, org.emftext.language.java.classifiers.Interface>) typeBindToInterface.clone();
+			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface>) typeBindToInterface.clone();
 			map.forEach(this::convertPureTypeBinding);
-			map = (HashMap<String, org.emftext.language.java.classifiers.Class>) typeBindToClass.clone();
+			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class>) typeBindToClass.clone();
 			map.forEach(this::convertPureTypeBinding);
-			HashMap<String, org.emftext.language.java.containers.Package> mapP = (HashMap<String, org.emftext.language.java.containers.Package>) nameToPackage
+			HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> mapP = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Package>) nameToPackage
 					.clone();
 			mapP.forEach(this::convertPurePackageBinding);
-			HashMap<String, org.emftext.language.java.containers.Module> mapM = (HashMap<String, org.emftext.language.java.containers.Module>) modBindToMod
+			HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> mapM = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Module>) modBindToMod
 					.clone();
 			mapM.forEach(this::convertPureModuleBinding);
 			newSize = typeBindToAnnot.size() + typeBindToEnum.size() + typeBindToInterface.size()
@@ -1092,12 +1092,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	private void convertPureTypeBinding(String typeName,
-			org.emftext.language.java.classifiers.ConcreteClassifier classifier) {
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier) {
 		if (objVisited.contains(classifier)) {
 			return;
 		}
 		objVisited.add(classifier);
-		org.emftext.language.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
 		if (potClass == classifier) {
 			return;
@@ -1113,7 +1113,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			iUtilBindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
 					extractAdditionalInformationFromTypeBindings);
 		} else if (typeBind.isNested()) {
-			org.emftext.language.java.classifiers.ConcreteClassifier parentClassifier = (org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier parentClassifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 					typeBind.getDeclaringClass());
 			convertPureTypeBinding(convertToTypeName(typeBind.getDeclaringClass()), parentClassifier);
 			classifier.setPackage(getPackage(typeBind.getPackage()));
@@ -1121,11 +1121,11 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			ITypeBinding elementType = typeBind.getElementType();
 			if (!elementType.isPrimitive() && !elementType.isTypeVariable()) {
 				convertPureTypeBinding(typeName,
-						(org.emftext.language.java.classifiers.ConcreteClassifier) getClassifier(elementType));
+						(tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(elementType));
 			}
 		}
 		if (classifier.eContainer() == null) {
-			org.emftext.language.java.containers.CompilationUnit cu = containersFactory.createCompilationUnit();
+			tools.mdsd.jamopp.model.java.containers.CompilationUnit cu = containersFactory.createCompilationUnit();
 			cu.setName("");
 			cu.getClassifiers().add(classifier);
 			String[] namespaces = typeName.strip().split("\\.");
@@ -1139,12 +1139,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		}
 	}
 
-	private void convertPurePackageBinding(String packageName, org.emftext.language.java.containers.Package pack) {
+	private void convertPurePackageBinding(String packageName, tools.mdsd.jamopp.model.java.containers.Package pack) {
 		if (objVisited.contains(pack)) {
 			return;
 		}
 		objVisited.add(pack);
-		org.emftext.language.java.containers.Package potPack = JavaClasspath.get().getPackage(packageName);
+		tools.mdsd.jamopp.model.java.containers.Package potPack = JavaClasspath.get().getPackage(packageName);
 		if (potPack == pack) {
 			return;
 		}
@@ -1164,12 +1164,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		newResource.getContents().add(pack);
 	}
 
-	private void convertPureModuleBinding(String modName, org.emftext.language.java.containers.Module module) {
+	private void convertPureModuleBinding(String modName, tools.mdsd.jamopp.model.java.containers.Module module) {
 		if (objVisited.contains(module)) {
 			return;
 		}
 		objVisited.add(module);
-		org.emftext.language.java.containers.Module potMod = JavaClasspath.get().getModule(modName);
+		tools.mdsd.jamopp.model.java.containers.Module potMod = JavaClasspath.get().getModule(modName);
 		if ((potMod == module) || (module.eResource() != null)) {
 			return;
 		}
@@ -1202,7 +1202,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	private void escapeIdentifier(Notifier not) {
-		if (not instanceof org.emftext.language.java.commons.NamedElement ele) {
+		if (not instanceof tools.mdsd.jamopp.model.java.commons.NamedElement ele) {
 			StringBuilder builder = new StringBuilder();
 			String name = ele.getName();
 			name.codePoints().forEach(i -> {

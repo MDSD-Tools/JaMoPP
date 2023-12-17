@@ -7,18 +7,18 @@ import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.annotations.AnnotationValue;
-import org.emftext.language.java.generics.TypeParameter;
-import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.members.InterfaceMethod;
-import org.emftext.language.java.members.Method;
-import org.emftext.language.java.parameters.Parameter;
-import org.emftext.language.java.parameters.ParametersFactory;
-import org.emftext.language.java.parameters.ReceiverParameter;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.NamespaceClassifierReference;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.members.Method;
+import tools.mdsd.jamopp.model.java.parameters.Parameter;
+import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
+import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -38,12 +38,12 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 	private final Converter<Object, AnnotationValue> objectToAnnotationValueConverter;
 	private final Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter;
-	private final Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
+	private final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
 	BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
+			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
 			Converter<Object, AnnotationValue> objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
 			UtilJdtResolver jdtTResolverUtility,
@@ -124,8 +124,8 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 		}
 		if (binding.getDeclaringClass().isInterface()) {
 			boolean hasDefaultImpl = false;
-			for (org.emftext.language.java.modifiers.Modifier mod : result.getModifiers()) {
-				if (mod instanceof org.emftext.language.java.modifiers.Default) {
+			for (tools.mdsd.jamopp.model.java.modifiers.Modifier mod : result.getModifiers()) {
+				if (mod instanceof tools.mdsd.jamopp.model.java.modifiers.Default) {
 					hasDefaultImpl = true;
 					break;
 				}

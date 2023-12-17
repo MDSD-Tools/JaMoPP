@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.CastExpression;
-import org.emftext.language.java.expressions.MethodReferenceExpression;
-import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
-import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
-import org.emftext.language.java.statements.Switch;
+import tools.mdsd.jamopp.model.java.expressions.CastExpression;
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpression;
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild;
+import tools.mdsd.jamopp.model.java.statements.Switch;
 
 import com.google.inject.Inject;
 

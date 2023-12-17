@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.parameters.ParametersFactory;
-import org.emftext.language.java.parameters.ReceiverParameter;
-import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
+import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
+import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
+import tools.mdsd.jamopp.model.java.types.ClassifierReference;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

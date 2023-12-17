@@ -10,16 +10,16 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
 
 public class HandlerConditionalExpression implements ExpressionHandler {
 
-	private final Converter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> toConditionalExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.ConditionalExpression, tools.mdsd.jamopp.model.java.expressions.ConditionalExpression> toConditionalExpressionConverter;
 
 	@Inject
 	HandlerConditionalExpression(
-			Converter<org.eclipse.jdt.core.dom.ConditionalExpression, org.emftext.language.java.expressions.ConditionalExpression> toConditionalExpressionConverter) {
+			Converter<org.eclipse.jdt.core.dom.ConditionalExpression, tools.mdsd.jamopp.model.java.expressions.ConditionalExpression> toConditionalExpressionConverter) {
 		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
 	}
 
 	@Override
-	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		return toConditionalExpressionConverter.convert((ConditionalExpression) expr);
 	}
 

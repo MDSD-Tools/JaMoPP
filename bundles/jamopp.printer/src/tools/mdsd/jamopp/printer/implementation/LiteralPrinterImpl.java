@@ -3,22 +3,22 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.literals.BinaryIntegerLiteral;
-import org.emftext.language.java.literals.BinaryLongLiteral;
-import org.emftext.language.java.literals.BooleanLiteral;
-import org.emftext.language.java.literals.CharacterLiteral;
-import org.emftext.language.java.literals.DecimalDoubleLiteral;
-import org.emftext.language.java.literals.DecimalFloatLiteral;
-import org.emftext.language.java.literals.DecimalIntegerLiteral;
-import org.emftext.language.java.literals.DecimalLongLiteral;
-import org.emftext.language.java.literals.HexDoubleLiteral;
-import org.emftext.language.java.literals.HexFloatLiteral;
-import org.emftext.language.java.literals.HexIntegerLiteral;
-import org.emftext.language.java.literals.HexLongLiteral;
-import org.emftext.language.java.literals.Literal;
-import org.emftext.language.java.literals.NullLiteral;
-import org.emftext.language.java.literals.OctalIntegerLiteral;
-import org.emftext.language.java.literals.OctalLongLiteral;
+import tools.mdsd.jamopp.model.java.literals.BinaryIntegerLiteral;
+import tools.mdsd.jamopp.model.java.literals.BinaryLongLiteral;
+import tools.mdsd.jamopp.model.java.literals.BooleanLiteral;
+import tools.mdsd.jamopp.model.java.literals.CharacterLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalDoubleLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalFloatLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalIntegerLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalLongLiteral;
+import tools.mdsd.jamopp.model.java.literals.HexDoubleLiteral;
+import tools.mdsd.jamopp.model.java.literals.HexFloatLiteral;
+import tools.mdsd.jamopp.model.java.literals.HexIntegerLiteral;
+import tools.mdsd.jamopp.model.java.literals.HexLongLiteral;
+import tools.mdsd.jamopp.model.java.literals.Literal;
+import tools.mdsd.jamopp.model.java.literals.NullLiteral;
+import tools.mdsd.jamopp.model.java.literals.OctalIntegerLiteral;
+import tools.mdsd.jamopp.model.java.literals.OctalLongLiteral;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

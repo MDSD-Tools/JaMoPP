@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

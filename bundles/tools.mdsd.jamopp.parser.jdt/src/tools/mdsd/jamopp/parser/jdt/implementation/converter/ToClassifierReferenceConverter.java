@@ -2,9 +2,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.TypesFactory;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
+import tools.mdsd.jamopp.model.java.types.ClassifierReference;
+import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 

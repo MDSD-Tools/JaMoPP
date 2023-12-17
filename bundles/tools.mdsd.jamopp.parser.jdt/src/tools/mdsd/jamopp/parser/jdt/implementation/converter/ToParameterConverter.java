@@ -5,12 +5,12 @@ import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
-import org.emftext.language.java.parameters.OrdinaryParameter;
-import org.emftext.language.java.parameters.Parameter;
-import org.emftext.language.java.parameters.VariableLengthParameter;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.parameters.Parameter;
+import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

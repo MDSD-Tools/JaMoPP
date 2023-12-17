@@ -1,38 +1,38 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JaMoPP (Java Model Parser and Printer) Metamodel Editor
-Bundle-SymbolicName: org.emftext.language.java.editor;singleton:=true
-Automatic-Module-Name: org.emftext.language.java.editor
+Bundle-SymbolicName: tools.mdsd.jamopp.model.java.editor;singleton:=true
+Automatic-Module-Name: tools.mdsd.jamopp.model.java.editor
 Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.emftext.language.java.annotations.presentation.JavaEditorPlugin$Implementation
+Bundle-Activator: tools.mdsd.jamopp.model.java.annotations.presentation.JavaEditorPlugin$Implementation
 Bundle-Vendor: MDSD-Tools
 Bundle-Localization: plugin
-Export-Package: org.emftext.language.java.annotations.presentation,
- org.emftext.language.java.arrays.presentation,
- org.emftext.language.java.classifiers.presentation,
- org.emftext.language.java.containers.presentation,
- org.emftext.language.java.expressions.presentation,
- org.emftext.language.java.generics.presentation,
- org.emftext.language.java.imports.presentation,
- org.emftext.language.java.instantiations.presentation,
- org.emftext.language.java.literals.presentation,
- org.emftext.language.java.members.presentation,
- org.emftext.language.java.modifiers.presentation,
- org.emftext.language.java.modules.presentation,
- org.emftext.language.java.operators.presentation,
- org.emftext.language.java.parameters.presentation,
- org.emftext.language.java.references.presentation,
- org.emftext.language.java.statements.presentation,
- org.emftext.language.java.types.presentation,
- org.emftext.language.java.variables.presentation
+Export-Package: tools.mdsd.jamopp.model.java.annotations.presentation,
+ tools.mdsd.jamopp.model.java.arrays.presentation,
+ tools.mdsd.jamopp.model.java.classifiers.presentation,
+ tools.mdsd.jamopp.model.java.containers.presentation,
+ tools.mdsd.jamopp.model.java.expressions.presentation,
+ tools.mdsd.jamopp.model.java.generics.presentation,
+ tools.mdsd.jamopp.model.java.imports.presentation,
+ tools.mdsd.jamopp.model.java.instantiations.presentation,
+ tools.mdsd.jamopp.model.java.literals.presentation,
+ tools.mdsd.jamopp.model.java.members.presentation,
+ tools.mdsd.jamopp.model.java.modifiers.presentation,
+ tools.mdsd.jamopp.model.java.modules.presentation,
+ tools.mdsd.jamopp.model.java.operators.presentation,
+ tools.mdsd.jamopp.model.java.parameters.presentation,
+ tools.mdsd.jamopp.model.java.references.presentation,
+ tools.mdsd.jamopp.model.java.statements.presentation,
+ tools.mdsd.jamopp.model.java.types.presentation,
+ tools.mdsd.jamopp.model.java.variables.presentation
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
- org.emftext.language.java.edit;visibility:=reexport,
+ tools.mdsd.jamopp.model.java.edit;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.emftext.commons.layout.edit;visibility:=reexport
+ tools.mdsd.jamopp.commons.layout.edit;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 

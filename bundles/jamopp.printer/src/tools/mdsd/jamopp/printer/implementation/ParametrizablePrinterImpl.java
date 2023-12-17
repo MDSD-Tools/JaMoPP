@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.parameters.OrdinaryParameter;
-import org.emftext.language.java.parameters.Parametrizable;
-import org.emftext.language.java.parameters.ReceiverParameter;
-import org.emftext.language.java.parameters.VariableLengthParameter;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
+import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
+import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 
 import com.google.inject.Inject;
 

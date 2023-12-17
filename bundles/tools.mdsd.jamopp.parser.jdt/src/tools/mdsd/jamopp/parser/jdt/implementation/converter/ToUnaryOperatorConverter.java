@@ -1,8 +1,8 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.PrefixExpression;
-import org.emftext.language.java.operators.OperatorsFactory;
-import org.emftext.language.java.operators.UnaryOperator;
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
+import tools.mdsd.jamopp.model.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 

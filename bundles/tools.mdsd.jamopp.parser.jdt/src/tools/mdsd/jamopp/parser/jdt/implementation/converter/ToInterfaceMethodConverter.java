@@ -4,10 +4,10 @@ import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.members.InterfaceMethod;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

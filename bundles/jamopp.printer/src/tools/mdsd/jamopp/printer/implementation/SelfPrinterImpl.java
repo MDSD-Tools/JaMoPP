@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.literals.Self;
-import org.emftext.language.java.literals.Super;
-import org.emftext.language.java.literals.This;
+import tools.mdsd.jamopp.model.java.literals.Self;
+import tools.mdsd.jamopp.model.java.literals.Super;
+import tools.mdsd.jamopp.model.java.literals.This;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

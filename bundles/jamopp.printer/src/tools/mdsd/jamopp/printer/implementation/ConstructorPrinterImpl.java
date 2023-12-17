@@ -3,12 +3,12 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.generics.TypeParametrizable;
-import org.emftext.language.java.members.Constructor;
-import org.emftext.language.java.members.ExceptionThrower;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-import org.emftext.language.java.parameters.Parametrizable;
-import org.emftext.language.java.statements.Block;
+import tools.mdsd.jamopp.model.java.generics.TypeParametrizable;
+import tools.mdsd.jamopp.model.java.members.Constructor;
+import tools.mdsd.jamopp.model.java.members.ExceptionThrower;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
+import tools.mdsd.jamopp.model.java.statements.Block;
 
 import com.google.inject.Inject;
 

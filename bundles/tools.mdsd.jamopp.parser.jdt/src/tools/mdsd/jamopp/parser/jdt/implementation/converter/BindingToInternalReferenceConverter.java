@@ -1,9 +1,9 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.emftext.language.java.references.IdentifierReference;
-import org.emftext.language.java.references.Reference;
-import org.emftext.language.java.references.ReferencesFactory;
+import tools.mdsd.jamopp.model.java.references.IdentifierReference;
+import tools.mdsd.jamopp.model.java.references.Reference;
+import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

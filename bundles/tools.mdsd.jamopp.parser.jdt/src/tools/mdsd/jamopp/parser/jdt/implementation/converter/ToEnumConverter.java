@@ -4,10 +4,10 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.classifiers.Enumeration;
-import org.emftext.language.java.members.EnumConstant;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.members.Member;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

@@ -7,10 +7,10 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.members.Field;
-import org.emftext.language.java.members.InterfaceMethod;
-import org.emftext.language.java.members.Member;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.members.Member;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -22,14 +22,14 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 public class ToClassMemberConverter implements Converter<BodyDeclaration, Member> {
 
 	private Converter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> toBlockConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter;
 	private final Converter<FieldDeclaration, Field> toFieldConverter;
 	private final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
 	private final Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter;
 
 	@Inject
 	ToClassMemberConverter(
-			Converter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> toBlockConverter,
+			Converter<org.eclipse.jdt.core.dom.Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter,
 			@Named("ToClassMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
 			Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter,
 			Converter<FieldDeclaration, Field> toFieldConverter) {

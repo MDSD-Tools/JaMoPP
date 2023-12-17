@@ -1,9 +1,9 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
-import org.emftext.language.java.annotations.AnnotationAttributeSetting;
-import org.emftext.language.java.annotations.AnnotationValue;
-import org.emftext.language.java.annotations.AnnotationsFactory;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

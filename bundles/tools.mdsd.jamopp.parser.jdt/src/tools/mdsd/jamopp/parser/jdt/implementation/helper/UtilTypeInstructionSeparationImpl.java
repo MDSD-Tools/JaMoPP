@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
-import org.emftext.language.java.annotations.AnnotationValue;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -21,27 +21,27 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparat
 public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSeparation {
 
 	private final UtilJdtResolver jdtResolverUtility;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<Expression, AnnotationValue> toAnnotationValueConverter;
-	private final Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
-	private final Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter;
+	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
+	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
 
-	private final HashMap<Block, org.emftext.language.java.members.Method> methods = new HashMap<>();
-	private final HashMap<Block, org.emftext.language.java.members.Constructor> constructors = new HashMap<>();
-	private final HashMap<Expression, org.emftext.language.java.members.Field> fields = new HashMap<>();
-	private final HashMap<Expression, org.emftext.language.java.members.AdditionalField> addFields = new HashMap<>();
-	private final HashMap<Block, org.emftext.language.java.statements.Block> initializers = new HashMap<>();
-	private final HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> annotationMethods = new HashMap<>();
-	private final HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> singleAnnotations = new HashMap<>();
-	private final HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
+	private final HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> methods = new HashMap<>();
+	private final HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> constructors = new HashMap<>();
+	private final HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> fields = new HashMap<>();
+	private final HashMap<Expression, tools.mdsd.jamopp.model.java.members.AdditionalField> addFields = new HashMap<>();
+	private final HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> initializers = new HashMap<>();
+	private final HashMap<Expression, tools.mdsd.jamopp.model.java.members.InterfaceMethod> annotationMethods = new HashMap<>();
+	private final HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter> singleAnnotations = new HashMap<>();
+	private final HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting> annotationSetting = new HashMap<>();
 	private final HashSet<EObject> visitedObjects = new HashSet<>();
 
 	@Inject
 	UtilTypeInstructionSeparationImpl(Converter<Expression, AnnotationValue> toAnnotationValueConverter,
-			Converter<Statement, org.emftext.language.java.statements.Statement> statementToStatementConverter,
+			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
 			UtilJdtResolver jdtResolverUtility,
-			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
-			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
+			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.toAnnotationValueConverter = toAnnotationValueConverter;
@@ -84,7 +84,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	@SuppressWarnings("unchecked")
 	private void handleAnnotationSetting() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting = (HashMap<Expression, org.emftext.language.java.annotations.AnnotationAttributeSetting>) this.annotationSetting
+		HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting = (HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting>) this.annotationSetting
 				.clone();
 		exprIter = clonedAnnotationSetting.keySet().iterator();
 		while (exprIter.hasNext()) {
@@ -101,7 +101,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	@SuppressWarnings("unchecked")
 	private void handleSingleAnnotations() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations = (HashMap<Expression, org.emftext.language.java.annotations.SingleAnnotationParameter>) this.singleAnnotations
+		HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations = (HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter>) this.singleAnnotations
 				.clone();
 		exprIter = clonedSingleAnnotations.keySet().iterator();
 		while (exprIter.hasNext()) {
@@ -118,7 +118,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	@SuppressWarnings("unchecked")
 	private void handleAnnotationMethods() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, org.emftext.language.java.members.InterfaceMethod> clonedAnnotationMethods = (HashMap<Expression, org.emftext.language.java.members.InterfaceMethod>) this.annotationMethods
+		HashMap<Expression, tools.mdsd.jamopp.model.java.members.InterfaceMethod> clonedAnnotationMethods = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.InterfaceMethod>) this.annotationMethods
 				.clone();
 		exprIter = clonedAnnotationMethods.keySet().iterator();
 		while (exprIter.hasNext()) {
@@ -135,7 +135,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	@SuppressWarnings("unchecked")
 	private void handleInitializers() {
 		Iterator<Block> iter;
-		HashMap<Block, org.emftext.language.java.statements.Block> clonedInitializers = (HashMap<Block, org.emftext.language.java.statements.Block>) this.initializers
+		HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> clonedInitializers = (HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block>) this.initializers
 				.clone();
 		iter = clonedInitializers.keySet().iterator();
 		while (iter.hasNext()) {
@@ -154,7 +154,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	@SuppressWarnings("unchecked")
 	private void handleAddFields() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, org.emftext.language.java.members.AdditionalField> clonedAddFields = (HashMap<Expression, org.emftext.language.java.members.AdditionalField>) this.addFields
+		HashMap<Expression, tools.mdsd.jamopp.model.java.members.AdditionalField> clonedAddFields = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.AdditionalField>) this.addFields
 				.clone();
 		exprIter = clonedAddFields.keySet().iterator();
 		while (exprIter.hasNext()) {
@@ -170,7 +170,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 
 	@SuppressWarnings("unchecked")
 	private void handleFields() {
-		HashMap<Expression, org.emftext.language.java.members.Field> clonedFields = (HashMap<Expression, org.emftext.language.java.members.Field>) this.fields
+		HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> clonedFields = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field>) this.fields
 				.clone();
 		Iterator<Expression> exprIter = clonedFields.keySet().iterator();
 		while (exprIter.hasNext()) {
@@ -187,7 +187,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	@SuppressWarnings("unchecked")
 	private void handleConstructors() {
 		Iterator<Block> iter;
-		HashMap<Block, org.emftext.language.java.members.Constructor> clonedConstructors = (HashMap<Block, org.emftext.language.java.members.Constructor>) this.constructors
+		HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> clonedConstructors = (HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor>) this.constructors
 				.clone();
 		iter = clonedConstructors.keySet().iterator();
 		while (iter.hasNext()) {
@@ -203,7 +203,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 
 	@SuppressWarnings("unchecked")
 	private void handleMethods() {
-		HashMap<Block, org.emftext.language.java.members.Method> clonedMethods = (HashMap<Block, org.emftext.language.java.members.Method>) this.methods
+		HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> clonedMethods = (HashMap<Block, tools.mdsd.jamopp.model.java.members.Method>) this.methods
 				.clone();
 		Iterator<Block> iter = clonedMethods.keySet().iterator();
 		while (iter.hasNext()) {
@@ -218,44 +218,44 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	@Override
-	public void addMethod(Block block, org.emftext.language.java.members.Method method) {
+	public void addMethod(Block block, tools.mdsd.jamopp.model.java.members.Method method) {
 		this.methods.put(block, method);
 	}
 
 	@Override
-	public void addConstructor(Block block, org.emftext.language.java.members.Constructor constructor) {
+	public void addConstructor(Block block, tools.mdsd.jamopp.model.java.members.Constructor constructor) {
 		this.constructors.put(block, constructor);
 	}
 
 	@Override
-	public void addField(Expression initializer, org.emftext.language.java.members.Field field) {
+	public void addField(Expression initializer, tools.mdsd.jamopp.model.java.members.Field field) {
 		this.fields.put(initializer, field);
 	}
 
 	@Override
-	public void addAdditionalField(Expression initializer, org.emftext.language.java.members.AdditionalField field) {
+	public void addAdditionalField(Expression initializer, tools.mdsd.jamopp.model.java.members.AdditionalField field) {
 		this.addFields.put(initializer, field);
 	}
 
 	@Override
-	public void addInitializer(Block block, org.emftext.language.java.statements.Block correspondingBlock) {
+	public void addInitializer(Block block, tools.mdsd.jamopp.model.java.statements.Block correspondingBlock) {
 		this.initializers.put(block, correspondingBlock);
 	}
 
 	@Override
-	public void addAnnotationMethod(Expression value, org.emftext.language.java.members.InterfaceMethod method) {
+	public void addAnnotationMethod(Expression value, tools.mdsd.jamopp.model.java.members.InterfaceMethod method) {
 		this.annotationMethods.put(value, method);
 	}
 
 	@Override
 	public void addSingleAnnotationParameter(Expression value,
-			org.emftext.language.java.annotations.SingleAnnotationParameter param) {
+			tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter param) {
 		this.singleAnnotations.put(value, param);
 	}
 
 	@Override
 	public void addAnnotationAttributeSetting(Expression value,
-			org.emftext.language.java.annotations.AnnotationAttributeSetting setting) {
+			tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting setting) {
 		this.annotationSetting.put(value, setting);
 	}
 

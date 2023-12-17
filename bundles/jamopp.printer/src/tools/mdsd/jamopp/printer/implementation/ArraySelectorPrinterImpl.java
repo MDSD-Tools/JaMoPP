@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.arrays.ArraySelector;
-import org.emftext.language.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.arrays.ArraySelector;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
 
 import com.google.inject.Inject;
 

@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.modifiers.Modifier;
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.Statement;
+import tools.mdsd.jamopp.model.java.modifiers.Modifier;
+import tools.mdsd.jamopp.model.java.statements.Block;
+import tools.mdsd.jamopp.model.java.statements.Statement;
 
 import com.google.inject.Inject;
 

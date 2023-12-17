@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.parameters.CatchParameter;
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.CatchBlock;
+import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
+import tools.mdsd.jamopp.model.java.statements.Block;
+import tools.mdsd.jamopp.model.java.statements.CatchBlock;
 
 import com.google.inject.Inject;
 

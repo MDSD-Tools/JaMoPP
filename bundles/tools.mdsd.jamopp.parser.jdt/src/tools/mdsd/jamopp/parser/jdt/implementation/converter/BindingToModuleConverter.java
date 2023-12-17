@@ -7,16 +7,16 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.modifiers.ModifiersFactory;
-import org.emftext.language.java.modules.ExportsModuleDirective;
-import org.emftext.language.java.modules.ModuleReference;
-import org.emftext.language.java.modules.ModulesFactory;
-import org.emftext.language.java.modules.OpensModuleDirective;
-import org.emftext.language.java.modules.ProvidesModuleDirective;
-import org.emftext.language.java.modules.RequiresModuleDirective;
-import org.emftext.language.java.modules.UsesModuleDirective;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
+import tools.mdsd.jamopp.model.java.modules.ExportsModuleDirective;
+import tools.mdsd.jamopp.model.java.modules.ModuleReference;
+import tools.mdsd.jamopp.model.java.modules.ModulesFactory;
+import tools.mdsd.jamopp.model.java.modules.OpensModuleDirective;
+import tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective;
+import tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective;
+import tools.mdsd.jamopp.model.java.modules.UsesModuleDirective;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -26,7 +26,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 @SuppressWarnings("restriction")
 public class BindingToModuleConverter
-		implements Converter<IModuleBinding, org.emftext.language.java.containers.Module> {
+		implements Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module> {
 
 	private final ModulesFactory modulesFactory;
 	private final ModifiersFactory modifiersFactory;
@@ -50,8 +50,8 @@ public class BindingToModuleConverter
 	}
 
 	@Override
-	public org.emftext.language.java.containers.Module convert(IModuleBinding binding) {
-		org.emftext.language.java.containers.Module result = jdtTResolverUtility.getModule(binding);
+	public tools.mdsd.jamopp.model.java.containers.Module convert(IModuleBinding binding) {
+		tools.mdsd.jamopp.model.java.containers.Module result = jdtTResolverUtility.getModule(binding);
 		if (!result.eContents().isEmpty()) {
 			return result;
 		}
@@ -91,7 +91,7 @@ public class BindingToModuleConverter
 			}
 			for (IModuleBinding modBind : binding.getRequiredModules()) {
 				RequiresModuleDirective dir = modulesFactory.createRequiresModuleDirective();
-				org.emftext.language.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
+				tools.mdsd.jamopp.model.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
 				ModuleReference ref = modulesFactory.createModuleReference();
 				ref.setTarget(reqMod);
 				dir.setRequiredModule(ref);

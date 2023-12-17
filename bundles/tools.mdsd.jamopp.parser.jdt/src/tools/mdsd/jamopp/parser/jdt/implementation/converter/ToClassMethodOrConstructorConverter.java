@@ -7,15 +7,15 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeParameter;
-import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Constructor;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
-import org.emftext.language.java.parameters.Parameter;
-import org.emftext.language.java.parameters.ReceiverParameter;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.NamespaceClassifierReference;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.members.ClassMethod;
+import tools.mdsd.jamopp.model.java.members.Constructor;
+import tools.mdsd.jamopp.model.java.members.Member;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.parameters.Parameter;
+import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -38,7 +38,7 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
-	private final Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter;
+	private final Converter<org.eclipse.jdt.core.dom.TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<SingleVariableDeclaration, Parameter> toParameterConverter;
 	private final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
@@ -47,7 +47,7 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	ToClassMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> toTypeParameterConverter,
+			Converter<org.eclipse.jdt.core.dom.TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
 			Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
 			Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,

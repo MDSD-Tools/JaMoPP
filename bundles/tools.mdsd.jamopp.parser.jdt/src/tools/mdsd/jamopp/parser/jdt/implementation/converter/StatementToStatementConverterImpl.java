@@ -33,15 +33,15 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.YieldStatement;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
-import org.emftext.language.java.parameters.OrdinaryParameter;
-import org.emftext.language.java.statements.CatchBlock;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.statements.Switch;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.statements.CatchBlock;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.statements.Switch;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
@@ -54,7 +54,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterA
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class StatementToStatementConverterImpl
-		implements Converter<Statement, org.emftext.language.java.statements.Statement> {
+		implements Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
@@ -64,36 +64,36 @@ public class StatementToStatementConverterImpl
 	private final UtilReferenceWalker utilReferenceWalker;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
 	private final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
-	private final Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
-	private final Converter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> toLocalVariableConverter;
+	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
+	private final Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter;
 	private final Converter<SwitchStatement, Switch> switchToSwitchConverter;
 	private final Converter<CatchClause, CatchBlock> toCatchblockConverter;
 	private final Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter;
 
-	private final HashSet<org.emftext.language.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
+	private final HashSet<tools.mdsd.jamopp.model.java.statements.JumpLabel> currentJumpLabels = new HashSet<>();
 
-	private Converter<Statement, org.emftext.language.java.references.Reference> toReferenceConverterFromStatement;
-	private Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
+	private Converter<Statement, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromStatement;
+	private Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
 	StatementToStatementConverterImpl(UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
-			Converter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> toLocalVariableConverter,
+			Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
 			Converter<CatchClause, CatchBlock> toCatchblockConverter,
 			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
 			Converter<SwitchStatement, Switch> switchToSwitchConverter, StatementsFactory statementsFactory,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
 			ExpressionsFactory expressionsFactory,
-			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,
-			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter,
+			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
 			UtilReferenceWalker utilReferenceWalker) {
 		this.expressionsFactory = expressionsFactory;
@@ -117,7 +117,7 @@ public class StatementToStatementConverterImpl
 	}
 
 	@Override
-	public org.emftext.language.java.statements.Statement convert(Statement statement) {
+	public tools.mdsd.jamopp.model.java.statements.Statement convert(Statement statement) {
 		if (statement.getNodeType() == ASTNode.ASSERT_STATEMENT) {
 			return handleAssertStatement(statement);
 		} else if (statement.getNodeType() == ASTNode.BLOCK) {
@@ -163,9 +163,9 @@ public class StatementToStatementConverterImpl
 		}
 	}
 
-	private org.emftext.language.java.statements.Statement handleYieldStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleYieldStatement(Statement statement) {
 		YieldStatement yieldSt = (YieldStatement) statement;
-		org.emftext.language.java.statements.YieldStatement result = this.statementsFactory.createYieldStatement();
+		tools.mdsd.jamopp.model.java.statements.YieldStatement result = this.statementsFactory.createYieldStatement();
 		if (yieldSt.getExpression() != null) {
 			result.setYieldExpression(this.expressionConverterUtility.convert(yieldSt.getExpression()));
 		}
@@ -173,17 +173,17 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleOther(Statement statement) {
-		org.emftext.language.java.statements.ExpressionStatement result = this.statementsFactory
+	private tools.mdsd.jamopp.model.java.statements.Statement handleOther(Statement statement) {
+		tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = this.statementsFactory
 				.createExpressionStatement();
 		result.setExpression(
 				this.utilReferenceWalker.walkUp(this.toReferenceConverterFromStatement.convert(statement)));
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleWhileStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleWhileStatement(Statement statement) {
 		WhileStatement whileSt = (WhileStatement) statement;
-		org.emftext.language.java.statements.WhileLoop result = this.statementsFactory.createWhileLoop();
+		tools.mdsd.jamopp.model.java.statements.WhileLoop result = this.statementsFactory.createWhileLoop();
 		result.setCondition(this.expressionConverterUtility.convert(whileSt.getExpression()));
 		result.setStatement(convert(whileSt.getBody()));
 		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, whileSt);
@@ -191,12 +191,12 @@ public class StatementToStatementConverterImpl
 	}
 
 	@SuppressWarnings("unchecked")
-	private org.emftext.language.java.statements.Statement handleVariableDeclarationStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleVariableDeclarationStatement(Statement statement) {
 		VariableDeclarationStatement varSt = (VariableDeclarationStatement) statement;
-		org.emftext.language.java.statements.LocalVariableStatement result = this.statementsFactory
+		tools.mdsd.jamopp.model.java.statements.LocalVariableStatement result = this.statementsFactory
 				.createLocalVariableStatement();
 		VariableDeclarationFragment frag = (VariableDeclarationFragment) varSt.fragments().get(0);
-		org.emftext.language.java.variables.LocalVariable locVar;
+		tools.mdsd.jamopp.model.java.variables.LocalVariable locVar;
 		IVariableBinding binding = frag.resolveBinding();
 		if (binding == null) {
 			locVar = this.jdtResolverUtility.getLocalVariable(frag.getName().getIdentifier() + "-" + frag.hashCode());
@@ -222,15 +222,15 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleTypeDeclarationStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleTypeDeclarationStatement(Statement statement) {
 		TypeDeclarationStatement declSt = (TypeDeclarationStatement) statement;
 		return this.classifierConverterUtility.convert(declSt.getDeclaration());
 	}
 
 	@SuppressWarnings("unchecked")
-	private org.emftext.language.java.statements.Statement handleTryStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleTryStatement(Statement statement) {
 		TryStatement trySt = (TryStatement) statement;
-		org.emftext.language.java.statements.TryBlock result = this.statementsFactory.createTryBlock();
+		tools.mdsd.jamopp.model.java.statements.TryBlock result = this.statementsFactory.createTryBlock();
 		trySt.resources().forEach(obj -> {
 			Expression resExpr = (Expression) obj;
 			if (resExpr instanceof VariableDeclarationExpression) {
@@ -238,7 +238,7 @@ public class StatementToStatementConverterImpl
 						.add(this.toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
 			} else {
 				result.getResources()
-						.add((org.emftext.language.java.references.ElementReference) this.utilReferenceWalker
+						.add((tools.mdsd.jamopp.model.java.references.ElementReference) this.utilReferenceWalker
 								.walkUp(this.toReferenceConverterFromExpression.convert(resExpr)));
 			}
 		});
@@ -252,17 +252,17 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleThrowStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleThrowStatement(Statement statement) {
 		ThrowStatement throwSt = (ThrowStatement) statement;
-		org.emftext.language.java.statements.Throw result = this.statementsFactory.createThrow();
+		tools.mdsd.jamopp.model.java.statements.Throw result = this.statementsFactory.createThrow();
 		result.setThrowable(this.expressionConverterUtility.convert(throwSt.getExpression()));
 		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, throwSt);
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleSynchonizedStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleSynchonizedStatement(Statement statement) {
 		SynchronizedStatement synSt = (SynchronizedStatement) statement;
-		org.emftext.language.java.statements.SynchronizedBlock result = this.statementsFactory
+		tools.mdsd.jamopp.model.java.statements.SynchronizedBlock result = this.statementsFactory
 				.createSynchronizedBlock();
 		result.setLockProvider(this.expressionConverterUtility.convert(synSt.getExpression()));
 		result.setBlock(this.blockToBlockConverter.convert(synSt.getBody()));
@@ -270,13 +270,13 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleSwitchStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleSwitchStatement(Statement statement) {
 		return this.switchToSwitchConverter.convert((SwitchStatement) statement);
 	}
 
-	private org.emftext.language.java.statements.Statement handleReturnStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleReturnStatement(Statement statement) {
 		ReturnStatement retSt = (ReturnStatement) statement;
-		org.emftext.language.java.statements.Return result = this.statementsFactory.createReturn();
+		tools.mdsd.jamopp.model.java.statements.Return result = this.statementsFactory.createReturn();
 		if (retSt.getExpression() != null) {
 			result.setReturnValue(this.expressionConverterUtility.convert(retSt.getExpression()));
 		}
@@ -284,9 +284,9 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleLabeledStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleLabeledStatement(Statement statement) {
 		LabeledStatement labelSt = (LabeledStatement) statement;
-		org.emftext.language.java.statements.JumpLabel result = this.statementsFactory.createJumpLabel();
+		tools.mdsd.jamopp.model.java.statements.JumpLabel result = this.statementsFactory.createJumpLabel();
 		this.utilNamedElement.setNameOfElement(labelSt.getLabel(), result);
 		this.currentJumpLabels.add(result);
 		result.setStatement(convert(labelSt.getBody()));
@@ -295,9 +295,9 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleIfStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleIfStatement(Statement statement) {
 		IfStatement ifSt = (IfStatement) statement;
-		org.emftext.language.java.statements.Condition result = this.statementsFactory.createCondition();
+		tools.mdsd.jamopp.model.java.statements.Condition result = this.statementsFactory.createCondition();
 		result.setCondition(this.expressionConverterUtility.convert(ifSt.getExpression()));
 		result.setStatement(convert(ifSt.getThenStatement()));
 		if (ifSt.getElseStatement() != null) {
@@ -308,14 +308,14 @@ public class StatementToStatementConverterImpl
 	}
 
 	@SuppressWarnings("unchecked")
-	private org.emftext.language.java.statements.Statement handleForStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleForStatement(Statement statement) {
 		ForStatement forSt = (ForStatement) statement;
-		org.emftext.language.java.statements.ForLoop result = this.statementsFactory.createForLoop();
+		tools.mdsd.jamopp.model.java.statements.ForLoop result = this.statementsFactory.createForLoop();
 		if (forSt.initializers().size() == 1 && forSt.initializers().get(0) instanceof VariableDeclarationExpression) {
 			result.setInit(
 					this.toLocalVariableConverter.convert((VariableDeclarationExpression) forSt.initializers().get(0)));
 		} else {
-			org.emftext.language.java.expressions.ExpressionList ini = this.expressionsFactory.createExpressionList();
+			tools.mdsd.jamopp.model.java.expressions.ExpressionList ini = this.expressionsFactory.createExpressionList();
 			forSt.initializers().forEach(
 					obj -> ini.getExpressions().add(this.expressionConverterUtility.convert((Expression) obj)));
 			result.setInit(ini);
@@ -330,26 +330,26 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleExpressionStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleExpressionStatement(Statement statement) {
 		ExpressionStatement exprSt = (ExpressionStatement) statement;
 		if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {
-			org.emftext.language.java.statements.LocalVariableStatement result = this.statementsFactory
+			tools.mdsd.jamopp.model.java.statements.LocalVariableStatement result = this.statementsFactory
 					.createLocalVariableStatement();
 			result.setVariable(
 					this.toLocalVariableConverter.convert((VariableDeclarationExpression) exprSt.getExpression()));
 			this.layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 			return result;
 		}
-		org.emftext.language.java.statements.ExpressionStatement result = this.statementsFactory
+		tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = this.statementsFactory
 				.createExpressionStatement();
 		result.setExpression(this.expressionConverterUtility.convert(exprSt.getExpression()));
 		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleEnhancedForStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleEnhancedForStatement(Statement statement) {
 		EnhancedForStatement forSt = (EnhancedForStatement) statement;
-		org.emftext.language.java.statements.ForEachLoop result = this.statementsFactory.createForEachLoop();
+		tools.mdsd.jamopp.model.java.statements.ForEachLoop result = this.statementsFactory.createForEachLoop();
 		result.setNext(this.toOrdinaryParameterConverter.convert(forSt.getParameter()));
 		result.setCollection(this.expressionConverterUtility.convert(forSt.getExpression()));
 		result.setStatement(convert(forSt.getBody()));
@@ -357,26 +357,26 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleEmptyStatement(Statement statement) {
-		org.emftext.language.java.statements.EmptyStatement result = this.statementsFactory.createEmptyStatement();
+	private tools.mdsd.jamopp.model.java.statements.Statement handleEmptyStatement(Statement statement) {
+		tools.mdsd.jamopp.model.java.statements.EmptyStatement result = this.statementsFactory.createEmptyStatement();
 		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, statement);
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleDoStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleDoStatement(Statement statement) {
 		DoStatement doSt = (DoStatement) statement;
-		org.emftext.language.java.statements.DoWhileLoop result = this.statementsFactory.createDoWhileLoop();
+		tools.mdsd.jamopp.model.java.statements.DoWhileLoop result = this.statementsFactory.createDoWhileLoop();
 		result.setCondition(this.expressionConverterUtility.convert(doSt.getExpression()));
 		result.setStatement(convert(doSt.getBody()));
 		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, doSt);
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleContinueStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleContinueStatement(Statement statement) {
 		ContinueStatement conSt = (ContinueStatement) statement;
-		org.emftext.language.java.statements.Continue result = this.statementsFactory.createContinue();
+		tools.mdsd.jamopp.model.java.statements.Continue result = this.statementsFactory.createContinue();
 		if (conSt.getLabel() != null) {
-			org.emftext.language.java.statements.JumpLabel proxyTarget = this.currentJumpLabels.stream()
+			tools.mdsd.jamopp.model.java.statements.JumpLabel proxyTarget = this.currentJumpLabels.stream()
 					.filter(label -> label.getName().equals(conSt.getLabel().getIdentifier())).findFirst().get();
 			result.setTarget(proxyTarget);
 		}
@@ -384,11 +384,11 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleBreakStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleBreakStatement(Statement statement) {
 		BreakStatement breakSt = (BreakStatement) statement;
-		org.emftext.language.java.statements.Break result = this.statementsFactory.createBreak();
+		tools.mdsd.jamopp.model.java.statements.Break result = this.statementsFactory.createBreak();
 		if (breakSt.getLabel() != null) {
-			org.emftext.language.java.statements.JumpLabel proxyTarget = this.currentJumpLabels.stream()
+			tools.mdsd.jamopp.model.java.statements.JumpLabel proxyTarget = this.currentJumpLabels.stream()
 					.filter(label -> label.getName().equals(breakSt.getLabel().getIdentifier())).findFirst().get();
 			result.setTarget(proxyTarget);
 		}
@@ -396,13 +396,13 @@ public class StatementToStatementConverterImpl
 		return result;
 	}
 
-	private org.emftext.language.java.statements.Statement handleBlock(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleBlock(Statement statement) {
 		return this.blockToBlockConverter.convert((Block) statement);
 	}
 
-	private org.emftext.language.java.statements.Statement handleAssertStatement(Statement statement) {
+	private tools.mdsd.jamopp.model.java.statements.Statement handleAssertStatement(Statement statement) {
 		AssertStatement assertSt = (AssertStatement) statement;
-		org.emftext.language.java.statements.Assert result = this.statementsFactory.createAssert();
+		tools.mdsd.jamopp.model.java.statements.Assert result = this.statementsFactory.createAssert();
 		result.setCondition(this.expressionConverterUtility.convert(assertSt.getExpression()));
 		if (assertSt.getMessage() != null) {
 			result.setErrorMessage(this.expressionConverterUtility.convert(assertSt.getMessage()));
@@ -413,13 +413,13 @@ public class StatementToStatementConverterImpl
 
 	@Inject
 	public void setToReferenceConverterFromExpression(
-			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression) {
+			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression) {
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
 
 	@Inject
 	public void setToReferenceConverterFromStatement(
-			Converter<Statement, org.emftext.language.java.references.Reference> toReferenceConverterFromStatement) {
+			Converter<Statement, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromStatement) {
 		this.toReferenceConverterFromStatement = toReferenceConverterFromStatement;
 	}
 

@@ -2,9 +2,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Dimension;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.arrays.ArraysFactory;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
 
 import com.google.inject.Inject;
 

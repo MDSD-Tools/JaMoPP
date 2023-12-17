@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import java.util.Collections;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.NamespaceClassifierReference;
-import org.emftext.language.java.types.TypesFactory;
+import tools.mdsd.jamopp.model.java.types.ClassifierReference;
+import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
+import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 

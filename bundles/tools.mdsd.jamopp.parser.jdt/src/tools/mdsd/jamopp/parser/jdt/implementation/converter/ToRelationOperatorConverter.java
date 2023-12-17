@@ -1,8 +1,8 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.InfixExpression;
-import org.emftext.language.java.operators.OperatorsFactory;
-import org.emftext.language.java.operators.RelationOperator;
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
+import tools.mdsd.jamopp.model.java.operators.RelationOperator;
 
 import com.google.inject.Inject;
 

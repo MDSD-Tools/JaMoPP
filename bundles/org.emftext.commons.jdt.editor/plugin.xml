@@ -20,15 +20,15 @@
 
 <plugin
       name="%pluginName"
-      id="org.emftext.commons.jdt.editor"
+      id="tools.mdsd.jamopp.commons.jdt.editor"
       version="1.0.0"
       provider-name="%providerName"
-      class="org.emftext.commons.jdt.presentation.JdtEditorPlugin$Implementation">
+      class="tools.mdsd.jamopp.commons.jdt.presentation.JdtEditorPlugin$Implementation">
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources" export="true"/>
-      <import plugin="org.emftext.commons.jdt.edit/src-gen" export="true"/>
+      <import plugin="tools.mdsd.jamopp.commons.jdt.edit/src-gen" export="true"/>
       <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
       <import plugin="org.eclipse.emf.edit.ui" export="true"/>
       <import plugin="org.eclipse.ui.ide" export="true"/>
@@ -46,9 +46,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.emftext.commons.jdt.presentation.JdtModelWizardID"
+            id="tools.mdsd.jamopp.commons.jdt.presentation.JdtModelWizardID"
             name="%_UI_JdtModelWizard_label"
-            class="org.emftext.commons.jdt.presentation.JdtModelWizard"
+            class="tools.mdsd.jamopp.commons.jdt.presentation.JdtModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/JdtModelFile.gif">
          <description>%_UI_JdtModelWizard_description</description>
@@ -59,12 +59,12 @@
    <extension point="org.eclipse.ui.editors">
       <!-- @generated jdt -->
       <editor
-            id="org.emftext.commons.jdt.presentation.JdtEditorID"
+            id="tools.mdsd.jamopp.commons.jdt.presentation.JdtEditorID"
             name="%_UI_JdtEditor_label"
             icon="icons/full/obj16/JdtModelFile.gif"
             extensions="jdt"
-            class="org.emftext.commons.jdt.presentation.JdtEditor"
-            contributorClass="org.emftext.commons.jdt.presentation.JdtActionBarContributor">
+            class="tools.mdsd.jamopp.commons.jdt.presentation.JdtEditor"
+            contributorClass="tools.mdsd.jamopp.commons.jdt.presentation.JdtActionBarContributor">
       </editor>
    </extension>
 

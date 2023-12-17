@@ -6,8 +6,8 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.emftext.language.java.references.IdentifierReference;
-import org.emftext.language.java.references.ReferencesFactory;
+import tools.mdsd.jamopp.model.java.references.IdentifierReference;
+import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 
 import com.google.inject.Inject;
 
@@ -30,9 +30,9 @@ public class ToReferenceConverterFromSimpleName implements Converter<SimpleName,
 	
 	@Override
 	public IdentifierReference convert(SimpleName name) {
-		org.emftext.language.java.references.IdentifierReference result = referencesFactory.createIdentifierReference();
+		tools.mdsd.jamopp.model.java.references.IdentifierReference result = referencesFactory.createIdentifierReference();
 		IBinding b = name.resolveBinding();
-		org.emftext.language.java.references.ReferenceableElement target = null;
+		tools.mdsd.jamopp.model.java.references.ReferenceableElement target = null;
 		if (b == null || b.isRecovered()) {
 			target = jdtResolverUtility.getReferenceableElementByNameMatching(name.getIdentifier());
 		} else if (b instanceof ITypeBinding) {

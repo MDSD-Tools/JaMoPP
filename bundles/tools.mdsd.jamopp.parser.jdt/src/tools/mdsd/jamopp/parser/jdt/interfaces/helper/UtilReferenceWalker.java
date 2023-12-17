@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.jdt.interfaces.helper;
 
-import org.emftext.language.java.references.Reference;
+import tools.mdsd.jamopp.model.java.references.Reference;
 
 public interface UtilReferenceWalker {
 

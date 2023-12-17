@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.modifiers.Static;
-import org.emftext.language.java.modules.RequiresModuleDirective;
+import tools.mdsd.jamopp.model.java.modifiers.Static;
+import tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

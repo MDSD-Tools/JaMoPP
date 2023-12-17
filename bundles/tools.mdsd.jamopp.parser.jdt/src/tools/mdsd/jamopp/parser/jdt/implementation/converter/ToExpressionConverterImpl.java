@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
 
 public class ToExpressionConverterImpl
-		implements Converter<Expression, org.emftext.language.java.expressions.Expression> {
+		implements Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> {
 
 	private ExpressionHandler handlerPrimaryExpression;
 	private ExpressionHandler handlerAssignment;
@@ -30,7 +30,7 @@ public class ToExpressionConverterImpl
 	}
 
 	@Override
-	public org.emftext.language.java.expressions.Expression convert(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression convert(Expression expr) {
 		if (expr.getNodeType() == ASTNode.ASSIGNMENT) {
 			return handlerAssignment.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {

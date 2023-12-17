@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.emftext.language.java" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="tools.mdsd.jamopp.model.java" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.emftext.language.java" id="java_classpath_initializer" name="Java Classpath Initializer"/>
+         <meta.schema plugin="tools.mdsd.jamopp.model.java" id="java_classpath_initializer" name="Java Classpath Initializer"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.emftext.language.java.JavaClasspath$Initializer"/>
+                  <meta.attribute kind="java" basedOn=":tools.mdsd.jamopp.model.java.JavaClasspath$Initializer"/>
                </appInfo>
             </annotation>
          </attribute>

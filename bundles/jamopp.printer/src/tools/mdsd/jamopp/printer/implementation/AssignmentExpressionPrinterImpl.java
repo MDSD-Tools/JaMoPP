@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.AssignmentExpression;
-import org.emftext.language.java.expressions.AssignmentExpressionChild;
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.operators.AssignmentOperator;
+import tools.mdsd.jamopp.model.java.expressions.AssignmentExpression;
+import tools.mdsd.jamopp.model.java.expressions.AssignmentExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.operators.AssignmentOperator;
 
 import com.google.inject.Inject;
 

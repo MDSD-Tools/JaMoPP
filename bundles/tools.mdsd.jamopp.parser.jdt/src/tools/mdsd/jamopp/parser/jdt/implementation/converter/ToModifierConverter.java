@@ -1,14 +1,14 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.Modifier;
-import org.emftext.language.java.modifiers.ModifiersFactory;
+import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class ToModifierConverter implements Converter<Modifier, org.emftext.language.java.modifiers.Modifier> {
+public class ToModifierConverter implements Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> {
 
 	private final ModifiersFactory modifiersFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -20,8 +20,8 @@ public class ToModifierConverter implements Converter<Modifier, org.emftext.lang
 	}
 
 	@Override
-	public org.emftext.language.java.modifiers.Modifier convert(Modifier mod) {
-		org.emftext.language.java.modifiers.Modifier result = null;
+	public tools.mdsd.jamopp.model.java.modifiers.Modifier convert(Modifier mod) {
+		tools.mdsd.jamopp.model.java.modifiers.Modifier result = null;
 		if (mod.isAbstract()) {
 			result = modifiersFactory.createAbstract();
 		} else if (mod.isDefault()) {

@@ -3,16 +3,16 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.classifiers.AnonymousClass;
-import org.emftext.language.java.generics.CallTypeArgumentable;
-import org.emftext.language.java.generics.TypeArgumentable;
-import org.emftext.language.java.instantiations.ExplicitConstructorCall;
-import org.emftext.language.java.instantiations.Instantiation;
-import org.emftext.language.java.instantiations.NewConstructorCall;
-import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
-import org.emftext.language.java.literals.Self;
-import org.emftext.language.java.references.Argumentable;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.generics.CallTypeArgumentable;
+import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
+import tools.mdsd.jamopp.model.java.instantiations.ExplicitConstructorCall;
+import tools.mdsd.jamopp.model.java.instantiations.Instantiation;
+import tools.mdsd.jamopp.model.java.instantiations.NewConstructorCall;
+import tools.mdsd.jamopp.model.java.instantiations.NewConstructorCallWithInferredTypeArguments;
+import tools.mdsd.jamopp.model.java.literals.Self;
+import tools.mdsd.jamopp.model.java.references.Argumentable;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

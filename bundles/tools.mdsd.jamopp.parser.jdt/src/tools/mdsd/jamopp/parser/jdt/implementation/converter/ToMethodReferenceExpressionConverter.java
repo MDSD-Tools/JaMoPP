@@ -8,12 +8,12 @@ import org.eclipse.jdt.core.dom.MethodReference;
 import org.eclipse.jdt.core.dom.SuperMethodReference;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeMethodReference;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.MethodReferenceExpression;
-import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpression;
+import tools.mdsd.jamopp.model.java.generics.TypeArgument;
+import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
+import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -30,19 +30,19 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 	private final UtilLayout layoutInformationConverter;
 	private final UtilReferenceWalker utilReferenceWalker;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
-	private final Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression;
-	private final Converter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
+	private final Converter<Type, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromType;
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
 	ToMethodReferenceExpressionConverter(
-			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, Converter<Type, TypeReference> toTypeReferenceConverter,
 			ExpressionsFactory expressionsFactory, ReferencesFactory referencesFactory, LiteralsFactory literalsFactory,
-			Converter<Type, org.emftext.language.java.references.Reference> toReferenceConverterFromType,
-			Converter<Expression, org.emftext.language.java.references.Reference> toReferenceConverterFromExpression,
+			Converter<Type, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromType,
+			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
 			Converter<Type, TypeArgument> typeToTypeArgumentConverter,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, UtilReferenceWalker utilReferenceWalker) {
 		this.literalsFactory = literalsFactory;
@@ -63,14 +63,14 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 		if (ref.getNodeType() == ASTNode.CREATION_REFERENCE) {
 			CreationReference crRef = (CreationReference) ref;
 			if (crRef.getType().isArrayType()) {
-				org.emftext.language.java.expressions.ArrayConstructorReferenceExpression result = expressionsFactory
+				tools.mdsd.jamopp.model.java.expressions.ArrayConstructorReferenceExpression result = expressionsFactory
 						.createArrayConstructorReferenceExpression();
 				result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
 				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(crRef.getType(), result);
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
 				return result;
 			}
-			org.emftext.language.java.expressions.ClassTypeConstructorReferenceExpression result = expressionsFactory
+			tools.mdsd.jamopp.model.java.expressions.ClassTypeConstructorReferenceExpression result = expressionsFactory
 					.createClassTypeConstructorReferenceExpression();
 			result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
 			crRef.typeArguments()
@@ -78,7 +78,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
 			return result;
 		}
-		org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression result = expressionsFactory
+		tools.mdsd.jamopp.model.java.expressions.PrimaryExpressionReferenceExpression result = expressionsFactory
 				.createPrimaryExpressionReferenceExpression();
 		if (ref.getNodeType() == ASTNode.TYPE_METHOD_REFERENCE) {
 			TypeMethodReference typeRef = (TypeMethodReference) ref;
@@ -89,11 +89,11 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 		} else if (ref.getNodeType() == ASTNode.SUPER_METHOD_REFERENCE) {
 			SuperMethodReference superRef = (SuperMethodReference) ref;
 			if (superRef.getQualifier() != null) {
-				org.emftext.language.java.references.Reference child = utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(superRef.getQualifier()));
-				org.emftext.language.java.references.SelfReference lastPart = referencesFactory.createSelfReference();
+				tools.mdsd.jamopp.model.java.references.Reference child = utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(superRef.getQualifier()));
+				tools.mdsd.jamopp.model.java.references.SelfReference lastPart = referencesFactory.createSelfReference();
 				lastPart.setSelf(literalsFactory.createSuper());
-				org.emftext.language.java.references.Reference part = child;
-				org.emftext.language.java.references.Reference next = child.getNext();
+				tools.mdsd.jamopp.model.java.references.Reference part = child;
+				tools.mdsd.jamopp.model.java.references.Reference next = child.getNext();
 				while (next != null) {
 					part = next;
 					next = part.getNext();
@@ -101,7 +101,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 				part.setNext(lastPart);
 				result.setChild(child);
 			} else {
-				org.emftext.language.java.references.SelfReference child = referencesFactory.createSelfReference();
+				tools.mdsd.jamopp.model.java.references.SelfReference child = referencesFactory.createSelfReference();
 				child.setSelf(literalsFactory.createSuper());
 				result.setChild(child);
 			}
@@ -110,7 +110,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 			result.setMethodReference(utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(superRef.getName())));
 		} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
 			ExpressionMethodReference exprRef = (ExpressionMethodReference) ref;
-			result.setChild((org.emftext.language.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
+			result.setChild((tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
 					.convert(exprRef.getExpression()));
 			exprRef.typeArguments()
 					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));

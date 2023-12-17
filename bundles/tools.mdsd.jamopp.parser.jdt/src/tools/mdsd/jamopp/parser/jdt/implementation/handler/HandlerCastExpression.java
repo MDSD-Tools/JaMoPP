@@ -4,8 +4,8 @@ import org.eclipse.jdt.core.dom.CastExpression;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IntersectionType;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -19,12 +19,12 @@ public class HandlerCastExpression implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
 	HandlerCastExpression(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
@@ -35,9 +35,9 @@ public class HandlerCastExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		CastExpression castExpr = (CastExpression) expr;
-		org.emftext.language.java.expressions.CastExpression result = expressionsFactory.createCastExpression();
+		tools.mdsd.jamopp.model.java.expressions.CastExpression result = expressionsFactory.createCastExpression();
 		if (castExpr.getType().isIntersectionType()) {
 			IntersectionType interType = (IntersectionType) castExpr.getType();
 			result.setTypeReference(toTypeReferenceConverter.convert((Type) interType.types().get(0)));

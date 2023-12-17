@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeParameter;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -14,7 +14,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 public class ToTypeParameterConverter implements
-		Converter<org.eclipse.jdt.core.dom.TypeParameter, org.emftext.language.java.generics.TypeParameter> {
+		Converter<org.eclipse.jdt.core.dom.TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> {
 
 	private final UtilNamedElement utilNamedElement;
 	private final UtilJdtResolver utilJDTResolver;
@@ -34,8 +34,8 @@ public class ToTypeParameterConverter implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public org.emftext.language.java.generics.TypeParameter convert(TypeParameter param) {
-		org.emftext.language.java.generics.TypeParameter result = utilJDTResolver
+	public tools.mdsd.jamopp.model.java.generics.TypeParameter convert(TypeParameter param) {
+		tools.mdsd.jamopp.model.java.generics.TypeParameter result = utilJDTResolver
 				.getTypeParameter(param.resolveBinding());
 		param.modifiers()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));

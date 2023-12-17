@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.operators.Addition;
-import org.emftext.language.java.operators.AdditiveOperator;
+import tools.mdsd.jamopp.model.java.operators.Addition;
+import tools.mdsd.jamopp.model.java.operators.AdditiveOperator;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

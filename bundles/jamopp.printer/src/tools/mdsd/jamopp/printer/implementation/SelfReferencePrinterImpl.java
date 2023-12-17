@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.literals.Self;
-import org.emftext.language.java.references.SelfReference;
+import tools.mdsd.jamopp.model.java.literals.Self;
+import tools.mdsd.jamopp.model.java.references.SelfReference;
 
 import com.google.inject.Inject;
 

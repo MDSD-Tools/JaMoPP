@@ -2,8 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 
 import com.google.inject.Inject;
 
@@ -12,7 +12,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public class ToCompilationUnitConverter
-implements Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit> {
+implements Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit> {
 
 	private final ContainersFactory containersFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -31,8 +31,8 @@ implements Converter<CompilationUnit, org.emftext.language.java.containers.Compi
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public org.emftext.language.java.containers.CompilationUnit convert(CompilationUnit cu) {
-		org.emftext.language.java.containers.CompilationUnit result = this.containersFactory.createCompilationUnit();
+	public tools.mdsd.jamopp.model.java.containers.CompilationUnit convert(CompilationUnit cu) {
+		tools.mdsd.jamopp.model.java.containers.CompilationUnit result = this.containersFactory.createCompilationUnit();
 		result.setName("");
 		this.layoutInformationConverter.convertJavaRootLayoutInformation(result, cu, this.visitor.getSource());
 		cu.types().forEach(obj -> result.getClassifiers()

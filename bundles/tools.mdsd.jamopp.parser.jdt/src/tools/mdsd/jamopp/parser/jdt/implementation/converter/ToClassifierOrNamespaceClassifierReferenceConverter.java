@@ -17,10 +17,10 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.NamespaceClassifierReference;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.TypesFactory;
+import tools.mdsd.jamopp.model.java.types.ClassifierReference;
+import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 

@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.InstanceOfExpressionChild;
-import org.emftext.language.java.expressions.RelationExpression;
-import org.emftext.language.java.expressions.RelationExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.RelationExpression;
+import tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild;
 
 import com.google.inject.Inject;
 

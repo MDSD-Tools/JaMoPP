@@ -3,18 +3,18 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.operators.Assignment;
-import org.emftext.language.java.operators.AssignmentAnd;
-import org.emftext.language.java.operators.AssignmentDivision;
-import org.emftext.language.java.operators.AssignmentExclusiveOr;
-import org.emftext.language.java.operators.AssignmentLeftShift;
-import org.emftext.language.java.operators.AssignmentMinus;
-import org.emftext.language.java.operators.AssignmentModulo;
-import org.emftext.language.java.operators.AssignmentMultiplication;
-import org.emftext.language.java.operators.AssignmentOperator;
-import org.emftext.language.java.operators.AssignmentOr;
-import org.emftext.language.java.operators.AssignmentPlus;
-import org.emftext.language.java.operators.AssignmentRightShift;
+import tools.mdsd.jamopp.model.java.operators.Assignment;
+import tools.mdsd.jamopp.model.java.operators.AssignmentAnd;
+import tools.mdsd.jamopp.model.java.operators.AssignmentDivision;
+import tools.mdsd.jamopp.model.java.operators.AssignmentExclusiveOr;
+import tools.mdsd.jamopp.model.java.operators.AssignmentLeftShift;
+import tools.mdsd.jamopp.model.java.operators.AssignmentMinus;
+import tools.mdsd.jamopp.model.java.operators.AssignmentModulo;
+import tools.mdsd.jamopp.model.java.operators.AssignmentMultiplication;
+import tools.mdsd.jamopp.model.java.operators.AssignmentOperator;
+import tools.mdsd.jamopp.model.java.operators.AssignmentOr;
+import tools.mdsd.jamopp.model.java.operators.AssignmentPlus;
+import tools.mdsd.jamopp.model.java.operators.AssignmentRightShift;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

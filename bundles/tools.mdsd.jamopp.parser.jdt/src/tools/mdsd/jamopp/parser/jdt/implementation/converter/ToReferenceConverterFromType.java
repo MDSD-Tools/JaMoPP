@@ -6,9 +6,9 @@ import org.eclipse.jdt.core.dom.NameQualifiedType;
 import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -17,10 +17,10 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.emftext.language.java.references.IdentifierReference;
+import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import org.eclipse.jdt.core.dom.Name;
 
-public class ToReferenceConverterFromType implements Converter<Type, org.emftext.language.java.references.Reference> {
+public class ToReferenceConverterFromType implements Converter<Type, tools.mdsd.jamopp.model.java.references.Reference> {
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -47,12 +47,12 @@ public class ToReferenceConverterFromType implements Converter<Type, org.emftext
 	}
 
 	@SuppressWarnings("unchecked")
-	public org.emftext.language.java.references.Reference convert(Type t) {
+	public tools.mdsd.jamopp.model.java.references.Reference convert(Type t) {
 		if (t.isNameQualifiedType()) {
 			NameQualifiedType nqType = (NameQualifiedType) t;
-			org.emftext.language.java.references.IdentifierReference parent = toReferenceConverterFromName
+			tools.mdsd.jamopp.model.java.references.IdentifierReference parent = toReferenceConverterFromName
 					.convert(nqType.getQualifier());
-			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
+			tools.mdsd.jamopp.model.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
 					.convert(nqType.getName());
 			parent.setNext(child);
 			nqType.annotations().forEach(
@@ -62,8 +62,8 @@ public class ToReferenceConverterFromType implements Converter<Type, org.emftext
 		}
 		if (t.isQualifiedType()) {
 			QualifiedType qType = (QualifiedType) t;
-			org.emftext.language.java.references.Reference parent = convert(qType.getQualifier());
-			org.emftext.language.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
+			tools.mdsd.jamopp.model.java.references.Reference parent = convert(qType.getQualifier());
+			tools.mdsd.jamopp.model.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
 					.convert(qType.getName());
 			qType.annotations().forEach(
 					obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
@@ -73,7 +73,7 @@ public class ToReferenceConverterFromType implements Converter<Type, org.emftext
 		}
 		if (t.isSimpleType()) {
 			SimpleType sType = (SimpleType) t;
-			org.emftext.language.java.references.IdentifierReference result = toReferenceConverterFromName
+			tools.mdsd.jamopp.model.java.references.IdentifierReference result = toReferenceConverterFromName
 					.convert(sType.getName());
 			sType.annotations().forEach(
 					obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
@@ -81,21 +81,21 @@ public class ToReferenceConverterFromType implements Converter<Type, org.emftext
 			return result;
 		}
 		if (t.isPrimitiveType()) {
-			org.emftext.language.java.types.TypeReference typeRef = toTypeReferenceConverter.convert(t);
-			org.emftext.language.java.references.PrimitiveTypeReference temp = referencesFactory
+			tools.mdsd.jamopp.model.java.types.TypeReference typeRef = toTypeReferenceConverter.convert(t);
+			tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference temp = referencesFactory
 					.createPrimitiveTypeReference();
-			temp.setPrimitiveType((org.emftext.language.java.types.PrimitiveType) typeRef);
+			temp.setPrimitiveType((tools.mdsd.jamopp.model.java.types.PrimitiveType) typeRef);
 			temp.getLayoutInformations().addAll(typeRef.getLayoutInformations());
 			return temp;
 		}
 		if (t.isArrayType()) {
 			ArrayType arr = (ArrayType) t;
-			org.emftext.language.java.references.Reference result = convert(arr.getElementType());
+			tools.mdsd.jamopp.model.java.references.Reference result = convert(arr.getElementType());
 			if (arr.getElementType().isPrimitiveType()) {
-				org.emftext.language.java.references.PrimitiveTypeReference primRef = (org.emftext.language.java.references.PrimitiveTypeReference) result;
+				tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference primRef = (tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference) result;
 				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, primRef);
 			} else {
-				org.emftext.language.java.references.IdentifierReference idRef = (org.emftext.language.java.references.IdentifierReference) result;
+				tools.mdsd.jamopp.model.java.references.IdentifierReference idRef = (tools.mdsd.jamopp.model.java.references.IdentifierReference) result;
 				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, idRef);
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);

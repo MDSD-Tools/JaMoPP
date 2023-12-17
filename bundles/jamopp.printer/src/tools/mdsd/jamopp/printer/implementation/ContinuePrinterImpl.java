@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.statements.Continue;
+import tools.mdsd.jamopp.model.java.statements.Continue;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

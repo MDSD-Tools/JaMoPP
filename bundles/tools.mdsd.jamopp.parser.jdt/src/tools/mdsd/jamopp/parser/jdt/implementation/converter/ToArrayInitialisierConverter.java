@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Expression;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.arrays.ArraysFactory;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
 
 import com.google.inject.Inject;
 
@@ -12,11 +12,11 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToArrayInitialisierConverter
-		implements Converter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> {
+		implements Converter<ArrayInitializer, tools.mdsd.jamopp.model.java.arrays.ArrayInitializer> {
 
 	private final ArraysFactory arraysFactory;
 	private final UtilLayout utilLayout;
-	private Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
+	private Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter;
 	private Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
@@ -27,10 +27,10 @@ public class ToArrayInitialisierConverter
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public org.emftext.language.java.arrays.ArrayInitializer convert(ArrayInitializer arr) {
-		org.emftext.language.java.arrays.ArrayInitializer result = arraysFactory.createArrayInitializer();
+	public tools.mdsd.jamopp.model.java.arrays.ArrayInitializer convert(ArrayInitializer arr) {
+		tools.mdsd.jamopp.model.java.arrays.ArrayInitializer result = arraysFactory.createArrayInitializer();
 		arr.expressions().forEach(obj -> {
-			org.emftext.language.java.arrays.ArrayInitializationValue value = null;
+			tools.mdsd.jamopp.model.java.arrays.ArrayInitializationValue value = null;
 			Expression expr = (Expression) obj;
 			if (expr instanceof ArrayInitializer) {
 				value = convert((ArrayInitializer) expr);
@@ -53,7 +53,7 @@ public class ToArrayInitialisierConverter
 
 	@Inject
 	public void setUtilExpressionConverter(
-			Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter) {
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter) {
 		this.utilExpressionConverter = utilExpressionConverter;
 	}
 

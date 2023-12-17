@@ -17,10 +17,10 @@ import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.ModuleDeclaration;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.containers.JavaRoot;
-import org.emftext.language.java.imports.Import;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.imports.Import;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -41,8 +41,8 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	private final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	private final Converter<ImportDeclaration, Import> toImportConverter;
 
-	private Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit> toCompilationUnitConverter;
-	private Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> toModuleConverter;
+	private Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit> toCompilationUnitConverter;
+	private Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module> toModuleConverter;
 
 	private JavaRoot convertedRootElement;
 	private String originalSource;
@@ -89,17 +89,17 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			this.setConvertedElement(toCompilationUnitConverter.convert(node));
 		}
 		if (node.getModule() != null) {
-			org.emftext.language.java.containers.Module module = toModuleConverter.convert(node.getModule());
+			tools.mdsd.jamopp.model.java.containers.Module module = toModuleConverter.convert(node.getModule());
 			this.setConvertedElement(module);
 		}
-		org.emftext.language.java.containers.JavaRoot root = this.getConvertedElement();
+		tools.mdsd.jamopp.model.java.containers.JavaRoot root = this.getConvertedElement();
 		if (root == null && node.getPackage() != null) {
 			root = jdtResolverUtility.getPackage(node.getPackage().resolveBinding());
 			root.setName("");
 			layoutInformationConverter.convertJavaRootLayoutInformation(root, node, this.getSource());
 			this.setConvertedElement(root);
 		}
-		org.emftext.language.java.containers.JavaRoot finalRoot = root;
+		tools.mdsd.jamopp.model.java.containers.JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
 			node.getPackage().annotations().forEach(
 					obj -> finalRoot.getAnnotations().add(annotationInstanceConverter.convert((Annotation) obj)));
@@ -118,13 +118,13 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 
 	@Inject
 	public void setToModuleConverter(
-			Converter<ModuleDeclaration, org.emftext.language.java.containers.Module> toModuleConverter) {
+			Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module> toModuleConverter) {
 		this.toModuleConverter = toModuleConverter;
 	}
 
 	@Inject
 	public void setToCompilationUnitConverter(
-			Converter<CompilationUnit, org.emftext.language.java.containers.CompilationUnit> toCompilationUnitConverter) {
+			Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit> toCompilationUnitConverter) {
 		this.toCompilationUnitConverter = toCompilationUnitConverter;
 	}
 

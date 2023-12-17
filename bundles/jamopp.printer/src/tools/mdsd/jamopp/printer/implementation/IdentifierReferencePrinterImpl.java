@@ -4,10 +4,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.generics.TypeArgumentable;
-import org.emftext.language.java.references.IdentifierReference;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
+import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 
 import com.google.inject.Inject;
 
@@ -30,8 +30,8 @@ public class IdentifierReferencePrinterImpl implements Printer<IdentifierReferen
 	@Override
 	public void print(IdentifierReference element, BufferedWriter writer) throws IOException {
 		this.annotablePrinter.print(element, writer);
-		if (element.getTarget() instanceof org.emftext.language.java.containers.Package) {
-			var pack = (org.emftext.language.java.containers.Package) element.getTarget();
+		if (element.getTarget() instanceof tools.mdsd.jamopp.model.java.containers.Package) {
+			var pack = (tools.mdsd.jamopp.model.java.containers.Package) element.getTarget();
 			writer.append(pack.getNamespaces().get(pack.getNamespaces().size() - 1));
 		} else {
 			writer.append(element.getTarget().getName());

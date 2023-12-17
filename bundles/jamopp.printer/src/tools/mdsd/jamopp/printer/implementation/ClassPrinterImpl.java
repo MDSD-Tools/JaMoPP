@@ -3,17 +3,17 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.classifiers.Implementor;
-import org.emftext.language.java.generics.TypeParametrizable;
-import org.emftext.language.java.members.MemberContainer;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.classifiers.Implementor;
+import tools.mdsd.jamopp.model.java.generics.TypeParametrizable;
+import tools.mdsd.jamopp.model.java.members.MemberContainer;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
-public class ClassPrinterImpl implements Printer<org.emftext.language.java.classifiers.Class> {
+public class ClassPrinterImpl implements Printer<tools.mdsd.jamopp.model.java.classifiers.Class> {
 
 	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
 	private final Printer<Implementor> implementorPrinter;
@@ -33,7 +33,7 @@ public class ClassPrinterImpl implements Printer<org.emftext.language.java.class
 	}
 
 	@Override
-	public void print(org.emftext.language.java.classifiers.Class element, BufferedWriter writer) throws IOException {
+	public void print(tools.mdsd.jamopp.model.java.classifiers.Class element, BufferedWriter writer) throws IOException {
 		this.annotableAndModifiablePrinter.print(element, writer);
 		writer.append("class " + element.getName());
 		this.typeParametrizablePrinter.print(element, writer);

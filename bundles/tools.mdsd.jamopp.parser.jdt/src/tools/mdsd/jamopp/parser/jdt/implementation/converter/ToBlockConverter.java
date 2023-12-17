@@ -2,8 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.Modifier;
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.statements.Block;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
@@ -11,14 +11,14 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToBlockConverter
-		implements Converter<org.eclipse.jdt.core.dom.Initializer, org.emftext.language.java.statements.Block> {
+		implements Converter<org.eclipse.jdt.core.dom.Initializer, tools.mdsd.jamopp.model.java.statements.Block> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilTypeInstructionSeparation toInstructionSeparation;
-	private final Converter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter;
+	private final Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter;
 
 	@Inject
-	ToBlockConverter(Converter<Modifier, org.emftext.language.java.modifiers.Modifier> toModifierConverter,
+	ToBlockConverter(Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
 			UtilTypeInstructionSeparation toInstructionSeparation, StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toInstructionSeparation = toInstructionSeparation;

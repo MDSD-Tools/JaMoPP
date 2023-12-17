@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.emftext.language.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
@@ -21,13 +21,13 @@ public class ToAdditionalLocalVariableConverter
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
 	ToAdditionalLocalVariableConverter(UtilNamedElement utilNamedElement,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility) {
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;

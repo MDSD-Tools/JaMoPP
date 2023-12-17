@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.CatchBlock;
-import org.emftext.language.java.statements.TryBlock;
-import org.emftext.language.java.variables.Resource;
+import tools.mdsd.jamopp.model.java.statements.Block;
+import tools.mdsd.jamopp.model.java.statements.CatchBlock;
+import tools.mdsd.jamopp.model.java.statements.TryBlock;
+import tools.mdsd.jamopp.model.java.variables.Resource;
 
 import com.google.inject.Inject;
 

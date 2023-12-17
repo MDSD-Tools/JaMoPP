@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.InfixExpression;
-import org.emftext.language.java.expressions.EqualityExpression;
-import org.emftext.language.java.expressions.EqualityExpressionChild;
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.operators.EqualityOperator;
+import tools.mdsd.jamopp.model.java.expressions.EqualityExpression;
+import tools.mdsd.jamopp.model.java.expressions.EqualityExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.operators.EqualityOperator;
 
 import com.google.inject.Inject;
 

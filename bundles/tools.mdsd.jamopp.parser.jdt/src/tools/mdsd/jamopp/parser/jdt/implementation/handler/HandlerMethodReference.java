@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.MethodReference;
-import org.emftext.language.java.expressions.MethodReferenceExpression;
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpression;
 
 import com.google.inject.Inject;
 
@@ -20,7 +20,7 @@ public class HandlerMethodReference implements ExpressionHandler {
 	}
 
 	@Override
-	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		return toMethodReferenceExpressionConverter.convert((MethodReference) expr);
 	}
 

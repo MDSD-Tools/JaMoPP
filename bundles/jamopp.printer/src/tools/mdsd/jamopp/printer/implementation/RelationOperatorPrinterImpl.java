@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.operators.GreaterThan;
-import org.emftext.language.java.operators.GreaterThanOrEqual;
-import org.emftext.language.java.operators.LessThan;
-import org.emftext.language.java.operators.LessThanOrEqual;
-import org.emftext.language.java.operators.RelationOperator;
+import tools.mdsd.jamopp.model.java.operators.GreaterThan;
+import tools.mdsd.jamopp.model.java.operators.GreaterThanOrEqual;
+import tools.mdsd.jamopp.model.java.operators.LessThan;
+import tools.mdsd.jamopp.model.java.operators.LessThanOrEqual;
+import tools.mdsd.jamopp.model.java.operators.RelationOperator;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

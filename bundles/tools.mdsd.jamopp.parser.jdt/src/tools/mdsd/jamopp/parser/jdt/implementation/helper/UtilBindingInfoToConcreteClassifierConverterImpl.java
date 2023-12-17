@@ -8,16 +8,16 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.classifiers.Interface;
-import org.emftext.language.java.generics.TypeParameter;
-import org.emftext.language.java.members.Constructor;
-import org.emftext.language.java.members.EnumConstant;
-import org.emftext.language.java.members.Field;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.members.Method;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.model.java.members.Constructor;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.members.Member;
+import tools.mdsd.jamopp.model.java.members.Method;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -38,12 +38,12 @@ public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBin
 	private final Converter<IVariableBinding, Field> bindingToFieldConverter;
 	private final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
-	private final Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter;
+	private final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
 	UtilBindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> toModifiersConverter,
+			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			UtilJdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<IMethodBinding, Method> bindingToMethodConverter,
@@ -148,7 +148,7 @@ public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBin
 
 	private ConcreteClassifier handleElse(ITypeBinding binding, boolean extractAdditionalInformation) {
 		ConcreteClassifier result;
-		org.emftext.language.java.classifiers.Enumeration resultEnum = jdtTResolverUtility.getEnumeration(binding);
+		tools.mdsd.jamopp.model.java.classifiers.Enumeration resultEnum = jdtTResolverUtility.getEnumeration(binding);
 		if (resultEnum.eContainer() == null) {
 			try {
 				for (ITypeBinding typeBind : binding.getInterfaces()) {
@@ -186,7 +186,7 @@ public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBin
 
 	private ConcreteClassifier handleClass(ITypeBinding binding) {
 		ConcreteClassifier result;
-		org.emftext.language.java.classifiers.Class resultClass = jdtTResolverUtility.getClass(binding);
+		tools.mdsd.jamopp.model.java.classifiers.Class resultClass = jdtTResolverUtility.getClass(binding);
 		if (resultClass.eContainer() == null) {
 			try {
 				if (binding.getSuperclass() != null) {

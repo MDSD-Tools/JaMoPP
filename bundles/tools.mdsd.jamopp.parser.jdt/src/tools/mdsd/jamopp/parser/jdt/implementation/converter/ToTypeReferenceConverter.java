@@ -13,13 +13,13 @@ import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.InferableType;
-import org.emftext.language.java.types.NamespaceClassifierReference;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.TypesFactory;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.generics.TypeArgument;
+import tools.mdsd.jamopp.model.java.types.ClassifierReference;
+import tools.mdsd.jamopp.model.java.types.InferableType;
+import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
@@ -77,7 +77,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	@SuppressWarnings("unchecked")
 	private TypeReference handlePrimitiveType(Type t) {
 		PrimitiveType primType = (PrimitiveType) t;
-		org.emftext.language.java.types.PrimitiveType convertedType;
+		tools.mdsd.jamopp.model.java.types.PrimitiveType convertedType;
 		if (primType.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
 			convertedType = typesFactory.createBoolean();
 		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.BYTE) {

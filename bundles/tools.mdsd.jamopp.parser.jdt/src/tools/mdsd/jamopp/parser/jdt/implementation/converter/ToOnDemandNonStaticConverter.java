@@ -1,9 +1,9 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.ImportDeclaration;
-import org.emftext.language.java.imports.Import;
-import org.emftext.language.java.imports.ImportsFactory;
-import org.emftext.language.java.imports.PackageImport;
+import tools.mdsd.jamopp.model.java.imports.Import;
+import tools.mdsd.jamopp.model.java.imports.ImportsFactory;
+import tools.mdsd.jamopp.model.java.imports.PackageImport;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

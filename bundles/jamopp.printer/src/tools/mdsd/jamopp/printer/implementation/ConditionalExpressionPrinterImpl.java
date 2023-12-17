@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.ConditionalExpression;
-import org.emftext.language.java.expressions.ConditionalExpressionChild;
-import org.emftext.language.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.expressions.ConditionalExpression;
+import tools.mdsd.jamopp.model.java.expressions.ConditionalExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
 
 import com.google.inject.Inject;
 

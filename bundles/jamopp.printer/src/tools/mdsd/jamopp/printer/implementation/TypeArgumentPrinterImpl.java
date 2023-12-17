@@ -4,14 +4,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.generics.ExtendsTypeArgument;
-import org.emftext.language.java.generics.QualifiedTypeArgument;
-import org.emftext.language.java.generics.SuperTypeArgument;
-import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.generics.UnknownTypeArgument;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.generics.ExtendsTypeArgument;
+import tools.mdsd.jamopp.model.java.generics.QualifiedTypeArgument;
+import tools.mdsd.jamopp.model.java.generics.SuperTypeArgument;
+import tools.mdsd.jamopp.model.java.generics.TypeArgument;
+import tools.mdsd.jamopp.model.java.generics.UnknownTypeArgument;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;

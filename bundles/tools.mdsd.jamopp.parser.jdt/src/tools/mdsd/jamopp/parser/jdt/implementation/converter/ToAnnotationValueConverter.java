@@ -4,9 +4,9 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Expression;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.annotations.AnnotationValue;
-import org.emftext.language.java.expressions.AssignmentExpressionChild;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
+import tools.mdsd.jamopp.model.java.expressions.AssignmentExpressionChild;
 
 import com.google.inject.Inject;
 
@@ -14,14 +14,14 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToAnnotationValueConverter implements Converter<Expression, AnnotationValue> {
 
-	private final Converter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierComverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<ArrayInitializer, tools.mdsd.jamopp.model.java.arrays.ArrayInitializer> toArrayInitialisierComverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
 	ToAnnotationValueConverter(
-			Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
-			Converter<ArrayInitializer, org.emftext.language.java.arrays.ArrayInitializer> toArrayInitialisierComverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter,
+			Converter<ArrayInitializer, tools.mdsd.jamopp.model.java.arrays.ArrayInitializer> toArrayInitialisierComverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toArrayInitialisierComverter = toArrayInitialisierComverter;
 		this.toExpressionConverter = utilExpressionConverter;

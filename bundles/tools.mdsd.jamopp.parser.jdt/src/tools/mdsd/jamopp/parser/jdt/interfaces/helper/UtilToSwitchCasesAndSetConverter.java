@@ -18,6 +18,6 @@ import java.util.List;
 public interface UtilToSwitchCasesAndSetConverter {
 
 	@SuppressWarnings("rawtypes")
-	public void convert(org.emftext.language.java.statements.Switch switchExprSt, List switchStatementList);
+	public void convert(tools.mdsd.jamopp.model.java.statements.Switch switchExprSt, List switchStatementList);
 
 }

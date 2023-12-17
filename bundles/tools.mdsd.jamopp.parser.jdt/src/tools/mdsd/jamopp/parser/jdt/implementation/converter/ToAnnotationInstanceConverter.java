@@ -5,12 +5,12 @@ import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
-import org.emftext.language.java.annotations.AnnotationAttributeSetting;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.annotations.AnnotationParameterList;
-import org.emftext.language.java.annotations.AnnotationsFactory;
-import org.emftext.language.java.annotations.SingleAnnotationParameter;
-import org.emftext.language.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationParameterList;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
+import tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -44,7 +44,7 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 	public AnnotationInstance convert(Annotation annot) {
 		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
 		utilNamedElement.addNameToNameSpace(annot.getTypeName(), result);
-		org.emftext.language.java.classifiers.Annotation proxyClass;
+		tools.mdsd.jamopp.model.java.classifiers.Annotation proxyClass;
 		IAnnotationBinding binding = annot.resolveAnnotationBinding();
 		if (binding == null) {
 			proxyClass = jdtResolverUtility.getAnnotation(annot.getTypeName().getFullyQualifiedName());

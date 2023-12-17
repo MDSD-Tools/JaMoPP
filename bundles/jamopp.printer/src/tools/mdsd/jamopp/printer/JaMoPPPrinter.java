@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.emftext.language.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 
 import com.google.inject.Guice;
 

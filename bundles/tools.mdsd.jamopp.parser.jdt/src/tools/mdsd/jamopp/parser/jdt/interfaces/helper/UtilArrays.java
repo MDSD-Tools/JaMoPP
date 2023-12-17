@@ -5,6 +5,6 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 public interface UtilArrays {
 
 	void convertToArrayDimensionsAndSet(ITypeBinding binding,
-			org.emftext.language.java.arrays.ArrayTypeable arrDimContainer);
+			tools.mdsd.jamopp.model.java.arrays.ArrayTypeable arrDimContainer);
 
 }

@@ -24,77 +24,77 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java"
-            class="org.emftext.language.java.JavaPackage"
+            class="tools.mdsd.jamopp.model.java.JavaPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
    
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/annotations"
-            class="org.emftext.language.java.annotations.AnnotationsPackage"
+            class="tools.mdsd.jamopp.model.java.annotations.AnnotationsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/imports"
-            class="org.emftext.language.java.imports.ImportsPackage"
+            class="tools.mdsd.jamopp.model.java.imports.ImportsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/references"
-            class="org.emftext.language.java.references.ReferencesPackage"
+            class="tools.mdsd.jamopp.model.java.references.ReferencesPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/generics"
-            class="org.emftext.language.java.generics.GenericsPackage"
+            class="tools.mdsd.jamopp.model.java.generics.GenericsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/arrays"
-            class="org.emftext.language.java.arrays.ArraysPackage"
+            class="tools.mdsd.jamopp.model.java.arrays.ArraysPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/classifiers"
-            class="org.emftext.language.java.classifiers.ClassifiersPackage"
+            class="tools.mdsd.jamopp.model.java.classifiers.ClassifiersPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/containers"
-            class="org.emftext.language.java.containers.ContainersPackage"
+            class="tools.mdsd.jamopp.model.java.containers.ContainersPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/instantiations"
-            class="org.emftext.language.java.instantiations.InstantiationsPackage"
+            class="tools.mdsd.jamopp.model.java.instantiations.InstantiationsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/parameters"
-            class="org.emftext.language.java.parameters.ParametersPackage"
+            class="tools.mdsd.jamopp.model.java.parameters.ParametersPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/variables"
-            class="org.emftext.language.java.variables.VariablesPackage"
+            class="tools.mdsd.jamopp.model.java.variables.VariablesPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
@@ -102,63 +102,63 @@
       <!-- @generated java -->
       <package
             uri="http://www.emftext.org/java/modules"
-            class="org.emftext.language.java.modules.ModulesPackage"
+            class="tools.mdsd.jamopp.model.java.modules.ModulesPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/members"
-            class="org.emftext.language.java.members.MembersPackage"
+            class="tools.mdsd.jamopp.model.java.members.MembersPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/commons"
-            class="org.emftext.language.java.commons.CommonsPackage"
+            class="tools.mdsd.jamopp.model.java.commons.CommonsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/expressions"
-            class="org.emftext.language.java.expressions.ExpressionsPackage"
+            class="tools.mdsd.jamopp.model.java.expressions.ExpressionsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/operators"
-            class="org.emftext.language.java.operators.OperatorsPackage"
+            class="tools.mdsd.jamopp.model.java.operators.OperatorsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/literals"
-            class="org.emftext.language.java.literals.LiteralsPackage"
+            class="tools.mdsd.jamopp.model.java.literals.LiteralsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/modifiers"
-            class="org.emftext.language.java.modifiers.ModifiersPackage"
+            class="tools.mdsd.jamopp.model.java.modifiers.ModifiersPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/statements"
-            class="org.emftext.language.java.statements.StatementsPackage"
+            class="tools.mdsd.jamopp.model.java.statements.StatementsPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/java/types"
-            class="org.emftext.language.java.types.TypesPackage"
+            class="tools.mdsd.jamopp.model.java.types.TypesPackage"
             genModel="metamodel/java.genmodel"/>
    </extension>
 

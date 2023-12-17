@@ -14,10 +14,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.helper;
 
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.emftext.commons.layout.LayoutFactory;
-import org.emftext.commons.layout.MinimalLayoutInformation;
-import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.containers.JavaRoot;
+import tools.mdsd.jamopp.commons.layout.LayoutFactory;
+import tools.mdsd.jamopp.commons.layout.MinimalLayoutInformation;
+import tools.mdsd.jamopp.model.java.commons.Commentable;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 
 import com.google.inject.Inject;
 

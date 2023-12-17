@@ -2,16 +2,16 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.math.BigInteger;
 
-import org.emftext.language.java.expressions.PrimaryExpression;
-import org.emftext.language.java.literals.BooleanLiteral;
-import org.emftext.language.java.literals.CharacterLiteral;
-import org.emftext.language.java.literals.DecimalDoubleLiteral;
-import org.emftext.language.java.literals.DecimalFloatLiteral;
-import org.emftext.language.java.literals.DecimalIntegerLiteral;
-import org.emftext.language.java.literals.DecimalLongLiteral;
-import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.references.StringReference;
+import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
+import tools.mdsd.jamopp.model.java.literals.BooleanLiteral;
+import tools.mdsd.jamopp.model.java.literals.CharacterLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalDoubleLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalFloatLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalIntegerLiteral;
+import tools.mdsd.jamopp.model.java.literals.DecimalLongLiteral;
+import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
+import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
+import tools.mdsd.jamopp.model.java.references.StringReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

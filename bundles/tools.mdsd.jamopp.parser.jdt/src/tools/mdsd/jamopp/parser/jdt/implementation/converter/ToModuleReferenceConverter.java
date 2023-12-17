@@ -2,8 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.Name;
-import org.emftext.language.java.modules.ModuleReference;
-import org.emftext.language.java.modules.ModulesFactory;
+import tools.mdsd.jamopp.model.java.modules.ModuleReference;
+import tools.mdsd.jamopp.model.java.modules.ModulesFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -27,7 +27,7 @@ public class ToModuleReferenceConverter implements Converter<Name, ModuleReferen
 	@Override
 	public ModuleReference convert(Name name) {
 		ModuleReference ref = modulesFactory.createModuleReference();
-		org.emftext.language.java.containers.Module modProxy = jdtResolverUtility
+		tools.mdsd.jamopp.model.java.containers.Module modProxy = jdtResolverUtility
 				.getModule((IModuleBinding) name.resolveBinding());
 		modProxy.setName("");
 		ref.setTarget(modProxy);

@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-import org.emftext.language.java.parameters.CatchParameter;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

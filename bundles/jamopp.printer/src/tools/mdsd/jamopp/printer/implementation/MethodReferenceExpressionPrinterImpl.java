@@ -4,15 +4,15 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.expressions.ArrayConstructorReferenceExpression;
-import org.emftext.language.java.expressions.ClassTypeConstructorReferenceExpression;
-import org.emftext.language.java.expressions.MethodReferenceExpression;
-import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
-import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
-import org.emftext.language.java.generics.CallTypeArgumentable;
-import org.emftext.language.java.references.Reference;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.expressions.ArrayConstructorReferenceExpression;
+import tools.mdsd.jamopp.model.java.expressions.ClassTypeConstructorReferenceExpression;
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpression;
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.PrimaryExpressionReferenceExpression;
+import tools.mdsd.jamopp.model.java.generics.CallTypeArgumentable;
+import tools.mdsd.jamopp.model.java.references.Reference;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

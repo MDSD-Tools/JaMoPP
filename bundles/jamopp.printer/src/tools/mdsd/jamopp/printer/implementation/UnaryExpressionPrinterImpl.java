@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.UnaryExpression;
-import org.emftext.language.java.expressions.UnaryExpressionChild;
-import org.emftext.language.java.operators.UnaryOperator;
+import tools.mdsd.jamopp.model.java.expressions.UnaryExpression;
+import tools.mdsd.jamopp.model.java.expressions.UnaryExpressionChild;
+import tools.mdsd.jamopp.model.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 

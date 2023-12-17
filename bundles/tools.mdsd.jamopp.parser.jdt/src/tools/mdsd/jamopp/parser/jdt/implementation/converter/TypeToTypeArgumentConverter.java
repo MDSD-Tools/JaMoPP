@@ -3,14 +3,14 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.WildcardType;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.generics.ExtendsTypeArgument;
-import org.emftext.language.java.generics.GenericsFactory;
-import org.emftext.language.java.generics.QualifiedTypeArgument;
-import org.emftext.language.java.generics.SuperTypeArgument;
-import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.generics.UnknownTypeArgument;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.generics.ExtendsTypeArgument;
+import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
+import tools.mdsd.jamopp.model.java.generics.QualifiedTypeArgument;
+import tools.mdsd.jamopp.model.java.generics.SuperTypeArgument;
+import tools.mdsd.jamopp.model.java.generics.TypeArgument;
+import tools.mdsd.jamopp.model.java.generics.UnknownTypeArgument;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

@@ -3,14 +3,14 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.annotations.AnnotationValue;
-import org.emftext.language.java.arrays.ArraysFactory;
-import org.emftext.language.java.expressions.PrimaryExpression;
-import org.emftext.language.java.references.IdentifierReference;
-import org.emftext.language.java.references.Reference;
-import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.references.ReflectiveClassReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
+import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
+import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
+import tools.mdsd.jamopp.model.java.references.IdentifierReference;
+import tools.mdsd.jamopp.model.java.references.Reference;
+import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
+import tools.mdsd.jamopp.model.java.references.ReflectiveClassReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -53,10 +53,10 @@ public class ObjectToAnnotationValueConverter implements Converter<Object, Annot
 			return bindingToAnnotationInstanceConverter.convert((IAnnotationBinding) value);
 		}
 		if (value instanceof Object[] values) {
-			org.emftext.language.java.arrays.ArrayInitializer initializer = arraysFactory.createArrayInitializer();
+			tools.mdsd.jamopp.model.java.arrays.ArrayInitializer initializer = arraysFactory.createArrayInitializer();
 			for (Object value2 : values) {
 				initializer.getInitialValues()
-						.add((org.emftext.language.java.arrays.ArrayInitializationValue) convert(value2));
+						.add((tools.mdsd.jamopp.model.java.arrays.ArrayInitializationValue) convert(value2));
 			}
 			return initializer;
 		}

@@ -9,10 +9,10 @@ import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.ProvidesDirective;
 import org.eclipse.jdt.core.dom.RequiresDirective;
 import org.eclipse.jdt.core.dom.UsesDirective;
-import org.emftext.language.java.modifiers.ModifiersFactory;
-import org.emftext.language.java.modules.ModuleReference;
-import org.emftext.language.java.modules.ModulesFactory;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
+import tools.mdsd.jamopp.model.java.modules.ModuleReference;
+import tools.mdsd.jamopp.model.java.modules.ModulesFactory;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -21,7 +21,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToDirectiveConverter
-		implements Converter<ModuleDirective, org.emftext.language.java.modules.ModuleDirective> {
+		implements Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective> {
 
 	private final ModulesFactory modulesFactory;
 	private final ModifiersFactory modifiersFactory;
@@ -45,10 +45,10 @@ public class ToDirectiveConverter
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public org.emftext.language.java.modules.ModuleDirective convert(ModuleDirective directive) {
+	public tools.mdsd.jamopp.model.java.modules.ModuleDirective convert(ModuleDirective directive) {
 		if (directive.getNodeType() == ASTNode.REQUIRES_DIRECTIVE) {
 			RequiresDirective reqDir = (RequiresDirective) directive;
-			org.emftext.language.java.modules.RequiresModuleDirective result = modulesFactory
+			tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective result = modulesFactory
 					.createRequiresModuleDirective();
 			reqDir.modifiers().forEach(obj -> {
 				ModuleModifier modifier = (ModuleModifier) obj;
@@ -65,7 +65,7 @@ public class ToDirectiveConverter
 		if (directive.getNodeType() == ASTNode.EXPORTS_DIRECTIVE
 				|| directive.getNodeType() == ASTNode.OPENS_DIRECTIVE) {
 			ModulePackageAccess accessDir = (ModulePackageAccess) directive;
-			org.emftext.language.java.modules.AccessProvidingModuleDirective convertedDir;
+			tools.mdsd.jamopp.model.java.modules.AccessProvidingModuleDirective convertedDir;
 			if (directive.getNodeType() == ASTNode.OPENS_DIRECTIVE) {
 				convertedDir = modulesFactory.createOpensModuleDirective();
 			} else { // directive.getNodeType() == ASTNode.EXPORTS_DIRECTIVE
@@ -80,7 +80,7 @@ public class ToDirectiveConverter
 		}
 		if (directive.getNodeType() == ASTNode.PROVIDES_DIRECTIVE) {
 			ProvidesDirective provDir = (ProvidesDirective) directive;
-			org.emftext.language.java.modules.ProvidesModuleDirective result = modulesFactory
+			tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective result = modulesFactory
 					.createProvidesModuleDirective();
 			result.setTypeReference(utilBaseConverter.convert(provDir.getName()));
 			provDir.implementations()
@@ -89,7 +89,7 @@ public class ToDirectiveConverter
 			return result;
 		}
 		UsesDirective usDir = (UsesDirective) directive;
-		org.emftext.language.java.modules.UsesModuleDirective result = modulesFactory.createUsesModuleDirective();
+		tools.mdsd.jamopp.model.java.modules.UsesModuleDirective result = modulesFactory.createUsesModuleDirective();
 		result.setTypeReference(utilBaseConverter.convert(usDir.getName()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 		return result;

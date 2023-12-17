@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.generics.TypeArgumentable;
+import tools.mdsd.jamopp.model.java.generics.TypeArgument;
+import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 
 import com.google.inject.Inject;
 

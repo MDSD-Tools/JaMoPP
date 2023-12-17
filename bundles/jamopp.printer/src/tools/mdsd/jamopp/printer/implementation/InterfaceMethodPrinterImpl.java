@@ -4,15 +4,15 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.emftext.language.java.annotations.AnnotationValue;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.generics.TypeParametrizable;
-import org.emftext.language.java.members.ExceptionThrower;
-import org.emftext.language.java.members.InterfaceMethod;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-import org.emftext.language.java.parameters.Parametrizable;
-import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.generics.TypeParametrizable;
+import tools.mdsd.jamopp.model.java.members.ExceptionThrower;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
+import tools.mdsd.jamopp.model.java.statements.Statement;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

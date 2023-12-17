@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.PrefixExpression;
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.UnaryExpression;
-import org.emftext.language.java.expressions.UnaryExpressionChild;
-import org.emftext.language.java.operators.UnaryOperator;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.expressions.UnaryExpression;
+import tools.mdsd.jamopp.model.java.expressions.UnaryExpressionChild;
+import tools.mdsd.jamopp.model.java.operators.UnaryOperator;
 
 import com.google.inject.Inject;
 

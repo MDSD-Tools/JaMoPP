@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.statements.DefaultSwitchCase;
-import org.emftext.language.java.statements.Statement;
+import tools.mdsd.jamopp.model.java.statements.DefaultSwitchCase;
+import tools.mdsd.jamopp.model.java.statements.Statement;
 
 import com.google.inject.Inject;
 

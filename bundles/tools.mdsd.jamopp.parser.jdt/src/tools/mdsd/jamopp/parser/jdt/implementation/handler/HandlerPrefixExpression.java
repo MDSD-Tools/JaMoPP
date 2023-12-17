@@ -2,9 +2,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.PrefixExpression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.UnaryExpression;
-import org.emftext.language.java.operators.OperatorsFactory;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.expressions.UnaryExpression;
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
 
 import com.google.inject.Inject;
 
@@ -18,12 +18,12 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
 	private final Converter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	HandlerPrefixExpression(UtilLayout utilLayout,
 			Converter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter,
-			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		this.expressionsFactory = expressionsFactory;
@@ -33,7 +33,7 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		PrefixExpression prefixExpr = (PrefixExpression) expr;
 		if (prefixExpr.getOperator() == PrefixExpression.Operator.COMPLEMENT
 				|| prefixExpr.getOperator() == PrefixExpression.Operator.NOT
@@ -43,7 +43,7 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 		}
 		if (prefixExpr.getOperator() == PrefixExpression.Operator.DECREMENT
 				|| prefixExpr.getOperator() == PrefixExpression.Operator.INCREMENT) {
-			org.emftext.language.java.expressions.PrefixUnaryModificationExpression result = expressionsFactory
+			tools.mdsd.jamopp.model.java.expressions.PrefixUnaryModificationExpression result = expressionsFactory
 					.createPrefixUnaryModificationExpression();
 			if (prefixExpr.getOperator() == PrefixExpression.Operator.DECREMENT) {
 				result.setOperator(operatorsFactory.createMinusMinus());
@@ -51,7 +51,7 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 				result.setOperator(operatorsFactory.createPlusPlus());
 			}
 			result.setChild(
-					(org.emftext.language.java.expressions.UnaryModificationExpressionChild) toExpressionConverter
+					(tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild) toExpressionConverter
 							.convert(prefixExpr.getOperand()));
 			utilLayout.convertToMinimalLayoutInformation(result, prefixExpr);
 			return result;

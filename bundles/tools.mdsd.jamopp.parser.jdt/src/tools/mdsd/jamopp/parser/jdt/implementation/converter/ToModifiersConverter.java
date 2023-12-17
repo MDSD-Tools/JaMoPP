@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.Modifier;
-import org.emftext.language.java.modifiers.ModifiersFactory;
+import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
-public class ToModifiersConverter implements Converter<Integer, Collection<org.emftext.language.java.modifiers.Modifier>> {
+public class ToModifiersConverter implements Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> {
 
 	private final ModifiersFactory modifiersFactory;
 
@@ -21,8 +21,8 @@ public class ToModifiersConverter implements Converter<Integer, Collection<org.e
 
 	@Override
 	public
-	Collection<org.emftext.language.java.modifiers.Modifier> convert(Integer modifiers) {
-		List<org.emftext.language.java.modifiers.Modifier> result = new ArrayList<>();
+	Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier> convert(Integer modifiers) {
+		List<tools.mdsd.jamopp.model.java.modifiers.Modifier> result = new ArrayList<>();
 		if (Modifier.isAbstract(modifiers)) {
 			result.add(modifiersFactory.createAbstract());
 		}

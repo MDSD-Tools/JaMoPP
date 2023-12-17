@@ -2,10 +2,10 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.ShiftExpression;
-import org.emftext.language.java.expressions.ShiftExpressionChild;
-import org.emftext.language.java.operators.ShiftOperator;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.expressions.ShiftExpression;
+import tools.mdsd.jamopp.model.java.expressions.ShiftExpressionChild;
+import tools.mdsd.jamopp.model.java.operators.ShiftOperator;
 
 import com.google.inject.Inject;
 
@@ -16,12 +16,12 @@ public class ToShiftExpressionConverter implements Converter<InfixExpression, Sh
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter;
 
 	@Inject
 	ToShiftExpressionConverter(Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter,
-			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
@@ -45,7 +45,7 @@ public class ToShiftExpressionConverter implements Converter<InfixExpression, Sh
 	}
 
 	void mergeShiftExpressionAndExpression(ShiftExpression shiftExpr,
-			org.emftext.language.java.expressions.Expression potChild) {
+			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
 		if (potChild instanceof ShiftExpressionChild) {
 			shiftExpr.getChildren().add((ShiftExpressionChild) potChild);
 		} else {

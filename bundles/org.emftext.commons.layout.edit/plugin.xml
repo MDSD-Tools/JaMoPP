@@ -24,7 +24,7 @@
       <!-- @generated layout -->
       <factory
             uri="http://www.emftext.org/commons/layout"
-            class="org.emftext.commons.layout.provider.LayoutItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.commons.layout.provider.LayoutItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

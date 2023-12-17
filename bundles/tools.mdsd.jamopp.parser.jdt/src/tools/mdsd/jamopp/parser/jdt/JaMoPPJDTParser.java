@@ -28,9 +28,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

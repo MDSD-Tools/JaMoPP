@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.imports.ClassifierImport;
-import org.emftext.language.java.imports.Import;
-import org.emftext.language.java.imports.PackageImport;
-import org.emftext.language.java.imports.StaticClassifierImport;
-import org.emftext.language.java.imports.StaticMemberImport;
+import tools.mdsd.jamopp.model.java.imports.ClassifierImport;
+import tools.mdsd.jamopp.model.java.imports.Import;
+import tools.mdsd.jamopp.model.java.imports.PackageImport;
+import tools.mdsd.jamopp.model.java.imports.StaticClassifierImport;
+import tools.mdsd.jamopp.model.java.imports.StaticMemberImport;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

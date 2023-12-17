@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.handler;
 
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.expressions.PrimaryExpression;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
 
 import com.google.inject.Inject;
 

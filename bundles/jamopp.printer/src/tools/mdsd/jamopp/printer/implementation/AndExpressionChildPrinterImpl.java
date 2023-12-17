@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.AndExpressionChild;
-import org.emftext.language.java.expressions.EqualityExpression;
-import org.emftext.language.java.expressions.EqualityExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.AndExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.EqualityExpression;
+import tools.mdsd.jamopp.model.java.expressions.EqualityExpressionChild;
 
 import com.google.inject.Inject;
 

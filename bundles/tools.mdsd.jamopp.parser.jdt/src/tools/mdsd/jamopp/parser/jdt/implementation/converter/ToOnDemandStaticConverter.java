@@ -3,12 +3,12 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
-import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.imports.Import;
-import org.emftext.language.java.imports.ImportsFactory;
-import org.emftext.language.java.imports.StaticClassifierImport;
-import org.emftext.language.java.modifiers.ModifiersFactory;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.imports.Import;
+import tools.mdsd.jamopp.model.java.imports.ImportsFactory;
+import tools.mdsd.jamopp.model.java.imports.StaticClassifierImport;
+import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

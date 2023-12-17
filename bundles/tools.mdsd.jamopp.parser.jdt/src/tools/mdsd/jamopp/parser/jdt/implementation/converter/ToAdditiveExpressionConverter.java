@@ -2,10 +2,10 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
-import org.emftext.language.java.expressions.AdditiveExpression;
-import org.emftext.language.java.expressions.AdditiveExpressionChild;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.operators.AdditiveOperator;
+import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
+import tools.mdsd.jamopp.model.java.expressions.AdditiveExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.operators.AdditiveOperator;
 
 import com.google.inject.Inject;
 
@@ -16,12 +16,12 @@ public class ToAdditiveExpressionConverter implements Converter<InfixExpression,
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter;
 
 	@Inject
 	ToAdditiveExpressionConverter(
-			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			Converter<InfixExpression.Operator, AdditiveOperator> toAdditiveOperatorConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
@@ -47,7 +47,7 @@ public class ToAdditiveExpressionConverter implements Converter<InfixExpression,
 	}
 
 	private void mergeAdditiveExpressionAndExpression(AdditiveExpression addExpr,
-			org.emftext.language.java.expressions.Expression potChild) {
+			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
 		if (potChild instanceof AdditiveExpressionChild a) {
 			addExpr.getChildren().add((AdditiveExpressionChild) potChild);
 		} else {

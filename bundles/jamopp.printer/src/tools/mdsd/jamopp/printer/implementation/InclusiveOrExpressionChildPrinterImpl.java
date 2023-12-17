@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.ExclusiveOrExpression;
-import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
-import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression;
+import tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild;
 
 import com.google.inject.Inject;
 

@@ -4,8 +4,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 
 import com.google.inject.Inject;
 

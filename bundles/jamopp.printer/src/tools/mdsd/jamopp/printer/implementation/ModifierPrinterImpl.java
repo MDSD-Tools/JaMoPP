@@ -3,19 +3,19 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.modifiers.Abstract;
-import org.emftext.language.java.modifiers.Default;
-import org.emftext.language.java.modifiers.Final;
-import org.emftext.language.java.modifiers.Modifier;
-import org.emftext.language.java.modifiers.Native;
-import org.emftext.language.java.modifiers.Private;
-import org.emftext.language.java.modifiers.Protected;
-import org.emftext.language.java.modifiers.Public;
-import org.emftext.language.java.modifiers.Static;
-import org.emftext.language.java.modifiers.Strictfp;
-import org.emftext.language.java.modifiers.Synchronized;
-import org.emftext.language.java.modifiers.Transient;
-import org.emftext.language.java.modifiers.Volatile;
+import tools.mdsd.jamopp.model.java.modifiers.Abstract;
+import tools.mdsd.jamopp.model.java.modifiers.Default;
+import tools.mdsd.jamopp.model.java.modifiers.Final;
+import tools.mdsd.jamopp.model.java.modifiers.Modifier;
+import tools.mdsd.jamopp.model.java.modifiers.Native;
+import tools.mdsd.jamopp.model.java.modifiers.Private;
+import tools.mdsd.jamopp.model.java.modifiers.Protected;
+import tools.mdsd.jamopp.model.java.modifiers.Public;
+import tools.mdsd.jamopp.model.java.modifiers.Static;
+import tools.mdsd.jamopp.model.java.modifiers.Strictfp;
+import tools.mdsd.jamopp.model.java.modifiers.Synchronized;
+import tools.mdsd.jamopp.model.java.modifiers.Transient;
+import tools.mdsd.jamopp.model.java.modifiers.Volatile;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

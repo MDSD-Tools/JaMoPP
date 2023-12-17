@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.containers.JavaRoot;
-import org.emftext.language.java.imports.ImportingElement;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.imports.ImportingElement;
 
 import com.google.inject.Inject;
 
@@ -17,11 +17,11 @@ public class JavaRootPrinterImpl implements Printer<JavaRoot> {
 	private final Printer<Annotable> annotablePrinter;
 	private final Printer<CompilationUnit> compilationUnitPrinter;
 	private final Printer<ImportingElement> importingElementPrinter;
-	private final Printer<org.emftext.language.java.containers.Module> modulePrinter;
+	private final Printer<tools.mdsd.jamopp.model.java.containers.Module> modulePrinter;
 
 	@Inject
 	public JavaRootPrinterImpl(Printer<ImportingElement> importingElementPrinter,
-			Printer<org.emftext.language.java.containers.Module> modulePrinter, Printer<Annotable> annotablePrinter,
+			Printer<tools.mdsd.jamopp.model.java.containers.Module> modulePrinter, Printer<Annotable> annotablePrinter,
 			Printer<CompilationUnit> compilationUnitPrinter) {
 		this.importingElementPrinter = importingElementPrinter;
 		this.modulePrinter = modulePrinter;
@@ -38,9 +38,9 @@ public class JavaRootPrinterImpl implements Printer<JavaRoot> {
 	 */
 	@Override
 	public void print(JavaRoot root, BufferedWriter writer) throws IOException {
-		if (root instanceof org.emftext.language.java.containers.Module) {
+		if (root instanceof tools.mdsd.jamopp.model.java.containers.Module) {
 			this.importingElementPrinter.print(root, writer);
-			this.modulePrinter.print((org.emftext.language.java.containers.Module) root, writer);
+			this.modulePrinter.print((tools.mdsd.jamopp.model.java.containers.Module) root, writer);
 		} else {
 			if (!root.getNamespaces().isEmpty()) {
 				this.annotablePrinter.print(root, writer);

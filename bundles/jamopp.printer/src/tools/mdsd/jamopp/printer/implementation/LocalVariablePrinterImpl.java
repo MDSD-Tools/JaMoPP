@@ -4,13 +4,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.generics.TypeArgumentable;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.variables.AdditionalLocalVariable;
-import org.emftext.language.java.variables.LocalVariable;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.expressions.Expression;
+import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 
 import com.google.inject.Inject;
 

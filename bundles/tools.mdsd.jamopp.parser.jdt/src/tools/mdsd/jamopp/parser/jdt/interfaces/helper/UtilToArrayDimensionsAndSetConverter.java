@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.interfaces.helper;
 
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.arrays.ArrayTypeable;
+import tools.mdsd.jamopp.model.java.arrays.ArrayTypeable;
 
 public interface UtilToArrayDimensionsAndSetConverter {
 

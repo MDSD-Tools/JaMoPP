@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.emftext.language.java.feature"
+      id="tools.mdsd.jamopp.model.java.feature"
       label="JaMoPP - Java Model Parser and Printer"
       version="5.1.0.qualifier"
       provider-name="MDSD-Tools">
@@ -46,7 +46,7 @@ Contributors:
 <import plugin="org.eclipse.jface.text"/>
 <import plugin="org.eclipse.text"/>
 <import plugin="org.eclipse.ui.ide"/>
-<import plugin="org.emftext.language.java"/>
+<import plugin="tools.mdsd.jamopp.model.java"/>
 <import plugin="org.junit.jupiter.api"/>
 <import plugin="org.junit.jupiter.engine"/>
 <import plugin="org.junit.jupiter.params"/>
@@ -54,35 +54,35 @@ Contributors:
    </requires>
 
    <plugin
-         id="org.emftext.language.java"
+         id="tools.mdsd.jamopp.model.java"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.emftext.language.java.edit"
+         id="tools.mdsd.jamopp.model.java.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.emftext.commons.jdt"
+         id="tools.mdsd.jamopp.commons.jdt"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.emftext.commons.layout"
+         id="tools.mdsd.jamopp.commons.layout"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.emftext.commons.layout.edit"
+         id="tools.mdsd.jamopp.commons.layout.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -117,7 +117,7 @@ Contributors:
          unpack="false"/>
 
    <plugin
-         id="org.emftext.language.java.editor"
+         id="tools.mdsd.jamopp.model.java.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"

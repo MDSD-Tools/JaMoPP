@@ -22,17 +22,17 @@
 
 <plugin
       name="%pluginName"
-      id="org.emftext.language.java.edit"
+      id="tools.mdsd.jamopp.model.java.edit"
       version="1.0.0"
       provider-name="%providerName"
-      class="org.emftext.language.java.annotations.provider.JavaEditPlugin$Implementation">
+      class="tools.mdsd.jamopp.model.java.annotations.provider.JavaEditPlugin$Implementation">
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.emftext.language.java" export="true"/>
+      <import plugin="tools.mdsd.jamopp.model.java" export="true"/>
       <import plugin="org.eclipse.emf.edit" export="true"/>
-      <import plugin="org.emftext.commons.layout" export="true"/>
-      <import plugin="org.emftext.commons.layout.edit" export="true"/>
+      <import plugin="tools.mdsd.jamopp.commons.layout" export="true"/>
+      <import plugin="tools.mdsd.jamopp.commons.layout.edit" export="true"/>
    </requires>
 
    <runtime>
@@ -45,7 +45,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/annotations"
-            class="org.emftext.language.java.annotations.provider.AnnotationsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.annotations.provider.AnnotationsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -58,7 +58,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/arrays"
-            class="org.emftext.language.java.arrays.provider.ArraysItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.arrays.provider.ArraysItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -71,7 +71,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/classifiers"
-            class="org.emftext.language.java.classifiers.provider.ClassifiersItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.classifiers.provider.ClassifiersItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -84,7 +84,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/commons"
-            class="org.emftext.language.java.commons.provider.CommonsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.commons.provider.CommonsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -97,7 +97,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/containers"
-            class="org.emftext.language.java.containers.provider.ContainersItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.containers.provider.ContainersItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -110,7 +110,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/expressions"
-            class="org.emftext.language.java.expressions.provider.ExpressionsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.expressions.provider.ExpressionsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -123,7 +123,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/generics"
-            class="org.emftext.language.java.generics.provider.GenericsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.generics.provider.GenericsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -136,7 +136,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/imports"
-            class="org.emftext.language.java.imports.provider.ImportsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.imports.provider.ImportsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -149,7 +149,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/instantiations"
-            class="org.emftext.language.java.instantiations.provider.InstantiationsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.instantiations.provider.InstantiationsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -162,7 +162,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/literals"
-            class="org.emftext.language.java.literals.provider.LiteralsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.literals.provider.LiteralsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -175,7 +175,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/members"
-            class="org.emftext.language.java.members.provider.MembersItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.members.provider.MembersItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -188,7 +188,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/modifiers"
-            class="org.emftext.language.java.modifiers.provider.ModifiersItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.modifiers.provider.ModifiersItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -201,7 +201,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/operators"
-            class="org.emftext.language.java.operators.provider.OperatorsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.operators.provider.OperatorsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -214,7 +214,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/parameters"
-            class="org.emftext.language.java.parameters.provider.ParametersItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.parameters.provider.ParametersItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -227,7 +227,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/references"
-            class="org.emftext.language.java.references.provider.ReferencesItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.references.provider.ReferencesItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -240,7 +240,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/statements"
-            class="org.emftext.language.java.statements.provider.StatementsItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.statements.provider.StatementsItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -253,7 +253,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/types"
-            class="org.emftext.language.java.types.provider.TypesItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.types.provider.TypesItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -266,7 +266,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/variables"
-            class="org.emftext.language.java.variables.provider.VariablesItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.variables.provider.VariablesItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
@@ -279,7 +279,7 @@
       <!-- @generated java -->
       <factory
             uri="http://www.emftext.org/java/modules"
-            class="org.emftext.language.java.modules.provider.ModulesItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.model.java.modules.provider.ModulesItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

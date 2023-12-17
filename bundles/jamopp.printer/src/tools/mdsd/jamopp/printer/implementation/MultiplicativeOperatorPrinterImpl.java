@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.operators.Division;
-import org.emftext.language.java.operators.Multiplication;
-import org.emftext.language.java.operators.MultiplicativeOperator;
+import tools.mdsd.jamopp.model.java.operators.Division;
+import tools.mdsd.jamopp.model.java.operators.Multiplication;
+import tools.mdsd.jamopp.model.java.operators.MultiplicativeOperator;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

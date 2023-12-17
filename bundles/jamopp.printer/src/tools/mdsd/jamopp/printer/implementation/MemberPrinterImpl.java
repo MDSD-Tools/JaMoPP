@@ -3,13 +3,13 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Constructor;
-import org.emftext.language.java.members.Field;
-import org.emftext.language.java.members.InterfaceMethod;
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.statements.Block;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.members.ClassMethod;
+import tools.mdsd.jamopp.model.java.members.Constructor;
+import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.members.Member;
+import tools.mdsd.jamopp.model.java.statements.Block;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;

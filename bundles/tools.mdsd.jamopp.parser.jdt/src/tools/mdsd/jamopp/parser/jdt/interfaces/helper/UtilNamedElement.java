@@ -2,8 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.interfaces.helper;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Name;
-import org.emftext.language.java.commons.NamedElement;
-import org.emftext.language.java.commons.NamespaceAwareElement;
+import tools.mdsd.jamopp.model.java.commons.NamedElement;
+import tools.mdsd.jamopp.model.java.commons.NamespaceAwareElement;
 
 public interface UtilNamedElement {
 

@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.classifiers.Enumeration;
-import org.emftext.language.java.classifiers.Implementor;
-import org.emftext.language.java.members.EnumConstant;
-import org.emftext.language.java.members.MemberContainer;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.classifiers.Implementor;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.members.MemberContainer;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 
 import com.google.inject.Inject;
 

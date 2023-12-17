@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.emftext.language.java.classifiers.AnonymousClass;
-import org.emftext.language.java.members.Member;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.members.Member;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

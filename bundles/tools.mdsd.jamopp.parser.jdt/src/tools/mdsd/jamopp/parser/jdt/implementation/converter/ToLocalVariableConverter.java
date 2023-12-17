@@ -7,9 +7,9 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 
 import com.google.inject.Inject;
 
@@ -21,7 +21,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterA
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class ToLocalVariableConverter
-		implements Converter<VariableDeclarationExpression, org.emftext.language.java.variables.LocalVariable> {
+		implements Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> {
 
 	private final UtilLayout layoutInformationConverter;
 	private final UtilJdtResolver jdtResolverUtility;
@@ -31,7 +31,7 @@ public class ToLocalVariableConverter
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
 	ToLocalVariableConverter(UtilNamedElement utilNamedElement,
@@ -39,7 +39,7 @@ public class ToLocalVariableConverter
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
-			Converter<Expression, org.emftext.language.java.expressions.Expression> expressionConverterUtility,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -55,9 +55,9 @@ public class ToLocalVariableConverter
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public org.emftext.language.java.variables.LocalVariable convert(VariableDeclarationExpression expr) {
+	public tools.mdsd.jamopp.model.java.variables.LocalVariable convert(VariableDeclarationExpression expr) {
 		VariableDeclarationFragment frag = (VariableDeclarationFragment) expr.fragments().get(0);
-		org.emftext.language.java.variables.LocalVariable loc;
+		tools.mdsd.jamopp.model.java.variables.LocalVariable loc;
 		IVariableBinding binding = frag.resolveBinding();
 		if (binding == null) {
 			loc = jdtResolverUtility.getLocalVariable(frag.getName().getIdentifier() + "-" + frag.hashCode());

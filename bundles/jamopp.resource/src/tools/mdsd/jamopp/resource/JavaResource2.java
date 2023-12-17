@@ -7,8 +7,8 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 
 import tools.mdsd.jamopp.printer.JaMoPPPrinter;
 import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;

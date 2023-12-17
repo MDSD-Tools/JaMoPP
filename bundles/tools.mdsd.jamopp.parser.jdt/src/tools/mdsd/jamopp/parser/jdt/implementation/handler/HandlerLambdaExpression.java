@@ -9,10 +9,10 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.LambdaExpression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.parameters.OrdinaryParameter;
-import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.TypesFactory;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
 import com.google.inject.Inject;
 
@@ -27,18 +27,18 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
 	private final UtilJdtResolver iUtilJdtResolver;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
-	private final Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
+	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
 	@Inject
 	HandlerLambdaExpression(UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
-			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
+			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.typesFactory = typesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -51,11 +51,11 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		LambdaExpression lambda = (LambdaExpression) expr;
-		org.emftext.language.java.expressions.LambdaExpression result = expressionsFactory.createLambdaExpression();
+		tools.mdsd.jamopp.model.java.expressions.LambdaExpression result = expressionsFactory.createLambdaExpression();
 		if (!lambda.parameters().isEmpty() && lambda.parameters().get(0) instanceof VariableDeclarationFragment) {
-			org.emftext.language.java.expressions.ImplicitlyTypedLambdaParameters param;
+			tools.mdsd.jamopp.model.java.expressions.ImplicitlyTypedLambdaParameters param;
 			if (!lambda.hasParentheses()) {
 				param = expressionsFactory.createSingleImplicitLambdaParameter();
 			} else {
@@ -64,7 +64,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 			lambda.parameters().forEach(obj -> {
 				VariableDeclarationFragment frag = (VariableDeclarationFragment) obj;
 				IVariableBinding binding = frag.resolveBinding();
-				org.emftext.language.java.parameters.OrdinaryParameter nextParam;
+				tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter nextParam;
 				if (binding != null) {
 					nextParam = iUtilJdtResolver.getOrdinaryParameter(binding);
 					nextParam.setTypeReference(toTypeReferencesConverter.convert(binding.getType()).get(0));
@@ -77,7 +77,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 			});
 			result.setParameters(param);
 		} else {
-			org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters param = expressionsFactory
+			tools.mdsd.jamopp.model.java.expressions.ExplicitlyTypedLambdaParameters param = expressionsFactory
 					.createExplicitlyTypedLambdaParameters();
 			lambda.parameters().forEach(obj -> param.getParameters()
 					.add(toOrdinaryParameterConverter.convert((SingleVariableDeclaration) obj)));

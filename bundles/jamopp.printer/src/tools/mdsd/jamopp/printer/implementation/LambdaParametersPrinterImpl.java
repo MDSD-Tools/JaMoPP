@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.ImplicitlyTypedLambdaParameters;
-import org.emftext.language.java.expressions.LambdaParameters;
-import org.emftext.language.java.expressions.SingleImplicitLambdaParameter;
-import org.emftext.language.java.parameters.OrdinaryParameter;
-import org.emftext.language.java.parameters.VariableLengthParameter;
+import tools.mdsd.jamopp.model.java.expressions.ImplicitlyTypedLambdaParameters;
+import tools.mdsd.jamopp.model.java.expressions.LambdaParameters;
+import tools.mdsd.jamopp.model.java.expressions.SingleImplicitLambdaParameter;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 
 import com.google.inject.Inject;
 

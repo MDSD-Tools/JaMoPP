@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
-import org.emftext.language.java.literals.Literal;
-import org.emftext.language.java.references.Reference;
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild;
+import tools.mdsd.jamopp.model.java.literals.Literal;
+import tools.mdsd.jamopp.model.java.references.Reference;
 
 import com.google.inject.Inject;
 

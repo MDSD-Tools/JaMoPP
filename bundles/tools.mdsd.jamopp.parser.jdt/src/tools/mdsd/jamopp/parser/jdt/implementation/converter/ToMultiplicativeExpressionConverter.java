@@ -2,9 +2,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.MultiplicativeExpression;
-import org.emftext.language.java.operators.MultiplicativeOperator;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression;
+import tools.mdsd.jamopp.model.java.operators.MultiplicativeOperator;
 
 import com.google.inject.Inject;
 
@@ -15,13 +15,13 @@ public class ToMultiplicativeExpressionConverter implements Converter<InfixExpre
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter;
 
 	@Inject
 	ToMultiplicativeExpressionConverter(
 			Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter,
-			Converter<Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -32,7 +32,7 @@ public class ToMultiplicativeExpressionConverter implements Converter<InfixExpre
 	@SuppressWarnings("unchecked")
 	@Override
 	public MultiplicativeExpression convert(InfixExpression expr) {
-		org.emftext.language.java.expressions.MultiplicativeExpression result = expressionsFactory
+		tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression result = expressionsFactory
 				.createMultiplicativeExpression();
 		mergeMultiplicativeExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getMultiplicativeOperators().add(toMultiplicativeOperatorConverter.convert(expr.getOperator()));
@@ -46,12 +46,12 @@ public class ToMultiplicativeExpressionConverter implements Converter<InfixExpre
 	}
 
 	private void mergeMultiplicativeExpressionAndExpression(
-			org.emftext.language.java.expressions.MultiplicativeExpression mulExpr,
-			org.emftext.language.java.expressions.Expression potChild) {
-		if (potChild instanceof org.emftext.language.java.expressions.MultiplicativeExpressionChild) {
-			mulExpr.getChildren().add((org.emftext.language.java.expressions.MultiplicativeExpressionChild) potChild);
+			tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression mulExpr,
+			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
+		if (potChild instanceof tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpressionChild) {
+			mulExpr.getChildren().add((tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpressionChild) potChild);
 		} else {
-			org.emftext.language.java.expressions.MultiplicativeExpression expr = (org.emftext.language.java.expressions.MultiplicativeExpression) potChild;
+			tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression expr = (tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression) potChild;
 			mulExpr.getChildren().addAll(expr.getChildren());
 			mulExpr.getMultiplicativeOperators().addAll(expr.getMultiplicativeOperators());
 		}

@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.RelationExpressionChild;
-import org.emftext.language.java.expressions.ShiftExpression;
-import org.emftext.language.java.expressions.ShiftExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.ShiftExpression;
+import tools.mdsd.jamopp.model.java.expressions.ShiftExpressionChild;
 
 import com.google.inject.Inject;
 

@@ -10,10 +10,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.containers.JavaRoot;
-import org.emftext.language.java.containers.Package;
+import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
+import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.containers.Package;
 
 import tools.mdsd.jamopp.resource.JavaResource2Factory;
 import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
@@ -103,7 +103,7 @@ public class JaMoPPStandalone {
 			if (outputFileName.startsWith(File.separator)) {
 				outputFileName = outputFileName.substring(1);
 			}
-		} else if (root instanceof org.emftext.language.java.containers.Module) {
+		} else if (root instanceof tools.mdsd.jamopp.model.java.containers.Module) {
 			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator + "module-info";
 		}
 		return outputFileName;

@@ -7,22 +7,22 @@ public interface UtilTypeInstructionSeparation {
 
 	void convertAll();
 
-	void addMethod(Block block, org.emftext.language.java.members.Method method);
+	void addMethod(Block block, tools.mdsd.jamopp.model.java.members.Method method);
 
-	void addConstructor(Block block, org.emftext.language.java.members.Constructor constructor);
+	void addConstructor(Block block, tools.mdsd.jamopp.model.java.members.Constructor constructor);
 
-	void addField(Expression initializer, org.emftext.language.java.members.Field field);
+	void addField(Expression initializer, tools.mdsd.jamopp.model.java.members.Field field);
 
-	void addAdditionalField(Expression initializer, org.emftext.language.java.members.AdditionalField field);
+	void addAdditionalField(Expression initializer, tools.mdsd.jamopp.model.java.members.AdditionalField field);
 
-	void addInitializer(Block block, org.emftext.language.java.statements.Block correspondingBlock);
+	void addInitializer(Block block, tools.mdsd.jamopp.model.java.statements.Block correspondingBlock);
 
-	void addAnnotationMethod(Expression value, org.emftext.language.java.members.InterfaceMethod method);
+	void addAnnotationMethod(Expression value, tools.mdsd.jamopp.model.java.members.InterfaceMethod method);
 
 	void addSingleAnnotationParameter(Expression value,
-			org.emftext.language.java.annotations.SingleAnnotationParameter param);
+			tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter param);
 
 	void addAnnotationAttributeSetting(Expression value,
-			org.emftext.language.java.annotations.AnnotationAttributeSetting setting);
+			tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting setting);
 
 }

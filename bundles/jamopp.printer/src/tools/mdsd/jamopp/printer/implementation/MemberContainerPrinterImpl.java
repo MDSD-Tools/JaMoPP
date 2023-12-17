@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.members.MemberContainer;
+import tools.mdsd.jamopp.model.java.members.Member;
+import tools.mdsd.jamopp.model.java.members.MemberContainer;
 
 import com.google.inject.Inject;
 

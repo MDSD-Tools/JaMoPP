@@ -4,10 +4,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.expressions.InstanceOfExpression;
-import org.emftext.language.java.expressions.InstanceOfExpressionChild;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpression;
+import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpressionChild;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

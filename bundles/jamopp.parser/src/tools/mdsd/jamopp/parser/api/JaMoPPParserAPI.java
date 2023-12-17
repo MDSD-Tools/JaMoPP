@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.emftext.language.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 
 /**
  * This interface provides an API for parsers that read Java source files and convert them to Java model instances.

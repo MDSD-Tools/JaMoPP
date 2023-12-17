@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 
 import com.google.inject.Inject;
 

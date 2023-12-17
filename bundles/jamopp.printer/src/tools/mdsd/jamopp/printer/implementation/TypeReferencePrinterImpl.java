@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.InferableType;
-import org.emftext.language.java.types.NamespaceClassifierReference;
-import org.emftext.language.java.types.PrimitiveType;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.types.ClassifierReference;
+import tools.mdsd.jamopp.model.java.types.InferableType;
+import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
+import tools.mdsd.jamopp.model.java.types.PrimitiveType;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

@@ -20,15 +20,15 @@
 
 <plugin
       name="%pluginName"
-      id="org.emftext.commons.layout.editor"
+      id="tools.mdsd.jamopp.commons.layout.editor"
       version="1.0.0"
       provider-name="%providerName"
-      class="org.emftext.commons.layout.presentation.LayoutEditorPlugin$Implementation">
+      class="tools.mdsd.jamopp.commons.layout.presentation.LayoutEditorPlugin$Implementation">
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources" export="true"/>
-      <import plugin="org.emftext.commons.layout.edit" export="true"/>
+      <import plugin="tools.mdsd.jamopp.commons.layout.edit" export="true"/>
       <import plugin="org.eclipse.emf.ecore.xmi" export="true"/>
       <import plugin="org.eclipse.emf.edit.ui" export="true"/>
       <import plugin="org.eclipse.ui.ide" export="true"/>
@@ -46,9 +46,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.emftext.commons.layout.presentation.LayoutModelWizardID"
+            id="tools.mdsd.jamopp.commons.layout.presentation.LayoutModelWizardID"
             name="%_UI_LayoutModelWizard_label"
-            class="org.emftext.commons.layout.presentation.LayoutModelWizard"
+            class="tools.mdsd.jamopp.commons.layout.presentation.LayoutModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/LayoutModelFile.gif">
          <description>%_UI_LayoutModelWizard_description</description>
@@ -59,12 +59,12 @@
    <extension point="org.eclipse.ui.editors">
       <!-- @generated layout -->
       <editor
-            id="org.emftext.commons.layout.presentation.LayoutEditorID"
+            id="tools.mdsd.jamopp.commons.layout.presentation.LayoutEditorID"
             name="%_UI_LayoutEditor_label"
             icon="icons/full/obj16/LayoutModelFile.gif"
             extensions="layout"
-            class="org.emftext.commons.layout.presentation.LayoutEditor"
-            contributorClass="org.emftext.commons.layout.presentation.LayoutActionBarContributor">
+            class="tools.mdsd.jamopp.commons.layout.presentation.LayoutEditor"
+            contributorClass="tools.mdsd.jamopp.commons.layout.presentation.LayoutActionBarContributor">
       </editor>
    </extension>
 

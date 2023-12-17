@@ -7,10 +7,10 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.UnionType;
-import org.emftext.language.java.modifiers.AnnotationInstanceOrModifier;
-import org.emftext.language.java.statements.CatchBlock;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
+import tools.mdsd.jamopp.model.java.statements.CatchBlock;
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -27,14 +27,14 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
-	private final Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter;
+	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
 	@Inject
 	ToCatchblockConverter(UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
 			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
 			UtilJdtResolver jdtResolverUtility,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
-			Converter<Block, org.emftext.language.java.statements.Block> blockToBlockConverter) {
+			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -47,9 +47,9 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 	@SuppressWarnings("unchecked")
 	@Override
 	public CatchBlock convert(CatchClause block) {
-		org.emftext.language.java.statements.CatchBlock result = statementsFactory.createCatchBlock();
+		tools.mdsd.jamopp.model.java.statements.CatchBlock result = statementsFactory.createCatchBlock();
 		SingleVariableDeclaration decl = block.getException();
-		org.emftext.language.java.parameters.CatchParameter param;
+		tools.mdsd.jamopp.model.java.parameters.CatchParameter param;
 		IVariableBinding binding = decl.resolveBinding();
 		if (binding == null) {
 			param = jdtResolverUtility.getCatchParameter(decl.getName().getIdentifier() + "-" + block.hashCode());

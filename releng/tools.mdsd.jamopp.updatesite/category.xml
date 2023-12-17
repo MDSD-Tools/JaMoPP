@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="org.emftext.language.java.feature">
-      <category name="org.emftext.language.java"/>
+   <feature id="tools.mdsd.jamopp.model.java.feature">
+      <category name="tools.mdsd.jamopp.model.java"/>
    </feature>
-   <category-def name="org.emftext.language.java" label="JaMoPP - Java Model Parser and Printer" />
+   <category-def name="tools.mdsd.jamopp.model.java" label="JaMoPP - Java Model Parser and Printer" />
 </site>

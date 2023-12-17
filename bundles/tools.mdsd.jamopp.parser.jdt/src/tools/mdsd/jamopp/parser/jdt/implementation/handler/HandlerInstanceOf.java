@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.handler;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InstanceofExpression;
 import org.eclipse.jdt.core.dom.Type;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.InstanceOfExpressionChild;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpressionChild;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
@@ -19,12 +19,12 @@ public class HandlerInstanceOf implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter;
+	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
 	HandlerInstanceOf(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<org.eclipse.jdt.core.dom.Expression, org.emftext.language.java.expressions.Expression> toExpressionConverter,
+			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory,
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilLayout = utilLayout;
@@ -35,9 +35,9 @@ public class HandlerInstanceOf implements ExpressionHandler {
 	}
 
 	@Override
-	public org.emftext.language.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		InstanceofExpression castedExpr = (InstanceofExpression) expr;
-		org.emftext.language.java.expressions.InstanceOfExpression result = expressionsFactory
+		tools.mdsd.jamopp.model.java.expressions.InstanceOfExpression result = expressionsFactory
 				.createInstanceOfExpression();
 		result.setChild((InstanceOfExpressionChild) toExpressionConverter.convert(castedExpr.getLeftOperand()));
 		result.setTypeReference(toTypeReferenceConverter.convert(castedExpr.getRightOperand()));

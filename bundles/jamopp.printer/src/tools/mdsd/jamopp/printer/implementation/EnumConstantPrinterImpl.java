@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.classifiers.AnonymousClass;
-import org.emftext.language.java.members.EnumConstant;
-import org.emftext.language.java.references.Argumentable;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.references.Argumentable;
 
 import com.google.inject.Inject;
 

@@ -6,8 +6,8 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.emftext.language.java.commons.NamedElement;
-import org.emftext.language.java.commons.NamespaceAwareElement;
+import tools.mdsd.jamopp.model.java.commons.NamedElement;
+import tools.mdsd.jamopp.model.java.commons.NamespaceAwareElement;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 

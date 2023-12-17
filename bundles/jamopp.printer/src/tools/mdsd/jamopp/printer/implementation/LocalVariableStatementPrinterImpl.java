@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.statements.LocalVariableStatement;
-import org.emftext.language.java.variables.LocalVariable;
+import tools.mdsd.jamopp.model.java.statements.LocalVariableStatement;
+import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 
 import com.google.inject.Inject;
 

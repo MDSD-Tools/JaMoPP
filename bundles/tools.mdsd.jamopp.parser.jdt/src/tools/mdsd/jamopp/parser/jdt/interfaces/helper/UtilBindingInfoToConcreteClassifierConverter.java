@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.interfaces.helper;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 
 public interface UtilBindingInfoToConcreteClassifierConverter {
 

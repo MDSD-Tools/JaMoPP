@@ -3,11 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.classifiers.Interface;
-import org.emftext.language.java.generics.TypeParametrizable;
-import org.emftext.language.java.members.MemberContainer;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-import org.emftext.language.java.types.TypeReference;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
+import tools.mdsd.jamopp.model.java.generics.TypeParametrizable;
+import tools.mdsd.jamopp.model.java.members.MemberContainer;
+import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 

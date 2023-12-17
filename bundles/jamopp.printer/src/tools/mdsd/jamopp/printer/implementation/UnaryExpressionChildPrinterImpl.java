@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.expressions.PrefixUnaryModificationExpression;
-import org.emftext.language.java.expressions.SuffixUnaryModificationExpression;
-import org.emftext.language.java.expressions.UnaryExpressionChild;
-import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.PrefixUnaryModificationExpression;
+import tools.mdsd.jamopp.model.java.expressions.SuffixUnaryModificationExpression;
+import tools.mdsd.jamopp.model.java.expressions.UnaryExpressionChild;
+import tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild;
 
 import com.google.inject.Inject;
 

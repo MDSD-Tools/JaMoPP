@@ -2,10 +2,10 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
-import org.emftext.language.java.annotations.AnnotationAttributeSetting;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.annotations.AnnotationsFactory;
-import org.emftext.language.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
+import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -31,7 +31,7 @@ public class BindingToAnnotationInstanceConverter implements Converter<IAnnotati
 		utilNamedElement.convertToNameAndSet(binding.getAnnotationType(), resultClass);
 		result.setAnnotation(resultClass);
 		if (binding.getDeclaredMemberValuePairs().length > 0) {
-			org.emftext.language.java.annotations.AnnotationParameterList params = annotationsFactory
+			tools.mdsd.jamopp.model.java.annotations.AnnotationParameterList params = annotationsFactory
 					.createAnnotationParameterList();
 			for (IMemberValuePairBinding memBind : binding.getDeclaredMemberValuePairs()) {
 				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.convert(memBind));

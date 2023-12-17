@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import org.emftext.language.java.annotations.Annotable;
-import org.emftext.language.java.types.PrimitiveType;
+import tools.mdsd.jamopp.model.java.annotations.Annotable;
+import tools.mdsd.jamopp.model.java.types.PrimitiveType;
 
 import com.google.inject.Inject;
 
@@ -22,23 +22,23 @@ public class PrimitiveTypePrinterImpl implements Printer<PrimitiveType> {
 	@Override
 	public void print(PrimitiveType element, BufferedWriter writer) throws IOException {
 		this.annotablePrinter.print(element, writer);
-		if (element instanceof org.emftext.language.java.types.Boolean) {
+		if (element instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
 			writer.append("boolean");
-		} else if (element instanceof org.emftext.language.java.types.Byte) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Byte) {
 			writer.append("byte");
-		} else if (element instanceof org.emftext.language.java.types.Char) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Char) {
 			writer.append("char");
-		} else if (element instanceof org.emftext.language.java.types.Double) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Double) {
 			writer.append("double");
-		} else if (element instanceof org.emftext.language.java.types.Float) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Float) {
 			writer.append("float");
-		} else if (element instanceof org.emftext.language.java.types.Int) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Int) {
 			writer.append("int");
-		} else if (element instanceof org.emftext.language.java.types.Long) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Long) {
 			writer.append("long");
-		} else if (element instanceof org.emftext.language.java.types.Short) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Short) {
 			writer.append("short");
-		} else if (element instanceof org.emftext.language.java.types.Void) {
+		} else if (element instanceof tools.mdsd.jamopp.model.java.types.Void) {
 			writer.append("void");
 		}
 	}

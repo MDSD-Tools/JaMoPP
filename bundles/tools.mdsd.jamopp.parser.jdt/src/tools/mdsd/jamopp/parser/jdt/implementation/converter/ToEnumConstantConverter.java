@@ -5,9 +5,9 @@ import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.classifiers.AnonymousClass;
-import org.emftext.language.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
 
 import com.google.inject.Inject;
 
@@ -22,12 +22,12 @@ public class ToEnumConstantConverter implements Converter<EnumConstantDeclaratio
 	private final UtilLayout utilLayout;
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
-	private final Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter;
 	private final Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
 
 	@Inject
 	ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
-			Converter<Expression, org.emftext.language.java.expressions.Expression> utilExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter,
 			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
