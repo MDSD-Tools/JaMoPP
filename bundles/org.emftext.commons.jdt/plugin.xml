@@ -23,7 +23,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/commons/jdt"
-            class="org.emftext.commons.jdt.JdtPackage"
+            class="tools.mdsd.jamopp.commons.jdt.JdtPackage"
             genModel="metamodel/jdt.genmodel"/>
    </extension>
 

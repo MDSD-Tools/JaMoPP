@@ -20,14 +20,14 @@
 
 <plugin
       name="%pluginName"
-      id="org.emftext.commons.jdt.edit/src-gen"
+      id="tools.mdsd.jamopp.commons.jdt.edit/src-gen"
       version="1.0.0"
       provider-name="%providerName"
-      class="org.emftext.commons.jdt.provider.JdtEditPlugin$Implementation">
+      class="tools.mdsd.jamopp.commons.jdt.provider.JdtEditPlugin$Implementation">
 
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.emftext.commons.jdt" export="true"/>
+      <import plugin="tools.mdsd.jamopp.commons.jdt" export="true"/>
       <import plugin="org.eclipse.emf.edit" export="true"/>
    </requires>
 
@@ -41,7 +41,7 @@
       <!-- @generated jdt -->
       <factory
             uri="http://www.emftext.org/commons/jdt"
-            class="org.emftext.commons.jdt.provider.JdtItemProviderAdapterFactory"
+            class="tools.mdsd.jamopp.commons.jdt.provider.JdtItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
