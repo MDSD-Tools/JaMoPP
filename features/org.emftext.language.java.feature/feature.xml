@@ -31,7 +31,7 @@ Contributors:
    <requires>
 <import plugin="tools.mdsd.jamopp.parser.jdt"/>
 <import plugin="jamopp.parser"/>
-<import plugin="jamopp.printer"/>
+<import plugin="tools.mdsd.jamopp.printer"/>
 <import plugin="tools.mdsd.jamopp.resource"/>
 <import plugin="org.apache.commons.compress"/>
 <import plugin="org.apache.log4j"/>
@@ -103,7 +103,7 @@ Contributors:
          unpack="false"/>
 
    <plugin
-         id="jamopp.printer"
+         id="tools.mdsd.jamopp.printer"
          download-size="0"
          install-size="0"
          version="0.0.0"

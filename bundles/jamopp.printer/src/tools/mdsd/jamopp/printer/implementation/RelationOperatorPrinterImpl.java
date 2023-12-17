@@ -1,0 +1,29 @@
+package tools.mdsd.jamopp.printer.implementation;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+import org.emftext.language.java.operators.GreaterThan;
+import org.emftext.language.java.operators.GreaterThanOrEqual;
+import org.emftext.language.java.operators.LessThan;
+import org.emftext.language.java.operators.LessThanOrEqual;
+import org.emftext.language.java.operators.RelationOperator;
+
+import tools.mdsd.jamopp.printer.interfaces.Printer;
+
+public class RelationOperatorPrinterImpl implements Printer<RelationOperator> {
+
+	@Override
+	public void print(RelationOperator element, BufferedWriter writer) throws IOException {
+		if (element instanceof GreaterThan) {
+			writer.append(" > ");
+		} else if (element instanceof GreaterThanOrEqual) {
+			writer.append(" >= ");
+		} else if (element instanceof LessThan) {
+			writer.append(" < ");
+		} else if (element instanceof LessThanOrEqual) {
+			writer.append(" <= ");
+		}
+	}
+
+}

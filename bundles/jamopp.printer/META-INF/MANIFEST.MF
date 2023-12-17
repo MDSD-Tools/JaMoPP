@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JaMoPP Printer
-Bundle-SymbolicName: jamopp.printer
+Bundle-SymbolicName: tools.mdsd.jamopp.printer
 Bundle-Version: 5.1.0.qualifier
-Automatic-Module-Name: jamopp.printer
+Automatic-Module-Name: tools.mdsd.jamopp.printer
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: MDSD-Tools
 Require-Bundle: org.emftext.language.java,
  com.google.inject
-Export-Package: jamopp.printer
+Export-Package: tools.mdsd.jamopp.printer
 Import-Package: com.google.inject
