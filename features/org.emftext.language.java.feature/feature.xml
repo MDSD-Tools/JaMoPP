@@ -32,7 +32,7 @@ Contributors:
 <import plugin="tools.mdsd.jamopp.parser.jdt"/>
 <import plugin="jamopp.parser"/>
 <import plugin="jamopp.printer"/>
-<import plugin="jamopp.resource"/>
+<import plugin="tools.mdsd.jamopp.resource"/>
 <import plugin="org.apache.commons.compress"/>
 <import plugin="org.apache.log4j"/>
 <import plugin="org.eclipse.core.resources"/>
@@ -110,7 +110,7 @@ Contributors:
          unpack="false"/>
 
    <plugin
-         id="jamopp.resource"
+         id="tools.mdsd.jamopp.resource"
          download-size="0"
          install-size="0"
          version="0.0.0"

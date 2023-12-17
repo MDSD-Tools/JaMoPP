@@ -22,7 +22,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.junit.jupiter.api.Test;
 
-import jamopp.resource.JavaResource2;
+import tools.mdsd.jamopp.resource.JavaResource2;
 
 /**
  * A separate test case for the input files that contain Unicode escape sequences.

@@ -72,8 +72,8 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import jamopp.resource.JavaResource2;
-import jamopp.resource.JavaResource2Factory;
+import tools.mdsd.jamopp.resource.JavaResource2;
+import tools.mdsd.jamopp.resource.JavaResource2Factory;
 
 /**
  * Abstract superclass that provides some frequently used assert and helper methods.

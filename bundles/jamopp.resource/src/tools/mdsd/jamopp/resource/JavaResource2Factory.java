@@ -1,4 +1,4 @@
-package jamopp.resource;
+package tools.mdsd.jamopp.resource;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
