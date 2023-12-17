@@ -37,7 +37,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 
-import jamopp.parser.api.JaMoPPParserAPI;
+import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.injection.ConverterModule;
 import tools.mdsd.jamopp.parser.jdt.injection.FactoryModule;
 import tools.mdsd.jamopp.parser.jdt.injection.HandlerModule;

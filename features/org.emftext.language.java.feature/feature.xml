@@ -30,7 +30,7 @@ Contributors:
 
    <requires>
 <import plugin="tools.mdsd.jamopp.parser.jdt"/>
-<import plugin="jamopp.parser"/>
+<import plugin="tools.mdsd.jamopp.parser"/>
 <import plugin="tools.mdsd.jamopp.printer"/>
 <import plugin="tools.mdsd.jamopp.resource"/>
 <import plugin="org.apache.commons.compress"/>
@@ -89,7 +89,7 @@ Contributors:
          unpack="false"/>
 
    <plugin
-         id="jamopp.parser"
+         id="tools.mdsd.jamopp.parser"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  tools.mdsd.jamopp.resource,
  org.apache.commons.compress,
  org.apache.log4j,
- jamopp.parser
+ tools.mdsd.jamopp.parser
 Export-Package: org.emftext.language.java.test
 Import-Package: tools.mdsd.jamopp.parser.jdt,
  org.junit,

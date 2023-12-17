@@ -11,7 +11,7 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package jamopp.parser.api;
+package tools.mdsd.jamopp.parser.api;
 
 import java.io.InputStream;
 import java.nio.file.Path;

@@ -4,13 +4,13 @@ Bundle-Name: JaMoPP Standalone
 Bundle-SymbolicName: tools.mdsd.jamopp.standalone
 Bundle-Version: 5.1.0.qualifier
 Bundle-Vendor: MDSD-Tools
-Automatic-Module-Name: jamopp.parser
+Automatic-Module-Name: tools.mdsd.jamopp.parser
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: tools.mdsd.jamopp.standalone
 Require-Bundle: org.emftext.language.java,
  org.eclipse.emf
-Import-Package: jamopp.parser.api,
+Import-Package: org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.ecore.xmi.impl,
+ tools.mdsd.jamopp.parser.api,
  tools.mdsd.jamopp.parser.jdt,
- tools.mdsd.jamopp.resource,
- org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.ecore.xmi.impl
+ tools.mdsd.jamopp.resource

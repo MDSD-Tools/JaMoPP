@@ -15,8 +15,8 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Package;
 
-import jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.resource.JavaResource2Factory;
+import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
