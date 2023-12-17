@@ -124,7 +124,7 @@ Contributors:
          unpack="false"/>
 
    <plugin
-         id="jamopp.standalone"
+         id="tools.mdsd.jamopp.standalone"
          download-size="0"
          install-size="0"
          version="0.0.0"

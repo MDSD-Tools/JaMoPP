@@ -1,4 +1,4 @@
-package jamopp.standalone;
+package tools.mdsd.jamopp.standalone;
 
 
 import java.io.File;

@@ -65,7 +65,7 @@ public class StandaloneTest extends ResolvingTest {
      *
      * @return path including the package hierarchy
      *
-     * @see jamopp.standalone.JaMoPPStandalone#checkScheme()
+     * @see tools.mdsd.jamopp.standalone.JaMoPPStandalone#checkScheme()
      */
     private static String checkScheme(Resource javaResource) {
         int emptyFileName = 0;
@@ -233,7 +233,7 @@ public class StandaloneTest extends ResolvingTest {
      * @param input
      *     Name of the project folder to test.
      *
-     * @see jamopp.standalone.JaMoPPStandalone
+     * @see tools.mdsd.jamopp.standalone.JaMoPPStandalone
      * @see org.emftext.language.java.test.AbstractJaMoPPTests
      */
     private void resourceSerialization(String input) {
