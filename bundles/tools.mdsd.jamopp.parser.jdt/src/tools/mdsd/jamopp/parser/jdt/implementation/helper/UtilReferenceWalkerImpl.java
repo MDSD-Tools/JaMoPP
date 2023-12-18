@@ -20,11 +20,6 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 
 public class UtilReferenceWalkerImpl implements UtilReferenceWalker {
 
-	@Inject
-	UtilReferenceWalkerImpl() {
-
-	}
-
 	@Override
 	public Reference walkUp(Reference ref) {
 		Reference result = ref;

@@ -54,10 +54,8 @@ public final class JaMoPPPrinter {
 		}
 	}
 
-	/**
-	 * Private constructor to avoid instantiation.
-	 */
 	private JaMoPPPrinter() {
+		// Private constructor to avoid instantiation.
 	}
 
 }

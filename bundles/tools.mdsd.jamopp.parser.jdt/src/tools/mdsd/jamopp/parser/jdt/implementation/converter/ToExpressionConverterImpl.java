@@ -27,6 +27,7 @@ public class ToExpressionConverterImpl
 
 	@Inject
 	ToExpressionConverterImpl() {
+		// Injection is handled by setter
 	}
 
 	@Override

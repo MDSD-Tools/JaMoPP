@@ -15,13 +15,11 @@ import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 public class JavaResource2 extends ResourceImpl {
-	public JavaResource2() {
-	}
-	
+
 	public JavaResource2(URI uri) {
 		super(uri);
 	}
-	
+
 	@Override
 	protected void doLoad(InputStream input, Map<?, ?> options) {
 		Resource r = JavaClasspath.get().getResource(getURI());
@@ -33,7 +31,7 @@ public class JavaResource2 extends ResourceImpl {
 		api.setResourceSet(this.getResourceSet());
 		this.getContents().add(api.parse(this.getURI().toString(), input));
 	}
-	
+
 	@Override
 	protected void doSave(OutputStream output, Map<?, ?> options) {
 		this.getContents().forEach(object -> {
