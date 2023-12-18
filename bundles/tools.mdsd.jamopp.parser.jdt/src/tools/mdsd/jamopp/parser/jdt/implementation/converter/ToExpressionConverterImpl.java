@@ -33,27 +33,28 @@ public class ToExpressionConverterImpl
 	@Override
 	public tools.mdsd.jamopp.model.java.expressions.Expression convert(Expression expr) {
 		if (expr.getNodeType() == ASTNode.ASSIGNMENT) {
-			return handlerAssignment.handle(expr);
-		} else if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {
-			return handlerConditionalExpression.handle(expr);
+			return this.handlerAssignment.handle(expr);
+		}
+		if (expr.getNodeType() == ASTNode.CONDITIONAL_EXPRESSION) {
+			return this.handlerConditionalExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.INFIX_EXPRESSION) {
-			return handlerInfixExpression.handle(expr);
+			return this.handlerInfixExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.INSTANCEOF_EXPRESSION) {
-			return handlerInstanceOf.handle(expr);
+			return this.handlerInstanceOf.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.PREFIX_EXPRESSION) {
-			return handlerPrefixExpression.handle(expr);
+			return this.handlerPrefixExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.POSTFIX_EXPRESSION) {
-			return handlerPostfixExpression.handle(expr);
+			return this.handlerPostfixExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.CAST_EXPRESSION) {
-			return handlerCastExpression.handle(expr);
+			return this.handlerCastExpression.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.SWITCH_EXPRESSION) {
-			return handlerSwitchExpression.handle(expr);
+			return this.handlerSwitchExpression.handle(expr);
 		} else if (expr instanceof MethodReference) {
-			return handlerMethodReference.handle(expr);
+			return this.handlerMethodReference.handle(expr);
 		} else if (expr.getNodeType() == ASTNode.LAMBDA_EXPRESSION) {
-			return handlerLambdaExpression.handle(expr);
+			return this.handlerLambdaExpression.handle(expr);
 		} else {
-			return handlerPrimaryExpression.handle(expr);
+			return this.handlerPrimaryExpression.handle(expr);
 		}
 	}
 

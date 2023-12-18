@@ -14,8 +14,6 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.helper;
 
 import tools.mdsd.jamopp.model.java.references.Reference;
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 
 public class UtilReferenceWalkerImpl implements UtilReferenceWalker {

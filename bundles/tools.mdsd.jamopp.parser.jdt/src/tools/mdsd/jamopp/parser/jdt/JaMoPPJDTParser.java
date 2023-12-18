@@ -28,15 +28,15 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import tools.mdsd.jamopp.model.java.JavaClasspath;
-import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
-import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 
+import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.injection.ConverterModule;
 import tools.mdsd.jamopp.parser.jdt.injection.FactoryModule;
@@ -54,18 +54,17 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
-	public static String DEFAULT_ENCODING;
-	public static String DEFAULT_JAVA_VERSION;
-
-	private static Logger LOGGER;
-	private static AbstractVisitor VISITOR;
-	private static ContainersFactory CONTAINERS_FACTORY;
-	private static JamoppClasspathEntriesSearcher JAMOPP_CLASSPATH_ENTRIES_SEARCHER;
-	private static JamoppCompilationUnitsFactory JAMOPP_COMPILATION_UNITS_FACTORY;
-	private static JamoppFileWithJDTParser JAMOPP_FILE_WITH_JDT_PARSER;
-	private static JamoppJavaParserFactory JAMOPP_JAVA_PARSER_FACTORY;
-	private static UtilJdtResolver UTIL_JDT_RESOLVER;
-	private static UtilTypeInstructionSeparation UTIL_TYPE_INSTRUCTION_SEPARATION;
+	public final static String DEFAULT_ENCODING;
+	public final static String DEFAULT_JAVA_VERSION;
+	private final static Logger LOGGER;
+	private final static AbstractVisitor VISITOR;
+	private final static ContainersFactory CONTAINERS_FACTORY;
+	private final static JamoppClasspathEntriesSearcher JAMOPP_CLASSPATH_ENTRIES_SEARCHER;
+	private final static JamoppCompilationUnitsFactory JAMOPP_COMPILATION_UNITS_FACTORY;
+	private final static JamoppFileWithJDTParser JAMOPP_FILE_WITH_JDT_PARSER;
+	private final static JamoppJavaParserFactory JAMOPP_JAVA_PARSER_FACTORY;
+	private final static UtilJdtResolver UTIL_JDT_RESOLVER;
+	private final static UtilTypeInstructionSeparation UTIL_TYPE_INSTRUCTION_SEPARATION;
 
 	static {
 		Injector injector = Guice.createInjector(new UtilModule(), new FactoryModule(), new ConverterModule(),

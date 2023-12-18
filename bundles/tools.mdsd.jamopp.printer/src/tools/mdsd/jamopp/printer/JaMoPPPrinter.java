@@ -8,10 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import tools.mdsd.jamopp.model.java.containers.JavaRoot;
-
 import com.google.inject.Guice;
 
+import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.printer.implementation.JavaRootPrinterImpl;
 import tools.mdsd.jamopp.printer.injection.ModulePrinterInjection;
 
