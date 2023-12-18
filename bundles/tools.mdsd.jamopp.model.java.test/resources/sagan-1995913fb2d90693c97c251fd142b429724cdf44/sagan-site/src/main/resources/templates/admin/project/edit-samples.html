@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{::body/nav/content()}, ~{::body/ul}, ~{::body/div})}">
+<head>
+    <title data-th-inline="text">Admin | Edit | [[${project.id}]]</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a data-th-href="@{/admin}">Admin</a></li>
+        <li><a data-th-href="@{/admin/projects}">Projects</a></li>
+        <li class="is-active"><a data-th-href="@{'/admin/projects/' + ${project.id}}" aria-current="page">Edit</a></li>
+    </ul>
+</nav>
+
+<ul>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id}}">
+            <span class="icon is-small"><i class="far fa-folder-open" aria-hidden="true"></i></span>
+            <span>Metadata</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/info'}">
+            <span class="icon is-small"><i class="fas fa-info" aria-hidden="true"></i></span>
+            <span>Info</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/releases'}">
+            <span class="icon is-small"><i class="fas fa-download" aria-hidden="true"></i></span>
+            <span>Releases</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/support'}">
+            <span class="icon is-small"><i class="far fa-calendar-check" aria-hidden="true"></i></span>
+            <span>Support</span>
+        </a>
+    </li>
+    <li class="is-active">
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/samples'}">
+            <span class="icon is-small"><i class="fas fa-code" aria-hidden="true"></i></span>
+            <span>Samples</span>
+        </a>
+    </li>
+</ul>
+
+<div>
+    <form data-th-action="@{'/admin/projects/'+${project.id} + '/samples'}" method="post" data-th-object="${project}">
+        <input type="hidden" data-th-name="id" data-th-value="*{id}"/>
+
+        <div class="field">
+            <table class="table is-striped is-fullwidth">
+                <thead>
+                <tr>
+                    <td>Delete?</td>
+                    <td>Display order</td>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>URL</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-th-each="sample,sampleStat : ${project.samples}">
+                    <input type="hidden" data-th-field="*{samples[__${sampleStat.index}__].id}">
+                    <td><input class="checkbox" type="checkbox"
+                               data-th-field="*{samples[__${sampleStat.index}__].toDelete}">
+                    </td>
+                    <td><input class="input" type="number" min="0" max="256"
+                               data-th-field="*{samples[__${sampleStat.index}__].sortOrder}"/></td>
+                    <td><input class="input" type="text" data-th-field="*{samples[__${sampleStat.index}__].title}"/>
+                    </td>
+                    <td><textarea class="textarea"
+                                  data-th-field="*{samples[__${sampleStat.index}__].description}"></textarea></td>
+                    <td><input class="input" type="text" data-th-field="*{samples[__${sampleStat.index}__].url}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input class="input" type="number" min="0" max="256" data-th-field="*{newSample.sortOrder}"/></td>
+                    <td><input class="input" type="text" data-th-field="*{newSample.title}" value="true"/></td>
+                    <td><textarea class="textarea" data-th-field="*{newSample.description}"></textarea></td>
+                    <td><input class="input" type="text" data-th-field="*{newSample.url}"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="buttons control is-centered">
+            <button type="submit" class="button is-primary">Save</button>
+            <a class="button" data-th-href="@{'/admin/projects/' + ${project.id}}">Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

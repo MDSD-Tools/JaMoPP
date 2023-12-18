@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{::body/nav/content()}, ~{}, ~{::body/div})}">
+<head>
+    <title>Admin | Team</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a data-th-href="@{/admin}">Admin</a></li>
+        <li class="is-active"><a data-th-href="@{admin/team}" aria-current="page">Team</a></li>
+    </ul>
+</nav>
+<div>
+    <h3 class="title is-3">Active Members</h3>
+    <div class="layout-tile">
+        <a class="tile" data-th-each="member : ${activeMembers}" data-th-href="@{'/admin/team/'+${member.username}}"
+           data-th-insert="admin/team/_member::member-card"></a>
+    </div>
+
+    <hr class="hr">
+    <h3 class="title is-3">Hidden Members</h3>
+    <div class="layout-tile">
+        <a class="tile" data-th-each="member : ${hiddenMembers}" data-th-href="@{'/admin/team/'+${member.username}}"
+           data-th-insert="admin/team/_member::member-card"></a>
+    </div>
+</div>
+</body>
+</html>

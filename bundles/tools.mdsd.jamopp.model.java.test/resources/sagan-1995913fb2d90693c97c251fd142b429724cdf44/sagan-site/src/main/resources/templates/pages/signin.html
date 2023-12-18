@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html data-th-replace="~{layout :: layout(~{::head/content()}, 'signin', ~{::div})}">
+<head>
+    <title>Sign In</title>
+</head>
+<body>
+    <div>
+        <div class="main-body--wrapper signin">
+            <div class="admin--wrapper">
+                <div data-th-if="${param.error}" class="alert alert-error">We could not
+                    authenticate you with Github. You must authenticate and authorize
+                    this application to access your Github profile before you can use the
+                    admin features. This application can not access any private
+                    information (like passwords), from Github, only the public profile.
+              </div>
+              <div class="admin-login--container">
+                <div class="admin-login--title" data-th-unless="${param.error}">
+                  Please sign in with Github to access the admin pages.
+                </div>
+                  <form action="/oauth2/authorization/github" data-th-action="@{/oauth2/authorization/github}"
+                        method="get">
+                        <button type="submit" class="button uppercase animate">
+                    <i class="fab fa-github"></i>
+                    Sign in with github
+                  </button>
+                    </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

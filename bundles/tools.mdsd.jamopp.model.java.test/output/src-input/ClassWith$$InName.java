@@ -1,0 +1,2 @@
+public class ClassWith$$InName {
+}

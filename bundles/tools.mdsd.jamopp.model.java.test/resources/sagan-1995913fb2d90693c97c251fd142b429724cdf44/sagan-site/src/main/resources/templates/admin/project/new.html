@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{::body/nav/content()}, ~{::body/ul}, ~{::body/div})}">
+<head>
+    <title data-th-inline="text">Admin | Project | New Project</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a data-th-href="@{/admin}">Admin</a></li>
+        <li><a data-th-href="@{/admin/projects}">Projects</a></li>
+        <li class="is-active"><a data-th-href="@{'/admin/projects/' + ${project.id}}" aria-current="page">Edit</a></li>
+    </ul>
+</nav>
+
+<ul>
+    <li class="is-active">
+        <a data-th-href="@{'/admin/projects/' + ${project.id}}">
+            <span class="icon is-small"><i class="far fa-folder-open" aria-hidden="true"></i></span>
+            <span>Metadata</span>
+        </a>
+    </li>
+</ul>
+
+<div>
+    <form data-th-action="@{/admin/projects/new}" method="post" data-th-object="${project}">
+        <div class="columns">
+            <div class="column is-one-thid">
+                <div class="field">
+                    <label class="label">Id</label>
+                    <div class="control">
+                        <input class="input" data-th-classappend="(${#fields.hasErrors('id')}? ' is-danger')"
+                               type="text" data-th-field="*{id}" name="id" placeholder="Project id">
+                        <p class="help is-danger" data-th-if="${#fields.hasErrors('id')}" data-th-errors="*{id}">Incorrect id</p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input class="input" data-th-classappend="(${#fields.hasErrors('name')}? ' is-danger')"
+                               type="text" data-th-field="*{name}" name="name" placeholder="Name">
+                        <p class="help is-danger" data-th-if="${#fields.hasErrors('name')}" data-th-errors="*{name}">Incorrect
+                            name</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-thid">
+                <div class="field">
+                    <label class="label">Repository URL</label>
+                    <div class="control">
+                        <input class="input" data-th-classappend="(${#fields.hasErrors('repoUrl')}? ' is-danger')"
+                               type="text" data-th-field="*{repoUrl}" name="repoUrl"
+                               placeholder="https://github.com/spring-projects/your-project">
+                        <p class="help is-danger" data-th-if="${#fields.hasErrors('repoUrl')}" data-th-errors="*{repoUrl}">
+                            Incorrect Repository URL</p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">StackOverflow tags</label>
+                    <div class="control">
+                        <input class="input" data-th-classappend="(${#fields.hasErrors('stackOverflowTags')}? ' is-danger')"
+                               type="text" data-th-field="*{stackOverflowTags}" name="stackOverflowTags"
+                               data-th-placeholder="*{id}">
+                        <p class="help is-danger" data-th-if="${#fields.hasErrors('stackOverflowTags')}" data-th-errors="*{stackOverflowTags}">
+                            Incorrect StackOverflow tags</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-thid">
+                <div class="field">
+                    <label class="label">Parent project</label>
+                    <div class="control">
+                        <input class="input" data-th-classappend="(${#fields.hasErrors('parentProjectId')}? ' is-danger')"
+                               type="text" data-th-field="*{parentProjectId}" name="parentProjectId" placeholder="Parent project">
+                        <p class="help is-danger" data-th-if="${#fields.hasErrors('parentProjectId')}" data-th-errors="*{parentProjectId}">
+                            Incorrect parentId</p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Status</label>
+                    <div class="control">
+                        <div class="select" data-th-classappend="(${#fields.hasErrors('status')}? ' is-danger')">
+                            <select name="status" data-th-field="*{status}">
+                                <option data-th-each="stat : ${statusList}" data-th-value="${stat}" data-th-text="${stat}">
+                                    Active
+                                </option>
+                            </select>
+                            <p class="help is-danger" data-th-if="${#fields.hasErrors('status')}" data-th-errors="*{status}">
+                                Incorrect status</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons control is-centered">
+            <button type="submit" class="button is-primary">Save</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

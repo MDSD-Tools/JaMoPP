@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+    <!-- add features here -->
+    <feature id="org.palladiosimulator.view.plantuml.feature">
+        <category name="org.palladiosimulator.view.plantuml.category" />
+    </feature>
+    <feature id="org.palladiosimulator.view.plantuml.feature.source">
+        <category name="org.palladiosimulator.view.plantuml.category" />
+    </feature>
+    <feature id="org.palladiosimulator.view.plantuml.generator.feature">
+        <category name="org.palladiosimulator.view.plantuml.category" />
+    </feature>
+    <feature id="org.palladiosimulator.view.plantuml.generator.feature.source">
+        <category name="org.palladiosimulator.view.plantuml.category" />
+    </feature>
+    <!-- category definitions -->
+    <category-def name="org.palladiosimulator.view.plantuml.category"
+        label="Palladio Bench Plantuml Features">
+        <description>
+            This category contains all features that support Plantuml in the Palladio Bench.
+        </description>
+    </category-def>
+</site>

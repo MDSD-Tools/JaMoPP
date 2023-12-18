@@ -1,0 +1,121 @@
+anchors:
+  slack-params: &slack-params
+    text: ":concourse-succeeded: <https://ci.spring.io/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}|${BUILD_PIPELINE_NAME} ${BUILD_JOB_NAME} was successful!>"
+    silent: true
+    icon_emoji: ":concourse:"
+    username: concourse-ci
+
+resource_types:
+- name: artifactory-resource
+  type: registry-image
+  source:
+    repository: springio/artifactory-resource
+    tag: 0.0.17
+- name: slack-notification
+  type: registry-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+    tag: latest
+
+resources:
+- name: sagan-site-repo
+  type: git
+  icon: github
+  source:
+    uri: "https://github.com/spring-io/sagan.git"
+    branch: main
+    ignore_paths: ["sagan-renderer/*"]
+- name: sagan-renderer-repo
+  type: git
+  icon: github
+  source:
+    uri: "https://github.com/spring-io/sagan.git"
+    branch: main
+    ignore_paths: ["sagan-site/*", "sagan-client/*"]
+- name: artifactory-repo
+  type: artifactory-resource
+  icon: package-variant
+  source:
+    uri: "https://repo.spring.io"
+    username: ((artifactory-username))
+    password: ((artifactory-password))
+    build_name: "sagan"
+- name: sagan-cf-production
+  type: cf
+  icon: cloud
+  source:
+    api: https://api.sc2-04-pcf1-system.oc.vmware.com
+    username: ((ad-svc-username))
+    password: ((ad-svc-password))
+    organization: Spring
+    space: prod
+- name: slack-alert
+  type: slack-notification
+  icon: slack
+  source:
+    url: ((slack-webhook-url))
+
+jobs:
+- name: deploy-sagan-renderer
+  serial: true
+  plan:
+  - get: sagan-renderer-repo
+    trigger: true
+    params: { submodules: none }
+  - task: build-sagan-renderer
+    file: sagan-renderer-repo/concourse/tasks/build-sagan-renderer.yml
+    params:
+  - put: sagan-cf-production
+    params:
+      current_app_name: springio-renderer
+      path: ./build/libs/sagan-renderer-1.0.0-SNAPSHOT.jar
+      environment_variables:
+        SPRING_PROFILES_ACTIVE: cloud,production
+        SAGAN_RENDERER_GITHUB_TOKEN: ((github-access-token))
+        JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: "{enabled: false}"
+        JBP_CONFIG_OPEN_JDK_JRE: "{ jre: { version: 11.+ } }"
+      manifest: sagan-renderer-repo/concourse/manifests/sagan-renderer-production.yml
+  - put: slack-alert
+    params:
+      <<: *slack-params
+- name: deploy-sagan-site
+  serial: true
+  plan:
+  - get: sagan-site-repo
+    trigger: true
+    params: { submodules: none }
+  - task: build-sagan-site
+    file: sagan-site-repo/concourse/tasks/build-sagan-site.yml
+    params:
+  - put: artifactory-repo
+    params:
+      repo: libs-snapshot-local
+      folder: distribution-repository
+      build_uri: "https://ci.spring.io/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+      build_number: "${BUILD_PIPELINE_NAME}-${BUILD_JOB_NAME}-${BUILD_NAME}"
+      disable_checksum_uploads: true
+      threads: 8
+    get_params:
+      threads: 8
+  - put: sagan-cf-production
+    params:
+      current_app_name: springio
+      path: ./build/libs/sagan-site-1.0.0-SNAPSHOT.jar
+      environment_variables:
+        SPRING_PROFILES_ACTIVE: cloud,production
+        SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTID: ((github-client-id))
+        SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTSECRET: ((github-client-secret))
+        SAGAN_SITE_GITHUB_WEBHOOKTOKEN: ((github-webhook-token))
+        SAGAN_SITE_EVENTS_CALENDARURI: ((google-calendar-url))
+        SAGAN_SITE_RENDERER_SERVICE_URL: https://springio-renderer.sc2-04-pcf1-apps.oc.vmware.com
+        JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: "{enabled: false}"
+        JBP_CONFIG_OPEN_JDK_JRE: "{ jre: { version: 11.+ } }"
+      manifest: sagan-site-repo/concourse/manifests/sagan-site-production.yml
+  - put: slack-alert
+    params:
+      <<: *slack-params
+groups:
+- name: deploy
+  jobs:
+  - deploy-sagan-renderer
+  - deploy-sagan-site

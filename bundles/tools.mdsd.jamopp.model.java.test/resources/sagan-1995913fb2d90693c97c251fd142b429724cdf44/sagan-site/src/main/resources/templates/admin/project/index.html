@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{::body/nav/content()}, ~{}, ~{::body/div})}">
+<head>
+    <title>Admin | Projects</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a data-th-href="@{/admin}">Admin</a></li>
+        <li class="is-active"><a data-th-href="@{admin/projects}" aria-current="page">Projects</a></li>
+    </ul>
+</nav>
+<div>
+    <nav class="level">
+        <div class="level-left">
+            <h2 class="title is-2">Projects</h2>
+        </div>
+        <div class="level-right">
+            <p class="level-item"><a class="button is-success" data-th-href="@{'/admin/projects/new'}">Create Project</a></p>
+        </div>
+    </nav>
+    <hr class="hr">
+    <div>
+        <table class="table is-striped is-fullwidth">
+            <thead>
+            <tr>
+                <td>Name</td>
+                <td>Status</td>
+                <td>Public Page</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="project : ${projects}">
+                <td><a data-th-href="@{'/admin/projects/' + ${project.id}}" data-th-text="${project.name}">spring-framework</a></td>
+                <td>
+                    <span class="tag" data-th-classappend="${'is-' + project.status}" data-th-text="${project.status.label}">Active</span>
+                </td>
+                <td>
+                    <a data-th-href="${project.display.siteUrl}" target="_blank">
+                        <span class="icon">
+                            <i class="fas fa-link"></i>
+                        </span>
+                        <span data-th-text="${project.display.siteUrl}">/projects/spring-framework</span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

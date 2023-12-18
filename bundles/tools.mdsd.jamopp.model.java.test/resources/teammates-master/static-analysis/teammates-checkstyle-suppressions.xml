@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.1//EN"
+    "https://checkstyle.org/dtds/suppressions_1_1.dtd">
+<suppressions>
+    <!-- Ignore auto-generated code -->
+    <suppress checks="." files="com[/\\]google[/\\]appengine[/\\]logging[/\\]v1[/\\].*\.java"/>
+
+    <!-- Scripts inherently need main method to run -->
+    <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
+
+    <!-- To be implemented slowly -->
+    <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
+    <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
+    <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]Logic\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]LogicExtension\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]test[/\\]Base.*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
+</suppressions>

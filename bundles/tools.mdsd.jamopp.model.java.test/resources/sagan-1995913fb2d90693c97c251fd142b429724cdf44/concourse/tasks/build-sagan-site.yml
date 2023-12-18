@@ -1,0 +1,23 @@
+---
+platform: linux
+image_resource:
+  type: registry-image
+  source:
+    repository: bellsoft/liberica-openjdk-debian
+    tag: 11
+inputs:
+- name: sagan-site-repo
+outputs:
+- name: build
+- name: distribution-repository
+- name: sagan-site-repo
+caches:
+- path: gradle
+params:
+run:
+  user: root
+  path: /bin/bash
+  args:
+    - -ec
+    - |
+      ${PWD}/sagan-site-repo/concourse/scripts/build-sagan-site.sh
