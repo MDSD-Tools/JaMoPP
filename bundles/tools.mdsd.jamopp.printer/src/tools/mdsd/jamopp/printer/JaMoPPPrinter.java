@@ -19,11 +19,11 @@ import tools.mdsd.jamopp.printer.injection.ModulePrinterInjection;
  */
 public final class JaMoPPPrinter {
 
-	private final static JavaRootPrinterImpl javaRootPrinterImpl;
+	private final static JavaRootPrinterImpl JAVA_ROOT_PRINTER;
 
 	static {
 		var injector = Guice.createInjector(new ModulePrinterInjection());
-		javaRootPrinterImpl = injector.getInstance(JavaRootPrinterImpl.class);
+		JAVA_ROOT_PRINTER = injector.getInstance(JavaRootPrinterImpl.class);
 	}
 
 	/**
@@ -35,7 +35,7 @@ public final class JaMoPPPrinter {
 	public static void print(JavaRoot root, OutputStream output) {
 		try (var outWriter = new OutputStreamWriter(output, StandardCharsets.UTF_8);
 				var buffWriter = new BufferedWriter(outWriter)) {
-			javaRootPrinterImpl.print(root, buffWriter);
+			JAVA_ROOT_PRINTER.print(root, buffWriter);
 		} catch (IOException e) {
 		}
 	}
@@ -48,7 +48,7 @@ public final class JaMoPPPrinter {
 	 */
 	public static void print(JavaRoot root, Path file) {
 		try (var writer = Files.newBufferedWriter(file)) {
-			javaRootPrinterImpl.print(root, writer);
+			JAVA_ROOT_PRINTER.print(root, writer);
 		} catch (IOException e) {
 		}
 	}

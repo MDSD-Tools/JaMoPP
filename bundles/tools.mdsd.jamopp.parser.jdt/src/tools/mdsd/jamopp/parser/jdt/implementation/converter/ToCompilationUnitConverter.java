@@ -17,7 +17,7 @@ implements Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.Co
 	private final ContainersFactory containersFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final AbstractVisitor visitor;
-	private final Converter<AbstractTypeDeclaration, ConcreteClassifier> ClassifierConverterUtility;
+	private final Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
 
 	@Inject
 	public ToCompilationUnitConverter(AbstractVisitor visitor, UtilLayout layoutInformationConverter,
@@ -25,7 +25,7 @@ implements Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.Co
 			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility) {
 		this.containersFactory = containersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
-		this.ClassifierConverterUtility = classifierConverterUtility;
+		this.classifierConverterUtility = classifierConverterUtility;
 		this.visitor = visitor;
 	}
 
@@ -36,7 +36,7 @@ implements Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.Co
 		result.setName("");
 		this.layoutInformationConverter.convertJavaRootLayoutInformation(result, cu, this.visitor.getSource());
 		cu.types().forEach(obj -> result.getClassifiers()
-				.add(this.ClassifierConverterUtility.convert((AbstractTypeDeclaration) obj)));
+				.add(this.classifierConverterUtility.convert((AbstractTypeDeclaration) obj)));
 		return result;
 	}
 
