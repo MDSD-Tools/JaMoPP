@@ -225,7 +225,6 @@ public class TypeExtension {
 			lOtherType = primitiveType;
 		}
 
-		// FIXME This is duplicate
 		if (thisType instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
 			PrimitiveType primitiveType = ((tools.mdsd.jamopp.model.java.classifiers.Class) thisType)
 					.unWrapPrimitiveType();

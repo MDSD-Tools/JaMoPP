@@ -19,6 +19,7 @@ package tools.mdsd.jamopp.model.java.extensions.members;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.members.Method;
@@ -43,16 +44,15 @@ public class MethodExtension {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given {@link Method} <code>me</code> is
-	 * a better match for the given method call than {@link Method}
+	 * Returns <code>true</code> if the given {@link Method} <code>me</code> is a
+	 * better match for the given method call than {@link Method}
 	 * <code>otherMethod</code>.
 	 *
 	 * @param otherMethod
 	 * @param methodCall
 	 * @return
 	 */
-	public static boolean isBetterMethodForCall(Method me, Method otherMethod,
-			MethodCall methodCall) {
+	public static boolean isBetterMethodForCall(Method me, Method otherMethod, MethodCall methodCall) {
 
 		if (!me.isMethodForCall(methodCall, false)) {
 			return false;
@@ -62,34 +62,32 @@ public class MethodExtension {
 			if (me.isMethodForCall(methodCall, true)) {
 				// We both match perfectly; lets compare our return types
 				Type target = me.getTypeReference().getTarget();
-				if ((target instanceof ConcreteClassifier) && ((ConcreteClassifier) target).getAllSuperClassifiers().contains(
-						otherMethod.getTypeReference().getTarget())) {
+				if (target instanceof ConcreteClassifier && ((ConcreteClassifier) target).getAllSuperClassifiers()
+						.contains(otherMethod.getTypeReference().getTarget())) {
 					// I am the more concrete type
 					return true;
 				}
 			}
 
-			//the other already matches perfectly; I am not better
+			// the other already matches perfectly; I am not better
 			return false;
 		}
 
 		if (!otherMethod.isMethodForCall(methodCall, false)) {
-			//I match, but the other does not
+			// I match, but the other does not
 			return true;
 		}
-		//we both match, I am only better if I match perfectly <-
-		//TODO #763: this is not enough: we need to check for "nearest subtype" here
+		// we both match, I am only better if I match perfectly
 		return me.isMethodForCall(methodCall, true);
 	}
 
-	public static boolean isMethodForCall(Method me, MethodCall methodCall,
-			boolean needsPerfectMatch) {
+	public static boolean isMethodForCall(Method me, MethodCall methodCall, boolean needsPerfectMatch) {
 
 		EList<Type> argumentTypeList = methodCall.getArgumentTypes();
 		EList<Parameter> parameterList = new BasicEList<>(me.getParameters());
 
 		EList<Type> parameterTypeList = new BasicEList<>();
-		for (Parameter parameter : parameterList)  {
+		for (Parameter parameter : parameterList) {
 			// Determine types before messing with the parameters
 			TypeReference typeReference = parameter.getTypeReference();
 			Type boundTarget = typeReference.getBoundTarget(methodCall);
@@ -98,7 +96,7 @@ public class MethodExtension {
 
 		if (!parameterList.isEmpty()) {
 			Parameter lastParameter = parameterList.get(parameterList.size() - 1);
-			Type lastParameterType  = parameterTypeList.get(parameterTypeList.size() - 1);
+			Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
 			if (lastParameter instanceof VariableLengthParameter) {
 				// In case of variable length add/remove some parameters
 				while (parameterList.size() < argumentTypeList.size()) {
@@ -119,14 +117,14 @@ public class MethodExtension {
 			}
 		}
 
-		// TODO Perform early exit instead
 		if (parameterList.size() == argumentTypeList.size()) {
 			boolean parametersMatch = true;
 			for (int i = 0; i < argumentTypeList.size(); i++) {
 				Type parameterType = parameterTypeList.get(i);
 				Type argumentType = argumentTypeList.get(i);
 
-				if (argumentType == null || parameterType == null || (parameterType.eIsProxy() && argumentType.eIsProxy())) {
+				if (argumentType == null || parameterType == null
+						|| parameterType.eIsProxy() && argumentType.eIsProxy()) {
 					return false;
 				}
 				Expression argument = methodCall.getArguments().get(i);
@@ -135,17 +133,12 @@ public class MethodExtension {
 				if (needsPerfectMatch) {
 					long parameterArrayDimension = parameter.getArrayDimension();
 					parametersMatch = parametersMatch
-							&& argumentType.equalsType(argumentArrayDimension,
-									parameterType, parameterArrayDimension);
+							&& argumentType.equalsType(argumentArrayDimension, parameterType, parameterArrayDimension);
 				} else {
 					parametersMatch = parametersMatch
-							&& argumentType.isSuperType(argumentArrayDimension,
-									parameterType, parameter);
+							&& argumentType.isSuperType(argumentArrayDimension, parameterType, parameter);
 				}
 
-				// TODO Return if parametersMatch is 'false'? There is not need
-				// to check the other parameters because once parametersMatch is
-				// 'false' it wont become true anymore.
 			}
 			return parametersMatch;
 		}
@@ -154,8 +147,8 @@ public class MethodExtension {
 	}
 
 	/**
-	 * Returns a list of all statements within the block of a method.
-	 * This is a legacy method to provide a stable and backwards-compatible API.
+	 * Returns a list of all statements within the block of a method. This is a
+	 * legacy method to provide a stable and backwards-compatible API.
 	 *
 	 * @param me the method for which the statements are obtained.
 	 * @return the list of all statements.
