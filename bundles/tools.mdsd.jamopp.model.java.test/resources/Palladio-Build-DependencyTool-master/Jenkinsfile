@@ -1,3 +1,0 @@
-PalladioPipeline {
-    deployUpdatesite 'target/deploy'
-}

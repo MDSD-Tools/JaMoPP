@@ -1,8 +1,0 @@
-.gradle
-build/
-*.idea/
-*.iml
-*.log
-out
-.DS_Store
-gradle-home
