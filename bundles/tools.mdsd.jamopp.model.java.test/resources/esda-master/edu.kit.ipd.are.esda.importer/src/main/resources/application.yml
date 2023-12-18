@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  json:
+    trusted-packages: todo
+  kafka:
+    consumer:
+      group-id: esda
+      auto-offset-reset: earliest
+      client-id: json
+    bootstrap-servers: kafka:9092
+
+esda:
+  messages-per-aggregat: 10
+  aggregate:
+    topic-name: advice-topic
+    number-partitions: 1
+    replication-factor: 1
+  analysis:
+    topic-name: advice-topicx
+    number-partitions: 1
+    replication-factor: 1
+  import:
+    path: hello

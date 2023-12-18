@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html data-th-replace="~{layout :: layout(~{::head/content()}, 'projects', ~{::div})}">
+<head>
+    <title>Spring | Projects</title>
+</head>
+<body>
+<div>
+  <div id='hero'>
+    <div class='container'>
+      <h1 class='h1 mb-1 antialiased'>Projects</h1>
+      <p class='big mb-5'>From configuration to security, web apps to big data&mdash;whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need&mdash;Spring is modular by design.</p>
+    </div>
+  </div>
+  <div class='content' role='Main'>
+    <div class='container'>
+
+      <h2 class='h5 small uppercase thin wide' data-th-if="${not #lists.isEmpty(featured)}">Featured Projects</h2>
+      <section id='featured' class='flex jc-between mb-4' data-th-each="project : ${featured}">
+        <a class='featured-proj third rad-5 shadow-hover border-dark bg-white border-box'>
+          <h3 class='h3 m-0 antialiased' data-th-text="${project.name}">Spring Kubernetes</h3>
+          <p class='m-0' data-th-text="${project.display.tagLine}">Very short one-line description.</p>
+        </a>
+      </section>
+      <section id='filters-and-proj' class='flex jc-between mb-6'>
+        <ul id='proj-filters'>
+          <li class='blue pointer rad-5 border-box flex jc-between ai-center' data-th-each="group : ${groups}" data-th-attr="data-group=${group.name}" data-th-inline="text">[[${group.label}]]<img class='filter-exit'data-th-src="@{/images/close.svg}" alt=''></li>
+        </ul>
+        <div class='proj-80'>
+          <div class='flex jc-between flex-wrap'>
+            <a data-th-each="project : ${ACTIVE}" class='project half border-dark shadow-hover rad-5 flex jc-between bg-white border-box'
+               data-th-href="${project.display.siteUrl}" data-th-attr="data-groups=${project.groups.![name]}">
+              <div class='proj-icon-box'>
+                <img class='proj-icon' data-th-src="@{${project.display.imagePath ?: '/images/projects/spring.svg'}}">
+              </div>
+              <div class='proj-text'>
+                <h3 class='h3 m-0 antialiased' data-th-text="${project.name}">Spring Boot</h3>
+                <p data-th-text="${project.display.tagLine}">Takes an opinionated view of building Spring applications and gets you up and running as quickly as possible.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section id='community-proj' class='proj-category mb-6' data-th-if="${COMMUNITY}">
+        <h2 class='h3 mb-3 antialiased'>Community Projects</h2>
+        <div class='flex'>
+          <div class='proj-80 flex jc-between flex-wrap'>
+            <a data-th-each="project : ${community}" class='project half border-dark shadow-hover rad-5 flex jc-between bg-white border-box'
+               data-th-href="${project.display.siteUrl}" data-th-attr="data-groups=${project.groups.![name]}">
+              <div class='proj-icon-box'>
+                <img class='proj-icon' data-th-src="@{${project.display.imagePath ?: '/images/projects/spring.svg'}}">
+              </div>
+              <div class='proj-text'>
+                <h3 class='h3 m-0 antialiased' data-th-text="${project.name}">Spring Boot</h3>
+                <p data-th-text="${project.display.tagLine}">Takes an opinionated view of building Spring applications and gets you up and running as quickly as possible.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section id='attic-proj' class='proj-category proj-category-attic mb-6'>
+        <h2 class='h3 mb-3 antialiased'>Projects in the Attic</h2>
+        <div class='flex'>
+          <div class='flex flex-wrap'>
+            <a data-th-each="project : ${END_OF_LIFE}"
+               class='project'
+               data-th-href="${project.display.siteUrl}" data-th-attr="data-groups=${project.groups.![name]}">
+              <div class='proj-text'>
+                <h3 class='h3 blue m-0 antialiased' data-th-text="${project.name}">Spring Boot</h3>
+                <p data-th-text="${project.display.tagLine}">Takes an opinionated view of building Spring applications and gets you
+                  up and running as quickly as possible.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script data-th-src="@{/js/project.js}"></script>
+  </div>
+</div>
+</body>
+</html>

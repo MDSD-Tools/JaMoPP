@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  device-client:
+    build: ./device-client
+    image: pmitseas/smarthome/device-client:1
+    environment:
+      - WS_HOST=gateway-server
+  eureka-server:
+    build: ./eureka
+    image: pmitseas/eureka:1
+    ports:
+      - "8761:8761"
+  gateway-server:
+    build: ./gateway-server
+    image: pmitseas/gateway:1
+    environment:
+      - EUREKA_HOST=eureka-server
+      - EUREKA_PORT=8761
+    depends_on:
+      - eureka-server
+    ports:
+      - "8000:8000"
+  device-management-ms:
+    build: ./device-management-ms
+    image: pmitseas/smarthome/device_management_ms:1
+    environment:
+      - ACTIVEMQ_HOST=activemq
+      - EUREKA_HOST=eureka-server
+      - EUREKA_PORT=8761
+  control-ms:
+    build: ./control-ms
+    image: pmitseas/smarthome/control-ms
+    environment:
+      - ACTIVEMQ_HOST=activemq
+      - EUREKA_HOST=eureka-server
+      - EUREKA_PORT=8761
+  activemq:
+    image: vromero/activemq-artemis
+    environment:
+      - ARTEMIS_USERNAME=admin
+      - ARTEMIS_PASSWORD=admin
+      - BROKER_CONFIG_CONNECTION_TTL=-1
+    ports:
+      - "8161:8161"
+      - "61613:61613"
+      - "61616:61616"

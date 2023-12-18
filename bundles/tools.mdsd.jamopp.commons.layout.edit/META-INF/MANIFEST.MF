@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EMFText LayoutInformation Meta-model Edit Support
+Bundle-SymbolicName: tools.mdsd.jamopp.commons.layout.edit;singleton:=true
+Bundle-Version: 5.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: tools.mdsd.jamopp.commons.layout.provider.LayoutEditPlugin$Implementation
+Bundle-Vendor: MDSD-Tools
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: tools.mdsd.jamopp.commons.layout.edit
+Export-Package: tools.mdsd.jamopp.commons.layout.provider
+Require-Bundle: org.eclipse.core.runtime,
+ tools.mdsd.jamopp.commons.layout;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

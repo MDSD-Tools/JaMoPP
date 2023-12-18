@@ -1,0 +1,12 @@
+package pkg2;
+
+public class SimpleClassWithLiterals {
+public  void literals() {
+int i = 0b10101010101010101001;
+i = 0b100101010101;
+i = 0b10101001101000010101001;
+long l = 0b0L;
+l = 0b101010010101010100101010101111111100000010010101L;
+}
+
+}

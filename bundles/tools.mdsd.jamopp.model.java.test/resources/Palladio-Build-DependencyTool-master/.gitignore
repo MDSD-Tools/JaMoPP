@@ -1,0 +1,6 @@
+target/
+neo4j/
+!src/**/neo4j
+dependency-reduced-pom.xml
+.idea/
+.factorypath

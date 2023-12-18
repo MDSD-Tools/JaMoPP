@@ -1,0 +1,3 @@
+PalladioPipeline {
+    deployUpdatesite 'target/deploy'
+}

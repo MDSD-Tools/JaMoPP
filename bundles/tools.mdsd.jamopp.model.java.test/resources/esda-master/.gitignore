@@ -1,0 +1,41 @@
+### Maven ###
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+buildNumber.properties
+dependency-reduced-pom.xml
+pom.xml.next
+pom.xml.releaseBackup
+pom.xml.tag
+pom.xml.versionsBackup
+release.properties
+target/
+
+### Java ###
+*.class
+*.ctxt
+*.ear
+*.jar
+*.log
+*.nar
+*.rar
+*.tar.gz
+*.war
+*.zip
+hs_err_pid*
+
+### Eclipse ###
+.apt_generated/
+.autotools
+.externalToolBuilders/
+.loadpath
+.metadata
+.recommenders
+.recommenders/
+.settings/
+*.bak
+*.swp
+*.tmp
+*~.nib
+bin/
+local.properties
+tmp/

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{::body/nav/content()}, ~{::body/ul}, ~{::body/div})}">
+<head>
+    <title data-th-inline="text">Admin | Edit | [[${projectFormGenerations.id}]]</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a data-th-href="@{/admin}">Admin</a></li>
+        <li><a data-th-href="@{/admin/projects}">Projects</a></li>
+        <li class="is-active"><a data-th-href="@{'/admin/projects/' + ${projectFormGenerations.id}}" aria-current="page">Edit</a></li>
+    </ul>
+</nav>
+
+<ul>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${projectFormGenerations.id}}">
+            <span class="icon is-small"><i class="far fa-folder-open" aria-hidden="true"></i></span>
+            <span>Metadata</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${projectFormGenerations.id} + '/info'}">
+            <span class="icon is-small"><i class="fas fa-info" aria-hidden="true"></i></span>
+            <span>Info</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${projectFormGenerations.id} + '/releases'}">
+            <span class="icon is-small"><i class="fas fa-download" aria-hidden="true"></i></span>
+            <span>Releases</span>
+        </a>
+    </li>
+    <li class="is-active">
+        <a data-th-href="@{'/admin/projects/' + ${projectFormGenerations.id} + '/support'}">
+            <span class="icon is-small"><i class="far fa-calendar-check" aria-hidden="true"></i></span>
+            <span>Support</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${projectFormGenerations.id} + '/samples'}">
+            <span class="icon is-small"><i class="fas fa-code" aria-hidden="true"></i></span>
+            <span>Samples</span>
+        </a>
+    </li>
+</ul>
+
+<div>
+    <form data-th-action="@{'/admin/projects/'+${projectFormGenerations.id} + '/support'}" method="post" data-th-object="${projectFormGenerations}">
+        <input type="hidden" data-th-name="id" data-th-value="*{id}"/>
+
+        <div class="field">
+            <table class="table is-striped is-fullwidth">
+                <thead>
+                <tr>
+                    <td>Delete?</td>
+                    <td>Generation</td>
+                    <td>Initial Release</td>
+                    <td>End of OSS Support</td>
+                    <td>End of Commercial support</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-th-each="generation,generationStat : ${projectFormGenerations.generations}">
+                    <td><input class="checkbox" type="checkbox" data-th-field="*{generations[__${generationStat.index}__].toDelete}"/></td>
+                    <td><input type="hidden" data-th-field="*{generations[__${generationStat.index}__].name}"/><span data-th-text="${generation.name}">2.1.x</span></td>
+                    <td><input type="text" class="input" data-th-field="*{generations[__${generationStat.index}__].initialReleaseDate}" autocomplete="off"/></td>
+                    <td><input type="text" class="input" data-th-field="*{generations[__${generationStat.index}__].ossSupportEnforcedEndDate}" autocomplete="off"/>
+                        <p class="help" data-th-if="${generation.ossSupportPolicyEndDate}" data-th-text="${'Official Policy: ' + generation.ossSupportPolicyEndDate}">2020-01-01</p>
+                        <p class="help is-danger" data-th-if="${generation.invalidOssSupportEndDate}">Defined end date does not comply with policy!</p></td>
+                    <td><input type="text" class="input" data-th-field="*{generations[__${generationStat.index}__].commercialSupportEnforcedEndDate}" autocomplete="off"/>
+                        <p class="help" data-th-if="${generation.commercialSupportPolicyEndDate}" data-th-text="${'Official Policy: ' + generation.commercialSupportPolicyEndDate}">2020-01-01</p>
+                        <p class="help is-danger" data-th-if="${generation.invalidCommercialSupportEndDate}">Defined end date does not comply with policy!</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input class="input" type="text" data-th-field="*{newGeneration.name}" placeholder="2.1.x or Name.x"/>
+                        <p class="help is-danger" data-th-if="${#fields.hasErrors('newGeneration.name')}"
+                           data-th-errors="*{newGeneration.name}">Name must end with '.x'</p></td>
+                    <td><input class="input" type="text" data-th-field="*{newGeneration.initialReleaseDate}" placeholder="2020-01-01"/>
+                        <p class="help is-danger" data-th-if="${#fields.hasErrors('newGeneration.initialReleaseDate')}"
+                           data-th-errors="*{newGeneration.initialReleaseDate}">Date must use the '2021-01-01' format</p></td>
+                    <td><input class="input" type="text" data-th-field="*{newGeneration.ossSupportEnforcedEndDate}" placeholder="Leave blank to use official policy"/>
+                        <p class="help">12+ months after initial release</p></td>
+                    <td><input class="input" type="text" data-th-field="*{newGeneration.commercialSupportEnforcedEndDate}" placeholder="Leave blank to use official policy"/>
+                        <p class="help">12-16 months after end of OSS support or 12 months after next generation, whichever is last.</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="buttons control is-centered">
+            <button type="submit" class="button is-primary">Save</button>
+            <a class="button" data-th-href="@{'/admin/projects/' + ${projectFormGenerations.id}}">Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

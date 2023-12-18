@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ASCII"?>
+<containers:CompilationUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:classifiers="http://www.emftext.org/java/classifiers" xmlns:containers="http://www.emftext.org/java/containers" xmlns:layout="http://www.emftext.org/commons/layout" xmlns:members="http://www.emftext.org/java/members" xmlns:modifiers="http://www.emftext.org/java/modifiers" xmlns:parameters="http://www.emftext.org/java/parameters" xmlns:references="http://www.emftext.org/java/references" xmlns:statements="http://www.emftext.org/java/statements" xmlns:types="http://www.emftext.org/java/types" name="">
+  <layoutInformations xsi:type="layout:MinimalLayoutInformation" visibleTokenText="/*******************************************************************************&#xD;&#xA; * Copyright (c) 2006-2012&#xD;&#xA; * Software Technology Group, Dresden University of Technology&#xD;&#xA; * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026&#xD;&#xA; * &#xD;&#xA; * All rights reserved. This program and the accompanying materials&#xD;&#xA; * are made available under the terms of the Eclipse Public License v1.0&#xD;&#xA; * which accompanies this distribution, and is available at&#xD;&#xA; * http://www.eclipse.org/legal/epl-v10.html&#xD;&#xA; * &#xD;&#xA; * Contributors:&#xD;&#xA; *   Software Technology Group - TU Dresden, Germany;&#xD;&#xA; *   DevBoost GmbH - Berlin, Germany&#xD;&#xA; *      - initial API and implementation&#xD;&#xA; ******************************************************************************/&#xD;&#xA;package resolving;&#xD;&#xA;&#xD;&#xA;public class VariableReferencing {&#xD;&#xA;&#x9;public VariableReferencing var;&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;public void method() {&#xD;&#xA;&#x9;&#x9;// a reference to a member variable&#xD;&#xA;&#x9;&#x9;var = null; // statement1&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;VariableReferencing var; // statement2&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;// a reference to a local variable&#xD;&#xA;&#x9;&#x9;var = null; // statement3&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;{ // statement4 (a block)&#xD;&#xA;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;// a reference to a local variable from inside a block&#xD;&#xA;&#x9;&#x9;&#x9;var = null;&#xD;&#xA;&#x9;&#x9;&#x9;// a reference to a local variable from inside a conditional statement&#xD;&#xA;&#x9;&#x9;&#x9;if (true) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;var = null;&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;var = new VariableReferencing();&#xD;&#xA;&#x9;&#x9;var.method();&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;" object="/" length="288" rootLayout="//@layoutInformations.0"/>
+  <classifiers xsi:type="classifiers:Class" name="HomoglyphFunction">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" object="//@classifiers.0" length="288" rootLayout="//@layoutInformations.0"/>
+    <members xsi:type="members:ClassMethod" name="sayHello">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="38" object="//@classifiers.0/@members.0" length="82" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:Void">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="52" object="//@classifiers.0/@members.0/@typeReference" length="4" rootLayout="//@layoutInformations.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="38" object="//@classifiers.0/@members.0/@annotationsAndModifiers.0" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Static">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="45" object="//@classifiers.0/@members.0/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="68" object="//@classifiers.0/@members.0/@statement" length="52" rootLayout="//@layoutInformations.0"/>
+        <statements xsi:type="statements:ExpressionStatement">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="78" object="//@classifiers.0/@members.0/@statement/@statements.0" length="36" rootLayout="//@layoutInformations.0"/>
+          <expression xsi:type="references:IdentifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="78" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression" length="6" rootLayout="//@layoutInformations.0"/>
+            <next xsi:type="references:IdentifierReference">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="85" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next" length="3" rootLayout="//@layoutInformations.0"/>
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="78" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next" length="10" rootLayout="//@layoutInformations.0"/>
+              <next xsi:type="references:MethodCall">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="78" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next/@next" length="35" rootLayout="//@layoutInformations.0"/>
+                <target xsi:type="members:ClassMethod" href="empty://JaMoPP-CompilationUnit/java.io.PrintStream.java#//@classifiers.0/@members.48"/>
+                <arguments xsi:type="references:StringReference" value="Hello, World!">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="97" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next/@next/@arguments.0" length="15" rootLayout="//@layoutInformations.0"/>
+                </arguments>
+              </next>
+              <target xsi:type="members:Field" href="empty://JaMoPP-CompilationUnit/java.lang.System.java#//@classifiers.0/@members.9"/>
+            </next>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.System.java#//@classifiers.0"/>
+          </expression>
+        </statements>
+      </statement>
+    </members>
+    <members xsi:type="members:ClassMethod" name="say&#x41d;ello">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="130" object="//@classifiers.0/@members.1" length="84" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:Void">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="144" object="//@classifiers.0/@members.1/@typeReference" length="4" rootLayout="//@layoutInformations.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="130" object="//@classifiers.0/@members.1/@annotationsAndModifiers.0" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Static">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="137" object="//@classifiers.0/@members.1/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="160" object="//@classifiers.0/@members.1/@statement" length="54" rootLayout="//@layoutInformations.0"/>
+        <statements xsi:type="statements:ExpressionStatement">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="170" object="//@classifiers.0/@members.1/@statement/@statements.0" length="38" rootLayout="//@layoutInformations.0"/>
+          <expression xsi:type="references:IdentifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="170" object="//@classifiers.0/@members.1/@statement/@statements.0/@expression" length="6" rootLayout="//@layoutInformations.0"/>
+            <next xsi:type="references:IdentifierReference">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="177" object="//@classifiers.0/@members.1/@statement/@statements.0/@expression/@next" length="3" rootLayout="//@layoutInformations.0"/>
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="170" object="//@classifiers.0/@members.1/@statement/@statements.0/@expression/@next" length="10" rootLayout="//@layoutInformations.0"/>
+              <next xsi:type="references:MethodCall">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="170" object="//@classifiers.0/@members.1/@statement/@statements.0/@expression/@next/@next" length="37" rootLayout="//@layoutInformations.0"/>
+                <target xsi:type="members:ClassMethod" href="empty://JaMoPP-CompilationUnit/java.io.PrintStream.java#//@classifiers.0/@members.48"/>
+                <arguments xsi:type="references:StringReference" value="Goodbye, World!">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="189" object="//@classifiers.0/@members.1/@statement/@statements.0/@expression/@next/@next/@arguments.0" length="17" rootLayout="//@layoutInformations.0"/>
+                </arguments>
+              </next>
+              <target xsi:type="members:Field" href="empty://JaMoPP-CompilationUnit/java.lang.System.java#//@classifiers.0/@members.9"/>
+            </next>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.System.java#//@classifiers.0"/>
+          </expression>
+        </statements>
+      </statement>
+    </members>
+    <members xsi:type="members:ClassMethod" name="main">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="220" object="//@classifiers.0/@members.2" length="66" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:Void">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="234" object="//@classifiers.0/@members.2/@typeReference" length="4" rootLayout="//@layoutInformations.0"/>
+      </typeReference>
+      <parameters xsi:type="parameters:OrdinaryParameter" name="args">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="244" object="//@classifiers.0/@members.2/@parameters.0" length="13" rootLayout="//@layoutInformations.0"/>
+        <typeReference xsi:type="types:ClassifierReference">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="244" object="//@classifiers.0/@members.2/@parameters.0/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+          <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+        </typeReference>
+        <arrayDimensionsBefore>
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="250" object="//@classifiers.0/@members.2/@parameters.0/@arrayDimensionsBefore.0" length="2" rootLayout="//@layoutInformations.0"/>
+        </arrayDimensionsBefore>
+      </parameters>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="220" object="//@classifiers.0/@members.2/@annotationsAndModifiers.0" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Static">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="227" object="//@classifiers.0/@members.2/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="259" object="//@classifiers.0/@members.2/@statement" length="27" rootLayout="//@layoutInformations.0"/>
+        <statements xsi:type="statements:ExpressionStatement">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="269" object="//@classifiers.0/@members.2/@statement/@statements.0" length="11" rootLayout="//@layoutInformations.0"/>
+          <expression xsi:type="references:MethodCall" target="//@classifiers.0/@members.1">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="269" object="//@classifiers.0/@members.2/@statement/@statements.0/@expression" length="10" rootLayout="//@layoutInformations.0"/>
+          </expression>
+        </statements>
+      </statement>
+    </members>
+    <annotationsAndModifiers xsi:type="modifiers:Public">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" object="//@classifiers.0/@annotationsAndModifiers.0" length="6" rootLayout="//@layoutInformations.0"/>
+    </annotationsAndModifiers>
+    <package href="empty://JaMoPP-Package//package-info.java#/"/>
+  </classifiers>
+</containers:CompilationUnit>

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JaMoPP Parser API
+Bundle-SymbolicName: tools.mdsd.jamopp.parser
+Bundle-Version: 5.1.0.qualifier
+Bundle-Vendor: MDSD-Tools
+Automatic-Module-Name: tools.mdsd.jamopp.parser
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: tools.mdsd.jamopp.parser.api
+Require-Bundle: tools.mdsd.jamopp.model.java,
+ org.eclipse.emf

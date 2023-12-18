@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{}, ~{}, ~{::div})}">
+<head>
+    <title>Admin</title>
+</head>
+<body>
+<div>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Welcome, <span data-th-text="${#authentication.principal.attributes.name}">Emily Spring</span>
+                </h1>
+                <h2 class="subtitle">
+                    to the spring.io admin website.
+                </h2>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

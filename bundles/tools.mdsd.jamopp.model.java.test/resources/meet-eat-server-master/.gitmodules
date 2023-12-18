@@ -1,0 +1,4 @@
+[submodule "lib/meet-eat-data"]
+	path = lib/meet-eat-data
+	url = https://github.com/meet-eat/meet-eat-data.git
+	branch = master

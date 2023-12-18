@@ -1,0 +1,10 @@
+<div class="input-group">
+  <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text"
+         (ngModelChange)="onRankOptionEntered($event.trim())">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;" tabindex="-1"
+            [disabled]="!isEditable" (click)="deleteRankOption()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </span>
+</div>

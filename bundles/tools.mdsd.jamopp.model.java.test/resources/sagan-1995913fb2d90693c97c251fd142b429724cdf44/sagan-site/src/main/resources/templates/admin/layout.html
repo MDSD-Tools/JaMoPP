@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html data-th-fragment="layout (heads, breadcrumbs, tabs, content)" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang='en'>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="all" data-th-href="@{/css/admin.css}"/>
+    <data-th-block data-th-replace="${heads}"></data-th-block>
+</head>
+<body data-th-id="${bodyId}">
+<nav class="navbar is-spaced has-shadow" role="navigation" aria-label="main navigation" id="navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-item-logo" data-th-href="@{/admin/}">
+                <img data-th-src="@{/images/spring-logo.svg}" width="200">
+            </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" data-th-href="@{/admin/blog}" data-th-classappend="${#httpServletRequest.getRequestURI().startsWith('/admin/blog') ? 'is-active':''}">
+                    <span class="icon has-text-primary">
+                        <i class="fab fa-microblog"></i>
+                    </span>
+                    <span>Blog</span>
+                </a>
+                <a class="navbar-item" data-th-href="@{/admin/projects}"  data-th-classappend="${#httpServletRequest.getRequestURI().startsWith('/admin/projects') ? 'is-active':''}">
+                    <span class="icon has-text-star">
+                        <i class="fas fa-star"></i>
+                    </span>
+                    <span>Projects</span>
+                </a>
+                <a class="navbar-item" data-th-href="@{/admin/team}"  data-th-classappend="${#httpServletRequest.getRequestURI().startsWith('/admin/team') ? 'is-active':''}">
+                    <span class="icon has-text-success">
+                        <i class="fas fa-users"></i>
+                    </span>
+                    <span>Team</span>
+                </a>
+                <a class="navbar-item" data-th-href="@{/admin/tools}" data-th-classappend="${#httpServletRequest.getRequestURI().startsWith('/admin/tools') ? 'is-active':''}">
+                    <span class="icon has-text-tools">
+                        <i class="fas fa-tools"></i>
+                    </span>
+                    <span>Spring Tools</span>
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-white" data-th-href="@{'/admin/team/' + ${#authentication.principal.attributes.login}}">
+                            <span class="icon has-text-success">
+                              <i class="fas fa-user"></i>
+                            </span>
+                            <span data-th-text="${#authentication.principal.attributes.login}">springcentral</span>
+                        </a>
+                        <form method="post" data-th-action="@{/signout}">
+                            <button class="button is-white"  type="submit">
+                                <span class="icon has-text-danger">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </span><span>Log out</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<main class="container">
+    <nav id="breadcrumbs" class="breadcrumb" aria-label="breadcrumbs" data-th-insert="${breadcrumbs}"></nav>
+    <div id="tabs" class="tabs is-centered is-boxed is-medium" data-th-insert="${tabs}"></div>
+    <div id='admin' data-th-insert="${content}">
+        <p>Content</p>
+    </div>
+</main>
+<footer id="footer">
+    <div class="container">
+        © 2020 <a target="_blank" href="https://tanzu.vmware.com/">VMware</a>, Inc.
+    </div>
+</footer>
+<script data-th-src="@{/js/admin.js}"></script>
+</body>
+</html>

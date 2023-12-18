@@ -1,0 +1,35 @@
+server:
+  port: 8081
+  servlet:
+    session:
+      timeout: -1
+
+spring:
+  application:
+    name: device-management-service
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+broker:
+  relay:
+    host: ${activemq.host:localhost}
+    user: admin
+    password: admin
+  url: tcp://${activemq.host:localhost}:61616
+  queue: actions.queue
+  topic: actions.topic
+
+logging:
+  level:
+    org.springframework.messaging: debug
+
+eureka:
+  client:
+    healthcheck:
+      enabled: false
+    serviceUrl:
+      defaultZone: http://${eureka.host:127.0.0.1}:${eureka.port:8761}/eureka/
+  instance:
+    preferIpAddress: true

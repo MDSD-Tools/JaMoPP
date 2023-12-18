@@ -1,0 +1,64 @@
+<h1>
+  Feedback Session Results
+</h1>
+<div class="row" *ngIf="regKey">
+  <div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      <div *ngIf="loggedInUser">
+        You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{ loggedInUser }}) with this user,
+        <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">click here</a>.
+      </div>
+      <div *ngIf="!loggedInUser">
+        You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in.
+        To access other features you need to <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isFeedbackSessionResultsLoading && questions.length !== 0" class="alert alert-primary" role="alert">
+  <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+</div>
+<div class="card card-plain mt-3">
+  <div class="card-body">
+    <br/>
+    <div class="row text-center">
+      <div class="col-md-2 text-md-right"><b>Course ID:</b></div>
+      <div id="course-id" class="col-md-7 text-md-left">{{ session.courseId }}</div>
+    </div>
+    <br/>
+    <div class="row text-center">
+      <div class="col-md-2 text-md-right"><b>Session:</b></div>
+      <div id="session-name" class="col-md-7 text-md-left">{{ session.feedbackSessionName }}</div>
+    </div>
+    <br/>
+    <div class="row text-center">
+      <div class="col-md-2 text-md-right"><b>Opening time:</b></div>
+      <div id="opening-time" class="col-md-7 text-md-left">{{ formattedSessionOpeningTime }}</div>
+    </div>
+    <br/>
+    <div class="row text-center">
+      <div class="col-md-2 text-md-right"><b>Closing time:</b></div>
+      <div id="closing-time" class="col-md-7 text-md-left">{{ formattedSessionClosingTime }}</div>
+    </div>
+    <br/>
+  </div>
+</div>
+
+<div class="card bg-light" style="margin-bottom: 20px;" *ngIf="intent === Intent.INSTRUCTOR_RESULT">
+  <div class="card-body">
+    If you wish to view the feedback results of the entire course, <a href="javascript:;" (click)="navigateToSessionReportPage(); $event.preventDefault()">click here</a>.
+  </div>
+</div>
+
+<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
+  <div *tmIsLoading="isFeedbackSessionResultsLoading">
+    <div *ngIf="questions.length === 0" class="mt-4">
+      <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
+        Nothing to show. The responses are either not configured to be visible or there are no responses.
+      </div>
+    </div>
+    <tm-question-response-panel [questions]="questions" [session]="session"
+                                [intent]="intent"
+    ></tm-question-response-panel>
+  </div>
+</tm-loading-retry>

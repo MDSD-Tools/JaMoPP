@@ -1,0 +1,17 @@
+version: '2'
+services:
+  aggregate:
+    image: ghcr.io/kit-sdq/esda-aggregate
+    networks:
+      esdanet:
+  analysis:
+    image: ghcr.io/kit-sdq/esda-analysis
+    networks:
+      esdanet:
+  importer:
+    image: ghcr.io/kit-sdq/esda-importer
+    networks:
+      esdanet:
+    
+networks:
+    esdanet:

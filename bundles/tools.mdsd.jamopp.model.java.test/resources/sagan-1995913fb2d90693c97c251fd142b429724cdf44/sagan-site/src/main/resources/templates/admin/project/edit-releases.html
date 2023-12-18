@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{::body/nav/content()}, ~{::body/ul}, ~{::body/div})}">
+<head>
+    <title data-th-inline="text">Admin | Edit | [[${project.id}]]</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a data-th-href="@{/admin}">Admin</a></li>
+        <li><a data-th-href="@{/admin/projects}">Projects</a></li>
+        <li class="is-active"><a data-th-href="@{'/admin/projects/' + ${project.id}}" aria-current="page">Edit</a></li>
+    </ul>
+</nav>
+
+<ul>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id}}">
+            <span class="icon is-small"><i class="far fa-folder-open" aria-hidden="true"></i></span>
+            <span>Metadata</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/info'}">
+            <span class="icon is-small"><i class="fas fa-info" aria-hidden="true"></i></span>
+            <span>Info</span>
+        </a>
+    </li>
+    <li class="is-active">
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/releases'}">
+            <span class="icon is-small"><i class="fas fa-download" aria-hidden="true"></i></span>
+            <span>Releases</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/support'}">
+            <span class="icon is-small"><i class="far fa-calendar-check" aria-hidden="true"></i></span>
+            <span>Support</span>
+        </a>
+    </li>
+    <li>
+        <a data-th-href="@{'/admin/projects/' + ${project.id} + '/samples'}">
+            <span class="icon is-small"><i class="fas fa-code" aria-hidden="true"></i></span>
+            <span>Samples</span>
+        </a>
+    </li>
+</ul>
+
+<div>
+    <form data-th-action="@{'/admin/projects/'+${project.id} + '/releases'}" method="post" data-th-object="${project}">
+        <input type="hidden" data-th-name="id" data-th-value="*{id}"/>
+
+        <div class="field">
+            <table class="table is-striped is-fullwidth">
+                <thead>
+                <tr>
+                    <td>Delete?</td>
+                    <td>Version</td>
+                    <td>Reference URL</td>
+                    <td>API URL</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-th-each="release,releaseStat : ${project.releases}">
+                    <input type="hidden" name="id" data-th-field="*{releases[__${releaseStat.index}__].id}">
+                    <input class="input" type="hidden" data-th-field="*{releases[__${releaseStat.index}__].version}"/>
+                    <td><input class="checkbox" type="checkbox"
+                               data-th-field="*{releases[__${releaseStat.index}__].toDelete}"/></td>
+                    <td><span data-th-text="*{releases[__${releaseStat.index}__].version}"></span></td>
+                    <td><input class="input" type="text"
+                               data-th-field="*{releases[__${releaseStat.index}__].refDocUrl}"/></td>
+                    <td><input class="input" type="text"
+                               data-th-field="*{releases[__${releaseStat.index}__].apiDocUrl}"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input class="input" type="text" data-th-field="*{newRelease.version}"/></td>
+                    <td><input class="input" type="text" data-th-field="*{newRelease.refDocUrl}"/></td>
+                    <td><input class="input" type="text" data-th-field="*{newRelease.apiDocUrl}"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="buttons control is-centered">
+            <button type="submit" class="button is-primary">Save</button>
+            <a class="button" data-th-href="@{'/admin/projects/' + ${project.id}}">Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

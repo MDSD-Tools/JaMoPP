@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.kit.ipd.are</groupId>
+    <artifactId>esda-aggregate-build</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>EnergyStateDataAnalysis</name>
+    <description>Aggregate build for ESDA.</description>
+	<packaging>pom</packaging>
+	
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>12</java.version>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
+    </properties>
+
+    <modules>
+    <module>edu.kit.ipd.are.esda</module>
+    <module>edu.kit.ipd.are.esda.aggregate</module>
+    <module>edu.kit.ipd.are.esda.analysis</module>
+    <module>edu.kit.ipd.are.esda.importer</module>
+  </modules>
+</project>

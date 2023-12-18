@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html data-th-replace="~{admin/layout :: layout(~{::head/content()}, ~{::body/nav/content()}, ~{}, ~{::body/div})}">
+<head>
+    <title>Admin | Spring Tools</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a data-th-href="@{/admin}">Admin</a></li>
+        <li class="is-active"><a data-th-href="@{admin/tools}" aria-current="page">Spring Tools</a></li>
+    </ul>
+</nav>
+<div>
+    <nav class="level">
+        <div class="level-left">
+            <h2 class="title is-2">Platforms</h2>
+        </div>
+        <div class="level-right">
+            <p class="level-item"><a class="button is-success" data-th-href="@{'/admin/tools/new'}">Add Platform</a></p>
+        </div>
+    </nav>
+    <table class="table is-striped is-fullwidth">
+        <thead>
+        <tr>
+            <td>Name</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="platform : ${platforms}">
+            <td><a data-th-href="@{'/admin/tools/' + ${platform.id}}" data-th-text="${platform.id}">eclipse</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

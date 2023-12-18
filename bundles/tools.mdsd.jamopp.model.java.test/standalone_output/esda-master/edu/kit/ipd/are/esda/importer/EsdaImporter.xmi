@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="ASCII"?>
+<containers:CompilationUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:annotations="http://www.emftext.org/java/annotations" xmlns:classifiers="http://www.emftext.org/java/classifiers" xmlns:containers="http://www.emftext.org/java/containers" xmlns:expressions="http://www.emftext.org/java/expressions" xmlns:generics="http://www.emftext.org/java/generics" xmlns:imports="http://www.emftext.org/java/imports" xmlns:instantiations="http://www.emftext.org/java/instantiations" xmlns:layout="http://www.emftext.org/commons/layout" xmlns:literals="http://www.emftext.org/java/literals" xmlns:members="http://www.emftext.org/java/members" xmlns:modifiers="http://www.emftext.org/java/modifiers" xmlns:parameters="http://www.emftext.org/java/parameters" xmlns:references="http://www.emftext.org/java/references" xmlns:statements="http://www.emftext.org/java/statements" xmlns:types="http://www.emftext.org/java/types" name="">
+  <layoutInformations xsi:type="layout:MinimalLayoutInformation" visibleTokenText="/*******************************************************************************&#xD;&#xA; * Copyright (c) 2006-2012&#xD;&#xA; * Software Technology Group, Dresden University of Technology&#xD;&#xA; * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026&#xD;&#xA; * &#xD;&#xA; * All rights reserved. This program and the accompanying materials&#xD;&#xA; * are made available under the terms of the Eclipse Public License v1.0&#xD;&#xA; * which accompanies this distribution, and is available at&#xD;&#xA; * http://www.eclipse.org/legal/epl-v10.html&#xD;&#xA; * &#xD;&#xA; * Contributors:&#xD;&#xA; *   Software Technology Group - TU Dresden, Germany;&#xD;&#xA; *   DevBoost GmbH - Berlin, Germany&#xD;&#xA; *      - initial API and implementation&#xD;&#xA; ******************************************************************************/&#xD;&#xA;package resolving;&#xD;&#xA;&#xD;&#xA;public class VariableReferencing {&#xD;&#xA;&#x9;public VariableReferencing var;&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;public void method() {&#xD;&#xA;&#x9;&#x9;// a reference to a member variable&#xD;&#xA;&#x9;&#x9;var = null; // statement1&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;VariableReferencing var; // statement2&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;// a reference to a local variable&#xD;&#xA;&#x9;&#x9;var = null; // statement3&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;{ // statement4 (a block)&#xD;&#xA;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;// a reference to a local variable from inside a block&#xD;&#xA;&#x9;&#x9;&#x9;var = null;&#xD;&#xA;&#x9;&#x9;&#x9;// a reference to a local variable from inside a conditional statement&#xD;&#xA;&#x9;&#x9;&#x9;if (true) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;var = null;&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;var = new VariableReferencing();&#xD;&#xA;&#x9;&#x9;var.method();&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;" object="/" length="1995" rootLayout="//@layoutInformations.0"/>
+  <namespaces>edu</namespaces>
+  <namespaces>kit</namespaces>
+  <namespaces>ipd</namespaces>
+  <namespaces>are</namespaces>
+  <namespaces>esda</namespaces>
+  <namespaces>importer</namespaces>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="40" object="//@imports.0" length="25" rootLayout="//@layoutInformations.0"/>
+    <namespaces>java</namespaces>
+    <namespaces>util</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.util.HashMap.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="66" object="//@imports.1" length="21" rootLayout="//@layoutInformations.0"/>
+    <namespaces>java</namespaces>
+    <namespaces>util</namespaces>
+    <classifier xsi:type="classifiers:Interface" href="empty://JaMoPP-CompilationUnit/java.util.Map.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="88" object="//@imports.2" length="47" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>apache</namespaces>
+    <namespaces>kafka</namespaces>
+    <namespaces>clients</namespaces>
+    <namespaces>admin</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.apache.kafka.clients.admin.NewTopic.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="136" object="//@imports.3" length="56" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>apache</namespaces>
+    <namespaces>kafka</namespaces>
+    <namespaces>clients</namespaces>
+    <namespaces>producer</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.apache.kafka.clients.producer.ProducerConfig.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="193" object="//@imports.4" length="62" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>apache</namespaces>
+    <namespaces>kafka</namespaces>
+    <namespaces>common</namespaces>
+    <namespaces>serialization</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.apache.kafka.common.serialization.StringSerializer.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="256" object="//@imports.5" length="62" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>beans</namespaces>
+    <namespaces>factory</namespaces>
+    <namespaces>annotation</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.beans.factory.annotation.Autowired.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="319" object="//@imports.6" length="58" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>beans</namespaces>
+    <namespaces>factory</namespaces>
+    <namespaces>annotation</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.beans.factory.annotation.Value.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="378" object="//@imports.7" length="50" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>boot</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.boot.SpringApplication.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="429" object="//@imports.8" length="68" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>boot</namespaces>
+    <namespaces>autoconfigure</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.boot.autoconfigure.SpringBootApplication.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="498" object="//@imports.9" length="68" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>boot</namespaces>
+    <namespaces>autoconfigure</namespaces>
+    <namespaces>kafka</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.boot.autoconfigure.kafka.KafkaProperties.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="567" object="//@imports.10" length="51" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>context</namespaces>
+    <namespaces>annotation</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.context.annotation.Bean.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="619" object="//@imports.11" length="66" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>kafka</namespaces>
+    <namespaces>core</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.kafka.core.DefaultKafkaProducerFactory.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="686" object="//@imports.12" length="52" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>kafka</namespaces>
+    <namespaces>core</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.kafka.core.KafkaTemplate.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="739" object="//@imports.13" length="54" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>kafka</namespaces>
+    <namespaces>core</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.kafka.core.ProducerFactory.java#//@classifiers.0"/>
+  </imports>
+  <imports xsi:type="imports:ClassifierImport">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="794" object="//@imports.14" length="67" rootLayout="//@layoutInformations.0"/>
+    <namespaces>org</namespaces>
+    <namespaces>springframework</namespaces>
+    <namespaces>kafka</namespaces>
+    <namespaces>support</namespaces>
+    <namespaces>serializer</namespaces>
+    <classifier xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.kafka.support.serializer.JsonSerializer.java#//@classifiers.0"/>
+  </imports>
+  <classifiers xsi:type="classifiers:Class" name="EsdaImporter">
+    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="863" object="//@classifiers.0" length="1131" rootLayout="//@layoutInformations.0"/>
+    <members xsi:type="members:ClassMethod" name="main">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="919" object="//@classifiers.0/@members.0" length="109" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:Void">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="933" object="//@classifiers.0/@members.0/@typeReference" length="4" rootLayout="//@layoutInformations.0"/>
+      </typeReference>
+      <parameters xsi:type="parameters:OrdinaryParameter" name="args">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="943" object="//@classifiers.0/@members.0/@parameters.0" length="19" rootLayout="//@layoutInformations.0"/>
+        <typeReference xsi:type="types:ClassifierReference">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="949" object="//@classifiers.0/@members.0/@parameters.0/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+          <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+        </typeReference>
+        <arrayDimensionsBefore>
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="955" object="//@classifiers.0/@members.0/@parameters.0/@arrayDimensionsBefore.0" length="2" rootLayout="//@layoutInformations.0"/>
+        </arrayDimensionsBefore>
+        <annotationsAndModifiers xsi:type="modifiers:Final">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="943" object="//@classifiers.0/@members.0/@parameters.0/@annotationsAndModifiers.0" length="5" rootLayout="//@layoutInformations.0"/>
+        </annotationsAndModifiers>
+      </parameters>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="919" object="//@classifiers.0/@members.0/@annotationsAndModifiers.0" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Static">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="926" object="//@classifiers.0/@members.0/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="964" object="//@classifiers.0/@members.0/@statement" length="64">
+          <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+        </layoutInformations>
+        <statements xsi:type="statements:ExpressionStatement">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="974" object="//@classifiers.0/@members.0/@statement/@statements.0" length="48">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <expression xsi:type="references:IdentifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="974" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression" length="17">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+            <next xsi:type="references:MethodCall">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="974" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next" length="47">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <target xsi:type="members:ClassMethod" href="empty://JaMoPP-CompilationUnit/SyntheticContainerClass.java#//@classifiers.0/@members.4"/>
+              <arguments xsi:type="references:IdentifierReference" target="//@classifiers.0">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="996" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next/@arguments.0" length="12">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="996" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next/@arguments.0" length="12">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <next xsi:type="references:ReflectiveClassReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="996" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next/@arguments.0/@next" length="18">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                </next>
+              </arguments>
+              <arguments xsi:type="references:IdentifierReference" target="//@classifiers.0/@members.0/@parameters.0">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1016" object="//@classifiers.0/@members.0/@statement/@statements.0/@expression/@next/@arguments.1" length="4">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+              </arguments>
+            </next>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.boot.SpringApplication.java#//@classifiers.0"/>
+          </expression>
+        </statements>
+      </statement>
+    </members>
+    <members xsi:type="members:Field" name="kafkaProperties">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1034" object="//@classifiers.0/@members.1" length="55" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:ClassifierReference">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1057" object="//@classifiers.0/@members.1/@typeReference" length="15" rootLayout="//@layoutInformations.0"/>
+        <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/KafkaProperties.java#//@classifiers.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="annotations:AnnotationInstance">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1034" object="//@classifiers.0/@members.1/@annotationsAndModifiers.0" length="10" rootLayout="//@layoutInformations.0"/>
+        <namespaces>Autowired</namespaces>
+        <annotation xsi:type="classifiers:Annotation" href="empty://JaMoPP-CompilationUnit/edu.kit.ipd.are.esda.importer.Autowired.java#//@classifiers.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Private">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1049" object="//@classifiers.0/@members.1/@annotationsAndModifiers.1" length="7" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+    </members>
+    <members xsi:type="members:Field" name="topicId">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1095" object="//@classifiers.0/@members.2" length="66" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:ClassifierReference">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1146" object="//@classifiers.0/@members.2/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+        <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="annotations:AnnotationInstance">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1095" object="//@classifiers.0/@members.2/@annotationsAndModifiers.0" length="38" rootLayout="//@layoutInformations.0"/>
+        <namespaces>Value</namespaces>
+        <annotation xsi:type="classifiers:Annotation" href="empty://JaMoPP-CompilationUnit/edu.kit.ipd.are.esda.importer.Value.java#//@classifiers.0"/>
+        <parameter xsi:type="annotations:SingleAnnotationParameter">
+          <value xsi:type="references:StringReference" value="${esda.aggregate.topic-name}">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1102" object="//@classifiers.0/@members.2/@annotationsAndModifiers.0/@parameter/@value" length="30">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+          </value>
+        </parameter>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Private">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1138" object="//@classifiers.0/@members.2/@annotationsAndModifiers.1" length="7" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+    </members>
+    <members xsi:type="members:ClassMethod" name="aggregateTopic">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1167" object="//@classifiers.0/@members.3" length="102" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:ClassifierReference">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1184" object="//@classifiers.0/@members.3/@typeReference" length="8" rootLayout="//@layoutInformations.0"/>
+        <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/NewTopic.java#//@classifiers.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="annotations:AnnotationInstance">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1167" object="//@classifiers.0/@members.3/@annotationsAndModifiers.0" length="5" rootLayout="//@layoutInformations.0"/>
+        <namespaces>Bean</namespaces>
+        <annotation xsi:type="classifiers:Annotation" href="empty://JaMoPP-CompilationUnit/edu.kit.ipd.are.esda.importer.Bean.java#//@classifiers.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1177" object="//@classifiers.0/@members.3/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1210" object="//@classifiers.0/@members.3/@statement" length="59">
+          <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+        </layoutInformations>
+        <statements xsi:type="statements:Return">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1220" object="//@classifiers.0/@members.3/@statement/@statements.0" length="43">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <returnValue xsi:type="instantiations:NewConstructorCall">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1227" object="//@classifiers.0/@members.3/@statement/@statements.0/@returnValue" length="35">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+            <typeReference xsi:type="types:ClassifierReference">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1231" object="//@classifiers.0/@members.3/@statement/@statements.0/@returnValue/@typeReference" length="8">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/NewTopic.java#//@classifiers.0"/>
+            </typeReference>
+            <arguments xsi:type="references:IdentifierReference" target="//@classifiers.0/@members.2">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1240" object="//@classifiers.0/@members.3/@statement/@statements.0/@returnValue/@arguments.0" length="7">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+            </arguments>
+            <arguments xsi:type="literals:DecimalIntegerLiteral" decimalValue="1">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1249" object="//@classifiers.0/@members.3/@statement/@statements.0/@returnValue/@arguments.1" length="1">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+            </arguments>
+            <arguments xsi:type="expressions:CastExpression">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1252" object="//@classifiers.0/@members.3/@statement/@statements.0/@returnValue/@arguments.2" length="9">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <typeReference xsi:type="types:Short">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1253" object="//@classifiers.0/@members.3/@statement/@statements.0/@returnValue/@arguments.2/@typeReference" length="5">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+              </typeReference>
+              <generalChild xsi:type="literals:DecimalIntegerLiteral" decimalValue="1">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1260" object="//@classifiers.0/@members.3/@statement/@statements.0/@returnValue/@arguments.2/@generalChild" length="1">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+              </generalChild>
+            </arguments>
+          </returnValue>
+        </statements>
+      </statement>
+    </members>
+    <members xsi:type="members:ClassMethod" name="kafkaTemplate">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1275" object="//@classifiers.0/@members.4" length="139" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:ClassifierReference">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1292" object="//@classifiers.0/@members.4/@typeReference" length="13" rootLayout="//@layoutInformations.0"/>
+        <typeArguments xsi:type="generics:QualifiedTypeArgument">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1306" object="//@classifiers.0/@members.4/@typeReference/@typeArguments.0" length="6" rootLayout="//@layoutInformations.0"/>
+          <typeReference xsi:type="types:ClassifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1306" object="//@classifiers.0/@members.4/@typeReference/@typeArguments.0/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+          </typeReference>
+        </typeArguments>
+        <typeArguments xsi:type="generics:QualifiedTypeArgument">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1314" object="//@classifiers.0/@members.4/@typeReference/@typeArguments.1" length="6" rootLayout="//@layoutInformations.0"/>
+          <typeReference xsi:type="types:ClassifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1314" object="//@classifiers.0/@members.4/@typeReference/@typeArguments.1/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.Object.java#//@classifiers.0"/>
+          </typeReference>
+        </typeArguments>
+        <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/KafkaTemplate.java#//@classifiers.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="annotations:AnnotationInstance">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1275" object="//@classifiers.0/@members.4/@annotationsAndModifiers.0" length="5" rootLayout="//@layoutInformations.0"/>
+        <namespaces>Bean</namespaces>
+        <annotation xsi:type="classifiers:Annotation" href="empty://JaMoPP-CompilationUnit/edu.kit.ipd.are.esda.importer.Bean.java#//@classifiers.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1285" object="//@classifiers.0/@members.4/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1338" object="//@classifiers.0/@members.4/@statement" length="76">
+          <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+        </layoutInformations>
+        <statements xsi:type="statements:Return">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1348" object="//@classifiers.0/@members.4/@statement/@statements.0" length="60">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <returnValue xsi:type="instantiations:NewConstructorCall">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1355" object="//@classifiers.0/@members.4/@statement/@statements.0/@returnValue" length="52">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+            <typeReference xsi:type="types:ClassifierReference">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1359" object="//@classifiers.0/@members.4/@statement/@statements.0/@returnValue/@typeReference" length="13">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1373" object="//@classifiers.0/@members.4/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.0" length="6">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <typeReference xsi:type="types:ClassifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1373" object="//@classifiers.0/@members.4/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.0/@typeReference" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+                </typeReference>
+              </typeArguments>
+              <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1381" object="//@classifiers.0/@members.4/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.1" length="6">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <typeReference xsi:type="types:ClassifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1381" object="//@classifiers.0/@members.4/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.1/@typeReference" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.Object.java#//@classifiers.0"/>
+                </typeReference>
+              </typeArguments>
+              <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/KafkaTemplate.java#//@classifiers.0"/>
+            </typeReference>
+            <arguments xsi:type="references:MethodCall" target="//@classifiers.0/@members.6">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1389" object="//@classifiers.0/@members.4/@statement/@statements.0/@returnValue/@arguments.0" length="17">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+            </arguments>
+          </returnValue>
+        </statements>
+      </statement>
+    </members>
+    <members xsi:type="members:ClassMethod" name="producerConfigs">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1420" object="//@classifiers.0/@members.5" length="408" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:ClassifierReference">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1437" object="//@classifiers.0/@members.5/@typeReference" length="3" rootLayout="//@layoutInformations.0"/>
+        <typeArguments xsi:type="generics:QualifiedTypeArgument">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1441" object="//@classifiers.0/@members.5/@typeReference/@typeArguments.0" length="6" rootLayout="//@layoutInformations.0"/>
+          <typeReference xsi:type="types:ClassifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1441" object="//@classifiers.0/@members.5/@typeReference/@typeArguments.0/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+          </typeReference>
+        </typeArguments>
+        <typeArguments xsi:type="generics:QualifiedTypeArgument">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1449" object="//@classifiers.0/@members.5/@typeReference/@typeArguments.1" length="6" rootLayout="//@layoutInformations.0"/>
+          <typeReference xsi:type="types:ClassifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1449" object="//@classifiers.0/@members.5/@typeReference/@typeArguments.1/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.Object.java#//@classifiers.0"/>
+          </typeReference>
+        </typeArguments>
+        <target xsi:type="classifiers:Interface" href="empty://JaMoPP-CompilationUnit/java.util.Map.java#//@classifiers.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="annotations:AnnotationInstance">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1420" object="//@classifiers.0/@members.5/@annotationsAndModifiers.0" length="5" rootLayout="//@layoutInformations.0"/>
+        <namespaces>Bean</namespaces>
+        <annotation xsi:type="classifiers:Annotation" href="empty://JaMoPP-CompilationUnit/edu.kit.ipd.are.esda.importer.Bean.java#//@classifiers.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1430" object="//@classifiers.0/@members.5/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1475" object="//@classifiers.0/@members.5/@statement" length="353">
+          <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+        </layoutInformations>
+        <statements xsi:type="statements:LocalVariableStatement">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1485" object="//@classifiers.0/@members.5/@statement/@statements.0" length="126">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <variable name="properties">
+            <typeReference xsi:type="types:ClassifierReference">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1491" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@typeReference" length="3">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1495" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@typeReference/@typeArguments.0" length="6">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <typeReference xsi:type="types:ClassifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1495" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@typeReference/@typeArguments.0/@typeReference" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+                </typeReference>
+              </typeArguments>
+              <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1503" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@typeReference/@typeArguments.1" length="6">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <typeReference xsi:type="types:ClassifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1503" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@typeReference/@typeArguments.1/@typeReference" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.Object.java#//@classifiers.0"/>
+                </typeReference>
+              </typeArguments>
+              <target xsi:type="classifiers:Interface" href="empty://JaMoPP-CompilationUnit/java.util.Map.java#//@classifiers.0"/>
+            </typeReference>
+            <initialValue xsi:type="instantiations:NewConstructorCall">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1540" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue" length="70">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <typeReference xsi:type="types:ClassifierReference">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1544" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue/@typeReference" length="7">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1552" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue/@typeReference/@typeArguments.0" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <typeReference xsi:type="types:ClassifierReference">
+                    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1552" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue/@typeReference/@typeArguments.0/@typeReference" length="6">
+                      <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                    </layoutInformations>
+                    <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+                  </typeReference>
+                </typeArguments>
+                <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1560" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue/@typeReference/@typeArguments.1" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <typeReference xsi:type="types:ClassifierReference">
+                    <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1560" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue/@typeReference/@typeArguments.1/@typeReference" length="6">
+                      <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                    </layoutInformations>
+                    <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.Object.java#//@classifiers.0"/>
+                  </typeReference>
+                </typeArguments>
+                <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.util.HashMap.java#//@classifiers.0"/>
+              </typeReference>
+              <arguments xsi:type="references:IdentifierReference" target="//@classifiers.0/@members.1">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1568" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue/@arguments.0" length="15">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <next xsi:type="references:MethodCall">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1568" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@initialValue/@arguments.0/@next" length="41">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="members:ClassMethod" href="empty://JaMoPP-CompilationUnit/SyntheticContainerClass.java#//@classifiers.0/@members.0"/>
+                </next>
+              </arguments>
+            </initialValue>
+            <annotationsAndModifiers xsi:type="modifiers:Final">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1485" object="//@classifiers.0/@members.5/@statement/@statements.0/@variable/@annotationsAndModifiers.0" length="5">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+            </annotationsAndModifiers>
+          </variable>
+        </statements>
+        <statements xsi:type="statements:ExpressionStatement">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1620" object="//@classifiers.0/@members.5/@statement/@statements.1" length="83">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <expression xsi:type="references:IdentifierReference" target="//@classifiers.0/@members.5/@statement/@statements.0/@variable">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1620" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression" length="10">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+            <next xsi:type="references:MethodCall">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1620" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression/@next" length="82">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <target xsi:type="members:InterfaceMethod" href="empty://JaMoPP-CompilationUnit/java.util.Map.java#//@classifiers.0/@members.29"/>
+              <arguments xsi:type="references:IdentifierReference">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1635" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression/@next/@arguments.0" length="14">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <next xsi:type="references:IdentifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1650" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression/@next/@arguments.0/@next" length="27">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1635" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression/@next/@arguments.0/@next" length="42">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/KEY_SERIALIZER_CLASS_CONFIG.java#//@classifiers.0"/>
+                </next>
+                <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.apache.kafka.clients.producer.ProducerConfig.java#//@classifiers.0"/>
+              </arguments>
+              <arguments xsi:type="references:IdentifierReference">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1679" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression/@next/@arguments.1" length="16">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1679" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression/@next/@arguments.1" length="16">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <next xsi:type="references:ReflectiveClassReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1679" object="//@classifiers.0/@members.5/@statement/@statements.1/@expression/@next/@arguments.1/@next" length="22">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                </next>
+                <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.apache.kafka.common.serialization.StringSerializer.java#//@classifiers.0"/>
+              </arguments>
+            </next>
+          </expression>
+        </statements>
+        <statements xsi:type="statements:ExpressionStatement">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1712" object="//@classifiers.0/@members.5/@statement/@statements.2" length="83">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <expression xsi:type="references:IdentifierReference" target="//@classifiers.0/@members.5/@statement/@statements.0/@variable">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1712" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression" length="10">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+            <next xsi:type="references:MethodCall">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1712" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression/@next" length="82">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <target xsi:type="members:InterfaceMethod" href="empty://JaMoPP-CompilationUnit/java.util.Map.java#//@classifiers.0/@members.29"/>
+              <arguments xsi:type="references:IdentifierReference">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1727" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression/@next/@arguments.0" length="14">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <next xsi:type="references:IdentifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1742" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression/@next/@arguments.0/@next" length="29">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1727" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression/@next/@arguments.0/@next" length="44">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/VALUE_SERIALIZER_CLASS_CONFIG.java#//@classifiers.0"/>
+                </next>
+                <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.apache.kafka.clients.producer.ProducerConfig.java#//@classifiers.0"/>
+              </arguments>
+              <arguments xsi:type="references:IdentifierReference">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1773" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression/@next/@arguments.1" length="14">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1773" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression/@next/@arguments.1" length="14">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <next xsi:type="references:ReflectiveClassReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1773" object="//@classifiers.0/@members.5/@statement/@statements.2/@expression/@next/@arguments.1/@next" length="20">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                </next>
+                <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/org.springframework.kafka.support.serializer.JsonSerializer.java#//@classifiers.0"/>
+              </arguments>
+            </next>
+          </expression>
+        </statements>
+        <statements xsi:type="statements:Return">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1804" object="//@classifiers.0/@members.5/@statement/@statements.3" length="18">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <returnValue xsi:type="references:IdentifierReference" target="//@classifiers.0/@members.5/@statement/@statements.0/@variable">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1811" object="//@classifiers.0/@members.5/@statement/@statements.3/@returnValue" length="10">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+          </returnValue>
+        </statements>
+      </statement>
+    </members>
+    <members xsi:type="members:ClassMethod" name="producerFactory">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1834" object="//@classifiers.0/@members.6" length="157" rootLayout="//@layoutInformations.0"/>
+      <typeReference xsi:type="types:ClassifierReference">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1851" object="//@classifiers.0/@members.6/@typeReference" length="15" rootLayout="//@layoutInformations.0"/>
+        <typeArguments xsi:type="generics:QualifiedTypeArgument">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1867" object="//@classifiers.0/@members.6/@typeReference/@typeArguments.0" length="6" rootLayout="//@layoutInformations.0"/>
+          <typeReference xsi:type="types:ClassifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1867" object="//@classifiers.0/@members.6/@typeReference/@typeArguments.0/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+          </typeReference>
+        </typeArguments>
+        <typeArguments xsi:type="generics:QualifiedTypeArgument">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1875" object="//@classifiers.0/@members.6/@typeReference/@typeArguments.1" length="6" rootLayout="//@layoutInformations.0"/>
+          <typeReference xsi:type="types:ClassifierReference">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1875" object="//@classifiers.0/@members.6/@typeReference/@typeArguments.1/@typeReference" length="6" rootLayout="//@layoutInformations.0"/>
+            <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.Object.java#//@classifiers.0"/>
+          </typeReference>
+        </typeArguments>
+        <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/ProducerFactory.java#//@classifiers.0"/>
+      </typeReference>
+      <annotationsAndModifiers xsi:type="annotations:AnnotationInstance">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1834" object="//@classifiers.0/@members.6/@annotationsAndModifiers.0" length="5" rootLayout="//@layoutInformations.0"/>
+        <namespaces>Bean</namespaces>
+        <annotation xsi:type="classifiers:Annotation" href="empty://JaMoPP-CompilationUnit/edu.kit.ipd.are.esda.importer.Bean.java#//@classifiers.0"/>
+      </annotationsAndModifiers>
+      <annotationsAndModifiers xsi:type="modifiers:Public">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1844" object="//@classifiers.0/@members.6/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+      </annotationsAndModifiers>
+      <statement xsi:type="statements:Block" name="">
+        <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1901" object="//@classifiers.0/@members.6/@statement" length="90">
+          <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+        </layoutInformations>
+        <statements xsi:type="statements:Return">
+          <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1911" object="//@classifiers.0/@members.6/@statement/@statements.0" length="74">
+            <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+          </layoutInformations>
+          <returnValue xsi:type="instantiations:NewConstructorCall">
+            <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1918" object="//@classifiers.0/@members.6/@statement/@statements.0/@returnValue" length="66">
+              <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+            </layoutInformations>
+            <typeReference xsi:type="types:ClassifierReference">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1922" object="//@classifiers.0/@members.6/@statement/@statements.0/@returnValue/@typeReference" length="27">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+              <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1950" object="//@classifiers.0/@members.6/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.0" length="6">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <typeReference xsi:type="types:ClassifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1950" object="//@classifiers.0/@members.6/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.0/@typeReference" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.String.java#//@classifiers.0"/>
+                </typeReference>
+              </typeArguments>
+              <typeArguments xsi:type="generics:QualifiedTypeArgument">
+                <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1958" object="//@classifiers.0/@members.6/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.1" length="6">
+                  <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                </layoutInformations>
+                <typeReference xsi:type="types:ClassifierReference">
+                  <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1958" object="//@classifiers.0/@members.6/@statement/@statements.0/@returnValue/@typeReference/@typeArguments.1/@typeReference" length="6">
+                    <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+                  </layoutInformations>
+                  <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/java.lang.Object.java#//@classifiers.0"/>
+                </typeReference>
+              </typeArguments>
+              <target xsi:type="classifiers:Class" href="empty://JaMoPP-CompilationUnit/DefaultKafkaProducerFactory.java#//@classifiers.0"/>
+            </typeReference>
+            <arguments xsi:type="references:MethodCall" target="//@classifiers.0/@members.5">
+              <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="1966" object="//@classifiers.0/@members.6/@statement/@statements.0/@returnValue/@arguments.0" length="17">
+                <rootLayout xsi:type="layout:MinimalLayoutInformation" href="EsdaController.xmi#//@layoutInformations.0"/>
+              </layoutInformations>
+            </arguments>
+          </returnValue>
+        </statements>
+      </statement>
+    </members>
+    <annotationsAndModifiers xsi:type="annotations:AnnotationInstance">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="863" object="//@classifiers.0/@annotationsAndModifiers.0" length="22" rootLayout="//@layoutInformations.0"/>
+      <namespaces>SpringBootApplication</namespaces>
+      <annotation xsi:type="classifiers:Annotation" href="empty://JaMoPP-CompilationUnit/edu.kit.ipd.are.esda.importer.SpringBootApplication.java#//@classifiers.0"/>
+    </annotationsAndModifiers>
+    <annotationsAndModifiers xsi:type="modifiers:Public">
+      <layoutInformations xsi:type="layout:MinimalLayoutInformation" startOffset="886" object="//@classifiers.0/@annotationsAndModifiers.1" length="6" rootLayout="//@layoutInformations.0"/>
+    </annotationsAndModifiers>
+    <package href="empty://JaMoPP-Package/edu.kit.ipd.are.esda.importer/package-info.java#/"/>
+  </classifiers>
+</containers:CompilationUnit>
