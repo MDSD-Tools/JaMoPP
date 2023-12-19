@@ -130,7 +130,6 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 					res.delete(resourceSet.getLoadOptions());
 				} catch (IOException e) {
 					LOGGER.error(res.getURI(), e);
-					e.printStackTrace();
 				}
 			}
 		}
@@ -175,7 +174,6 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 					}).toArray(i -> new String[i]);
 		} catch (IOException e) {
 			LOGGER.error(dir, e);
-			e.printStackTrace();
 			return new String[0];
 		}
 	}
@@ -197,7 +195,6 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			buffReader.lines().forEach(line -> builder.append(line + lineSep));
 		} catch (IOException e) {
 			LOGGER.error(input, e);
-			e.printStackTrace();
 		}
 		String src = builder.toString();
 		ASTNode ast = JAMOPP_FILE_WITH_JDT_PARSER.parseFileWithJDT(src, fileName);
@@ -257,7 +254,6 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			}
 		} catch (JavaModelException e) {
 			LOGGER.error(javaPackage, e);
-			e.printStackTrace();
 		}
 
 		convertCompilationUnits(compilationUnits);
@@ -280,7 +276,6 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			}
 		} catch (JavaModelException e) {
 			LOGGER.error(javaProject, e);
-			e.printStackTrace();
 		}
 
 		convertCompilationUnits(compilationUnits);

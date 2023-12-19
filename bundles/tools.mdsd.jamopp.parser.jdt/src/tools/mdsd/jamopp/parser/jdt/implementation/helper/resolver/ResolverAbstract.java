@@ -29,7 +29,7 @@ public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> impl
 		return name;
 	}
 
-	protected String convertToMethodName(IMethodBinding binding) {
+	public String convertToMethodName(IMethodBinding binding) {
 		if (binding == null) {
 			return "";
 		}
