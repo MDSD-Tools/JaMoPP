@@ -29,6 +29,7 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnnotationResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnonymousClassResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassMethodResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ConstructorResolver;
@@ -82,6 +83,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final ClassMethodResolver classMethodResolver;
 	private final ConstructorResolver constructorResolver;
 	private final FieldResolver fieldResolver;
+	private final AnonymousClassResolver anyAnonymousClassResolver;
 
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.AdditionalField> nameToAddField = new HashMap<>();
@@ -91,7 +93,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter> nameToCatchParam = new HashMap<>();
-	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass> nameToAnonymousClass = new HashMap<>();
 
 	@Inject
 	UtilJdtResolverImpl(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
@@ -120,13 +121,13 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		interfaceResolver = new InterfaceResolver(nameCache, new HashMap<>(), typeBindings, classifiersFactory);
 		classResolver = new ClassResolver(nameCache, new HashMap<>(), classifiersFactory);
 		typeParameterResolver = new TypeParameterResolver(nameCache, new HashMap<>(), typeBindings, genericsFactory);
-
 		classMethodResolver = new ClassMethodResolver(nameCache, new HashMap<>(), this, typesFactory, statementsFactory,
 				methodBindings, membersFactory);
 		constructorResolver = new ConstructorResolver(nameCache, new HashMap<>(), statementsFactory, methodBindings,
 				membersFactory, this);
 		fieldResolver = new FieldResolver(nameCache, new HashMap<>(), variableBindings, this, typesFactory,
 				membersFactory);
+		anyAnonymousClassResolver = new AnonymousClassResolver(nameCache, new HashMap<>(), classifiersFactory);
 
 	}
 
@@ -229,7 +230,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			return potClass;
 		}
 		if (binding.isAnonymous() || binding.isLocal() && binding.getDeclaringMember() == null
-				|| nameToAnonymousClass.containsKey(convertToTypeName(binding))) {
+				|| anyAnonymousClassResolver.getBindings().containsKey(convertToTypeName(binding))) {
 			return null;
 		}
 		if (binding.isAnnotation()) {
@@ -444,12 +445,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.AnonymousClass getAnonymousClass(String typeName) {
-		if (nameToAnonymousClass.containsKey(typeName)) {
-			return nameToAnonymousClass.get(typeName);
-		}
-		tools.mdsd.jamopp.model.java.classifiers.AnonymousClass result = classifiersFactory.createAnonymousClass();
-		nameToAnonymousClass.put(typeName, result);
-		return result;
+		return anyAnonymousClassResolver.getByName(typeName);
 	}
 
 	@Override
@@ -825,9 +821,9 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 							varBind.getDeclaringClass());
 					if (cla == null) {
 						String typeName = convertToTypeName(varBind.getDeclaringClass());
-						if (nameToAnonymousClass.containsKey(typeName)) {
-							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
-									.get(typeName);
+						if (anyAnonymousClassResolver.getBindings().containsKey(typeName)) {
+							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anyAnonymousClassResolver
+									.getBindings().get(typeName);
 							if (!anonClass.getMembers().contains(field)) {
 								anonClass.getMembers().add(field);
 							}
@@ -888,7 +884,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		varBindToUid.clear();
 		objVisited.clear();
 		nameCache.clear();
-		nameToAnonymousClass.clear();
+		anyAnonymousClassResolver.getBindings().clear();
 	}
 
 	@SuppressWarnings("unused")
@@ -900,9 +896,9 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				tools.mdsd.jamopp.model.java.classifiers.Classifier cla = getClassifier(methBind.getDeclaringClass());
 				if (cla == null) {
 					String typeName = convertToTypeName(methBind.getDeclaringClass());
-					if (nameToAnonymousClass.containsKey(typeName)) {
-						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
-								.get(typeName);
+					if (anyAnonymousClassResolver.getBindings().containsKey(typeName)) {
+						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anyAnonymousClassResolver
+								.getBindings().get(typeName);
 						if (!anonClass.getMembers().contains(method)) {
 							anonClass.getMembers().add(method);
 						}
