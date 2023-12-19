@@ -33,6 +33,7 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnonymousClas
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassMethodResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ConstructorResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumConstantResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumerationResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.FieldResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.InterfaceResolver;
@@ -84,12 +85,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final ConstructorResolver constructorResolver;
 	private final FieldResolver fieldResolver;
 	private final AnonymousClassResolver anyAnonymousClassResolver;
+	private final EnumConstantResolver enumConstantResolver;
 
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.AdditionalField> nameToAddField = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
-	private final HashMap<String, tools.mdsd.jamopp.model.java.members.EnumConstant> nameToEnumConst = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter> nameToCatchParam = new HashMap<>();
@@ -128,6 +129,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		fieldResolver = new FieldResolver(nameCache, new HashMap<>(), variableBindings, this, typesFactory,
 				membersFactory);
 		anyAnonymousClassResolver = new AnonymousClassResolver(nameCache, new HashMap<>(), classifiersFactory);
+		enumConstantResolver = new EnumConstantResolver(nameCache, new HashMap<>(), variableBindings, membersFactory,
+				enumerationResolver);
 
 	}
 
@@ -478,36 +481,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(IVariableBinding binding) {
-		String enumCN = convertToFieldName(binding);
-		if (nameToEnumConst.containsKey(enumCN)) {
-			return nameToEnumConst.get(enumCN);
-		}
-		variableBindings.add(binding);
-		tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = getEnumeration(binding.getDeclaringClass());
-		tools.mdsd.jamopp.model.java.members.EnumConstant result = null;
-		if (potPar != null) {
-			for (tools.mdsd.jamopp.model.java.members.EnumConstant con : potPar.getConstants()) {
-				if (con.getName().equals(binding.getName())) {
-					result = con;
-					break;
-				}
-			}
-		}
-		if (result == null) {
-			result = membersFactory.createEnumConstant();
-		}
-		nameToEnumConst.put(enumCN, result);
-		return result;
+		return enumConstantResolver.getByBinding(binding);
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(String enumCN) {
-		if (nameToEnumConst.containsKey(enumCN)) {
-			return nameToEnumConst.get(enumCN);
-		}
-		tools.mdsd.jamopp.model.java.members.EnumConstant result = membersFactory.createEnumConstant();
-		nameToEnumConst.put(enumCN, result);
-		return result;
+		return enumConstantResolver.getByName(enumCN);
 	}
 
 	@Override
@@ -741,8 +720,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (par != null) {
 			return par;
 		}
-		tools.mdsd.jamopp.model.java.members.EnumConstant enumConst = nameToEnumConst.values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
+		tools.mdsd.jamopp.model.java.members.EnumConstant enumConst = enumConstantResolver.getBindings().values()
+				.stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (enumConst != null) {
 			return enumConst;
 		}
@@ -796,7 +775,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	@SuppressWarnings("unused")
 	public void completeResolution() {
-		nameToEnumConst.forEach((constName, enConst) -> {
+		enumConstantResolver.getBindings().forEach((constName, enConst) -> {
 			if (enConst.eContainer() == null) {
 				IVariableBinding varBind = variableBindings.stream()
 						.filter(var -> var != null && constName.equals(convertToFieldName(var))).findFirst().get();
@@ -866,12 +845,11 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		classMethodResolver.getBindings().clear();
 		constructorResolver.getBindings().clear();
 		fieldResolver.getBindings().clear();
-
 		methBindToInter.clear();
 		nameToAddField.clear();
 		nameToLocVar.clear();
 		nameToAddLocVar.clear();
-		nameToEnumConst.clear();
+		enumConstantResolver.getBindings().clear();
 		nameToVarLenParam.clear();
 		nameToOrdParam.clear();
 		nameToCatchParam.clear();
