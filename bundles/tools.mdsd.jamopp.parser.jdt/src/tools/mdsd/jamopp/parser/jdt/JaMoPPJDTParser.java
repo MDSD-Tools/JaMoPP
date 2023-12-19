@@ -41,8 +41,8 @@ import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.injection.ConverterModule;
 import tools.mdsd.jamopp.parser.jdt.injection.FactoryModule;
 import tools.mdsd.jamopp.parser.jdt.injection.HandlerModule;
-import tools.mdsd.jamopp.parser.jdt.injection.JamoppModule;
 import tools.mdsd.jamopp.parser.jdt.injection.HelperModule;
+import tools.mdsd.jamopp.parser.jdt.injection.JamoppModule;
 import tools.mdsd.jamopp.parser.jdt.injection.VisitorModule;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
@@ -100,8 +100,8 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	public JaMoPPJDTParser() {
 		CONTAINERS_FACTORY.createEmptyModel();
-		this.resourceSet = new ResourceSetImpl();
-		UTIL_JDT_RESOLVER.setResourceSet(this.resourceSet);
+		resourceSet = new ResourceSetImpl();
+		UTIL_JDT_RESOLVER.setResourceSet(resourceSet);
 	}
 
 	public List<JavaRoot> convertCompilationUnits(Map<String, CompilationUnit> compilationUnits) {
@@ -124,12 +124,13 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 		UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();
 		UTIL_JDT_RESOLVER.completeResolution();
-		for (Resource res : new ArrayList<>(this.resourceSet.getResources())) {
+		for (Resource res : new ArrayList<>(resourceSet.getResources())) {
 			if (res.getContents().isEmpty()) {
 				try {
-					res.delete(this.resourceSet.getLoadOptions());
+					res.delete(resourceSet.getLoadOptions());
 				} catch (IOException e) {
 					LOGGER.error(res.getURI(), e);
+					e.printStackTrace();
 				}
 			}
 		}
@@ -145,18 +146,18 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			return false;
 		}
 		JaMoPPJDTParser other = (JaMoPPJDTParser) obj;
-		return Objects.equals(this.resourceSet, other.resourceSet);
+		return Objects.equals(resourceSet, other.resourceSet);
 	}
 
 	public <T> Set<T> get(Class<T> type) {
-		return this.resourceSet.getResources().stream().filter(Objects::nonNull)
+		return resourceSet.getResources().stream().filter(Objects::nonNull)
 				.filter(r -> (!r.getContents().isEmpty() && !"file".equals(r.getURI().scheme())))
 				.map(r -> r.getContents().get(0)).filter(Objects::nonNull).filter(type::isInstance).map(type::cast)
 				.collect(Collectors.toSet());
 	}
 
 	public ResourceSet getResourceSet() {
-		return this.resourceSet;
+		return resourceSet;
 	}
 
 	public String[] getSourcepathEntries(Path dir) {
@@ -174,13 +175,14 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 					}).toArray(i -> new String[i]);
 		} catch (IOException e) {
 			LOGGER.error(dir, e);
+			e.printStackTrace();
 			return new String[0];
 		}
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.resourceSet);
+		return Objects.hash(resourceSet);
 	}
 
 	@Override
@@ -195,6 +197,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			buffReader.lines().forEach(line -> builder.append(line + lineSep));
 		} catch (IOException e) {
 			LOGGER.error(input, e);
+			e.printStackTrace();
 		}
 		String src = builder.toString();
 		ASTNode ast = JAMOPP_FILE_WITH_JDT_PARSER.parseFileWithJDT(src, fileName);
@@ -202,7 +205,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		ast.accept(VISITOR);
 		UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();
 		UTIL_JDT_RESOLVER.completeResolution();
-		this.resourceSet = null;
+		resourceSet = null;
 		return VISITOR.getConvertedElement();
 	}
 
@@ -210,10 +213,10 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		String[] sources = getSourcepathEntries(dir);
 		String[] encodings = new String[sources.length];
 		Arrays.fill(encodings, DEFAULT_ENCODING);
-		this.parseFilesWithJDT(parser, getClasspathEntries(dir), sources, encodings);
+		parseFilesWithJDT(parser, getClasspathEntries(dir), sources, encodings);
 
-		ResourceSet result = this.resourceSet;
-		this.resourceSet = null;
+		ResourceSet result = resourceSet;
+		resourceSet = null;
 		return result;
 	}
 
@@ -228,11 +231,10 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		if (result != null) {
 			return result;
 		}
-		result = this
-				.parseFilesWithJDT(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
-						new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING })
-				.get(0).eResource();
-		this.resourceSet = null;
+		result = parseFilesWithJDT(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
+				new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING }).get(0)
+				.eResource();
+		resourceSet = null;
 		return result;
 	}
 
@@ -255,11 +257,12 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			}
 		} catch (JavaModelException e) {
 			LOGGER.error(javaPackage, e);
+			e.printStackTrace();
 		}
 
-		this.convertCompilationUnits(compilationUnits);
-		ResourceSet result = this.resourceSet;
-		this.resourceSet = null;
+		convertCompilationUnits(compilationUnits);
+		ResourceSet result = resourceSet;
+		resourceSet = null;
 		return result;
 	}
 
@@ -277,22 +280,23 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			}
 		} catch (JavaModelException e) {
 			LOGGER.error(javaProject, e);
+			e.printStackTrace();
 		}
 
-		this.convertCompilationUnits(compilationUnits);
-		ResourceSet result = this.resourceSet;
-		this.resourceSet = null;
+		convertCompilationUnits(compilationUnits);
+		ResourceSet result = resourceSet;
+		resourceSet = null;
 		return result;
 	}
 
 	@Override
 	public void setResourceSet(ResourceSet set) {
-		this.resourceSet = Objects.requireNonNull(set);
+		resourceSet = Objects.requireNonNull(set);
 	}
 
 	@Override
 	public String toString() {
-		return "JaMoPPJDTParser [resourceSet=" + this.resourceSet + "]";
+		return "JaMoPPJDTParser [resourceSet=" + resourceSet + "]";
 	}
 
 }

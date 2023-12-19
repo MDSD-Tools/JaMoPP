@@ -148,7 +148,7 @@ public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> impl
 		return null;
 	}
 
-	private String convertToTypeName(tools.mdsd.jamopp.model.java.types.TypeReference ref) {
+	protected String convertToTypeName(tools.mdsd.jamopp.model.java.types.TypeReference ref) {
 		if (ref instanceof tools.mdsd.jamopp.model.java.types.ClassifierReference convRef) {
 			if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) {
 				return ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())
