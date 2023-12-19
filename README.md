@@ -8,7 +8,7 @@ To build this project you need to follow these steps:
 7. Open cmd in root folder and build project with "mvn clean verify"
 
 
--- OLD --
+# OLD
 
 **Notice:** This repository is not endorsed by or affiliated with DevBoost GmbH or Software Technology Group, Dresden University of Technology.
 
@@ -39,7 +39,7 @@ b. In the opened window, use the icon in the upper right corner to choose "Gener
 Original repository: [https://github.com/DevBoost/JaMoPP](https://github.com/DevBoost/JaMoPP)
 
 
--- State -- 
+# State
 
 - Complete support for Java up to 14 and support of Java 15 in meta-model and printer implementation.
 - Removed loading of class files and old reference resolution and parser.
