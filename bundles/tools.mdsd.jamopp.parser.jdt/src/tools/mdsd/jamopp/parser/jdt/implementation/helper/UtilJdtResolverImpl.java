@@ -29,6 +29,7 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnnotationResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumerationResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -68,6 +69,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final ModuleResolver moduleResolver;
 	private final PackageResolver packageResolver;
 	private final AnnotationResolver annotationResolver;
+	private final EnumerationResolver enumerationResolver;
 
 	private final HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> modBindToMod = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> nameToPackage = new HashMap<>();
@@ -111,6 +113,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		moduleResolver = new ModuleResolver(nameCache, modBindToMod, moduleBindings, containersFactory);
 		packageResolver = new PackageResolver(nameCache, nameToPackage, packageBindings, containersFactory);
 		annotationResolver = new AnnotationResolver(nameCache, typeBindToAnnot, typeBindings, classifiersFactory);
+		enumerationResolver = new EnumerationResolver(nameCache, typeBindToEnum, typeBindings, classifiersFactory);
 	}
 
 	@Override
@@ -184,21 +187,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Enumeration getEnumeration(ITypeBinding binding) {
-		String enumName = convertToTypeName(binding);
-		if (typeBindToEnum.containsKey(enumName)) {
-			return typeBindToEnum.get(enumName);
-		}
-		typeBindings.add(binding);
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
-				.getConcreteClassifier(enumName);
-		tools.mdsd.jamopp.model.java.classifiers.Enumeration result;
-		if (classifier instanceof tools.mdsd.jamopp.model.java.classifiers.Enumeration) {
-			result = (tools.mdsd.jamopp.model.java.classifiers.Enumeration) classifier;
-		} else {
-			result = classifiersFactory.createEnumeration();
-		}
-		typeBindToEnum.put(enumName, result);
-		return result;
+		return enumerationResolver.getByBinding(binding);
 	}
 
 	@Override
