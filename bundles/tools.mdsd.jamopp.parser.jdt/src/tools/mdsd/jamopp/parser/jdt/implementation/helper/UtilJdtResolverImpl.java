@@ -30,6 +30,7 @@ import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnnotationResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumerationResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.InterfaceResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -70,8 +71,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final PackageResolver packageResolver;
 	private final AnnotationResolver annotationResolver;
 	private final EnumerationResolver enumerationResolver;
+	private final InterfaceResolver interfaceResolver;
 
-	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface> typeBindToInterface = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class> typeBindToClass = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.generics.TypeParameter> typeBindToTP = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
@@ -106,15 +107,11 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		this.bindingToModuleConverter = bindingToModuleConverter;
 		this.iUtilBindingInfoToConcreteClassifierConverter = iUtilBindingInfoToConcreteClassifierConverter;
 
-		HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> modBindToMod = new HashMap<>();
-		HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> nameToPackage = new HashMap<>();
-		HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation> typeBindToAnnot = new HashMap<>();
-		HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration> typeBindToEnum = new HashMap<>();
-
-		moduleResolver = new ModuleResolver(nameCache, modBindToMod, moduleBindings, containersFactory);
-		packageResolver = new PackageResolver(nameCache, nameToPackage, packageBindings, containersFactory);
-		annotationResolver = new AnnotationResolver(nameCache, typeBindToAnnot, typeBindings, classifiersFactory);
-		enumerationResolver = new EnumerationResolver(nameCache, typeBindToEnum, typeBindings, classifiersFactory);
+		moduleResolver = new ModuleResolver(nameCache, new HashMap<>(), moduleBindings, containersFactory);
+		packageResolver = new PackageResolver(nameCache, new HashMap<>(), packageBindings, containersFactory);
+		annotationResolver = new AnnotationResolver(nameCache, new HashMap<>(), typeBindings, classifiersFactory);
+		enumerationResolver = new EnumerationResolver(nameCache, new HashMap<>(), typeBindings, classifiersFactory);
+		interfaceResolver = new InterfaceResolver(nameCache, new HashMap<>(), typeBindings, classifiersFactory);
 	}
 
 	@Override
@@ -199,21 +196,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Interface getInterface(ITypeBinding binding) {
-		String interName = convertToTypeName(binding);
-		if (typeBindToInterface.containsKey(interName)) {
-			return typeBindToInterface.get(interName);
-		}
-		typeBindings.add(binding);
-		tools.mdsd.jamopp.model.java.classifiers.Interface result;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
-				.getConcreteClassifier(interName);
-		if (classifier instanceof tools.mdsd.jamopp.model.java.classifiers.Interface) {
-			result = (tools.mdsd.jamopp.model.java.classifiers.Interface) classifier;
-		} else {
-			result = classifiersFactory.createInterface();
-		}
-		typeBindToInterface.put(interName, result);
-		return result;
+		return interfaceResolver.getByBinding(binding);
 	}
 
 	private String convertToTypeParameterName(ITypeBinding binding) {
@@ -947,7 +930,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (c != null) {
 			return c;
 		}
-		c = typeBindToInterface.values().stream().filter(param -> name.equals(param.getName())).findFirst()
+		c = interfaceResolver.getBindings().values().stream().filter(param -> name.equals(param.getName())).findFirst()
 				.orElse(null);
 		if (c != null) {
 			return c;
@@ -1012,16 +995,17 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		annotationResolver.getBindings().values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
 		enumerationResolver.getBindings().values()
 				.forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
-		typeBindToInterface.values().forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
+		interfaceResolver.getBindings().values()
+				.forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
 		typeBindToClass.values().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
 
 		escapeAllIdentifiers();
 
-		moduleResolver.clearBindings();
-		packageResolver.clearBindings();
-		annotationResolver.clearBindings();
-		enumerationResolver.clearBindings();
-		typeBindToInterface.clear();
+		moduleResolver.getBindings().clear();
+		packageResolver.getBindings().clear();
+		annotationResolver.getBindings().clear();
+		enumerationResolver.getBindings().clear();
+		interfaceResolver.getBindings().clear();
 		typeBindToClass.clear();
 		typeBindToTP.clear();
 		methBindToInter.clear();
@@ -1088,7 +1072,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private void convertPureTypeBindings() {
 		int oldSize;
 		int newSize = annotationResolver.getBindings().size() + enumerationResolver.getBindings().size()
-				+ typeBindToInterface.size() + typeBindToClass.size() + moduleResolver.getBindings().size()
+				+ interfaceResolver.getBindings().size() + typeBindToClass.size() + moduleResolver.getBindings().size()
 				+ packageResolver.getBindings().size();
 		do {
 			oldSize = newSize;
@@ -1098,7 +1082,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration>) enumerationResolver
 					.getBindings().clone();
 			map.forEach(this::convertPureTypeBinding);
-			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface>) typeBindToInterface.clone();
+			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface>) interfaceResolver.getBindings()
+					.clone();
 			map.forEach(this::convertPureTypeBinding);
 			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class>) typeBindToClass.clone();
 			map.forEach(this::convertPureTypeBinding);
@@ -1109,8 +1094,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 					.getBindings().clone();
 			mapM.forEach(this::convertPureModuleBinding);
 			newSize = annotationResolver.getBindings().size() + enumerationResolver.getBindings().size()
-					+ typeBindToInterface.size() + typeBindToClass.size() + moduleResolver.getBindings().size()
-					+ packageResolver.getBindings().size();
+					+ interfaceResolver.getBindings().size() + typeBindToClass.size()
+					+ moduleResolver.getBindings().size() + packageResolver.getBindings().size();
 		} while (oldSize < newSize);
 	}
 
@@ -1217,7 +1202,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		annotationResolver.getBindings().values().forEach(this::escapeIdentifiers);
 		enumerationResolver.getBindings().values().forEach(this::escapeIdentifiers);
 		typeBindToClass.values().forEach(this::escapeIdentifiers);
-		typeBindToInterface.values().forEach(this::escapeIdentifiers);
+		interfaceResolver.getBindings().values().forEach(this::escapeIdentifiers);
 	}
 
 	private void escapeIdentifiers(EObject obj) {

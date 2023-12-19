@@ -17,16 +17,46 @@ public abstract class Resolver<Clazz, BindingType extends IBinding> {
 		this.nameCache = nameCache;
 	}
 
-	public abstract Clazz getByBinding(BindingType binding);
-
-	public abstract Clazz getByName(String name);
-
-	public final HashMap<String, Clazz> getBindings() {
-		return this.bindings;
+	private String convertToFieldName(IVariableBinding binding) {
+		if (binding == null || !binding.isField()) {
+			return "";
+		}
+		if (this.nameCache.containsKey(binding)) {
+			return this.nameCache.get(binding);
+		}
+		var name = convertToTypeName(binding.getDeclaringClass()) + "::" + binding.getName();
+		this.nameCache.put(binding, name);
+		return name;
 	}
 
-	public final void clearBindings() {
-		this.bindings.clear();
+	private String convertToMethodName(IMethodBinding binding) {
+		if (binding == null) {
+			return "";
+		}
+		if (this.nameCache.containsKey(binding)) {
+			return this.nameCache.get(binding);
+		}
+		binding = binding.getMethodDeclaration();
+		var builder = new StringBuilder();
+		builder.append(convertToTypeName(binding.getDeclaringClass()));
+		builder.append("::");
+		builder.append(binding.getName());
+		builder.append("(");
+		for (ITypeBinding p : binding.getParameterTypes()) {
+			builder.append(convertToTypeName(p));
+			for (var i = 0; i < p.getDimensions(); i++) {
+				builder.append("[]");
+			}
+		}
+		builder.append(")");
+		if ("java.lang.Object::clone()".equals(builder.toString()) && binding.getReturnType().isArray()) {
+			builder.append("java.lang.Object");
+		} else {
+			builder.append(convertToTypeName(binding.getReturnType()));
+		}
+		var name = builder.toString();
+		this.nameCache.put(binding, name);
+		return name;
 	}
 
 	protected String convertToTypeName(ITypeBinding binding) {
@@ -43,7 +73,7 @@ public abstract class Resolver<Clazz, BindingType extends IBinding> {
 		if (binding.isMember()) {
 			qualifiedName = convertToTypeName(binding.getDeclaringClass()) + "." + binding.getName();
 		} else if (binding.isLocal()) {
-			IBinding b = binding.getDeclaringMember();
+			var b = binding.getDeclaringMember();
 			if (b instanceof IMethodBinding) {
 				qualifiedName = convertToMethodName((IMethodBinding) b) + "." + binding.getKey();
 			} else if (b instanceof IVariableBinding) {
@@ -63,46 +93,12 @@ public abstract class Resolver<Clazz, BindingType extends IBinding> {
 		return qualifiedName;
 	}
 
-	private String convertToMethodName(IMethodBinding binding) {
-		if (binding == null) {
-			return "";
-		}
-		if (this.nameCache.containsKey(binding)) {
-			return this.nameCache.get(binding);
-		}
-		binding = binding.getMethodDeclaration();
-		StringBuilder builder = new StringBuilder();
-		builder.append(convertToTypeName(binding.getDeclaringClass()));
-		builder.append("::");
-		builder.append(binding.getName());
-		builder.append("(");
-		for (ITypeBinding p : binding.getParameterTypes()) {
-			builder.append(convertToTypeName(p));
-			for (int i = 0; i < p.getDimensions(); i++) {
-				builder.append("[]");
-			}
-		}
-		builder.append(")");
-		if ("java.lang.Object::clone()".equals(builder.toString()) && binding.getReturnType().isArray()) {
-			builder.append("java.lang.Object");
-		} else {
-			builder.append(convertToTypeName(binding.getReturnType()));
-		}
-		String name = builder.toString();
-		this.nameCache.put(binding, name);
-		return name;
+	public final HashMap<String, Clazz> getBindings() {
+		return this.bindings;
 	}
 
-	private String convertToFieldName(IVariableBinding binding) {
-		if (binding == null || !binding.isField()) {
-			return "";
-		}
-		if (this.nameCache.containsKey(binding)) {
-			return this.nameCache.get(binding);
-		}
-		String name = convertToTypeName(binding.getDeclaringClass()) + "::" + binding.getName();
-		this.nameCache.put(binding, name);
-		return name;
-	}
+	public abstract Clazz getByBinding(BindingType binding);
+
+	public abstract Clazz getByName(String name);
 
 }
