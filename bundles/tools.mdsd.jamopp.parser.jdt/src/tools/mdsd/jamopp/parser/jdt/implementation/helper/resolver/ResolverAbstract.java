@@ -17,7 +17,7 @@ public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> impl
 		this.nameCache = nameCache;
 	}
 
-	private String convertToFieldName(IVariableBinding binding) {
+	protected String convertToFieldName(IVariableBinding binding) {
 		if (binding == null || !binding.isField()) {
 			return "";
 		}
@@ -29,7 +29,7 @@ public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> impl
 		return name;
 	}
 
-	private String convertToMethodName(IMethodBinding binding) {
+	protected String convertToMethodName(IMethodBinding binding) {
 		if (binding == null) {
 			return "";
 		}
@@ -109,6 +109,87 @@ public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> impl
 		name += "." + binding.getName();
 		nameCache.put(binding, name);
 		return name;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T extends tools.mdsd.jamopp.model.java.members.Method> T checkMethod(
+			tools.mdsd.jamopp.model.java.members.Method mem, IMethodBinding binding) {
+		if (mem.getName().equals(binding.getName())) {
+			T meth = (T) mem;
+			if ("clone".equals(meth.getName())) {
+				return meth;
+			}
+			int receiveOffset = 0;
+			if (binding.getDeclaredReceiverType() != null) {
+				receiveOffset = 1;
+			}
+			if (binding.getParameterTypes().length + receiveOffset == meth.getParameters().size()) {
+				if (receiveOffset == 1
+						&& (!(meth.getParameters()
+								.get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
+								|| !convertToTypeName(binding.getDeclaredReceiverType())
+										.equals(convertToTypeName(meth.getParameters().get(0).getTypeReference())))
+						|| !convertToTypeName(binding.getReturnType())
+								.equals(convertToTypeName(meth.getTypeReference()))) {
+					return null;
+				}
+				for (int i = 0; i < binding.getParameterTypes().length; i++) {
+					ITypeBinding currentParamType = binding.getParameterTypes()[i];
+					tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = meth.getParameters()
+							.get(i + receiveOffset);
+					if (!convertToTypeName(currentParamType).equals(convertToTypeName(currentParam.getTypeReference()))
+							|| currentParamType.getDimensions() != currentParam.getArrayDimension()) {
+						return null;
+					}
+				}
+				return meth;
+			}
+		}
+		return null;
+	}
+
+	private String convertToTypeName(tools.mdsd.jamopp.model.java.types.TypeReference ref) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.ClassifierReference convRef) {
+			if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) {
+				return ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())
+						.getQualifiedName();
+			}
+			if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.types.InferableType) {
+				return "var";
+			}
+			return ((tools.mdsd.jamopp.model.java.generics.TypeParameter) convRef.getTarget()).getName();
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference nRef) {
+			if (!nRef.getClassifierReferences().isEmpty()) {
+				return convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
+			}
+			return nRef.getNamespacesAsString();
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
+			return "boolean";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Byte) {
+			return "byte";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Char) {
+			return "char";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Double) {
+			return "double";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Float) {
+			return "float";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Int) {
+			return "int";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Long) {
+			return "long";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Short) {
+			return "short";
+		}
+		return "void";
 	}
 
 	@Override

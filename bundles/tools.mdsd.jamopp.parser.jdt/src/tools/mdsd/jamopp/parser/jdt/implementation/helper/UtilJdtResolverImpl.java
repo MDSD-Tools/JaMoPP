@@ -31,6 +31,7 @@ import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnnotationResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumerationResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.InterfaceMethodResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.InterfaceResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
@@ -46,7 +47,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	private final ParametersFactory parametersFactory;
 	private final VariablesFactory variablesFactory;
-	private final GenericsFactory genericsFactory;
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
@@ -76,8 +76,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final InterfaceResolver interfaceResolver;
 	private final ClassResolver classResolver;
 	private final TypeParameterResolver typeParameterResolver;
+	private final InterfaceMethodResolver interfaceMethodResolver;
 
-	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.ClassMethod> methBindToCM = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.Constructor> methBindToConstr = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.Field> nameToField = new HashMap<>();
@@ -99,7 +99,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			Provider<UtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter) {
 		this.parametersFactory = parametersFactory;
 		this.variablesFactory = variablesFactory;
-		this.genericsFactory = genericsFactory;
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;
 		this.membersFactory = membersFactory;
@@ -116,6 +115,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		interfaceResolver = new InterfaceResolver(nameCache, new HashMap<>(), typeBindings, classifiersFactory);
 		classResolver = new ClassResolver(nameCache, new HashMap<>(), classifiersFactory);
 		typeParameterResolver = new TypeParameterResolver(nameCache, new HashMap<>(), typeBindings, genericsFactory);
+		interfaceMethodResolver = new InterfaceMethodResolver(nameCache, new HashMap<>(), this, typesFactory,
+				statementsFactory, methodBindings, membersFactory);
 	}
 
 	@Override
@@ -273,47 +274,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(String methodName) {
-		if (methBindToInter.containsKey(methodName)) {
-			return methBindToInter.get(methodName);
-		}
-		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = createNewInterfaceMethod();
-		methBindToInter.put(methodName, result);
-		return result;
-	}
-
-	private tools.mdsd.jamopp.model.java.members.InterfaceMethod createNewInterfaceMethod() {
-		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = membersFactory.createInterfaceMethod();
-		result.setTypeReference(typesFactory.createVoid());
-		result.setStatement(statementsFactory.createEmptyStatement());
-		return result;
+		return interfaceMethodResolver.getByName(methodName);
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(IMethodBinding binding) {
-		binding = binding.getMethodDeclaration();
-		methodBindings.add(binding);
-		String methName = convertToMethodName(binding);
-		if (methBindToInter.containsKey(methName)) {
-			return methBindToInter.get(methName);
-		}
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
-				binding.getDeclaringClass());
-		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = null;
-		if (classifier != null) {
-			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
-				if (mem instanceof tools.mdsd.jamopp.model.java.members.InterfaceMethod) {
-					result = checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
-					if (result != null) {
-						break;
-					}
-				}
-			}
-		}
-		if (result == null) {
-			result = createNewInterfaceMethod();
-		}
-		methBindToInter.put(methName, result);
-		return result;
+		return getInterfaceMethod(binding);
 	}
 
 	@Override
@@ -874,7 +840,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (meth != null) {
 			return meth;
 		}
-		meth = methBindToInter.values().stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
+		meth = interfaceMethodResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
+				.findFirst().orElse(null);
 		if (meth != null) {
 			return meth;
 		}
@@ -953,7 +920,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		});
 
 		methBindToConstr.forEach(this::completeMethod);
-		methBindToInter.forEach(this::completeMethod);
+		interfaceMethodResolver.getBindings().forEach(this::completeMethod);
 		methBindToCM.forEach(this::completeMethod);
 
 		convertPureTypeBindings();
@@ -976,7 +943,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		interfaceResolver.getBindings().clear();
 		classResolver.getBindings().clear();
 		typeParameterResolver.getBindings().clear();
-		methBindToInter.clear();
+		interfaceMethodResolver.getBindings().clear();
 		methBindToCM.clear();
 		methBindToConstr.clear();
 		nameToField.clear();
