@@ -1,7 +1,9 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
+import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
@@ -13,7 +15,9 @@ public class PackageResolver extends Resolver<tools.mdsd.jamopp.model.java.conta
 	private final HashSet<IPackageBinding> packageBindings;
 	private final ContainersFactory containersFactory;
 
-	public PackageResolver(HashSet<IPackageBinding> packageBindings, ContainersFactory containersFactory) {
+	public PackageResolver(HashMap<IBinding, String> nameCache, HashMap<String, Package> bindings,
+			HashSet<IPackageBinding> packageBindings, ContainersFactory containersFactory) {
+		super(nameCache, bindings);
 		this.packageBindings = packageBindings;
 		this.containersFactory = containersFactory;
 	}

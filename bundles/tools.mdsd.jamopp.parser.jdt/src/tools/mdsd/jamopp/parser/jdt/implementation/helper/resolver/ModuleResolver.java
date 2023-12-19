@@ -1,7 +1,9 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
+import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
@@ -13,7 +15,9 @@ public class ModuleResolver extends Resolver<tools.mdsd.jamopp.model.java.contai
 	private final HashSet<IModuleBinding> moduleBindings;
 	private final ContainersFactory containersFactory;
 
-	public ModuleResolver(HashSet<IModuleBinding> moduleBindings, ContainersFactory containersFactory) {
+	public ModuleResolver(HashMap<IBinding, String> nameCache, HashMap<String, Module> bindings,
+			HashSet<IModuleBinding> moduleBindings, ContainersFactory containersFactory) {
+		super(nameCache, bindings);
 		this.moduleBindings = moduleBindings;
 		this.containersFactory = containersFactory;
 	}
