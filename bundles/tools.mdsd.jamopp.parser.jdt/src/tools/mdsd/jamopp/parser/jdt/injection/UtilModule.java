@@ -1,6 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.injection;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilArraysImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilBindingInfoToConcreteClassifierConverterImpl;
@@ -32,7 +33,7 @@ public class UtilModule extends AbstractModule {
 		bind(UtilArrays.class).to(UtilArraysImpl.class);
 		bind(UtilBindingInfoToConcreteClassifierConverter.class)
 				.to(UtilBindingInfoToConcreteClassifierConverterImpl.class);
-		bind(UtilJdtResolver.class).to(UtilJdtResolverImpl.class);
+		bind(UtilJdtResolver.class).to(UtilJdtResolverImpl.class).in(Singleton.class);
 		bind(UtilLayout.class).to(UtilLayoutImpl.class);
 		bind(UtilNamedElement.class).to(UtilNamedElementImpl.class);
 		bind(UtilReferenceWalker.class).to(UtilReferenceWalkerImpl.class);
