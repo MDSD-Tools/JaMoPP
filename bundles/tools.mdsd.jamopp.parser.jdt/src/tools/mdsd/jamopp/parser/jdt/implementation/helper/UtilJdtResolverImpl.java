@@ -29,6 +29,7 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilBindingInfoToConcreteClassifierConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
@@ -64,7 +65,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final HashSet<EObject> objVisited = new HashSet<>();
 
 	private final ModuleResolver moduleResolver;
-	private final HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> nameToPackage = new HashMap<>();
+	private final PackageResolver packageResolver;
 	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation> typeBindToAnnot = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration> typeBindToEnum = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface> typeBindToInterface = new HashMap<>();
@@ -103,6 +104,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		this.iUtilBindingInfoToConcreteClassifierConverter = iUtilBindingInfoToConcreteClassifierConverter;
 
 		this.moduleResolver = new ModuleResolver(this.moduleBindings, containersFactory);
+		this.packageResolver = new PackageResolver(this.packageBindings, containersFactory);
 	}
 
 	@Override
@@ -122,20 +124,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.containers.Package getPackage(IPackageBinding binding) {
-		this.packageBindings.add(binding);
-		return getPackage(binding.getName());
+		return this.packageResolver.getByBinding(binding);
 	}
 
-	private tools.mdsd.jamopp.model.java.containers.Package getPackage(String packageName) {
-		if (this.nameToPackage.containsKey(packageName)) {
-			return this.nameToPackage.get(packageName);
-		}
-		tools.mdsd.jamopp.model.java.containers.Package result = JavaClasspath.get().getPackage(packageName);
-		if (result == null) {
-			result = this.containersFactory.createPackage();
-		}
-		this.nameToPackage.put(packageName, result);
-		return result;
+	@Override
+	public tools.mdsd.jamopp.model.java.containers.Package getPackage(String packageName) {
+		return this.packageResolver.getByName(packageName);
 	}
 
 	private String convertToTypeName(ITypeBinding binding) {
@@ -1036,7 +1030,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		convertPureTypeBindings();
 
 		this.moduleResolver.getBindings().values().forEach(module -> JavaClasspath.get().registerModule(module));
-		this.nameToPackage.values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
+		this.packageResolver.getBindings().values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
 		this.typeBindToAnnot.values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
 		this.typeBindToEnum.values().forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
 		this.typeBindToInterface.values().forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
@@ -1045,7 +1039,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		escapeAllIdentifiers();
 
 		this.moduleResolver.clearBindings();
-		this.nameToPackage.clear();
+		this.packageResolver.clearBindings();
 		this.typeBindToAnnot.clear();
 		this.typeBindToEnum.clear();
 		this.typeBindToInterface.clear();
@@ -1115,7 +1109,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private void convertPureTypeBindings() {
 		int oldSize;
 		int newSize = this.typeBindToAnnot.size() + this.typeBindToEnum.size() + this.typeBindToInterface.size()
-				+ this.typeBindToClass.size() + this.moduleResolver.getBindings().size() + this.nameToPackage.size();
+				+ this.typeBindToClass.size() + this.moduleResolver.getBindings().size()
+				+ this.packageResolver.getBindings().size();
 		do {
 			oldSize = newSize;
 			HashMap<String, ? extends tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier> map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation>) this.typeBindToAnnot
@@ -1128,15 +1123,15 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			map.forEach(this::convertPureTypeBinding);
 			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class>) this.typeBindToClass.clone();
 			map.forEach(this::convertPureTypeBinding);
-			HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> mapP = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Package>) this.nameToPackage
-					.clone();
+			HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> mapP = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Package>) this.packageResolver
+					.getBindings().clone();
 			mapP.forEach(this::convertPurePackageBinding);
 			HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> mapM = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Module>) this.moduleResolver
 					.getBindings().clone();
 			mapM.forEach(this::convertPureModuleBinding);
 			newSize = this.typeBindToAnnot.size() + this.typeBindToEnum.size() + this.typeBindToInterface.size()
 					+ this.typeBindToClass.size() + this.moduleResolver.getBindings().size()
-					+ this.nameToPackage.size();
+					+ this.packageResolver.getBindings().size();
 		} while (oldSize < newSize);
 	}
 
@@ -1239,7 +1234,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	private void escapeAllIdentifiers() {
 		this.moduleResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		this.nameToPackage.values().forEach(this::escapeIdentifiers);
+		this.packageResolver.getBindings().values().forEach(this::escapeIdentifiers);
 		this.typeBindToAnnot.values().forEach(this::escapeIdentifiers);
 		this.typeBindToEnum.values().forEach(this::escapeIdentifiers);
 		this.typeBindToClass.values().forEach(this::escapeIdentifiers);

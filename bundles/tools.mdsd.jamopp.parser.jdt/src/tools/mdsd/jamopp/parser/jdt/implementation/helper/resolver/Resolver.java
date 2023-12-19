@@ -10,7 +10,7 @@ public abstract class Resolver<Clazz, BindingType extends IBinding> {
 
 	public abstract Clazz getByBinding(BindingType binding);
 
-	public abstract Clazz getByName(String annotName);
+	public abstract Clazz getByName(String name);
 
 	public final HashMap<String, Clazz> getBindings() {
 		return this.bindings;
