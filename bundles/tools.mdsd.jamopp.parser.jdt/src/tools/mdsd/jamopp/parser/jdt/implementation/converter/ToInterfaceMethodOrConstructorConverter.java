@@ -33,7 +33,7 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
 	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilJdtResolver iUtilJdtResolver;
+	private final UtilJdtResolver utilJdtResolver;
 	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
@@ -59,7 +59,7 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
-		this.iUtilJdtResolver = iUtilJdtResolver;
+		this.utilJdtResolver = iUtilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toTypeParameterConverter = toTypeParameterConverter;
@@ -82,9 +82,9 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 		InterfaceMethod result;
 		IMethodBinding binding = methodDecl.resolveBinding();
 		if (binding == null) {
-			result = iUtilJdtResolver.getInterfaceMethod(methodDecl.getName().getIdentifier());
+			result = utilJdtResolver.getInterfaceMethod(methodDecl.getName().getIdentifier());
 		} else {
-			result = iUtilJdtResolver.getInterfaceMethod(binding);
+			result = utilJdtResolver.getInterfaceMethod(binding);
 		}
 		methodDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));

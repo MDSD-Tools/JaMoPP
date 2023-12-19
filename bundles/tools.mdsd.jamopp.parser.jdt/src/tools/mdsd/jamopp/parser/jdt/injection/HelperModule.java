@@ -24,7 +24,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSe
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
-public class UtilModule extends AbstractModule {
+public class HelperModule extends AbstractModule {
 
 	@Override
 	protected void configure() {

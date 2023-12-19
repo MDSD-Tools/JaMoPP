@@ -2,6 +2,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.handler;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
+
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpressionChild;
@@ -10,9 +13,6 @@ import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression;
 import tools.mdsd.jamopp.model.java.expressions.RelationExpression;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpression;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -47,7 +47,6 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		this.utilLayout = utilLayout;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		InfixExpression infix = (InfixExpression) expr;
@@ -96,8 +95,9 @@ public class HandlerInfixExpression implements ExpressionHandler {
 			result = this.expressionsFactory.createAndExpression();
 			result.getChildren().add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) ex);
 		}
-		result.getChildren().add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) this.toExpressionConverter
-				.convert(infix.getRightOperand()));
+		result.getChildren()
+				.add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) this.toExpressionConverter
+						.convert(infix.getRightOperand()));
 		infix.extendedOperands()
 				.forEach(obj -> result.getChildren()
 						.add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) this.toExpressionConverter
