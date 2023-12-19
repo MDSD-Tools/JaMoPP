@@ -1,6 +1,5 @@
 package tools.mdsd.jamopp.standalone;
 
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -10,34 +9,31 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+
 import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.containers.Package;
-
-import tools.mdsd.jamopp.resource.JavaResource2Factory;
 import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.resource.JavaResource2Factory;
 
 /**
  * Class for the stand alone usage of JaMoPP Palladio
  *
- * How to use:
- * - Input any URI (absolute or relative file path/ Directory/ Archive) via INPUT
- * - If you want to output any xmi library files define ENABLE_OUTPUT_OF_LIBRARY_FILES as true
- * - The xmi output will be generated and saved in ./standalone_output including its package hierarchy
+ * How to use: - Input any URI (absolute or relative file path/ Directory/
+ * Archive) via INPUT - If you want to output any xmi library files define
+ * ENABLE_OUTPUT_OF_LIBRARY_FILES as true - The xmi output will be generated and
+ * saved in ./standalone_output including its package hierarchy
  *
- * If you have Problems opening the .xmi file with the Ecore Model Editor make sure you installed the Standalone version as an Ecplise Plugin
+ * If you have Problems opening the .xmi file with the Ecore Model Editor make
+ * sure you installed the Standalone version as an Ecplise Plugin
  */
 
 public class JaMoPPStandalone {
 
-
-
 	private static final String INPUT = "";
 	private static final boolean ENABLE_OUTPUT_OF_LIBRARY_FILES = false;
-
-
 
 	public static void main(String[] agrs) throws Exception {
 
@@ -55,18 +51,18 @@ public class JaMoPPStandalone {
 				continue;
 			}
 
-			if(!"file".equals(javaResource.getURI().scheme()) && !ENABLE_OUTPUT_OF_LIBRARY_FILES) {
+			if (!"file".equals(javaResource.getURI().scheme()) && !ENABLE_OUTPUT_OF_LIBRARY_FILES) {
 				continue;
 			}
 
-			File outputFile = new File("." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
+			File outputFile = new File(
+					"." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
 			outputFile.getParentFile().mkdirs();
 
 			URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
 			Resource xmiResource = rs.createResource(xmiFileURI);
 			xmiResource.getContents().addAll(javaResource.getContents());
 		}
-
 
 		for (Resource xmiResource : rs.getResources()) {
 			if (xmiResource instanceof XMIResource) {
@@ -79,9 +75,7 @@ public class JaMoPPStandalone {
 		}
 	}
 
-
-
-	private static String checkScheme (Resource javaResource) {
+	private static String checkScheme(Resource javaResource) {
 		int emptyFileName = 0;
 		String outputFileName = "";
 		JavaRoot root = ContainersFactory.eINSTANCE.createEmptyModel();
@@ -95,11 +89,12 @@ public class JaMoPPStandalone {
 				outputFileName += cu.getClassifiers().get(0).getName();
 			} else {
 				outputFileName += emptyFileName;
-                emptyFileName++;
+				emptyFileName++;
 			}
 
 		} else if (root instanceof Package) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator + "package-info";
+			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator
+					+ "package-info";
 			if (outputFileName.startsWith(File.separator)) {
 				outputFileName = outputFileName.substring(1);
 			}
@@ -109,7 +104,3 @@ public class JaMoPPStandalone {
 		return outputFileName;
 	}
 }
-
-
-
-

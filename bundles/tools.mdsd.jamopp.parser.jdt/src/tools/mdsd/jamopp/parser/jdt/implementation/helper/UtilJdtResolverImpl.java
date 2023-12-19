@@ -34,8 +34,8 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 public class UtilJdtResolverImpl implements UtilJdtResolver {
 
-	private final static String SYNTH_CLASS = "SyntheticContainerClass";
-	private final static boolean EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS = true;
+	private static final String SYNTH_CLASS = "SyntheticContainerClass";
+	private static final boolean EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS = true;
 
 	private final ParametersFactory parametersFactory;
 	private final VariablesFactory variablesFactory;
@@ -49,38 +49,38 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter;
 	private final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter;
 
-	private static ResourceSet resourceSet;
-	private static int uid;
+	private ResourceSet resourceSet;
+	private int uid;
 
-	private static HashMap<IVariableBinding, Integer> varBindToUid = new HashMap<>();
-	private static HashMap<IBinding, String> nameCache = new HashMap<>();
+	private final HashMap<IVariableBinding, Integer> varBindToUid = new HashMap<>();
+	private final HashMap<IBinding, String> nameCache = new HashMap<>();
 
-	private static HashSet<IModuleBinding> moduleBindings = new HashSet<>();
-	private static HashSet<IPackageBinding> packageBindings = new HashSet<>();
-	private static HashSet<ITypeBinding> typeBindings = new HashSet<>();
-	private static HashSet<IMethodBinding> methodBindings = new HashSet<>();
-	private static HashSet<IVariableBinding> variableBindings = new HashSet<>();
-	private static HashSet<EObject> objVisited = new HashSet<>();
+	private final HashSet<IModuleBinding> moduleBindings = new HashSet<>();
+	private final HashSet<IPackageBinding> packageBindings = new HashSet<>();
+	private final HashSet<ITypeBinding> typeBindings = new HashSet<>();
+	private final HashSet<IMethodBinding> methodBindings = new HashSet<>();
+	private final HashSet<IVariableBinding> variableBindings = new HashSet<>();
+	private final HashSet<EObject> objVisited = new HashSet<>();
 
-	private static HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> modBindToMod = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> nameToPackage = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation> typeBindToAnnot = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration> typeBindToEnum = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface> typeBindToInterface = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class> typeBindToClass = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.generics.TypeParameter> typeBindToTP = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.members.ClassMethod> methBindToCM = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.members.Constructor> methBindToConstr = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.members.Field> nameToField = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.members.AdditionalField> nameToAddField = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.members.EnumConstant> nameToEnumConst = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter> nameToCatchParam = new HashMap<>();
-	private static HashMap<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass> nameToAnonymousClass = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> modBindToMod = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> nameToPackage = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation> typeBindToAnnot = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration> typeBindToEnum = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface> typeBindToInterface = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class> typeBindToClass = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.generics.TypeParameter> typeBindToTP = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.members.ClassMethod> methBindToCM = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.members.Constructor> methBindToConstr = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.members.Field> nameToField = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.members.AdditionalField> nameToAddField = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.members.EnumConstant> nameToEnumConst = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter> nameToCatchParam = new HashMap<>();
+	private final HashMap<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass> nameToAnonymousClass = new HashMap<>();
 
 	@Inject
 	UtilJdtResolverImpl(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
@@ -104,43 +104,43 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public void setResourceSet(ResourceSet set) {
-		resourceSet = set;
+		this.resourceSet = set;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.containers.Module getModule(IModuleBinding binding) {
-		moduleBindings.add(binding);
+		this.moduleBindings.add(binding);
 		return getModule(binding.getName());
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.containers.Module getModule(String modName) {
-		if (modBindToMod.containsKey(modName)) {
-			return modBindToMod.get(modName);
+		if (this.modBindToMod.containsKey(modName)) {
+			return this.modBindToMod.get(modName);
 		}
 		tools.mdsd.jamopp.model.java.containers.Module result = JavaClasspath.get().getModule(modName);
 		if (result == null) {
 			result = this.containersFactory.createModule();
 		}
-		modBindToMod.put(modName, result);
+		this.modBindToMod.put(modName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.containers.Package getPackage(IPackageBinding binding) {
-		packageBindings.add(binding);
+		this.packageBindings.add(binding);
 		return getPackage(binding.getName());
 	}
 
 	private tools.mdsd.jamopp.model.java.containers.Package getPackage(String packageName) {
-		if (nameToPackage.containsKey(packageName)) {
-			return nameToPackage.get(packageName);
+		if (this.nameToPackage.containsKey(packageName)) {
+			return this.nameToPackage.get(packageName);
 		}
 		tools.mdsd.jamopp.model.java.containers.Package result = JavaClasspath.get().getPackage(packageName);
 		if (result == null) {
 			result = this.containersFactory.createPackage();
 		}
-		nameToPackage.put(packageName, result);
+		this.nameToPackage.put(packageName, result);
 		return result;
 	}
 
@@ -151,8 +151,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (binding.isTypeVariable()) {
 			return binding.getName();
 		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
+		if (this.nameCache.containsKey(binding)) {
+			return this.nameCache.get(binding);
 		}
 		String qualifiedName;
 		if (binding.isMember()) {
@@ -166,7 +166,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			} else {
 				qualifiedName = binding.getKey();
 			}
-			nameCache.put(binding, qualifiedName);
+			this.nameCache.put(binding, qualifiedName);
 			return qualifiedName;
 		} else {
 			qualifiedName = binding.getQualifiedName();
@@ -174,20 +174,20 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (qualifiedName.contains("<")) {
 			qualifiedName = qualifiedName.substring(0, qualifiedName.indexOf("<"));
 		}
-		nameCache.put(binding, qualifiedName);
+		this.nameCache.put(binding, qualifiedName);
 		return qualifiedName;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Annotation getAnnotation(ITypeBinding binding) {
-		typeBindings.add(binding);
+		this.typeBindings.add(binding);
 		return getAnnotation(convertToTypeName(binding));
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Annotation getAnnotation(String annotName) {
-		if (typeBindToAnnot.containsKey(annotName)) {
-			return typeBindToAnnot.get(annotName);
+		if (this.typeBindToAnnot.containsKey(annotName)) {
+			return this.typeBindToAnnot.get(annotName);
 		}
 		tools.mdsd.jamopp.model.java.classifiers.Annotation result;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
@@ -197,17 +197,17 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		} else {
 			result = this.classifiersFactory.createAnnotation();
 		}
-		typeBindToAnnot.put(annotName, result);
+		this.typeBindToAnnot.put(annotName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Enumeration getEnumeration(ITypeBinding binding) {
 		String enumName = convertToTypeName(binding);
-		if (typeBindToEnum.containsKey(enumName)) {
-			return typeBindToEnum.get(enumName);
+		if (this.typeBindToEnum.containsKey(enumName)) {
+			return this.typeBindToEnum.get(enumName);
 		}
-		typeBindings.add(binding);
+		this.typeBindings.add(binding);
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 				.getConcreteClassifier(enumName);
 		tools.mdsd.jamopp.model.java.classifiers.Enumeration result;
@@ -216,23 +216,23 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		} else {
 			result = this.classifiersFactory.createEnumeration();
 		}
-		typeBindToEnum.put(enumName, result);
+		this.typeBindToEnum.put(enumName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Class getClass(ITypeBinding binding) {
-		typeBindings.add(binding);
+		this.typeBindings.add(binding);
 		return getClass(convertToTypeName(binding));
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Interface getInterface(ITypeBinding binding) {
 		String interName = convertToTypeName(binding);
-		if (typeBindToInterface.containsKey(interName)) {
-			return typeBindToInterface.get(interName);
+		if (this.typeBindToInterface.containsKey(interName)) {
+			return this.typeBindToInterface.get(interName);
 		}
-		typeBindings.add(binding);
+		this.typeBindings.add(binding);
 		tools.mdsd.jamopp.model.java.classifiers.Interface result;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 				.getConcreteClassifier(interName);
@@ -241,7 +241,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		} else {
 			result = this.classifiersFactory.createInterface();
 		}
-		typeBindToInterface.put(interName, result);
+		this.typeBindToInterface.put(interName, result);
 		return result;
 	}
 
@@ -249,8 +249,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (binding == null) {
 			return "";
 		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
+		if (this.nameCache.containsKey(binding)) {
+			return this.nameCache.get(binding);
 		}
 		String name = "";
 		if (binding.getDeclaringClass() != null) {
@@ -259,19 +259,19 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			name += convertToMethodName(binding.getDeclaringMethod());
 		}
 		name += "." + binding.getName();
-		nameCache.put(binding, name);
+		this.nameCache.put(binding, name);
 		return name;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.generics.TypeParameter getTypeParameter(ITypeBinding binding) {
 		String paramName = convertToTypeParameterName(binding);
-		if (typeBindToTP.containsKey(paramName)) {
-			return typeBindToTP.get(paramName);
+		if (this.typeBindToTP.containsKey(paramName)) {
+			return this.typeBindToTP.get(paramName);
 		}
-		typeBindings.add(binding);
+		this.typeBindings.add(binding);
 		tools.mdsd.jamopp.model.java.generics.TypeParameter result = this.genericsFactory.createTypeParameter();
-		typeBindToTP.put(paramName, result);
+		this.typeBindToTP.put(paramName, result);
 		return result;
 	}
 
@@ -284,7 +284,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			return potClass;
 		}
 		if (binding.isAnonymous() || binding.isLocal() && binding.getDeclaringMember() == null
-				|| nameToAnonymousClass.containsKey(convertToTypeName(binding))) {
+				|| this.nameToAnonymousClass.containsKey(convertToTypeName(binding))) {
 			return null;
 		}
 		if (binding.isAnnotation()) {
@@ -312,8 +312,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (binding == null) {
 			return "";
 		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
+		if (this.nameCache.containsKey(binding)) {
+			return this.nameCache.get(binding);
 		}
 		binding = binding.getMethodDeclaration();
 		StringBuilder builder = new StringBuilder();
@@ -334,17 +334,17 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			builder.append(convertToTypeName(binding.getReturnType()));
 		}
 		String name = builder.toString();
-		nameCache.put(binding, name);
+		this.nameCache.put(binding, name);
 		return name;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(String methodName) {
-		if (methBindToInter.containsKey(methodName)) {
-			return methBindToInter.get(methodName);
+		if (this.methBindToInter.containsKey(methodName)) {
+			return this.methBindToInter.get(methodName);
 		}
 		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = createNewInterfaceMethod();
-		methBindToInter.put(methodName, result);
+		this.methBindToInter.put(methodName, result);
 		return result;
 	}
 
@@ -358,10 +358,10 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(IMethodBinding binding) {
 		binding = binding.getMethodDeclaration();
-		methodBindings.add(binding);
+		this.methodBindings.add(binding);
 		String methName = convertToMethodName(binding);
-		if (methBindToInter.containsKey(methName)) {
-			return methBindToInter.get(methName);
+		if (this.methBindToInter.containsKey(methName)) {
+			return this.methBindToInter.get(methName);
 		}
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
@@ -379,17 +379,17 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (result == null) {
 			result = createNewInterfaceMethod();
 		}
-		methBindToInter.put(methName, result);
+		this.methBindToInter.put(methName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.ClassMethod getClassMethod(String methodName) {
-		if (methBindToCM.containsKey(methodName)) {
-			return methBindToCM.get(methodName);
+		if (this.methBindToCM.containsKey(methodName)) {
+			return this.methBindToCM.get(methodName);
 		}
 		tools.mdsd.jamopp.model.java.members.ClassMethod result = createNewClassMethod();
-		methBindToCM.put(methodName, result);
+		this.methBindToCM.put(methodName, result);
 		return result;
 	}
 
@@ -405,10 +405,10 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.members.ClassMethod getClassMethod(IMethodBinding binding) {
 		binding = binding.getMethodDeclaration();
-		methodBindings.add(binding);
+		this.methodBindings.add(binding);
 		String methName = convertToMethodName(binding);
-		if (methBindToCM.containsKey(methName)) {
-			return methBindToCM.get(methName);
+		if (this.methBindToCM.containsKey(methName)) {
+			return this.methBindToCM.get(methName);
 		}
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
@@ -426,7 +426,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (result == null) {
 			result = createNewClassMethod();
 		}
-		methBindToCM.put(methName, result);
+		this.methBindToCM.put(methName, result);
 		return result;
 	}
 
@@ -514,10 +514,10 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.members.Constructor getConstructor(IMethodBinding binding) {
 		String methName = convertToMethodName(binding);
-		if (methBindToConstr.containsKey(methName)) {
-			return methBindToConstr.get(methName);
+		if (this.methBindToConstr.containsKey(methName)) {
+			return this.methBindToConstr.get(methName);
 		}
-		methodBindings.add(binding);
+		this.methodBindings.add(binding);
 		tools.mdsd.jamopp.model.java.members.Constructor result = null;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
@@ -558,20 +558,20 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			block.setName("");
 			result.setBlock(block);
 		}
-		methBindToConstr.put(methName, result);
+		this.methBindToConstr.put(methName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.Constructor getConstructor(String methName) {
-		if (methBindToConstr.containsKey(methName)) {
-			return methBindToConstr.get(methName);
+		if (this.methBindToConstr.containsKey(methName)) {
+			return this.methBindToConstr.get(methName);
 		}
 		tools.mdsd.jamopp.model.java.members.Constructor result = this.membersFactory.createConstructor();
 		tools.mdsd.jamopp.model.java.statements.Block block = this.statementsFactory.createBlock();
 		block.setName("");
 		result.setBlock(block);
-		methBindToConstr.put(methName, result);
+		this.methBindToConstr.put(methName, result);
 		return result;
 	}
 
@@ -585,8 +585,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Class getClass(String typeName) {
-		if (typeBindToClass.containsKey(typeName)) {
-			return typeBindToClass.get(typeName);
+		if (this.typeBindToClass.containsKey(typeName)) {
+			return this.typeBindToClass.get(typeName);
 		}
 		tools.mdsd.jamopp.model.java.classifiers.Class result;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
@@ -596,17 +596,17 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		} else {
 			result = this.classifiersFactory.createClass();
 		}
-		typeBindToClass.put(typeName, result);
+		this.typeBindToClass.put(typeName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.AnonymousClass getAnonymousClass(String typeName) {
-		if (nameToAnonymousClass.containsKey(typeName)) {
-			return nameToAnonymousClass.get(typeName);
+		if (this.nameToAnonymousClass.containsKey(typeName)) {
+			return this.nameToAnonymousClass.get(typeName);
 		}
 		tools.mdsd.jamopp.model.java.classifiers.AnonymousClass result = this.classifiersFactory.createAnonymousClass();
-		nameToAnonymousClass.put(typeName, result);
+		this.nameToAnonymousClass.put(typeName, result);
 		return result;
 	}
 
@@ -620,31 +620,31 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (binding == null || !binding.isField()) {
 			return "";
 		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
+		if (this.nameCache.containsKey(binding)) {
+			return this.nameCache.get(binding);
 		}
 		String name = convertToTypeName(binding.getDeclaringClass()) + "::" + binding.getName();
-		nameCache.put(binding, name);
+		this.nameCache.put(binding, name);
 		return name;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.Field getField(String name) {
-		if (nameToField.containsKey(name)) {
-			return nameToField.get(name);
+		if (this.nameToField.containsKey(name)) {
+			return this.nameToField.get(name);
 		}
 		tools.mdsd.jamopp.model.java.members.Field result = this.membersFactory.createField();
-		nameToField.put(name, result);
+		this.nameToField.put(name, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.Field getField(IVariableBinding binding) {
 		String varName = convertToFieldName(binding);
-		if (nameToField.containsKey(varName)) {
-			return nameToField.get(varName);
+		if (this.nameToField.containsKey(varName)) {
+			return this.nameToField.get(varName);
 		}
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = null;
 		if (binding.getDeclaringClass() != null) {
 			potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
@@ -664,17 +664,17 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			result = this.membersFactory.createField();
 			result.setTypeReference(this.typesFactory.createInt());
 		}
-		nameToField.put(varName, result);
+		this.nameToField.put(varName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(IVariableBinding binding) {
 		String enumCN = convertToFieldName(binding);
-		if (nameToEnumConst.containsKey(enumCN)) {
-			return nameToEnumConst.get(enumCN);
+		if (this.nameToEnumConst.containsKey(enumCN)) {
+			return this.nameToEnumConst.get(enumCN);
 		}
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = getEnumeration(binding.getDeclaringClass());
 		tools.mdsd.jamopp.model.java.members.EnumConstant result = null;
 		if (potPar != null) {
@@ -688,37 +688,37 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (result == null) {
 			result = this.membersFactory.createEnumConstant();
 		}
-		nameToEnumConst.put(enumCN, result);
+		this.nameToEnumConst.put(enumCN, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(String enumCN) {
-		if (nameToEnumConst.containsKey(enumCN)) {
-			return nameToEnumConst.get(enumCN);
+		if (this.nameToEnumConst.containsKey(enumCN)) {
+			return this.nameToEnumConst.get(enumCN);
 		}
 		tools.mdsd.jamopp.model.java.members.EnumConstant result = this.membersFactory.createEnumConstant();
-		nameToEnumConst.put(enumCN, result);
+		this.nameToEnumConst.put(enumCN, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(String name) {
-		if (nameToAddField.containsKey(name)) {
-			return nameToAddField.get(name);
+		if (this.nameToAddField.containsKey(name)) {
+			return this.nameToAddField.get(name);
 		}
 		tools.mdsd.jamopp.model.java.members.AdditionalField result = this.membersFactory.createAdditionalField();
-		nameToAddField.put(name, result);
+		this.nameToAddField.put(name, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(IVariableBinding binding) {
 		String varName = convertToFieldName(binding);
-		if (nameToAddField.containsKey(varName)) {
-			return nameToAddField.get(varName);
+		if (this.nameToAddField.containsKey(varName)) {
+			return this.nameToAddField.get(varName);
 		}
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		tools.mdsd.jamopp.model.java.members.AdditionalField result = null;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 				binding.getDeclaringClass());
@@ -737,7 +737,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (result == null) {
 			result = this.membersFactory.createAdditionalField();
 		}
-		nameToAddField.put(varName, result);
+		this.nameToAddField.put(varName, result);
 		return result;
 	}
 
@@ -745,74 +745,74 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (binding == null) {
 			return "";
 		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
+		if (this.nameCache.containsKey(binding)) {
+			return this.nameCache.get(binding);
 		}
 		String prefix = "";
 		if (binding.getDeclaringMethod() != null) {
 			prefix = convertToMethodName(binding.getDeclaringMethod());
-		} else if (varBindToUid.containsKey(binding)) {
-			prefix = varBindToUid.get(binding) + "";
+		} else if (this.varBindToUid.containsKey(binding)) {
+			prefix = this.varBindToUid.get(binding) + "";
 		} else {
-			prefix = uid + "";
+			prefix = this.uid + "";
 			if (register) {
-				varBindToUid.put(binding, uid);
+				this.varBindToUid.put(binding, this.uid);
 			}
 		}
 		String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();
-		nameCache.put(binding, name);
+		this.nameCache.put(binding, name);
 		return name;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		return getLocalVariable(convertToParameterName(binding, true));
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.variables.LocalVariable getLocalVariable(String varName) {
-		if (nameToLocVar.containsKey(varName)) {
-			return nameToLocVar.get(varName);
+		if (this.nameToLocVar.containsKey(varName)) {
+			return this.nameToLocVar.get(varName);
 		}
 		tools.mdsd.jamopp.model.java.variables.LocalVariable result = this.variablesFactory.createLocalVariable();
-		nameToLocVar.put(varName, result);
+		this.nameToLocVar.put(varName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(
 			IVariableBinding binding) {
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		return getAdditionalLocalVariable(convertToParameterName(binding, true));
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
-		if (nameToAddLocVar.containsKey(varName)) {
-			return nameToAddLocVar.get(varName);
+		if (this.nameToAddLocVar.containsKey(varName)) {
+			return this.nameToAddLocVar.get(varName);
 		}
 		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable result = this.variablesFactory
 				.createAdditionalLocalVariable();
-		nameToAddLocVar.put(varName, result);
+		this.nameToAddLocVar.put(varName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		String paramName = convertToParameterName(binding, true);
 		return getOrdinaryParameter(paramName);
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(String paramName) {
-		if (nameToOrdParam.containsKey(paramName)) {
-			return nameToOrdParam.get(paramName);
+		if (this.nameToOrdParam.containsKey(paramName)) {
+			return this.nameToOrdParam.get(paramName);
 		}
 		tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter result = this.parametersFactory
 				.createOrdinaryParameter();
-		nameToOrdParam.put(paramName, result);
+		this.nameToOrdParam.put(paramName, result);
 		return result;
 	}
 
@@ -820,35 +820,35 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	public tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter getVariableLengthParameter(
 			IVariableBinding binding) {
 		String paramName = convertToParameterName(binding, true);
-		if (nameToVarLenParam.containsKey(paramName)) {
-			return nameToVarLenParam.get(paramName);
+		if (this.nameToVarLenParam.containsKey(paramName)) {
+			return this.nameToVarLenParam.get(paramName);
 		}
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter result = this.parametersFactory
 				.createVariableLengthParameter();
-		nameToVarLenParam.put(paramName, result);
+		this.nameToVarLenParam.put(paramName, result);
 		return result;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
-		variableBindings.add(binding);
+		this.variableBindings.add(binding);
 		return getCatchParameter(convertToParameterName(binding, true));
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(String paramName) {
-		if (nameToCatchParam.containsKey(paramName)) {
-			return nameToCatchParam.get(paramName);
+		if (this.nameToCatchParam.containsKey(paramName)) {
+			return this.nameToCatchParam.get(paramName);
 		}
 		tools.mdsd.jamopp.model.java.parameters.CatchParameter result = this.parametersFactory.createCatchParameter();
-		nameToCatchParam.put(paramName, result);
+		this.nameToCatchParam.put(paramName, result);
 		return result;
 	}
 
 	@Override
 	public void prepareNextUid() {
-		uid++;
+		this.uid++;
 	}
 
 	@Override
@@ -859,36 +859,36 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		}
 		if (binding.isField()) {
 			String fieldName = convertToFieldName(binding);
-			if (nameToField.containsKey(fieldName)) {
-				return nameToField.get(fieldName);
+			if (this.nameToField.containsKey(fieldName)) {
+				return this.nameToField.get(fieldName);
 			}
-			if (nameToAddField.containsKey(fieldName)) {
-				return nameToAddField.get(fieldName);
+			if (this.nameToAddField.containsKey(fieldName)) {
+				return this.nameToAddField.get(fieldName);
 			}
 			return getField(binding);
 		}
 		if (binding.isParameter()) {
 			String paramName = convertToParameterName(binding, false);
-			if (nameToOrdParam.containsKey(paramName)) {
-				return nameToOrdParam.get(paramName);
+			if (this.nameToOrdParam.containsKey(paramName)) {
+				return this.nameToOrdParam.get(paramName);
 			}
-			if (nameToVarLenParam.containsKey(paramName)) {
-				return nameToVarLenParam.get(paramName);
+			if (this.nameToVarLenParam.containsKey(paramName)) {
+				return this.nameToVarLenParam.get(paramName);
 			}
 			return getOrdinaryParameter(binding);
 		}
 		String paramName = convertToParameterName(binding, false);
-		if (nameToCatchParam.containsKey(paramName)) {
-			return nameToCatchParam.get(paramName);
+		if (this.nameToCatchParam.containsKey(paramName)) {
+			return this.nameToCatchParam.get(paramName);
 		}
-		if (nameToLocVar.containsKey(paramName)) {
-			return nameToLocVar.get(paramName);
+		if (this.nameToLocVar.containsKey(paramName)) {
+			return this.nameToLocVar.get(paramName);
 		}
-		if (nameToAddLocVar.containsKey(paramName)) {
-			return nameToAddLocVar.get(paramName);
+		if (this.nameToAddLocVar.containsKey(paramName)) {
+			return this.nameToAddLocVar.get(paramName);
 		}
-		if (nameToOrdParam.containsKey(paramName)) {
-			return nameToOrdParam.get(paramName);
+		if (this.nameToOrdParam.containsKey(paramName)) {
+			return this.nameToOrdParam.get(paramName);
 		}
 		return getLocalVariable(binding);
 	}
@@ -896,86 +896,92 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.references.ReferenceableElement getReferenceableElementByNameMatching(
 			String name) {
-		IVariableBinding vBinding = variableBindings.stream().filter(var -> var != null && var.getName().equals(name))
-				.findFirst().orElse(null);
+		IVariableBinding vBinding = this.variableBindings.stream()
+				.filter(var -> var != null && var.getName().equals(name)).findFirst().orElse(null);
 		if (vBinding != null) {
 			return getReferencableElement(vBinding);
 		}
-		IMethodBinding mBinding = methodBindings.stream()
+		IMethodBinding mBinding = this.methodBindings.stream()
 				.filter(meth -> !meth.isConstructor() && meth.getName().equals(name)).findFirst().orElse(null);
 		if (mBinding != null) {
 			return getMethod(mBinding);
 		}
-		ITypeBinding tBinding = typeBindings.stream().filter(type -> type != null && type.getName().equals(name))
+		ITypeBinding tBinding = this.typeBindings.stream().filter(type -> type != null && type.getName().equals(name))
 				.findFirst().orElse(null);
 		if (tBinding != null) {
 			return getClassifier(tBinding);
 		}
-		tools.mdsd.jamopp.model.java.variables.Variable par = nameToCatchParam.values().stream()
+		tools.mdsd.jamopp.model.java.variables.Variable par = this.nameToCatchParam.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (par != null) {
 			return par;
 		}
-		par = nameToLocVar.values().stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable addLocVar = nameToAddLocVar.values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (addLocVar != null) {
-			return addLocVar;
-		}
-		par = nameToVarLenParam.values().stream().filter(param -> param.getName().equals(name)).findFirst()
+		par = this.nameToLocVar.values().stream().filter(param -> param.getName().equals(name)).findFirst()
 				.orElse(null);
 		if (par != null) {
 			return par;
 		}
-		par = nameToOrdParam.values().stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
+		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable addLocVar = this.nameToAddLocVar.values()
+				.stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
+		if (addLocVar != null) {
+			return addLocVar;
+		}
+		par = this.nameToVarLenParam.values().stream().filter(param -> param.getName().equals(name)).findFirst()
+				.orElse(null);
 		if (par != null) {
 			return par;
 		}
-		tools.mdsd.jamopp.model.java.members.EnumConstant enumConst = nameToEnumConst.values().stream()
+		par = this.nameToOrdParam.values().stream().filter(param -> param.getName().equals(name)).findFirst()
+				.orElse(null);
+		if (par != null) {
+			return par;
+		}
+		tools.mdsd.jamopp.model.java.members.EnumConstant enumConst = this.nameToEnumConst.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (enumConst != null) {
 			return enumConst;
 		}
-		tools.mdsd.jamopp.model.java.members.Field field = nameToField.values().stream()
+		tools.mdsd.jamopp.model.java.members.Field field = this.nameToField.values().stream()
 				.filter(param -> param != null && param.getName().equals(name)).findFirst().orElse(null);
 		if (field != null) {
 			return field;
 		}
-		tools.mdsd.jamopp.model.java.members.AdditionalField addField = nameToAddField.values().stream()
+		tools.mdsd.jamopp.model.java.members.AdditionalField addField = this.nameToAddField.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (addField != null) {
 			return addField;
 		}
-		tools.mdsd.jamopp.model.java.members.Method meth = methBindToCM.values().stream()
+		tools.mdsd.jamopp.model.java.members.Method meth = this.methBindToCM.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (meth != null) {
 			return meth;
 		}
-		meth = methBindToInter.values().stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
+		meth = this.methBindToInter.values().stream().filter(param -> param.getName().equals(name)).findFirst()
+				.orElse(null);
 		if (meth != null) {
 			return meth;
 		}
-		tools.mdsd.jamopp.model.java.classifiers.Classifier c = typeBindToTP.values().stream()
+		tools.mdsd.jamopp.model.java.classifiers.Classifier c = this.typeBindToTP.values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (c != null) {
 			return c;
 		}
-		c = typeBindToEnum.values().stream().filter(param -> name.equals(param.getName())).findFirst().orElse(null);
+		c = this.typeBindToEnum.values().stream().filter(param -> name.equals(param.getName())).findFirst()
+				.orElse(null);
 		if (c != null) {
 			return c;
 		}
-		c = typeBindToAnnot.values().stream().filter(param -> name.equals(param.getName())).findFirst().orElse(null);
+		c = this.typeBindToAnnot.values().stream().filter(param -> name.equals(param.getName())).findFirst()
+				.orElse(null);
 		if (c != null) {
 			return c;
 		}
-		c = typeBindToClass.values().stream().filter(param -> name.equals(param.getName())).findFirst().orElse(null);
+		c = this.typeBindToClass.values().stream().filter(param -> name.equals(param.getName())).findFirst()
+				.orElse(null);
 		if (c != null) {
 			return c;
 		}
-		c = typeBindToInterface.values().stream().filter(param -> name.equals(param.getName())).findFirst()
+		c = this.typeBindToInterface.values().stream().filter(param -> name.equals(param.getName())).findFirst()
 				.orElse(null);
 		if (c != null) {
 			return c;
@@ -986,22 +992,23 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	@SuppressWarnings("unused")
 	public void completeResolution() {
-		nameToEnumConst.forEach((constName, enConst) -> {
+		this.nameToEnumConst.forEach((constName, enConst) -> {
 			if (enConst.eContainer() == null) {
-				IVariableBinding varBind = variableBindings.stream()
+				IVariableBinding varBind = this.variableBindings.stream()
 						.filter(var -> var != null && constName.equals(convertToFieldName(var))).findFirst().get();
 				if (!varBind.getDeclaringClass().isAnonymous()) {
 					var en = getEnumeration(varBind.getDeclaringClass());
-					if (!EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS && !en.getConstants().contains(enConst)) {
+					if (!this.EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS
+							&& !en.getConstants().contains(enConst)) {
 						en.getConstants().add(enConst);
 					}
 				}
 			}
 		});
 
-		nameToField.forEach((fieldName, field) -> {
+		this.nameToField.forEach((fieldName, field) -> {
 			if (field.eContainer() == null) {
-				IVariableBinding varBind = variableBindings.stream()
+				IVariableBinding varBind = this.variableBindings.stream()
 						.filter(var -> var != null && fieldName.equals(convertToFieldName(var))).findFirst()
 						.orElse(null);
 				if (varBind == null || varBind.getDeclaringClass() == null) {
@@ -1011,8 +1018,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 							varBind.getDeclaringClass());
 					if (cla == null) {
 						String typeName = convertToTypeName(varBind.getDeclaringClass());
-						if (nameToAnonymousClass.containsKey(typeName)) {
-							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
+						if (this.nameToAnonymousClass.containsKey(typeName)) {
+							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = this.nameToAnonymousClass
 									.get(typeName);
 							if (!anonClass.getMembers().contains(field)) {
 								anonClass.getMembers().add(field);
@@ -1020,7 +1027,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 						} else {
 							addToSyntheticClass(field);
 						}
-					} else if (!EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS
+					} else if (!this.EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS
 							&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i
 							&& !i.getMembers().contains(field)) {
 						i.getMembers().add(field);
@@ -1029,62 +1036,62 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			}
 		});
 
-		methBindToConstr.forEach(this::completeMethod);
-		methBindToInter.forEach(this::completeMethod);
-		methBindToCM.forEach(this::completeMethod);
+		this.methBindToConstr.forEach(this::completeMethod);
+		this.methBindToInter.forEach(this::completeMethod);
+		this.methBindToCM.forEach(this::completeMethod);
 
 		convertPureTypeBindings();
 
-		modBindToMod.values().forEach(module -> JavaClasspath.get().registerModule(module));
-		nameToPackage.values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
-		typeBindToAnnot.values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
-		typeBindToEnum.values().forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
-		typeBindToInterface.values().forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
-		typeBindToClass.values().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
+		this.modBindToMod.values().forEach(module -> JavaClasspath.get().registerModule(module));
+		this.nameToPackage.values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
+		this.typeBindToAnnot.values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
+		this.typeBindToEnum.values().forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
+		this.typeBindToInterface.values().forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
+		this.typeBindToClass.values().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
 
 		escapeAllIdentifiers();
 
-		modBindToMod.clear();
-		nameToPackage.clear();
-		typeBindToAnnot.clear();
-		typeBindToEnum.clear();
-		typeBindToInterface.clear();
-		typeBindToClass.clear();
-		typeBindToTP.clear();
-		methBindToInter.clear();
-		methBindToCM.clear();
-		methBindToConstr.clear();
-		nameToField.clear();
-		nameToAddField.clear();
-		nameToLocVar.clear();
-		nameToAddLocVar.clear();
-		nameToEnumConst.clear();
-		nameToVarLenParam.clear();
-		nameToOrdParam.clear();
-		nameToCatchParam.clear();
-		moduleBindings.clear();
-		packageBindings.clear();
-		typeBindings.clear();
-		methodBindings.clear();
-		variableBindings.clear();
-		uid = 0;
-		varBindToUid.clear();
-		objVisited.clear();
-		nameCache.clear();
-		nameToAnonymousClass.clear();
+		this.modBindToMod.clear();
+		this.nameToPackage.clear();
+		this.typeBindToAnnot.clear();
+		this.typeBindToEnum.clear();
+		this.typeBindToInterface.clear();
+		this.typeBindToClass.clear();
+		this.typeBindToTP.clear();
+		this.methBindToInter.clear();
+		this.methBindToCM.clear();
+		this.methBindToConstr.clear();
+		this.nameToField.clear();
+		this.nameToAddField.clear();
+		this.nameToLocVar.clear();
+		this.nameToAddLocVar.clear();
+		this.nameToEnumConst.clear();
+		this.nameToVarLenParam.clear();
+		this.nameToOrdParam.clear();
+		this.nameToCatchParam.clear();
+		this.moduleBindings.clear();
+		this.packageBindings.clear();
+		this.typeBindings.clear();
+		this.methodBindings.clear();
+		this.variableBindings.clear();
+		this.uid = 0;
+		this.varBindToUid.clear();
+		this.objVisited.clear();
+		this.nameCache.clear();
+		this.nameToAnonymousClass.clear();
 	}
 
 	@SuppressWarnings("unused")
 	private void completeMethod(String methodName, tools.mdsd.jamopp.model.java.members.Member method) {
 		if (method.eContainer() == null) {
-			IMethodBinding methBind = methodBindings.stream()
+			IMethodBinding methBind = this.methodBindings.stream()
 					.filter(meth -> methodName.equals(convertToMethodName(meth))).findFirst().orElse(null);
 			if (methBind != null) {
 				tools.mdsd.jamopp.model.java.classifiers.Classifier cla = getClassifier(methBind.getDeclaringClass());
 				if (cla == null) {
 					String typeName = convertToTypeName(methBind.getDeclaringClass());
-					if (nameToAnonymousClass.containsKey(typeName)) {
-						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = nameToAnonymousClass
+					if (this.nameToAnonymousClass.containsKey(typeName)) {
+						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = this.nameToAnonymousClass
 								.get(typeName);
 						if (!anonClass.getMembers().contains(method)) {
 							anonClass.getMembers().add(method);
@@ -1092,7 +1099,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 					} else {
 						addToSyntheticClass(method);
 					}
-				} else if (!EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS
+				} else if (!this.EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS
 						&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i
 						&& !i.getMembers().contains(method)) {
 					i.getMembers().add(method);
@@ -1104,8 +1111,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	private void addToSyntheticClass(tools.mdsd.jamopp.model.java.members.Member member) {
-		tools.mdsd.jamopp.model.java.classifiers.Class container = getClass(SYNTH_CLASS);
-		container.setName(SYNTH_CLASS);
+		tools.mdsd.jamopp.model.java.classifiers.Class container = getClass(this.SYNTH_CLASS);
+		container.setName(this.SYNTH_CLASS);
 		if (!container.getMembers().contains(member)) {
 			container.getMembers().add(member);
 		}
@@ -1114,42 +1121,43 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@SuppressWarnings("unchecked")
 	private void convertPureTypeBindings() {
 		int oldSize;
-		int newSize = typeBindToAnnot.size() + typeBindToEnum.size() + typeBindToInterface.size()
-				+ typeBindToClass.size() + modBindToMod.size() + nameToPackage.size();
+		int newSize = this.typeBindToAnnot.size() + this.typeBindToEnum.size() + this.typeBindToInterface.size()
+				+ this.typeBindToClass.size() + this.modBindToMod.size() + this.nameToPackage.size();
 		do {
 			oldSize = newSize;
-			HashMap<String, ? extends tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier> map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation>) typeBindToAnnot
+			HashMap<String, ? extends tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier> map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation>) this.typeBindToAnnot
 					.clone();
 			map.forEach(this::convertPureTypeBinding);
-			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration>) typeBindToEnum.clone();
+			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration>) this.typeBindToEnum.clone();
 			map.forEach(this::convertPureTypeBinding);
-			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface>) typeBindToInterface.clone();
+			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface>) this.typeBindToInterface
+					.clone();
 			map.forEach(this::convertPureTypeBinding);
-			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class>) typeBindToClass.clone();
+			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class>) this.typeBindToClass.clone();
 			map.forEach(this::convertPureTypeBinding);
-			HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> mapP = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Package>) nameToPackage
+			HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> mapP = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Package>) this.nameToPackage
 					.clone();
 			mapP.forEach(this::convertPurePackageBinding);
-			HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> mapM = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Module>) modBindToMod
+			HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> mapM = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Module>) this.modBindToMod
 					.clone();
 			mapM.forEach(this::convertPureModuleBinding);
-			newSize = typeBindToAnnot.size() + typeBindToEnum.size() + typeBindToInterface.size()
-					+ typeBindToClass.size() + modBindToMod.size() + nameToPackage.size();
+			newSize = this.typeBindToAnnot.size() + this.typeBindToEnum.size() + this.typeBindToInterface.size()
+					+ this.typeBindToClass.size() + this.modBindToMod.size() + this.nameToPackage.size();
 		} while (oldSize < newSize);
 	}
 
 	private void convertPureTypeBinding(String typeName,
 			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier) {
-		if (objVisited.contains(classifier)) {
+		if (this.objVisited.contains(classifier)) {
 			return;
 		}
-		objVisited.add(classifier);
+		this.objVisited.add(classifier);
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
 		if (potClass == classifier) {
 			return;
 		}
-		ITypeBinding typeBind = typeBindings.stream()
+		ITypeBinding typeBind = this.typeBindings.stream()
 				.filter(type -> type != null && typeName.equals(convertToTypeName(type))).findFirst().orElse(null);
 		if (typeBind == null) {
 			classifier.setPackage(getPackage(""));
@@ -1158,7 +1166,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			}
 		} else if (typeBind.isTopLevel()) {
 			this.iUtilBindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
-					EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS);
+					this.EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS);
 		} else if (typeBind.isNested()) {
 			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier parentClassifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
 					typeBind.getDeclaringClass());
@@ -1180,22 +1188,22 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			for (int index = 0; index < namespaces.length - 1; index++) {
 				cu.getNamespaces().add(namespaces[index]);
 			}
-			Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty",
+			Resource newResource = this.resourceSet.createResource(URI.createHierarchicalURI("empty",
 					"JaMoPP-CompilationUnit", null, new String[] { typeName + ".java" }, null, null));
 			newResource.getContents().add(cu);
 		}
 	}
 
 	private void convertPurePackageBinding(String packageName, tools.mdsd.jamopp.model.java.containers.Package pack) {
-		if (objVisited.contains(pack)) {
+		if (this.objVisited.contains(pack)) {
 			return;
 		}
-		objVisited.add(pack);
+		this.objVisited.add(pack);
 		tools.mdsd.jamopp.model.java.containers.Package potPack = JavaClasspath.get().getPackage(packageName);
 		if (potPack == pack) {
 			return;
 		}
-		IPackageBinding binding = packageBindings.stream().filter(b -> packageName.equals(b.getName())).findFirst()
+		IPackageBinding binding = this.packageBindings.stream().filter(b -> packageName.equals(b.getName())).findFirst()
 				.orElse(null);
 		if (binding == null) {
 			pack.setName("");
@@ -1206,21 +1214,21 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (pack.eResource() != null) {
 			return;
 		}
-		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Package", null,
-				new String[] { packageName, "package-info.java" }, null, null));
+		Resource newResource = this.resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Package",
+				null, new String[] { packageName, "package-info.java" }, null, null));
 		newResource.getContents().add(pack);
 	}
 
 	private void convertPureModuleBinding(String modName, tools.mdsd.jamopp.model.java.containers.Module module) {
-		if (objVisited.contains(module)) {
+		if (this.objVisited.contains(module)) {
 			return;
 		}
-		objVisited.add(module);
+		this.objVisited.add(module);
 		tools.mdsd.jamopp.model.java.containers.Module potMod = JavaClasspath.get().getModule(modName);
 		if (potMod == module || module.eResource() != null) {
 			return;
 		}
-		IModuleBinding binding = moduleBindings.stream().filter(b -> modName.equals(b.getName())).findFirst()
+		IModuleBinding binding = this.moduleBindings.stream().filter(b -> modName.equals(b.getName())).findFirst()
 				.orElse(null);
 		if (binding == null) {
 			module.getNamespaces().clear();
@@ -1230,18 +1238,18 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		} else {
 			this.bindingToModuleConverter.get().convert(binding);
 		}
-		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Module", null,
+		Resource newResource = this.resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Module", null,
 				new String[] { modName, "module-info.java" }, null, null));
 		newResource.getContents().add(module);
 	}
 
 	private void escapeAllIdentifiers() {
-		modBindToMod.values().forEach(this::escapeIdentifiers);
-		nameToPackage.values().forEach(this::escapeIdentifiers);
-		typeBindToAnnot.values().forEach(this::escapeIdentifiers);
-		typeBindToEnum.values().forEach(this::escapeIdentifiers);
-		typeBindToClass.values().forEach(this::escapeIdentifiers);
-		typeBindToInterface.values().forEach(this::escapeIdentifiers);
+		this.modBindToMod.values().forEach(this::escapeIdentifiers);
+		this.nameToPackage.values().forEach(this::escapeIdentifiers);
+		this.typeBindToAnnot.values().forEach(this::escapeIdentifiers);
+		this.typeBindToEnum.values().forEach(this::escapeIdentifiers);
+		this.typeBindToClass.values().forEach(this::escapeIdentifiers);
+		this.typeBindToInterface.values().forEach(this::escapeIdentifiers);
 	}
 
 	private void escapeIdentifiers(EObject obj) {
