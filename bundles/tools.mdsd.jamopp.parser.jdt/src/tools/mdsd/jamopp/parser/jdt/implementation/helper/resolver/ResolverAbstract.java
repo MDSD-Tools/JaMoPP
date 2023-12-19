@@ -93,6 +93,24 @@ public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> impl
 		return qualifiedName;
 	}
 
+	protected String convertToTypeParameterName(ITypeBinding binding) {
+		if (binding == null) {
+			return "";
+		}
+		if (nameCache.containsKey(binding)) {
+			return nameCache.get(binding);
+		}
+		String name = "";
+		if (binding.getDeclaringClass() != null) {
+			name += convertToTypeName(binding.getDeclaringClass());
+		} else if (binding.getDeclaringMethod() != null) {
+			name += convertToMethodName(binding.getDeclaringMethod());
+		}
+		name += "." + binding.getName();
+		nameCache.put(binding, name);
+		return name;
+	}
+
 	@Override
 	public final HashMap<String, Clazz> getBindings() {
 		return bindings;
