@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.Module;
 
-public class ModuleResolver extends Resolver<tools.mdsd.jamopp.model.java.containers.Module, IModuleBinding> {
+public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java.containers.Module, IModuleBinding> {
 
 	private final HashSet<IModuleBinding> moduleBindings;
 	private final ContainersFactory containersFactory;

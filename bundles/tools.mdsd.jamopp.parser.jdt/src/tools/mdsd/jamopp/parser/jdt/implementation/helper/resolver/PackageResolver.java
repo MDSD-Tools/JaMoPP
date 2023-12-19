@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.Package;
 
-public class PackageResolver extends Resolver<tools.mdsd.jamopp.model.java.containers.Package, IPackageBinding> {
+public class PackageResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java.containers.Package, IPackageBinding> {
 
 	private final HashSet<IPackageBinding> packageBindings;
 	private final ContainersFactory containersFactory;

@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class AnnotationResolver extends Resolver<Annotation, ITypeBinding> {
+public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBinding> {
 
 	public AnnotationResolver(HashMap<IBinding, String> nameCache, HashMap<String, Annotation> bindings,
 			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory) {

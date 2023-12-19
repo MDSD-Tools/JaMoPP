@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
 
-public class InterfaceResolver extends Resolver<tools.mdsd.jamopp.model.java.classifiers.Interface, ITypeBinding> {
+public class InterfaceResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java.classifiers.Interface, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
