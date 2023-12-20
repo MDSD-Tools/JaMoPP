@@ -44,6 +44,7 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolve
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.OrdinaryParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.TypeParameterResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.VariableLengthParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilBindingInfoToConcreteClassifierConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
@@ -53,7 +54,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private static final String SYNTH_CLASS = "SyntheticContainerClass";
 	private static final boolean EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS = true;
 
-	private final ParametersFactory parametersFactory;
 	private final VariablesFactory variablesFactory;
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
@@ -93,10 +93,10 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final CatchParameterResolver catchParameterResolver;
 	private final OrdinaryParameterResolver ordinaryParameterResolver;
 	private final AdditionalLocalVariableResolver additionalLocalVariableResolver;
+	private final VariableLengthParameterResolver variableLengthParameterResolver;
 
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
-	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
 
 	@Inject
 	UtilJdtResolverImpl(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
@@ -105,12 +105,9 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
 			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
 			Provider<UtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter) {
-		this.parametersFactory = parametersFactory;
 		this.variablesFactory = variablesFactory;
-
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;
-
 		this.membersFactory = membersFactory;
 		this.containersFactory = containersFactory;
 		this.bindingToPackageConverter = bindingToPackageConverter;
@@ -140,6 +137,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		ordinaryParameterResolver = new OrdinaryParameterResolver(nameCache, new HashMap<>(), parametersFactory);
 		additionalLocalVariableResolver = new AdditionalLocalVariableResolver(nameCache, new HashMap<>(),
 				variablesFactory, variableBindings, this);
+		variableLengthParameterResolver = new VariableLengthParameterResolver(nameCache, new HashMap<>(),
+				variableBindings, this, parametersFactory);
 
 	}
 
@@ -573,15 +572,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter getVariableLengthParameter(
 			IVariableBinding binding) {
-		String paramName = convertToParameterName(binding, true);
-		if (nameToVarLenParam.containsKey(paramName)) {
-			return nameToVarLenParam.get(paramName);
-		}
-		variableBindings.add(binding);
-		tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter result = parametersFactory
-				.createVariableLengthParameter();
-		nameToVarLenParam.put(paramName, result);
-		return result;
+		return variableLengthParameterResolver.getByBinding(binding);
 	}
 
 	@Override
@@ -620,8 +611,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
 				return ordinaryParameterResolver.getBindings().get(paramName);
 			}
-			if (nameToVarLenParam.containsKey(paramName)) {
-				return nameToVarLenParam.get(paramName);
+			if (variableLengthParameterResolver.getBindings().containsKey(paramName)) {
+				return variableLengthParameterResolver.getBindings().get(paramName);
 			}
 			return getOrdinaryParameter(binding);
 		}
@@ -673,8 +664,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (addLocVar != null) {
 			return addLocVar;
 		}
-		par = nameToVarLenParam.values().stream().filter(param -> param.getName().equals(name)).findFirst()
-				.orElse(null);
+		par = variableLengthParameterResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (par != null) {
 			return par;
 		}
@@ -813,7 +804,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		nameToLocVar.clear();
 		additionalLocalVariableResolver.getBindings().clear();
 		enumConstantResolver.getBindings().clear();
-		nameToVarLenParam.clear();
+		variableLengthParameterResolver.getBindings().clear();
 		ordinaryParameterResolver.getBindings().clear();
 		catchParameterResolver.getBindings().clear();
 		moduleBindings.clear();
