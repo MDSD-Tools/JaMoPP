@@ -44,6 +44,7 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolve
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.OrdinaryParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PureTypeBindingsConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ReferenceableElementResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.TypeParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.VariableLengthParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -87,6 +88,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final VariableLengthParameterResolver variableLengthParameterResolver;
 	private final LocalVariableResolver localVariableResolver;
 	private final InterfaceMethodResolver interfaceMethodResolver;
+	private final ReferenceableElementResolver referenceableElementResolver;
 
 	private final MethodCompleter methodCompleter;
 
@@ -136,6 +138,11 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				enumerationResolver, containersFactory, classResolver, bindingToPackageConverter,
 				bindingToModuleConverter, annotationResolver, typeBindings, packageBindings, objVisited,
 				moduleBindings);
+		referenceableElementResolver = new ReferenceableElementResolver(variableLengthParameterResolver,
+				variableBindings, this, typeParameterResolver, typeBindings, ordinaryParameterResolver, methodBindings,
+				localVariableResolver, interfaceResolver, interfaceMethodResolver, fieldResolver, enumerationResolver,
+				enumConstantResolver, classResolver, classMethodResolver, catchParameterResolver, annotationResolver,
+				additionalLocalVariableResolver, additionalFieldResolver);
 	}
 
 	@Override
@@ -344,7 +351,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return getAnonymousClass(typeName);
 	}
 
-	private String convertToFieldName(IVariableBinding binding) {
+	public String convertToFieldName(IVariableBinding binding) {
 		if (binding == null || !binding.isField()) {
 			return "";
 		}
@@ -466,139 +473,13 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.references.ReferenceableElement getReferencableElement(
 			IVariableBinding binding) {
-		if (binding.isEnumConstant()) {
-			return getEnumConstant(binding);
-		}
-		if (binding.isField()) {
-			String fieldName = convertToFieldName(binding);
-			if (fieldResolver.getBindings().containsKey(fieldName)) {
-				return fieldResolver.getBindings().get(fieldName);
-			}
-			if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
-				return additionalFieldResolver.getBindings().get(fieldName);
-			}
-			return getField(binding);
-		}
-		if (binding.isParameter()) {
-			String paramName = convertToParameterName(binding, false);
-			if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
-				return ordinaryParameterResolver.getBindings().get(paramName);
-			}
-			if (variableLengthParameterResolver.getBindings().containsKey(paramName)) {
-				return variableLengthParameterResolver.getBindings().get(paramName);
-			}
-			return getOrdinaryParameter(binding);
-		}
-		String paramName = convertToParameterName(binding, false);
-		if (catchParameterResolver.getBindings().containsKey(paramName)) {
-			return catchParameterResolver.getBindings().get(paramName);
-		}
-		if (localVariableResolver.getBindings().containsKey(paramName)) {
-			return localVariableResolver.getBindings().get(paramName);
-		}
-		if (additionalLocalVariableResolver.getBindings().containsKey(paramName)) {
-			return additionalLocalVariableResolver.getBindings().get(paramName);
-		}
-		if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
-			return ordinaryParameterResolver.getBindings().get(paramName);
-		}
-		return getLocalVariable(binding);
+		return referenceableElementResolver.getByBinding(binding);
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.references.ReferenceableElement getReferenceableElementByNameMatching(
 			String name) {
-		IVariableBinding vBinding = variableBindings.stream().filter(var -> var != null && var.getName().equals(name))
-				.findFirst().orElse(null);
-		if (vBinding != null) {
-			return getReferencableElement(vBinding);
-		}
-		IMethodBinding mBinding = methodBindings.stream()
-				.filter(meth -> !meth.isConstructor() && meth.getName().equals(name)).findFirst().orElse(null);
-		if (mBinding != null) {
-			return getMethod(mBinding);
-		}
-		ITypeBinding tBinding = typeBindings.stream().filter(type -> type != null && type.getName().equals(name))
-				.findFirst().orElse(null);
-		if (tBinding != null) {
-			return getClassifier(tBinding);
-		}
-		tools.mdsd.jamopp.model.java.variables.Variable par = catchParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		par = localVariableResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable addLocVar = additionalLocalVariableResolver
-				.getBindings().values().stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (addLocVar != null) {
-			return addLocVar;
-		}
-		par = variableLengthParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		par = ordinaryParameterResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		tools.mdsd.jamopp.model.java.members.EnumConstant enumConst = enumConstantResolver.getBindings().values()
-				.stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (enumConst != null) {
-			return enumConst;
-		}
-		tools.mdsd.jamopp.model.java.members.Field field = fieldResolver.getBindings().values().stream()
-				.filter(param -> param != null && param.getName().equals(name)).findFirst().orElse(null);
-		if (field != null) {
-			return field;
-		}
-		tools.mdsd.jamopp.model.java.members.AdditionalField addField = additionalFieldResolver.getBindings().values()
-				.stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (addField != null) {
-			return addField;
-		}
-		tools.mdsd.jamopp.model.java.members.Method meth = classMethodResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (meth != null) {
-			return meth;
-		}
-		meth = interfaceMethodResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst().orElse(null);
-		if (meth != null) {
-			return meth;
-		}
-		tools.mdsd.jamopp.model.java.classifiers.Classifier c = typeParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = enumerationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
-				.findFirst().orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = annotationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName())).findFirst()
-				.orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = classResolver.getBindings().values().stream().filter(param -> name.equals(param.getName())).findFirst()
-				.orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = interfaceResolver.getBindings().values().stream().filter(param -> name.equals(param.getName())).findFirst()
-				.orElse(null);
-		if (c != null) {
-			return c;
-		}
-		return getClass(name);
+		return referenceableElementResolver.getByName(name);
 	}
 
 	@Override
