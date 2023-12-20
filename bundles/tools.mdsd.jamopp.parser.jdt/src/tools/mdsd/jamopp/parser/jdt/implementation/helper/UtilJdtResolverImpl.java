@@ -23,11 +23,13 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
+import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AdditionalFieldResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnnotationResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnonymousClassResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassMethodResolver;
@@ -55,7 +57,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final TypesFactory typesFactory;
 
 	private final MembersFactory membersFactory;
-	private final ClassifiersFactory classifiersFactory;
 	private final ContainersFactory containersFactory;
 	private final Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter;
 	private final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter;
@@ -86,9 +87,9 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final FieldResolver fieldResolver;
 	private final AnonymousClassResolver anyAnonymousClassResolver;
 	private final EnumConstantResolver enumConstantResolver;
+	private final AdditionalFieldResolver additionalFieldResolver;
 
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
-	private final HashMap<String, tools.mdsd.jamopp.model.java.members.AdditionalField> nameToAddField = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
@@ -109,7 +110,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		this.typesFactory = typesFactory;
 
 		this.membersFactory = membersFactory;
-		this.classifiersFactory = classifiersFactory;
 		this.containersFactory = containersFactory;
 		this.bindingToPackageConverter = bindingToPackageConverter;
 		this.bindingToModuleConverter = bindingToModuleConverter;
@@ -131,6 +131,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		anyAnonymousClassResolver = new AnonymousClassResolver(nameCache, new HashMap<>(), classifiersFactory);
 		enumConstantResolver = new EnumConstantResolver(nameCache, new HashMap<>(), variableBindings, membersFactory,
 				enumerationResolver);
+		additionalFieldResolver = new AdditionalFieldResolver(nameCache, new HashMap<String, AdditionalField>(),
+				variableBindings, this, membersFactory);
 
 	}
 
@@ -491,41 +493,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(String name) {
-		if (nameToAddField.containsKey(name)) {
-			return nameToAddField.get(name);
-		}
-		tools.mdsd.jamopp.model.java.members.AdditionalField result = membersFactory.createAdditionalField();
-		nameToAddField.put(name, result);
-		return result;
+		return additionalFieldResolver.getByName(name);
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(IVariableBinding binding) {
-		String varName = convertToFieldName(binding);
-		if (nameToAddField.containsKey(varName)) {
-			return nameToAddField.get(varName);
-		}
-		variableBindings.add(binding);
-		tools.mdsd.jamopp.model.java.members.AdditionalField result = null;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) getClassifier(
-				binding.getDeclaringClass());
-		if (potClass != null) {
-			outerLoop: for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof tools.mdsd.jamopp.model.java.members.Field field) {
-					for (tools.mdsd.jamopp.model.java.members.AdditionalField af : field.getAdditionalFields()) {
-						if (af.getName().equals(binding.getName())) {
-							result = af;
-							break outerLoop;
-						}
-					}
-				}
-			}
-		}
-		if (result == null) {
-			result = membersFactory.createAdditionalField();
-		}
-		nameToAddField.put(varName, result);
-		return result;
+		return additionalFieldResolver.getByBinding(binding);
 	}
 
 	private String convertToParameterName(IVariableBinding binding, boolean register) {
@@ -648,8 +621,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			if (fieldResolver.getBindings().containsKey(fieldName)) {
 				return fieldResolver.getBindings().get(fieldName);
 			}
-			if (nameToAddField.containsKey(fieldName)) {
-				return nameToAddField.get(fieldName);
+			if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
+				return additionalFieldResolver.getBindings().get(fieldName);
 			}
 			return getField(binding);
 		}
@@ -730,8 +703,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (field != null) {
 			return field;
 		}
-		tools.mdsd.jamopp.model.java.members.AdditionalField addField = nameToAddField.values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
+		tools.mdsd.jamopp.model.java.members.AdditionalField addField = additionalFieldResolver.getBindings().values()
+				.stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (addField != null) {
 			return addField;
 		}
@@ -846,7 +819,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		constructorResolver.getBindings().clear();
 		fieldResolver.getBindings().clear();
 		methBindToInter.clear();
-		nameToAddField.clear();
+		additionalFieldResolver.getBindings().clear();
 		nameToLocVar.clear();
 		nameToAddLocVar.clear();
 		enumConstantResolver.getBindings().clear();
