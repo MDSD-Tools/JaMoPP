@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.helper;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jdt.core.dom.IBinding;
@@ -45,6 +44,7 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.OrdinaryParam
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PureTypeBindingsConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ReferenceableElementResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ResolutionCompleter;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.TypeParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.VariableLengthParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -69,6 +69,10 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final HashSet<IVariableBinding> variableBindings = new HashSet<>();
 	private final HashSet<EObject> objVisited = new HashSet<>();
 
+	private final MethodCompleter methodCompleter;
+	private final PureTypeBindingsConverter pureTypeBindingsConverter;
+	private final ResolutionCompleter resolutionCompleter;
+
 	private final ModuleResolver moduleResolver;
 	private final PackageResolver packageResolver;
 	private final AnnotationResolver annotationResolver;
@@ -89,10 +93,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final LocalVariableResolver localVariableResolver;
 	private final InterfaceMethodResolver interfaceMethodResolver;
 	private final ReferenceableElementResolver referenceableElementResolver;
-
-	private final MethodCompleter methodCompleter;
-
-	private final PureTypeBindingsConverter pureTypeBindingsConverter;
 
 	@Inject
 	UtilJdtResolverImpl(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
@@ -143,6 +143,21 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				localVariableResolver, interfaceResolver, interfaceMethodResolver, fieldResolver, enumerationResolver,
 				enumConstantResolver, classResolver, classMethodResolver, catchParameterResolver, annotationResolver,
 				additionalLocalVariableResolver, additionalFieldResolver);
+		resolutionCompleter = new ResolutionCompleter(variableLengthParameterResolver, variableBindings, varBindToUid,
+				this, typeParameterResolver, typeBindings, pureTypeBindingsConverter, packageResolver, packageBindings,
+				ordinaryParameterResolver, objVisited, nameCache, moduleResolver, moduleBindings, methodCompleter,
+				methodBindings, localVariableResolver, interfaceResolver, interfaceMethodResolver, fieldResolver,
+				EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS, enumerationResolver, enumConstantResolver,
+				SYNTH_CLASS, constructorResolver, classResolver, classMethodResolver, catchParameterResolver,
+				anonymousClassResolver, annotationResolver, additionalLocalVariableResolver, additionalFieldResolver);
+	}
+
+	public void addToSyntheticClass(tools.mdsd.jamopp.model.java.members.Member member) {
+		tools.mdsd.jamopp.model.java.classifiers.Class container = getClass(SYNTH_CLASS);
+		container.setName(SYNTH_CLASS);
+		if (!container.getMembers().contains(member)) {
+			container.getMembers().add(member);
+		}
 	}
 
 	@Override
@@ -483,131 +498,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	@Override
-	@SuppressWarnings("unused")
 	public void completeResolution() {
-		enumConstantResolver.getBindings().forEach((constName, enConst) -> {
-			if (enConst.eContainer() == null) {
-				IVariableBinding varBind = variableBindings.stream()
-						.filter(var -> var != null && constName.equals(convertToFieldName(var))).findFirst().get();
-				if (!varBind.getDeclaringClass().isAnonymous()) {
-					var en = getEnumeration(varBind.getDeclaringClass());
-					if (!EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS && !en.getConstants().contains(enConst)) {
-						en.getConstants().add(enConst);
-					}
-				}
-			}
-		});
-
-		fieldResolver.getBindings().forEach((fieldName, field) -> {
-			if (field.eContainer() == null) {
-				IVariableBinding varBind = variableBindings.stream()
-						.filter(var -> var != null && fieldName.equals(convertToFieldName(var))).findFirst()
-						.orElse(null);
-				if (varBind == null || varBind.getDeclaringClass() == null) {
-					addToSyntheticClass(field);
-				} else {
-					tools.mdsd.jamopp.model.java.classifiers.Classifier cla = getClassifier(
-							varBind.getDeclaringClass());
-					if (cla == null) {
-						String typeName = convertToTypeName(varBind.getDeclaringClass());
-						if (anonymousClassResolver.getBindings().containsKey(typeName)) {
-							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-									.getBindings().get(typeName);
-							if (!anonClass.getMembers().contains(field)) {
-								anonClass.getMembers().add(field);
-							}
-						} else {
-							addToSyntheticClass(field);
-						}
-					} else if (!EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS
-							&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i
-							&& !i.getMembers().contains(field)) {
-						i.getMembers().add(field);
-					}
-				}
-			}
-		});
-
-		constructorResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
-		classMethodResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
-		interfaceMethodResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
-
-		pureTypeBindingsConverter.convertPureTypeBindings(resourceSet);
-
-		moduleResolver.getBindings().values().forEach(module -> JavaClasspath.get().registerModule(module));
-		packageResolver.getBindings().values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
-		annotationResolver.getBindings().values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
-		enumerationResolver.getBindings().values()
-				.forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
-		interfaceResolver.getBindings().values()
-				.forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
-		classResolver.getBindings().values().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
-
-		escapeAllIdentifiers();
-
-		moduleResolver.getBindings().clear();
-		packageResolver.getBindings().clear();
-		annotationResolver.getBindings().clear();
-		enumerationResolver.getBindings().clear();
-		interfaceResolver.getBindings().clear();
-		classResolver.getBindings().clear();
-		typeParameterResolver.getBindings().clear();
-		classMethodResolver.getBindings().clear();
-		constructorResolver.getBindings().clear();
-		fieldResolver.getBindings().clear();
-		interfaceMethodResolver.getBindings().clear();
-		additionalFieldResolver.getBindings().clear();
-		localVariableResolver.getBindings().clear();
-		additionalLocalVariableResolver.getBindings().clear();
-		enumConstantResolver.getBindings().clear();
-		variableLengthParameterResolver.getBindings().clear();
-		ordinaryParameterResolver.getBindings().clear();
-		catchParameterResolver.getBindings().clear();
-		moduleBindings.clear();
-		packageBindings.clear();
-		typeBindings.clear();
-		methodBindings.clear();
-		variableBindings.clear();
-		uid = 0;
-		varBindToUid.clear();
-		objVisited.clear();
-		nameCache.clear();
-		anonymousClassResolver.getBindings().clear();
+		resolutionCompleter.completeResolution(resourceSet);
 	}
 
-	public void addToSyntheticClass(tools.mdsd.jamopp.model.java.members.Member member) {
-		tools.mdsd.jamopp.model.java.classifiers.Class container = getClass(SYNTH_CLASS);
-		container.setName(SYNTH_CLASS);
-		if (!container.getMembers().contains(member)) {
-			container.getMembers().add(member);
-		}
-	}
-
-	private void escapeAllIdentifiers() {
-		moduleResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		packageResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		annotationResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		enumerationResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		classResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		interfaceResolver.getBindings().values().forEach(this::escapeIdentifiers);
-	}
-
-	private void escapeIdentifiers(EObject obj) {
-		obj.eAllContents().forEachRemaining(this::escapeIdentifier);
-	}
-
-	private void escapeIdentifier(Notifier not) {
-		if (not instanceof tools.mdsd.jamopp.model.java.commons.NamedElement ele) {
-			StringBuilder builder = new StringBuilder();
-			String name = ele.getName();
-			name.codePoints().forEach(i -> {
-				if (i <= 0x20 || Character.MIN_SURROGATE <= i && i <= Character.MAX_SURROGATE) {
-					builder.append("\\u" + String.format("%04x", i));
-				} else {
-					builder.appendCodePoint(i);
-				}
-			});
-			ele.setName(builder.toString());
-		}
-	}
 }
