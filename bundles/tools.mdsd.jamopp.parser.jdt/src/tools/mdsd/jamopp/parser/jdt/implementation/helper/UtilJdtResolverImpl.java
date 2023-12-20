@@ -121,7 +121,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				membersFactory);
 		catchParameterResolver = new CatchParameterResolver(nameCache, new HashMap<>(), variableBindings,
 				parametersFactory, this);
-		ordinaryParameterResolver = new OrdinaryParameterResolver(nameCache, new HashMap<>(), parametersFactory);
+		ordinaryParameterResolver = new OrdinaryParameterResolver(nameCache, new HashMap<>(), parametersFactory,
+				variableBindings, this);
 		additionalLocalVariableResolver = new AdditionalLocalVariableResolver(nameCache, new HashMap<>(),
 				variablesFactory, variableBindings, this);
 		variableLengthParameterResolver = new VariableLengthParameterResolver(nameCache, new HashMap<>(),
