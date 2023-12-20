@@ -40,6 +40,7 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumerationRe
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.FieldResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.InterfaceResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.OrdinaryParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.TypeParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -89,12 +90,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final EnumConstantResolver enumConstantResolver;
 	private final AdditionalFieldResolver additionalFieldResolver;
 	private final CatchParameterResolver catchParameterResolver;
+	private final OrdinaryParameterResolver ordinaryParameterResolver;
 
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
-	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
 
 	@Inject
 	UtilJdtResolverImpl(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
@@ -135,6 +136,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				membersFactory);
 		catchParameterResolver = new CatchParameterResolver(nameCache, new HashMap<>(), variableBindings,
 				parametersFactory, this);
+		ordinaryParameterResolver = new OrdinaryParameterResolver(nameCache, new HashMap<>(), parametersFactory);
 
 	}
 
@@ -569,12 +571,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(String paramName) {
-		if (nameToOrdParam.containsKey(paramName)) {
-			return nameToOrdParam.get(paramName);
-		}
-		tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
-		nameToOrdParam.put(paramName, result);
-		return result;
+		return ordinaryParameterResolver.getByName(paramName);
 	}
 
 	@Override
@@ -624,8 +621,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		}
 		if (binding.isParameter()) {
 			String paramName = convertToParameterName(binding, false);
-			if (nameToOrdParam.containsKey(paramName)) {
-				return nameToOrdParam.get(paramName);
+			if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
+				return ordinaryParameterResolver.getBindings().get(paramName);
 			}
 			if (nameToVarLenParam.containsKey(paramName)) {
 				return nameToVarLenParam.get(paramName);
@@ -642,8 +639,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (nameToAddLocVar.containsKey(paramName)) {
 			return nameToAddLocVar.get(paramName);
 		}
-		if (nameToOrdParam.containsKey(paramName)) {
-			return nameToOrdParam.get(paramName);
+		if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
+			return ordinaryParameterResolver.getBindings().get(paramName);
 		}
 		return getLocalVariable(binding);
 	}
@@ -685,7 +682,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (par != null) {
 			return par;
 		}
-		par = nameToOrdParam.values().stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
+		par = ordinaryParameterResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
+				.findFirst().orElse(null);
 		if (par != null) {
 			return par;
 		}
@@ -820,7 +818,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		nameToAddLocVar.clear();
 		enumConstantResolver.getBindings().clear();
 		nameToVarLenParam.clear();
-		nameToOrdParam.clear();
+		ordinaryParameterResolver.getBindings().clear();
 		catchParameterResolver.getBindings().clear();
 		moduleBindings.clear();
 		packageBindings.clear();
