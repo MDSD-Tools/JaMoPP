@@ -62,15 +62,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final HashMap<IVariableBinding, Integer> varBindToUid = new HashMap<>();
 	private final HashMap<IBinding, String> nameCache = new HashMap<>();
 
-	private final HashSet<IModuleBinding> moduleBindings = new HashSet<>();
-	private final HashSet<IPackageBinding> packageBindings = new HashSet<>();
-	private final HashSet<ITypeBinding> typeBindings = new HashSet<>();
-	private final HashSet<IMethodBinding> methodBindings = new HashSet<>();
-	private final HashSet<IVariableBinding> variableBindings = new HashSet<>();
-	private final HashSet<EObject> objVisited = new HashSet<>();
-
-	private final MethodCompleter methodCompleter;
-	private final PureTypeBindingsConverter pureTypeBindingsConverter;
 	private final ResolutionCompleter resolutionCompleter;
 
 	private final ModuleResolver moduleResolver;
@@ -101,6 +92,14 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
 			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
 			Provider<UtilBindingInfoToConcreteClassifierConverter> iUtilBindingInfoToConcreteClassifierConverter) {
+
+		HashSet<IModuleBinding> moduleBindings = new HashSet<>();
+		HashSet<IPackageBinding> packageBindings = new HashSet<>();
+		HashSet<ITypeBinding> typeBindings = new HashSet<>();
+		HashSet<IMethodBinding> methodBindings = new HashSet<>();
+		HashSet<IVariableBinding> variableBindings = new HashSet<>();
+		HashSet<EObject> objVisited = new HashSet<>();
+
 		moduleResolver = new ModuleResolver(nameCache, new HashMap<>(), moduleBindings, containersFactory);
 		packageResolver = new PackageResolver(nameCache, new HashMap<>(), packageBindings, containersFactory);
 		annotationResolver = new AnnotationResolver(nameCache, new HashMap<>(), typeBindings, classifiersFactory);
@@ -132,13 +131,13 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		interfaceMethodResolver = new InterfaceMethodResolver(nameCache, new HashMap<>(), this, typesFactory,
 				statementsFactory, methodBindings, membersFactory);
 
-		methodCompleter = new MethodCompleter(this, methodBindings, EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS,
-				anonymousClassResolver);
-		pureTypeBindingsConverter = new PureTypeBindingsConverter(this, iUtilBindingInfoToConcreteClassifierConverter,
-				packageResolver, moduleResolver, interfaceResolver, EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS,
-				enumerationResolver, containersFactory, classResolver, bindingToPackageConverter,
-				bindingToModuleConverter, annotationResolver, typeBindings, packageBindings, objVisited,
-				moduleBindings);
+		MethodCompleter methodCompleter = new MethodCompleter(this, methodBindings,
+				EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS, anonymousClassResolver);
+		PureTypeBindingsConverter pureTypeBindingsConverter = new PureTypeBindingsConverter(this,
+				iUtilBindingInfoToConcreteClassifierConverter, packageResolver, moduleResolver, interfaceResolver,
+				EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS, enumerationResolver, containersFactory,
+				classResolver, bindingToPackageConverter, bindingToModuleConverter, annotationResolver, typeBindings,
+				packageBindings, objVisited, moduleBindings);
 		referenceableElementResolver = new ReferenceableElementResolver(variableLengthParameterResolver,
 				variableBindings, this, typeParameterResolver, typeBindings, ordinaryParameterResolver, methodBindings,
 				localVariableResolver, interfaceResolver, interfaceMethodResolver, fieldResolver, enumerationResolver,
