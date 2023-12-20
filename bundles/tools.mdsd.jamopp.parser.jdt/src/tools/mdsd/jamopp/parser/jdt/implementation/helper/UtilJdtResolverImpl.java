@@ -454,9 +454,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
-		variableBindings.add(binding);
-		String paramName = convertToParameterName(binding, true);
-		return getOrdinaryParameter(paramName);
+		return ordinaryParameterResolver.getByBinding(binding);
 	}
 
 	@Override
