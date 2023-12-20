@@ -31,12 +31,10 @@ public class PureTypeBindingsConverter {
 	private final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter;
 	private final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter;
 
-	private ResourceSet resourceSet;
-
-	private final HashSet<IModuleBinding> moduleBindings = new HashSet<>();
-	private final HashSet<IPackageBinding> packageBindings = new HashSet<>();
-	private final HashSet<ITypeBinding> typeBindings = new HashSet<>();
-	private final HashSet<EObject> objVisited = new HashSet<>();
+	private final HashSet<IModuleBinding> moduleBindings;
+	private final HashSet<IPackageBinding> packageBindings;
+	private final HashSet<ITypeBinding> typeBindings;
+	private final HashSet<EObject> objVisited;
 
 	private final ModuleResolver moduleResolver;
 	private final PackageResolver packageResolver;
@@ -52,13 +50,19 @@ public class PureTypeBindingsConverter {
 			ContainersFactory containersFactory, ClassResolver classResolver,
 			Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
 			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
-			AnnotationResolver annotationResolver) {
+			AnnotationResolver annotationResolver, HashSet<ITypeBinding> typeBindings,
+			HashSet<IPackageBinding> packageBindings, HashSet<EObject> objVisited,
+			HashSet<IModuleBinding> moduleBindings) {
 		this.utilJdtResolverImpl = utilJdtResolverImpl;
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.containersFactory = containersFactory;
 		this.utilBindingInfoToConcreteClassifierConverter = utilBindingInfoToConcreteClassifierConverter;
 		this.bindingToPackageConverter = bindingToPackageConverter;
 		this.bindingToModuleConverter = bindingToModuleConverter;
+		this.moduleBindings = moduleBindings;
+		this.packageBindings = packageBindings;
+		this.typeBindings = typeBindings;
+		this.objVisited = objVisited;
 		this.moduleResolver = moduleResolver;
 		this.packageResolver = packageResolver;
 		this.annotationResolver = annotationResolver;
@@ -68,7 +72,7 @@ public class PureTypeBindingsConverter {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void convertPureTypeBindings() {
+	public void convertPureTypeBindings(ResourceSet resourceSet) {
 		int oldSize;
 		int newSize = annotationResolver.getBindings().size() + enumerationResolver.getBindings().size()
 				+ interfaceResolver.getBindings().size() + classResolver.getBindings().size()
@@ -77,21 +81,21 @@ public class PureTypeBindingsConverter {
 			oldSize = newSize;
 			HashMap<String, ? extends tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier> map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation>) annotationResolver
 					.getBindings().clone();
-			map.forEach(this::convertPureTypeBinding);
+			map.forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
 			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration>) enumerationResolver
 					.getBindings().clone();
-			map.forEach(this::convertPureTypeBinding);
+			map.forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
 			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface>) interfaceResolver.getBindings()
 					.clone();
-			map.forEach(this::convertPureTypeBinding);
+			map.forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
 			map = (HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class>) classResolver.getBindings().clone();
-			map.forEach(this::convertPureTypeBinding);
+			map.forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
 			HashMap<String, tools.mdsd.jamopp.model.java.containers.Package> mapP = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Package>) packageResolver
 					.getBindings().clone();
-			mapP.forEach(this::convertPurePackageBinding);
+			mapP.forEach((t, u) -> convertPurePackageBinding(t, u, resourceSet));
 			HashMap<String, tools.mdsd.jamopp.model.java.containers.Module> mapM = (HashMap<String, tools.mdsd.jamopp.model.java.containers.Module>) moduleResolver
 					.getBindings().clone();
-			mapM.forEach(this::convertPureModuleBinding);
+			mapM.forEach((t, u) -> convertPureModuleBinding(t, u, resourceSet));
 			newSize = annotationResolver.getBindings().size() + enumerationResolver.getBindings().size()
 					+ interfaceResolver.getBindings().size() + classResolver.getBindings().size()
 					+ moduleResolver.getBindings().size() + packageResolver.getBindings().size();
@@ -99,7 +103,7 @@ public class PureTypeBindingsConverter {
 	}
 
 	private void convertPureTypeBinding(String typeName,
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier) {
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier, ResourceSet resourceSet) {
 		if (objVisited.contains(classifier)) {
 			return;
 		}
@@ -124,14 +128,15 @@ public class PureTypeBindingsConverter {
 			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier parentClassifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
 					.getClassifier(typeBind.getDeclaringClass());
 			convertPureTypeBinding(utilJdtResolverImpl.convertToTypeName(typeBind.getDeclaringClass()),
-					parentClassifier);
+					parentClassifier, resourceSet);
 			classifier.setPackage(utilJdtResolverImpl.getPackage(typeBind.getPackage()));
 		} else if (typeBind.isArray()) {
 			ITypeBinding elementType = typeBind.getElementType();
 			if (!elementType.isPrimitive() && !elementType.isTypeVariable()) {
 				convertPureTypeBinding(typeName,
 						(tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
-								.getClassifier(elementType));
+								.getClassifier(elementType),
+						resourceSet);
 			}
 		}
 		if (classifier.eContainer() == null) {
@@ -149,7 +154,8 @@ public class PureTypeBindingsConverter {
 		}
 	}
 
-	private void convertPurePackageBinding(String packageName, tools.mdsd.jamopp.model.java.containers.Package pack) {
+	private void convertPurePackageBinding(String packageName, tools.mdsd.jamopp.model.java.containers.Package pack,
+			ResourceSet resourceSet) {
 		if (objVisited.contains(pack)) {
 			return;
 		}
@@ -174,7 +180,8 @@ public class PureTypeBindingsConverter {
 		newResource.getContents().add(pack);
 	}
 
-	private void convertPureModuleBinding(String modName, tools.mdsd.jamopp.model.java.containers.Module module) {
+	private void convertPureModuleBinding(String modName, tools.mdsd.jamopp.model.java.containers.Module module,
+			ResourceSet resourceSet) {
 		if (objVisited.contains(module)) {
 			return;
 		}
@@ -196,10 +203,6 @@ public class PureTypeBindingsConverter {
 		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Module", null,
 				new String[] { modName, "module-info.java" }, null, null));
 		newResource.getContents().add(module);
-	}
-
-	public void setResourceSet(ResourceSet resourceSet) {
-		this.resourceSet = resourceSet;
 	}
 
 }
