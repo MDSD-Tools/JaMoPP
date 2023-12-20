@@ -23,7 +23,6 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
-import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
@@ -32,6 +31,7 @@ import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AdditionalFieldResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnnotationResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnonymousClassResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.CatchParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassMethodResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ConstructorResolver;
@@ -88,13 +88,13 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private final AnonymousClassResolver anyAnonymousClassResolver;
 	private final EnumConstantResolver enumConstantResolver;
 	private final AdditionalFieldResolver additionalFieldResolver;
+	private final CatchParameterResolver catchParameterResolver;
 
 	private final HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod> methBindToInter = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable> nameToLocVar = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable> nameToAddLocVar = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter> nameToVarLenParam = new HashMap<>();
 	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter> nameToOrdParam = new HashMap<>();
-	private final HashMap<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter> nameToCatchParam = new HashMap<>();
 
 	@Inject
 	UtilJdtResolverImpl(ContainersFactory containersFactory, ClassifiersFactory classifiersFactory,
@@ -131,8 +131,10 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		anyAnonymousClassResolver = new AnonymousClassResolver(nameCache, new HashMap<>(), classifiersFactory);
 		enumConstantResolver = new EnumConstantResolver(nameCache, new HashMap<>(), variableBindings, membersFactory,
 				enumerationResolver);
-		additionalFieldResolver = new AdditionalFieldResolver(nameCache, new HashMap<String, AdditionalField>(),
-				variableBindings, this, membersFactory);
+		additionalFieldResolver = new AdditionalFieldResolver(nameCache, new HashMap<>(), variableBindings, this,
+				membersFactory);
+		catchParameterResolver = new CatchParameterResolver(nameCache, new HashMap<>(), variableBindings,
+				parametersFactory, this);
 
 	}
 
@@ -501,7 +503,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		return additionalFieldResolver.getByBinding(binding);
 	}
 
-	private String convertToParameterName(IVariableBinding binding, boolean register) {
+	public String convertToParameterName(IVariableBinding binding, boolean register) {
 		if (binding == null) {
 			return "";
 		}
@@ -591,18 +593,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
-		variableBindings.add(binding);
-		return getCatchParameter(convertToParameterName(binding, true));
+		return catchParameterResolver.getByBinding(binding);
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(String paramName) {
-		if (nameToCatchParam.containsKey(paramName)) {
-			return nameToCatchParam.get(paramName);
-		}
-		tools.mdsd.jamopp.model.java.parameters.CatchParameter result = parametersFactory.createCatchParameter();
-		nameToCatchParam.put(paramName, result);
-		return result;
+		return catchParameterResolver.getByName(paramName);
 	}
 
 	@Override
@@ -637,8 +633,8 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			return getOrdinaryParameter(binding);
 		}
 		String paramName = convertToParameterName(binding, false);
-		if (nameToCatchParam.containsKey(paramName)) {
-			return nameToCatchParam.get(paramName);
+		if (catchParameterResolver.getBindings().containsKey(paramName)) {
+			return catchParameterResolver.getBindings().get(paramName);
 		}
 		if (nameToLocVar.containsKey(paramName)) {
 			return nameToLocVar.get(paramName);
@@ -670,7 +666,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		if (tBinding != null) {
 			return getClassifier(tBinding);
 		}
-		tools.mdsd.jamopp.model.java.variables.Variable par = nameToCatchParam.values().stream()
+		tools.mdsd.jamopp.model.java.variables.Variable par = catchParameterResolver.getBindings().values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
 		if (par != null) {
 			return par;
@@ -825,7 +821,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		enumConstantResolver.getBindings().clear();
 		nameToVarLenParam.clear();
 		nameToOrdParam.clear();
-		nameToCatchParam.clear();
+		catchParameterResolver.getBindings().clear();
 		moduleBindings.clear();
 		packageBindings.clear();
 		typeBindings.clear();
