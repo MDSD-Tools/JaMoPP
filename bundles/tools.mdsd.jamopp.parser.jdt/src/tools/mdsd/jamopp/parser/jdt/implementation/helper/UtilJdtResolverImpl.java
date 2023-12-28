@@ -15,7 +15,6 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
@@ -31,6 +30,7 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AnonymousClas
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.CatchParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassMethodResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ClassifierResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ConstructorResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumConstantResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.EnumerationResolver;
@@ -39,12 +39,17 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.InterfaceMeth
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.InterfaceResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.LocalVariableResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.MethodCompleter;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.MethodResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ModuleResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.OrdinaryParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.PureTypeBindingsConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ReferenceableElementResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ResolutionCompleter;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ToFieldNameConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ToMethodNameConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ToParameterNameConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ToTypeNameConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.TypeParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.VariableLengthParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -59,10 +64,13 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private ResourceSet resourceSet;
 	private int uid;
 
-	private final HashMap<IVariableBinding, Integer> varBindToUid = new HashMap<>();
-	private final HashMap<IBinding, String> nameCache = new HashMap<>();
-
 	private final ResolutionCompleter resolutionCompleter;
+	private final ToFieldNameConverter toFieldNameConverter;
+	private final ToParameterNameConverter toParameterNameConverter;
+	private final ToTypeNameConverter toTypeNameConverter;
+	private final ToMethodNameConverter toMethodNameConverter;
+	private final ClassifierResolver classifierResolver;
+	private final MethodResolver methodResolver;
 
 	private final ModuleResolver moduleResolver;
 	private final PackageResolver packageResolver;
@@ -100,6 +108,9 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		HashSet<IVariableBinding> variableBindings = new HashSet<>();
 		HashSet<EObject> objVisited = new HashSet<>();
 
+		HashMap<IVariableBinding, Integer> varBindToUid = new HashMap<>();
+		HashMap<IBinding, String> nameCache = new HashMap<>();
+
 		moduleResolver = new ModuleResolver(nameCache, new HashMap<>(), moduleBindings, containersFactory);
 		packageResolver = new PackageResolver(nameCache, new HashMap<>(), packageBindings, containersFactory);
 		annotationResolver = new AnnotationResolver(nameCache, new HashMap<>(), typeBindings, classifiersFactory);
@@ -113,7 +124,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				membersFactory, this);
 		fieldResolver = new FieldResolver(nameCache, new HashMap<>(), variableBindings, this, typesFactory,
 				membersFactory);
-		anonymousClassResolver = new AnonymousClassResolver(nameCache, new HashMap<>(), classifiersFactory);
+		anonymousClassResolver = new AnonymousClassResolver(nameCache, new HashMap<>(), classifiersFactory, this);
 		enumConstantResolver = new EnumConstantResolver(nameCache, new HashMap<>(), variableBindings, membersFactory,
 				enumerationResolver);
 		additionalFieldResolver = new AdditionalFieldResolver(nameCache, new HashMap<>(), variableBindings, this,
@@ -130,6 +141,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				variableBindings, this);
 		interfaceMethodResolver = new InterfaceMethodResolver(nameCache, new HashMap<>(), this, typesFactory,
 				statementsFactory, methodBindings, membersFactory);
+		classifierResolver = new ClassifierResolver(this, anonymousClassResolver);
 
 		MethodCompleter methodCompleter = new MethodCompleter(this, methodBindings,
 				EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS, anonymousClassResolver);
@@ -150,6 +162,12 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 				EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS, enumerationResolver, enumConstantResolver,
 				SYNTH_CLASS, constructorResolver, classResolver, classMethodResolver, catchParameterResolver,
 				anonymousClassResolver, annotationResolver, additionalLocalVariableResolver, additionalFieldResolver);
+
+		toFieldNameConverter = new ToFieldNameConverter(this, nameCache);
+		toParameterNameConverter = new ToParameterNameConverter(varBindToUid, this, nameCache);
+		toTypeNameConverter = new ToTypeNameConverter(this, nameCache);
+		toMethodNameConverter = new ToMethodNameConverter(toTypeNameConverter, nameCache);
+		methodResolver = new MethodResolver(interfaceMethodResolver, classMethodResolver);
 	}
 
 	public void addToSyntheticClass(tools.mdsd.jamopp.model.java.members.Member member) {
@@ -186,37 +204,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	public String convertToTypeName(ITypeBinding binding) {
-		if (binding == null) {
-			return "";
-		}
-		if (binding.isTypeVariable()) {
-			return binding.getName();
-		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
-		}
-		String qualifiedName;
-		if (binding.isMember()) {
-			qualifiedName = convertToTypeName(binding.getDeclaringClass()) + "." + binding.getName();
-		} else if (binding.isLocal()) {
-			IBinding b = binding.getDeclaringMember();
-			if (b instanceof IMethodBinding) {
-				qualifiedName = convertToMethodName((IMethodBinding) b) + "." + binding.getKey();
-			} else if (b instanceof IVariableBinding) {
-				qualifiedName = convertToFieldName((IVariableBinding) b) + "." + binding.getKey();
-			} else {
-				qualifiedName = binding.getKey();
-			}
-			nameCache.put(binding, qualifiedName);
-			return qualifiedName;
-		} else {
-			qualifiedName = binding.getQualifiedName();
-		}
-		if (qualifiedName.contains("<")) {
-			qualifiedName = qualifiedName.substring(0, qualifiedName.indexOf("<"));
-		}
-		nameCache.put(binding, qualifiedName);
-		return qualifiedName;
+		return toTypeNameConverter.convertToTypeName(binding);
 	}
 
 	@Override
@@ -251,65 +239,11 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(ITypeBinding binding) {
-		String typeName = convertToTypeName(binding);
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
-				.getConcreteClassifier(typeName);
-		if (potClass != null) {
-			return potClass;
-		}
-		if (binding.isAnonymous() || binding.isLocal() && binding.getDeclaringMember() == null
-				|| anonymousClassResolver.getBindings().containsKey(convertToTypeName(binding))) {
-			return null;
-		}
-		if (binding.isAnnotation()) {
-			return getAnnotation(binding);
-		}
-		if (binding.isInterface()) {
-			return getInterface(binding);
-		}
-		if (binding.isEnum()) {
-			return getEnumeration(binding);
-		}
-		if (binding.isClass()) {
-			return getClass(binding);
-		}
-		if (binding.isTypeVariable()) {
-			return getTypeParameter(binding);
-		}
-		if (binding.isArray()) {
-			return getClassifier(binding.getElementType());
-		}
-		return null;
+		return classifierResolver.getClassifier(binding);
 	}
 
 	public String convertToMethodName(IMethodBinding binding) {
-		if (binding == null) {
-			return "";
-		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
-		}
-		binding = binding.getMethodDeclaration();
-		StringBuilder builder = new StringBuilder();
-		builder.append(convertToTypeName(binding.getDeclaringClass()));
-		builder.append("::");
-		builder.append(binding.getName());
-		builder.append("(");
-		for (ITypeBinding p : binding.getParameterTypes()) {
-			builder.append(convertToTypeName(p));
-			for (int i = 0; i < p.getDimensions(); i++) {
-				builder.append("[]");
-			}
-		}
-		builder.append(")");
-		if ("java.lang.Object::clone()".equals(builder.toString()) && binding.getReturnType().isArray()) {
-			builder.append("java.lang.Object");
-		} else {
-			builder.append(convertToTypeName(binding.getReturnType()));
-		}
-		String name = builder.toString();
-		nameCache.put(binding, name);
-		return name;
+		return toMethodNameConverter.convertToMethodName(binding);
 	}
 
 	@Override
@@ -344,10 +278,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.Method getMethod(IMethodBinding binding) {
-		if (binding.getDeclaringClass().isInterface()) {
-			return getInterfaceMethod(binding);
-		}
-		return getClassMethod(binding);
+		return methodResolver.getMethod(binding);
 	}
 
 	@Override
@@ -362,20 +293,11 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.AnonymousClass getAnonymousClass(ITypeBinding binding) {
-		String typeName = convertToTypeName(binding);
-		return getAnonymousClass(typeName);
+		return anonymousClassResolver.getByBinding(binding);
 	}
 
 	public String convertToFieldName(IVariableBinding binding) {
-		if (binding == null || !binding.isField()) {
-			return "";
-		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
-		}
-		String name = convertToTypeName(binding.getDeclaringClass()) + "::" + binding.getName();
-		nameCache.put(binding, name);
-		return name;
+		return toFieldNameConverter.convertToFieldName(binding);
 	}
 
 	@Override
@@ -409,26 +331,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	public String convertToParameterName(IVariableBinding binding, boolean register) {
-		if (binding == null) {
-			return "";
-		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
-		}
-		String prefix = "";
-		if (binding.getDeclaringMethod() != null) {
-			prefix = convertToMethodName(binding.getDeclaringMethod());
-		} else if (varBindToUid.containsKey(binding)) {
-			prefix = varBindToUid.get(binding) + "";
-		} else {
-			prefix = uid + "";
-			if (register) {
-				varBindToUid.put(binding, uid);
-			}
-		}
-		String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();
-		nameCache.put(binding, name);
-		return name;
+		return toParameterNameConverter.convertToParameterName(binding, register, uid);
 	}
 
 	@Override
