@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
 
@@ -14,6 +16,7 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 	private final HashSet<ITypeBinding> typeBindings;
 	private final GenericsFactory genericsFactory;
 
+	@Inject
 	public TypeParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, TypeParameter> bindings,
 			HashSet<ITypeBinding> typeBindings, GenericsFactory genericsFactory) {
 		super(nameCache, bindings);

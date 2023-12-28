@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
@@ -16,6 +18,7 @@ public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVa
 	private final ParametersFactory parametersFactory;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public CatchParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, CatchParameter> bindings,
 			HashSet<IVariableBinding> variableBindings, ParametersFactory parametersFactory,
 			UtilJdtResolverImpl utilJdtResolverImpl) {

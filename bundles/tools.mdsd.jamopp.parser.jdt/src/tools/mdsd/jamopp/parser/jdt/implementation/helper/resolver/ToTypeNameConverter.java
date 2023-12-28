@@ -7,6 +7,8 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class ToTypeNameConverter {
@@ -14,6 +16,7 @@ public class ToTypeNameConverter {
 	private final HashMap<IBinding, String> nameCache;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public ToTypeNameConverter(UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.utilJdtResolverImpl = utilJdtResolverImpl;

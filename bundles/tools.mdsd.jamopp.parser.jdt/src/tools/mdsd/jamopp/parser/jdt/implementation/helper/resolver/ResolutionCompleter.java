@@ -13,6 +13,8 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
@@ -50,6 +52,7 @@ public class ResolutionCompleter {
 	private final PureTypeBindingsConverter pureTypeBindingsConverter;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public ResolutionCompleter(VariableLengthParameterResolver variableLengthParameterResolver,
 			HashSet<IVariableBinding> variableBindings, HashMap<IVariableBinding, Integer> varBindToUid,
 			UtilJdtResolverImpl utilJdtResolverImpl, TypeParameterResolver typeParameterResolver,

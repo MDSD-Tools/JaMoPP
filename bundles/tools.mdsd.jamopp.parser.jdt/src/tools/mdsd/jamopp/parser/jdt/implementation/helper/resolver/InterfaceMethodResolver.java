@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
@@ -20,6 +22,7 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final HashSet<IMethodBinding> methodBindings;
 
+	@Inject
 	public InterfaceMethodResolver(HashMap<IBinding, String> nameCache, HashMap<String, InterfaceMethod> bindings,
 			UtilJdtResolverImpl utilJdtResolverImpl, TypesFactory typesFactory, StatementsFactory statementsFactory,
 			HashSet<IMethodBinding> methodBindings, MembersFactory membersFactory) {

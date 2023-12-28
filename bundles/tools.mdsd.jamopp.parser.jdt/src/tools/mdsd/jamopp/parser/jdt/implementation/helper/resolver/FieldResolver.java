@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
@@ -18,6 +20,7 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 	private final MembersFactory membersFactory;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public FieldResolver(HashMap<IBinding, String> nameCache, HashMap<String, Field> bindings,
 			HashSet<IVariableBinding> variableBindings, UtilJdtResolverImpl utilJdtResolverImpl,
 			TypesFactory typesFactory, MembersFactory membersFactory) {

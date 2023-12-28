@@ -6,15 +6,19 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
 
-public class InterfaceResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java.classifiers.Interface, ITypeBinding> {
+public class InterfaceResolver
+		extends ResolverAbstract<tools.mdsd.jamopp.model.java.classifiers.Interface, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
 
+	@Inject
 	public InterfaceResolver(HashMap<IBinding, String> nameCache, HashMap<String, Interface> bindings,
 			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory) {
 		super(nameCache, bindings);

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class ToFieldNameConverter {
@@ -12,6 +14,7 @@ public class ToFieldNameConverter {
 	private final HashMap<IBinding, String> nameCache;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public ToFieldNameConverter(UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.utilJdtResolverImpl = utilJdtResolverImpl;

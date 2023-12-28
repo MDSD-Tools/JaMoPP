@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
@@ -16,6 +18,7 @@ public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParamete
 	private final HashSet<IVariableBinding> variableBindings;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public OrdinaryParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, OrdinaryParameter> bindings,
 			ParametersFactory parametersFactory, HashSet<IVariableBinding> variableBindings,
 			UtilJdtResolverImpl utilJdtResolverImpl) {

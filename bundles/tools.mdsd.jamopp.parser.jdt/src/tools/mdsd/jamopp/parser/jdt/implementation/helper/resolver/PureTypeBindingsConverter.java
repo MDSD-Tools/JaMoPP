@@ -12,6 +12,7 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
@@ -43,6 +44,7 @@ public class PureTypeBindingsConverter {
 	private final InterfaceResolver interfaceResolver;
 	private final ClassResolver classResolver;
 
+	@Inject
 	public PureTypeBindingsConverter(UtilJdtResolverImpl utilJdtResolverImpl,
 			Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter,
 			PackageResolver packageResolver, ModuleResolver moduleResolver, InterfaceResolver interfaceResolver,

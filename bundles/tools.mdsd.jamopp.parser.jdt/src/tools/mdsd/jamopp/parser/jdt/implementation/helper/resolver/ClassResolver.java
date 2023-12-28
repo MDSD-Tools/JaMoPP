@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
@@ -17,6 +19,7 @@ public class ClassResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java
 	private final HashSet<ITypeBinding> typeBindings;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public ClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, Class> bindings,
 			ClassifiersFactory classifiersFactory, UtilJdtResolverImpl utilJdtResolverImpl,
 			HashSet<ITypeBinding> typeBindings) {

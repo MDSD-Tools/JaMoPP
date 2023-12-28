@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.Module;
@@ -15,6 +17,7 @@ public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.jav
 	private final HashSet<IModuleBinding> moduleBindings;
 	private final ContainersFactory containersFactory;
 
+	@Inject
 	public ModuleResolver(HashMap<IBinding, String> nameCache, HashMap<String, Module> bindings,
 			HashSet<IModuleBinding> moduleBindings, ContainersFactory containersFactory) {
 		super(nameCache, bindings);
@@ -24,7 +27,7 @@ public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.jav
 
 	@Override
 	public Module getByBinding(IModuleBinding binding) {
-		this.moduleBindings.add(binding);
+		moduleBindings.add(binding);
 		return getByName(binding.getName());
 	}
 
@@ -35,7 +38,7 @@ public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.jav
 		}
 		tools.mdsd.jamopp.model.java.containers.Module result = JavaClasspath.get().getModule(name);
 		if (result == null) {
-			result = this.containersFactory.createModule();
+			result = containersFactory.createModule();
 		}
 		getBindings().put(name, result);
 		return result;

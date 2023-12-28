@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
@@ -14,6 +16,7 @@ public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITy
 	private final ClassifiersFactory classifiersFactory;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public AnonymousClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, AnonymousClass> bindings,
 			ClassifiersFactory classifiersFactory, UtilJdtResolverImpl utilJdtResolverImpl) {
 		super(nameCache, bindings);

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 
@@ -15,6 +17,7 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 	private final HashSet<IVariableBinding> variableBindings;
 	private final EnumerationResolver enumerationResolver;
 
+	@Inject
 	public EnumConstantResolver(HashMap<IBinding, String> nameCache, HashMap<String, EnumConstant> bindings,
 			HashSet<IVariableBinding> variableBindings, MembersFactory membersFactory,
 			EnumerationResolver enumerationResolver) {

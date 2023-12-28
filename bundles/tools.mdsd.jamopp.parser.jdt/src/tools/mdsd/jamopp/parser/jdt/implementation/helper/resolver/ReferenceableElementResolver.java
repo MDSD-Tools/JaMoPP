@@ -6,6 +6,8 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
@@ -31,6 +33,7 @@ public class ReferenceableElementResolver {
 	private final InterfaceMethodResolver interfaceMethodResolver;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public ReferenceableElementResolver(VariableLengthParameterResolver variableLengthParameterResolver,
 			HashSet<IVariableBinding> variableBindings, UtilJdtResolverImpl utilJdtResolverImpl,
 			TypeParameterResolver typeParameterResolver, HashSet<ITypeBinding> typeBindings,

@@ -7,11 +7,14 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> implements Resolver<Clazz, BindingType> {
 
 	private final HashMap<String, Clazz> bindings;
 	private final HashMap<IBinding, String> nameCache;
 
+	@Inject
 	public ResolverAbstract(HashMap<IBinding, String> nameCache, HashMap<String, Clazz> bindings) {
 		this.bindings = bindings;
 		this.nameCache = nameCache;

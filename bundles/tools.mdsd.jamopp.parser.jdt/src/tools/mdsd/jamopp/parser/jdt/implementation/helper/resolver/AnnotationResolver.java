@@ -6,12 +6,18 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
 public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBinding> {
 
+	private final HashSet<ITypeBinding> typeBindings;
+	private final ClassifiersFactory classifiersFactory;
+
+	@Inject
 	public AnnotationResolver(HashMap<IBinding, String> nameCache, HashMap<String, Annotation> bindings,
 			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory) {
 		super(nameCache, bindings);
@@ -19,13 +25,9 @@ public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBindin
 		this.classifiersFactory = classifiersFactory;
 	}
 
-	private final HashSet<ITypeBinding> typeBindings;
-
-	private final ClassifiersFactory classifiersFactory;
-
 	@Override
 	public Annotation getByBinding(ITypeBinding binding) {
-		this.typeBindings.add(binding);
+		typeBindings.add(binding);
 		return getByName(convertToTypeName(binding));
 	}
 
@@ -40,7 +42,7 @@ public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBindin
 		if (potClass instanceof tools.mdsd.jamopp.model.java.classifiers.Annotation) {
 			result = (tools.mdsd.jamopp.model.java.classifiers.Annotation) potClass;
 		} else {
-			result = this.classifiersFactory.createAnnotation();
+			result = classifiersFactory.createAnnotation();
 		}
 		getBindings().put(name, result);
 		return result;

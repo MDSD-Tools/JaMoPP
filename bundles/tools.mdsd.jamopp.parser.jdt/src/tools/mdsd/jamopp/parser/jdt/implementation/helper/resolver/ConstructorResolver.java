@@ -7,6 +7,8 @@ import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
@@ -19,6 +21,7 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 	private final MembersFactory membersFactory;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public ConstructorResolver(HashMap<IBinding, String> nameCache, HashMap<String, Constructor> bindings,
 			StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings, MembersFactory membersFactory,
 			UtilJdtResolverImpl utilJdtResolverImpl) {

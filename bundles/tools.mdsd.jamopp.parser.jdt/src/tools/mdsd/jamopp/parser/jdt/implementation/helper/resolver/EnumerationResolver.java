@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
@@ -15,6 +17,7 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
 
+	@Inject
 	public EnumerationResolver(HashMap<IBinding, String> nameCache, HashMap<String, Enumeration> bindings,
 			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory) {
 		super(nameCache, bindings);

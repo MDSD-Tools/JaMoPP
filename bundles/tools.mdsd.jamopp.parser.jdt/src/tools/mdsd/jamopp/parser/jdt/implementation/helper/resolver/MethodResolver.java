@@ -2,11 +2,14 @@ package tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
+import com.google.inject.Inject;
+
 public class MethodResolver {
 
 	private final InterfaceMethodResolver interfaceMethodResolver;
 	private final ClassMethodResolver classMethodResolver;
 
+	@Inject
 	public MethodResolver(InterfaceMethodResolver interfaceMethodResolver, ClassMethodResolver classMethodResolver) {
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.classMethodResolver = classMethodResolver;

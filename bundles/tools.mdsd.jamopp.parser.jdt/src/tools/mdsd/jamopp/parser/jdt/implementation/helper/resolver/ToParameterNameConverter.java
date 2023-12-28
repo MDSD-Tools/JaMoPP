@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class ToParameterNameConverter {
@@ -13,6 +15,7 @@ public class ToParameterNameConverter {
 	private final HashMap<IBinding, String> nameCache;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public ToParameterNameConverter(HashMap<IVariableBinding, Integer> varBindToUid,
 			UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache) {
 		this.varBindToUid = varBindToUid;

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
@@ -16,6 +18,7 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final ParametersFactory parametersFactory;
 
+	@Inject
 	public VariableLengthParameterResolver(HashMap<IBinding, String> nameCache,
 			HashMap<String, VariableLengthParameter> bindings, HashSet<IVariableBinding> variableBindings,
 			UtilJdtResolverImpl utilJdtResolverImpl, ParametersFactory parametersFactory) {

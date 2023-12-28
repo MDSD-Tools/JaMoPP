@@ -6,11 +6,14 @@ import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 public class ToMethodNameConverter {
 
 	private final HashMap<IBinding, String> nameCache;
 	private final ToTypeNameConverter toTypeNameConverter;
 
+	@Inject
 	public ToMethodNameConverter(ToTypeNameConverter toTypeNameConverter, HashMap<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;

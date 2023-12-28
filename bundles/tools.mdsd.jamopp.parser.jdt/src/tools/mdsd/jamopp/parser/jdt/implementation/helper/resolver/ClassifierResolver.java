@@ -2,6 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
@@ -10,6 +12,7 @@ public class ClassifierResolver {
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final AnonymousClassResolver anonymousClassResolver;
 
+	@Inject
 	public ClassifierResolver(UtilJdtResolverImpl utilJdtResolverImpl, AnonymousClassResolver anonymousClassResolver) {
 		this.utilJdtResolverImpl = utilJdtResolverImpl;
 		this.anonymousClassResolver = anonymousClassResolver;

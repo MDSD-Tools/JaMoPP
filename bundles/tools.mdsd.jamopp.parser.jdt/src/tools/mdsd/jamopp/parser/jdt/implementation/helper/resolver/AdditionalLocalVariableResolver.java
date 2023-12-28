@@ -6,6 +6,8 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
@@ -16,6 +18,7 @@ public class AdditionalLocalVariableResolver extends ResolverAbstract<Additional
 	private final VariablesFactory variablesFactory;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
+	@Inject
 	public AdditionalLocalVariableResolver(HashMap<IBinding, String> nameCache,
 			HashMap<String, AdditionalLocalVariable> bindings, VariablesFactory variablesFactory,
 			HashSet<IVariableBinding> variableBindings, UtilJdtResolverImpl utilJdtResolverImpl) {
