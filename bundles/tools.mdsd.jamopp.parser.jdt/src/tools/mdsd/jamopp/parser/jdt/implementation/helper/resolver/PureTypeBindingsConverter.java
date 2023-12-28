@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
@@ -48,8 +49,8 @@ public class PureTypeBindingsConverter {
 	public PureTypeBindingsConverter(UtilJdtResolverImpl utilJdtResolverImpl,
 			Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter,
 			PackageResolver packageResolver, ModuleResolver moduleResolver, InterfaceResolver interfaceResolver,
-			boolean extractAdditionalInfosFromTypeBindings, EnumerationResolver enumerationResolver,
-			ContainersFactory containersFactory, ClassResolver classResolver,
+			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
+			EnumerationResolver enumerationResolver, ContainersFactory containersFactory, ClassResolver classResolver,
 			Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
 			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
 			AnnotationResolver annotationResolver, HashSet<ITypeBinding> typeBindings,

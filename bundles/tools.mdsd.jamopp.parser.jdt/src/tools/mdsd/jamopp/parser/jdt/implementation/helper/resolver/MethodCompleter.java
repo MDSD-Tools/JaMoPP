@@ -5,6 +5,7 @@ import java.util.HashSet;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
@@ -17,7 +18,8 @@ public class MethodCompleter {
 
 	@Inject
 	public MethodCompleter(UtilJdtResolverImpl utilJdtResolverImpl, HashSet<IMethodBinding> methodBindings,
-			boolean extractAdditionalInfosFromBindings, AnonymousClassResolver anonymousClassResolver) {
+			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromBindings,
+			AnonymousClassResolver anonymousClassResolver) {
 		this.anonymousClassResolver = anonymousClassResolver;
 		this.methodBindings = methodBindings;
 		this.utilJdtResolverImpl = utilJdtResolverImpl;

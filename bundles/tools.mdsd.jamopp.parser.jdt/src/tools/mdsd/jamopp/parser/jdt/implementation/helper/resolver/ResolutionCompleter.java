@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
@@ -63,11 +64,12 @@ public class ResolutionCompleter {
 			MethodCompleter methodCompleter, HashSet<IMethodBinding> methodBindings,
 			LocalVariableResolver localVariableResolver, InterfaceResolver interfaceResolver,
 			InterfaceMethodResolver interfaceMethodResolver, FieldResolver fieldResolver,
-			boolean extractAdditionalInfosFromTypeBindings, EnumerationResolver enumerationResolver,
-			EnumConstantResolver enumConstantResolver, String cynthClass, ConstructorResolver constructorResolver,
-			ClassResolver classResolver, ClassMethodResolver classMethodResolver,
-			CatchParameterResolver catchParameterResolver, AnonymousClassResolver anonymousClassResolver,
-			AnnotationResolver annotationResolver, AdditionalLocalVariableResolver additionalLocalVariableResolver,
+			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
+			EnumerationResolver enumerationResolver, EnumConstantResolver enumConstantResolver, String cynthClass,
+			ConstructorResolver constructorResolver, ClassResolver classResolver,
+			ClassMethodResolver classMethodResolver, CatchParameterResolver catchParameterResolver,
+			AnonymousClassResolver anonymousClassResolver, AnnotationResolver annotationResolver,
+			AdditionalLocalVariableResolver additionalLocalVariableResolver,
 			AdditionalFieldResolver additionalFieldResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
