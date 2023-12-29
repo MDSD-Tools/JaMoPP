@@ -8,30 +8,30 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, IMethodBinding> {
 
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final HashSet<IMethodBinding> methodBindings;
+	private final ClassifierResolver classifierResolver;
 
 	@Inject
 	public InterfaceMethodResolver(HashMap<IBinding, String> nameCache, HashMap<String, InterfaceMethod> bindings,
-			UtilJdtResolverImpl utilJdtResolverImpl, TypesFactory typesFactory, StatementsFactory statementsFactory,
-			HashSet<IMethodBinding> methodBindings, MembersFactory membersFactory) {
+			TypesFactory typesFactory, StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings,
+			MembersFactory membersFactory, ClassifierResolver classifierResolver) {
 		super(nameCache, bindings);
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;
 		this.membersFactory = membersFactory;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
 		this.methodBindings = methodBindings;
+		this.classifierResolver = classifierResolver;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 		if (getBindings().containsKey(methName)) {
 			return getBindings().get(methName);
 		}
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
+		ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = null;
 		if (classifier != null) {

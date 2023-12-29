@@ -9,24 +9,23 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public AnonymousClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, AnonymousClass> bindings,
-			ClassifiersFactory classifiersFactory, UtilJdtResolverImpl utilJdtResolverImpl) {
+			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
 		super(nameCache, bindings);
 		this.classifiersFactory = classifiersFactory;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@Override
 	public AnonymousClass getByBinding(ITypeBinding binding) {
-		String typeName = utilJdtResolverImpl.convertToTypeName(binding);
+		String typeName = toTypeNameConverter.convertToTypeName(binding);
 		return getByName(typeName);
 	}
 

@@ -8,27 +8,27 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 
 	private final HashSet<IVariableBinding> variableBindings;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ClassifierResolver classifierResolver;
 
 	@Inject
 	public FieldResolver(HashMap<IBinding, String> nameCache, HashMap<String, Field> bindings,
-			HashSet<IVariableBinding> variableBindings, UtilJdtResolverImpl utilJdtResolverImpl,
-			TypesFactory typesFactory, MembersFactory membersFactory) {
+			HashSet<IVariableBinding> variableBindings, TypesFactory typesFactory, MembersFactory membersFactory,
+			ClassifierResolver classifierResolver) {
 		super(nameCache, bindings);
 		this.variableBindings = variableBindings;
 		this.typesFactory = typesFactory;
 		this.membersFactory = membersFactory;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.classifierResolver = classifierResolver;
 	}
 
 	@Override
@@ -38,10 +38,9 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 			return getBindings().get(varName);
 		}
 		variableBindings.add(binding);
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = null;
+		ConcreteClassifier potClass = null;
 		if (binding.getDeclaringClass() != null) {
-			potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
-					.getClassifier(binding.getDeclaringClass());
+			potClass = (ConcreteClassifier) classifierResolver.getClassifier(binding.getDeclaringClass());
 		}
 		tools.mdsd.jamopp.model.java.members.Field result = null;
 		if (potClass != null) {

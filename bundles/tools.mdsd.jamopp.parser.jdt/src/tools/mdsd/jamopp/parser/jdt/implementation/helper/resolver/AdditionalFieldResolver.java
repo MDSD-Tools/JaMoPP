@@ -10,22 +10,21 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, IVariableBinding> {
 
 	private final HashSet<IVariableBinding> variableBindings;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final MembersFactory membersFactory;
+	private final ClassifierResolver classifierResolver;
 
 	@Inject
 	public AdditionalFieldResolver(HashMap<IBinding, String> nameCache, HashMap<String, AdditionalField> bindings,
-			HashSet<IVariableBinding> variableBindings, UtilJdtResolverImpl utilJdtResolverImpl,
-			MembersFactory membersFactory) {
+			HashSet<IVariableBinding> variableBindings, MembersFactory membersFactory,
+			ClassifierResolver classifierResolver) {
 		super(nameCache, bindings);
 		this.variableBindings = variableBindings;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
 		this.membersFactory = membersFactory;
+		this.classifierResolver = classifierResolver;
 	}
 
 	@Override
@@ -36,7 +35,7 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 		}
 		variableBindings.add(binding);
 		tools.mdsd.jamopp.model.java.members.AdditionalField result = null;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
+		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
 			outerLoop: for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {

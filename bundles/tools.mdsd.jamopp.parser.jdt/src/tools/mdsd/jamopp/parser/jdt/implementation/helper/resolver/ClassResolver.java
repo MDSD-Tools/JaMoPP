@@ -11,28 +11,27 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class ClassResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java.classifiers.Class, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public ClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, Class> bindings,
-			ClassifiersFactory classifiersFactory, UtilJdtResolverImpl utilJdtResolverImpl,
-			HashSet<ITypeBinding> typeBindings) {
+			ClassifiersFactory classifiersFactory, HashSet<ITypeBinding> typeBindings,
+			ToTypeNameConverter toTypeNameConverter) {
 		super(nameCache, bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@Override
 	public Class getByBinding(ITypeBinding binding) {
 		typeBindings.add(binding);
-		return getByName(utilJdtResolverImpl.convertToTypeName(binding));
+		return getByName(toTypeNameConverter.convertToTypeName(binding));
 	}
 
 	@Override

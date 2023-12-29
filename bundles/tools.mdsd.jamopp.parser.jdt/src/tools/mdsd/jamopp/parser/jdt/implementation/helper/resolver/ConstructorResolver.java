@@ -9,27 +9,27 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBinding> {
 
 	private final HashSet<IMethodBinding> methodBindings;
 	private final StatementsFactory statementsFactory;
 	private final MembersFactory membersFactory;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ClassifierResolver classifierResolver;
 
 	@Inject
 	public ConstructorResolver(HashMap<IBinding, String> nameCache, HashMap<String, Constructor> bindings,
 			StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings, MembersFactory membersFactory,
-			UtilJdtResolverImpl utilJdtResolverImpl) {
+			ClassifierResolver classifierResolver) {
 		super(nameCache, bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;
 		this.membersFactory = membersFactory;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.classifierResolver = classifierResolver;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		}
 		methodBindings.add(binding);
 		tools.mdsd.jamopp.model.java.members.Constructor result = null;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
+		ConcreteClassifier potClass = (ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
 			outerLoop: for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {

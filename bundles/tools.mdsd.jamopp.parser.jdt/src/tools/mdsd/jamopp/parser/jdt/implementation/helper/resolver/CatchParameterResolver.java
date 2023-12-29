@@ -31,7 +31,7 @@ public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVa
 	@Override
 	public CatchParameter getByBinding(IVariableBinding binding) {
 		variableBindings.add(binding);
-		return utilJdtResolverImpl.getCatchParameter(utilJdtResolverImpl.convertToParameterName(binding, true));
+		return getByName(utilJdtResolverImpl.convertToParameterName(binding, true));
 	}
 
 	@Override
