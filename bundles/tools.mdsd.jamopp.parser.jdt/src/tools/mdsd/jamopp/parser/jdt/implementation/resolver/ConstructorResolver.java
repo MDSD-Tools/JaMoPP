@@ -20,21 +20,26 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 	private final StatementsFactory statementsFactory;
 	private final MembersFactory membersFactory;
 	private final ClassifierResolver classifierResolver;
+	private final ToMethodNameConverter toMethodNameConverter;
+	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public ConstructorResolver(HashMap<IBinding, String> nameCache, HashMap<String, Constructor> bindings,
 			StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings, MembersFactory membersFactory,
-			ClassifierResolver classifierResolver) {
-		super(nameCache, bindings);
+			ClassifierResolver classifierResolver, ToTypeNameConverter toTypeNameConverter,
+			ToMethodNameConverter toMethodNameConverter) {
+		super(bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;
 		this.membersFactory = membersFactory;
 		this.classifierResolver = classifierResolver;
+		this.toMethodNameConverter = toMethodNameConverter;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@Override
 	public Constructor getByBinding(IMethodBinding binding) {
-		String methName = convertToMethodName(binding);
+		String methName = toMethodNameConverter.convertToMethodName(binding);
 		if (getBindings().containsKey(methName)) {
 			return getBindings().get(methName);
 		}
@@ -53,16 +58,17 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 					if (con.getParameters().size() == binding.getParameterTypes().length + receiveOffset) {
 						if (receiveOffset == 1 && (!(con.getParameters()
 								.get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
-								|| !convertToTypeName(binding.getDeclaredReceiverType())
-										.equals(convertToTypeName(con.getParameters().get(0).getTypeReference())))) {
+								|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType())
+										.equals(toTypeNameConverter
+												.convertToTypeName(con.getParameters().get(0).getTypeReference())))) {
 							continue outerLoop;
 						}
 						for (int i = 0; i < binding.getParameterTypes().length; i++) {
 							ITypeBinding currentType = binding.getParameterTypes()[i];
 							tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = con.getParameters()
 									.get(i + receiveOffset);
-							if (!convertToTypeName(currentType)
-									.equals(convertToTypeName(currentParam.getTypeReference()))
+							if (!toTypeNameConverter.convertToTypeName(currentType)
+									.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
 									|| currentType.getDimensions() != currentParam.getArrayDimension()) {
 								continue outerLoop;
 							}

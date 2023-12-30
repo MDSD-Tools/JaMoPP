@@ -21,7 +21,7 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 	public VariableLengthParameterResolver(HashMap<IBinding, String> nameCache,
 			HashMap<String, VariableLengthParameter> bindings, HashSet<IVariableBinding> variableBindings,
 			ParametersFactory parametersFactory, ToParameterNameConverter toParameterNameConverter) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.variableBindings = variableBindings;
 		this.parametersFactory = parametersFactory;
 		this.toParameterNameConverter = toParameterNameConverter;

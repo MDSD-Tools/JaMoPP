@@ -10,6 +10,8 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+
 public class ToTypeNameConverter {
 
 	private final HashMap<IBinding, String> nameCache;
@@ -57,6 +59,50 @@ public class ToTypeNameConverter {
 		}
 		nameCache.put(binding, qualifiedName);
 		return qualifiedName;
+	}
+
+	public String convertToTypeName(TypeReference ref) {
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.ClassifierReference convRef) {
+			if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) {
+				return ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())
+						.getQualifiedName();
+			}
+			if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.types.InferableType) {
+				return "var";
+			}
+			return ((tools.mdsd.jamopp.model.java.generics.TypeParameter) convRef.getTarget()).getName();
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference nRef) {
+			if (!nRef.getClassifierReferences().isEmpty()) {
+				return convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
+			}
+			return nRef.getNamespacesAsString();
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
+			return "boolean";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Byte) {
+			return "byte";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Char) {
+			return "char";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Double) {
+			return "double";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Float) {
+			return "float";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Int) {
+			return "int";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Long) {
+			return "long";
+		}
+		if (ref instanceof tools.mdsd.jamopp.model.java.types.Short) {
+			return "short";
+		}
+		return "void";
 	}
 
 }

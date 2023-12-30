@@ -20,7 +20,7 @@ public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.jav
 	@Inject
 	public ModuleResolver(HashMap<IBinding, String> nameCache, HashMap<String, Module> bindings,
 			HashSet<IModuleBinding> moduleBindings, ContainersFactory containersFactory) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.moduleBindings = moduleBindings;
 		this.containersFactory = containersFactory;
 	}

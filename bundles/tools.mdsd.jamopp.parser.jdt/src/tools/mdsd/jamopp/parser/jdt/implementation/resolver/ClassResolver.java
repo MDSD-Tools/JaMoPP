@@ -22,7 +22,7 @@ public class ClassResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java
 	public ClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, Class> bindings,
 			ClassifiersFactory classifiersFactory, HashSet<ITypeBinding> typeBindings,
 			ToTypeNameConverter toTypeNameConverter) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;
 		this.toTypeNameConverter = toTypeNameConverter;

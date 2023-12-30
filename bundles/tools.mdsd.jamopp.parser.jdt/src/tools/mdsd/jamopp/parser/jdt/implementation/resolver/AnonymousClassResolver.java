@@ -18,7 +18,7 @@ public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITy
 	@Inject
 	public AnonymousClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, AnonymousClass> bindings,
 			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.toTypeNameConverter = toTypeNameConverter;
 	}

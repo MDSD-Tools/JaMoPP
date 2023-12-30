@@ -21,7 +21,7 @@ public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParamete
 	public OrdinaryParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, OrdinaryParameter> bindings,
 			ParametersFactory parametersFactory, HashSet<IVariableBinding> variableBindings,
 			ToParameterNameConverter toParameterNameConverter) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.parametersFactory = parametersFactory;
 		this.variableBindings = variableBindings;
 		this.toParameterNameConverter = toParameterNameConverter;

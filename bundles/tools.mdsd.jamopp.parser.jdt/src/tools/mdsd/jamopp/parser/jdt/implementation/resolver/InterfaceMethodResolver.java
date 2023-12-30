@@ -21,24 +21,29 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	private final MembersFactory membersFactory;
 	private final HashSet<IMethodBinding> methodBindings;
 	private final ClassifierResolver classifierResolver;
+	private final MethodChecker methodChecker;
+	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
 	public InterfaceMethodResolver(HashMap<IBinding, String> nameCache, HashMap<String, InterfaceMethod> bindings,
 			TypesFactory typesFactory, StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings,
-			MembersFactory membersFactory, ClassifierResolver classifierResolver) {
-		super(nameCache, bindings);
+			MembersFactory membersFactory, ClassifierResolver classifierResolver, MethodChecker methodChecker,
+			ToMethodNameConverter toMethodNameConverter) {
+		super(bindings);
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;
 		this.membersFactory = membersFactory;
 		this.methodBindings = methodBindings;
 		this.classifierResolver = classifierResolver;
+		this.methodChecker = methodChecker;
+		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
 	@Override
 	public InterfaceMethod getByBinding(IMethodBinding binding) {
 		binding = binding.getMethodDeclaration();
 		methodBindings.add(binding);
-		String methName = convertToMethodName(binding);
+		String methName = toMethodNameConverter.convertToMethodName(binding);
 		if (getBindings().containsKey(methName)) {
 			return getBindings().get(methName);
 		}
@@ -48,7 +53,7 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 		if (classifier != null) {
 			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 				if (mem instanceof tools.mdsd.jamopp.model.java.members.InterfaceMethod) {
-					result = checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
+					result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
 					if (result != null) {
 						break;
 					}

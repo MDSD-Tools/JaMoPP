@@ -19,21 +19,23 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
 	private final ClassifierResolver classifierResolver;
+	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
 	public FieldResolver(HashMap<IBinding, String> nameCache, HashMap<String, Field> bindings,
 			HashSet<IVariableBinding> variableBindings, TypesFactory typesFactory, MembersFactory membersFactory,
-			ClassifierResolver classifierResolver) {
-		super(nameCache, bindings);
+			ClassifierResolver classifierResolver, ToFieldNameConverter toFieldNameConverter) {
+		super(bindings);
 		this.variableBindings = variableBindings;
 		this.typesFactory = typesFactory;
 		this.membersFactory = membersFactory;
 		this.classifierResolver = classifierResolver;
+		this.toFieldNameConverter = toFieldNameConverter;
 	}
 
 	@Override
 	public Field getByBinding(IVariableBinding binding) {
-		String varName = convertToFieldName(binding);
+		String varName = toFieldNameConverter.convertToFieldName(binding);
 		if (getBindings().containsKey(varName)) {
 			return getBindings().get(varName);
 		}

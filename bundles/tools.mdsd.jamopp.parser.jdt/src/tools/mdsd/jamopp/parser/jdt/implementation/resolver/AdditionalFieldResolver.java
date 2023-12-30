@@ -16,20 +16,22 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 	private final HashSet<IVariableBinding> variableBindings;
 	private final MembersFactory membersFactory;
 	private final ClassifierResolver classifierResolver;
+	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
 	public AdditionalFieldResolver(HashMap<IBinding, String> nameCache, HashMap<String, AdditionalField> bindings,
 			HashSet<IVariableBinding> variableBindings, MembersFactory membersFactory,
-			ClassifierResolver classifierResolver) {
-		super(nameCache, bindings);
+			ClassifierResolver classifierResolver, ToFieldNameConverter toFieldNameConverter) {
+		super(bindings);
 		this.variableBindings = variableBindings;
 		this.membersFactory = membersFactory;
 		this.classifierResolver = classifierResolver;
+		this.toFieldNameConverter = toFieldNameConverter;
 	}
 
 	@Override
 	public AdditionalField getByBinding(IVariableBinding binding) {
-		String varName = convertToFieldName(binding);
+		String varName = toFieldNameConverter.convertToFieldName(binding);
 		if (getBindings().containsKey(varName)) {
 			return getBindings().get(varName);
 		}

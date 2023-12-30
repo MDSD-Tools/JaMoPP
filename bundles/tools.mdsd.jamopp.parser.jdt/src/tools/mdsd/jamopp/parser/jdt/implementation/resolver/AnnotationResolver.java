@@ -16,19 +16,22 @@ public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBindin
 
 	private final HashSet<ITypeBinding> typeBindings;
 	private final ClassifiersFactory classifiersFactory;
+	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public AnnotationResolver(HashMap<IBinding, String> nameCache, HashMap<String, Annotation> bindings,
-			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory) {
-		super(nameCache, bindings);
+			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory,
+			ToTypeNameConverter toTypeNameConverter) {
+		super(bindings);
 		this.typeBindings = typeBindings;
 		this.classifiersFactory = classifiersFactory;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@Override
 	public Annotation getByBinding(ITypeBinding binding) {
 		typeBindings.add(binding);
-		return getByName(convertToTypeName(binding));
+		return getByName(toTypeNameConverter.convertToTypeName(binding));
 	}
 
 	@Override

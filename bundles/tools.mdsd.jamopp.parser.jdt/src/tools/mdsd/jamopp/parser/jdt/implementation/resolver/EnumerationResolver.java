@@ -16,18 +16,21 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
+	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public EnumerationResolver(HashMap<IBinding, String> nameCache, HashMap<String, Enumeration> bindings,
-			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory) {
-		super(nameCache, bindings);
+			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory,
+			ToTypeNameConverter toTypeNameConverter) {
+		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@Override
 	public Enumeration getByBinding(ITypeBinding binding) {
-		String enumName = convertToTypeName(binding);
+		String enumName = toTypeNameConverter.convertToTypeName(binding);
 		if (getBindings().containsKey(enumName)) {
 			return getBindings().get(enumName);
 		}

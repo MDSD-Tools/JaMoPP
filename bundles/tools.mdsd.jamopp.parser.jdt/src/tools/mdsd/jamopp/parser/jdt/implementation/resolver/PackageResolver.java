@@ -21,7 +21,7 @@ public class PackageResolver
 	@Inject
 	public PackageResolver(HashMap<IBinding, String> nameCache, HashMap<String, Package> bindings,
 			HashSet<IPackageBinding> packageBindings, ContainersFactory containersFactory) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.packageBindings = packageBindings;
 		this.containersFactory = containersFactory;
 	}

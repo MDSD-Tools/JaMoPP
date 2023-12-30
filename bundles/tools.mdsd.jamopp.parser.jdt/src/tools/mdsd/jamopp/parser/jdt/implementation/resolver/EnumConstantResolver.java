@@ -16,20 +16,22 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 	private final MembersFactory membersFactory;
 	private final HashSet<IVariableBinding> variableBindings;
 	private final EnumerationResolver enumerationResolver;
+	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
 	public EnumConstantResolver(HashMap<IBinding, String> nameCache, HashMap<String, EnumConstant> bindings,
 			HashSet<IVariableBinding> variableBindings, MembersFactory membersFactory,
-			EnumerationResolver enumerationResolver) {
-		super(nameCache, bindings);
+			EnumerationResolver enumerationResolver, ToFieldNameConverter toFieldNameConverter) {
+		super(bindings);
 		this.membersFactory = membersFactory;
 		this.variableBindings = variableBindings;
 		this.enumerationResolver = enumerationResolver;
+		this.toFieldNameConverter = toFieldNameConverter;
 	}
 
 	@Override
 	public EnumConstant getByBinding(IVariableBinding binding) {
-		String enumCN = convertToFieldName(binding);
+		String enumCN = toFieldNameConverter.convertToFieldName(binding);
 		if (getBindings().containsKey(enumCN)) {
 			return getBindings().get(enumCN);
 		}

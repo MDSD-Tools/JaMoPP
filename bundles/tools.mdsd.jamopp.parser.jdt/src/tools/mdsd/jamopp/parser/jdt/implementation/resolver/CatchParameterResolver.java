@@ -21,7 +21,7 @@ public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVa
 	public CatchParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, CatchParameter> bindings,
 			HashSet<IVariableBinding> variableBindings, ParametersFactory parametersFactory,
 			ToParameterNameConverter toParameterNameConverter) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.variableBindings = variableBindings;
 		this.parametersFactory = parametersFactory;
 		this.toParameterNameConverter = toParameterNameConverter;

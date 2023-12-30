@@ -15,18 +15,21 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 
 	private final HashSet<ITypeBinding> typeBindings;
 	private final GenericsFactory genericsFactory;
+	private final ToTypeParameterNameConverter toTypeParameterNameConverter;
 
 	@Inject
 	public TypeParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, TypeParameter> bindings,
-			HashSet<ITypeBinding> typeBindings, GenericsFactory genericsFactory) {
-		super(nameCache, bindings);
+			HashSet<ITypeBinding> typeBindings, GenericsFactory genericsFactory,
+			ToTypeParameterNameConverter toTypeParameterNameConverter) {
+		super(bindings);
 		this.typeBindings = typeBindings;
 		this.genericsFactory = genericsFactory;
+		this.toTypeParameterNameConverter = toTypeParameterNameConverter;
 	}
 
 	@Override
 	public TypeParameter getByBinding(ITypeBinding binding) {
-		String paramName = convertToTypeParameterName(binding);
+		String paramName = toTypeParameterNameConverter.convertToTypeParameterName(binding);
 		if (getBindings().containsKey(paramName)) {
 			return getBindings().get(paramName);
 		}

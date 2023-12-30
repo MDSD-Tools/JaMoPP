@@ -17,18 +17,21 @@ public class InterfaceResolver
 
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
+	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public InterfaceResolver(HashMap<IBinding, String> nameCache, HashMap<String, Interface> bindings,
-			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory) {
-		super(nameCache, bindings);
+			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory,
+			ToTypeNameConverter toTypeNameConverter) {
+		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@Override
 	public Interface getByBinding(ITypeBinding binding) {
-		String interName = convertToTypeName(binding);
+		String interName = toTypeNameConverter.convertToTypeName(binding);
 		if (getBindings().containsKey(interName)) {
 			return getBindings().get(interName);
 		}

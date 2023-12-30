@@ -21,7 +21,7 @@ public class LocalVariableResolver extends ResolverAbstract<LocalVariable, IVari
 	public LocalVariableResolver(HashMap<IBinding, String> nameCache, HashMap<String, LocalVariable> bindings,
 			VariablesFactory variablesFactory, HashSet<IVariableBinding> variableBindings,
 			ToParameterNameConverter toParameterNameConverter) {
-		super(nameCache, bindings);
+		super(bindings);
 		this.variablesFactory = variablesFactory;
 		this.variableBindings = variableBindings;
 		this.toParameterNameConverter = toParameterNameConverter;
