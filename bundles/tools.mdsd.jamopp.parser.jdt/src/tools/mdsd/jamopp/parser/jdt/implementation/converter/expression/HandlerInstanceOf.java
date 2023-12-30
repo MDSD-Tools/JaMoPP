@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.handler;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InstanceofExpression;
@@ -10,8 +10,8 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class HandlerInstanceOf implements ExpressionHandler {

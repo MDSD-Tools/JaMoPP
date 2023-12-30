@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.handler;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 

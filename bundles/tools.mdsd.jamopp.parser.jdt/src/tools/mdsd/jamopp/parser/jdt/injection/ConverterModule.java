@@ -113,7 +113,6 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.BindingToTypeParame
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.BlockToBlockConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ObjectToAnnotationValueConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ObjectToPrimaryExpressionConverter;
-import tools.mdsd.jamopp.parser.jdt.implementation.converter.StatementToStatementConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.SwitchToSwitchConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToAdditionalFieldConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToAdditionalLocalVariableConverter;
@@ -142,7 +141,6 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToEnumConstantConve
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToEnumConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToEqualityExpressionConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToEqualityOperatorConverter;
-import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToExpressionConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToFieldConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToImportConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToInterfaceMemberConverter;
@@ -186,7 +184,21 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToTypeReferencesCon
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToUnaryExpressionConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToUnaryOperatorConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.TypeToTypeArgumentConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerAssignment;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerCastExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerConditionalExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerInfixExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerInstanceOf;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerLambdaExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerMethodReference;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerPostfixExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerPrefixExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerPrimaryExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerSwitchExpression;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.ToExpressionConverterImpl;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.StatementToStatementConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
@@ -202,6 +214,27 @@ public class ConverterModule extends AbstractModule {
 		bind(ToArrayDimensionsAndSetConverter.class).to(ToArrayDimensionsAndSetConverterImpl.class);
 		bind(ToSwitchCasesAndSetConverter.class).to(ToSwitchCasesAndSetConverterImpl.class);
 		bind(ToConcreteClassifierConverterWithExtraInfo.class).to(BindingInfoToConcreteClassifierConverterImpl.class);
+
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerAssignment")).to(HandlerAssignment.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerCastExpression"))
+				.to(HandlerCastExpression.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerConditionalExpression"))
+				.to(HandlerConditionalExpression.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerInfixExpression"))
+				.to(HandlerInfixExpression.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerInstanceOf")).to(HandlerInstanceOf.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerLambdaExpression"))
+				.to(HandlerLambdaExpression.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerMethodReference"))
+				.to(HandlerMethodReference.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerPostfixExpression"))
+				.to(HandlerPostfixExpression.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerPrefixExpression"))
+				.to(HandlerPrefixExpression.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerPrimaryExpression"))
+				.to(HandlerPrimaryExpression.class);
+		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerSwitchExpression"))
+				.to(HandlerSwitchExpression.class);
 
 		bind(new TypeLiteral<Converter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
 		}).to(BindingToAnnotationAttributeSettingConverter.class);

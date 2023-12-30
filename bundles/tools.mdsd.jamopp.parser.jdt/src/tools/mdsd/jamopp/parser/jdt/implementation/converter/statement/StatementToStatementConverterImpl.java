@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.converter;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
 import java.util.HashSet;
 

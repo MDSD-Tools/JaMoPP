@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.handler;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
@@ -6,7 +6,7 @@ import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 
 public class HandlerPrimaryExpression implements ExpressionHandler {
 

@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.converter;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 
 public class ToExpressionConverterImpl
 		implements Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> {

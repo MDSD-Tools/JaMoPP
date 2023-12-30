@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.interfaces.handler;
+package tools.mdsd.jamopp.parser.jdt.interfaces.converter;
 
 import org.eclipse.jdt.core.dom.Expression;
 

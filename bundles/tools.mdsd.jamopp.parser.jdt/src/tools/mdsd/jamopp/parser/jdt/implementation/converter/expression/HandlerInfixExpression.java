@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.handler;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
@@ -14,7 +14,7 @@ import tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression;
 import tools.mdsd.jamopp.model.java.expressions.RelationExpression;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpression;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class HandlerInfixExpression implements ExpressionHandler {
