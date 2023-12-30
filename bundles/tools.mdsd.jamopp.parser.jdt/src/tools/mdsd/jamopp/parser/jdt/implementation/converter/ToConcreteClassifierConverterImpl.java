@@ -15,14 +15,14 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToConcreteClassifierConverterImpl implements Converter<AbstractTypeDeclaration, ConcreteClassifier> {
 
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<BodyDeclaration, Member> toInterfaceMember;
@@ -32,7 +32,7 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 	@Inject
 	ToConcreteClassifierConverterImpl(
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			UtilNamedElement utilNamedElement,
 			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMember,
 			Converter<EnumDeclaration, Enumeration> toEnumConverter,

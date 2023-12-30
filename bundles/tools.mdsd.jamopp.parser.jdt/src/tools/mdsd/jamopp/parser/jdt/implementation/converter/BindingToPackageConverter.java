@@ -10,17 +10,17 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingToPackageConverter
 		implements Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package> {
 
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final JdtResolver jdtTResolverUtility;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	BindingToPackageConverter(UtilJdtResolver jdtTResolverUtility,
+	BindingToPackageConverter(JdtResolver jdtTResolverUtility,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;

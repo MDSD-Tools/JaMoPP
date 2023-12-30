@@ -10,16 +10,16 @@ import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class BindingToNamespaceClassifierReferenceConverter
 		implements Converter<ITypeBinding, NamespaceClassifierReference> {
 
 	private final TypesFactory typesFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final JdtResolver jdtTResolverUtility;
 
 	@Inject
-	BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, UtilJdtResolver jdtTResolverUtility) {
+	BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, JdtResolver jdtTResolverUtility) {
 		this.typesFactory = typesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}

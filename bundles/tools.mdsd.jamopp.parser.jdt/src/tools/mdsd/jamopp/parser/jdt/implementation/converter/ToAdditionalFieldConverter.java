@@ -9,14 +9,14 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToAdditionalFieldConverter implements Converter<VariableDeclarationFragment, AdditionalField> {
 
-	private final UtilJdtResolver iUtilJdtResolver;
+	private final JdtResolver iUtilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
 	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final UtilTypeInstructionSeparation toInstructionSeparation;
@@ -24,7 +24,7 @@ public class ToAdditionalFieldConverter implements Converter<VariableDeclaration
 
 	@Inject
 	ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			UtilJdtResolver iUtilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
+			JdtResolver iUtilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
 			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;

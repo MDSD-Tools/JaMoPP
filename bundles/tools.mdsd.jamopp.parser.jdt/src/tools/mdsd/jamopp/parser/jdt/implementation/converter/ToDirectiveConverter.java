@@ -17,8 +17,8 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToDirectiveConverter
 		implements Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective> {
@@ -26,7 +26,7 @@ public class ToDirectiveConverter
 	private final ModulesFactory modulesFactory;
 	private final ModifiersFactory modifiersFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 	private final Converter<Name, TypeReference> utilBaseConverter;
 	private final Converter<Name, ModuleReference> toModuleReferenceConverter;
 
@@ -34,7 +34,7 @@ public class ToDirectiveConverter
 	public ToDirectiveConverter(Converter<Name, TypeReference> utilBaseConverter,
 			Converter<Name, ModuleReference> toModuleReferenceConverter, ModulesFactory modulesFactory,
 			ModifiersFactory modifiersFactory, UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility) {
+			JdtResolver jdtResolverUtility) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

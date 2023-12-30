@@ -15,15 +15,15 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter;
@@ -32,7 +32,7 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 	@Inject
 	ToCatchblockConverter(UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
 			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility,
+			JdtResolver jdtResolverUtility,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
 			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;

@@ -23,14 +23,14 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteClassifierConverterWithExtraInfo {
 
 	private final UtilNamedElement utilNamedElement;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final JdtResolver jdtTResolverUtility;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final Converter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter;
 	private final Converter<IMethodBinding, Method> bindingToMethodConverter;
@@ -44,7 +44,7 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 	BindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
-			UtilJdtResolver jdtTResolverUtility,
+			JdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<IMethodBinding, Method> bindingToMethodConverter,
 			Converter<IVariableBinding, Field> bindingToFieldConverter,

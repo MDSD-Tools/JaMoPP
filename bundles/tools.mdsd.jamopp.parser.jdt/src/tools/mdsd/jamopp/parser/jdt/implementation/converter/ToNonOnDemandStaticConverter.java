@@ -18,9 +18,9 @@ import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration, Import> {
 
@@ -28,11 +28,11 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 	private final ImportsFactory importsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilNamedElement utilNamedElement;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 
 	@Inject
 	public ToNonOnDemandStaticConverter(UtilNamedElement utilNamedElement, ModifiersFactory modifiersFactory,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			ImportsFactory importsFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;

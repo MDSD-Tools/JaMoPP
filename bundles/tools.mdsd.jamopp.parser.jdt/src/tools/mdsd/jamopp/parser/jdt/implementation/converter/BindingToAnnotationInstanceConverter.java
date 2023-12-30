@@ -9,14 +9,14 @@ import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class BindingToAnnotationInstanceConverter implements Converter<IAnnotationBinding, AnnotationInstance> {
 
 	private final AnnotationsFactory annotationsFactory;
 	private final UtilNamedElement utilNamedElement;
-	private UtilJdtResolver jdtTResolverUtility;
+	private JdtResolver jdtTResolverUtility;
 	private Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
 
 	@Inject
@@ -48,7 +48,7 @@ public class BindingToAnnotationInstanceConverter implements Converter<IAnnotati
 	}
 
 	@Inject
-	public void setJdtTResolverUtility(UtilJdtResolver jdtTResolverUtility) {
+	public void setJdtTResolverUtility(JdtResolver jdtTResolverUtility) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 

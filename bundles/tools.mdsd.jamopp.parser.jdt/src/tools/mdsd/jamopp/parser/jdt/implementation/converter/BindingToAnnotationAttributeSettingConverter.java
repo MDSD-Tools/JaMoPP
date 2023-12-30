@@ -7,18 +7,18 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class BindingToAnnotationAttributeSettingConverter
 		implements Converter<IMemberValuePairBinding, AnnotationAttributeSetting> {
 
 	private final AnnotationsFactory annotationsFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final JdtResolver jdtTResolverUtility;
 	private final Converter<Object, AnnotationValue> objectToAnnotationValueConverter;
 
 	@Inject
 	BindingToAnnotationAttributeSettingConverter(Converter<Object, AnnotationValue> objectToAnnotationValueConverter,
-			UtilJdtResolver jdtTResolverUtility, AnnotationsFactory annotationsFactory) {
+			JdtResolver jdtTResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.objectToAnnotationValueConverter = objectToAnnotationValueConverter;

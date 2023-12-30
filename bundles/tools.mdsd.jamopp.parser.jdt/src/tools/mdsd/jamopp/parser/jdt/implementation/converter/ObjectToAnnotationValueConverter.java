@@ -14,13 +14,13 @@ import tools.mdsd.jamopp.model.java.references.ReflectiveClassReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ObjectToAnnotationValueConverter implements Converter<Object, AnnotationValue> {
 
 	private final ArraysFactory arraysFactory;
 	private final ReferencesFactory referencesFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final JdtResolver jdtTResolverUtility;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 	private final Converter<ITypeBinding, Reference> bindingToInternalReferenceConverter;
 	private final Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
@@ -28,7 +28,7 @@ public class ObjectToAnnotationValueConverter implements Converter<Object, Annot
 	@Inject
 	public ObjectToAnnotationValueConverter(ReferencesFactory referencesFactory,
 			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
-			UtilJdtResolver jdtTResolverUtility,
+			JdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, Reference> bindingToInternalReferenceConverter,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
 			ArraysFactory arraysFactory) {

@@ -13,19 +13,19 @@ import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<TypeReference>> {
 
 	private final TypesFactory typesFactory;
-	private final UtilJdtResolver iUtilJdtResolver;
+	private final JdtResolver iUtilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
 	private Converter<ITypeBinding, TypeArgument> toTypeArgumentConverter;
 
 	@Inject
 	ToTypeReferencesConverter(TypesFactory typesFactory, UtilNamedElement utilNamedElement,
-			UtilJdtResolver iUtilJdtResolver) {
+			JdtResolver iUtilJdtResolver) {
 		this.typesFactory = typesFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;

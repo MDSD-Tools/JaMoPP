@@ -22,10 +22,10 @@ import com.google.inject.name.Named;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToInterfaceMethodOrConstructorConverter implements Converter<MethodDeclaration, Member> {
 
@@ -33,7 +33,7 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
 	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilJdtResolver utilJdtResolver;
+	private final JdtResolver utilJdtResolver;
 	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
@@ -46,7 +46,7 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 
 	@Inject
 	ToInterfaceMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
+			UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<org.eclipse.jdt.core.dom.TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
 			Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,

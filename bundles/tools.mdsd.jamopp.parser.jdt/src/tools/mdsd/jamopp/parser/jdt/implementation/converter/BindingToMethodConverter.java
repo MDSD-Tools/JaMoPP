@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilArrays;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingToMethodConverter implements Converter<IMethodBinding, Method> {
@@ -31,7 +31,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	private final StatementsFactory statementsFactory;
 	private final LiteralsFactory literalsFactory;
 	private final ParametersFactory parametersFactory;
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final JdtResolver jdtTResolverUtility;
 	private final UtilArrays utilJdtBindingConverter;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter;
@@ -46,7 +46,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
 			Converter<Object, AnnotationValue> objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
-			UtilJdtResolver jdtTResolverUtility,
+			JdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {

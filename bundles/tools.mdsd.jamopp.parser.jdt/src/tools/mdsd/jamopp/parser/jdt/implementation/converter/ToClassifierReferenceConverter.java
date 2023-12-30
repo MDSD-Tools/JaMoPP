@@ -9,15 +9,15 @@ import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToClassifierReferenceConverter implements Converter<SimpleName, ClassifierReference> {
 
 	private final TypesFactory typesFactory;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 
 	@Inject
-	ToClassifierReferenceConverter(UtilJdtResolver jdtResolverUtility, TypesFactory typesFactory) {
+	ToClassifierReferenceConverter(JdtResolver jdtResolverUtility, TypesFactory typesFactory) {
 		this.typesFactory = typesFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 	}

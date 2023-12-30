@@ -48,10 +48,10 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class StatementToStatementConverterImpl
 		implements Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> {
@@ -59,7 +59,7 @@ public class StatementToStatementConverterImpl
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final UtilReferenceWalker utilReferenceWalker;
 	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
@@ -89,7 +89,7 @@ public class StatementToStatementConverterImpl
 			Converter<CatchClause, CatchBlock> toCatchblockConverter,
 			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
 			Converter<SwitchStatement, Switch> switchToSwitchConverter, StatementsFactory statementsFactory,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			ExpressionsFactory expressionsFactory,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility,

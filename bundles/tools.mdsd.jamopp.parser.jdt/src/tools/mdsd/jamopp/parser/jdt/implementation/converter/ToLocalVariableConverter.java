@@ -16,15 +16,15 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToLocalVariableConverter
 		implements Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> {
 
 	private final UtilLayout layoutInformationConverter;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
@@ -38,7 +38,7 @@ public class ToLocalVariableConverter
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
 			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {

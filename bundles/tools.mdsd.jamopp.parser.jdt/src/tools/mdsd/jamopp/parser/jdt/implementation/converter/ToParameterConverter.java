@@ -17,13 +17,13 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToParameterConverter implements Converter<SingleVariableDeclaration, Parameter> {
 
-	private final UtilJdtResolver utilJDTResolver;
+	private final JdtResolver utilJDTResolver;
 	private final UtilNamedElement utilNamedElement;
 	private final UtilLayout utilLayout;
 	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
@@ -34,7 +34,7 @@ public class ToParameterConverter implements Converter<SingleVariableDeclaration
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver utilJDTResolver,
+	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver utilJDTResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,

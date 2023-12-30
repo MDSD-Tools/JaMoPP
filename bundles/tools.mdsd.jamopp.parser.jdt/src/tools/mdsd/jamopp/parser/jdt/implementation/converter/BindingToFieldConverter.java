@@ -18,12 +18,12 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilArrays;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingToFieldConverter implements Converter<IVariableBinding, Field> {
 
-	private final UtilJdtResolver jdtTResolverUtility;
+	private final JdtResolver jdtTResolverUtility;
 	private final UtilArrays utilJdtBindingConverter;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 	private final Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter;
@@ -35,7 +35,7 @@ public class BindingToFieldConverter implements Converter<IVariableBinding, Fiel
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
-			UtilJdtResolver jdtTResolverUtility,
+			JdtResolver jdtTResolverUtility,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;

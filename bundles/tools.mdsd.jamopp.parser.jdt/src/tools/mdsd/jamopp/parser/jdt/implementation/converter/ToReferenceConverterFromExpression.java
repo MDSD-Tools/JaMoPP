@@ -37,10 +37,10 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToReferenceConverterFromExpression
 		implements Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> {
@@ -52,7 +52,7 @@ public class ToReferenceConverterFromExpression
 	private ArraysFactory arraysFactory;
 	private ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private UtilLayout layoutInformationConverter;
-	private UtilJdtResolver jdtResolverUtility;
+	private JdtResolver jdtResolverUtility;
 	private UtilNamedElement utilNamedElement;
 	private Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 	private Converter<Type, TypeReference> toTypeReferenceConverter;
@@ -73,7 +73,7 @@ public class ToReferenceConverterFromExpression
 			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			ReferencesFactory referencesFactory, UtilReferenceWalker utilReferenceWalker,
-			LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter, UtilJdtResolver jdtResolverUtility,
+			LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			InstantiationsFactory instantiationsFactory, ExpressionsFactory expressionsFactory,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			ArraysFactory arraysFactory, Converter<Type, TypeArgument> typeArgumentConverter,

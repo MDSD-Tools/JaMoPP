@@ -9,9 +9,9 @@ import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public class ToModuleConverter implements Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module> {
@@ -19,7 +19,7 @@ public class ToModuleConverter implements Converter<ModuleDeclaration, tools.mds
 	private final ModifiersFactory modifiersFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilNamedElement utilNamedElement;
-	private final UtilJdtResolver jdtResolverUtility;
+	private final JdtResolver jdtResolverUtility;
 	private final AbstractVisitor visitor;
 	private final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	private final Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective> toDirectiveConverter;
@@ -28,7 +28,7 @@ public class ToModuleConverter implements Converter<ModuleDeclaration, tools.mds
 	public ToModuleConverter(AbstractVisitor visitor, UtilNamedElement utilNamedElement,
 			Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective> toDirectiveConverter,
 			ModifiersFactory modifiersFactory, UtilLayout layoutInformationConverter,
-			UtilJdtResolver jdtResolverUtility,
+			JdtResolver jdtResolverUtility,
 			Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

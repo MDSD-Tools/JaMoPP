@@ -44,12 +44,12 @@ import tools.mdsd.jamopp.parser.jdt.injection.HandlerModule;
 import tools.mdsd.jamopp.parser.jdt.injection.HelperModule;
 import tools.mdsd.jamopp.parser.jdt.injection.JamoppModule;
 import tools.mdsd.jamopp.parser.jdt.injection.VisitorModule;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppClasspathEntriesSearcher;
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppCompilationUnitsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppFileWithJDTParser;
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppJavaParserFactory;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.visitor.AbstractVisitor;
 
 public class JaMoPPJDTParser implements JaMoPPParserAPI {
@@ -63,7 +63,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private final static JamoppCompilationUnitsFactory JAMOPP_COMPILATION_UNITS_FACTORY;
 	private final static JamoppFileWithJDTParser JAMOPP_FILE_WITH_JDT_PARSER;
 	private final static JamoppJavaParserFactory JAMOPP_JAVA_PARSER_FACTORY;
-	private final static UtilJdtResolver UTIL_JDT_RESOLVER;
+	private final static JdtResolver UTIL_JDT_RESOLVER;
 	private final static UtilTypeInstructionSeparation UTIL_TYPE_INSTRUCTION_SEPARATION;
 
 	static {
@@ -73,7 +73,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		DEFAULT_ENCODING = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_ENCODING")));
 		DEFAULT_JAVA_VERSION = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_JAVA_VERSION")));
 		VISITOR = injector.getInstance(AbstractVisitor.class);
-		UTIL_JDT_RESOLVER = injector.getInstance(UtilJdtResolver.class);
+		UTIL_JDT_RESOLVER = injector.getInstance(JdtResolver.class);
 		UTIL_TYPE_INSTRUCTION_SEPARATION = injector.getInstance(UtilTypeInstructionSeparation.class);
 		CONTAINERS_FACTORY = injector.getInstance(ContainersFactory.class);
 		LOGGER = injector.getInstance(Logger.class);

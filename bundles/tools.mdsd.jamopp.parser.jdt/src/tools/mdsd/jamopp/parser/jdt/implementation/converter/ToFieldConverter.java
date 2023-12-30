@@ -16,14 +16,14 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 
-	private final UtilJdtResolver iUtilJdtResolver;
+	private final JdtResolver iUtilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
 	private final UtilLayout utilLayout;
 	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
@@ -34,7 +34,7 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 	private final Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
 
 	@Inject
-	ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
+	ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilTypeInstructionSeparation toInstructionSeparation,

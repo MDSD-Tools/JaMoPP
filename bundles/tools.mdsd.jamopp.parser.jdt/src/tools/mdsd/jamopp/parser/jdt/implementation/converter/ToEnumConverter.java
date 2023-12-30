@@ -13,17 +13,17 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToEnumConverter implements Converter<EnumDeclaration, Enumeration> {
 
-	private final UtilJdtResolver iUtilJdtResolver;
+	private final JdtResolver iUtilJdtResolver;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter;
 	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	ToEnumConverter(UtilJdtResolver iUtilJdtResolver, Converter<Type, TypeReference> toTypeReferenceConverter,
+	ToEnumConverter(JdtResolver iUtilJdtResolver, Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter,
 			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;

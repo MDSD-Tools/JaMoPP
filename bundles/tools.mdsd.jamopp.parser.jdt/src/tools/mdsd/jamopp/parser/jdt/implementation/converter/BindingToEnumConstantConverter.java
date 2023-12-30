@@ -8,16 +8,16 @@ import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 @SuppressWarnings("restriction")
 public class BindingToEnumConstantConverter implements Converter<IVariableBinding, EnumConstant> {
 
-	private final UtilJdtResolver iUtilJdtResolver;
+	private final JdtResolver iUtilJdtResolver;
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	BindingToEnumConstantConverter(UtilJdtResolver iUtilJdtResolver,
+	BindingToEnumConstantConverter(JdtResolver iUtilJdtResolver,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;

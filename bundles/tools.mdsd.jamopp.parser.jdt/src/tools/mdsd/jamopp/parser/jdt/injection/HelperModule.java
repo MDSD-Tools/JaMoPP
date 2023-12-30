@@ -21,21 +21,21 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToArrayDimensionAft
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToArrayDimensionsAndSetConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToSwitchCasesAndSetConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilArraysImpl;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilLayoutImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilNamedElementImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilReferenceWalkerImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilTypeInstructionSeparationImpl;
+import tools.mdsd.jamopp.parser.jdt.implementation.resolver.UtilJdtResolverImpl;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToSwitchCasesAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilArrays;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class HelperModule extends AbstractModule {
 
@@ -49,7 +49,7 @@ public class HelperModule extends AbstractModule {
 		bind(UtilArrays.class).to(UtilArraysImpl.class);
 		bind(ToConcreteClassifierConverterWithExtraInfo.class)
 				.to(BindingInfoToConcreteClassifierConverterImpl.class);
-		bind(UtilJdtResolver.class).to(UtilJdtResolverImpl.class).in(Singleton.class);
+		bind(JdtResolver.class).to(UtilJdtResolverImpl.class).in(Singleton.class);
 		bind(UtilLayout.class).to(UtilLayoutImpl.class);
 		bind(UtilNamedElement.class).to(UtilNamedElementImpl.class);
 		bind(UtilReferenceWalker.class).to(UtilReferenceWalkerImpl.class);

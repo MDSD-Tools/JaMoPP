@@ -12,13 +12,13 @@ import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToEnumConstantConverter implements Converter<EnumConstantDeclaration, EnumConstant> {
 
-	private final UtilJdtResolver iUtilJdtResolver;
+	private final JdtResolver iUtilJdtResolver;
 	private final UtilLayout utilLayout;
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
@@ -26,7 +26,7 @@ public class ToEnumConstantConverter implements Converter<EnumConstantDeclaratio
 	private final Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
 
 	@Inject
-	ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, UtilJdtResolver iUtilJdtResolver,
+	ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter,
 			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
