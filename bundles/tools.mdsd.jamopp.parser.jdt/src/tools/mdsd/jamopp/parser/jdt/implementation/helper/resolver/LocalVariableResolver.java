@@ -10,28 +10,27 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class LocalVariableResolver extends ResolverAbstract<LocalVariable, IVariableBinding> {
 
 	private final VariablesFactory variablesFactory;
 	private final HashSet<IVariableBinding> variableBindings;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
 	public LocalVariableResolver(HashMap<IBinding, String> nameCache, HashMap<String, LocalVariable> bindings,
 			VariablesFactory variablesFactory, HashSet<IVariableBinding> variableBindings,
-			UtilJdtResolverImpl utilJdtResolverImpl) {
+			ToParameterNameConverter toParameterNameConverter) {
 		super(nameCache, bindings);
 		this.variablesFactory = variablesFactory;
 		this.variableBindings = variableBindings;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	@Override
 	public LocalVariable getByBinding(IVariableBinding binding) {
 		variableBindings.add(binding);
-		return utilJdtResolverImpl.getLocalVariable(utilJdtResolverImpl.convertToParameterName(binding, true));
+		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override

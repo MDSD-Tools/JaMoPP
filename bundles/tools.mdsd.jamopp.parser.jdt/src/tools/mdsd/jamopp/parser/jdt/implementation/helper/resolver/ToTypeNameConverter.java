@@ -8,18 +8,20 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
-
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
+import com.google.inject.Provider;
 
 public class ToTypeNameConverter {
 
 	private final HashMap<IBinding, String> nameCache;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final Provider<ToMethodNameConverter> toMethodNameConverter;
+	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
-	public ToTypeNameConverter(UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache) {
+	public ToTypeNameConverter(HashMap<IBinding, String> nameCache,
+			Provider<ToMethodNameConverter> toMethodNameConverter, ToFieldNameConverter toFieldNameConverter) {
 		this.nameCache = nameCache;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.toMethodNameConverter = toMethodNameConverter;
+		this.toFieldNameConverter = toFieldNameConverter;
 	}
 
 	public String convertToTypeName(ITypeBinding binding) {
@@ -38,9 +40,10 @@ public class ToTypeNameConverter {
 		} else if (binding.isLocal()) {
 			IBinding b = binding.getDeclaringMember();
 			if (b instanceof IMethodBinding) {
-				qualifiedName = utilJdtResolverImpl.convertToMethodName((IMethodBinding) b) + "." + binding.getKey();
+				qualifiedName = toMethodNameConverter.get().convertToMethodName((IMethodBinding) b) + "."
+						+ binding.getKey();
 			} else if (b instanceof IVariableBinding) {
-				qualifiedName = utilJdtResolverImpl.convertToFieldName((IVariableBinding) b) + "." + binding.getKey();
+				qualifiedName = toFieldNameConverter.convertToFieldName((IVariableBinding) b) + "." + binding.getKey();
 			} else {
 				qualifiedName = binding.getKey();
 			}

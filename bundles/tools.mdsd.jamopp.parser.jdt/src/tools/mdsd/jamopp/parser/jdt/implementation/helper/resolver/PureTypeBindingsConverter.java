@@ -18,13 +18,10 @@ import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilBindingInfoToConcreteClassifierConverter;
 
 public class PureTypeBindingsConverter {
-
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
 
 	private final boolean extractAdditionalInfosFromTypeBindings;
 
@@ -44,9 +41,12 @@ public class PureTypeBindingsConverter {
 	private final EnumerationResolver enumerationResolver;
 	private final InterfaceResolver interfaceResolver;
 	private final ClassResolver classResolver;
+	private final ClassifierResolver classifierResolver;
+
+	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public PureTypeBindingsConverter(UtilJdtResolverImpl utilJdtResolverImpl,
+	public PureTypeBindingsConverter(
 			Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter,
 			PackageResolver packageResolver, ModuleResolver moduleResolver, InterfaceResolver interfaceResolver,
 			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
@@ -55,8 +55,8 @@ public class PureTypeBindingsConverter {
 			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
 			AnnotationResolver annotationResolver, HashSet<ITypeBinding> typeBindings,
 			HashSet<IPackageBinding> packageBindings, HashSet<EObject> objVisited,
-			HashSet<IModuleBinding> moduleBindings) {
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+			HashSet<IModuleBinding> moduleBindings, ToTypeNameConverter toTypeNameConverter,
+			ClassifierResolver classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.containersFactory = containersFactory;
 		this.utilBindingInfoToConcreteClassifierConverter = utilBindingInfoToConcreteClassifierConverter;
@@ -72,6 +72,8 @@ public class PureTypeBindingsConverter {
 		this.enumerationResolver = enumerationResolver;
 		this.interfaceResolver = interfaceResolver;
 		this.classResolver = classResolver;
+		this.classifierResolver = classifierResolver;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -117,10 +119,10 @@ public class PureTypeBindingsConverter {
 			return;
 		}
 		ITypeBinding typeBind = typeBindings.stream()
-				.filter(type -> type != null && typeName.equals(utilJdtResolverImpl.convertToTypeName(type)))
+				.filter(type -> type != null && typeName.equals(toTypeNameConverter.convertToTypeName(type)))
 				.findFirst().orElse(null);
 		if (typeBind == null) {
-			classifier.setPackage(utilJdtResolverImpl.getPackage(""));
+			classifier.setPackage(packageResolver.getByName(""));
 			if (classifier.eContainer() != null) {
 				return;
 			}
@@ -128,16 +130,16 @@ public class PureTypeBindingsConverter {
 			utilBindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
 					extractAdditionalInfosFromTypeBindings);
 		} else if (typeBind.isNested()) {
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier parentClassifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier parentClassifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
 					.getClassifier(typeBind.getDeclaringClass());
-			convertPureTypeBinding(utilJdtResolverImpl.convertToTypeName(typeBind.getDeclaringClass()),
+			convertPureTypeBinding(toTypeNameConverter.convertToTypeName(typeBind.getDeclaringClass()),
 					parentClassifier, resourceSet);
-			classifier.setPackage(utilJdtResolverImpl.getPackage(typeBind.getPackage()));
+			classifier.setPackage(packageResolver.getByBinding(typeBind.getPackage()));
 		} else if (typeBind.isArray()) {
 			ITypeBinding elementType = typeBind.getElementType();
 			if (!elementType.isPrimitive() && !elementType.isTypeVariable()) {
 				convertPureTypeBinding(typeName,
-						(tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) utilJdtResolverImpl
+						(tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
 								.getClassifier(elementType),
 						resourceSet);
 			}
@@ -171,7 +173,7 @@ public class PureTypeBindingsConverter {
 				.orElse(null);
 		if (binding == null) {
 			pack.setName("");
-			pack.setModule(utilJdtResolverImpl.getModule(""));
+			pack.setModule(moduleResolver.getByName(""));
 		} else {
 			bindingToPackageConverter.get().convert(binding);
 		}

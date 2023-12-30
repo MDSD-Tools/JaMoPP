@@ -17,7 +17,6 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class ResolutionCompleter {
 
@@ -51,27 +50,31 @@ public class ResolutionCompleter {
 	private final InterfaceMethodResolver interfaceMethodResolver;
 	private final MethodCompleter methodCompleter;
 	private final PureTypeBindingsConverter pureTypeBindingsConverter;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final ClassResolverSynthetic classResolverSynthetic;
+	private final ToFieldNameConverter toFieldNameConverter;
+	private final ToTypeNameConverter toTypeNameConverter;
+	private final ClassifierResolver classifierResolver;
 
 	@Inject
 	public ResolutionCompleter(VariableLengthParameterResolver variableLengthParameterResolver,
 			HashSet<IVariableBinding> variableBindings, HashMap<IVariableBinding, Integer> varBindToUid,
-			UtilJdtResolverImpl utilJdtResolverImpl, TypeParameterResolver typeParameterResolver,
-			HashSet<ITypeBinding> typeBindings, PureTypeBindingsConverter pureTypeBindingsConverter,
-			PackageResolver packageResolver, HashSet<IPackageBinding> packageBindings,
-			OrdinaryParameterResolver ordinaryParameterResolver, HashSet<EObject> objVisited,
-			HashMap<IBinding, String> nameCache, ModuleResolver moduleResolver, HashSet<IModuleBinding> moduleBindings,
-			MethodCompleter methodCompleter, HashSet<IMethodBinding> methodBindings,
-			LocalVariableResolver localVariableResolver, InterfaceResolver interfaceResolver,
-			InterfaceMethodResolver interfaceMethodResolver, FieldResolver fieldResolver,
+			TypeParameterResolver typeParameterResolver, HashSet<ITypeBinding> typeBindings,
+			PureTypeBindingsConverter pureTypeBindingsConverter, PackageResolver packageResolver,
+			HashSet<IPackageBinding> packageBindings, OrdinaryParameterResolver ordinaryParameterResolver,
+			HashSet<EObject> objVisited, HashMap<IBinding, String> nameCache, ModuleResolver moduleResolver,
+			HashSet<IModuleBinding> moduleBindings, MethodCompleter methodCompleter,
+			HashSet<IMethodBinding> methodBindings, LocalVariableResolver localVariableResolver,
+			InterfaceResolver interfaceResolver, InterfaceMethodResolver interfaceMethodResolver,
+			FieldResolver fieldResolver,
 			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
 			EnumerationResolver enumerationResolver, EnumConstantResolver enumConstantResolver, String cynthClass,
 			ConstructorResolver constructorResolver, ClassResolver classResolver,
 			ClassMethodResolver classMethodResolver, CatchParameterResolver catchParameterResolver,
 			AnonymousClassResolver anonymousClassResolver, AnnotationResolver annotationResolver,
 			AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			AdditionalFieldResolver additionalFieldResolver, ClassResolverSynthetic classResolverSynthetic) {
+			AdditionalFieldResolver additionalFieldResolver, ClassResolverSynthetic classResolverSynthetic,
+			ToTypeNameConverter toTypeNameConverter, ToFieldNameConverter toFieldNameConverter,
+			ClassifierResolver classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
@@ -102,8 +105,10 @@ public class ResolutionCompleter {
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.methodCompleter = methodCompleter;
 		this.pureTypeBindingsConverter = pureTypeBindingsConverter;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
 		this.classResolverSynthetic = classResolverSynthetic;
+		this.toFieldNameConverter = toFieldNameConverter;
+		this.toTypeNameConverter = toTypeNameConverter;
+		this.classifierResolver = classifierResolver;
 	}
 
 	@SuppressWarnings("unused")
@@ -111,10 +116,10 @@ public class ResolutionCompleter {
 		enumConstantResolver.getBindings().forEach((constName, enConst) -> {
 			if (enConst.eContainer() == null) {
 				IVariableBinding varBind = variableBindings.stream()
-						.filter(var -> var != null && constName.equals(utilJdtResolverImpl.convertToFieldName(var)))
+						.filter(var -> var != null && constName.equals(toFieldNameConverter.convertToFieldName(var)))
 						.findFirst().get();
 				if (!varBind.getDeclaringClass().isAnonymous()) {
-					var en = utilJdtResolverImpl.getEnumeration(varBind.getDeclaringClass());
+					var en = enumerationResolver.getByBinding(varBind.getDeclaringClass());
 					if (!extractAdditionalInfosFromTypeBindings && !en.getConstants().contains(enConst)) {
 						en.getConstants().add(enConst);
 					}
@@ -125,15 +130,15 @@ public class ResolutionCompleter {
 		fieldResolver.getBindings().forEach((fieldName, field) -> {
 			if (field.eContainer() == null) {
 				IVariableBinding varBind = variableBindings.stream()
-						.filter(var -> var != null && fieldName.equals(utilJdtResolverImpl.convertToFieldName(var)))
+						.filter(var -> var != null && fieldName.equals(toFieldNameConverter.convertToFieldName(var)))
 						.findFirst().orElse(null);
 				if (varBind == null || varBind.getDeclaringClass() == null) {
 					classResolverSynthetic.addToSyntheticClass(field);
 				} else {
-					tools.mdsd.jamopp.model.java.classifiers.Classifier cla = utilJdtResolverImpl
+					tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
 							.getClassifier(varBind.getDeclaringClass());
 					if (cla == null) {
-						String typeName = utilJdtResolverImpl.convertToTypeName(varBind.getDeclaringClass());
+						String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
 						if (anonymousClassResolver.getBindings().containsKey(typeName)) {
 							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
 									.getBindings().get(typeName);

@@ -10,29 +10,27 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParameter, IVariableBinding> {
 
 	private final ParametersFactory parametersFactory;
 	private final HashSet<IVariableBinding> variableBindings;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
 	public OrdinaryParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, OrdinaryParameter> bindings,
 			ParametersFactory parametersFactory, HashSet<IVariableBinding> variableBindings,
-			UtilJdtResolverImpl utilJdtResolverImpl) {
+			ToParameterNameConverter toParameterNameConverter) {
 		super(nameCache, bindings);
 		this.parametersFactory = parametersFactory;
 		this.variableBindings = variableBindings;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	@Override
 	public OrdinaryParameter getByBinding(IVariableBinding binding) {
 		variableBindings.add(binding);
-		String paramName = utilJdtResolverImpl.convertToParameterName(binding, true);
-		return utilJdtResolverImpl.getOrdinaryParameter(paramName);
+		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override

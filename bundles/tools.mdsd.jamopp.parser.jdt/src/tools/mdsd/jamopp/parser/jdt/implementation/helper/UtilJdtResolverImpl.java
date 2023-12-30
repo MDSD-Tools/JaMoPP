@@ -43,37 +43,37 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	private ResourceSet resourceSet;
 
-	private ResolutionCompleter resolutionCompleter;
-	private ToFieldNameConverter toFieldNameConverter;
-	private ToParameterNameConverter toParameterNameConverter;
-	private ToTypeNameConverter toTypeNameConverter;
-	private ToMethodNameConverter toMethodNameConverter;
-	private ClassifierResolver classifierResolver;
-	private MethodResolver methodResolver;
-	private ModuleResolver moduleResolver;
-	private PackageResolver packageResolver;
-	private AnnotationResolver annotationResolver;
-	private EnumerationResolver enumerationResolver;
-	private InterfaceResolver interfaceResolver;
-	private ClassResolver classResolver;
-	private TypeParameterResolver typeParameterResolver;
-	private ClassMethodResolver classMethodResolver;
-	private ConstructorResolver constructorResolver;
-	private FieldResolver fieldResolver;
-	private AnonymousClassResolver anonymousClassResolver;
-	private EnumConstantResolver enumConstantResolver;
-	private AdditionalFieldResolver additionalFieldResolver;
-	private CatchParameterResolver catchParameterResolver;
-	private OrdinaryParameterResolver ordinaryParameterResolver;
-	private AdditionalLocalVariableResolver additionalLocalVariableResolver;
-	private VariableLengthParameterResolver variableLengthParameterResolver;
-	private LocalVariableResolver localVariableResolver;
-	private InterfaceMethodResolver interfaceMethodResolver;
-	private ReferenceableElementResolver referenceableElementResolver;
-	private UidManager uidManager;
+	private final ResolutionCompleter resolutionCompleter;
+	private final ToFieldNameConverter toFieldNameConverter;
+	private final ToParameterNameConverter toParameterNameConverter;
+	private final ToTypeNameConverter toTypeNameConverter;
+	private final ToMethodNameConverter toMethodNameConverter;
+	private final ClassifierResolver classifierResolver;
+	private final MethodResolver methodResolver;
+	private final ModuleResolver moduleResolver;
+	private final PackageResolver packageResolver;
+	private final AnnotationResolver annotationResolver;
+	private final EnumerationResolver enumerationResolver;
+	private final InterfaceResolver interfaceResolver;
+	private final ClassResolver classResolver;
+	private final TypeParameterResolver typeParameterResolver;
+	private final ClassMethodResolver classMethodResolver;
+	private final ConstructorResolver constructorResolver;
+	private final FieldResolver fieldResolver;
+	private final AnonymousClassResolver anonymousClassResolver;
+	private final EnumConstantResolver enumConstantResolver;
+	private final AdditionalFieldResolver additionalFieldResolver;
+	private final CatchParameterResolver catchParameterResolver;
+	private final OrdinaryParameterResolver ordinaryParameterResolver;
+	private final AdditionalLocalVariableResolver additionalLocalVariableResolver;
+	private final VariableLengthParameterResolver variableLengthParameterResolver;
+	private final LocalVariableResolver localVariableResolver;
+	private final InterfaceMethodResolver interfaceMethodResolver;
+	private final ReferenceableElementResolver referenceableElementResolver;
+	private final UidManager uidManager;
 
 	@Inject
-	public void UtilJdtResolverImpl(VariableLengthParameterResolver variableLengthParameterResolver,
+	public UtilJdtResolverImpl(VariableLengthParameterResolver variableLengthParameterResolver,
 			TypeParameterResolver typeParameterResolver, ToTypeNameConverter toTypeNameConverter,
 			ToParameterNameConverter toParameterNameConverter, ToMethodNameConverter toMethodNameConverter,
 			ToFieldNameConverter toFieldNameConverter, ResolutionCompleter resolutionCompleter,

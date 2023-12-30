@@ -10,28 +10,27 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVariableBinding> {
 
 	private final HashSet<IVariableBinding> variableBindings;
 	private final ParametersFactory parametersFactory;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
 	public CatchParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, CatchParameter> bindings,
 			HashSet<IVariableBinding> variableBindings, ParametersFactory parametersFactory,
-			UtilJdtResolverImpl utilJdtResolverImpl) {
+			ToParameterNameConverter toParameterNameConverter) {
 		super(nameCache, bindings);
 		this.variableBindings = variableBindings;
 		this.parametersFactory = parametersFactory;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	@Override
 	public CatchParameter getByBinding(IVariableBinding binding) {
 		variableBindings.add(binding);
-		return getByName(utilJdtResolverImpl.convertToParameterName(binding, true));
+		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override

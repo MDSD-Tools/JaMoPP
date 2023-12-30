@@ -15,26 +15,22 @@ public class AdditionalLocalVariableResolver extends ResolverAbstract<Additional
 
 	private final HashSet<IVariableBinding> variableBindings;
 	private final VariablesFactory variablesFactory;
-	private final AdditionalLocalVariableResolver additionalLocalVariableResolver;
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
 	public AdditionalLocalVariableResolver(HashMap<IBinding, String> nameCache,
 			HashMap<String, AdditionalLocalVariable> bindings, VariablesFactory variablesFactory,
-			HashSet<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter,
-			AdditionalLocalVariableResolver additionalLocalVariableResolver) {
+			HashSet<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter) {
 		super(nameCache, bindings);
 		this.variableBindings = variableBindings;
 		this.variablesFactory = variablesFactory;
-		this.additionalLocalVariableResolver = additionalLocalVariableResolver;
 		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	@Override
 	public AdditionalLocalVariable getByBinding(IVariableBinding binding) {
 		variableBindings.add(binding);
-		return additionalLocalVariableResolver
-				.getByName(toParameterNameConverter.convertToParameterName(binding, true));
+		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override

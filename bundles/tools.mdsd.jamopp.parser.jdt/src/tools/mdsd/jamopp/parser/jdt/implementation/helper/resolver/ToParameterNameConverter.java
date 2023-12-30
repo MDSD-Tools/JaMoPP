@@ -7,22 +7,20 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
 
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
-
 public class ToParameterNameConverter {
 
 	private final HashMap<IVariableBinding, Integer> varBindToUid;
 	private final HashMap<IBinding, String> nameCache;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final UidManager uidManager;
+	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
 	public ToParameterNameConverter(HashMap<IVariableBinding, Integer> varBindToUid,
-			UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache, UidManager uidManager) {
+			HashMap<IBinding, String> nameCache, UidManager uidManager, ToMethodNameConverter toMethodNameConverter) {
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
 		this.uidManager = uidManager;
+		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
 	public String convertToParameterName(IVariableBinding binding, boolean register) {
@@ -34,7 +32,7 @@ public class ToParameterNameConverter {
 		}
 		String prefix = "";
 		if (binding.getDeclaringMethod() != null) {
-			prefix = utilJdtResolverImpl.convertToMethodName(binding.getDeclaringMethod());
+			prefix = toMethodNameConverter.convertToMethodName(binding.getDeclaringMethod());
 		} else if (varBindToUid.containsKey(binding)) {
 			prefix = varBindToUid.get(binding) + "";
 		} else {

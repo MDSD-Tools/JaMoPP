@@ -10,27 +10,26 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class VariableLengthParameterResolver extends ResolverAbstract<VariableLengthParameter, IVariableBinding> {
 
 	private final HashSet<IVariableBinding> variableBindings;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
 	private final ParametersFactory parametersFactory;
+	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
 	public VariableLengthParameterResolver(HashMap<IBinding, String> nameCache,
 			HashMap<String, VariableLengthParameter> bindings, HashSet<IVariableBinding> variableBindings,
-			UtilJdtResolverImpl utilJdtResolverImpl, ParametersFactory parametersFactory) {
+			ParametersFactory parametersFactory, ToParameterNameConverter toParameterNameConverter) {
 		super(nameCache, bindings);
 		this.variableBindings = variableBindings;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
 		this.parametersFactory = parametersFactory;
+		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	@Override
 	public VariableLengthParameter getByBinding(IVariableBinding binding) {
-		String paramName = utilJdtResolverImpl.convertToParameterName(binding, true);
+		String paramName = toParameterNameConverter.convertToParameterName(binding, true);
 		if (getBindings().containsKey(paramName)) {
 			return getBindings().get(paramName);
 		}

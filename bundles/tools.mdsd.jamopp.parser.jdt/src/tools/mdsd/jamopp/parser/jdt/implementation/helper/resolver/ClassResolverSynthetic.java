@@ -1,12 +1,14 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver;
 
+import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public abstract class ClassResolverSynthetic {
+public class ClassResolverSynthetic {
 
 	private final String synthClass;
 	private final ClassResolver classResolver;
 
+	@Inject
 	public ClassResolverSynthetic(@Named("synthClass") String synthClass, ClassResolver classResolver) {
 		this.synthClass = synthClass;
 		this.classResolver = classResolver;

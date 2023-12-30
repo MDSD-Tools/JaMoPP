@@ -9,7 +9,6 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class ReferenceableElementResolver {
 
@@ -31,20 +30,25 @@ public class ReferenceableElementResolver {
 	private final VariableLengthParameterResolver variableLengthParameterResolver;
 	private final LocalVariableResolver localVariableResolver;
 	private final InterfaceMethodResolver interfaceMethodResolver;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ClassifierResolver classifierResolver;
+	private final MethodResolver methodResolver;
+
+	private final ToFieldNameConverter toFieldNameConverter;
+	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
 	public ReferenceableElementResolver(VariableLengthParameterResolver variableLengthParameterResolver,
-			HashSet<IVariableBinding> variableBindings, UtilJdtResolverImpl utilJdtResolverImpl,
-			TypeParameterResolver typeParameterResolver, HashSet<ITypeBinding> typeBindings,
-			OrdinaryParameterResolver ordinaryParameterResolver, HashSet<IMethodBinding> methodBindings,
-			LocalVariableResolver localVariableResolver, InterfaceResolver interfaceResolver,
-			InterfaceMethodResolver interfaceMethodResolver, FieldResolver fieldResolver,
-			EnumerationResolver enumerationResolver, EnumConstantResolver enumConstantResolver,
-			ClassResolver classResolver, ClassMethodResolver classMethodResolver,
-			CatchParameterResolver catchParameterResolver, AnnotationResolver annotationResolver,
-			AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			AdditionalFieldResolver additionalFieldResolver) {
+			HashSet<IVariableBinding> variableBindings, TypeParameterResolver typeParameterResolver,
+			HashSet<ITypeBinding> typeBindings, OrdinaryParameterResolver ordinaryParameterResolver,
+			HashSet<IMethodBinding> methodBindings, LocalVariableResolver localVariableResolver,
+			InterfaceResolver interfaceResolver, InterfaceMethodResolver interfaceMethodResolver,
+			FieldResolver fieldResolver, EnumerationResolver enumerationResolver,
+			EnumConstantResolver enumConstantResolver, ClassResolver classResolver,
+			ClassMethodResolver classMethodResolver, CatchParameterResolver catchParameterResolver,
+			AnnotationResolver annotationResolver, AdditionalLocalVariableResolver additionalLocalVariableResolver,
+			AdditionalFieldResolver additionalFieldResolver, ToParameterNameConverter toParameterNameConverter,
+			ToFieldNameConverter toFieldNameConverter, MethodResolver methodResolver,
+			ClassifierResolver classifierResolver) {
 		this.typeBindings = typeBindings;
 		this.methodBindings = methodBindings;
 		this.variableBindings = variableBindings;
@@ -63,34 +67,37 @@ public class ReferenceableElementResolver {
 		this.variableLengthParameterResolver = variableLengthParameterResolver;
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.classifierResolver = classifierResolver;
+		this.methodResolver = methodResolver;
+		this.toFieldNameConverter = toFieldNameConverter;
+		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	public ReferenceableElement getByBinding(IVariableBinding binding) {
 		if (binding.isEnumConstant()) {
-			return utilJdtResolverImpl.getEnumConstant(binding);
+			return enumConstantResolver.getByBinding(binding);
 		}
 		if (binding.isField()) {
-			String fieldName = utilJdtResolverImpl.convertToFieldName(binding);
+			String fieldName = toFieldNameConverter.convertToFieldName(binding);
 			if (fieldResolver.getBindings().containsKey(fieldName)) {
 				return fieldResolver.getBindings().get(fieldName);
 			}
 			if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
 				return additionalFieldResolver.getBindings().get(fieldName);
 			}
-			return utilJdtResolverImpl.getField(binding);
+			return fieldResolver.getByBinding(binding);
 		}
 		if (binding.isParameter()) {
-			String paramName = utilJdtResolverImpl.convertToParameterName(binding, false);
+			String paramName = toParameterNameConverter.convertToParameterName(binding, false);
 			if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
 				return ordinaryParameterResolver.getBindings().get(paramName);
 			}
 			if (variableLengthParameterResolver.getBindings().containsKey(paramName)) {
 				return variableLengthParameterResolver.getBindings().get(paramName);
 			}
-			return utilJdtResolverImpl.getOrdinaryParameter(binding);
+			return ordinaryParameterResolver.getByBinding(binding);
 		}
-		String paramName = utilJdtResolverImpl.convertToParameterName(binding, false);
+		String paramName = toParameterNameConverter.convertToParameterName(binding, false);
 		if (catchParameterResolver.getBindings().containsKey(paramName)) {
 			return catchParameterResolver.getBindings().get(paramName);
 		}
@@ -103,24 +110,24 @@ public class ReferenceableElementResolver {
 		if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
 			return ordinaryParameterResolver.getBindings().get(paramName);
 		}
-		return utilJdtResolverImpl.getLocalVariable(binding);
+		return localVariableResolver.getByBinding(binding);
 	}
 
 	public ReferenceableElement getByName(String name) {
 		IVariableBinding vBinding = variableBindings.stream().filter(var -> var != null && var.getName().equals(name))
 				.findFirst().orElse(null);
 		if (vBinding != null) {
-			return utilJdtResolverImpl.getReferencableElement(vBinding);
+			return getByBinding(vBinding);
 		}
 		IMethodBinding mBinding = methodBindings.stream()
 				.filter(meth -> !meth.isConstructor() && meth.getName().equals(name)).findFirst().orElse(null);
 		if (mBinding != null) {
-			return utilJdtResolverImpl.getMethod(mBinding);
+			return methodResolver.getMethod(mBinding);
 		}
 		ITypeBinding tBinding = typeBindings.stream().filter(type -> type != null && type.getName().equals(name))
 				.findFirst().orElse(null);
 		if (tBinding != null) {
-			return utilJdtResolverImpl.getClassifier(tBinding);
+			return classifierResolver.getClassifier(tBinding);
 		}
 		tools.mdsd.jamopp.model.java.variables.Variable par = catchParameterResolver.getBindings().values().stream()
 				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
@@ -197,7 +204,7 @@ public class ReferenceableElementResolver {
 		if (c != null) {
 			return c;
 		}
-		return utilJdtResolverImpl.getClass(name);
+		return classResolver.getByName(name);
 	}
 
 }

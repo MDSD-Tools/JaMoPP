@@ -6,18 +6,18 @@ import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
-
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
+import com.google.inject.Provider;
 
 public class ToFieldNameConverter {
 
 	private final HashMap<IBinding, String> nameCache;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final Provider<ToTypeNameConverter> toTypeNameConverter;
 
 	@Inject
-	public ToFieldNameConverter(UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache) {
+	public ToFieldNameConverter(HashMap<IBinding, String> nameCache,
+			Provider<ToTypeNameConverter> toTypeNameConverter) {
 		this.nameCache = nameCache;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	public String convertToFieldName(IVariableBinding binding) {
@@ -27,7 +27,8 @@ public class ToFieldNameConverter {
 		if (nameCache.containsKey(binding)) {
 			return nameCache.get(binding);
 		}
-		String name = utilJdtResolverImpl.convertToTypeName(binding.getDeclaringClass()) + "::" + binding.getName();
+		String name = toTypeNameConverter.get().convertToTypeName(binding.getDeclaringClass()) + "::"
+				+ binding.getName();
 		nameCache.put(binding, name);
 		return name;
 	}
