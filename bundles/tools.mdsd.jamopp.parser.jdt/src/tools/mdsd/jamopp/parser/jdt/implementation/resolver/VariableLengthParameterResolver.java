@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
@@ -18,9 +17,9 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public VariableLengthParameterResolver(HashMap<IBinding, String> nameCache,
-			HashMap<String, VariableLengthParameter> bindings, HashSet<IVariableBinding> variableBindings,
-			ParametersFactory parametersFactory, ToParameterNameConverter toParameterNameConverter) {
+	public VariableLengthParameterResolver(HashMap<String, VariableLengthParameter> bindings,
+			HashSet<IVariableBinding> variableBindings, ParametersFactory parametersFactory,
+			ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.parametersFactory = parametersFactory;

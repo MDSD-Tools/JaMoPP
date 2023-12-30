@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
 import com.google.inject.Inject;
@@ -25,9 +24,9 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public InterfaceMethodResolver(HashMap<IBinding, String> nameCache, HashMap<String, InterfaceMethod> bindings,
-			TypesFactory typesFactory, StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings,
-			MembersFactory membersFactory, ClassifierResolver classifierResolver, MethodChecker methodChecker,
+	public InterfaceMethodResolver(HashMap<String, InterfaceMethod> bindings, TypesFactory typesFactory,
+			StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings, MembersFactory membersFactory,
+			ClassifierResolver classifierResolver, MethodChecker methodChecker,
 			ToMethodNameConverter toMethodNameConverter) {
 		super(bindings);
 		this.statementsFactory = statementsFactory;

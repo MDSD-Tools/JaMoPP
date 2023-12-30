@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 
 import com.google.inject.Inject;
@@ -18,8 +17,8 @@ public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.jav
 	private final ContainersFactory containersFactory;
 
 	@Inject
-	public ModuleResolver(HashMap<IBinding, String> nameCache, HashMap<String, Module> bindings,
-			HashSet<IModuleBinding> moduleBindings, ContainersFactory containersFactory) {
+	public ModuleResolver(HashMap<String, Module> bindings, HashSet<IModuleBinding> moduleBindings,
+			ContainersFactory containersFactory) {
 		super(bindings);
 		this.moduleBindings = moduleBindings;
 		this.containersFactory = containersFactory;

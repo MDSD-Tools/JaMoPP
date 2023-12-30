@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
@@ -19,9 +18,8 @@ public class ClassResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public ClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, Class> bindings,
-			ClassifiersFactory classifiersFactory, HashSet<ITypeBinding> typeBindings,
-			ToTypeNameConverter toTypeNameConverter) {
+	public ClassResolver(HashMap<String, Class> bindings, ClassifiersFactory classifiersFactory,
+			HashSet<ITypeBinding> typeBindings, ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;

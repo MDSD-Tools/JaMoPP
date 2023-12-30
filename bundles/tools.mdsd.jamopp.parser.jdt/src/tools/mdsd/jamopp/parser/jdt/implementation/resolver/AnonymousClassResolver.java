@@ -2,7 +2,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
 import java.util.HashMap;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
@@ -16,8 +15,8 @@ public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITy
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public AnonymousClassResolver(HashMap<IBinding, String> nameCache, HashMap<String, AnonymousClass> bindings,
-			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
+	public AnonymousClassResolver(HashMap<String, AnonymousClass> bindings, ClassifiersFactory classifiersFactory,
+			ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.toTypeNameConverter = toTypeNameConverter;

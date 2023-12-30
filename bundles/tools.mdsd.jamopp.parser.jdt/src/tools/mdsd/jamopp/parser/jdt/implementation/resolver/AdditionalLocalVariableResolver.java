@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
@@ -18,9 +17,9 @@ public class AdditionalLocalVariableResolver extends ResolverAbstract<Additional
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public AdditionalLocalVariableResolver(HashMap<IBinding, String> nameCache,
-			HashMap<String, AdditionalLocalVariable> bindings, VariablesFactory variablesFactory,
-			HashSet<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter) {
+	public AdditionalLocalVariableResolver(HashMap<String, AdditionalLocalVariable> bindings,
+			VariablesFactory variablesFactory, HashSet<IVariableBinding> variableBindings,
+			ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.variablesFactory = variablesFactory;

@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
@@ -18,9 +17,8 @@ public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParamete
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public OrdinaryParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, OrdinaryParameter> bindings,
-			ParametersFactory parametersFactory, HashSet<IVariableBinding> variableBindings,
-			ToParameterNameConverter toParameterNameConverter) {
+	public OrdinaryParameterResolver(HashMap<String, OrdinaryParameter> bindings, ParametersFactory parametersFactory,
+			HashSet<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.parametersFactory = parametersFactory;
 		this.variableBindings = variableBindings;

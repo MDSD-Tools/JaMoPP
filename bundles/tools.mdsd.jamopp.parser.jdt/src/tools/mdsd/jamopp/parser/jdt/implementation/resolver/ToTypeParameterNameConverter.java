@@ -14,8 +14,8 @@ public class ToTypeParameterNameConverter {
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public ToTypeParameterNameConverter(HashMap<IBinding, String> nameCache, ToTypeNameConverter toTypeNameConverter,
-			ToMethodNameConverter toMethodNameConverter) {
+	public ToTypeParameterNameConverter(ToTypeNameConverter toTypeNameConverter,
+			ToMethodNameConverter toMethodNameConverter, HashMap<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.toMethodNameConverter = toMethodNameConverter;

@@ -61,11 +61,10 @@ public class ResolutionCompleter {
 			TypeParameterResolver typeParameterResolver, HashSet<ITypeBinding> typeBindings,
 			PureTypeBindingsConverter pureTypeBindingsConverter, PackageResolver packageResolver,
 			HashSet<IPackageBinding> packageBindings, OrdinaryParameterResolver ordinaryParameterResolver,
-			HashSet<EObject> objVisited, HashMap<IBinding, String> nameCache, ModuleResolver moduleResolver,
-			HashSet<IModuleBinding> moduleBindings, MethodCompleter methodCompleter,
-			HashSet<IMethodBinding> methodBindings, LocalVariableResolver localVariableResolver,
-			InterfaceResolver interfaceResolver, InterfaceMethodResolver interfaceMethodResolver,
-			FieldResolver fieldResolver,
+			HashSet<EObject> objVisited, ModuleResolver moduleResolver, HashSet<IModuleBinding> moduleBindings,
+			MethodCompleter methodCompleter, HashSet<IMethodBinding> methodBindings,
+			LocalVariableResolver localVariableResolver, InterfaceResolver interfaceResolver,
+			InterfaceMethodResolver interfaceMethodResolver, FieldResolver fieldResolver,
 			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
 			EnumerationResolver enumerationResolver, EnumConstantResolver enumConstantResolver, String cynthClass,
 			ConstructorResolver constructorResolver, ClassResolver classResolver,
@@ -74,7 +73,7 @@ public class ResolutionCompleter {
 			AdditionalLocalVariableResolver additionalLocalVariableResolver,
 			AdditionalFieldResolver additionalFieldResolver, ClassResolverSynthetic classResolverSynthetic,
 			ToTypeNameConverter toTypeNameConverter, ToFieldNameConverter toFieldNameConverter,
-			ClassifierResolver classifierResolver) {
+			ClassifierResolver classifierResolver, HashMap<IBinding, String> nameCache) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;

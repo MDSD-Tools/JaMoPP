@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
@@ -22,9 +21,9 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
-	public FieldResolver(HashMap<IBinding, String> nameCache, HashMap<String, Field> bindings,
-			HashSet<IVariableBinding> variableBindings, TypesFactory typesFactory, MembersFactory membersFactory,
-			ClassifierResolver classifierResolver, ToFieldNameConverter toFieldNameConverter) {
+	public FieldResolver(HashMap<String, Field> bindings, HashSet<IVariableBinding> variableBindings,
+			TypesFactory typesFactory, MembersFactory membersFactory, ClassifierResolver classifierResolver,
+			ToFieldNameConverter toFieldNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.typesFactory = typesFactory;

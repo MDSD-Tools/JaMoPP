@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
@@ -19,9 +18,9 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
-	public EnumConstantResolver(HashMap<IBinding, String> nameCache, HashMap<String, EnumConstant> bindings,
-			HashSet<IVariableBinding> variableBindings, MembersFactory membersFactory,
-			EnumerationResolver enumerationResolver, ToFieldNameConverter toFieldNameConverter) {
+	public EnumConstantResolver(HashMap<String, EnumConstant> bindings, HashSet<IVariableBinding> variableBindings,
+			MembersFactory membersFactory, EnumerationResolver enumerationResolver,
+			ToFieldNameConverter toFieldNameConverter) {
 		super(bindings);
 		this.membersFactory = membersFactory;
 		this.variableBindings = variableBindings;

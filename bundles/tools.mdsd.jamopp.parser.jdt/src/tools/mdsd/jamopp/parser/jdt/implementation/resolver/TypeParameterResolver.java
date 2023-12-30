@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
@@ -18,9 +17,8 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 	private final ToTypeParameterNameConverter toTypeParameterNameConverter;
 
 	@Inject
-	public TypeParameterResolver(HashMap<IBinding, String> nameCache, HashMap<String, TypeParameter> bindings,
-			HashSet<ITypeBinding> typeBindings, GenericsFactory genericsFactory,
-			ToTypeParameterNameConverter toTypeParameterNameConverter) {
+	public TypeParameterResolver(HashMap<String, TypeParameter> bindings, HashSet<ITypeBinding> typeBindings,
+			GenericsFactory genericsFactory, ToTypeParameterNameConverter toTypeParameterNameConverter) {
 		super(bindings);
 		this.typeBindings = typeBindings;
 		this.genericsFactory = genericsFactory;

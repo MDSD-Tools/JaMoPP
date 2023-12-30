@@ -15,8 +15,8 @@ public class ToParameterNameConverter {
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public ToParameterNameConverter(HashMap<IVariableBinding, Integer> varBindToUid,
-			HashMap<IBinding, String> nameCache, UidManager uidManager, ToMethodNameConverter toMethodNameConverter) {
+	public ToParameterNameConverter(HashMap<IVariableBinding, Integer> varBindToUid, UidManager uidManager,
+			ToMethodNameConverter toMethodNameConverter, HashMap<IBinding, String> nameCache) {
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
 		this.uidManager = uidManager;

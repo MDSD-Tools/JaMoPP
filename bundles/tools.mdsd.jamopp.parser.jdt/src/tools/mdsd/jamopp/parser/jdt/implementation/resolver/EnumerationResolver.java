@@ -3,7 +3,6 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
@@ -19,9 +18,8 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public EnumerationResolver(HashMap<IBinding, String> nameCache, HashMap<String, Enumeration> bindings,
-			HashSet<ITypeBinding> typeBindings, ClassifiersFactory classifiersFactory,
-			ToTypeNameConverter toTypeNameConverter) {
+	public EnumerationResolver(HashMap<String, Enumeration> bindings, HashSet<ITypeBinding> typeBindings,
+			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;

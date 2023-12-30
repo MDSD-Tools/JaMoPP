@@ -14,8 +14,8 @@ public class ToFieldNameConverter {
 	private final Provider<ToTypeNameConverter> toTypeNameConverter;
 
 	@Inject
-	public ToFieldNameConverter(HashMap<IBinding, String> nameCache,
-			Provider<ToTypeNameConverter> toTypeNameConverter) {
+	public ToFieldNameConverter(Provider<ToTypeNameConverter> toTypeNameConverter,
+			HashMap<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
