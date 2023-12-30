@@ -52,6 +52,7 @@ public class ResolutionCompleter {
 	private final MethodCompleter methodCompleter;
 	private final PureTypeBindingsConverter pureTypeBindingsConverter;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final ClassResolverSynthetic classResolverSynthetic;
 
 	@Inject
 	public ResolutionCompleter(VariableLengthParameterResolver variableLengthParameterResolver,
@@ -70,7 +71,7 @@ public class ResolutionCompleter {
 			ClassMethodResolver classMethodResolver, CatchParameterResolver catchParameterResolver,
 			AnonymousClassResolver anonymousClassResolver, AnnotationResolver annotationResolver,
 			AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			AdditionalFieldResolver additionalFieldResolver) {
+			AdditionalFieldResolver additionalFieldResolver, ClassResolverSynthetic classResolverSynthetic) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
@@ -102,6 +103,7 @@ public class ResolutionCompleter {
 		this.methodCompleter = methodCompleter;
 		this.pureTypeBindingsConverter = pureTypeBindingsConverter;
 		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.classResolverSynthetic = classResolverSynthetic;
 	}
 
 	@SuppressWarnings("unused")
@@ -126,7 +128,7 @@ public class ResolutionCompleter {
 						.filter(var -> var != null && fieldName.equals(utilJdtResolverImpl.convertToFieldName(var)))
 						.findFirst().orElse(null);
 				if (varBind == null || varBind.getDeclaringClass() == null) {
-					utilJdtResolverImpl.addToSyntheticClass(field);
+					classResolverSynthetic.addToSyntheticClass(field);
 				} else {
 					tools.mdsd.jamopp.model.java.classifiers.Classifier cla = utilJdtResolverImpl
 							.getClassifier(varBind.getDeclaringClass());
@@ -139,7 +141,7 @@ public class ResolutionCompleter {
 								anonClass.getMembers().add(field);
 							}
 						} else {
-							utilJdtResolverImpl.addToSyntheticClass(field);
+							classResolverSynthetic.addToSyntheticClass(field);
 						}
 					} else if (!extractAdditionalInfosFromTypeBindings
 							&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i

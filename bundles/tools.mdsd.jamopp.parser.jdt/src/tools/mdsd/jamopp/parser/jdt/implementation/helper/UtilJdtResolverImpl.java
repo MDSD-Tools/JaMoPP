@@ -8,7 +8,6 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AdditionalFieldResolver;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.AdditionalLocalVariableResolver;
@@ -44,7 +43,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private ResourceSet resourceSet;
 	private int uid;
 
-	private String synthClass;
 	private ResolutionCompleter resolutionCompleter;
 	private ToFieldNameConverter toFieldNameConverter;
 	private ToParameterNameConverter toParameterNameConverter;
@@ -87,8 +85,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			ClassifierResolver classifierResolver, ClassResolver classResolver, ClassMethodResolver classMethodResolver,
 			CatchParameterResolver catchParameterResolver, AnonymousClassResolver anonymousClassResolver,
 			AnnotationResolver annotationResolver, AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			AdditionalFieldResolver additionalFieldResolver, @Named("synthClass") String synthClass) {
-		this.synthClass = synthClass;
+			AdditionalFieldResolver additionalFieldResolver) {
 		this.resolutionCompleter = resolutionCompleter;
 		this.toFieldNameConverter = toFieldNameConverter;
 		this.toParameterNameConverter = toParameterNameConverter;
@@ -116,14 +113,6 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.referenceableElementResolver = referenceableElementResolver;
-	}
-
-	public void addToSyntheticClass(tools.mdsd.jamopp.model.java.members.Member member) {
-		tools.mdsd.jamopp.model.java.classifiers.Class container = getClass(synthClass);
-		container.setName(synthClass);
-		if (!container.getMembers().contains(member)) {
-			container.getMembers().add(member);
-		}
 	}
 
 	@Override
