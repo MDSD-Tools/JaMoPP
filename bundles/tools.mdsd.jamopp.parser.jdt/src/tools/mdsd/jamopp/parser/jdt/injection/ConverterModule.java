@@ -46,6 +46,11 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
@@ -93,11 +98,7 @@ import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
-
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.BindingInfoToConcreteClassifierConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.BindingToAnnotationAttributeSettingConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.BindingToAnnotationInstanceConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.BindingToConstructorConverter;
@@ -121,7 +122,9 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToAdditiveOperatorC
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToAnnotationInstanceConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToAnnotationValueConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToAnonymousClassConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToArrayDimensionAfterAndSetConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToArrayDimensionConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToArrayDimensionsAndSetConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToArrayInitialisierConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToAssignmentConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToBlockConverter;
@@ -175,6 +178,7 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToRelationOperatorC
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToShiftExpressionConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToShiftOperatorConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToSwitchCaseConverter;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToSwitchCasesAndSetConverterImpl;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToTypeArgumentConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToTypeParameterConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToTypeReferenceConverter;
@@ -183,12 +187,21 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToUnaryExpressionCo
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.ToUnaryOperatorConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.TypeToTypeArgumentConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToSwitchCasesAndSetConverter;
 
 public class ConverterModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
 		super.configure();
+
+		bind(ToArrayDimensionAfterAndSetConverter.class).to(ToArrayDimensionAfterAndSetConverterImpl.class);
+		bind(ToArrayDimensionsAndSetConverter.class).to(ToArrayDimensionsAndSetConverterImpl.class);
+		bind(ToSwitchCasesAndSetConverter.class).to(ToSwitchCasesAndSetConverterImpl.class);
+		bind(ToConcreteClassifierConverterWithExtraInfo.class).to(BindingInfoToConcreteClassifierConverterImpl.class);
 
 		bind(new TypeLiteral<Converter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
 		}).to(BindingToAnnotationAttributeSettingConverter.class);
