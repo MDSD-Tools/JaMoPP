@@ -8,18 +8,18 @@ import tools.mdsd.jamopp.model.java.statements.Switch;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToSwitchCasesAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
 
 public class SwitchToSwitchConverter implements Converter<SwitchStatement, Switch> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter;
+	private final ToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter;
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	SwitchToSwitchConverter(UtilToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
+	SwitchToSwitchConverter(ToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
 			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;

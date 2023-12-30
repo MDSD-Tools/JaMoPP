@@ -36,11 +36,11 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class ToReferenceConverterFromExpression
 		implements Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> {
@@ -50,7 +50,7 @@ public class ToReferenceConverterFromExpression
 	private ReferencesFactory referencesFactory;
 	private InstantiationsFactory instantiationsFactory;
 	private ArraysFactory arraysFactory;
-	private UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private UtilLayout layoutInformationConverter;
 	private UtilJdtResolver jdtResolverUtility;
 	private UtilNamedElement utilNamedElement;
@@ -77,7 +77,7 @@ public class ToReferenceConverterFromExpression
 			InstantiationsFactory instantiationsFactory, ExpressionsFactory expressionsFactory,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			ArraysFactory arraysFactory, Converter<Type, TypeArgument> typeArgumentConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
@@ -280,7 +280,7 @@ public class ToReferenceConverterFromExpression
 			tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationByValuesTyped result = this.arraysFactory
 					.createArrayInstantiationByValuesTyped();
 			result.setTypeReference(this.toTypeReferenceConverter.convert(arr.getType()));
-			this.utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result);
+			this.utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result);
 			result.setArrayInitializer(this.toArrayInitialisierConverter.convert(arr.getInitializer()));
 			this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;
@@ -288,7 +288,7 @@ public class ToReferenceConverterFromExpression
 		tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationBySize result = this.arraysFactory
 				.createArrayInstantiationBySize();
 		result.setTypeReference(this.toTypeReferenceConverter.convert(arr.getType()));
-		this.utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr.getType(), result,
+		this.utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result,
 				arr.dimensions().size());
 		arr.dimensions()
 				.forEach(obj -> result.getSizes().add(this.expressionConverterUtility.convert((Expression) obj)));

@@ -20,11 +20,11 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToClassMethodOrConstructorConverter implements Converter<MethodDeclaration, Member> {
@@ -33,8 +33,8 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final UtilNamedElement utilNamedElement;
 	private final Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
@@ -51,11 +51,11 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 			Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
 			Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilJdtResolver jdtResolverUtility,
 			Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
 			StatementsFactory statementsFactory,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
@@ -110,9 +110,9 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 		methodDecl.typeParameters()
 				.forEach(obj -> result.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReturnType2()));
-		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(methodDecl.getReturnType2(), result);
+		utilToArrayDimensionsAndSetConverter.convert(methodDecl.getReturnType2(), result);
 		methodDecl.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		utilNamedElement.setNameOfElement(methodDecl.getName(), result);
 		if (methodDecl.getReceiverType() != null) {
 			result.getParameters().add(toReceiverParameterConverter.convert(methodDecl));

@@ -13,8 +13,8 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 import org.eclipse.jdt.core.dom.SimpleName;
 import tools.mdsd.jamopp.model.java.references.IdentifierReference;
@@ -24,7 +24,7 @@ public class ToReferenceConverterFromType implements Converter<Type, tools.mdsd.
 
 	private final ReferencesFactory referencesFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	
@@ -36,7 +36,7 @@ public class ToReferenceConverterFromType implements Converter<Type, tools.mdsd.
 			Converter<Name, IdentifierReference> toReferenceConverterFromName,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			ReferencesFactory referencesFactory, UtilLayout layoutInformationConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
+			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
@@ -93,10 +93,10 @@ public class ToReferenceConverterFromType implements Converter<Type, tools.mdsd.
 			tools.mdsd.jamopp.model.java.references.Reference result = convert(arr.getElementType());
 			if (arr.getElementType().isPrimitiveType()) {
 				tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference primRef = (tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference) result;
-				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, primRef);
+				utilToArrayDimensionsAndSetConverter.convert(arr, primRef);
 			} else {
 				tools.mdsd.jamopp.model.java.references.IdentifierReference idRef = (tools.mdsd.jamopp.model.java.references.IdentifierReference) result;
-				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(arr, idRef);
+				utilToArrayDimensionsAndSetConverter.convert(arr, idRef);
 			}
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;

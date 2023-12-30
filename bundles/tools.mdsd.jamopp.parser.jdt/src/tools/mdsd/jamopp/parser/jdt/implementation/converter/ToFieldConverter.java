@@ -14,11 +14,11 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
@@ -26,9 +26,9 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 	private final UtilJdtResolver iUtilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
 	private final UtilLayout utilLayout;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final UtilTypeInstructionSeparation toInstructionSeparation;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
@@ -38,9 +38,9 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilTypeInstructionSeparation toInstructionSeparation,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -66,9 +66,9 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 		fieldDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(fieldDecl.getType()));
-		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(fieldDecl.getType(), result);
+		utilToArrayDimensionsAndSetConverter.convert(fieldDecl.getType(), result);
 		firstFragment.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		if (firstFragment.getInitializer() != null) {
 			toInstructionSeparation.addField(firstFragment.getInitializer(), result);
 		}

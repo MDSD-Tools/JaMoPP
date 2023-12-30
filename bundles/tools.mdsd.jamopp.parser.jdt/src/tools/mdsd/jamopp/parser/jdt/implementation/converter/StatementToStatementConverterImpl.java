@@ -46,12 +46,12 @@ import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class StatementToStatementConverterImpl
 		implements Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> {
@@ -62,8 +62,8 @@ public class StatementToStatementConverterImpl
 	private final UtilJdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
 	private final UtilReferenceWalker utilReferenceWalker;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
@@ -81,8 +81,8 @@ public class StatementToStatementConverterImpl
 	private Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
-	StatementToStatementConverterImpl(UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+	StatementToStatementConverterImpl(ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
@@ -207,9 +207,9 @@ public class StatementToStatementConverterImpl
 		varSt.modifiers().forEach(obj -> locVar.getAnnotationsAndModifiers()
 				.add(this.annotationInstanceConverter.convert((IExtendedModifier) obj)));
 		locVar.setTypeReference(this.toTypeReferenceConverter.convert(varSt.getType()));
-		this.utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(varSt.getType(), locVar);
+		this.utilToArrayDimensionsAndSetConverter.convert(varSt.getType(), locVar);
 		frag.extraDimensions().forEach(obj -> this.utilToArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, locVar));
+				.convert((Dimension) obj, locVar));
 		if (frag.getInitializer() != null) {
 			locVar.setInitialValue(this.expressionConverterUtility.convert(frag.getInitializer()));
 		}

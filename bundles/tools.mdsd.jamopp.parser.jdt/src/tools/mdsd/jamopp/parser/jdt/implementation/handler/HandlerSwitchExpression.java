@@ -7,19 +7,19 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToSwitchCasesAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.handler.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
 
 public class HandlerSwitchExpression implements ExpressionHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout utilLayout;
-	private final UtilToSwitchCasesAndSetConverter utilStatementConverter;
+	private final ToSwitchCasesAndSetConverter utilStatementConverter;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerSwitchExpression(UtilToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
+	HandlerSwitchExpression(ToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
 			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;

@@ -18,9 +18,9 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class ToMethodReferenceExpressionConverter implements Converter<MethodReference, MethodReferenceExpression> {
 
@@ -29,7 +29,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final UtilReferenceWalker utilReferenceWalker;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
@@ -44,7 +44,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 			Converter<Type, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromType,
 			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
 			Converter<Type, TypeArgument> typeToTypeArgumentConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, UtilReferenceWalker utilReferenceWalker) {
+			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter, UtilReferenceWalker utilReferenceWalker) {
 		this.literalsFactory = literalsFactory;
 		this.referencesFactory = referencesFactory;
 		this.expressionsFactory = expressionsFactory;
@@ -66,7 +66,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 				tools.mdsd.jamopp.model.java.expressions.ArrayConstructorReferenceExpression result = expressionsFactory
 						.createArrayConstructorReferenceExpression();
 				result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
-				utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(crRef.getType(), result);
+				utilToArrayDimensionsAndSetConverter.convert(crRef.getType(), result);
 				layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
 				return result;
 			}

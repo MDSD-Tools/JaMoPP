@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.helper;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToSwitchCasesAndSetConverter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToSwitchCasesAndSetConverter;
 
-public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAndSetConverter {
+public class ToSwitchCasesAndSetConverterImpl implements ToSwitchCasesAndSetConverter {
 
 	private final StatementsFactory statementsFactory;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
@@ -21,7 +21,7 @@ public class UtilToSwitchCasesAndSetConverterImpl implements UtilToSwitchCasesAn
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
-	UtilToSwitchCasesAndSetConverterImpl(
+	ToSwitchCasesAndSetConverterImpl(
 			Converter<SwitchCase, tools.mdsd.jamopp.model.java.statements.SwitchCase> toSwitchCaseConverter,
 			StatementsFactory statementsFactory,
 			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,

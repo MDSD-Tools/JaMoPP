@@ -12,10 +12,10 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> {
@@ -25,7 +25,7 @@ public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMembe
 	private final UtilNamedElement utilNamedElement;
 	private final UtilTypeInstructionSeparation utilTypeInstructionSeparation;
 	private final UtilLayout utilLayout;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
@@ -35,7 +35,7 @@ public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMembe
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			StatementsFactory statementsFactory,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -58,7 +58,7 @@ public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMembe
 		annDecl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(annDecl.getType()));
-		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(annDecl.getType(), result);
+		utilToArrayDimensionsAndSetConverter.convert(annDecl.getType(), result);
 		utilNamedElement.setNameOfElement(annDecl.getName(), result);
 		if (annDecl.getDefault() != null) {
 			utilTypeInstructionSeparation.addAnnotationMethod(annDecl.getDefault(), result);

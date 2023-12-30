@@ -18,15 +18,15 @@ import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilBindingInfoToConcreteClassifierConverter;
 
 public class PureTypeBindingsConverter {
 
 	private final boolean extractAdditionalInfosFromTypeBindings;
 
 	private final ContainersFactory containersFactory;
-	private final Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter;
+	private final Provider<ToConcreteClassifierConverterWithExtraInfo> utilBindingInfoToConcreteClassifierConverter;
 	private final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter;
 	private final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter;
 
@@ -47,7 +47,7 @@ public class PureTypeBindingsConverter {
 
 	@Inject
 	public PureTypeBindingsConverter(
-			Provider<UtilBindingInfoToConcreteClassifierConverter> utilBindingInfoToConcreteClassifierConverter,
+			Provider<ToConcreteClassifierConverterWithExtraInfo> utilBindingInfoToConcreteClassifierConverter,
 			PackageResolver packageResolver, ModuleResolver moduleResolver, InterfaceResolver interfaceResolver,
 			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
 			EnumerationResolver enumerationResolver, ContainersFactory containersFactory, ClassResolver classResolver,
@@ -127,7 +127,7 @@ public class PureTypeBindingsConverter {
 				return;
 			}
 		} else if (typeBind.isTopLevel()) {
-			utilBindingInfoToConcreteClassifierConverter.get().convertToConcreteClassifier(typeBind,
+			utilBindingInfoToConcreteClassifierConverter.get().convert(typeBind,
 					extractAdditionalInfosFromTypeBindings);
 		} else if (typeBind.isNested()) {
 			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier parentClassifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver

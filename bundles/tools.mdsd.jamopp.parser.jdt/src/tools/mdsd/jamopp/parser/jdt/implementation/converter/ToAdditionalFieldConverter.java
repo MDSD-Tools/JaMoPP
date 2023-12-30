@@ -8,24 +8,24 @@ import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 
 public class ToAdditionalFieldConverter implements Converter<VariableDeclarationFragment, AdditionalField> {
 
 	private final UtilJdtResolver iUtilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
-	private final UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
+	private final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter;
 	private final UtilTypeInstructionSeparation toInstructionSeparation;
 	private final UtilLayout utilLayout;
 
 	@Inject
 	ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			UtilJdtResolver iUtilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
-			UtilToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
+			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
@@ -45,7 +45,7 @@ public class ToAdditionalFieldConverter implements Converter<VariableDeclaration
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
 		frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convertToArrayDimensionAfterAndSet((Dimension) obj, result));
+				.convert((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			toInstructionSeparation.addAdditionalField(frag.getInitializer(), result);
 		}

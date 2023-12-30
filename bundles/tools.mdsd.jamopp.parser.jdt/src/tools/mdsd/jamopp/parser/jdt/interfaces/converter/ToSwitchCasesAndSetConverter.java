@@ -11,11 +11,11 @@
  *      - Initial implementation
  ******************************************************************************/
 
-package tools.mdsd.jamopp.parser.jdt.interfaces.helper;
+package tools.mdsd.jamopp.parser.jdt.interfaces.converter;
 
 import java.util.List;
 
-public interface UtilToSwitchCasesAndSetConverter {
+public interface ToSwitchCasesAndSetConverter {
 
 	@SuppressWarnings("rawtypes")
 	public void convert(tools.mdsd.jamopp.model.java.statements.Switch switchExprSt, List switchStatementList);

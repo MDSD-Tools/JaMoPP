@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.helper;
+package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,13 +21,13 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilBindingInfoToConcreteClassifierConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 
 @SuppressWarnings("restriction")
-public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBindingInfoToConcreteClassifierConverter {
+public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteClassifierConverterWithExtraInfo {
 
 	private final UtilNamedElement utilNamedElement;
 	private final UtilJdtResolver jdtTResolverUtility;
@@ -41,7 +41,7 @@ public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBin
 	private final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	UtilBindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
+	BindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			UtilJdtResolver jdtTResolverUtility,
@@ -63,7 +63,7 @@ public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBin
 		this.toModifiersConverter = toModifiersConverter;
 	}
 
-	public ConcreteClassifier convertToConcreteClassifier(ITypeBinding binding, boolean extractAdditionalInformation) {
+	public ConcreteClassifier convert(ITypeBinding binding, boolean extractAdditionalInformation) {
 		binding = binding.getTypeDeclaration();
 
 		ConcreteClassifier result = getConcreteClassifier(binding, extractAdditionalInformation);
@@ -122,7 +122,7 @@ public class UtilBindingInfoToConcreteClassifierConverterImpl implements UtilBin
 				}
 			}
 			for (ITypeBinding typeBind : binding.getDeclaredTypes()) {
-				member = convertToConcreteClassifier(typeBind, true);
+				member = convert(typeBind, true);
 				if (!result.getMembers().contains(member)) {
 					result.getMembers().add(member);
 				}

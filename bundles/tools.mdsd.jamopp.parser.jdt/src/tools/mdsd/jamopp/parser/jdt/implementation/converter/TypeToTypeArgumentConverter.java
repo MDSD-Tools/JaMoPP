@@ -15,20 +15,20 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilToArrayDimensionsAndSetConverter;
 
 public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument> {
 
 	private final GenericsFactory genericsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
+	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
 	public TypeToTypeArgumentConverter(Converter<Type, TypeReference> toTypeReferenceConverter,
-			UtilToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			UtilLayout layoutInformationConverter, GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
@@ -43,7 +43,7 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 		if (!t.isWildcardType()) {
 			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 			result.setTypeReference(toTypeReferenceConverter.convert(t));
-			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(t, result);
+			utilToArrayDimensionsAndSetConverter.convert(t, result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, t);
 			return result;
 		}
@@ -60,7 +60,7 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 			wildType.annotations().forEach(
 					obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			result.setExtendType(toTypeReferenceConverter.convert(wildType.getBound()));
-			utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(wildType.getBound(), result);
+			utilToArrayDimensionsAndSetConverter.convert(wildType.getBound(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 			return result;
 		}
@@ -68,7 +68,7 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 		wildType.annotations()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.setSuperType(toTypeReferenceConverter.convert(wildType.getBound()));
-		utilToArrayDimensionsAndSetConverter.convertToArrayDimensionsAndSet(wildType.getBound(), result);
+		utilToArrayDimensionsAndSetConverter.convert(wildType.getBound(), result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 		return result;
 	}
