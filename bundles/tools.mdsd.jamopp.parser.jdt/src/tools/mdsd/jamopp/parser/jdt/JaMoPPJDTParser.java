@@ -43,6 +43,7 @@ import tools.mdsd.jamopp.parser.jdt.injection.FactoryModule;
 import tools.mdsd.jamopp.parser.jdt.injection.HandlerModule;
 import tools.mdsd.jamopp.parser.jdt.injection.HelperModule;
 import tools.mdsd.jamopp.parser.jdt.injection.JamoppModule;
+import tools.mdsd.jamopp.parser.jdt.injection.ResolverModule;
 import tools.mdsd.jamopp.parser.jdt.injection.VisitorModule;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppClasspathEntriesSearcher;
@@ -68,7 +69,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	static {
 		Injector injector = Guice.createInjector(new HelperModule(), new FactoryModule(), new ConverterModule(),
-				new HandlerModule(), new VisitorModule(), new JamoppModule());
+				new HandlerModule(), new VisitorModule(), new JamoppModule(), new ResolverModule());
 
 		DEFAULT_ENCODING = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_ENCODING")));
 		DEFAULT_JAVA_VERSION = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_JAVA_VERSION")));
