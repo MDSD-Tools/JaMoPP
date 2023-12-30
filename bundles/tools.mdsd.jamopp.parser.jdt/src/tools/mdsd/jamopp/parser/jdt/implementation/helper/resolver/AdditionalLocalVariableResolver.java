@@ -10,29 +10,31 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
-import tools.mdsd.jamopp.parser.jdt.implementation.helper.UtilJdtResolverImpl;
 
 public class AdditionalLocalVariableResolver extends ResolverAbstract<AdditionalLocalVariable, IVariableBinding> {
 
 	private final HashSet<IVariableBinding> variableBindings;
 	private final VariablesFactory variablesFactory;
-	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final AdditionalLocalVariableResolver additionalLocalVariableResolver;
+	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
 	public AdditionalLocalVariableResolver(HashMap<IBinding, String> nameCache,
 			HashMap<String, AdditionalLocalVariable> bindings, VariablesFactory variablesFactory,
-			HashSet<IVariableBinding> variableBindings, UtilJdtResolverImpl utilJdtResolverImpl) {
+			HashSet<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter,
+			AdditionalLocalVariableResolver additionalLocalVariableResolver) {
 		super(nameCache, bindings);
 		this.variableBindings = variableBindings;
 		this.variablesFactory = variablesFactory;
-		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.additionalLocalVariableResolver = additionalLocalVariableResolver;
+		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	@Override
 	public AdditionalLocalVariable getByBinding(IVariableBinding binding) {
 		variableBindings.add(binding);
-		return utilJdtResolverImpl
-				.getAdditionalLocalVariable(utilJdtResolverImpl.convertToParameterName(binding, true));
+		return additionalLocalVariableResolver
+				.getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override

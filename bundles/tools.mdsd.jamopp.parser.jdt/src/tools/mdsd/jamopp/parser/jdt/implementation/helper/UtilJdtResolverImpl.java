@@ -35,13 +35,13 @@ import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ToMethodNameC
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ToParameterNameConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.ToTypeNameConverter;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.TypeParameterResolver;
+import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.UidManager;
 import tools.mdsd.jamopp.parser.jdt.implementation.helper.resolver.VariableLengthParameterResolver;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilJdtResolver;
 
 public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	private ResourceSet resourceSet;
-	private int uid;
 
 	private ResolutionCompleter resolutionCompleter;
 	private ToFieldNameConverter toFieldNameConverter;
@@ -70,6 +70,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	private LocalVariableResolver localVariableResolver;
 	private InterfaceMethodResolver interfaceMethodResolver;
 	private ReferenceableElementResolver referenceableElementResolver;
+	private UidManager uidManager;
 
 	@Inject
 	public void UtilJdtResolverImpl(VariableLengthParameterResolver variableLengthParameterResolver,
@@ -85,7 +86,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 			ClassifierResolver classifierResolver, ClassResolver classResolver, ClassMethodResolver classMethodResolver,
 			CatchParameterResolver catchParameterResolver, AnonymousClassResolver anonymousClassResolver,
 			AnnotationResolver annotationResolver, AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			AdditionalFieldResolver additionalFieldResolver) {
+			AdditionalFieldResolver additionalFieldResolver, UidManager uidManager) {
 		this.resolutionCompleter = resolutionCompleter;
 		this.toFieldNameConverter = toFieldNameConverter;
 		this.toParameterNameConverter = toParameterNameConverter;
@@ -113,6 +114,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.referenceableElementResolver = referenceableElementResolver;
+		this.uidManager = uidManager;
 	}
 
 	@Override
@@ -268,7 +270,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 	}
 
 	public String convertToParameterName(IVariableBinding binding, boolean register) {
-		return toParameterNameConverter.convertToParameterName(binding, register, uid);
+		return toParameterNameConverter.convertToParameterName(binding, register);
 	}
 
 	@Override
@@ -320,7 +322,7 @@ public class UtilJdtResolverImpl implements UtilJdtResolver {
 
 	@Override
 	public void prepareNextUid() {
-		uid++;
+		uidManager.prepareNextUid();
 	}
 
 	@Override

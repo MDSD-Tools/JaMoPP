@@ -14,16 +14,18 @@ public class ToParameterNameConverter {
 	private final HashMap<IVariableBinding, Integer> varBindToUid;
 	private final HashMap<IBinding, String> nameCache;
 	private final UtilJdtResolverImpl utilJdtResolverImpl;
+	private final UidManager uidManager;
 
 	@Inject
 	public ToParameterNameConverter(HashMap<IVariableBinding, Integer> varBindToUid,
-			UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache) {
+			UtilJdtResolverImpl utilJdtResolverImpl, HashMap<IBinding, String> nameCache, UidManager uidManager) {
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
 		this.utilJdtResolverImpl = utilJdtResolverImpl;
+		this.uidManager = uidManager;
 	}
 
-	public String convertToParameterName(IVariableBinding binding, boolean register, int uid) {
+	public String convertToParameterName(IVariableBinding binding, boolean register) {
 		if (binding == null) {
 			return "";
 		}
@@ -36,9 +38,9 @@ public class ToParameterNameConverter {
 		} else if (varBindToUid.containsKey(binding)) {
 			prefix = varBindToUid.get(binding) + "";
 		} else {
-			prefix = uid + "";
+			prefix = uidManager.getUid() + "";
 			if (register) {
-				varBindToUid.put(binding, uid);
+				varBindToUid.put(binding, uidManager.getUid());
 			}
 		}
 		String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();
