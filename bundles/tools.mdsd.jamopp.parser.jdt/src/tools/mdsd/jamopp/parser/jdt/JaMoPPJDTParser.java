@@ -68,7 +68,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	static {
 		Injector injector = Guice.createInjector(new HelperModule(), new FactoryModule(), new ConverterModule(),
-				new VisitorModule(), new JamoppModule(), new ResolverModule());
+				new VisitorModule(), new JamoppModule(JaMoPPJDTParser.class.getSimpleName()), new ResolverModule());
 
 		DEFAULT_ENCODING = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_ENCODING")));
 		DEFAULT_JAVA_VERSION = injector.getInstance(Key.get(String.class, Names.named("DEFAULT_JAVA_VERSION")));
