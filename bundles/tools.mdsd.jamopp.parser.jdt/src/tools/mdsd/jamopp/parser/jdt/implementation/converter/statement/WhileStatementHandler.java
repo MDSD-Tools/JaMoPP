@@ -8,9 +8,10 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class WhileStatementHandler {
+public class WhileStatementHandler implements StatementHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -27,6 +28,7 @@ public class WhileStatementHandler {
 		this.statementToStatementConverter = statementToStatementConverter;
 	}
 
+	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		WhileStatement whileSt = (WhileStatement) statement;
 		tools.mdsd.jamopp.model.java.statements.WhileLoop result = statementsFactory.createWhileLoop();

@@ -10,9 +10,10 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class ExpressionStatementHandler {
+public class ExpressionStatementHandler implements StatementHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;

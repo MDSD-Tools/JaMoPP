@@ -10,9 +10,10 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class ForStatementHandler {
+public class ForStatementHandler implements StatementHandler {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final StatementsFactory statementsFactory;
@@ -36,6 +37,7 @@ public class ForStatementHandler {
 		this.statementToStatementConverter = statementToStatementConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		ForStatement forSt = (ForStatement) statement;

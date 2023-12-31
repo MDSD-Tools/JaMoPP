@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jdt.core.dom.BreakStatement;
 import org.eclipse.jdt.core.dom.Statement;
@@ -8,22 +8,24 @@ import org.eclipse.jdt.core.dom.Statement;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class BreakStatementHandler {
+public class BreakStatementHandler implements StatementHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
-	private final HashSet<tools.mdsd.jamopp.model.java.statements.JumpLabel> currentJumpLabels;
+	private final Set<tools.mdsd.jamopp.model.java.statements.JumpLabel> currentJumpLabels;
 
 	@Inject
 	public BreakStatementHandler(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			HashSet<tools.mdsd.jamopp.model.java.statements.JumpLabel> currentJumpLabels) {
+			Set<tools.mdsd.jamopp.model.java.statements.JumpLabel> currentJumpLabels) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.currentJumpLabels = currentJumpLabels;
 	}
 
+	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		BreakStatement breakSt = (BreakStatement) statement;
 		tools.mdsd.jamopp.model.java.statements.Break result = statementsFactory.createBreak();

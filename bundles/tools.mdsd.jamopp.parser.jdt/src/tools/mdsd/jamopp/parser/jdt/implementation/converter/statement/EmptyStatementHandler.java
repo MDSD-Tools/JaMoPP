@@ -5,9 +5,10 @@ import org.eclipse.jdt.core.dom.Statement;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class EmptyStatementHandler {
+public class EmptyStatementHandler implements StatementHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -18,6 +19,7 @@ public class EmptyStatementHandler {
 		this.layoutInformationConverter = layoutInformationConverter;
 	}
 
+	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		tools.mdsd.jamopp.model.java.statements.EmptyStatement result = statementsFactory.createEmptyStatement();
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, statement);

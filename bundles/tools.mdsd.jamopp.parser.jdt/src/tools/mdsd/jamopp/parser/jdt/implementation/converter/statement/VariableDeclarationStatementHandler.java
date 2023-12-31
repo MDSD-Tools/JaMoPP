@@ -16,13 +16,14 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
-public class VariableDeclarationStatementHandler {
+public class VariableDeclarationStatementHandler implements StatementHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -55,6 +56,7 @@ public class VariableDeclarationStatementHandler {
 		this.toAdditionalLocalVariableConverter = toAdditionalLocalVariableConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		VariableDeclarationStatement varSt = (VariableDeclarationStatement) statement;

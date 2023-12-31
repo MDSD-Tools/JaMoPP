@@ -1,7 +1,9 @@
 package tools.mdsd.jamopp.parser.jdt.injection;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Annotation;
@@ -93,6 +95,7 @@ import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.references.Reference;
 import tools.mdsd.jamopp.model.java.statements.CatchBlock;
+import tools.mdsd.jamopp.model.java.statements.JumpLabel;
 import tools.mdsd.jamopp.model.java.statements.Switch;
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
@@ -196,9 +199,31 @@ import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerP
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerPrimaryExpression;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.HandlerSwitchExpression;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.expression.ToExpressionConverterImpl;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.AssertStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.BlockHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.BreakStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.ContinueStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.DoStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.EmptyStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.EnhancedForStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.ExpressionStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.ForStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.IfStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.LabeledStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.OtherHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.ReturnStatementHandler;
 import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.StatementToStatementConverterImpl;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.SwitchStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.SynchonizedStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.ThrowStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.TryStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.TypeDeclarationStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.VariableDeclarationStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.WhileStatementHandler;
+import tools.mdsd.jamopp.parser.jdt.implementation.converter.statement.YieldStatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
@@ -215,6 +240,7 @@ public class ConverterModule extends AbstractModule {
 		bind(ToSwitchCasesAndSetConverter.class).to(ToSwitchCasesAndSetConverterImpl.class);
 		bind(ToConcreteClassifierConverterWithExtraInfo.class).to(BindingInfoToConcreteClassifierConverterImpl.class);
 
+		// Expression
 		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerAssignment")).to(HandlerAssignment.class);
 		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerCastExpression"))
 				.to(HandlerCastExpression.class);
@@ -236,6 +262,47 @@ public class ConverterModule extends AbstractModule {
 		bind(ExpressionHandler.class).annotatedWith(Names.named("HandlerSwitchExpression"))
 				.to(HandlerSwitchExpression.class);
 
+		// Statement
+		bind(StatementHandler.class).annotatedWith(Names.named("AssertStatementHandler"))
+				.to(AssertStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("BlockHandler")).to(BlockHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("BreakStatementHandler"))
+				.to(BreakStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("ContinueStatementHandler"))
+				.to(ContinueStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("DoStatementHandler")).to(DoStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("EmptyStatementHandler"))
+				.to(EmptyStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("EnhancedForStatementHandler"))
+				.to(EnhancedForStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("ExpressionStatementHandler"))
+				.to(ExpressionStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("ForStatementHandler")).to(ForStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("IfStatementHandler")).to(IfStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("LabeledStatementHandler"))
+				.to(LabeledStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("OtherHandler")).to(OtherHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("ReturnStatementHandler"))
+				.to(ReturnStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("SwitchStatementHandler"))
+				.to(SwitchStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("SynchonizedStatementHandler"))
+				.to(SynchonizedStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("ThrowStatementHandler"))
+				.to(ThrowStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("TryStatementHandler")).to(TryStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("TypeDeclarationStatementHandler"))
+				.to(TypeDeclarationStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("VariableDeclarationStatementHandler"))
+				.to(VariableDeclarationStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("WhileStatementHandler"))
+				.to(WhileStatementHandler.class);
+		bind(StatementHandler.class).annotatedWith(Names.named("YieldStatementHandler"))
+				.to(YieldStatementHandler.class);
+		bind(new TypeLiteral<Set<JumpLabel>>() {
+		}).toInstance(new HashSet<>());
+
+		// Converter
 		bind(new TypeLiteral<Converter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
 		}).to(BindingToAnnotationAttributeSettingConverter.class);
 		bind(new TypeLiteral<Converter<IAnnotationBinding, AnnotationInstance>>() {

@@ -6,8 +6,9 @@ import org.eclipse.jdt.core.dom.Statement;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 
-public class BlockHandler {
+public class BlockHandler implements StatementHandler {
 
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
@@ -16,6 +17,7 @@ public class BlockHandler {
 		this.blockToBlockConverter = blockToBlockConverter;
 	}
 
+	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		return blockToBlockConverter.convert((Block) statement);
 	}

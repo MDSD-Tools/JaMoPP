@@ -12,10 +12,11 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.statements.CatchBlock;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 
-public class TryStatementHandler {
+public class TryStatementHandler implements StatementHandler {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -41,6 +42,7 @@ public class TryStatementHandler {
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		TryStatement trySt = (TryStatement) statement;

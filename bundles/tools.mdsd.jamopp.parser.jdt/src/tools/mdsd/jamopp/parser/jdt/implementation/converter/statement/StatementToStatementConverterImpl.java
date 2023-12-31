@@ -4,70 +4,35 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Statement;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
 
 public class StatementToStatementConverterImpl
 		implements Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> {
 
-	private AssertStatementHandler assertStatementHandler;
-	private BlockHandler blockHandler;
-	private BreakStatementHandler breakStatementHandler;
-	private ContinueStatementHandler continueStatementHandler;
-	private DoStatementHandler doStatementHandler;
-	private EmptyStatementHandler emptyStatementHandler;
-	private EnhancedForStatementHandler enhancedForStatementHandler;
-	private ExpressionStatementHandler expressionStatementHandler;
-	private ForStatementHandler forStatementHandler;
-	private IfStatementHandler ifStatementHandler;
-	private LabeledStatementHandler labeledStatementHandler;
-	private OtherHandler otherHandler;
-	private ReturnStatementHandler returnStatementHandler;
-	private SwitchStatementHandler switchStatementHandler;
-	private SynchonizedStatementHandler synchonizedStatementHandler;
-	private ThrowStatementHandler throwStatementHandler;
-	private TryStatementHandler tryStatementHandler;
-	private TypeDeclarationStatementHandler typeDeclarationStatementHandler;
-	private VariableDeclarationStatementHandler variableDeclarationStatementHandler;
-	private WhileStatementHandler whileStatementHandler;
-	private YieldStatementHandler yieldStatementHandler;
-
-	// Circular Dep. exists. Constructor can't be used.
-	@Inject
-	public void setFields(YieldStatementHandler yieldStatementHandler, WhileStatementHandler whileStatementHandler,
-			VariableDeclarationStatementHandler variableDeclarationStatementHandler,
-			TypeDeclarationStatementHandler typeDeclarationStatementHandler, TryStatementHandler tryStatementHandler,
-			ThrowStatementHandler throwStatementHandler, SynchonizedStatementHandler synchonizedStatementHandler,
-			SwitchStatementHandler switchStatementHandler, ReturnStatementHandler returnStatementHandler,
-			OtherHandler otherHandler, LabeledStatementHandler labeledStatementHandler,
-			IfStatementHandler ifStatementHandler, ForStatementHandler forStatementHandler,
-			ExpressionStatementHandler expressionStatementHandler,
-			EnhancedForStatementHandler enhancedForStatementHandler, EmptyStatementHandler emptyStatementHandler,
-			DoStatementHandler doStatementHandler, ContinueStatementHandler continueStatementHandler,
-			BreakStatementHandler breakStatementHandler, BlockHandler blockHandler,
-			AssertStatementHandler assertStatementHandler) {
-		this.assertStatementHandler = assertStatementHandler;
-		this.blockHandler = blockHandler;
-		this.breakStatementHandler = breakStatementHandler;
-		this.continueStatementHandler = continueStatementHandler;
-		this.doStatementHandler = doStatementHandler;
-		this.emptyStatementHandler = emptyStatementHandler;
-		this.enhancedForStatementHandler = enhancedForStatementHandler;
-		this.expressionStatementHandler = expressionStatementHandler;
-		this.forStatementHandler = forStatementHandler;
-		this.ifStatementHandler = ifStatementHandler;
-		this.labeledStatementHandler = labeledStatementHandler;
-		this.otherHandler = otherHandler;
-		this.returnStatementHandler = returnStatementHandler;
-		this.switchStatementHandler = switchStatementHandler;
-		this.synchonizedStatementHandler = synchonizedStatementHandler;
-		this.throwStatementHandler = throwStatementHandler;
-		this.tryStatementHandler = tryStatementHandler;
-		this.typeDeclarationStatementHandler = typeDeclarationStatementHandler;
-		this.variableDeclarationStatementHandler = variableDeclarationStatementHandler;
-		this.whileStatementHandler = whileStatementHandler;
-		this.yieldStatementHandler = yieldStatementHandler;
-	}
+	private StatementHandler assertStatementHandler;
+	private StatementHandler blockHandler;
+	private StatementHandler breakStatementHandler;
+	private StatementHandler continueStatementHandler;
+	private StatementHandler doStatementHandler;
+	private StatementHandler emptyStatementHandler;
+	private StatementHandler enhancedForStatementHandler;
+	private StatementHandler expressionStatementHandler;
+	private StatementHandler forStatementHandler;
+	private StatementHandler ifStatementHandler;
+	private StatementHandler labeledStatementHandler;
+	private StatementHandler otherHandler;
+	private StatementHandler returnStatementHandler;
+	private StatementHandler switchStatementHandler;
+	private StatementHandler synchonizedStatementHandler;
+	private StatementHandler throwStatementHandler;
+	private StatementHandler tryStatementHandler;
+	private StatementHandler typeDeclarationStatementHandler;
+	private StatementHandler variableDeclarationStatementHandler;
+	private StatementHandler whileStatementHandler;
+	private StatementHandler yieldStatementHandler;
 
 	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement convert(Statement statement) {
@@ -114,6 +79,117 @@ public class StatementToStatementConverterImpl
 		} else {
 			return yieldStatementHandler.handle(statement);
 		}
+	}
+
+	@Inject
+	public void setAssertStatementHandler(@Named("AssertStatementHandler") StatementHandler assertStatementHandler) {
+		this.assertStatementHandler = assertStatementHandler;
+	}
+
+	@Inject
+	public void setBlockHandler(@Named("BlockHandler") StatementHandler blockHandler) {
+		this.blockHandler = blockHandler;
+	}
+
+	@Inject
+	public void setBreakStatementHandler(@Named("BreakStatementHandler") StatementHandler breakStatementHandler) {
+		this.breakStatementHandler = breakStatementHandler;
+	}
+
+	@Inject
+	public void setContinueStatementHandler(
+			@Named("ContinueStatementHandler") StatementHandler continueStatementHandler) {
+		this.continueStatementHandler = continueStatementHandler;
+	}
+
+	@Inject
+	public void setDoStatementHandler(@Named("DoStatementHandler") StatementHandler doStatementHandler) {
+		this.doStatementHandler = doStatementHandler;
+	}
+
+	@Inject
+	public void setEmptyStatementHandler(@Named("EmptyStatementHandler") StatementHandler emptyStatementHandler) {
+		this.emptyStatementHandler = emptyStatementHandler;
+	}
+
+	@Inject
+	public void setEnhancedForStatementHandler(
+			@Named("EnhancedForStatementHandler") StatementHandler enhancedForStatementHandler) {
+		this.enhancedForStatementHandler = enhancedForStatementHandler;
+	}
+
+	@Inject
+	public void setExpressionStatementHandler(
+			@Named("ExpressionStatementHandler") StatementHandler expressionStatementHandler) {
+		this.expressionStatementHandler = expressionStatementHandler;
+	}
+
+	@Inject
+	public void setForStatementHandler(@Named("ForStatementHandler") StatementHandler forStatementHandler) {
+		this.forStatementHandler = forStatementHandler;
+	}
+
+	@Inject
+	public void setIfStatementHandler(@Named("IfStatementHandler") StatementHandler ifStatementHandler) {
+		this.ifStatementHandler = ifStatementHandler;
+	}
+
+	@Inject
+	public void setLabeledStatementHandler(@Named("LabeledStatementHandler") StatementHandler labeledStatementHandler) {
+		this.labeledStatementHandler = labeledStatementHandler;
+	}
+
+	@Inject
+	public void setOtherHandler(@Named("OtherHandler") StatementHandler otherHandler) {
+		this.otherHandler = otherHandler;
+	}
+
+	@Inject
+	public void setReturnStatementHandler(@Named("ReturnStatementHandler") StatementHandler returnStatementHandler) {
+		this.returnStatementHandler = returnStatementHandler;
+	}
+
+	@Inject
+	public void setSwitchStatementHandler(@Named("SwitchStatementHandler") StatementHandler switchStatementHandler) {
+		this.switchStatementHandler = switchStatementHandler;
+	}
+
+	@Inject
+	public void setSynchonizedStatementHandler(
+			@Named("SynchonizedStatementHandler") StatementHandler synchonizedStatementHandler) {
+		this.synchonizedStatementHandler = synchonizedStatementHandler;
+	}
+
+	@Inject
+	public void setThrowStatementHandler(@Named("ThrowStatementHandler") StatementHandler throwStatementHandler) {
+		this.throwStatementHandler = throwStatementHandler;
+	}
+
+	@Inject
+	public void setTryStatementHandler(@Named("TryStatementHandler") StatementHandler tryStatementHandler) {
+		this.tryStatementHandler = tryStatementHandler;
+	}
+
+	@Inject
+	public void setTypeDeclarationStatementHandler(
+			@Named("TypeDeclarationStatementHandler") StatementHandler typeDeclarationStatementHandler) {
+		this.typeDeclarationStatementHandler = typeDeclarationStatementHandler;
+	}
+
+	@Inject
+	public void setVariableDeclarationStatementHandler(
+			@Named("VariableDeclarationStatementHandler") StatementHandler variableDeclarationStatementHandler) {
+		this.variableDeclarationStatementHandler = variableDeclarationStatementHandler;
+	}
+
+	@Inject
+	public void setWhileStatementHandler(@Named("WhileStatementHandler") StatementHandler whileStatementHandler) {
+		this.whileStatementHandler = whileStatementHandler;
+	}
+
+	@Inject
+	public void setYieldStatementHandler(@Named("YieldStatementHandler") StatementHandler yieldStatementHandler) {
+		this.yieldStatementHandler = yieldStatementHandler;
 	}
 
 }
