@@ -9,21 +9,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.google.inject.Guice;
+import com.google.inject.Key;
 
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
-import tools.mdsd.jamopp.printer.implementation.JavaRootPrinterImpl;
 import tools.mdsd.jamopp.printer.injection.ModulePrinterInjection;
+import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 /**
  * This public class provides methods to print JaMoPP model instances.
  */
 public final class JaMoPPPrinter {
 
-	private final static JavaRootPrinterImpl JAVA_ROOT_PRINTER;
+	private final static Printer<JavaRoot> JAVA_ROOT_PRINTER;
 
 	static {
-		var injector = Guice.createInjector(new ModulePrinterInjection());
-		JAVA_ROOT_PRINTER = injector.getInstance(JavaRootPrinterImpl.class);
+		JAVA_ROOT_PRINTER = Guice.createInjector(new ModulePrinterInjection())
+				.getInstance(new Key<Printer<JavaRoot>>() {
+				});
 	}
 
 	/**
