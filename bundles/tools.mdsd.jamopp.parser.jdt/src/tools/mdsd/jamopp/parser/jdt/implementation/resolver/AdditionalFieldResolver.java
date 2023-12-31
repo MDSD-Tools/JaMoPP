@@ -39,13 +39,18 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
-			outerLoop: for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
 				if (mem instanceof tools.mdsd.jamopp.model.java.members.Field field) {
+					boolean leave = false;
 					for (tools.mdsd.jamopp.model.java.members.AdditionalField af : field.getAdditionalFields()) {
 						if (af.getName().equals(binding.getName())) {
 							result = af;
-							break outerLoop;
+							leave = true;
+							break;
 						}
+					}
+					if (leave) {
+						break;
 					}
 				}
 			}

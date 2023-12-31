@@ -47,7 +47,7 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		ConcreteClassifier potClass = (ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
-			outerLoop: for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
 				if (mem instanceof tools.mdsd.jamopp.model.java.members.Constructor con
 						&& mem.getName().equals(binding.getName())) {
 					int receiveOffset = 0;
@@ -60,8 +60,9 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 								|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType())
 										.equals(toTypeNameConverter
 												.convertToTypeName(con.getParameters().get(0).getTypeReference())))) {
-							continue outerLoop;
+							continue;
 						}
+						boolean skip = false;
 						for (int i = 0; i < binding.getParameterTypes().length; i++) {
 							ITypeBinding currentType = binding.getParameterTypes()[i];
 							tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = con.getParameters()
@@ -69,8 +70,12 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 							if (!toTypeNameConverter.convertToTypeName(currentType)
 									.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
 									|| currentType.getDimensions() != currentParam.getArrayDimension()) {
-								continue outerLoop;
+								skip = true;
+								break;
 							}
+						}
+						if (skip) {
+							continue;
 						}
 						result = con;
 						break;

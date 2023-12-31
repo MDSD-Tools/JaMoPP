@@ -114,7 +114,7 @@ public class ReferenceableElementResolver {
 	}
 
 	public ReferenceableElement getByName(String name) {
-		IVariableBinding vBinding = variableBindings.stream().filter(var -> var != null && var.getName().equals(name))
+		IVariableBinding vBinding = variableBindings.stream().filter(binding -> binding != null && binding.getName().equals(name))
 				.findFirst().orElse(null);
 		if (vBinding != null) {
 			return getByBinding(vBinding);

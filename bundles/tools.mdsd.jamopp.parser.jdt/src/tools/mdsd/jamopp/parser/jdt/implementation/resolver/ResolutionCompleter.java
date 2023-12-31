@@ -115,7 +115,7 @@ public class ResolutionCompleter {
 		enumConstantResolver.getBindings().forEach((constName, enConst) -> {
 			if (enConst.eContainer() == null) {
 				IVariableBinding varBind = variableBindings.stream()
-						.filter(var -> var != null && constName.equals(toFieldNameConverter.convertToFieldName(var)))
+						.filter(binding -> binding != null && constName.equals(toFieldNameConverter.convertToFieldName(binding)))
 						.findFirst().get();
 				if (!varBind.getDeclaringClass().isAnonymous()) {
 					var en = enumerationResolver.getByBinding(varBind.getDeclaringClass());
@@ -129,7 +129,7 @@ public class ResolutionCompleter {
 		fieldResolver.getBindings().forEach((fieldName, field) -> {
 			if (field.eContainer() == null) {
 				IVariableBinding varBind = variableBindings.stream()
-						.filter(var -> var != null && fieldName.equals(toFieldNameConverter.convertToFieldName(var)))
+						.filter(binding -> binding != null && fieldName.equals(toFieldNameConverter.convertToFieldName(binding)))
 						.findFirst().orElse(null);
 				if (varBind == null || varBind.getDeclaringClass() == null) {
 					classResolverSynthetic.addToSyntheticClass(field);

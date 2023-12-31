@@ -32,6 +32,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
+
 import tools.mdsd.jamopp.commons.jdt.JDTJavaClassifier;
 import tools.mdsd.jamopp.commons.jdt.JdtPackage;
 
@@ -42,8 +43,8 @@ import tools.mdsd.jamopp.commons.jdt.JdtPackage;
 public class JDTClassifierResolver {
 
 	/**
-	 * Returns the Java project that is located at the given URI. If the project
-	 * at this locations is not a Java project or if there is no project at all,
+	 * Returns the Java project that is located at the given URI. If the project at
+	 * this locations is not a Java project or if there is no project at all,
 	 * <code>null</code> is returned.
 	 */
 	public IJavaProject getJavaProject(URI uri) {
@@ -81,27 +82,27 @@ public class JDTClassifierResolver {
 	}
 
 	private static IJavaProject getJavaProject(IProject project) {
-		return (isJavaProject(project) ? JavaCore.create(project) : null);
+		if (isJavaProject(project)) {
+			return JavaCore.create(project);
+		}
+		return null;
 	}
 
 	/**
-	 * Returns a list of all Java classifiers that are available in the
-	 * classpath of the given project.
+	 * Returns a list of all Java classifiers that are available in the classpath of
+	 * the given project.
 	 */
-	public List<JDTJavaClassifier> getAllClassifiersInClassPath(
-			IJavaProject project) {
+	public List<JDTJavaClassifier> getAllClassifiersInClassPath(IJavaProject project) {
 
 		return getAllClassifiersForPackageInClassPath(null, project);
 	}
 
 	/**
-	 * Returns a list of all Java classifiers that are available in the
-	 * classpath of the given project within the given package. If
-	 * <code>packageName</code> is null, all classifiers in the project are
-	 * returned.
+	 * Returns a list of all Java classifiers that are available in the classpath of
+	 * the given project within the given package. If <code>packageName</code> is
+	 * null, all classifiers in the project are returned.
 	 */
-	public List<JDTJavaClassifier> getAllClassifiersForPackageInClassPath(
-			String packageName, IJavaProject project) {
+	public List<JDTJavaClassifier> getAllClassifiersForPackageInClassPath(String packageName, IJavaProject project) {
 
 		List<JDTJavaClassifier> classes = new ArrayList<>();
 		try {
@@ -111,17 +112,16 @@ public class JDTClassifierResolver {
 			// prepare search parameters
 			char[][] packages = null;
 			if (packageName != null) {
-				packages = new char[][]{packageName.toCharArray()};
+				packages = new char[][] { packageName.toCharArray() };
 			}
 			char[][] typeNames = null;
-			IJavaProject[] projects = {project};
+			IJavaProject[] projects = { project };
 			IJavaSearchScope searchScope = SearchEngine.createJavaSearchScope(projects);
 			int waitingPolicy = IJavaSearchConstants.FORCE_IMMEDIATE_SEARCH;
 			IProgressMonitor progessMonitor = null;
 
 			// perform search
-			searchEngine.searchAllTypeNames(packages, typeNames, searchScope,
-					visitor, waitingPolicy, progessMonitor);
+			searchEngine.searchAllTypeNames(packages, typeNames, searchScope, visitor, waitingPolicy, progessMonitor);
 
 			classes = visitor.getClassifiersInClasspath();
 		} catch (JavaModelException e) {

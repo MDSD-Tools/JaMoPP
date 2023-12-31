@@ -6,6 +6,8 @@ import org.eclipse.jdt.core.dom.IBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.Resolver;
+
 public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> implements Resolver<Clazz, BindingType> {
 
 	private final HashMap<String, Clazz> bindings;

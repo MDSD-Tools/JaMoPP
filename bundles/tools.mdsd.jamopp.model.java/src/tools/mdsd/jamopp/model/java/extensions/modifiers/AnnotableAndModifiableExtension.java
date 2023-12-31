@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
@@ -116,8 +117,8 @@ public class AnnotableAndModifiableExtension {
 	}
 
 	/**
-	 * Adds the given type of modifier to this element. This method does not
-	 * check for duplicate modifiers!
+	 * Adds the given type of modifier to this element. This method does not check
+	 * for duplicate modifiers!
 	 *
 	 * @param newModifier the modifier to add
 	 */
@@ -155,6 +156,7 @@ public class AnnotableAndModifiableExtension {
 
 	/**
 	 * Checks whether this element has an modifier of the given type.
+	 *
 	 * @param type
 	 */
 	public static boolean hasModifier(AnnotableAndModifiable me, Class<?> type) {
@@ -168,12 +170,12 @@ public class AnnotableAndModifiableExtension {
 	}
 
 	/**
-	 * Returns <code>true</code> if this element is static (either by an
-	 * explicit modifier <code>static</code> or because this element is part of
-	 * an interface).
+	 * Returns <code>true</code> if this element is static (either by an explicit
+	 * modifier <code>static</code> or because this element is part of an
+	 * interface).
 	 */
 	public static boolean isStatic(AnnotableAndModifiable me) {
-		//all members of an interface are static by default
+		// all members of an interface are static by default
 		if (me.eContainer() instanceof Interface) {
 			return true;
 		}
@@ -187,8 +189,8 @@ public class AnnotableAndModifiableExtension {
 	}
 
 	public static boolean isHidden(AnnotableAndModifiable me, Commentable context) {
-		//all members of an interface are public by default
-		if (me.eIsProxy() || (me.eContainer() instanceof Interface)) {
+		// all members of an interface are public by default
+		if (me.eIsProxy() || me.eContainer() instanceof Interface) {
 			return false;
 		}
 		Commentable lContext = context;
@@ -200,9 +202,9 @@ public class AnnotableAndModifiableExtension {
 		}
 		ConcreteClassifier lContextClassifier = lContext.getContainingConcreteClassifier();
 		ConcreteClassifier myClassifier = ((Commentable) me.eContainer()).getParentConcreteClassifier();
-		//special case: self reference to outer instance
-		if ((lContext instanceof Reference) && (((Reference)lContext).getPrevious() instanceof SelfReference)) {
-			SelfReference selfReference = (SelfReference) ((Reference)lContext).getPrevious();
+		// special case: self reference to outer instance
+		if (lContext instanceof Reference && ((Reference) lContext).getPrevious() instanceof SelfReference) {
+			SelfReference selfReference = (SelfReference) ((Reference) lContext).getPrevious();
 			if (selfReference.getPrevious() != null) {
 				Type type = selfReference.getPrevious().getReferencedType();
 				if (type instanceof ConcreteClassifier) {
@@ -215,17 +217,17 @@ public class AnnotableAndModifiableExtension {
 			if (modifier instanceof Private) {
 				return myClassifier.equalsType(0, lContextClassifier, 0);
 			}
-			if(modifier instanceof Public) {
+			if (modifier instanceof Public) {
 				return false;
 			}
-			if(modifier instanceof Protected) {
-				//package visibility
-				if (me.getContainingPackageName() != null &&
-						me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
+			if (modifier instanceof Protected) {
+				// package visibility
+				if (me.getContainingPackageName() != null
+						&& me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
 					return false;
 				}
-				//try outer classifiers as well
-				while(lContextClassifier != null) {
+				// try outer classifiers as well
+				while (lContextClassifier != null) {
 					if (lContextClassifier.isSuperType(0, myClassifier, null)) {
 						return false;
 					}
@@ -237,12 +239,12 @@ public class AnnotableAndModifiableExtension {
 						lContextClassifier = null;
 					}
 
-					if (lContextClassifier != null && !lContextClassifier.eIsProxy() &&
-							lContextClassifier.isSuperType(0, myClassifier, null)) {
+					if (lContextClassifier != null && !lContextClassifier.eIsProxy()
+							&& lContextClassifier.isSuperType(0, myClassifier, null)) {
 						return false;
 					}
 				}
-				//visibility through anonymous subclass
+				// visibility through anonymous subclass
 				AnonymousClass anonymousClass = lContext.getContainingAnonymousClass();
 				while (anonymousClass != null) {
 					lContextClassifier = anonymousClass.getSuperClassifier();
@@ -263,8 +265,8 @@ public class AnnotableAndModifiableExtension {
 				return true;
 			}
 		}
-		//package visibility?
-		return ((me.getContainingPackageName() == null) || !me.getContainingPackageName().equals(lContext.getContainingPackageName()));
+		// Probably package visibility
+		return me.getContainingPackageName() == null
+				|| !me.getContainingPackageName().equals(lContext.getContainingPackageName());
 	}
 }
-

@@ -157,7 +157,10 @@ public class MethodExtension {
 	@Deprecated
 	public static EList<Statement> getStatements(Method me) {
 		Block b = getBlock(me);
-		return b != null ? b.getStatements() : new BasicEList<>();
+		if (b == null) {
+			return new BasicEList<>();
+		}
+		return b.getStatements();
 	}
 
 	/**

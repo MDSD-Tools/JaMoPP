@@ -50,9 +50,9 @@ public class LocalVariablePrinterImpl implements Printer<LocalVariable> {
 			writer.append(" = ");
 			this.expressionPrinter.print(element.getInitialValue(), writer);
 		}
-		for (AdditionalLocalVariable var : element.getAdditionalLocalVariables()) {
+		for (AdditionalLocalVariable variable : element.getAdditionalLocalVariables()) {
 			writer.append(", ");
-			this.additionalLocalVariablePrinter.print(var, writer);
+			this.additionalLocalVariablePrinter.print(variable, writer);
 		}
 	}
 

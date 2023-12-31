@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
+package tools.mdsd.jamopp.parser.jdt.interfaces.resolver;
 
 import java.util.HashMap;
 
