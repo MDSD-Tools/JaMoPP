@@ -83,10 +83,7 @@ public class ReferenceExtension {
 		// Referenced element points to an element with a type
 		ReferenceableElement target = ((ElementReference) me).getTarget();
 
-		if (target == null) {
-			type = null;
-		}
-		if (target.eIsProxy()) {
+		if ((target == null) || target.eIsProxy()) {
 			type = null;
 		}
 

@@ -6,10 +6,10 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.YieldStatement;
-import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToSwitchCasesAndSetConverter;
 
@@ -32,6 +32,7 @@ public class ToSwitchCasesAndSetConverterImpl implements ToSwitchCasesAndSetConv
 		this.statementToStatementConverter = statementToStatementConverter;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void convert(tools.mdsd.jamopp.model.java.statements.Switch switchExprSt, List switchStatementList) {
 		tools.mdsd.jamopp.model.java.statements.SwitchCase currentCase = null;
@@ -47,7 +48,7 @@ public class ToSwitchCasesAndSetConverterImpl implements ToSwitchCasesAndSetConv
 						.createExpressionStatement();
 				exprSt.setExpression(expressionConverterUtility.convert(ys.getExpression()));
 				currentCase.getStatements().add(exprSt);
-			} else {
+			} else if (currentCase != null) {
 				currentCase.getStatements().add(statementToStatementConverter.convert(st));
 			}
 		}
