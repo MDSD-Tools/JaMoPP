@@ -64,6 +64,7 @@ public class JDTClassifierResolver {
 		try {
 			return project.isNatureEnabled("org.eclipse.jdt.core.javanature");
 		} catch (CoreException e) {
+			// Ignore
 		}
 		return false;
 	}
@@ -93,7 +94,6 @@ public class JDTClassifierResolver {
 	 * the given project.
 	 */
 	public List<JDTJavaClassifier> getAllClassifiersInClassPath(IJavaProject project) {
-
 		return getAllClassifiersForPackageInClassPath(null, project);
 	}
 

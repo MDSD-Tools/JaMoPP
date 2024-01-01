@@ -8,6 +8,9 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
@@ -18,11 +21,8 @@ import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.model.java.members.Method;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
-import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
@@ -44,8 +44,7 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 	BindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
-			JdtResolver jdtTResolverUtility,
-			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			JdtResolver jdtTResolverUtility, Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<IMethodBinding, Method> bindingToMethodConverter,
 			Converter<IVariableBinding, Field> bindingToFieldConverter,
 			Converter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter,
@@ -63,6 +62,7 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 		this.toModifiersConverter = toModifiersConverter;
 	}
 
+	@Override
 	public ConcreteClassifier convert(ITypeBinding binding, boolean extractAdditionalInformation) {
 		binding = binding.getTypeDeclaration();
 
@@ -147,7 +147,6 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 	}
 
 	private ConcreteClassifier handleElse(ITypeBinding binding, boolean extractAdditionalInformation) {
-		ConcreteClassifier result;
 		tools.mdsd.jamopp.model.java.classifiers.Enumeration resultEnum = jdtTResolverUtility.getEnumeration(binding);
 		if (resultEnum.eContainer() == null) {
 			try {
@@ -165,12 +164,10 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 				// Ignore
 			}
 		}
-		result = resultEnum;
-		return result;
+		return resultEnum;
 	}
 
 	private ConcreteClassifier handleInterface(ITypeBinding binding) {
-		ConcreteClassifier result;
 		Interface resultInterface = jdtTResolverUtility.getInterface(binding);
 		if (resultInterface.eContainer() == null) {
 			try {
@@ -178,14 +175,13 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 					resultInterface.getExtends().addAll(toTypeReferencesConverter.convert(typeBind));
 				}
 			} catch (AbortCompilation e) {
+				// Ignore
 			}
 		}
-		result = resultInterface;
-		return result;
+		return resultInterface;
 	}
 
 	private ConcreteClassifier handleClass(ITypeBinding binding) {
-		ConcreteClassifier result;
 		tools.mdsd.jamopp.model.java.classifiers.Class resultClass = jdtTResolverUtility.getClass(binding);
 		if (resultClass.eContainer() == null) {
 			try {
@@ -196,10 +192,10 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 					resultClass.getImplements().addAll(toTypeReferencesConverter.convert(typeBind));
 				}
 			} catch (AbortCompilation e) {
+				// Ignore
 			}
 		}
-		result = resultClass;
-		return result;
+		return resultClass;
 	}
 
 }

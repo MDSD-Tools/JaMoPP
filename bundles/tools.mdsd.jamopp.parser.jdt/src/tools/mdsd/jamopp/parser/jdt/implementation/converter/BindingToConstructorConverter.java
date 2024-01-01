@@ -7,6 +7,9 @@ import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
@@ -16,9 +19,6 @@ import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
 import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilArrays;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
@@ -67,6 +67,7 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		result.setName(binding.getName());
 		try {
@@ -74,6 +75,7 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		if (binding.getDeclaredReceiverType() != null) {
 			ReceiverParameter param = parametersFactory.createReceiverParameter();
@@ -100,6 +102,7 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 					param.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
 			} catch (AbortCompilation e) {
+				// Ignore
 			}
 			result.getParameters().add(param);
 		}
