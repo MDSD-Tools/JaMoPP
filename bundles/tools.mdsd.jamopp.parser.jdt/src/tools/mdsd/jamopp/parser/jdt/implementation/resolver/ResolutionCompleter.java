@@ -17,6 +17,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.members.Field;
 
 public class ResolutionCompleter {
 
@@ -110,58 +112,65 @@ public class ResolutionCompleter {
 		this.classifierResolver = classifierResolver;
 	}
 
-	@SuppressWarnings("unused")
 	public void completeResolution(ResourceSet resourceSet) {
-		enumConstantResolver.getBindings().forEach((constName, enConst) -> {
-			if (enConst.eContainer() == null) {
-				IVariableBinding varBind = variableBindings.stream()
-						.filter(binding -> binding != null && constName.equals(toFieldNameConverter.convertToFieldName(binding)))
-						.findFirst().get();
-				if (!varBind.getDeclaringClass().isAnonymous()) {
-					var en = enumerationResolver.getByBinding(varBind.getDeclaringClass());
-					if (!extractAdditionalInfosFromTypeBindings && !en.getConstants().contains(enConst)) {
-						en.getConstants().add(enConst);
-					}
-				}
-			}
-		});
-
-		fieldResolver.getBindings().forEach((fieldName, field) -> {
-			if (field.eContainer() == null) {
-				IVariableBinding varBind = variableBindings.stream()
-						.filter(binding -> binding != null && fieldName.equals(toFieldNameConverter.convertToFieldName(binding)))
-						.findFirst().orElse(null);
-				if (varBind == null || varBind.getDeclaringClass() == null) {
-					classResolverSynthetic.addToSyntheticClass(field);
-				} else {
-					tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
-							.getClassifier(varBind.getDeclaringClass());
-					if (cla == null) {
-						String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
-						if (anonymousClassResolver.getBindings().containsKey(typeName)) {
-							tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-									.getBindings().get(typeName);
-							if (!anonClass.getMembers().contains(field)) {
-								anonClass.getMembers().add(field);
-							}
-						} else {
-							classResolverSynthetic.addToSyntheticClass(field);
-						}
-					} else if (!extractAdditionalInfosFromTypeBindings
-							&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i
-							&& !i.getMembers().contains(field)) {
-						i.getMembers().add(field);
-					}
-				}
-			}
-		});
-
+		enumConstantResolver.getBindings().forEach(this::handleEnumConstants);
+		fieldResolver.getBindings().forEach(this::handleFields);
 		constructorResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
 		classMethodResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
 		interfaceMethodResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
 
 		pureTypeBindingsConverter.convertPureTypeBindings(resourceSet);
 
+		register();
+		escapeAllIdentifiers();
+		clear();
+	}
+
+	private void handleFields(String fieldName, Field field) {
+		if (field.eContainer() == null) {
+			IVariableBinding varBind = variableBindings.stream().filter(
+					binding -> binding != null && fieldName.equals(toFieldNameConverter.convertToFieldName(binding)))
+					.findFirst().orElse(null);
+			if (varBind == null || varBind.getDeclaringClass() == null) {
+				classResolverSynthetic.addToSyntheticClass(field);
+			} else {
+				tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
+						.getClassifier(varBind.getDeclaringClass());
+				if (cla == null) {
+					String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
+					if (anonymousClassResolver.getBindings().containsKey(typeName)) {
+						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
+								.getBindings().get(typeName);
+						if (!anonClass.getMembers().contains(field)) {
+							anonClass.getMembers().add(field);
+						}
+					} else {
+						classResolverSynthetic.addToSyntheticClass(field);
+					}
+				} else if (!extractAdditionalInfosFromTypeBindings
+						&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i
+						&& !i.getMembers().contains(field)) {
+					i.getMembers().add(field);
+				}
+			}
+		}
+	}
+
+	private void handleEnumConstants(String constName, EnumConstant enConst) {
+		if (enConst.eContainer() == null) {
+			IVariableBinding varBind = variableBindings.stream().filter(
+					binding -> binding != null && constName.equals(toFieldNameConverter.convertToFieldName(binding)))
+					.findFirst().get();
+			if (!varBind.getDeclaringClass().isAnonymous()) {
+				var en = enumerationResolver.getByBinding(varBind.getDeclaringClass());
+				if (!extractAdditionalInfosFromTypeBindings && !en.getConstants().contains(enConst)) {
+					en.getConstants().add(enConst);
+				}
+			}
+		}
+	}
+
+	private void register() {
 		moduleResolver.getBindings().values().forEach(module -> JavaClasspath.get().registerModule(module));
 		packageResolver.getBindings().values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
 		annotationResolver.getBindings().values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
@@ -170,9 +179,9 @@ public class ResolutionCompleter {
 		interfaceResolver.getBindings().values()
 				.forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
 		classResolver.getBindings().values().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
+	}
 
-		escapeAllIdentifiers();
-
+	private void clear() {
 		moduleResolver.getBindings().clear();
 		packageResolver.getBindings().clear();
 		annotationResolver.getBindings().clear();
