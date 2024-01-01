@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 		StringBuilder builder = new StringBuilder();
 		String lineSep = System.lineSeparator();
-		try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(input))) {
+		try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
 			buffReader.lines().forEach(line -> builder.append(line + lineSep));
 		} catch (IOException e) {
 			LOGGER.error(input, e);

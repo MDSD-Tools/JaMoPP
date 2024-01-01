@@ -46,7 +46,6 @@ public class JaMoPPStandalone {
 		for (Resource javaResource : new ArrayList<>(rs.getResources())) {
 
 			if (javaResource.getContents().isEmpty()) {
-
 				System.out.println("WARNING: Emtpy Resource: " + javaResource.getURI());
 				continue;
 			}
