@@ -6,6 +6,9 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.QualifiedName;
+
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.imports.Import;
@@ -15,8 +18,6 @@ import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -32,8 +33,7 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 
 	@Inject
 	public ToNonOnDemandStaticConverter(UtilNamedElement utilNamedElement, ModifiersFactory modifiersFactory,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			ImportsFactory importsFactory) {
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, ImportsFactory importsFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -49,9 +49,7 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 		IBinding b = qualifiedName.resolveBinding();
 		ReferenceableElement proxyMember = null;
 		Classifier proxyClass = null;
-		if (b == null || b.isRecovered()) {
-			proxyMember = jdtResolverUtility.getField(qualifiedName.getFullyQualifiedName());
-		} else if (b instanceof IMethodBinding) {
+		if (b instanceof IMethodBinding) {
 			proxyMember = jdtResolverUtility.getMethod((IMethodBinding) b);
 		} else if (b instanceof IVariableBinding) {
 			proxyMember = jdtResolverUtility.getReferencableElement((IVariableBinding) b);
