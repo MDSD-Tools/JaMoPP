@@ -5,10 +5,10 @@ import java.util.Collections;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
@@ -26,6 +26,7 @@ public class BindingToPackageConverter
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}
 
+	@Override
 	public tools.mdsd.jamopp.model.java.containers.Package convert(IPackageBinding binding) {
 		tools.mdsd.jamopp.model.java.containers.Package pack = jdtTResolverUtility.getPackage(binding);
 		pack.setModule(jdtTResolverUtility.getModule(binding.getModule()));
@@ -40,6 +41,7 @@ public class BindingToPackageConverter
 				pack.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		return pack;
 	}

@@ -7,6 +7,9 @@ import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
@@ -19,8 +22,6 @@ import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilArrays;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
@@ -46,8 +47,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
 			Converter<Object, AnnotationValue> objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
-			JdtResolver jdtTResolverUtility,
-			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			JdtResolver jdtTResolverUtility, Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
 			Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.statementsFactory = statementsFactory;
@@ -75,6 +75,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		result.setName(binding.getName());
 		result.setTypeReference(toTypeReferencesConverter.convert(binding.getReturnType()).get(0));
@@ -84,6 +85,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		if (binding.getDeclaredReceiverType() != null) {
 			ReceiverParameter param = parametersFactory.createReceiverParameter();
@@ -109,6 +111,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 					param.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
 			} catch (AbortCompilation e) {
+				// Ignore
 			}
 			result.getParameters().add(param);
 		}
@@ -121,6 +124,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 				result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		if (binding.getDeclaringClass().isInterface()) {
 			boolean hasDefaultImpl = false;

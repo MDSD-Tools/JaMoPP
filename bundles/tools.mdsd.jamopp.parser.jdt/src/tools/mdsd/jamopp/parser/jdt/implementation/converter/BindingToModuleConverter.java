@@ -7,6 +7,9 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import tools.mdsd.jamopp.model.java.modules.ExportsModuleDirective;
@@ -17,9 +20,6 @@ import tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.UsesModuleDirective;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
@@ -60,6 +60,7 @@ public class BindingToModuleConverter
 				result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		if (binding.isOpen()) {
 			result.setOpen(modifiersFactory.createOpen());
@@ -111,6 +112,7 @@ public class BindingToModuleConverter
 				result.getTarget().add(dir);
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		return result;
 	}

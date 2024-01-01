@@ -5,12 +5,12 @@ import java.util.List;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
-import tools.mdsd.jamopp.model.java.generics.TypeParameter;
-import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
@@ -25,8 +25,7 @@ public class BindingToTypeParameterConverter implements Converter<ITypeBinding, 
 
 	@Inject
 	BindingToTypeParameterConverter(UtilNamedElement utilNamedElement,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			JdtResolver jdtTResolverUtility,
+			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, JdtResolver jdtTResolverUtility,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
@@ -48,6 +47,7 @@ public class BindingToTypeParameterConverter implements Converter<ITypeBinding, 
 				result.getExtendTypes().addAll(toTypeReferencesConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
+			// Ignore
 		}
 		utilNamedElement.convertToNameAndSet(binding, result);
 		return result;
