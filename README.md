@@ -39,11 +39,39 @@ b. In the opened window, use the icon in the upper right corner to choose "Gener
 Original repository: [https://github.com/DevBoost/JaMoPP](https://github.com/DevBoost/JaMoPP)
 
 
-# State
-
+# State 
 - Complete support for Java up to 14 and support of Java 15 in meta-model and printer implementation.
 - Removed loading of class files and old reference resolution and parser.
 - For parsing and reference resolution, JDT is used.
 - New printer.
 - Replaced the JavaResource with a new, simple JavaResource2 implementation.
 - Updated and extended all test cases.
+
+# modules
+* bundles
+    * tools.mdsd.jamopp.commons.jdt
+    * tools.mdsd.jamopp.commons.jdt.edit
+    * tools.mdsd.jamopp.commons.jdt.editor
+    * tools.mdsd.jamopp.commons.jdt.tests
+    * tools.mdsd.jamopp.commons.layout
+    * tools.mdsd.jamopp.commons.layout.edit
+    * tools.mdsd.jamopp.commons.layout.editor
+    * tools.mdsd.jamopp.commons.layout.tests
+    * tools.mdsd.jamopp.model.java
+    * tools.mdsd.jamopp.model.java.edit
+    * tools.mdsd.jamopp.model.java.editor
+    * tools.mdsd.jamopp.model.java.test
+    * tools.mdsd.jamopp.model.java.tests
+    * tools.mdsd.jamopp.parser
+    * tools.mdsd.jamopp.parser.jdt
+    * tools.mdsd.jamopp.printer
+    * tools.mdsd.jamopp.resource
+    * tools.mdsd.jamopp.standalone
+* features
+    * org.emftext.language.java.feature
+* releng
+    * tools.mdsd.jamopp.mwe2
+    * tools.mdsd.jamopp.targetplatform
+    * tools.mdsd.jamopp.updatesite
+* tests
+    * org.emftext.language.java.test
