@@ -1,1 +1,0 @@
-This directory contains various utility scripts that have been useful in the development and operation of the spring.io site and sagan repository.
