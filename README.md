@@ -18,7 +18,7 @@ To get the project running, you need to follow these steps:
 7. To test the setup, open cmd in root folder and build project with "mvn clean verify"
 
 # Sources on GitHub
-[https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools](https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools)
+[https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools](https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools)\
 Original repository: [https://github.com/DevBoost/JaMoPP](https://github.com/DevBoost/JaMoPP)
 
 # State 
@@ -29,7 +29,12 @@ Original repository: [https://github.com/DevBoost/JaMoPP](https://github.com/Dev
 - Replaced the JavaResource with a new, simple JavaResource2 implementation.
 - Updated and extended all test cases.
 
-# modules
+# User Guide
+
+# Developer Guide
+
+# Modules
+An overview of all four modules with short descriptions about their content and usage.
 * bundles
     * tools.mdsd.jamopp.commons.jdt
     * tools.mdsd.jamopp.commons.layout
