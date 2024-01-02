@@ -39,14 +39,14 @@ An overview of all four modules with short descriptions about their content and 
     * tools.mdsd.jamopp.commons.jdt
     * tools.mdsd.jamopp.commons.layout
     * tools.mdsd.jamopp.commons.layout.edit
-    * tools.mdsd.jamopp.model.java
+    * tools.mdsd.jamopp.model.java (Contains the model)
     * tools.mdsd.jamopp.model.java.edit
     * tools.mdsd.jamopp.model.java.editor
-    * tools.mdsd.jamopp.parser
-    * tools.mdsd.jamopp.parser.jdt
-    * tools.mdsd.jamopp.printer
-    * tools.mdsd.jamopp.resource
-    * tools.mdsd.jamopp.standalone
+    * tools.mdsd.jamopp.parser (Contains interface for JaMoPPParserAPI that parser file contens into JavaRoot instances)
+    * tools.mdsd.jamopp.parser.jdt (Implements interface from tools.mdsd.jamopp.parser)
+    * tools.mdsd.jamopp.printer (Writes a JavaRoot instance into a OutputStream)
+    * tools.mdsd.jamopp.resource (Contains JavaResource2 which extends ResourceImpl)
+    * tools.mdsd.jamopp.standalone (Contains a main class for standalone usage of jamopp)
 * features
     * org.emftext.language.java.feature
 * releng
