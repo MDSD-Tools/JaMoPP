@@ -50,18 +50,11 @@ Original repository: [https://github.com/DevBoost/JaMoPP](https://github.com/Dev
 # modules
 * bundles
     * tools.mdsd.jamopp.commons.jdt
-    * tools.mdsd.jamopp.commons.jdt.edit
-    * tools.mdsd.jamopp.commons.jdt.editor
-    * tools.mdsd.jamopp.commons.jdt.tests
     * tools.mdsd.jamopp.commons.layout
     * tools.mdsd.jamopp.commons.layout.edit
-    * tools.mdsd.jamopp.commons.layout.editor
-    * tools.mdsd.jamopp.commons.layout.tests
     * tools.mdsd.jamopp.model.java
     * tools.mdsd.jamopp.model.java.edit
     * tools.mdsd.jamopp.model.java.editor
-    * tools.mdsd.jamopp.model.java.test
-    * tools.mdsd.jamopp.model.java.tests
     * tools.mdsd.jamopp.parser
     * tools.mdsd.jamopp.parser.jdt
     * tools.mdsd.jamopp.printer
