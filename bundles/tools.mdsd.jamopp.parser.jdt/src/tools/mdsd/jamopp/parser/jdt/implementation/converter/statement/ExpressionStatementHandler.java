@@ -6,7 +6,7 @@ import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

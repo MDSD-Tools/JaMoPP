@@ -14,7 +14,7 @@ import tools.mdsd.jamopp.model.java.literals.Self;
 import tools.mdsd.jamopp.model.java.references.Argumentable;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

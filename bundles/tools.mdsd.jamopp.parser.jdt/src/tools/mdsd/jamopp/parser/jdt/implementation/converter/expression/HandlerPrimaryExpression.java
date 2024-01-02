@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;

@@ -19,7 +19,7 @@ import tools.mdsd.jamopp.commons.layout.MinimalLayoutInformation;
 import tools.mdsd.jamopp.model.java.commons.Commentable;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 

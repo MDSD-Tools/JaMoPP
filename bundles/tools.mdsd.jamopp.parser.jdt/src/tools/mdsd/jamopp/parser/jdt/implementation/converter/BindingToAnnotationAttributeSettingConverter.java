@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;

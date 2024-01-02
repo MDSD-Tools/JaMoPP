@@ -7,7 +7,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.QualifiedName;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;

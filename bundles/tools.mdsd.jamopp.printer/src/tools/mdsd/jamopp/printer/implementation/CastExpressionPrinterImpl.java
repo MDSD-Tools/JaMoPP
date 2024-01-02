@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.model.java.expressions.CastExpression;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
 import tools.mdsd.jamopp.model.java.statements.Block;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

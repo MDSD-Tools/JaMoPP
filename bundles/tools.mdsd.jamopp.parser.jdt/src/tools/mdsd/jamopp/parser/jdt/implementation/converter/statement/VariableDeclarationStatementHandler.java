@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;

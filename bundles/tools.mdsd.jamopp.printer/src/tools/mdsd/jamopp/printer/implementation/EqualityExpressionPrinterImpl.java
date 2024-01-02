@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.EqualityExpression;
 import tools.mdsd.jamopp.model.java.expressions.EqualityExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.EqualityOperator;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.AndExpression;
 import tools.mdsd.jamopp.model.java.expressions.AndExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

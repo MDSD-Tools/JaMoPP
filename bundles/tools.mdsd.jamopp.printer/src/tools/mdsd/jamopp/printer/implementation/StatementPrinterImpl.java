@@ -25,9 +25,9 @@ import tools.mdsd.jamopp.model.java.statements.TryBlock;
 import tools.mdsd.jamopp.model.java.statements.WhileLoop;
 import tools.mdsd.jamopp.model.java.statements.YieldStatement;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Named;
 
 import tools.mdsd.jamopp.printer.interfaces.EmptyPrinter;
 import tools.mdsd.jamopp.printer.interfaces.Printer;

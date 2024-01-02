@@ -6,7 +6,7 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;

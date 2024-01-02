@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

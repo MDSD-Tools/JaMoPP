@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.model.java.expressions.SingleImplicitLambdaParameter;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

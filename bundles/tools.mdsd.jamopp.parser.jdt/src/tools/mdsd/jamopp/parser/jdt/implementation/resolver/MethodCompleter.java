@@ -4,8 +4,8 @@ import java.util.HashSet;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class MethodCompleter {
 

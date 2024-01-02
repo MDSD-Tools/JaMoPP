@@ -6,7 +6,7 @@ import java.io.IOException;
 import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

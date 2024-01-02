@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

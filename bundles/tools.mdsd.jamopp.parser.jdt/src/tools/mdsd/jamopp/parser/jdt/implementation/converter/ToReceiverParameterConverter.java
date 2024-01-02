@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 

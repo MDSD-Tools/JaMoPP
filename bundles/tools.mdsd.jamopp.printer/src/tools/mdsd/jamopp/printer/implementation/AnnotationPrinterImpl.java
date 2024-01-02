@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import tools.mdsd.jamopp.model.java.members.MemberContainer;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

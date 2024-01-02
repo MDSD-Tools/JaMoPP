@@ -6,7 +6,7 @@ import java.io.IOException;
 import tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

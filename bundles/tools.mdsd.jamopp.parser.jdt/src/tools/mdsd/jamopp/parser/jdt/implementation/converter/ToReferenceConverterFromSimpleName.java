@@ -7,7 +7,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;

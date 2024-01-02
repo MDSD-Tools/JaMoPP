@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class MethodResolver {
 

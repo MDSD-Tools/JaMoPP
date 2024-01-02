@@ -6,7 +6,7 @@ import java.io.IOException;
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

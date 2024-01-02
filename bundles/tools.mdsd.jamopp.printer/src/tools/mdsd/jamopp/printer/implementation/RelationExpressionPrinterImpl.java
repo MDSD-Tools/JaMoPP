@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.RelationExpression;
 import tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.RelationOperator;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -11,8 +11,8 @@ import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;

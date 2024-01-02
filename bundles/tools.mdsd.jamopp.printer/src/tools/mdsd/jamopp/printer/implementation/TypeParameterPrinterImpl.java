@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.annotations.Annotable;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

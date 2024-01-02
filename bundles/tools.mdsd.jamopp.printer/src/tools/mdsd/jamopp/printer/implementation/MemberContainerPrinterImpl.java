@@ -6,7 +6,7 @@ import java.io.IOException;
 import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.model.java.members.MemberContainer;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

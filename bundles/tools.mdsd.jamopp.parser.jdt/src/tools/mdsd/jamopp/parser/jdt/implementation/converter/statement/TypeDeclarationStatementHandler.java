@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.TypeDeclarationStatement;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

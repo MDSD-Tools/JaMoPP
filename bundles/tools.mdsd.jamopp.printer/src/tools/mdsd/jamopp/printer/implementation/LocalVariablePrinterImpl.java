@@ -12,7 +12,7 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

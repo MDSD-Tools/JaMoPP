@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.PrefixUnaryModificationExpressio
 import tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.UnaryModificationOperator;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

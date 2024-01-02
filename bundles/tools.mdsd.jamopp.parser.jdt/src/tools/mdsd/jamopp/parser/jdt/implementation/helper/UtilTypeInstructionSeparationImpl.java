@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Singleton;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

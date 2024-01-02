@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.Type;
 import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.instantiations.InstantiationsFactory;
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;

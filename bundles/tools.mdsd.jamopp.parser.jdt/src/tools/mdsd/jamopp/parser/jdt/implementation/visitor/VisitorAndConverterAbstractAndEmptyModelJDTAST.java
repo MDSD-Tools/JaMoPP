@@ -21,9 +21,9 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.imports.Import;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Named;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;

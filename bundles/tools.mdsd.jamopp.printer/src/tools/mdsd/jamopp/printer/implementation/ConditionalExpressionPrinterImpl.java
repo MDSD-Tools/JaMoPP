@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.ConditionalExpression;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

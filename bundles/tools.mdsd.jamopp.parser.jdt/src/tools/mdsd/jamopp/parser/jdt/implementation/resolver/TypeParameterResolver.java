@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;

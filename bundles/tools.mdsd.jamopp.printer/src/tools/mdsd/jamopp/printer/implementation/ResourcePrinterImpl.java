@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.references.ElementReference;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.model.java.variables.Resource;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

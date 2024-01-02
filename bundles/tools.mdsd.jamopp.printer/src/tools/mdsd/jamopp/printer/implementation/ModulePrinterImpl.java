@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.UsesModuleDirective;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpressionChild;

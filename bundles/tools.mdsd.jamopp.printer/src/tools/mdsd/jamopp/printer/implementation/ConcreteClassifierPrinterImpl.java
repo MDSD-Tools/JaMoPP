@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

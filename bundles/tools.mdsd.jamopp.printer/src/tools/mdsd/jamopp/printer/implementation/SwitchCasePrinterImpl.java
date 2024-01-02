@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.model.java.statements.NormalSwitchCase;
 import tools.mdsd.jamopp.model.java.statements.NormalSwitchRule;
 import tools.mdsd.jamopp.model.java.statements.SwitchCase;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild;
 import tools.mdsd.jamopp.model.java.literals.Literal;
 import tools.mdsd.jamopp.model.java.references.Reference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

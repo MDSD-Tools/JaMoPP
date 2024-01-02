@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;

@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.modifiers.Modifier;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

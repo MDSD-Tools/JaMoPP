@@ -12,9 +12,9 @@ import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.members.Member;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import javax.inject.Named;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 

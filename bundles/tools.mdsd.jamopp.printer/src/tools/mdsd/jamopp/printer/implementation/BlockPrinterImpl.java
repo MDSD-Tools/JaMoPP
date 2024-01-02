@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.modifiers.Modifier;
 import tools.mdsd.jamopp.model.java.statements.Block;
 import tools.mdsd.jamopp.model.java.statements.Statement;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

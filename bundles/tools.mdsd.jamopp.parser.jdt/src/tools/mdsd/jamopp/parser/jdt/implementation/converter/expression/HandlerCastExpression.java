@@ -7,7 +7,7 @@ import org.eclipse.jdt.core.dom.Type;
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;

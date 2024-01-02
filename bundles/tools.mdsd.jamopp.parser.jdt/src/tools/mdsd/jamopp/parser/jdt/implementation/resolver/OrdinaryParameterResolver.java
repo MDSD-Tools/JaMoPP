@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;

@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.Assignment;
 import tools.mdsd.jamopp.model.java.operators.AssignmentOperator;
 import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 

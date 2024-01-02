@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;

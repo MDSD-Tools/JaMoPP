@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.UnaryExpression;
 import tools.mdsd.jamopp.model.java.expressions.UnaryExpressionChild;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

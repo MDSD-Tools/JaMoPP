@@ -6,7 +6,7 @@ import java.io.IOException;
 import tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression;
 import tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 import tools.mdsd.jamopp.model.java.expressions.AssignmentExpressionChild;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 

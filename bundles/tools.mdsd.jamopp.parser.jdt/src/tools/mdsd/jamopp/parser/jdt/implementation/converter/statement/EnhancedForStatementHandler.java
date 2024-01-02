@@ -5,7 +5,7 @@ import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;

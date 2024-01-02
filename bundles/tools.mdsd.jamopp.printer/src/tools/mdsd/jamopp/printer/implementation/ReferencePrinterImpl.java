@@ -16,8 +16,8 @@ import tools.mdsd.jamopp.model.java.references.SelfReference;
 import tools.mdsd.jamopp.model.java.references.StringReference;
 import tools.mdsd.jamopp.model.java.references.TextBlockReference;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import tools.mdsd.jamopp.printer.interfaces.EmptyPrinter;
 import tools.mdsd.jamopp.printer.interfaces.Printer;

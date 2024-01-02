@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.references.Argumentable;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

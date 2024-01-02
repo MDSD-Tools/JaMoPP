@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.AdditiveOperator;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

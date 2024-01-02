@@ -6,7 +6,7 @@ import org.eclipse.jdt.core.dom.Modifier;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 

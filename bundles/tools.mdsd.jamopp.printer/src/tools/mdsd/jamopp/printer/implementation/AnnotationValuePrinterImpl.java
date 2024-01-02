@@ -8,8 +8,8 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 import tools.mdsd.jamopp.model.java.arrays.ArrayInitializer;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

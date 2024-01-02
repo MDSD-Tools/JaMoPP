@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.statements.ForEachLoop;
 import tools.mdsd.jamopp.model.java.statements.Statement;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

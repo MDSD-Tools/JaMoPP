@@ -4,7 +4,7 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import tools.mdsd.jamopp.model.java.operators.AdditiveOperator;
 import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 

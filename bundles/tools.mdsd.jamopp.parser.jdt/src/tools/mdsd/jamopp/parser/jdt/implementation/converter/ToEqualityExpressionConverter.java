@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.operators.EqualityOperator;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;

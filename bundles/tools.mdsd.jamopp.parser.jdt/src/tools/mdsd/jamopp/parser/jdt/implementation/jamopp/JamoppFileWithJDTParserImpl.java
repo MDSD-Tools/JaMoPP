@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.jamopp;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppFileWithJDTParser;
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppJavaParserFactory;

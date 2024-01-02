@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.imports.ClassifierImport;
 import tools.mdsd.jamopp.model.java.imports.Import;
 import tools.mdsd.jamopp.model.java.imports.ImportsFactory;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;

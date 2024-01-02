@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 public class ClassResolverSynthetic {
 

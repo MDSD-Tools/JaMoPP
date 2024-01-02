@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.imports.ImportingElement;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -12,7 +12,7 @@ import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
 import tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Singleton;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;

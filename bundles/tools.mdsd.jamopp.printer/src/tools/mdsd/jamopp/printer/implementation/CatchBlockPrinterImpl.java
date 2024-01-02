@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.statements.Block;
 import tools.mdsd.jamopp.model.java.statements.CatchBlock;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

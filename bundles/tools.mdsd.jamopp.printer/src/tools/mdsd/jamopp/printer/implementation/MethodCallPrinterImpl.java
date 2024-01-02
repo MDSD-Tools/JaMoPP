@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.generics.CallTypeArgumentable;
 import tools.mdsd.jamopp.model.java.references.Argumentable;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 public class ToFieldNameConverter {
 

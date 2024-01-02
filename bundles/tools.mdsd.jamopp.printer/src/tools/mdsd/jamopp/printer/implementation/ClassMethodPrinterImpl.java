@@ -17,7 +17,7 @@ import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
 import tools.mdsd.jamopp.model.java.statements.Statement;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

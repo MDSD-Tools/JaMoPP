@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.annotations.Annotable;
 import tools.mdsd.jamopp.model.java.arrays.ArraySelector;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

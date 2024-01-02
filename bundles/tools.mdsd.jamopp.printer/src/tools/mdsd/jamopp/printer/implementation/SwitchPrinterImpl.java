@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.statements.Switch;
 import tools.mdsd.jamopp.model.java.statements.SwitchCase;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

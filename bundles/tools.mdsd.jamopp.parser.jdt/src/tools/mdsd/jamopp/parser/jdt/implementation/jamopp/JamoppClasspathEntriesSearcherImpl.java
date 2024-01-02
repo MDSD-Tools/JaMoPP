@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppClasspathEntriesSearcher;
 

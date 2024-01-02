@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild;
 import tools.mdsd.jamopp.model.java.statements.Switch;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

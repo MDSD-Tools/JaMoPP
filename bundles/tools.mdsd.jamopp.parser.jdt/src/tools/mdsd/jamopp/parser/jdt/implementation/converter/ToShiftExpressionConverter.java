@@ -7,7 +7,7 @@ import tools.mdsd.jamopp.model.java.expressions.ShiftExpression;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.ShiftOperator;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;

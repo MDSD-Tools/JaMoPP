@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
 import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 

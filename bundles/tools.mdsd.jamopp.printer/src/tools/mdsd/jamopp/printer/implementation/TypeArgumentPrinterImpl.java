@@ -13,8 +13,8 @@ import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.generics.UnknownTypeArgument;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
