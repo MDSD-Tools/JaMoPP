@@ -12,6 +12,11 @@ Require-Bundle: org.eclipse.jdt.core,
  tools.mdsd.jamopp.model.java,
  org.eclipse.emf.ecore,
  tools.mdsd.jamopp.parser,
- com.google.inject
+ com.google.inject,
+ com.google.guava
 Export-Package: tools.mdsd.jamopp.parser.jdt
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ jakarta.inject,
+ org.aopalliance.intercept,
+ com.google.common.util.concurrent.internal
+ 
