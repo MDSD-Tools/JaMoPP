@@ -42,7 +42,7 @@ An overview of all four modules with short descriptions about their content and 
     * tools.mdsd.jamopp.model.java (Contains the model)
     * tools.mdsd.jamopp.model.java.edit
     * tools.mdsd.jamopp.model.java.editor
-    * tools.mdsd.jamopp.parser (Contains interface for JaMoPPParserAPI that parser file contens into JavaRoot instances)
+    * tools.mdsd.jamopp.parser (Contains the interface JaMoPPParserAPI that parses file contents into JavaRoot instances)
     * tools.mdsd.jamopp.parser.jdt (Implements interface from tools.mdsd.jamopp.parser)
     * tools.mdsd.jamopp.printer (Writes a JavaRoot instance into a OutputStream)
     * tools.mdsd.jamopp.resource (Contains JavaResource2 which extends ResourceImpl)
