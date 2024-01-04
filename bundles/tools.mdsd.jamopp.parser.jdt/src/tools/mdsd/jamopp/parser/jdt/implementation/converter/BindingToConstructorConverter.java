@@ -61,22 +61,21 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 		if (result.eContainer() != null) {
 			return result;
 		}
-		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
-		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
-			}
-		} catch (AbortCompilation e) {
-			// Ignore
-		}
+		addAnnotationsAndModifiers(binding, result);
 		result.setName(binding.getName());
-		try {
-			for (ITypeBinding typeBind : binding.getTypeParameters()) {
-				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
-			}
-		} catch (AbortCompilation e) {
-			// Ignore
+		addTypeParameters(binding, result);
+		addParameters(binding, result);
+		addExceptions(binding, result);
+		return result;
+	}
+
+	private void addExceptions(IMethodBinding binding, Constructor result) {
+		for (ITypeBinding typeBind : binding.getExceptionTypes()) {
+			result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
 		}
+	}
+
+	private void addParameters(IMethodBinding binding, Constructor result) {
 		if (binding.getDeclaredReceiverType() != null) {
 			ReceiverParameter param = parametersFactory.createReceiverParameter();
 			param.setName("");
@@ -106,10 +105,27 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 			}
 			result.getParameters().add(param);
 		}
-		for (ITypeBinding typeBind : binding.getExceptionTypes()) {
-			result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
+	}
+
+	private void addTypeParameters(IMethodBinding binding, Constructor result) {
+		try {
+			for (ITypeBinding typeBind : binding.getTypeParameters()) {
+				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
+			}
+		} catch (AbortCompilation e) {
+			// Ignore
 		}
-		return result;
+	}
+
+	private void addAnnotationsAndModifiers(IMethodBinding binding, Constructor result) {
+		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
+		try {
+			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+			}
+		} catch (AbortCompilation e) {
+			// Ignore
+		}
 	}
 
 }

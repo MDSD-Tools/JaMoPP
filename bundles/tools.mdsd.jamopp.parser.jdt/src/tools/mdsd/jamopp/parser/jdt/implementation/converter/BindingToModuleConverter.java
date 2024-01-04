@@ -2,13 +2,13 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
@@ -55,6 +55,67 @@ public class BindingToModuleConverter
 		if (!result.eContents().isEmpty()) {
 			return result;
 		}
+		addAnnotations(binding, result);
+		if (binding.isOpen()) {
+			result.setOpen(modifiersFactory.createOpen());
+		}
+		utilNamedElement.convertToNamespacesAndSet(binding.getName(), result);
+		result.setName("");
+		try {
+			addTargets(binding, result);
+		} catch (AbortCompilation e) {
+			// Ignore
+		}
+		return result;
+	}
+
+	private void addTargets(IModuleBinding binding, tools.mdsd.jamopp.model.java.containers.Module result) {
+		for (IPackageBinding packBind : binding.getExportedPackages()) {
+			ExportsModuleDirective dir = modulesFactory.createExportsModuleDirective();
+			dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
+			String[] mods = binding.getExportedTo(packBind);
+			for (String modName : mods) {
+				ModuleReference ref = modulesFactory.createModuleReference();
+				ref.setTarget(jdtTResolverUtility.getModule(modName));
+				dir.getModules().add(ref);
+			}
+			result.getTarget().add(dir);
+		}
+		for (IPackageBinding packBind : binding.getOpenedPackages()) {
+			OpensModuleDirective dir = modulesFactory.createOpensModuleDirective();
+			dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
+			String[] mods = binding.getOpenedTo(packBind);
+			for (String modName : mods) {
+				ModuleReference ref = modulesFactory.createModuleReference();
+				ref.setTarget(jdtTResolverUtility.getModule(modName));
+				dir.getModules().add(ref);
+			}
+			result.getTarget().add(dir);
+		}
+		for (IModuleBinding modBind : binding.getRequiredModules()) {
+			RequiresModuleDirective dir = modulesFactory.createRequiresModuleDirective();
+			tools.mdsd.jamopp.model.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
+			ModuleReference ref = modulesFactory.createModuleReference();
+			ref.setTarget(reqMod);
+			dir.setRequiredModule(ref);
+			result.getTarget().add(dir);
+		}
+		for (ITypeBinding typeBind : binding.getUses()) {
+			UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
+			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
+			result.getTarget().add(dir);
+		}
+		for (ITypeBinding typeBind : binding.getServices()) {
+			ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
+			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
+			for (ITypeBinding service : binding.getImplementations(typeBind)) {
+				dir.getServiceProviders().addAll(toTypeReferencesConverter.convert(service));
+			}
+			result.getTarget().add(dir);
+		}
+	}
+
+	private void addAnnotations(IModuleBinding binding, tools.mdsd.jamopp.model.java.containers.Module result) {
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
 				result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
@@ -62,59 +123,6 @@ public class BindingToModuleConverter
 		} catch (AbortCompilation e) {
 			// Ignore
 		}
-		if (binding.isOpen()) {
-			result.setOpen(modifiersFactory.createOpen());
-		}
-		utilNamedElement.convertToNamespacesAndSet(binding.getName(), result);
-		result.setName("");
-		try {
-			for (IPackageBinding packBind : binding.getExportedPackages()) {
-				ExportsModuleDirective dir = modulesFactory.createExportsModuleDirective();
-				dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
-				String[] mods = binding.getExportedTo(packBind);
-				for (String modName : mods) {
-					ModuleReference ref = modulesFactory.createModuleReference();
-					ref.setTarget(jdtTResolverUtility.getModule(modName));
-					dir.getModules().add(ref);
-				}
-				result.getTarget().add(dir);
-			}
-			for (IPackageBinding packBind : binding.getOpenedPackages()) {
-				OpensModuleDirective dir = modulesFactory.createOpensModuleDirective();
-				dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
-				String[] mods = binding.getOpenedTo(packBind);
-				for (String modName : mods) {
-					ModuleReference ref = modulesFactory.createModuleReference();
-					ref.setTarget(jdtTResolverUtility.getModule(modName));
-					dir.getModules().add(ref);
-				}
-				result.getTarget().add(dir);
-			}
-			for (IModuleBinding modBind : binding.getRequiredModules()) {
-				RequiresModuleDirective dir = modulesFactory.createRequiresModuleDirective();
-				tools.mdsd.jamopp.model.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
-				ModuleReference ref = modulesFactory.createModuleReference();
-				ref.setTarget(reqMod);
-				dir.setRequiredModule(ref);
-				result.getTarget().add(dir);
-			}
-			for (ITypeBinding typeBind : binding.getUses()) {
-				UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
-				dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
-				result.getTarget().add(dir);
-			}
-			for (ITypeBinding typeBind : binding.getServices()) {
-				ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
-				dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
-				for (ITypeBinding service : binding.getImplementations(typeBind)) {
-					dir.getServiceProviders().addAll(toTypeReferencesConverter.convert(service));
-				}
-				result.getTarget().add(dir);
-			}
-		} catch (AbortCompilation e) {
-			// Ignore
-		}
-		return result;
 	}
 
 	@Inject
