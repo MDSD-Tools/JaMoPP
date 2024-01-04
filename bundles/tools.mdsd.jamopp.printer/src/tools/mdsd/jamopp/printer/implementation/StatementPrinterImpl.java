@@ -104,10 +104,12 @@ public class StatementPrinterImpl implements Printer<Statement> {
 			this.printer = printer;
 		}
 
-		void print(Statement element, BufferedWriter writer) throws IOException {
+		boolean checkAndPrint(Statement element, BufferedWriter writer) throws IOException {
 			if (clazz.isInstance(element)) {
 				printer.get().print(clazz.cast(element), writer);
+				return true;
 			}
+			return false;
 		}
 	}
 
@@ -137,7 +139,10 @@ public class StatementPrinterImpl implements Printer<Statement> {
 		}
 
 		for (Mapping<? extends Statement> mapping : mappings) {
-			mapping.print(element, writer);
+			boolean printed = mapping.checkAndPrint(element, writer);
+			if (printed) {
+				return;
+			}
 		}
 
 		if (element instanceof EmptyStatement) {
