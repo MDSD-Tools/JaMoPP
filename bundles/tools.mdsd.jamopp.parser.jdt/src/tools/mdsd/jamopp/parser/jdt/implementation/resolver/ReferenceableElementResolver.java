@@ -1,12 +1,15 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+
+import javax.inject.Inject;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 
@@ -114,96 +117,51 @@ public class ReferenceableElementResolver {
 	}
 
 	public ReferenceableElement getByName(String name) {
-		IVariableBinding vBinding = variableBindings.stream()
-				.filter(binding -> binding != null && binding.getName().equals(name)).findFirst().orElse(null);
-		if (vBinding != null) {
-			return getByBinding(vBinding);
+		List<Optional<? extends ReferenceableElement>> optionals = new ArrayList<>();
+
+		optionals.add(variableBindings.stream().filter(binding -> binding != null && binding.getName().equals(name))
+				.findFirst().map(this::getByBinding));
+		optionals.add(methodBindings.stream().filter(meth -> !meth.isConstructor() && meth.getName().equals(name))
+				.findFirst().map(methodResolver::getMethod));
+		optionals.add(typeBindings.stream().filter(type -> type != null && type.getName().equals(name)).findFirst()
+				.map(classifierResolver::getClassifier));
+		optionals.add(catchParameterResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(localVariableResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(variableLengthParameterResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(ordinaryParameterResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(additionalLocalVariableResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(enumConstantResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
+				.findFirst());
+		optionals.add(fieldResolver.getBindings().values().stream()
+				.filter(param -> param != null && param.getName().equals(name)).findFirst());
+		optionals.add(additionalFieldResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(classMethodResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
+				.findFirst());
+		optionals.add(interfaceMethodResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(typeParameterResolver.getBindings().values().stream()
+				.filter(param -> param.getName().equals(name)).findFirst());
+		optionals.add(enumerationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
+				.findFirst());
+		optionals.add(annotationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
+				.findFirst());
+		optionals.add(classResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
+				.findFirst());
+		optionals.add(interfaceResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
+				.findFirst());
+
+		for (Optional<? extends ReferenceableElement> optional : optionals) {
+			if (optional.isPresent()) {
+				return optional.get();
+			}
 		}
-		IMethodBinding mBinding = methodBindings.stream()
-				.filter(meth -> !meth.isConstructor() && meth.getName().equals(name)).findFirst().orElse(null);
-		if (mBinding != null) {
-			return methodResolver.getMethod(mBinding);
-		}
-		ITypeBinding tBinding = typeBindings.stream().filter(type -> type != null && type.getName().equals(name))
-				.findFirst().orElse(null);
-		if (tBinding != null) {
-			return classifierResolver.getClassifier(tBinding);
-		}
-		tools.mdsd.jamopp.model.java.variables.Variable par = catchParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		par = localVariableResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable addLocVar = additionalLocalVariableResolver
-				.getBindings().values().stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (addLocVar != null) {
-			return addLocVar;
-		}
-		par = variableLengthParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		par = ordinaryParameterResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst().orElse(null);
-		if (par != null) {
-			return par;
-		}
-		tools.mdsd.jamopp.model.java.members.EnumConstant enumConst = enumConstantResolver.getBindings().values()
-				.stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (enumConst != null) {
-			return enumConst;
-		}
-		tools.mdsd.jamopp.model.java.members.Field field = fieldResolver.getBindings().values().stream()
-				.filter(param -> param != null && param.getName().equals(name)).findFirst().orElse(null);
-		if (field != null) {
-			return field;
-		}
-		tools.mdsd.jamopp.model.java.members.AdditionalField addField = additionalFieldResolver.getBindings().values()
-				.stream().filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (addField != null) {
-			return addField;
-		}
-		tools.mdsd.jamopp.model.java.members.Method meth = classMethodResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (meth != null) {
-			return meth;
-		}
-		meth = interfaceMethodResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst().orElse(null);
-		if (meth != null) {
-			return meth;
-		}
-		tools.mdsd.jamopp.model.java.classifiers.Classifier c = typeParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst().orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = enumerationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
-				.findFirst().orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = annotationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName())).findFirst()
-				.orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = classResolver.getBindings().values().stream().filter(param -> name.equals(param.getName())).findFirst()
-				.orElse(null);
-		if (c != null) {
-			return c;
-		}
-		c = interfaceResolver.getBindings().values().stream().filter(param -> name.equals(param.getName())).findFirst()
-				.orElse(null);
-		if (c != null) {
-			return c;
-		}
+
 		return classResolver.getByName(name);
 	}
 
