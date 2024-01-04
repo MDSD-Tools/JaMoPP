@@ -3,12 +3,12 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
@@ -69,6 +69,19 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 		if (result.eContainer() != null) {
 			return result;
 		}
+		addAnnotationsAndModifiers(binding, result);
+		result.setName(binding.getName());
+		result.setTypeReference(toTypeReferencesConverter.convert(binding.getReturnType()).get(0));
+		utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getReturnType(), result);
+		addTypeParamters(binding, result);
+		addParameters(binding, result);
+		setDefaultValue(binding, result);
+		addExceptions(binding, result);
+		handleInterface(binding, result);
+		return result;
+	}
+
+	private void addAnnotationsAndModifiers(IMethodBinding binding, Method result) {
 		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
 		try {
 			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
@@ -77,16 +90,9 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 		} catch (AbortCompilation e) {
 			// Ignore
 		}
-		result.setName(binding.getName());
-		result.setTypeReference(toTypeReferencesConverter.convert(binding.getReturnType()).get(0));
-		utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getReturnType(), result);
-		try {
-			for (ITypeBinding typeBind : binding.getTypeParameters()) {
-				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
-			}
-		} catch (AbortCompilation e) {
-			// Ignore
-		}
+	}
+
+	private void addParameters(IMethodBinding binding, Method result) {
 		if (binding.getDeclaredReceiverType() != null) {
 			ReceiverParameter param = parametersFactory.createReceiverParameter();
 			param.setTypeReference(toTypeReferencesConverter.convert(binding.getDeclaredReceiverType()).get(0));
@@ -115,17 +121,26 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 			}
 			result.getParameters().add(param);
 		}
-		if (binding.getDefaultValue() != null) {
-			((InterfaceMethod) result)
-					.setDefaultValue(objectToAnnotationValueConverter.convert(binding.getDefaultValue()));
-		}
+	}
+
+	private void addTypeParamters(IMethodBinding binding, Method result) {
 		try {
-			for (ITypeBinding typeBind : binding.getExceptionTypes()) {
-				result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
+			for (ITypeBinding typeBind : binding.getTypeParameters()) {
+				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 			}
 		} catch (AbortCompilation e) {
 			// Ignore
 		}
+	}
+
+	private void setDefaultValue(IMethodBinding binding, Method result) {
+		if (binding.getDefaultValue() != null) {
+			((InterfaceMethod) result)
+					.setDefaultValue(objectToAnnotationValueConverter.convert(binding.getDefaultValue()));
+		}
+	}
+
+	private void handleInterface(IMethodBinding binding, Method result) {
 		if (binding.getDeclaringClass().isInterface()) {
 			boolean hasDefaultImpl = false;
 			for (tools.mdsd.jamopp.model.java.modifiers.Modifier mod : result.getModifiers()) {
@@ -138,7 +153,16 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 				result.setStatement(statementsFactory.createEmptyStatement());
 			}
 		}
-		return result;
+	}
+
+	private void addExceptions(IMethodBinding binding, Method result) {
+		try {
+			for (ITypeBinding typeBind : binding.getExceptionTypes()) {
+				result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
+			}
+		} catch (AbortCompilation e) {
+			// Ignore
+		}
 	}
 
 }

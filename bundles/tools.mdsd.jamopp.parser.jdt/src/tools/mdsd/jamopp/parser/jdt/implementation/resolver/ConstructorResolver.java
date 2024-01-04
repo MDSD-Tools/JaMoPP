@@ -3,10 +3,10 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Constructor;
@@ -43,7 +43,32 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 			return getBindings().get(methName);
 		}
 		methodBindings.add(binding);
-		tools.mdsd.jamopp.model.java.members.Constructor result = null;
+		Constructor result = getConstructor(binding);
+		if (result == null) {
+			result = membersFactory.createConstructor();
+			tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
+			block.setName("");
+			result.setBlock(block);
+		}
+		getBindings().put(methName, result);
+		return result;
+	}
+
+	@Override
+	public Constructor getByName(String name) {
+		if (getBindings().containsKey(name)) {
+			return getBindings().get(name);
+		}
+		tools.mdsd.jamopp.model.java.members.Constructor result = membersFactory.createConstructor();
+		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
+		block.setName("");
+		result.setBlock(block);
+		getBindings().put(name, result);
+		return result;
+	}
+
+	private Constructor getConstructor(IMethodBinding binding) {
+		Constructor result = null;
 		ConcreteClassifier potClass = (ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
@@ -83,26 +108,6 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 				}
 			}
 		}
-		if (result == null) {
-			result = membersFactory.createConstructor();
-			tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
-			block.setName("");
-			result.setBlock(block);
-		}
-		getBindings().put(methName, result);
-		return result;
-	}
-
-	@Override
-	public Constructor getByName(String name) {
-		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
-		}
-		tools.mdsd.jamopp.model.java.members.Constructor result = membersFactory.createConstructor();
-		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
-		block.setName("");
-		result.setBlock(block);
-		getBindings().put(name, result);
 		return result;
 	}
 
