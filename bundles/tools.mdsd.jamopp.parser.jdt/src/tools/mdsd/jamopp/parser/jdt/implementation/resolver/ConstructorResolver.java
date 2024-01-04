@@ -71,44 +71,56 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		Constructor result = null;
 		ConcreteClassifier potClass = (ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
-		if (potClass != null) {
-			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof tools.mdsd.jamopp.model.java.members.Constructor con
-						&& mem.getName().equals(binding.getName())) {
-					int receiveOffset = 0;
-					if (binding.getDeclaredReceiverType() != null) {
-						receiveOffset = 1;
+
+		if (potClass == null) {
+			return null;
+		}
+
+		for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+			if (mem instanceof tools.mdsd.jamopp.model.java.members.Constructor con
+					&& mem.getName().equals(binding.getName())) {
+				int receiveOffset = 0;
+				if (binding.getDeclaredReceiverType() != null) {
+					receiveOffset = 1;
+				}
+				if (con.getParameters().size() == binding.getParameterTypes().length + receiveOffset) {
+					if (skip(binding, con, receiveOffset)) {
+						continue;
 					}
-					if (con.getParameters().size() == binding.getParameterTypes().length + receiveOffset) {
-						if (receiveOffset == 1 && (!(con.getParameters()
-								.get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
-								|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType())
-										.equals(toTypeNameConverter
-												.convertToTypeName(con.getParameters().get(0).getTypeReference())))) {
-							continue;
-						}
-						boolean skip = false;
-						for (int i = 0; i < binding.getParameterTypes().length; i++) {
-							ITypeBinding currentType = binding.getParameterTypes()[i];
-							tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = con.getParameters()
-									.get(i + receiveOffset);
-							if (!toTypeNameConverter.convertToTypeName(currentType)
-									.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
-									|| currentType.getDimensions() != currentParam.getArrayDimension()) {
-								skip = true;
-								break;
-							}
-						}
-						if (skip) {
-							continue;
-						}
-						result = con;
-						break;
-					}
+
+					result = con;
+					break;
 				}
 			}
 		}
+
 		return result;
+	}
+
+	private boolean skip(IMethodBinding binding, tools.mdsd.jamopp.model.java.members.Constructor con,
+			int receiveOffset) {
+		return receiveOffset == 1
+				&& (!(con.getParameters()
+						.get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
+						|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType())
+								.equals(toTypeNameConverter
+										.convertToTypeName(con.getParameters().get(0).getTypeReference())))
+				|| skipMember(binding, con, receiveOffset);
+	}
+
+	private boolean skipMember(IMethodBinding binding, Constructor con, int receiveOffset) {
+		boolean skipMember = false;
+		for (int i = 0; i < binding.getParameterTypes().length; i++) {
+			ITypeBinding currentType = binding.getParameterTypes()[i];
+			tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = con.getParameters().get(i + receiveOffset);
+			if (!toTypeNameConverter.convertToTypeName(currentType)
+					.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
+					|| currentType.getDimensions() != currentParam.getArrayDimension()) {
+				skipMember = true;
+				break;
+			}
+		}
+		return skipMember;
 	}
 
 }
