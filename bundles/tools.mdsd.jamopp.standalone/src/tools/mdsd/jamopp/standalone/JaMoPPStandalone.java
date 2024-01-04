@@ -1,6 +1,7 @@
 package tools.mdsd.jamopp.standalone;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.util.URI;
@@ -67,8 +68,8 @@ public class JaMoPPStandalone {
 			if (xmiResource instanceof XMIResource) {
 				try {
 					xmiResource.save(rs.getLoadOptions());
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (IOException e) {
+					// Ignore
 				}
 			}
 		}
