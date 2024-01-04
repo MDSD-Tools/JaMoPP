@@ -50,19 +50,25 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 				.getClassifier(binding.getDeclaringClass());
 		tools.mdsd.jamopp.model.java.members.ClassMethod result = null;
 		if (classifier != null) {
-			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
-				if (mem instanceof tools.mdsd.jamopp.model.java.members.ClassMethod) {
-					result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
-					if (result != null) {
-						break;
-					}
-				}
-			}
+			result = handleClassifier(binding, classifier, result);
 		}
 		if (result == null) {
 			result = createNewClassMethod();
 		}
 		getBindings().put(methName, result);
+		return result;
+	}
+
+	private tools.mdsd.jamopp.model.java.members.ClassMethod handleClassifier(IMethodBinding binding,
+			ConcreteClassifier classifier, tools.mdsd.jamopp.model.java.members.ClassMethod result) {
+		for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
+			if (mem instanceof tools.mdsd.jamopp.model.java.members.ClassMethod) {
+				result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
+				if (result != null) {
+					break;
+				}
+			}
+		}
 		return result;
 	}
 

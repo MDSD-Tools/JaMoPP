@@ -81,42 +81,50 @@ public class ReferenceableElementResolver {
 
 	public ReferenceableElement getByBinding(IVariableBinding binding) {
 		if (binding.isEnumConstant()) {
-			return enumConstantResolver.getByBinding(binding);
-		}
-		if (binding.isField()) {
-			String fieldName = toFieldNameConverter.convertToFieldName(binding);
-			if (fieldResolver.getBindings().containsKey(fieldName)) {
-				return fieldResolver.getBindings().get(fieldName);
-			}
-			if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
-				return additionalFieldResolver.getBindings().get(fieldName);
-			}
-			return fieldResolver.getByBinding(binding);
-		}
-		if (binding.isParameter()) {
-			String paramName = toParameterNameConverter.convertToParameterName(binding, false);
-			if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
-				return ordinaryParameterResolver.getBindings().get(paramName);
-			}
-			if (variableLengthParameterResolver.getBindings().containsKey(paramName)) {
-				return variableLengthParameterResolver.getBindings().get(paramName);
-			}
-			return ordinaryParameterResolver.getByBinding(binding);
+			return handleIsEnumConstant(binding);
+		} else if (binding.isField()) {
+			return handleIsField(binding);
+		} else if (binding.isParameter()) {
+			return handleIsParameter(binding);
 		}
 		String paramName = toParameterNameConverter.convertToParameterName(binding, false);
 		if (catchParameterResolver.getBindings().containsKey(paramName)) {
 			return catchParameterResolver.getBindings().get(paramName);
-		}
-		if (localVariableResolver.getBindings().containsKey(paramName)) {
+		} else if (localVariableResolver.getBindings().containsKey(paramName)) {
 			return localVariableResolver.getBindings().get(paramName);
-		}
-		if (additionalLocalVariableResolver.getBindings().containsKey(paramName)) {
+		} else if (additionalLocalVariableResolver.getBindings().containsKey(paramName)) {
 			return additionalLocalVariableResolver.getBindings().get(paramName);
+		} else if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
+			return ordinaryParameterResolver.getBindings().get(paramName);
+		} else {
+			return localVariableResolver.getByBinding(binding);
 		}
+	}
+
+	private ReferenceableElement handleIsEnumConstant(IVariableBinding binding) {
+		return enumConstantResolver.getByBinding(binding);
+	}
+
+	private ReferenceableElement handleIsParameter(IVariableBinding binding) {
+		String paramName = toParameterNameConverter.convertToParameterName(binding, false);
 		if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
 			return ordinaryParameterResolver.getBindings().get(paramName);
+		} else if (variableLengthParameterResolver.getBindings().containsKey(paramName)) {
+			return variableLengthParameterResolver.getBindings().get(paramName);
+		} else {
+			return ordinaryParameterResolver.getByBinding(binding);
 		}
-		return localVariableResolver.getByBinding(binding);
+	}
+
+	private ReferenceableElement handleIsField(IVariableBinding binding) {
+		String fieldName = toFieldNameConverter.convertToFieldName(binding);
+		if (fieldResolver.getBindings().containsKey(fieldName)) {
+			return fieldResolver.getBindings().get(fieldName);
+		} else if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
+			return additionalFieldResolver.getBindings().get(fieldName);
+		} else {
+			return fieldResolver.getByBinding(binding);
+		}
 	}
 
 	public ReferenceableElement getByName(String name) {
