@@ -13,18 +13,20 @@
 
 package tools.mdsd.jamopp.parser.jdt.implementation.visitor;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.ModuleDeclaration;
+
+import com.google.inject.Singleton;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.imports.Import;
-import javax.inject.Inject;
-import com.google.inject.Singleton;
-import javax.inject.Named;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -50,8 +52,7 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	@Inject
 	public VisitorAndConverterAbstractAndEmptyModelJDTAST(UtilNamedElement utilNamedElement,
 			@Named("ToImportConverter") Converter<ImportDeclaration, Import> toImportConverter,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			ContainersFactory containersFactory,
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, ContainersFactory containersFactory,
 			Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
 		this.containersFactory = containersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -84,22 +85,22 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(CompilationUnit node) {
-		this.setConvertedElement(null);
+		setConvertedElement(null);
 		if (!node.types().isEmpty()) {
-			this.setConvertedElement(toCompilationUnitConverter.convert(node));
+			setConvertedElement(toCompilationUnitConverter.convert(node));
 		}
 		if (node.getModule() != null) {
 			tools.mdsd.jamopp.model.java.containers.Module module = toModuleConverter.convert(node.getModule());
-			this.setConvertedElement(module);
+			setConvertedElement(module);
 		}
-		tools.mdsd.jamopp.model.java.containers.JavaRoot root = this.getConvertedElement();
+		JavaRoot root = convertedRootElement;
 		if (root == null && node.getPackage() != null) {
 			root = jdtResolverUtility.getPackage(node.getPackage().resolveBinding());
 			root.setName("");
-			layoutInformationConverter.convertJavaRootLayoutInformation(root, node, this.getSource());
-			this.setConvertedElement(root);
+			layoutInformationConverter.convertJavaRootLayoutInformation(root, node, getSource());
+			setConvertedElement(root);
 		}
-		tools.mdsd.jamopp.model.java.containers.JavaRoot finalRoot = root;
+		JavaRoot finalRoot = root;
 		if (node.getPackage() != null) {
 			node.getPackage().annotations().forEach(
 					obj -> finalRoot.getAnnotations().add(annotationInstanceConverter.convert((Annotation) obj)));
