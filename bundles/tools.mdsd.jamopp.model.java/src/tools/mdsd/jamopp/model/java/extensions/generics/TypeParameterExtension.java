@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
+
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.commons.Commentable;
@@ -145,7 +146,7 @@ public class TypeParameterExtension {
 		}
 		TemporalCompositeClassifier temp = new TemporalCompositeClassifier(me);
 		for (Type aResult : resultList) {
-			aResult = processResult(temp, aResult);
+			processResult(temp, aResult);
 		}
 		temp.getSuperTypes().add(me);
 		return temp;
@@ -252,7 +253,7 @@ public class TypeParameterExtension {
 						resultList.add(0,
 								((QualifiedTypeArgument) argumentType.getTypeArguments()
 										.get(parameterType.getTypeArguments().indexOf(typeArgument))).getTypeReference()
-								.getTarget());
+										.getTarget());
 					}
 				}
 			}
@@ -277,17 +278,17 @@ public class TypeParameterExtension {
 							for (TypeArgument typeArgument : parameterType.getTypeArguments()) {
 								if (typeArgument instanceof QualifiedTypeArgument
 										&& ((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget()
-										.equals(me)) {
+												.equals(me)) {
 									int idx2 = parameterType.getTypeArguments().indexOf(typeArgument);
 									if (argumentType.getTypeArguments().get(idx2) instanceof QualifiedTypeArgument) {
 										resultList.add(0,
 												((QualifiedTypeArgument) argumentType.getTypeArguments().get(idx2))
-												.getTypeReference().getTarget());
+														.getTypeReference().getTarget());
 									} else if (argumentType.getTypeArguments()
 											.get(idx2) instanceof ExtendsTypeArgument) {
 										resultList.add(0,
 												((ExtendsTypeArgument) argumentType.getTypeArguments().get(idx2))
-												.getExtendType().getTarget());
+														.getExtendType().getTarget());
 									}
 								}
 							}
@@ -338,9 +339,8 @@ public class TypeParameterExtension {
 
 	private static void processType(TypeParameter me, Reference reference, EList<Type> resultList,
 			TypeParametrizable typeParameterDeclarator, Reference parentReference, Type prevType) {
-		int typeParameterIndex = -1;
 		if (typeParameterDeclarator instanceof ConcreteClassifier) {
-			typeParameterIndex = typeParameterDeclarator.getTypeParameters().indexOf(me);
+			int typeParameterIndex = typeParameterDeclarator.getTypeParameters().indexOf(me);
 			if (reference != null) {
 				ClassifierReference classifierReference = null;
 				if (parentReference instanceof ElementReference) {

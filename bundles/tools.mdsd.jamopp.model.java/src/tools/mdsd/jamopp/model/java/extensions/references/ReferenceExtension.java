@@ -20,7 +20,6 @@ import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.expressions.NestedExpression;
 import tools.mdsd.jamopp.model.java.literals.Literal;
 import tools.mdsd.jamopp.model.java.literals.Super;
-import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.references.ElementReference;
 import tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference;
@@ -32,7 +31,6 @@ import tools.mdsd.jamopp.model.java.references.StringReference;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypedElement;
-import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 
 public class ReferenceExtension {
 
@@ -83,14 +81,12 @@ public class ReferenceExtension {
 		// Referenced element points to an element with a type
 		ReferenceableElement target = ((ElementReference) me).getTarget();
 
-		if ((target == null) || target.eIsProxy()) {
+		if (target == null || target.eIsProxy()) {
 			type = null;
 		}
 
 		// Navigate through AdditionalLocalVariable or Field
-		if (target instanceof AdditionalLocalVariable || target instanceof AdditionalField) {
-			target = (ReferenceableElement) target.eContainer();
-		} else if (target instanceof TypedElement) {
+		if (target instanceof TypedElement) {
 			TypeReference typeRef = ((TypedElement) target).getTypeReference();
 			if (typeRef != null) {
 				type = typeRef.getBoundTarget(me);

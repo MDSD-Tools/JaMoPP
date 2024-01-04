@@ -76,11 +76,8 @@ public class JaMoPPStandalone {
 	}
 
 	private static String checkScheme(Resource javaResource) {
-		int emptyFileName = 0;
 		String outputFileName = "";
-		JavaRoot root = ContainersFactory.eINSTANCE.createEmptyModel();
-
-		root = (JavaRoot) javaResource.getContents().get(0);
+		JavaRoot root = (JavaRoot) javaResource.getContents().get(0);
 
 		if (root instanceof CompilationUnit) {
 			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
@@ -88,8 +85,7 @@ public class JaMoPPStandalone {
 			if (!cu.getClassifiers().isEmpty()) {
 				outputFileName += cu.getClassifiers().get(0).getName();
 			} else {
-				outputFileName += emptyFileName;
-				emptyFileName++;
+				outputFileName += 0;
 			}
 
 		} else if (root instanceof Package) {

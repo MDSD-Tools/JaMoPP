@@ -1,15 +1,15 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Type;
+
 import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -26,8 +26,7 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement,
-			ToTypeReferenceConverter toTypeReferenceConverter, ReferencesFactory referencesFactory,
+	ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement, ReferencesFactory referencesFactory,
 			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
@@ -41,6 +40,7 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public MethodCall convert(MethodInvocation arr) {
 		tools.mdsd.jamopp.model.java.references.Reference parent = null;

@@ -3,6 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -12,9 +15,6 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
@@ -68,7 +68,7 @@ public class ResolutionCompleter {
 			LocalVariableResolver localVariableResolver, InterfaceResolver interfaceResolver,
 			InterfaceMethodResolver interfaceMethodResolver, FieldResolver fieldResolver,
 			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
-			EnumerationResolver enumerationResolver, EnumConstantResolver enumConstantResolver, String cynthClass,
+			EnumerationResolver enumerationResolver, EnumConstantResolver enumConstantResolver,
 			ConstructorResolver constructorResolver, ClassResolver classResolver,
 			ClassMethodResolver classMethodResolver, CatchParameterResolver catchParameterResolver,
 			AnonymousClassResolver anonymousClassResolver, AnnotationResolver annotationResolver,
