@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -11,6 +13,7 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import tools.mdsd.jamopp.model.java.commons.NamedElement;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 
 public class ReferenceableElementResolver {
@@ -117,52 +120,48 @@ public class ReferenceableElementResolver {
 	}
 
 	public ReferenceableElement getByName(String name) {
-		List<Optional<? extends ReferenceableElement>> optionals = new ArrayList<>();
+		List<Stream<? extends ReferenceableElement>> streams = new ArrayList<>();
+		streams.add(variableBindings.stream().filter(bindingsFilter(name)).map(this::getByBinding));
+		streams.add(methodBindings.stream().filter(methodFilter(name)).map(methodResolver::getMethod));
+		streams.add(typeBindings.stream().filter(typeFilter(name)).map(classifierResolver::getClassifier));
+		streams.add(catchParameterResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(localVariableResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(variableLengthParameterResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(ordinaryParameterResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(additionalLocalVariableResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(enumConstantResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(fieldResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(additionalFieldResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(classMethodResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(interfaceMethodResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(typeParameterResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(enumerationResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(annotationResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(classResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(interfaceResolver.getBindings().values().stream().filter(filter(name)));
 
-		optionals.add(variableBindings.stream().filter(binding -> binding != null && binding.getName().equals(name))
-				.findFirst().map(this::getByBinding));
-		optionals.add(methodBindings.stream().filter(meth -> !meth.isConstructor() && meth.getName().equals(name))
-				.findFirst().map(methodResolver::getMethod));
-		optionals.add(typeBindings.stream().filter(type -> type != null && type.getName().equals(name)).findFirst()
-				.map(classifierResolver::getClassifier));
-		optionals.add(catchParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(localVariableResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(variableLengthParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(ordinaryParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(additionalLocalVariableResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(enumConstantResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst());
-		optionals.add(fieldResolver.getBindings().values().stream()
-				.filter(param -> param != null && param.getName().equals(name)).findFirst());
-		optionals.add(additionalFieldResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(classMethodResolver.getBindings().values().stream().filter(param -> param.getName().equals(name))
-				.findFirst());
-		optionals.add(interfaceMethodResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(typeParameterResolver.getBindings().values().stream()
-				.filter(param -> param.getName().equals(name)).findFirst());
-		optionals.add(enumerationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
-				.findFirst());
-		optionals.add(annotationResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
-				.findFirst());
-		optionals.add(classResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
-				.findFirst());
-		optionals.add(interfaceResolver.getBindings().values().stream().filter(param -> name.equals(param.getName()))
-				.findFirst());
-
-		for (Optional<? extends ReferenceableElement> optional : optionals) {
-			if (optional.isPresent()) {
-				return optional.get();
-			}
+		Optional<? extends ReferenceableElement> a = streams.stream().flatMap(s -> s).findFirst();
+		if (a.isPresent()) {
+			return a.get();
 		}
 
 		return classResolver.getByName(name);
+	}
+
+	private Predicate<? super IVariableBinding> bindingsFilter(String name) {
+		return param -> param != null && name.equals(param.getName());
+	}
+
+	private Predicate<? super IMethodBinding> methodFilter(String name) {
+		return param -> !param.isConstructor() && name.equals(param.getName());
+	}
+
+	private Predicate<? super ITypeBinding> typeFilter(String name) {
+		return param -> param != null && name.equals(param.getName());
+	}
+
+	private Predicate<? super NamedElement> filter(String name) {
+		return param -> param != null && name.equals(param.getName());
 	}
 
 }
