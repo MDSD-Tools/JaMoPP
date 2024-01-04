@@ -4,6 +4,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -12,14 +16,11 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Named;
-
 import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
-import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
+import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 
 public class PureTypeBindingsConverter {
 
@@ -107,14 +108,12 @@ public class PureTypeBindingsConverter {
 		} while (oldSize < newSize);
 	}
 
-	private void convertPureTypeBinding(String typeName,
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier, ResourceSet resourceSet) {
+	private void convertPureTypeBinding(String typeName, ConcreteClassifier classifier, ResourceSet resourceSet) {
 		if (objVisited.contains(classifier)) {
 			return;
 		}
 		objVisited.add(classifier);
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
-				.getConcreteClassifier(typeName);
+		ConcreteClassifier potClass = JavaClasspath.get().getConcreteClassifier(typeName);
 		if (potClass == classifier) {
 			return;
 		}
@@ -130,7 +129,7 @@ public class PureTypeBindingsConverter {
 			utilBindingInfoToConcreteClassifierConverter.get().convert(typeBind,
 					extractAdditionalInfosFromTypeBindings);
 		} else if (typeBind.isNested()) {
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier parentClassifier = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
+			ConcreteClassifier parentClassifier = (ConcreteClassifier) classifierResolver
 					.getClassifier(typeBind.getDeclaringClass());
 			convertPureTypeBinding(toTypeNameConverter.convertToTypeName(typeBind.getDeclaringClass()),
 					parentClassifier, resourceSet);
@@ -138,9 +137,7 @@ public class PureTypeBindingsConverter {
 		} else if (typeBind.isArray()) {
 			ITypeBinding elementType = typeBind.getElementType();
 			if (!elementType.isPrimitive() && !elementType.isTypeVariable()) {
-				convertPureTypeBinding(typeName,
-						(tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
-								.getClassifier(elementType),
+				convertPureTypeBinding(typeName, (ConcreteClassifier) classifierResolver.getClassifier(elementType),
 						resourceSet);
 			}
 		}

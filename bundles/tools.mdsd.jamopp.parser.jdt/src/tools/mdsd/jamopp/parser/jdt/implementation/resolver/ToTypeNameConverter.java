@@ -2,13 +2,13 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
 
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
@@ -71,38 +71,30 @@ public class ToTypeNameConverter {
 				return "var";
 			}
 			return ((tools.mdsd.jamopp.model.java.generics.TypeParameter) convRef.getTarget()).getName();
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference nRef) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference nRef) {
 			if (!nRef.getClassifierReferences().isEmpty()) {
 				return convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
 			}
 			return nRef.getNamespacesAsString();
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
 			return "boolean";
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Byte) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Byte) {
 			return "byte";
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Char) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Char) {
 			return "char";
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Double) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Double) {
 			return "double";
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Float) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Float) {
 			return "float";
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Int) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Int) {
 			return "int";
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Long) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Long) {
 			return "long";
-		}
-		if (ref instanceof tools.mdsd.jamopp.model.java.types.Short) {
+		} else if (ref instanceof tools.mdsd.jamopp.model.java.types.Short) {
 			return "short";
+		} else {
+			return "void";
 		}
-		return "void";
 	}
 
 }
