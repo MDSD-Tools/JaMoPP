@@ -1,10 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Statement;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.StatementHandler;
@@ -34,51 +37,40 @@ public class StatementToStatementConverterImpl
 	private StatementHandler whileStatementHandler;
 	private StatementHandler yieldStatementHandler;
 
+	private final Map<Integer, StatementHandler> mapping;
+
+	@Inject
+	public StatementToStatementConverterImpl() {
+		mapping = new HashMap<>();
+	}
+
 	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement convert(Statement statement) {
-		if (statement.getNodeType() == ASTNode.ASSERT_STATEMENT) {
-			return assertStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.BLOCK) {
-			return blockHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.BREAK_STATEMENT) {
-			return breakStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.CONTINUE_STATEMENT) {
-			return continueStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.DO_STATEMENT) {
-			return doStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.EMPTY_STATEMENT) {
-			return emptyStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.ENHANCED_FOR_STATEMENT) {
-			return enhancedForStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.EXPRESSION_STATEMENT) {
-			return expressionStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.FOR_STATEMENT) {
-			return forStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.IF_STATEMENT) {
-			return ifStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.LABELED_STATEMENT) {
-			return labeledStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.RETURN_STATEMENT) {
-			return returnStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.SWITCH_STATEMENT) {
-			return switchStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.SYNCHRONIZED_STATEMENT) {
-			return synchonizedStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.THROW_STATEMENT) {
-			return throwStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.TRY_STATEMENT) {
-			return tryStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.TYPE_DECLARATION_STATEMENT) {
-			return typeDeclarationStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.VARIABLE_DECLARATION_STATEMENT) {
-			return variableDeclarationStatementHandler.handle(statement);
-		} else if (statement.getNodeType() == ASTNode.WHILE_STATEMENT) {
-			return whileStatementHandler.handle(statement);
-		} else if (statement.getNodeType() != ASTNode.YIELD_STATEMENT) {
-			return otherHandler.handle(statement);
-		} else {
-			return yieldStatementHandler.handle(statement);
+
+		if (mapping.isEmpty()) {
+			mapping.put(ASTNode.ASSERT_STATEMENT, assertStatementHandler);
+			mapping.put(ASTNode.BLOCK, blockHandler);
+			mapping.put(ASTNode.BREAK_STATEMENT, breakStatementHandler);
+			mapping.put(ASTNode.CONTINUE_STATEMENT, continueStatementHandler);
+			mapping.put(ASTNode.DO_STATEMENT, doStatementHandler);
+			mapping.put(ASTNode.EMPTY_STATEMENT, emptyStatementHandler);
+			mapping.put(ASTNode.ENHANCED_FOR_STATEMENT, enhancedForStatementHandler);
+			mapping.put(ASTNode.EXPRESSION_STATEMENT, expressionStatementHandler);
+			mapping.put(ASTNode.FOR_STATEMENT, forStatementHandler);
+			mapping.put(ASTNode.IF_STATEMENT, ifStatementHandler);
+			mapping.put(ASTNode.LABELED_STATEMENT, labeledStatementHandler);
+			mapping.put(ASTNode.RETURN_STATEMENT, returnStatementHandler);
+			mapping.put(ASTNode.SWITCH_STATEMENT, switchStatementHandler);
+			mapping.put(ASTNode.SYNCHRONIZED_STATEMENT, synchonizedStatementHandler);
+			mapping.put(ASTNode.THROW_STATEMENT, throwStatementHandler);
+			mapping.put(ASTNode.TRY_STATEMENT, tryStatementHandler);
+			mapping.put(ASTNode.TYPE_DECLARATION_STATEMENT, typeDeclarationStatementHandler);
+			mapping.put(ASTNode.VARIABLE_DECLARATION_STATEMENT, variableDeclarationStatementHandler);
+			mapping.put(ASTNode.WHILE_STATEMENT, whileStatementHandler);
+			mapping.put(ASTNode.YIELD_STATEMENT, yieldStatementHandler);
 		}
+
+		return mapping.getOrDefault(statement.getNodeType(), otherHandler).handle(statement);
 	}
 
 	@Inject
