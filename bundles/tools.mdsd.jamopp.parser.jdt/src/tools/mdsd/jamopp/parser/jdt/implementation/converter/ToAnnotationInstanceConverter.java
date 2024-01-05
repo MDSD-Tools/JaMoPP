@@ -1,20 +1,21 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
+
+import com.google.inject.Singleton;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationParameterList;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
 import tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
-
-import javax.inject.Inject;
-import com.google.inject.Singleton;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -39,7 +40,6 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 		this.utilNamedElement = utilNamedElement;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public AnnotationInstance convert(Annotation annot) {
 		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
@@ -53,36 +53,46 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 		}
 		result.setAnnotation(proxyClass);
 		if (annot.isSingleMemberAnnotation()) {
-			SingleAnnotationParameter param = annotationsFactory.createSingleAnnotationParameter();
-			result.setParameter(param);
-			SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
-			typeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
+			handleSingleMemberAnnotation(annot, result);
 		} else if (annot.isNormalAnnotation()) {
-			AnnotationParameterList param = annotationsFactory.createAnnotationParameterList();
-			result.setParameter(param);
-			NormalAnnotation normalAnnot = (NormalAnnotation) annot;
-			normalAnnot.values().forEach(obj -> {
-				MemberValuePair memVal = (MemberValuePair) obj;
-				AnnotationAttributeSetting attrSet = annotationsFactory.createAnnotationAttributeSetting();
-				InterfaceMethod methodProxy;
-				if (memVal.resolveMemberValuePairBinding() != null) {
-					methodProxy = jdtResolverUtility
-							.getInterfaceMethod(memVal.resolveMemberValuePairBinding().getMethodBinding());
-				} else {
-					methodProxy = jdtResolverUtility.getInterfaceMethod(memVal.getName().getIdentifier());
-					if (!proxyClass.getMembers().contains(methodProxy)) {
-						proxyClass.getMembers().add(methodProxy);
-					}
-				}
-				utilNamedElement.setNameOfElement(memVal.getName(), methodProxy);
-				attrSet.setAttribute(methodProxy);
-				typeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
-				layoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);
-				param.getSettings().add(attrSet);
-			});
+			handleNormalAnnotation(annot, result, proxyClass);
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, annot);
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void handleNormalAnnotation(Annotation annot, AnnotationInstance result,
+			tools.mdsd.jamopp.model.java.classifiers.Annotation proxyClass) {
+		AnnotationParameterList param = annotationsFactory.createAnnotationParameterList();
+		result.setParameter(param);
+		NormalAnnotation normalAnnot = (NormalAnnotation) annot;
+		normalAnnot.values().forEach(obj -> {
+			MemberValuePair memVal = (MemberValuePair) obj;
+			AnnotationAttributeSetting attrSet = annotationsFactory.createAnnotationAttributeSetting();
+			InterfaceMethod methodProxy;
+			if (memVal.resolveMemberValuePairBinding() != null) {
+				methodProxy = jdtResolverUtility
+						.getInterfaceMethod(memVal.resolveMemberValuePairBinding().getMethodBinding());
+			} else {
+				methodProxy = jdtResolverUtility.getInterfaceMethod(memVal.getName().getIdentifier());
+				if (!proxyClass.getMembers().contains(methodProxy)) {
+					proxyClass.getMembers().add(methodProxy);
+				}
+			}
+			utilNamedElement.setNameOfElement(memVal.getName(), methodProxy);
+			attrSet.setAttribute(methodProxy);
+			typeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
+			layoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);
+			param.getSettings().add(attrSet);
+		});
+	}
+
+	private void handleSingleMemberAnnotation(Annotation annot, AnnotationInstance result) {
+		SingleAnnotationParameter param = annotationsFactory.createSingleAnnotationParameter();
+		result.setParameter(param);
+		SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
+		typeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
 	}
 
 	@Inject
