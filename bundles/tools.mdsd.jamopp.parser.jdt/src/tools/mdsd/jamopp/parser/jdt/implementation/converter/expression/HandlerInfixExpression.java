@@ -1,9 +1,16 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.InfixExpression;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Function;
 
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.InfixExpression;
+import org.eclipse.jdt.core.dom.InfixExpression.Operator;
 
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpressionChild;
@@ -21,12 +28,8 @@ public class HandlerInfixExpression implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
-	private final Converter<InfixExpression, EqualityExpression> toEqualityExpressionConverter;
-	private final Converter<InfixExpression, RelationExpression> toRelationExpressionConverter;
-	private final Converter<InfixExpression, ShiftExpression> toShiftExpressionConverter;
-	private final Converter<InfixExpression, AdditiveExpression> toAdditiveExpressionConverter;
-	private final Converter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter;
 	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
+	private final Map<Function<InfixExpression, tools.mdsd.jamopp.model.java.expressions.Expression>, Set<InfixExpression.Operator>> mapping;
 
 	@Inject
 	HandlerInfixExpression(UtilLayout utilLayout,
@@ -38,153 +41,134 @@ public class HandlerInfixExpression implements ExpressionHandler {
 			Converter<InfixExpression, AdditiveExpression> toAdditiveExpressionConverter,
 			ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
-		this.toEqualityExpressionConverter = toEqualityExpressionConverter;
-		this.toRelationExpressionConverter = toRelationExpressionConverter;
-		this.toShiftExpressionConverter = toShiftExpressionConverter;
-		this.toAdditiveExpressionConverter = toAdditiveExpressionConverter;
-		this.toMultiplicativeExpressionConverter = toMultiplicativeExpressionConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;
+		mapping = new HashMap<>();
+		mapping.put(this::handleConditionalOr, Set.of(InfixExpression.Operator.CONDITIONAL_OR));
+		mapping.put(this::handleConditionalAnd, Set.of(InfixExpression.Operator.CONDITIONAL_AND));
+		mapping.put(this::handleOperatorOr, Set.of(InfixExpression.Operator.OR));
+		mapping.put(this::handleOperatorXor, Set.of(InfixExpression.Operator.XOR));
+		mapping.put(this::handleOperatorAnd, Set.of(InfixExpression.Operator.AND));
+		mapping.put(toEqualityExpressionConverter::convert,
+				Set.of(InfixExpression.Operator.EQUALS, InfixExpression.Operator.NOT_EQUALS));
+		mapping.put(toRelationExpressionConverter::convert,
+				Set.of(InfixExpression.Operator.GREATER, InfixExpression.Operator.GREATER_EQUALS,
+						InfixExpression.Operator.LESS, InfixExpression.Operator.LESS_EQUALS));
+		mapping.put(toShiftExpressionConverter::convert, Set.of(InfixExpression.Operator.LEFT_SHIFT,
+				InfixExpression.Operator.RIGHT_SHIFT_SIGNED, InfixExpression.Operator.RIGHT_SHIFT_UNSIGNED));
+		mapping.put(toAdditiveExpressionConverter::convert,
+				Set.of(InfixExpression.Operator.PLUS, InfixExpression.Operator.MINUS));
+		mapping.put(toMultiplicativeExpressionConverter::convert, Set.of(InfixExpression.Operator.TIMES,
+				InfixExpression.Operator.DIVIDE, InfixExpression.Operator.REMAINDER));
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		InfixExpression infix = (InfixExpression) expr;
-		if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_OR) {
-			return handleConditionalOr(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.CONDITIONAL_AND) {
-			return handleConditionalAnd(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.OR) {
-			return handleOperatorOr(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.XOR) {
-			return handleOperatorXor(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.AND) {
-			return handleOperatorAnd(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.EQUALS
-				|| infix.getOperator() == InfixExpression.Operator.NOT_EQUALS) {
-			return this.toEqualityExpressionConverter.convert(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.GREATER
-				|| infix.getOperator() == InfixExpression.Operator.GREATER_EQUALS
-				|| infix.getOperator() == InfixExpression.Operator.LESS
-				|| infix.getOperator() == InfixExpression.Operator.LESS_EQUALS) {
-			return this.toRelationExpressionConverter.convert(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.LEFT_SHIFT
-				|| infix.getOperator() == InfixExpression.Operator.RIGHT_SHIFT_SIGNED
-				|| infix.getOperator() == InfixExpression.Operator.RIGHT_SHIFT_UNSIGNED) {
-			return this.toShiftExpressionConverter.convert(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.PLUS
-				|| infix.getOperator() == InfixExpression.Operator.MINUS) {
-			return this.toAdditiveExpressionConverter.convert(infix);
-		} else if (infix.getOperator() == InfixExpression.Operator.TIMES
-				|| infix.getOperator() == InfixExpression.Operator.DIVIDE
-				|| infix.getOperator() == InfixExpression.Operator.REMAINDER) {
-			return this.toMultiplicativeExpressionConverter.convert(infix);
-		} else {
-			return null;
+		for (Entry<Function<InfixExpression, tools.mdsd.jamopp.model.java.expressions.Expression>, Set<Operator>> entry : mapping
+				.entrySet()) {
+			if (entry.getValue().contains(infix.getOperator())) {
+				return entry.getKey().apply(infix);
+			}
 		}
+
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorAnd(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.AndExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression ex = this.toExpressionConverter
-				.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 		if (ex instanceof tools.mdsd.jamopp.model.java.expressions.AndExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.AndExpression) ex;
 		} else {
-			result = this.expressionsFactory.createAndExpression();
+			result = expressionsFactory.createAndExpression();
 			result.getChildren().add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) ex);
 		}
-		result.getChildren()
-				.add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) this.toExpressionConverter
-						.convert(infix.getRightOperand()));
+		result.getChildren().add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) toExpressionConverter
+				.convert(infix.getRightOperand()));
 		infix.extendedOperands()
 				.forEach(obj -> result.getChildren()
-						.add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) this.toExpressionConverter
+						.add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) toExpressionConverter
 								.convert((Expression) obj)));
-		this.utilLayout.convertToMinimalLayoutInformation(result, infix);
+		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorXor(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression ex = this.toExpressionConverter
-				.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 		if (ex instanceof tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression) ex;
 		} else {
-			result = this.expressionsFactory.createExclusiveOrExpression();
+			result = expressionsFactory.createExclusiveOrExpression();
 			result.getChildren().add((tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) ex);
 		}
 		result.getChildren()
-				.add((tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) this.toExpressionConverter
+				.add((tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) toExpressionConverter
 						.convert(infix.getRightOperand()));
 		infix.extendedOperands()
-				.forEach(obj -> result.getChildren().add(
-						(tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) this.toExpressionConverter
+				.forEach(obj -> result.getChildren()
+						.add((tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) toExpressionConverter
 								.convert((Expression) obj)));
-		this.utilLayout.convertToMinimalLayoutInformation(result, infix);
+		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorOr(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression ex = this.toExpressionConverter
-				.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 		if (ex instanceof tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression) ex;
 		} else {
-			result = this.expressionsFactory.createInclusiveOrExpression();
+			result = expressionsFactory.createInclusiveOrExpression();
 			result.getChildren().add((tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) ex);
 		}
 		result.getChildren()
-				.add((tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) this.toExpressionConverter
+				.add((tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) toExpressionConverter
 						.convert(infix.getRightOperand()));
 		infix.extendedOperands()
-				.forEach(obj -> result.getChildren().add(
-						(tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) this.toExpressionConverter
+				.forEach(obj -> result.getChildren()
+						.add((tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) toExpressionConverter
 								.convert((Expression) obj)));
-		this.utilLayout.convertToMinimalLayoutInformation(result, infix);
+		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalAnd(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression ex = this.toExpressionConverter
-				.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 		if (ex instanceof tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression) ex;
 		} else {
-			result = this.expressionsFactory.createConditionalAndExpression();
+			result = expressionsFactory.createConditionalAndExpression();
 			result.getChildren().add((ConditionalAndExpressionChild) ex);
 		}
 		result.getChildren()
-				.add((ConditionalAndExpressionChild) this.toExpressionConverter.convert(infix.getRightOperand()));
+				.add((ConditionalAndExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
 		infix.extendedOperands().forEach(obj -> result.getChildren()
-				.add((ConditionalAndExpressionChild) this.toExpressionConverter.convert((Expression) obj)));
-		this.utilLayout.convertToMinimalLayoutInformation(result, infix);
+				.add((ConditionalAndExpressionChild) toExpressionConverter.convert((Expression) obj)));
+		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalOr(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression ex = this.toExpressionConverter
-				.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression ex = toExpressionConverter.convert(infix.getLeftOperand());
 		if (ex instanceof tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression) ex;
 		} else {
-			result = this.expressionsFactory.createConditionalOrExpression();
+			result = expressionsFactory.createConditionalOrExpression();
 			result.getChildren().add((ConditionalOrExpressionChild) ex);
 		}
-		result.getChildren()
-				.add((ConditionalOrExpressionChild) this.toExpressionConverter.convert(infix.getRightOperand()));
+		result.getChildren().add((ConditionalOrExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
 		infix.extendedOperands().forEach(obj -> result.getChildren()
-				.add((ConditionalOrExpressionChild) this.toExpressionConverter.convert((Expression) obj)));
-		this.utilLayout.convertToMinimalLayoutInformation(result, infix);
+				.add((ConditionalOrExpressionChild) toExpressionConverter.convert((Expression) obj)));
+		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
