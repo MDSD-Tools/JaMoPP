@@ -2,6 +2,11 @@ package tools.mdsd.jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.literals.BinaryIntegerLiteral;
 import tools.mdsd.jamopp.model.java.literals.BinaryLongLiteral;
@@ -19,43 +24,58 @@ import tools.mdsd.jamopp.model.java.literals.Literal;
 import tools.mdsd.jamopp.model.java.literals.NullLiteral;
 import tools.mdsd.jamopp.model.java.literals.OctalIntegerLiteral;
 import tools.mdsd.jamopp.model.java.literals.OctalLongLiteral;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class LiteralPrinterImpl implements Printer<Literal> {
 
+	private final List<Pair<?>> mapping;
+
+	@Inject
+	public LiteralPrinterImpl() {
+		mapping = new ArrayList<>();
+		mapping.add(new Pair<>(BooleanLiteral.class, lit -> Boolean.toString(lit.isValue())));
+		mapping.add(new Pair<>(CharacterLiteral.class, lit -> "'" + lit.getValue() + "'"));
+		mapping.add(new Pair<>(NullLiteral.class, lit -> "null"));
+		mapping.add(new Pair<>(DecimalFloatLiteral.class, lit -> Float.toString(lit.getDecimalValue()) + "F"));
+		mapping.add(new Pair<>(HexFloatLiteral.class, lit -> Float.toHexString(lit.getHexValue()) + "F"));
+		mapping.add(new Pair<>(DecimalDoubleLiteral.class, lit -> Double.toString(lit.getDecimalValue()) + "D"));
+		mapping.add(new Pair<>(HexDoubleLiteral.class, lit -> Double.toHexString(lit.getHexValue()) + "D"));
+		mapping.add(new Pair<>(DecimalIntegerLiteral.class, lit -> lit.getDecimalValue().toString()));
+		mapping.add(new Pair<>(HexIntegerLiteral.class, lit -> "0x" + lit.getHexValue().toString(16)));
+		mapping.add(new Pair<>(OctalIntegerLiteral.class, lit -> "0" + lit.getOctalValue().toString(8)));
+		mapping.add(new Pair<>(BinaryIntegerLiteral.class, lit -> "0b" + lit.getBinaryValue().toString(2)));
+		mapping.add(new Pair<>(DecimalLongLiteral.class, lit -> lit.getDecimalValue().toString() + "L"));
+		mapping.add(new Pair<>(HexLongLiteral.class, lit -> "0x" + lit.getHexValue().toString(16) + "L"));
+		mapping.add(new Pair<>(OctalLongLiteral.class, lit -> "0" + lit.getOctalValue().toString(8) + "L"));
+		mapping.add(new Pair<>(BinaryLongLiteral.class, lit -> "0b" + lit.getBinaryValue().toString(2) + "L"));
+	}
+
 	@Override
 	public void print(Literal element, BufferedWriter writer) throws IOException {
-		if (element instanceof BooleanLiteral lit) {
-			writer.append(Boolean.toString(lit.isValue()));
-		} else if (element instanceof CharacterLiteral lit) {
-			writer.append("'" + lit.getValue() + "'");
-		} else if (element instanceof NullLiteral) {
-			writer.append("null");
-		} else if (element instanceof DecimalFloatLiteral lit) {
-			writer.append(Float.toString(lit.getDecimalValue()) + "F");
-		} else if (element instanceof HexFloatLiteral lit) {
-			writer.append(Float.toHexString(lit.getHexValue()) + "F");
-		} else if (element instanceof DecimalDoubleLiteral lit) {
-			writer.append(Double.toString(lit.getDecimalValue()) + "D");
-		} else if (element instanceof HexDoubleLiteral lit) {
-			writer.append(Double.toHexString(lit.getHexValue()) + "D");
-		} else if (element instanceof DecimalIntegerLiteral lit) {
-			writer.append(lit.getDecimalValue().toString());
-		} else if (element instanceof HexIntegerLiteral lit) {
-			writer.append("0x" + lit.getHexValue().toString(16));
-		} else if (element instanceof OctalIntegerLiteral lit) {
-			writer.append("0" + lit.getOctalValue().toString(8));
-		} else if (element instanceof BinaryIntegerLiteral lit) {
-			writer.append("0b" + lit.getBinaryValue().toString(2));
-		} else if (element instanceof DecimalLongLiteral lit) {
-			writer.append(lit.getDecimalValue().toString() + "L");
-		} else if (element instanceof HexLongLiteral lit) {
-			writer.append("0x" + lit.getHexValue().toString(16) + "L");
-		} else if (element instanceof OctalLongLiteral lit) {
-			writer.append("0" + lit.getOctalValue().toString(8) + "L");
-		} else if (element instanceof BinaryLongLiteral lit) {
-			writer.append("0b" + lit.getBinaryValue().toString(2) + "L");
+		for (Pair<?> mapping : mapping) {
+			if (mapping.getClazz().isInstance(element)) {
+				writer.append(mapping.convert(element));
+				return;
+			}
+		}
+	}
+
+	private static class Pair<K extends Literal> {
+
+		private final Class<K> clazz;
+		private final Function<K, String> fun;
+
+		Pair(Class<K> clazz, Function<K, String> fun) {
+			this.clazz = clazz;
+			this.fun = fun;
+		}
+
+		Class<K> getClazz() {
+			return clazz;
+		}
+
+		String convert(Literal literal) {
+			return fun.apply(clazz.cast(literal));
 		}
 	}
 
