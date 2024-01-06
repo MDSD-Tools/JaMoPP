@@ -2,6 +2,11 @@ package tools.mdsd.jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.arrays.ArrayInstantiation;
@@ -15,10 +20,6 @@ import tools.mdsd.jamopp.model.java.references.ReflectiveClassReference;
 import tools.mdsd.jamopp.model.java.references.SelfReference;
 import tools.mdsd.jamopp.model.java.references.StringReference;
 import tools.mdsd.jamopp.model.java.references.TextBlockReference;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import tools.mdsd.jamopp.printer.interfaces.EmptyPrinter;
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
@@ -35,6 +36,7 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 	private final Printer<SelfReference> selfReferencePrinter;
 	private final Printer<StringReference> stringReferencePrinter;
 	private final Printer<TextBlockReference> textBlockReferencePrinter;
+	private final List<Mapping<?>> mappings;
 
 	@Inject
 	public ReferencePrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
@@ -56,33 +58,38 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 		this.textBlockReferencePrinter = textBlockReferencePrinter;
 		this.elementReferencePrinter = elementReferencePrinter;
 		this.arraySelectorPrinter = arraySelectorPrinter;
+		mappings = new ArrayList<>();
 	}
 
 	@Override
 	public void print(Reference element, BufferedWriter writer) throws IOException {
-		if (element instanceof AnnotationInstance) {
-			this.annotationInstancePrinter.print((AnnotationInstance) element, writer);
-		} else if (element instanceof NestedExpression) {
-			this.nestedExpressionPrinter.print((NestedExpression) element, writer);
-		} else if (element instanceof ReflectiveClassReference) {
-			this.reflectiveClassReferencePrinter.print(writer);
-		} else if (element instanceof PrimitiveTypeReference) {
-			this.primitiveTypeReferencePrinter.print((PrimitiveTypeReference) element, writer);
-		} else if (element instanceof StringReference) {
-			this.stringReferencePrinter.print((StringReference) element, writer);
-		} else if (element instanceof SelfReference) {
-			this.selfReferencePrinter.print((SelfReference) element, writer);
-		} else if (element instanceof ArrayInstantiation) {
-			this.arrayInstantiationPrinter.print((ArrayInstantiation) element, writer);
-		} else if (element instanceof Instantiation) {
-			this.instantiationPrinter.print((Instantiation) element, writer);
-		} else if (element instanceof TextBlockReference) {
-			this.textBlockReferencePrinter.print((TextBlockReference) element, writer);
-		} else {
-			this.elementReferencePrinter.print((ElementReference) element, writer);
+
+		if (mappings.isEmpty()) {
+			mappings.add(new Mapping<>(AnnotationInstance.class, annotationInstancePrinter));
+			mappings.add(new Mapping<>(NestedExpression.class, nestedExpressionPrinter));
+			mappings.add(new Mapping<>(PrimitiveTypeReference.class, primitiveTypeReferencePrinter));
+			mappings.add(new Mapping<>(StringReference.class, stringReferencePrinter));
+			mappings.add(new Mapping<>(SelfReference.class, selfReferencePrinter));
+			mappings.add(new Mapping<>(ArrayInstantiation.class, arrayInstantiationPrinter));
+			mappings.add(new Mapping<>(Instantiation.class, instantiationPrinter));
+			mappings.add(new Mapping<>(TextBlockReference.class, textBlockReferencePrinter));
+			mappings.add(new Mapping<>(ElementReference.class, elementReferencePrinter));
 		}
+
+		boolean printed = false;
+		for (Mapping<?> mapping : mappings) {
+			printed = mapping.checkAndPrint(element, writer);
+			if (printed) {
+				break;
+			}
+		}
+
+		if (element instanceof ReflectiveClassReference && !printed) {
+			reflectiveClassReferencePrinter.print(writer);
+		}
+
 		for (ArraySelector sel : element.getArraySelectors()) {
-			this.arraySelectorPrinter.print(sel, writer);
+			arraySelectorPrinter.print(sel, writer);
 		}
 		if (element.getNext() != null) {
 			writer.append(".");

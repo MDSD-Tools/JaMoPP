@@ -94,25 +94,6 @@ public class StatementPrinterImpl implements Printer<Statement> {
 		mappings = new ArrayList<>();
 	}
 
-	static class Mapping<K extends Statement> {
-
-		private final Class<K> clazz;
-		private final Provider<Printer<K>> printer;
-
-		public Mapping(Class<K> clazz, Provider<Printer<K>> printer) {
-			this.clazz = clazz;
-			this.printer = printer;
-		}
-
-		boolean checkAndPrint(Statement element, BufferedWriter writer) throws IOException {
-			if (clazz.isInstance(element)) {
-				printer.get().print(clazz.cast(element), writer);
-				return true;
-			}
-			return false;
-		}
-	}
-
 	@Override
 	public void print(Statement element, BufferedWriter writer) throws IOException {
 
