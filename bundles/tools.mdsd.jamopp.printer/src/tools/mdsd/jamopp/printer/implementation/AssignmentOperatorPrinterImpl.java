@@ -2,6 +2,11 @@ package tools.mdsd.jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.operators.Assignment;
 import tools.mdsd.jamopp.model.java.operators.AssignmentAnd;
@@ -15,38 +20,38 @@ import tools.mdsd.jamopp.model.java.operators.AssignmentOperator;
 import tools.mdsd.jamopp.model.java.operators.AssignmentOr;
 import tools.mdsd.jamopp.model.java.operators.AssignmentPlus;
 import tools.mdsd.jamopp.model.java.operators.AssignmentRightShift;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class AssignmentOperatorPrinterImpl implements Printer<AssignmentOperator> {
 
+	private final Map<Class<?>, String> mapping;
+
+	@Inject
+	public AssignmentOperatorPrinterImpl() {
+		mapping = new HashMap<>();
+		mapping.put(Assignment.class, " = ");
+		mapping.put(AssignmentAnd.class, " &= ");
+		mapping.put(AssignmentDivision.class, " /= ");
+		mapping.put(AssignmentExclusiveOr.class, " ^= ");
+		mapping.put(AssignmentMinus.class, " -= ");
+		mapping.put(AssignmentModulo.class, " %= ");
+		mapping.put(AssignmentMultiplication.class, " *= ");
+		mapping.put(AssignmentLeftShift.class, " <<= ");
+		mapping.put(AssignmentOr.class, " |= ");
+		mapping.put(AssignmentPlus.class, " += ");
+		mapping.put(AssignmentRightShift.class, " >>= ");
+	}
+
 	@Override
 	public void print(AssignmentOperator element, BufferedWriter writer) throws IOException {
-		if (element instanceof Assignment) {
-			writer.append(" = ");
-		} else if (element instanceof AssignmentAnd) {
-			writer.append(" &= ");
-		} else if (element instanceof AssignmentDivision) {
-			writer.append(" /= ");
-		} else if (element instanceof AssignmentExclusiveOr) {
-			writer.append(" ^= ");
-		} else if (element instanceof AssignmentMinus) {
-			writer.append(" -= ");
-		} else if (element instanceof AssignmentModulo) {
-			writer.append(" %= ");
-		} else if (element instanceof AssignmentMultiplication) {
-			writer.append(" *= ");
-		} else if (element instanceof AssignmentLeftShift) {
-			writer.append(" <<= ");
-		} else if (element instanceof AssignmentOr) {
-			writer.append(" |= ");
-		} else if (element instanceof AssignmentPlus) {
-			writer.append(" += ");
-		} else if (element instanceof AssignmentRightShift) {
-			writer.append(" >>= ");
-		} else {
-			writer.append(" >>>= ");
+		for (Entry<Class<?>, String> entry : mapping.entrySet()) {
+			if (entry.getKey().isInstance(element)) {
+				writer.append(entry.getValue());
+				return;
+			}
 		}
+		// else
+		writer.append(" >>>= ");
 	}
 
 }
