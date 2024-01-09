@@ -200,7 +200,7 @@ public class AnnotableAndModifiableExtension {
 		if (!(me.eContainer() instanceof Commentable)) {
 			return true;
 		}
-		ConcreteClassifier lContextClassifier = lContext.getContainingConcreteClassifier();
+		ConcreteClassifier iContextClassifier = lContext.getContainingConcreteClassifier();
 		ConcreteClassifier myClassifier = ((Commentable) me.eContainer()).getParentConcreteClassifier();
 		// special case: self reference to outer instance
 		if (lContext instanceof Reference && ((Reference) lContext).getPrevious() instanceof SelfReference) {
@@ -208,65 +208,68 @@ public class AnnotableAndModifiableExtension {
 			if (selfReference.getPrevious() != null) {
 				Type type = selfReference.getPrevious().getReferencedType();
 				if (type instanceof ConcreteClassifier) {
-					lContextClassifier = (ConcreteClassifier) type;
+					iContextClassifier = (ConcreteClassifier) type;
 				}
 			}
 		}
 
 		for (AnnotationInstanceOrModifier modifier : me.getAnnotationsAndModifiers()) {
 			if (modifier instanceof Private) {
-				return myClassifier.equalsType(0, lContextClassifier, 0);
-			}
-			if (modifier instanceof Public) {
+				return myClassifier.equalsType(0, iContextClassifier, 0);
+			} else if (modifier instanceof Public) {
 				return false;
-			}
-			if (modifier instanceof Protected) {
-				// package visibility
-				if (me.getContainingPackageName() != null
-						&& me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
-					return false;
-				}
-				// try outer classifiers as well
-				while (lContextClassifier != null) {
-					if (lContextClassifier.isSuperType(0, myClassifier, null)) {
-						return false;
-					}
-
-					EObject container = lContextClassifier.eContainer();
-					if (container instanceof Commentable) {
-						lContextClassifier = ((Commentable) container).getParentConcreteClassifier();
-					} else {
-						lContextClassifier = null;
-					}
-
-					if (lContextClassifier != null && !lContextClassifier.eIsProxy()
-							&& lContextClassifier.isSuperType(0, myClassifier, null)) {
-						return false;
-					}
-				}
-				// visibility through anonymous subclass
-				AnonymousClass anonymousClass = lContext.getContainingAnonymousClass();
-				while (anonymousClass != null) {
-					lContextClassifier = anonymousClass.getSuperClassifier();
-					if (lContextClassifier == null) {
-						return true;
-					}
-					if (lContextClassifier.isSuperType(0, myClassifier, null)) {
-						return false;
-					}
-
-					EObject container = anonymousClass.eContainer();
-					if (container instanceof Commentable) {
-						anonymousClass = ((Commentable) container).getContainingAnonymousClass();
-					} else {
-						anonymousClass = null;
-					}
-				}
-				return true;
+			} else if (modifier instanceof Protected) {
+				return checkProtected(myClassifier, myClassifier, lContext, lContext);
 			}
 		}
+
 		// Probably package visibility
 		return me.getContainingPackageName() == null
 				|| !me.getContainingPackageName().equals(lContext.getContainingPackageName());
+	}
+
+	private static boolean checkProtected(ConcreteClassifier iContextClassifier, ConcreteClassifier myClassifier,
+			Commentable me, Commentable lContext) {
+		// package visibility
+		if (me.getContainingPackageName() != null
+				&& me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
+			return false;
+		}
+		// try outer classifiers as well
+		while (iContextClassifier != null) {
+			if (iContextClassifier.isSuperType(0, myClassifier, null)) {
+				return false;
+			}
+
+			EObject container = iContextClassifier.eContainer();
+			if (container instanceof Commentable) {
+				iContextClassifier = ((Commentable) container).getParentConcreteClassifier();
+			} else {
+				iContextClassifier = null;
+			}
+
+			if (iContextClassifier != null && !iContextClassifier.eIsProxy()
+					&& iContextClassifier.isSuperType(0, myClassifier, null)) {
+				return false;
+			}
+		}
+		// visibility through anonymous subclass
+		AnonymousClass anonymousClass = lContext.getContainingAnonymousClass();
+		while (anonymousClass != null) {
+			iContextClassifier = anonymousClass.getSuperClassifier();
+			if (iContextClassifier == null) {
+				return true;
+			} else if (iContextClassifier.isSuperType(0, myClassifier, null)) {
+				return false;
+			}
+
+			EObject container = anonymousClass.eContainer();
+			if (container instanceof Commentable) {
+				anonymousClass = ((Commentable) container).getContainingAnonymousClass();
+			} else {
+				anonymousClass = null;
+			}
+		}
+		return true;
 	}
 }
