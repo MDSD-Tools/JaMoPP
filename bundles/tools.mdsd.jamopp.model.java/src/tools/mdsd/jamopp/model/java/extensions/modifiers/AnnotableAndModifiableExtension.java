@@ -21,7 +21,6 @@ import java.util.List;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
@@ -190,19 +189,16 @@ public class AnnotableAndModifiableExtension {
 
 	public static boolean isHidden(AnnotableAndModifiable me, Commentable context) {
 		// all members of an interface are public by default
+		Commentable lContext = context;
 		if (me.eIsProxy() || me.eContainer() instanceof Interface) {
 			return false;
-		}
-		Commentable lContext = context;
-		if (lContext.eIsProxy()) {
+		} else if (lContext.eIsProxy()) {
 			lContext = (Commentable) EcoreUtil.resolve(lContext, me);
-		}
-		if (!(me.eContainer() instanceof Commentable)) {
+		} else if (!(me.eContainer() instanceof Commentable)) {
 			return true;
 		}
 		ConcreteClassifier iContextClassifier = lContext.getContainingConcreteClassifier();
 		ConcreteClassifier myClassifier = ((Commentable) me.eContainer()).getParentConcreteClassifier();
-		// special case: self reference to outer instance
 		if (lContext instanceof Reference && ((Reference) lContext).getPrevious() instanceof SelfReference) {
 			SelfReference selfReference = (SelfReference) ((Reference) lContext).getPrevious();
 			if (selfReference.getPrevious() != null) {
@@ -239,11 +235,8 @@ public class AnnotableAndModifiableExtension {
 		while (iContextClassifier != null) {
 			if (iContextClassifier.isSuperType(0, myClassifier, null)) {
 				return false;
-			}
-
-			EObject container = iContextClassifier.eContainer();
-			if (container instanceof Commentable) {
-				iContextClassifier = ((Commentable) container).getParentConcreteClassifier();
+			} else if (iContextClassifier.eContainer() instanceof Commentable) {
+				iContextClassifier = ((Commentable) iContextClassifier.eContainer()).getParentConcreteClassifier();
 			} else {
 				iContextClassifier = null;
 			}
@@ -256,16 +249,14 @@ public class AnnotableAndModifiableExtension {
 		// visibility through anonymous subclass
 		AnonymousClass anonymousClass = lContext.getContainingAnonymousClass();
 		while (anonymousClass != null) {
-			iContextClassifier = anonymousClass.getSuperClassifier();
-			if (iContextClassifier == null) {
+			if (anonymousClass.getSuperClassifier() == null) {
 				return true;
-			} else if (iContextClassifier.isSuperType(0, myClassifier, null)) {
+			} else if (anonymousClass.getSuperClassifier().isSuperType(0, myClassifier, null)) {
 				return false;
 			}
 
-			EObject container = anonymousClass.eContainer();
-			if (container instanceof Commentable) {
-				anonymousClass = ((Commentable) container).getContainingAnonymousClass();
+			if (anonymousClass.eContainer() instanceof Commentable) {
+				anonymousClass = ((Commentable) anonymousClass.eContainer()).getContainingAnonymousClass();
 			} else {
 				anonymousClass = null;
 			}
