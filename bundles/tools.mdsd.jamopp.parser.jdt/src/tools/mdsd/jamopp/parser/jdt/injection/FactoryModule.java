@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.injection;
 
+import com.google.inject.AbstractModule;
+
 import tools.mdsd.jamopp.commons.layout.LayoutFactory;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationsFactory;
 import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
@@ -20,104 +22,31 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-
 public class FactoryModule extends AbstractModule {
 
-	@Provides
-	ImportsFactory provideImportsFactory() {
-		return ImportsFactory.eINSTANCE;
-	}
+	@Override
+	protected void configure() {
+		super.configure();
 
-	@Provides
-	ModifiersFactory provideModifiersFactory() {
-		return ModifiersFactory.eINSTANCE;
-	}
-
-	@Provides
-	ExpressionsFactory provideExpressionsFactory() {
-		return ExpressionsFactory.eINSTANCE;
-	}
-
-	@Provides
-	LiteralsFactory provideLiteralsFactory() {
-		return LiteralsFactory.eINSTANCE;
-	}
-
-	@Provides
-	OperatorsFactory provideOperatorsFactory() {
-		return OperatorsFactory.eINSTANCE;
-	}
-
-	@Provides
-	LayoutFactory provideLayoutFactory() {
-		return LayoutFactory.eINSTANCE;
-	}
-
-	@Provides
-	AnnotationsFactory provideAnnotationsFactory() {
-		return AnnotationsFactory.eINSTANCE;
-	}
-
-	@Provides
-	ArraysFactory provideArraysFactory() {
-		return ArraysFactory.eINSTANCE;
-	}
-
-	@Provides
-	ClassifiersFactory provideClassifiersFactory() {
-		return ClassifiersFactory.eINSTANCE;
-	}
-
-	@Provides
-	ContainersFactory provideContainersFactory() {
-		return ContainersFactory.eINSTANCE;
-	}
-
-	@Provides
-	GenericsFactory provideGenericsFactory() {
-		return GenericsFactory.eINSTANCE;
-	}
-
-	@Provides
-	MembersFactory provideMembersFactory() {
-		return MembersFactory.eINSTANCE;
-	}
-
-	@Provides
-	ModulesFactory provideModulesFactory() {
-		return ModulesFactory.eINSTANCE;
-	}
-
-	@Provides
-	ParametersFactory provideParametersFactory() {
-		return ParametersFactory.eINSTANCE;
-	}
-
-	@Provides
-	ReferencesFactory provideReferencesFactory() {
-		return ReferencesFactory.eINSTANCE;
-	}
-
-	@Provides
-	StatementsFactory provideStatementsFactory() {
-		return StatementsFactory.eINSTANCE;
-	}
-
-	@Provides
-	TypesFactory provideTypesFactory() {
-		return TypesFactory.eINSTANCE;
-	}
-
-	@Provides
-	VariablesFactory provideVariablesFactory() {
-		return VariablesFactory.eINSTANCE;
-	}
-
-	@Provides
-	InstantiationsFactory provideInstantiationsFactory() {
-		return InstantiationsFactory.eINSTANCE;
+		bind(ImportsFactory.class).toInstance(ImportsFactory.eINSTANCE);
+		bind(ModifiersFactory.class).toInstance(ModifiersFactory.eINSTANCE);
+		bind(ExpressionsFactory.class).toInstance(ExpressionsFactory.eINSTANCE);
+		bind(LiteralsFactory.class).toInstance(LiteralsFactory.eINSTANCE);
+		bind(OperatorsFactory.class).toInstance(OperatorsFactory.eINSTANCE);
+		bind(LayoutFactory.class).toInstance(LayoutFactory.eINSTANCE);
+		bind(AnnotationsFactory.class).toInstance(AnnotationsFactory.eINSTANCE);
+		bind(ArraysFactory.class).toInstance(ArraysFactory.eINSTANCE);
+		bind(ClassifiersFactory.class).toInstance(ClassifiersFactory.eINSTANCE);
+		bind(ContainersFactory.class).toInstance(ContainersFactory.eINSTANCE);
+		bind(GenericsFactory.class).toInstance(GenericsFactory.eINSTANCE);
+		bind(MembersFactory.class).toInstance(MembersFactory.eINSTANCE);
+		bind(ModulesFactory.class).toInstance(ModulesFactory.eINSTANCE);
+		bind(ParametersFactory.class).toInstance(ParametersFactory.eINSTANCE);
+		bind(ReferencesFactory.class).toInstance(ReferencesFactory.eINSTANCE);
+		bind(StatementsFactory.class).toInstance(StatementsFactory.eINSTANCE);
+		bind(TypesFactory.class).toInstance(TypesFactory.eINSTANCE);
+		bind(VariablesFactory.class).toInstance(VariablesFactory.eINSTANCE);
+		bind(InstantiationsFactory.class).toInstance(InstantiationsFactory.eINSTANCE);
 	}
 
 }

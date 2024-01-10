@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IMethodBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IMethodBinding;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
@@ -40,19 +40,20 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 
 	@Override
 	public InterfaceMethod getByBinding(IMethodBinding binding) {
-		binding = binding.getMethodDeclaration();
-		methodBindings.add(binding);
-		String methName = toMethodNameConverter.convertToMethodName(binding);
+		IMethodBinding methoDeclaration = binding.getMethodDeclaration();
+		methodBindings.add(methoDeclaration);
+		String methName = toMethodNameConverter.convertToMethodName(methoDeclaration);
 		if (getBindings().containsKey(methName)) {
 			return getBindings().get(methName);
 		}
 		ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
-				.getClassifier(binding.getDeclaringClass());
+				.getClassifier(methoDeclaration.getDeclaringClass());
 		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = null;
 		if (classifier != null) {
 			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 				if (mem instanceof tools.mdsd.jamopp.model.java.members.InterfaceMethod) {
-					result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
+					result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
+							methoDeclaration);
 					if (result != null) {
 						break;
 					}

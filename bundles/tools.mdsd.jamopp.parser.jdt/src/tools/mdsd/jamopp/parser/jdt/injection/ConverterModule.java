@@ -300,180 +300,183 @@ public class ConverterModule extends AbstractModule {
 		bind(StatementHandler.class).annotatedWith(Names.named("YieldStatementHandler"))
 				.to(YieldStatementHandler.class);
 		bind(new TypeLiteral<Set<JumpLabel>>() {
-		}).toInstance(new HashSet<>());
+			/* empty */}).toInstance(new HashSet<>());
 
 		// Converter
 		bind(new TypeLiteral<Converter<IMemberValuePairBinding, AnnotationAttributeSetting>>() {
-		}).to(BindingToAnnotationAttributeSettingConverter.class);
+			/* empty */}).to(BindingToAnnotationAttributeSettingConverter.class);
 		bind(new TypeLiteral<Converter<IAnnotationBinding, AnnotationInstance>>() {
-		}).to(BindingToAnnotationInstanceConverter.class);
+			/* empty */}).to(BindingToAnnotationInstanceConverter.class);
 		bind(new TypeLiteral<Converter<IMethodBinding, Constructor>>() {
-		}).to(BindingToConstructorConverter.class);
+			/* empty */}).to(BindingToConstructorConverter.class);
 		bind(new TypeLiteral<Converter<IVariableBinding, EnumConstant>>() {
-		}).to(BindingToEnumConstantConverter.class);
+			/* empty */}).to(BindingToEnumConstantConverter.class);
 		bind(new TypeLiteral<Converter<IVariableBinding, Field>>() {
-		}).to(BindingToFieldConverter.class);
+			/* empty */}).to(BindingToFieldConverter.class);
 		bind(new TypeLiteral<Converter<ITypeBinding, Reference>>() {
-		}).to(BindingToInternalReferenceConverter.class);
+			/* empty */}).to(BindingToInternalReferenceConverter.class);
 		bind(new TypeLiteral<Converter<IMethodBinding, Method>>() {
-		}).to(BindingToMethodConverter.class);
+			/* empty */}).to(BindingToMethodConverter.class);
 		bind(new TypeLiteral<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>>() {
-		}).to(BindingToModuleConverter.class);
+			/* empty */}).to(BindingToModuleConverter.class);
 		bind(new TypeLiteral<Converter<ITypeBinding, NamespaceClassifierReference>>() {
-		}).to(BindingToNamespaceClassifierReferenceConverter.class);
+			/* empty */}).to(BindingToNamespaceClassifierReferenceConverter.class);
 		bind(new TypeLiteral<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>>() {
-		}).to(BindingToPackageConverter.class);
+			/* empty */}).to(BindingToPackageConverter.class);
 		bind(new TypeLiteral<Converter<ITypeBinding, TypeParameter>>() {
-		}).to(BindingToTypeParameterConverter.class);
+			/* empty */}).to(BindingToTypeParameterConverter.class);
 		bind(new TypeLiteral<Converter<Block, tools.mdsd.jamopp.model.java.statements.Block>>() {
-		}).to(BlockToBlockConverterImpl.class);
+			/* empty */}).to(BlockToBlockConverterImpl.class);
 		bind(new TypeLiteral<Converter<Object, AnnotationValue>>() {
-		}).to(ObjectToAnnotationValueConverter.class);
+			/* empty */}).to(ObjectToAnnotationValueConverter.class);
 		bind(new TypeLiteral<Converter<Object, PrimaryExpression>>() {
-		}).to(ObjectToPrimaryExpressionConverter.class);
+			/* empty */}).to(ObjectToPrimaryExpressionConverter.class);
 		bind(new TypeLiteral<Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement>>() {
-		}).to(StatementToStatementConverterImpl.class);
+			/* empty */}).to(StatementToStatementConverterImpl.class);
 		bind(new TypeLiteral<Converter<SwitchStatement, Switch>>() {
-		}).to(SwitchToSwitchConverter.class);
+			/* empty */}).to(SwitchToSwitchConverter.class);
 		bind(new TypeLiteral<Converter<VariableDeclarationFragment, AdditionalField>>() {
-		}).to(ToAdditionalFieldConverter.class);
+			/* empty */}).to(ToAdditionalFieldConverter.class);
 		bind(new TypeLiteral<Converter<VariableDeclarationFragment, AdditionalLocalVariable>>() {
-		}).to(ToAdditionalLocalVariableConverter.class);
+			/* empty */}).to(ToAdditionalLocalVariableConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression, AdditiveExpression>>() {
-		}).to(ToAdditiveExpressionConverter.class);
+			/* empty */}).to(ToAdditiveExpressionConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression.Operator, AdditiveOperator>>() {
-		}).to(ToAdditiveOperatorConverter.class);
+			/* empty */}).to(ToAdditiveOperatorConverter.class);
 		bind(new TypeLiteral<Converter<Annotation, AnnotationInstance>>() {
-		}).to(ToAnnotationInstanceConverter.class);
+			/* empty */}).to(ToAnnotationInstanceConverter.class);
 		bind(new TypeLiteral<Converter<Expression, AnnotationValue>>() {
-		}).to(ToAnnotationValueConverter.class);
+			/* empty */}).to(ToAnnotationValueConverter.class);
 		bind(new TypeLiteral<Converter<AnonymousClassDeclaration, AnonymousClass>>() {
-		}).to(ToAnonymousClassConverter.class);
+			/* empty */}).to(ToAnonymousClassConverter.class);
 		bind(new TypeLiteral<Converter<Dimension, ArrayDimension>>() {
-		}).to(ToArrayDimensionConverter.class);
+			/* empty */}).to(ToArrayDimensionConverter.class);
 		bind(new TypeLiteral<Converter<ArrayInitializer, tools.mdsd.jamopp.model.java.arrays.ArrayInitializer>>() {
-		}).to(ToArrayInitialisierConverter.class);
+			/* empty */}).to(ToArrayInitialisierConverter.class);
 		bind(new TypeLiteral<Converter<Assignment.Operator, AssignmentOperator>>() {
-		}).to(ToAssignmentConverter.class);
+			/* empty */}).to(ToAssignmentConverter.class);
 		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.Initializer, tools.mdsd.jamopp.model.java.statements.Block>>() {
-		}).to(ToBlockConverter.class);
+			/* empty */}).to(ToBlockConverter.class);
 		bind(new TypeLiteral<Converter<CatchClause, CatchBlock>>() {
-		}).to(ToCatchblockConverter.class);
+			/* empty */}).to(ToCatchblockConverter.class);
 		bind(new TypeLiteral<Converter<Name, TypeReference>>() {
-		}).to(ToClassifierOrNamespaceClassifierReferenceConverter.class);
+			/* empty */}).to(ToClassifierOrNamespaceClassifierReferenceConverter.class);
 		bind(new TypeLiteral<Converter<SimpleName, ClassifierReference>>() {
-		}).to(ToClassifierReferenceConverter.class);
+			/* empty */}).to(ToClassifierReferenceConverter.class);
 		bind(new TypeLiteral<Converter<BodyDeclaration, Member>>() {
-		}).annotatedWith(Names.named("ToClassMemberConverter")).to(ToClassMemberConverter.class);
+			/* empty */}).annotatedWith(Names.named("ToClassMemberConverter")).to(ToClassMemberConverter.class);
 		bind(new TypeLiteral<Converter<MethodDeclaration, Member>>() {
-		}).annotatedWith(Names.named("ToClassMethodOrConstructorConverter"))
+			/* empty */}).annotatedWith(Names.named("ToClassMethodOrConstructorConverter"))
 				.to(ToClassMethodOrConstructorConverter.class);
 		bind(new TypeLiteral<Converter<TypeDeclaration, ConcreteClassifier>>() {
-		}).to(ToClassOrInterfaceConverter.class);
+			/* empty */}).to(ToClassOrInterfaceConverter.class);
 		bind(new TypeLiteral<Converter<AbstractTypeDeclaration, ConcreteClassifier>>() {
-		}).to(ToConcreteClassifierConverterImpl.class);
+			/* empty */}).to(ToConcreteClassifierConverterImpl.class);
 		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.ConditionalExpression, ConditionalExpression>>() {
-		}).to(ToConditionalExpressionConverter.class);
+			/* empty */}).to(ToConditionalExpressionConverter.class);
 		bind(new TypeLiteral<Converter<EnumConstantDeclaration, EnumConstant>>() {
-		}).to(ToEnumConstantConverter.class);
+			/* empty */}).to(ToEnumConstantConverter.class);
 		bind(new TypeLiteral<Converter<EnumDeclaration, Enumeration>>() {
-		}).to(ToEnumConverter.class);
+			/* empty */}).to(ToEnumConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression, EqualityExpression>>() {
-		}).to(ToEqualityExpressionConverter.class);
+			/* empty */}).to(ToEqualityExpressionConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression.Operator, EqualityOperator>>() {
-		}).to(ToEqualityOperatorConverter.class);
+			/* empty */}).to(ToEqualityOperatorConverter.class);
 		bind(new TypeLiteral<Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression>>() {
-		}).to(ToExpressionConverterImpl.class);
+			/* empty */}).to(ToExpressionConverterImpl.class);
 		bind(new TypeLiteral<Converter<FieldDeclaration, Field>>() {
-		}).to(ToFieldConverter.class);
+			/* empty */}).to(ToFieldConverter.class);
 		bind(new TypeLiteral<Converter<BodyDeclaration, Member>>() {
-		}).annotatedWith(Names.named("ToInterfaceMemberConverter")).to(ToInterfaceMemberConverter.class);
+			/* empty */}).annotatedWith(Names.named("ToInterfaceMemberConverter")).to(ToInterfaceMemberConverter.class);
 		bind(new TypeLiteral<Converter<AnnotationTypeMemberDeclaration, InterfaceMethod>>() {
-		}).to(ToInterfaceMethodConverter.class);
+			/* empty */}).to(ToInterfaceMethodConverter.class);
 		bind(new TypeLiteral<Converter<MethodDeclaration, Member>>() {
-		}).annotatedWith(Names.named("ToInterfaceMethodOrConstructorConverter"))
+			/* empty */}).annotatedWith(Names.named("ToInterfaceMethodOrConstructorConverter"))
 				.to(ToInterfaceMethodOrConstructorConverter.class);
 		bind(new TypeLiteral<Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable>>() {
-		}).to(ToLocalVariableConverter.class);
+			/* empty */}).to(ToLocalVariableConverter.class);
 		bind(new TypeLiteral<Converter<MethodReference, MethodReferenceExpression>>() {
-		}).to(ToMethodReferenceExpressionConverter.class);
+			/* empty */}).to(ToMethodReferenceExpressionConverter.class);
 		bind(new TypeLiteral<Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier>>() {
-		}).to(ToModifierConverter.class);
+			/* empty */}).to(ToModifierConverter.class);
 		bind(new TypeLiteral<Converter<IExtendedModifier, AnnotationInstanceOrModifier>>() {
-		}).to(ToModifierOrAnnotationInstanceConverter.class);
+			/* empty */}).to(ToModifierOrAnnotationInstanceConverter.class);
 		bind(new TypeLiteral<Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>>>() {
-		}).to(ToModifiersConverter.class);
+			/* empty */}).to(ToModifiersConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression, MultiplicativeExpression>>() {
-		}).to(ToMultiplicativeExpressionConverter.class);
+			/* empty */}).to(ToMultiplicativeExpressionConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression.Operator, MultiplicativeOperator>>() {
-		}).to(ToMultiplicativeOperatorConverter.class);
+			/* empty */}).to(ToMultiplicativeOperatorConverter.class);
 		bind(new TypeLiteral<Converter<TypeReference, NamespaceClassifierReference>>() {
-		}).to(ToNamespaceClassifierReferenceConverter.class);
+			/* empty */}).to(ToNamespaceClassifierReferenceConverter.class);
 		bind(new TypeLiteral<Converter<NumberLiteral, tools.mdsd.jamopp.model.java.literals.Literal>>() {
-		}).to(ToNumberLiteralConverter.class);
+			/* empty */}).to(ToNumberLiteralConverter.class);
 		bind(new TypeLiteral<Converter<SingleVariableDeclaration, OrdinaryParameter>>() {
-		}).to(ToOrdinaryParameterConverter.class);
+			/* empty */}).to(ToOrdinaryParameterConverter.class);
 		bind(new TypeLiteral<Converter<SingleVariableDeclaration, Parameter>>() {
-		}).to(ToParameterConverter.class);
+			/* empty */}).to(ToParameterConverter.class);
 		bind(new TypeLiteral<Converter<Expression, PrimaryExpression>>() {
-		}).to(ToPrimaryExpressionConverter.class);
+			/* empty */}).to(ToPrimaryExpressionConverter.class);
 		bind(new TypeLiteral<Converter<MethodDeclaration, ReceiverParameter>>() {
-		}).to(ToReceiverParameterConverter.class);
+			/* empty */}).to(ToReceiverParameterConverter.class);
 		bind(new TypeLiteral<Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference>>() {
-		}).to(ToReferenceConverterFromExpression.class);
+			/* empty */}).to(ToReferenceConverterFromExpression.class);
 		bind(new TypeLiteral<Converter<MethodInvocation, MethodCall>>() {
-		}).to(ToReferenceConverterFromMethodInvocation.class);
+			/* empty */}).to(ToReferenceConverterFromMethodInvocation.class);
 		bind(new TypeLiteral<Converter<Name, IdentifierReference>>() {
-		}).to(ToReferenceConverterFromName.class);
+			/* empty */}).to(ToReferenceConverterFromName.class);
 		bind(new TypeLiteral<Converter<SimpleName, IdentifierReference>>() {
-		}).to(ToReferenceConverterFromSimpleName.class);
+			/* empty */}).to(ToReferenceConverterFromSimpleName.class);
 		bind(new TypeLiteral<Converter<Statement, tools.mdsd.jamopp.model.java.references.Reference>>() {
-		}).to(ToReferenceConverterFromStatement.class);
+			/* empty */}).to(ToReferenceConverterFromStatement.class);
 		bind(new TypeLiteral<Converter<Type, Reference>>() {
-		}).to(ToReferenceConverterFromType.class);
+			/* empty */}).to(ToReferenceConverterFromType.class);
 		bind(new TypeLiteral<Converter<InfixExpression, RelationExpression>>() {
-		}).to(ToRelationExpressionConverter.class);
+			/* empty */}).to(ToRelationExpressionConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression.Operator, RelationOperator>>() {
-		}).to(ToRelationOperatorConverter.class);
+			/* empty */}).to(ToRelationOperatorConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression, ShiftExpression>>() {
-		}).to(ToShiftExpressionConverter.class);
+			/* empty */}).to(ToShiftExpressionConverter.class);
 		bind(new TypeLiteral<Converter<InfixExpression.Operator, ShiftOperator>>() {
-		}).to(ToShiftOperatorConverter.class);
+			/* empty */}).to(ToShiftOperatorConverter.class);
 		bind(new TypeLiteral<Converter<SwitchCase, tools.mdsd.jamopp.model.java.statements.SwitchCase>>() {
-		}).to(ToSwitchCaseConverter.class);
+			/* empty */}).to(ToSwitchCaseConverter.class);
 		bind(new TypeLiteral<Converter<ITypeBinding, TypeArgument>>() {
-		}).to(ToTypeArgumentConverter.class);
+			/* empty */}).to(ToTypeArgumentConverter.class);
 		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter>>() {
-		}).to(ToTypeParameterConverter.class);
+			/* empty */}).to(ToTypeParameterConverter.class);
 		bind(new TypeLiteral<Converter<Type, TypeReference>>() {
-		}).to(ToTypeReferenceConverter.class);
+			/* empty */}).to(ToTypeReferenceConverter.class);
 		bind(new TypeLiteral<Converter<ITypeBinding, List<TypeReference>>>() {
-		}).to(ToTypeReferencesConverter.class);
+			/* empty */}).to(ToTypeReferencesConverter.class);
 		bind(new TypeLiteral<Converter<PrefixExpression, UnaryExpression>>() {
-		}).to(ToUnaryExpressionConverter.class);
+			/* empty */}).to(ToUnaryExpressionConverter.class);
 		bind(new TypeLiteral<Converter<PrefixExpression.Operator, UnaryOperator>>() {
-		}).to(ToUnaryOperatorConverter.class);
+			/* empty */}).to(ToUnaryOperatorConverter.class);
 		bind(new TypeLiteral<Converter<Type, TypeArgument>>() {
-		}).to(TypeToTypeArgumentConverter.class);
+			/* empty */}).to(TypeToTypeArgumentConverter.class);
 
 		bind(new TypeLiteral<Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit>>() {
-		}).to(ToCompilationUnitConverter.class);
+			/* empty */}).to(ToCompilationUnitConverter.class);
 		bind(new TypeLiteral<Converter<Name, ModuleReference>>() {
-		}).to(ToModuleReferenceConverter.class);
+			/* empty */}).to(ToModuleReferenceConverter.class);
 		bind(new TypeLiteral<Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective>>() {
-		}).to(ToDirectiveConverter.class);
+			/* empty */}).to(ToDirectiveConverter.class);
 		bind(new TypeLiteral<Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module>>() {
-		}).to(ToModuleConverter.class);
+			/* empty */}).to(ToModuleConverter.class);
 		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
-		}).annotatedWith(Names.named("ToNonOnDemandNonStaticConverter")).to(ToNonOnDemandNonStaticConverter.class);
+			/* empty */}).annotatedWith(Names.named("ToNonOnDemandNonStaticConverter"))
+				.to(ToNonOnDemandNonStaticConverter.class);
 		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
-		}).annotatedWith(Names.named("ToNonOnDemandStaticConverter")).to(ToNonOnDemandStaticConverter.class);
+			/* empty */}).annotatedWith(Names.named("ToNonOnDemandStaticConverter"))
+				.to(ToNonOnDemandStaticConverter.class);
 		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
-		}).annotatedWith(Names.named("ToOnDemandNonStaticConverter")).to(ToOnDemandNonStaticConverter.class);
+			/* empty */}).annotatedWith(Names.named("ToOnDemandNonStaticConverter"))
+				.to(ToOnDemandNonStaticConverter.class);
 		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
-		}).annotatedWith(Names.named("ToOnDemandStaticConverter")).to(ToOnDemandStaticConverter.class);
+			/* empty */}).annotatedWith(Names.named("ToOnDemandStaticConverter")).to(ToOnDemandStaticConverter.class);
 		bind(new TypeLiteral<Converter<ImportDeclaration, Import>>() {
-		}).annotatedWith(Names.named("ToImportConverter")).to(ToImportConverter.class);
+			/* empty */}).annotatedWith(Names.named("ToImportConverter")).to(ToImportConverter.class);
 
 	}
 

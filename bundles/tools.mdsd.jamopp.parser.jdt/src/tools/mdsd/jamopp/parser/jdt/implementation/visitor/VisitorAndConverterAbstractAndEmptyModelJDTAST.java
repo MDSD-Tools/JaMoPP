@@ -85,6 +85,7 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(CompilationUnit node) {
+
 		setConvertedElement(null);
 		if (!node.types().isEmpty()) {
 			setConvertedElement(toCompilationUnitConverter.convert(node));
@@ -101,7 +102,7 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			setConvertedElement(root);
 		}
 		JavaRoot finalRoot = root;
-		if (node.getPackage() != null) {
+		if (node.getPackage() != null && finalRoot != null && root != null) {
 			node.getPackage().annotations().forEach(
 					obj -> finalRoot.getAnnotations().add(annotationInstanceConverter.convert((Annotation) obj)));
 			root.getNamespaces().clear();
