@@ -155,291 +155,291 @@ public class ModulePrinterInjection extends AbstractModule {
 
 		binder().disableCircularProxies();
 
-		bind(new TypeLiteral<Printer<AdditionalField>>() {
+		bind(new TypeLiteral<Printer<AdditionalField>>() {/* empty */
 		}).to(AdditionalFieldPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AdditionalLocalVariable>>() {
+		bind(new TypeLiteral<Printer<AdditionalLocalVariable>>() {/* empty */
 		}).to(AdditionalLocalVariablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AdditiveExpressionChild>>() {
+		bind(new TypeLiteral<Printer<AdditiveExpressionChild>>() {/* empty */
 		}).to(AdditiveExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AdditiveExpression>>() {
+		bind(new TypeLiteral<Printer<AdditiveExpression>>() {/* empty */
 		}).to(AdditiveExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AdditiveOperator>>() {
+		bind(new TypeLiteral<Printer<AdditiveOperator>>() {/* empty */
 		}).to(AdditiveOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AndExpressionChild>>() {
+		bind(new TypeLiteral<Printer<AndExpressionChild>>() {/* empty */
 		}).to(AndExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AndExpression>>() {
+		bind(new TypeLiteral<Printer<AndExpression>>() {/* empty */
 		}).to(AndExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AnnotableAndModifiable>>() {
+		bind(new TypeLiteral<Printer<AnnotableAndModifiable>>() {/* empty */
 		}).to(AnnotableAndModifiablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Annotable>>() {
+		bind(new TypeLiteral<Printer<Annotable>>() {/* empty */
 		}).to(AnnotablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AnnotationInstanceOrModifier>>() {
+		bind(new TypeLiteral<Printer<AnnotationInstanceOrModifier>>() {/* empty */
 		}).to(AnnotationInstanceOrModifierPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AnnotationInstance>>() {
+		bind(new TypeLiteral<Printer<AnnotationInstance>>() {/* empty */
 		}).to(AnnotationInstancePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Annotation>>() {
+		bind(new TypeLiteral<Printer<Annotation>>() {/* empty */
 		}).to(AnnotationPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AnnotationValue>>() {
+		bind(new TypeLiteral<Printer<AnnotationValue>>() {/* empty */
 		}).to(AnnotationValuePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AnonymousClass>>() {
+		bind(new TypeLiteral<Printer<AnonymousClass>>() {/* empty */
 		}).to(AnonymousClassPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Argumentable>>() {
+		bind(new TypeLiteral<Printer<Argumentable>>() {/* empty */
 		}).to(ArgumentablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<List<ArrayDimension>>>() {
+		bind(new TypeLiteral<Printer<List<ArrayDimension>>>() {/* empty */
 		}).to(ArrayDimensionsPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ArrayInitializer>>() {
+		bind(new TypeLiteral<Printer<ArrayInitializer>>() {/* empty */
 		}).to(ArrayInitializerPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ArrayInstantiation>>() {
+		bind(new TypeLiteral<Printer<ArrayInstantiation>>() {/* empty */
 		}).to(ArrayInstantiationPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ArraySelector>>() {
+		bind(new TypeLiteral<Printer<ArraySelector>>() {/* empty */
 		}).to(ArraySelectorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Assert>>() {
+		bind(new TypeLiteral<Printer<Assert>>() {/* empty */
 		}).to(AssertPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AssignmentExpressionChild>>() {
+		bind(new TypeLiteral<Printer<AssignmentExpressionChild>>() {/* empty */
 		}).to(AssignmentExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AssignmentExpression>>() {
+		bind(new TypeLiteral<Printer<AssignmentExpression>>() {/* empty */
 		}).to(AssignmentExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AssignmentOperator>>() {
+		bind(new TypeLiteral<Printer<AssignmentOperator>>() {/* empty */
 		}).to(AssignmentOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Block>>() {
+		bind(new TypeLiteral<Printer<Block>>() {/* empty */
 		}).to(BlockPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Break>>() {
+		bind(new TypeLiteral<Printer<Break>>() {/* empty */
 		}).to(BreakPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<CallTypeArgumentable>>() {
+		bind(new TypeLiteral<Printer<CallTypeArgumentable>>() {/* empty */
 		}).to(CallTypeArgumentablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<CastExpression>>() {
+		bind(new TypeLiteral<Printer<CastExpression>>() {/* empty */
 		}).to(CastExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<CatchBlock>>() {
+		bind(new TypeLiteral<Printer<CatchBlock>>() {/* empty */
 		}).to(CatchBlockPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<CatchParameter>>() {
+		bind(new TypeLiteral<Printer<CatchParameter>>() {/* empty */
 		}).to(CatchParameterPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ClassifierReference>>() {
+		bind(new TypeLiteral<Printer<ClassifierReference>>() {/* empty */
 		}).to(ClassifierReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ClassMethod>>() {
+		bind(new TypeLiteral<Printer<ClassMethod>>() {/* empty */
 		}).to(ClassMethodPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<tools.mdsd.jamopp.model.java.classifiers.Class>>() {
+		bind(new TypeLiteral<Printer<tools.mdsd.jamopp.model.java.classifiers.Class>>() {/* empty */
 		}).to(ClassPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<CompilationUnit>>() {
+		bind(new TypeLiteral<Printer<CompilationUnit>>() {/* empty */
 		}).to(CompilationUnitPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ConcreteClassifier>>() {
+		bind(new TypeLiteral<Printer<ConcreteClassifier>>() {/* empty */
 		}).to(ConcreteClassifierPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ConditionalAndExpressionChild>>() {
+		bind(new TypeLiteral<Printer<ConditionalAndExpressionChild>>() {/* empty */
 		}).to(ConditionalAndExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ConditionalAndExpression>>() {
+		bind(new TypeLiteral<Printer<ConditionalAndExpression>>() {/* empty */
 		}).to(ConditionalAndExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ConditionalExpressionChild>>() {
+		bind(new TypeLiteral<Printer<ConditionalExpressionChild>>() {/* empty */
 		}).to(ConditionalExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ConditionalExpression>>() {
+		bind(new TypeLiteral<Printer<ConditionalExpression>>() {/* empty */
 		}).to(ConditionalExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ConditionalOrExpressionChild>>() {
+		bind(new TypeLiteral<Printer<ConditionalOrExpressionChild>>() {/* empty */
 		}).to(ConditionalOrExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ConditionalOrExpression>>() {
+		bind(new TypeLiteral<Printer<ConditionalOrExpression>>() {/* empty */
 		}).to(ConditionalOrExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Condition>>() {
+		bind(new TypeLiteral<Printer<Condition>>() {/* empty */
 		}).to(ConditionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Constructor>>() {
+		bind(new TypeLiteral<Printer<Constructor>>() {/* empty */
 		}).to(ConstructorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Continue>>() {
+		bind(new TypeLiteral<Printer<Continue>>() {/* empty */
 		}).to(ContinuePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<DefaultSwitchCase>>() {
+		bind(new TypeLiteral<Printer<DefaultSwitchCase>>() {/* empty */
 		}).to(DefaultSwitchCasePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<DefaultSwitchRule>>() {
+		bind(new TypeLiteral<Printer<DefaultSwitchRule>>() {/* empty */
 		}).to(DefaultSwitchRulePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<DoWhileLoop>>() {
+		bind(new TypeLiteral<Printer<DoWhileLoop>>() {/* empty */
 		}).to(DoWhileLoopPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ElementReference>>() {
+		bind(new TypeLiteral<Printer<ElementReference>>() {/* empty */
 		}).to(ElementReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<EnumConstant>>() {
+		bind(new TypeLiteral<Printer<EnumConstant>>() {/* empty */
 		}).to(EnumConstantPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Enumeration>>() {
+		bind(new TypeLiteral<Printer<Enumeration>>() {/* empty */
 		}).to(EnumerationPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<EqualityExpressionChild>>() {
+		bind(new TypeLiteral<Printer<EqualityExpressionChild>>() {/* empty */
 		}).to(EqualityExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<EqualityExpression>>() {
+		bind(new TypeLiteral<Printer<EqualityExpression>>() {/* empty */
 		}).to(EqualityExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<EqualityOperator>>() {
+		bind(new TypeLiteral<Printer<EqualityOperator>>() {/* empty */
 		}).to(EqualityOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ExceptionThrower>>() {
+		bind(new TypeLiteral<Printer<ExceptionThrower>>() {/* empty */
 		}).to(ExceptionThrowerPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ExclusiveOrExpressionChild>>() {
+		bind(new TypeLiteral<Printer<ExclusiveOrExpressionChild>>() {/* empty */
 		}).to(ExclusiveOrExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ExclusiveOrExpression>>() {
+		bind(new TypeLiteral<Printer<ExclusiveOrExpression>>() {/* empty */
 		}).to(ExclusiveOrExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ExportsModuleDirective>>() {
+		bind(new TypeLiteral<Printer<ExportsModuleDirective>>() {/* empty */
 		}).to(ExportsModuleDirectivePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Expression>>() {
+		bind(new TypeLiteral<Printer<Expression>>() {/* empty */
 		}).to(ExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ExpressionStatement>>() {
+		bind(new TypeLiteral<Printer<ExpressionStatement>>() {/* empty */
 		}).to(ExpressionStatementPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Field>>() {
+		bind(new TypeLiteral<Printer<Field>>() {/* empty */
 		}).to(FieldPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ForEachLoop>>() {
+		bind(new TypeLiteral<Printer<ForEachLoop>>() {/* empty */
 		}).to(ForEachLoopPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ForLoopInitializer>>() {
+		bind(new TypeLiteral<Printer<ForLoopInitializer>>() {/* empty */
 		}).to(ForLoopInitializerPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ForLoop>>() {
+		bind(new TypeLiteral<Printer<ForLoop>>() {/* empty */
 		}).to(ForLoopPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<IdentifierReference>>() {
+		bind(new TypeLiteral<Printer<IdentifierReference>>() {/* empty */
 		}).to(IdentifierReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Implementor>>() {
+		bind(new TypeLiteral<Printer<Implementor>>() {/* empty */
 		}).to(ImplementorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ImportingElement>>() {
+		bind(new TypeLiteral<Printer<ImportingElement>>() {/* empty */
 		}).to(ImportingElementPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Import>>() {
+		bind(new TypeLiteral<Printer<Import>>() {/* empty */
 		}).to(ImportPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<InclusiveOrExpressionChild>>() {
+		bind(new TypeLiteral<Printer<InclusiveOrExpressionChild>>() {/* empty */
 		}).to(InclusiveOrExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<InclusiveOrExpression>>() {
+		bind(new TypeLiteral<Printer<InclusiveOrExpression>>() {/* empty */
 		}).to(InclusiveOrExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<InstanceOfExpressionChild>>() {
+		bind(new TypeLiteral<Printer<InstanceOfExpressionChild>>() {/* empty */
 		}).to(InstanceOfExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<InstanceOfExpression>>() {
+		bind(new TypeLiteral<Printer<InstanceOfExpression>>() {/* empty */
 		}).to(InstanceOfExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Instantiation>>() {
+		bind(new TypeLiteral<Printer<Instantiation>>() {/* empty */
 		}).to(InstantiationPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<InterfaceMethod>>() {
+		bind(new TypeLiteral<Printer<InterfaceMethod>>() {/* empty */
 		}).to(InterfaceMethodPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Interface>>() {
+		bind(new TypeLiteral<Printer<Interface>>() {/* empty */
 		}).to(InterfacePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<JavaRoot>>() {
+		bind(new TypeLiteral<Printer<JavaRoot>>() {/* empty */
 		}).to(JavaRootPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<JumpLabel>>() {
+		bind(new TypeLiteral<Printer<JumpLabel>>() {/* empty */
 		}).to(JumpLabelPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<LambdaExpression>>() {
+		bind(new TypeLiteral<Printer<LambdaExpression>>() {/* empty */
 		}).to(LambdaExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<LambdaParameters>>() {
+		bind(new TypeLiteral<Printer<LambdaParameters>>() {/* empty */
 		}).to(LambdaParametersPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Literal>>() {
+		bind(new TypeLiteral<Printer<Literal>>() {/* empty */
 		}).to(LiteralPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<LocalVariable>>() {
+		bind(new TypeLiteral<Printer<LocalVariable>>() {/* empty */
 		}).to(LocalVariablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<LocalVariableStatement>>() {
+		bind(new TypeLiteral<Printer<LocalVariableStatement>>() {/* empty */
 		}).to(LocalVariableStatementPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<MemberContainer>>() {
+		bind(new TypeLiteral<Printer<MemberContainer>>() {/* empty */
 		}).to(MemberContainerPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Member>>() {
+		bind(new TypeLiteral<Printer<Member>>() {/* empty */
 		}).to(MemberPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<MethodCall>>() {
+		bind(new TypeLiteral<Printer<MethodCall>>() {/* empty */
 		}).to(MethodCallPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<MethodReferenceExpressionChild>>() {
+		bind(new TypeLiteral<Printer<MethodReferenceExpressionChild>>() {/* empty */
 		}).to(MethodReferenceExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<MethodReferenceExpression>>() {
+		bind(new TypeLiteral<Printer<MethodReferenceExpression>>() {/* empty */
 		}).to(MethodReferenceExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Modifier>>() {
+		bind(new TypeLiteral<Printer<Modifier>>() {/* empty */
 		}).to(ModifierPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<tools.mdsd.jamopp.model.java.containers.Module>>() {
+		bind(new TypeLiteral<Printer<tools.mdsd.jamopp.model.java.containers.Module>>() {/* empty */
 		}).to(ModulePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<MultiplicativeExpressionChild>>() {
+		bind(new TypeLiteral<Printer<MultiplicativeExpressionChild>>() {/* empty */
 		}).to(MultiplicativeExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<MultiplicativeExpression>>() {
+		bind(new TypeLiteral<Printer<MultiplicativeExpression>>() {/* empty */
 		}).to(MultiplicativeExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<MultiplicativeOperator>>() {
+		bind(new TypeLiteral<Printer<MultiplicativeOperator>>() {/* empty */
 		}).to(MultiplicativeOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<NamespaceClassifierReference>>() {
+		bind(new TypeLiteral<Printer<NamespaceClassifierReference>>() {/* empty */
 		}).to(NamespaceClassifierReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<NestedExpression>>() {
+		bind(new TypeLiteral<Printer<NestedExpression>>() {/* empty */
 		}).to(NestedExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<NormalSwitchCase>>() {
+		bind(new TypeLiteral<Printer<NormalSwitchCase>>() {/* empty */
 		}).to(NormalSwitchCasePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<NormalSwitchRule>>() {
+		bind(new TypeLiteral<Printer<NormalSwitchRule>>() {/* empty */
 		}).to(NormalSwitchRulePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<OpensModuleDirective>>() {
+		bind(new TypeLiteral<Printer<OpensModuleDirective>>() {/* empty */
 		}).to(OpensModuleDirectivePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<OrdinaryParameter>>() {
+		bind(new TypeLiteral<Printer<OrdinaryParameter>>() {/* empty */
 		}).to(OrdinaryParameterPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Parametrizable>>() {
+		bind(new TypeLiteral<Printer<Parametrizable>>() {/* empty */
 		}).to(ParametrizablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<PrefixUnaryModificationExpression>>() {
+		bind(new TypeLiteral<Printer<PrefixUnaryModificationExpression>>() {/* empty */
 		}).to(PrefixUnaryModificationExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<PrimitiveType>>() {
+		bind(new TypeLiteral<Printer<PrimitiveType>>() {/* empty */
 		}).to(PrimitiveTypePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<PrimitiveTypeReference>>() {
+		bind(new TypeLiteral<Printer<PrimitiveTypeReference>>() {/* empty */
 		}).to(PrimitiveTypeReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ProvidesModuleDirective>>() {
+		bind(new TypeLiteral<Printer<ProvidesModuleDirective>>() {/* empty */
 		}).to(ProvidesModuleDirectivePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ReceiverParameter>>() {
+		bind(new TypeLiteral<Printer<ReceiverParameter>>() {/* empty */
 		}).to(ReceiverParameterPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Reference>>() {
+		bind(new TypeLiteral<Printer<Reference>>() {/* empty */
 		}).to(ReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<RelationExpressionChild>>() {
+		bind(new TypeLiteral<Printer<RelationExpressionChild>>() {/* empty */
 		}).to(RelationExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<RelationExpression>>() {
+		bind(new TypeLiteral<Printer<RelationExpression>>() {/* empty */
 		}).to(RelationExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<RelationOperator>>() {
+		bind(new TypeLiteral<Printer<RelationOperator>>() {/* empty */
 		}).to(RelationOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<AccessProvidingModuleDirective>>() {
+		bind(new TypeLiteral<Printer<AccessProvidingModuleDirective>>() {/* empty */
 		}).to(RemainingAccessProvidingModuleDirectivePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<RequiresModuleDirective>>() {
+		bind(new TypeLiteral<Printer<RequiresModuleDirective>>() {/* empty */
 		}).to(RequiresModuleDirectivePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Resource>>() {
+		bind(new TypeLiteral<Printer<Resource>>() {/* empty */
 		}).to(ResourcePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Return>>() {
+		bind(new TypeLiteral<Printer<Return>>() {/* empty */
 		}).to(ReturnPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Self>>() {
+		bind(new TypeLiteral<Printer<Self>>() {/* empty */
 		}).to(SelfPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<SelfReference>>() {
+		bind(new TypeLiteral<Printer<SelfReference>>() {/* empty */
 		}).to(SelfReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ShiftExpressionChild>>() {
+		bind(new TypeLiteral<Printer<ShiftExpressionChild>>() {/* empty */
 		}).to(ShiftExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ShiftExpression>>() {
+		bind(new TypeLiteral<Printer<ShiftExpression>>() {/* empty */
 		}).to(ShiftExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<ShiftOperator>>() {
+		bind(new TypeLiteral<Printer<ShiftOperator>>() {/* empty */
 		}).to(ShiftOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Statement>>() {
+		bind(new TypeLiteral<Printer<Statement>>() {/* empty */
 		}).to(StatementPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<StringReference>>() {
+		bind(new TypeLiteral<Printer<StringReference>>() {/* empty */
 		}).to(StringReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<SuffixUnaryModificationExpression>>() {
+		bind(new TypeLiteral<Printer<SuffixUnaryModificationExpression>>() {/* empty */
 		}).to(SuffixUnaryModificationExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<SwitchCase>>() {
+		bind(new TypeLiteral<Printer<SwitchCase>>() {/* empty */
 		}).to(SwitchCasePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Switch>>() {
+		bind(new TypeLiteral<Printer<Switch>>() {/* empty */
 		}).to(SwitchPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<SynchronizedBlock>>() {
+		bind(new TypeLiteral<Printer<SynchronizedBlock>>() {/* empty */
 		}).to(SynchronizedBlockPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<TextBlockReference>>() {
+		bind(new TypeLiteral<Printer<TextBlockReference>>() {/* empty */
 		}).to(TextBlockReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<Throw>>() {
+		bind(new TypeLiteral<Printer<Throw>>() {/* empty */
 		}).to(ThrowPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<TryBlock>>() {
+		bind(new TypeLiteral<Printer<TryBlock>>() {/* empty */
 		}).to(TryBlockPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<TypeArgumentable>>() {
+		bind(new TypeLiteral<Printer<TypeArgumentable>>() {/* empty */
 		}).to(TypeArgumentablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<TypeArgument>>() {
+		bind(new TypeLiteral<Printer<TypeArgument>>() {/* empty */
 		}).to(TypeArgumentPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<TypeParameter>>() {
+		bind(new TypeLiteral<Printer<TypeParameter>>() {/* empty */
 		}).to(TypeParameterPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<TypeParametrizable>>() {
+		bind(new TypeLiteral<Printer<TypeParametrizable>>() {/* empty */
 		}).to(TypeParametrizablePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<TypeReference>>() {
+		bind(new TypeLiteral<Printer<TypeReference>>() {/* empty */
 		}).to(TypeReferencePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<UnaryExpressionChild>>() {
+		bind(new TypeLiteral<Printer<UnaryExpressionChild>>() {/* empty */
 		}).to(UnaryExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<UnaryExpression>>() {
+		bind(new TypeLiteral<Printer<UnaryExpression>>() {/* empty */
 		}).to(UnaryExpressionPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<UnaryModificationExpressionChild>>() {
+		bind(new TypeLiteral<Printer<UnaryModificationExpressionChild>>() {/* empty */
 		}).to(UnaryModificationExpressionChildPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<UnaryModificationOperator>>() {
+		bind(new TypeLiteral<Printer<UnaryModificationOperator>>() {/* empty */
 		}).to(UnaryModificationOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<UnaryOperator>>() {
+		bind(new TypeLiteral<Printer<UnaryOperator>>() {/* empty */
 		}).to(UnaryOperatorPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<UsesModuleDirective>>() {
+		bind(new TypeLiteral<Printer<UsesModuleDirective>>() {/* empty */
 		}).to(UsesModuleDirectivePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<VariableLengthParameter>>() {
+		bind(new TypeLiteral<Printer<VariableLengthParameter>>() {/* empty */
 		}).to(VariableLengthParameterPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<WhileLoop>>() {
+		bind(new TypeLiteral<Printer<WhileLoop>>() {/* empty */
 		}).to(WhileLoopPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<Printer<YieldStatement>>() {
+		bind(new TypeLiteral<Printer<YieldStatement>>() {/* empty */
 		}).to(YieldStatementPrinterImpl.class).in(Singleton.class);
 
-		bind(new TypeLiteral<EmptyPrinter>() {
+		bind(new TypeLiteral<EmptyPrinter>() {/* empty */
 		}).annotatedWith(Names.named("ReflectiveClassReferencePrinter")).to(ReflectiveClassReferencePrinterImpl.class)
 				.in(Singleton.class);
-		bind(new TypeLiteral<EmptyPrinter>() {
+		bind(new TypeLiteral<EmptyPrinter>() {/* empty */
 		}).annotatedWith(Names.named("InferableTypePrinter")).to(InferableTypePrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<EmptyPrinter>() {
+		bind(new TypeLiteral<EmptyPrinter>() {/* empty */
 		}).annotatedWith(Names.named("EmptyMemberPrinter")).to(EmptyMemberPrinterImpl.class).in(Singleton.class);
-		bind(new TypeLiteral<EmptyPrinter>() {
+		bind(new TypeLiteral<EmptyPrinter>() {/* empty */
 		}).annotatedWith(Names.named("EmptyStatementPrinter")).to(EmptyStatementPrinterImpl.class).in(Singleton.class);
 
 	}

@@ -25,7 +25,7 @@ public final class JaMoPPPrinter {
 	static {
 		JAVA_ROOT_PRINTER = Guice.createInjector(new ModulePrinterInjection())
 				.getInstance(new Key<Printer<JavaRoot>>() {
-				});
+					/* empty */});
 	}
 
 	/**
@@ -39,7 +39,7 @@ public final class JaMoPPPrinter {
 				var buffWriter = new BufferedWriter(outWriter)) {
 			JAVA_ROOT_PRINTER.print(root, buffWriter);
 		} catch (IOException e) {
-			// Ignore
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -53,7 +53,7 @@ public final class JaMoPPPrinter {
 		try (var writer = Files.newBufferedWriter(file)) {
 			JAVA_ROOT_PRINTER.print(root, writer);
 		} catch (IOException e) {
-			// Ignore
+			throw new RuntimeException(e);
 		}
 	}
 

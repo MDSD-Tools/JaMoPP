@@ -52,9 +52,9 @@ public class LiteralPrinterImpl implements Printer<Literal> {
 
 	@Override
 	public void print(Literal element, BufferedWriter writer) throws IOException {
-		for (Pair<?> mapping : mapping) {
-			if (mapping.getClazz().isInstance(element)) {
-				writer.append(mapping.convert(element));
+		for (Pair<?> pair : mapping) {
+			if (pair.getClazz().isInstance(element)) {
+				writer.append(pair.convert(element));
 				return;
 			}
 		}
