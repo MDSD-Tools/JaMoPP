@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JaMoPP JDT-based Parser
+Bundle-SymbolicName: tools.mdsd.jamopp.parser
+Bundle-Version: 5.1.0.qualifier
+Bundle-Vendor: MDSD-Tools
+Automatic-Module-Name: tools.mdsd.jamopp.parser.jdt
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.jdt.core,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ tools.mdsd.jamopp.model.java,
+ org.eclipse.emf.ecore,
+ com.google.inject,
+ org.apache.log4j;bundle-version="1.2.24"
+Export-Package: 
+ tools.mdsd.jamopp.parser.jdt
+Import-Package: javax.inject;version="1.0.0"
