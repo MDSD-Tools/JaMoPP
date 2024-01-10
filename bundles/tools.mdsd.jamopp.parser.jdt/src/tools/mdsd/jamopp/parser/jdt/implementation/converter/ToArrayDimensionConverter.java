@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Dimension;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -25,6 +25,7 @@ public class ToArrayDimensionConverter implements Converter<Dimension, ArrayDime
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public ArrayDimension convert(Dimension dim) {
 		ArrayDimension result = arraysFactory.createArrayDimension();

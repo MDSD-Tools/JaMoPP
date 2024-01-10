@@ -1,10 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.ImportDeclaration;
-import tools.mdsd.jamopp.model.java.imports.Import;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.jdt.core.dom.ImportDeclaration;
+
+import tools.mdsd.jamopp.model.java.imports.Import;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToImportConverter implements Converter<ImportDeclaration, Import> {
@@ -31,15 +32,12 @@ public class ToImportConverter implements Converter<ImportDeclaration, Import> {
 		if (declaration.isOnDemand()) {
 			if (declaration.isStatic()) {
 				return toOnDemandStaticConverter.convert(declaration);
-			} else {
-				return toOnDemandNonStaticConverter.convert(declaration);
 			}
+			return toOnDemandNonStaticConverter.convert(declaration);
+		} else if (declaration.isStatic()) {
+			return toNonOnDemandStaticConverter.convert(declaration);
 		} else {
-			if (declaration.isStatic()) {
-				return toNonOnDemandStaticConverter.convert(declaration);
-			} else {
-				return toNonOnDemandNonStaticConverter.convert(declaration);
-			}
+			return toNonOnDemandNonStaticConverter.convert(declaration);
 		}
 	}
 }

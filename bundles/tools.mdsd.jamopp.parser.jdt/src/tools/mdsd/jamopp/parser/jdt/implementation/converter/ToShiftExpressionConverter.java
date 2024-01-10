@@ -1,14 +1,14 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
+
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpression;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.ShiftOperator;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -44,7 +44,7 @@ public class ToShiftExpressionConverter implements Converter<InfixExpression, Sh
 		return result;
 	}
 
-	void mergeShiftExpressionAndExpression(ShiftExpression shiftExpr,
+	private void mergeShiftExpressionAndExpression(ShiftExpression shiftExpr,
 			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
 		if (potChild instanceof ShiftExpressionChild) {
 			shiftExpr.getChildren().add((ShiftExpressionChild) potChild);

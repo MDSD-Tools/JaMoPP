@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.Block;
-import org.eclipse.jdt.core.dom.Statement;
-import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.Statement;
+
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -24,6 +24,7 @@ public class BlockToBlockConverterImpl implements Converter<Block, tools.mdsd.ja
 		this.statementToStatementConverter = statementToStatementConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public tools.mdsd.jamopp.model.java.statements.Block convert(Block block) {
 		tools.mdsd.jamopp.model.java.statements.Block result = statementsFactory.createBlock();

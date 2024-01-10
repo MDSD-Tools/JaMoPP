@@ -1,16 +1,16 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.Type;
+
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -46,6 +46,7 @@ public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMembe
 		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public InterfaceMethod convert(AnnotationTypeMemberDeclaration annDecl) {
 		IMethodBinding binding = annDecl.resolveBinding();

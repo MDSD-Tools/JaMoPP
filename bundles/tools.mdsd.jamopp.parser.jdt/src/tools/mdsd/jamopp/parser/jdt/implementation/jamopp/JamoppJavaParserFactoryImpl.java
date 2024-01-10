@@ -43,7 +43,6 @@ public class JamoppJavaParserFactoryImpl implements JamoppJavaParserFactory {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public ASTParser getJavaParser(String version) {
 		String javaCoreVersion;
 		int astParserLevel;

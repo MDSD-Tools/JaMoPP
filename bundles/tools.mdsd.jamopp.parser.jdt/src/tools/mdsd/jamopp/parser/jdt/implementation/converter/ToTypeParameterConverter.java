@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeParameter;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -33,6 +33,7 @@ public class ToTypeParameterConverter implements
 		this.utilLayout = utilLayout;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public tools.mdsd.jamopp.model.java.generics.TypeParameter convert(TypeParameter param) {
 		tools.mdsd.jamopp.model.java.generics.TypeParameter result = utilJDTResolver

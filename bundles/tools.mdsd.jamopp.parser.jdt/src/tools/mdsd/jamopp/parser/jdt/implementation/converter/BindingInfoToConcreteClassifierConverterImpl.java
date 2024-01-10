@@ -3,13 +3,13 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
@@ -64,16 +64,16 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 
 	@Override
 	public ConcreteClassifier convert(ITypeBinding binding, boolean extractAdditionalInformation) {
-		binding = binding.getTypeDeclaration();
+		ITypeBinding typeDeclaration = binding.getTypeDeclaration();
 
-		ConcreteClassifier result = getConcreteClassifier(binding, extractAdditionalInformation);
+		ConcreteClassifier result = getConcreteClassifier(typeDeclaration, extractAdditionalInformation);
 
-		result.setPackage(jdtTResolverUtility.getPackage(binding.getPackage()));
+		result.setPackage(jdtTResolverUtility.getPackage(typeDeclaration.getPackage()));
 		if (result.eContainer() == null) {
-			handleEmptyContainer(binding, extractAdditionalInformation, result);
+			handleEmptyContainer(typeDeclaration, extractAdditionalInformation, result);
 		}
 		if (extractAdditionalInformation) {
-			extractAdditionalInformation(binding, result);
+			extractAdditionalInformation(typeDeclaration, result);
 		}
 		return result;
 	}
@@ -127,7 +127,7 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 					result.getMembers().add(member);
 				}
 			}
-		} catch (AbortCompilation e) {
+		} catch (AbortCompilation ignore) {
 			// Ignore
 		}
 	}

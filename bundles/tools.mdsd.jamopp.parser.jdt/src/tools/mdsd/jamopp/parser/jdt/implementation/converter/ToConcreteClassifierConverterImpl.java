@@ -1,19 +1,19 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -32,8 +32,7 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 	@Inject
 	ToConcreteClassifierConverterImpl(
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			UtilNamedElement utilNamedElement,
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, UtilNamedElement utilNamedElement,
 			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMember,
 			Converter<EnumDeclaration, Enumeration> toEnumConverter,
 			Converter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {
@@ -46,6 +45,7 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 		this.utilNamedElement = utilNamedElement;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public ConcreteClassifier convert(AbstractTypeDeclaration typeDecl) {
 		ConcreteClassifier result = null;

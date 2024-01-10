@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.InfixExpression;
-import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
-import tools.mdsd.jamopp.model.java.operators.RelationOperator;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.InfixExpression;
+
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
+import tools.mdsd.jamopp.model.java.operators.RelationOperator;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToRelationOperatorConverter implements Converter<InfixExpression.Operator, RelationOperator> {
@@ -17,6 +17,7 @@ public class ToRelationOperatorConverter implements Converter<InfixExpression.Op
 		this.operatorsFactory = operatorsFactory;
 	}
 
+	@Override
 	public RelationOperator convert(InfixExpression.Operator op) {
 		if (op == InfixExpression.Operator.GREATER) {
 			return operatorsFactory.createGreaterThan();

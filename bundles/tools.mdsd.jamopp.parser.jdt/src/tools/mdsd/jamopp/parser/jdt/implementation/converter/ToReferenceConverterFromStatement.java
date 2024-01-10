@@ -1,16 +1,17 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
 import org.eclipse.jdt.core.dom.Type;
+
 import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.instantiations.InstantiationsFactory;
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -38,6 +39,7 @@ public class ToReferenceConverterFromStatement
 		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public tools.mdsd.jamopp.model.java.references.Reference convert(Statement st) {
 		if (st.getNodeType() == ASTNode.CONSTRUCTOR_INVOCATION) {

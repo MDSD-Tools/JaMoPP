@@ -1,12 +1,12 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -31,6 +31,7 @@ public class ExpressionStatementHandler implements StatementHandler {
 		this.toLocalVariableConverter = toLocalVariableConverter;
 	}
 
+	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
 		ExpressionStatement exprSt = (ExpressionStatement) statement;
 		if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {

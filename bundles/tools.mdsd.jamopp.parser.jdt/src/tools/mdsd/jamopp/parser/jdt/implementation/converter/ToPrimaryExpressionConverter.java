@@ -1,21 +1,20 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.NumberLiteral;
+
 import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 
-public class ToPrimaryExpressionConverter
-		implements Converter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
+public class ToPrimaryExpressionConverter implements Converter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
 
 	private final LiteralsFactory literalsFactory;
 	private final UtilLayout layoutInformationConverter;
@@ -35,6 +34,7 @@ public class ToPrimaryExpressionConverter
 		this.toReferenceConverterFromExpression = toReferenceConverterFromExpression;
 	}
 
+	@Override
 	public PrimaryExpression convert(Expression expr) {
 		if (expr.getNodeType() == ASTNode.BOOLEAN_LITERAL) {
 			return createBooleanLiteral(expr);

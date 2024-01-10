@@ -1,14 +1,14 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.InfixExpression;
+
 import tools.mdsd.jamopp.model.java.expressions.EqualityExpression;
 import tools.mdsd.jamopp.model.java.expressions.EqualityExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.operators.EqualityOperator;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -29,6 +29,7 @@ public class ToEqualityExpressionConverter implements Converter<InfixExpression,
 		this.toEqualityOperatorConverter = toEqualityOperatorConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public EqualityExpression convert(InfixExpression expr) {
 		EqualityExpression result = expressionsFactory.createEqualityExpression();

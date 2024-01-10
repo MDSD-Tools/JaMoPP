@@ -3,15 +3,15 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.ITypeBinding;
+
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
@@ -31,6 +31,7 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 		this.utilNamedElement = utilNamedElement;
 	}
 
+	@Override
 	public List<TypeReference> convert(ITypeBinding binding) {
 		List<TypeReference> result = new ArrayList<>();
 		if (binding.isPrimitive()) {

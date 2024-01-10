@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
@@ -21,6 +23,7 @@ import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeLiteral;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
@@ -32,14 +35,10 @@ import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
-import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class ToReferenceConverterFromExpression
@@ -72,9 +71,9 @@ public class ToReferenceConverterFromExpression
 			Converter<ArrayInitializer, tools.mdsd.jamopp.model.java.arrays.ArrayInitializer> toArrayInitialisierConverter,
 			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			ReferencesFactory referencesFactory, UtilReferenceWalker utilReferenceWalker,
-			LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			InstantiationsFactory instantiationsFactory, ExpressionsFactory expressionsFactory,
+			ReferencesFactory referencesFactory, LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
+			JdtResolver jdtResolverUtility, InstantiationsFactory instantiationsFactory,
+			ExpressionsFactory expressionsFactory,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			ArraysFactory arraysFactory, Converter<Type, TypeArgument> typeArgumentConverter,
 			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
@@ -95,13 +94,13 @@ public class ToReferenceConverterFromExpression
 		this.toReferenceConverterFromMethodInvocation = toReferenceConverterFromMethodInvocation;
 		this.toReferenceConverterFromType = toReferenceConverterFromType;
 		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
-		this.typeToTypeArgumentConverter = typeArgumentConverter;
+		typeToTypeArgumentConverter = typeArgumentConverter;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.references.Reference convert(Expression expr) {
 		if (expr instanceof Annotation) {
-			return this.toAnnotationInstanceConverter.convert((Annotation) expr);
+			return toAnnotationInstanceConverter.convert((Annotation) expr);
 		} else if (expr.getNodeType() == ASTNode.ARRAY_ACCESS) {
 			return handleArrayAcces(expr);
 		} else if (expr.getNodeType() == ASTNode.ARRAY_CREATION) {
@@ -113,7 +112,7 @@ public class ToReferenceConverterFromExpression
 		} else if (expr.getNodeType() == ASTNode.FIELD_ACCESS) {
 			return handleFieldAcces(expr);
 		} else if (expr.getNodeType() == ASTNode.METHOD_INVOCATION) {
-			return this.toReferenceConverterFromMethodInvocation.convert((MethodInvocation) expr);
+			return toReferenceConverterFromMethodInvocation.convert((MethodInvocation) expr);
 		} else if (expr.getNodeType() == ASTNode.QUALIFIED_NAME) {
 			return handleQualifiedName(expr);
 		} else if (expr.getNodeType() == ASTNode.SIMPLE_NAME) {
@@ -137,64 +136,63 @@ public class ToReferenceConverterFromExpression
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleTypeLiteral(Expression expr) {
 		TypeLiteral arr = (TypeLiteral) expr;
-		tools.mdsd.jamopp.model.java.references.ReflectiveClassReference result = this.referencesFactory
+		tools.mdsd.jamopp.model.java.references.ReflectiveClassReference result = referencesFactory
 				.createReflectiveClassReference();
-		tools.mdsd.jamopp.model.java.references.Reference parent = this.toReferenceConverterFromType
-				.convert(arr.getType());
+		tools.mdsd.jamopp.model.java.references.Reference parent = toReferenceConverterFromType.convert(arr.getType());
 		parent.setNext(result);
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleThisExpression(Expression expr) {
 		ThisExpression arr = (ThisExpression) expr;
-		tools.mdsd.jamopp.model.java.references.SelfReference result = this.referencesFactory.createSelfReference();
-		result.setSelf(this.literalsFactory.createThis());
+		tools.mdsd.jamopp.model.java.references.SelfReference result = referencesFactory.createSelfReference();
+		result.setSelf(literalsFactory.createThis());
 		if (arr.getQualifier() != null) {
 			tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getQualifier());
 			parent.setNext(result);
 		}
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.references.Reference handleSuperMethodInvocation(Expression expr) {
 		SuperMethodInvocation arr = (SuperMethodInvocation) expr;
-		tools.mdsd.jamopp.model.java.references.SelfReference partOne = this.referencesFactory.createSelfReference();
-		partOne.setSelf(this.literalsFactory.createSuper());
+		tools.mdsd.jamopp.model.java.references.SelfReference partOne = referencesFactory.createSelfReference();
+		partOne.setSelf(literalsFactory.createSuper());
 		if (arr.getQualifier() != null) {
 			tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getQualifier());
 			parent.setNext(partOne);
 		}
-		tools.mdsd.jamopp.model.java.references.MethodCall partTwo = this.referencesFactory.createMethodCall();
-		arr.typeArguments().forEach(
-				obj -> partTwo.getCallTypeArguments().add(this.typeToTypeArgumentConverter.convert((Type) obj)));
+		tools.mdsd.jamopp.model.java.references.MethodCall partTwo = referencesFactory.createMethodCall();
+		arr.typeArguments()
+				.forEach(obj -> partTwo.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		arr.arguments()
-				.forEach(obj -> partTwo.getArguments().add(this.expressionConverterUtility.convert((Expression) obj)));
+				.forEach(obj -> partTwo.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 		tools.mdsd.jamopp.model.java.members.Method proxy;
 		if (arr.getName().resolveBinding() != null) {
-			proxy = this.jdtResolverUtility.getMethod((IMethodBinding) arr.getName().resolveBinding());
+			proxy = jdtResolverUtility.getMethod((IMethodBinding) arr.getName().resolveBinding());
 		} else {
-			proxy = this.jdtResolverUtility.getClassMethod(arr.getName().getIdentifier());
+			proxy = jdtResolverUtility.getClassMethod(arr.getName().getIdentifier());
 			proxy.setName(arr.getName().getIdentifier());
 		}
-		this.utilNamedElement.setNameOfElement(arr.getName(), proxy);
+		utilNamedElement.setNameOfElement(arr.getName(), proxy);
 		partTwo.setTarget(proxy);
 		partOne.setNext(partTwo);
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(partTwo, arr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(partTwo, arr);
 		return partTwo;
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleSuperFieldAcces(Expression expr) {
 		SuperFieldAccess arr = (SuperFieldAccess) expr;
-		tools.mdsd.jamopp.model.java.references.SelfReference partOne = this.referencesFactory.createSelfReference();
-		partOne.setSelf(this.literalsFactory.createSuper());
+		tools.mdsd.jamopp.model.java.references.SelfReference partOne = referencesFactory.createSelfReference();
+		partOne.setSelf(literalsFactory.createSuper());
 		if (arr.getQualifier() != null) {
 			tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getQualifier());
 			parent.setNext(partOne);
 		}
-		tools.mdsd.jamopp.model.java.references.IdentifierReference partTwo = this.toReferenceConverterFromName
+		tools.mdsd.jamopp.model.java.references.IdentifierReference partTwo = toReferenceConverterFromName
 				.convert(arr.getName());
 		partOne.setNext(partTwo);
 		return partTwo;
@@ -202,39 +200,38 @@ public class ToReferenceConverterFromExpression
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleStringLiteral(Expression expr) {
 		StringLiteral arr = (StringLiteral) expr;
-		tools.mdsd.jamopp.model.java.references.StringReference result = this.referencesFactory.createStringReference();
+		tools.mdsd.jamopp.model.java.references.StringReference result = referencesFactory.createStringReference();
 		result.setValue(arr.getEscapedValue().substring(1, arr.getEscapedValue().length() - 1));
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleParanthesizedExpression(Expression expr) {
 		ParenthesizedExpression arr = (ParenthesizedExpression) expr;
-		tools.mdsd.jamopp.model.java.expressions.NestedExpression result = this.expressionsFactory
-				.createNestedExpression();
-		result.setExpression(this.expressionConverterUtility.convert(arr.getExpression()));
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		tools.mdsd.jamopp.model.java.expressions.NestedExpression result = expressionsFactory.createNestedExpression();
+		result.setExpression(expressionConverterUtility.convert(arr.getExpression()));
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleSimpleName(Expression expr) {
-		return this.toReferenceConverterFromName.convert((SimpleName) expr);
+		return toReferenceConverterFromName.convert((SimpleName) expr);
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleQualifiedName(Expression expr) {
 		QualifiedName arr = (QualifiedName) expr;
-		tools.mdsd.jamopp.model.java.references.IdentifierReference result = this.toReferenceConverterFromName
+		tools.mdsd.jamopp.model.java.references.IdentifierReference result = toReferenceConverterFromName
 				.convert(arr.getName());
 		tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getQualifier());
 		parent.setNext(result);
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleFieldAcces(Expression expr) {
 		FieldAccess arr = (FieldAccess) expr;
 		tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getExpression());
-		tools.mdsd.jamopp.model.java.references.IdentifierReference result = this.toReferenceConverterFromName
+		tools.mdsd.jamopp.model.java.references.IdentifierReference result = toReferenceConverterFromName
 				.convert(arr.getName());
 		parent.setNext(result);
 		return result;
@@ -245,18 +242,17 @@ public class ToReferenceConverterFromExpression
 		ClassInstanceCreation arr = (ClassInstanceCreation) expr;
 		tools.mdsd.jamopp.model.java.instantiations.NewConstructorCall result;
 		if (arr.getType().isParameterizedType() && ((ParameterizedType) arr.getType()).typeArguments().isEmpty()) {
-			result = this.instantiationsFactory.createNewConstructorCallWithInferredTypeArguments();
+			result = instantiationsFactory.createNewConstructorCallWithInferredTypeArguments();
 		} else {
-			result = this.instantiationsFactory.createNewConstructorCall();
+			result = instantiationsFactory.createNewConstructorCall();
 		}
-		arr.typeArguments().forEach(
-				obj -> result.getCallTypeArguments().add(this.typeToTypeArgumentConverter.convert((Type) obj)));
-		result.setTypeReference(this.toTypeReferenceConverter.convert(arr.getType()));
-		arr.arguments()
-				.forEach(obj -> result.getArguments().add(this.expressionConverterUtility.convert((Expression) obj)));
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		arr.typeArguments()
+				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
+		result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
+		arr.arguments().forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		if (arr.getAnonymousClassDeclaration() != null) {
-			result.setAnonymousClass(this.toAnonymousClassConverter.convert(arr.getAnonymousClassDeclaration()));
+			result.setAnonymousClass(toAnonymousClassConverter.convert(arr.getAnonymousClassDeclaration()));
 		}
 		if (arr.getExpression() != null) {
 			tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getExpression());
@@ -266,10 +262,10 @@ public class ToReferenceConverterFromExpression
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleArrayInitiliazer(Expression expr) {
-		tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationByValuesUntyped result = this.arraysFactory
+		tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationByValuesUntyped result = arraysFactory
 				.createArrayInstantiationByValuesUntyped();
-		result.setArrayInitializer(this.toArrayInitialisierConverter.convert((ArrayInitializer) expr));
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
+		result.setArrayInitializer(toArrayInitialisierConverter.convert((ArrayInitializer) expr));
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 
@@ -277,30 +273,28 @@ public class ToReferenceConverterFromExpression
 	private tools.mdsd.jamopp.model.java.references.Reference handleArrayCreation(Expression expr) {
 		ArrayCreation arr = (ArrayCreation) expr;
 		if (arr.getInitializer() != null) {
-			tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationByValuesTyped result = this.arraysFactory
+			tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationByValuesTyped result = arraysFactory
 					.createArrayInstantiationByValuesTyped();
-			result.setTypeReference(this.toTypeReferenceConverter.convert(arr.getType()));
-			this.utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result);
-			result.setArrayInitializer(this.toArrayInitialisierConverter.convert(arr.getInitializer()));
-			this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
+			utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result);
+			result.setArrayInitializer(toArrayInitialisierConverter.convert(arr.getInitializer()));
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 			return result;
 		}
-		tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationBySize result = this.arraysFactory
+		tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationBySize result = arraysFactory
 				.createArrayInstantiationBySize();
-		result.setTypeReference(this.toTypeReferenceConverter.convert(arr.getType()));
-		this.utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result,
-				arr.dimensions().size());
-		arr.dimensions()
-				.forEach(obj -> result.getSizes().add(this.expressionConverterUtility.convert((Expression) obj)));
-		this.layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+		result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
+		utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result, arr.dimensions().size());
+		arr.dimensions().forEach(obj -> result.getSizes().add(expressionConverterUtility.convert((Expression) obj)));
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
 		return result;
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleArrayAcces(Expression expr) {
 		ArrayAccess arr = (ArrayAccess) expr;
 		tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getArray());
-		tools.mdsd.jamopp.model.java.arrays.ArraySelector selector = this.arraysFactory.createArraySelector();
-		selector.setPosition(this.expressionConverterUtility.convert(arr.getIndex()));
+		tools.mdsd.jamopp.model.java.arrays.ArraySelector selector = arraysFactory.createArraySelector();
+		selector.setPosition(expressionConverterUtility.convert(arr.getIndex()));
 		parent.getArraySelectors().add(selector);
 		return parent;
 	}

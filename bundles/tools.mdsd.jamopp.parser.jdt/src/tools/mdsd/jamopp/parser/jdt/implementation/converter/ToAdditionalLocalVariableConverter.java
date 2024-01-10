@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -35,6 +35,7 @@ public class ToAdditionalLocalVariableConverter
 		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public AdditionalLocalVariable convert(VariableDeclarationFragment frag) {
 		AdditionalLocalVariable result;
@@ -46,8 +47,8 @@ public class ToAdditionalLocalVariableConverter
 			result = jdtResolverUtility.getAdditionalLocalVariable(frag.resolveBinding());
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
-		frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, result));
+		frag.extraDimensions()
+				.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convert((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			result.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}

@@ -1,18 +1,18 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
@@ -52,6 +52,7 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 		this.utilToArrayDimensionsAndSetConverter = utilToArrayDimensionsAndSetConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Field convert(FieldDeclaration fieldDecl) {
 		VariableDeclarationFragment firstFragment = (VariableDeclarationFragment) fieldDecl.fragments().get(0);
@@ -67,8 +68,8 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(fieldDecl.getType()));
 		utilToArrayDimensionsAndSetConverter.convert(fieldDecl.getType(), result);
-		firstFragment.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, result));
+		firstFragment.extraDimensions()
+				.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convert((Dimension) obj, result));
 		if (firstFragment.getInitializer() != null) {
 			toInstructionSeparation.addField(firstFragment.getInitializer(), result);
 		}
