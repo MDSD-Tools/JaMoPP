@@ -8,7 +8,6 @@ Automatic-Module-Name: tools.mdsd.jamopp.resource
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.22.0",
- tools.mdsd.jamopp.parser;bundle-version="5.1.0",
  tools.mdsd.jamopp.parser.jdt;bundle-version="5.1.0",
  tools.mdsd.jamopp.printer;bundle-version="5.1.0",
  tools.mdsd.jamopp.model.java;bundle-version="5.1.0"
