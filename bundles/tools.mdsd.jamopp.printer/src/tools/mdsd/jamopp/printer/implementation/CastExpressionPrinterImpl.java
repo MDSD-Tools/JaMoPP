@@ -4,13 +4,12 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.expressions.CastExpression;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class CastExpressionPrinterImpl implements Printer<CastExpression> {
@@ -30,15 +29,15 @@ public class CastExpressionPrinterImpl implements Printer<CastExpression> {
 	@Override
 	public void print(CastExpression element, BufferedWriter writer) throws IOException {
 		writer.append("(");
-		this.typeReferencePrinter.print(element.getTypeReference(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		typeReferencePrinter.print(element.getTypeReference(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		for (TypeReference ref : element.getAdditionalBounds()) {
 			writer.append(" & ");
-			this.typeReferencePrinter.print(ref, writer);
+			typeReferencePrinter.print(ref, writer);
 		}
 		writer.append(") ");
-		this.expressionPrinter.print(element.getGeneralChild(), writer);
+		expressionPrinter.print(element.getGeneralChild(), writer);
 	}
 
 }

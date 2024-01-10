@@ -3,14 +3,13 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.statements.DefaultSwitchCase;
 import tools.mdsd.jamopp.model.java.statements.DefaultSwitchRule;
 import tools.mdsd.jamopp.model.java.statements.NormalSwitchCase;
 import tools.mdsd.jamopp.model.java.statements.NormalSwitchRule;
 import tools.mdsd.jamopp.model.java.statements.SwitchCase;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class SwitchCasePrinterImpl implements Printer<SwitchCase> {
@@ -33,13 +32,13 @@ public class SwitchCasePrinterImpl implements Printer<SwitchCase> {
 	@Override
 	public void print(SwitchCase element, BufferedWriter writer) throws IOException {
 		if (element instanceof DefaultSwitchCase) {
-			this.defaultSwitchCasePrinter.print((DefaultSwitchCase) element, writer);
+			defaultSwitchCasePrinter.print((DefaultSwitchCase) element, writer);
 		} else if (element instanceof NormalSwitchCase) {
-			this.normalSwitchCasePrinter.print((NormalSwitchCase) element, writer);
+			normalSwitchCasePrinter.print((NormalSwitchCase) element, writer);
 		} else if (element instanceof DefaultSwitchRule) {
-			this.defaultSwitchRulePrinter.print((DefaultSwitchRule) element, writer);
+			defaultSwitchRulePrinter.print((DefaultSwitchRule) element, writer);
 		} else {
-			this.normalSwitchRulePrinter.print((NormalSwitchRule) element, writer);
+			normalSwitchRulePrinter.print((NormalSwitchRule) element, writer);
 		}
 	}
 

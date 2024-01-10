@@ -3,11 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import tools.mdsd.jamopp.model.java.statements.DefaultSwitchRule;
-import tools.mdsd.jamopp.model.java.statements.Statement;
-
 import javax.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.statements.DefaultSwitchRule;
+import tools.mdsd.jamopp.model.java.statements.Statement;
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class DefaultSwitchRulePrinterImpl implements Printer<DefaultSwitchRule> {
@@ -23,7 +22,7 @@ public class DefaultSwitchRulePrinterImpl implements Printer<DefaultSwitchRule> 
 	public void print(DefaultSwitchRule element, BufferedWriter writer) throws IOException {
 		writer.append("default -> ");
 		for (Statement s : element.getStatements()) {
-			this.statementPrinter.print(s, writer);
+			statementPrinter.print(s, writer);
 		}
 	}
 

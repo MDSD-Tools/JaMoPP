@@ -4,12 +4,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class AdditionalLocalVariablePrinterImpl implements Printer<AdditionalLocalVariable> {
@@ -27,11 +26,11 @@ public class AdditionalLocalVariablePrinterImpl implements Printer<AdditionalLoc
 	@Override
 	public void print(AdditionalLocalVariable element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		if (element.getInitialValue() != null) {
 			writer.append(" = ");
-			this.expressionPrinter.print(element.getInitialValue(), writer);
+			expressionPrinter.print(element.getInitialValue(), writer);
 		}
 	}
 

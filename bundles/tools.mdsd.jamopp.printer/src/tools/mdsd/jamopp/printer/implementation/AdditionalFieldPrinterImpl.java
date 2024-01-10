@@ -4,12 +4,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class AdditionalFieldPrinterImpl implements Printer<AdditionalField> {
@@ -17,7 +16,6 @@ public class AdditionalFieldPrinterImpl implements Printer<AdditionalField> {
 	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
 	private final Printer<Expression> expressionPrinter;
 
-	
 	@Inject
 	public AdditionalFieldPrinterImpl(Printer<Expression> expressionPrinter,
 			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
@@ -28,11 +26,11 @@ public class AdditionalFieldPrinterImpl implements Printer<AdditionalField> {
 	@Override
 	public void print(AdditionalField element, BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		if (element.getInitialValue() != null) {
 			writer.append(" = ");
-			this.expressionPrinter.print(element.getInitialValue(), writer);
+			expressionPrinter.print(element.getInitialValue(), writer);
 		}
 	}
 
