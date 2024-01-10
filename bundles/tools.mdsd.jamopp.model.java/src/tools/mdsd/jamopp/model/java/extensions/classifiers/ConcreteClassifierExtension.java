@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
@@ -40,8 +41,7 @@ public class ConcreteClassifierExtension {
 		innerClassifierList.addAll(me.getInnerClassifiers());
 
 		for (ConcreteClassifier superClassifier : me.getAllSuperClassifiers()) {
-			List<ConcreteClassifier> superInnerList = superClassifier
-					.getInnerClassifiers();
+			List<ConcreteClassifier> superInnerList = superClassifier.getInnerClassifiers();
 
 			for (ConcreteClassifier superInner : superInnerList) {
 				if (superInner.eIsProxy()) {
@@ -128,8 +128,7 @@ public class ConcreteClassifierExtension {
 		}
 	}
 
-	private static void addSuperType(TypeReference typeReference,
-			List<ClassifierReference> superTypeReferences) {
+	private static void addSuperType(TypeReference typeReference, List<ClassifierReference> superTypeReferences) {
 
 		ClassifierReference classifierReference = typeReference.getPureClassifierReference();
 		superTypeReferences.add(classifierReference);
@@ -139,8 +138,8 @@ public class ConcreteClassifierExtension {
 	}
 
 	/**
-	 * Returns all members of the given classifier including inner classes and
-	 * all members of super types (extended classes and implemented interfaces).
+	 * Returns all members of the given classifier including inner classes and all
+	 * members of super types (extended classes and implemented interfaces).
 	 *
 	 * @param context to check protected visibility
 	 * @return member list
@@ -194,11 +193,10 @@ public class ConcreteClassifierExtension {
 	/**
 	 * Returns <code>true</code> if the given {@link ConcreteClassifier} is
 	 * <code>java.lang.Object</code>. Attention: This method does not take the
-	 * {@link ConcreteClassifier} on which the method is called (<code>me</code>
-	 * ) as argument as this is not used in the methods implementation.
+	 * {@link ConcreteClassifier} on which the method is called (<code>me</code> )
+	 * as argument as this is not used in the methods implementation.
 	 *
-	 * @param clazz
-	 *            the class to check
+	 * @param clazz the class to check
 	 * @return <code>true</code> if <code>clazz</code> represents
 	 *         <code>java.lang.Object</code>, otherwise <code>false</code>
 	 */
@@ -209,6 +207,6 @@ public class ConcreteClassifierExtension {
 		}
 
 		List<String> packageName = clazz.getContainingPackageName();
-		return (packageName.size() != 2) || !("java".equals(packageName.get(0))) || !("lang".equals(packageName.get(1)));
+		return packageName.size() != 2 || !"java".equals(packageName.get(0)) || !"lang".equals(packageName.get(1));
 	}
 }

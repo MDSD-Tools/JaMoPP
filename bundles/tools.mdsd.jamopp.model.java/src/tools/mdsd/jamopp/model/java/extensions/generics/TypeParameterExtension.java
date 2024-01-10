@@ -161,17 +161,18 @@ public class TypeParameterExtension {
 	}
 
 	private static Type processResult(TemporalCompositeClassifier temp, Type aResult) {
-		if (aResult instanceof PrimitiveType) {
-			aResult = ((PrimitiveType) aResult).wrapPrimitiveType();
+		Type newResult = aResult;
+		if (newResult instanceof PrimitiveType) {
+			newResult = ((PrimitiveType) newResult).wrapPrimitiveType();
 		}
 
-		if (aResult instanceof TemporalCompositeClassifier) {
+		if (newResult instanceof TemporalCompositeClassifier) {
 			// flatten
-			temp.getSuperTypes().addAll(((TemporalCompositeClassifier) aResult).getSuperTypes());
+			temp.getSuperTypes().addAll(((TemporalCompositeClassifier) newResult).getSuperTypes());
 		} else {
-			temp.getSuperTypes().add(aResult);
+			temp.getSuperTypes().add(newResult);
 		}
-		return aResult;
+		return newResult;
 	}
 
 	private static void handleTypeAndReferenceAreMethods(TypeParameter me, EObject typeReference,

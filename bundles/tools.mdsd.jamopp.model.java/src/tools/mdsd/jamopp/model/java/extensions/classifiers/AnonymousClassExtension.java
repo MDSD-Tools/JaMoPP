@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
@@ -102,7 +103,7 @@ public class AnonymousClassExtension {
 			Type target = typeReference.getTarget();
 			return (ConcreteClassifier) target;
 		}
-		if ((eContainer instanceof EnumConstant) && (eContainer.eContainer() instanceof Enumeration)) {
+		if (eContainer instanceof EnumConstant && eContainer.eContainer() instanceof Enumeration) {
 			return (Enumeration) eContainer.eContainer();
 		}
 		return null;

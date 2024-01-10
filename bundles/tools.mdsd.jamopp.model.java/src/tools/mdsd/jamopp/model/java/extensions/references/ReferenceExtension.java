@@ -80,23 +80,23 @@ public class ReferenceExtension {
 	private static Type handleElementReference(Reference me, Type type) {
 		// Referenced element points to an element with a type
 		ReferenceableElement target = ((ElementReference) me).getTarget();
-
+		Type newType = type;
 		if (target == null || target.eIsProxy()) {
-			type = null;
+			newType = null;
 		}
 
 		// Navigate through AdditionalLocalVariable or Field
 		if (target instanceof TypedElement) {
 			TypeReference typeRef = ((TypedElement) target).getTypeReference();
 			if (typeRef != null) {
-				type = typeRef.getBoundTarget(me);
+				newType = typeRef.getBoundTarget(me);
 			}
 		} else if (target instanceof Type/* e.g. Annotation */ ) {
-			type = (Type) target;
+			newType = (Type) target;
 		} else if (target instanceof EnumConstant) {
-			type = (Enumeration) target.eContainer();
+			newType = (Enumeration) target.eContainer();
 		}
-		return type;
+		return newType;
 	}
 
 	private static Type handlePrimitiveTypeReference(Reference me) {

@@ -226,23 +226,24 @@ public class AnnotableAndModifiableExtension {
 
 	private static boolean checkProtected(ConcreteClassifier iContextClassifier, ConcreteClassifier myClassifier,
 			Commentable me, Commentable lContext) {
+		ConcreteClassifier concreteClassifier = iContextClassifier;
 		// package visibility
 		if (me.getContainingPackageName() != null
 				&& me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
 			return false;
 		}
 		// try outer classifiers as well
-		while (iContextClassifier != null) {
-			if (iContextClassifier.isSuperType(0, myClassifier, null)) {
+		while (concreteClassifier != null) {
+			if (concreteClassifier.isSuperType(0, myClassifier, null)) {
 				return false;
-			} else if (iContextClassifier.eContainer() instanceof Commentable) {
-				iContextClassifier = ((Commentable) iContextClassifier.eContainer()).getParentConcreteClassifier();
+			} else if (concreteClassifier.eContainer() instanceof Commentable) {
+				concreteClassifier = ((Commentable) concreteClassifier.eContainer()).getParentConcreteClassifier();
 			} else {
-				iContextClassifier = null;
+				concreteClassifier = null;
 			}
 
-			if (iContextClassifier != null && !iContextClassifier.eIsProxy()
-					&& iContextClassifier.isSuperType(0, myClassifier, null)) {
+			if (concreteClassifier != null && !concreteClassifier.eIsProxy()
+					&& concreteClassifier.isSuperType(0, myClassifier, null)) {
 				return false;
 			}
 		}

@@ -22,12 +22,14 @@ import java.util.HashSet;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
 
 /**
- * This class is responsible for managing and retrieving Java resources to establish inter-model references between
- * different Java classes represented as EMF-models.
+ * This class is responsible for managing and retrieving Java resources to
+ * establish inter-model references between different Java classes represented
+ * as EMF-models.
  */
 public class JavaClasspath {
 	/**
@@ -73,11 +75,14 @@ public class JavaClasspath {
 	}
 
 	public ConcreteClassifier getConcreteClassifier(URI uri) {
-		return classifiers.stream().filter(c -> ((c.eResource() != null) && c.eResource().getURI().toString().equals(uri.toString()))).findFirst().orElse(null);
+		return classifiers.stream()
+				.filter(c -> c.eResource() != null && c.eResource().getURI().toString().equals(uri.toString()))
+				.findFirst().orElse(null);
 	}
 
 	public ConcreteClassifier getConcreteClassifier(String fullQualifiedClassifierName) {
-		return classifiers.stream().filter(c -> c.getQualifiedName().equals(fullQualifiedClassifierName)).findFirst().orElse(null);
+		return classifiers.stream().filter(c -> c.getQualifiedName().equals(fullQualifiedClassifierName)).findFirst()
+				.orElse(null);
 	}
 
 	public ConcreteClassifier getFirstConcreteClassifier(String simpleClassifierName) {
@@ -103,14 +108,12 @@ public class JavaClasspath {
 			return classifier.eResource();
 		}
 		tools.mdsd.jamopp.model.java.containers.Package pack = packages.stream().filter(p -> p.eResource() != null)
-				.filter(p -> p.eResource().getURI().toString().equals(resourceURI.toString()))
-				.findFirst().orElse(null);
+				.filter(p -> p.eResource().getURI().toString().equals(resourceURI.toString())).findFirst().orElse(null);
 		if (pack != null) {
 			return pack.eResource();
 		}
 		tools.mdsd.jamopp.model.java.containers.Module mod = modules.stream().filter(m -> m.eResource() != null)
-				.filter(m -> m.eResource().getURI().toString().equals(resourceURI.toString()))
-				.findFirst().orElse(null);
+				.filter(m -> m.eResource().getURI().toString().equals(resourceURI.toString())).findFirst().orElse(null);
 		if (mod != null) {
 			return mod.eResource();
 		}

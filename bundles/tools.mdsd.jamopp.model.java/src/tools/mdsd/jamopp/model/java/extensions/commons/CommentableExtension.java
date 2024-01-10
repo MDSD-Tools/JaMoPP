@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
@@ -118,8 +119,8 @@ public class CommentableExtension {
 	}
 
 	/**
-	 * Searches for the first child with the given type. If no such child is
-	 * found, <code>null</code> is returned.
+	 * Searches for the first child with the given type. If no such child is found,
+	 * <code>null</code> is returned.
 	 */
 	public static EObject getFirstChildByEType(EObject me, EClassifier type) {
 		Iterator<EObject> it = me.eAllContents();
@@ -133,8 +134,8 @@ public class CommentableExtension {
 	}
 
 	/**
-	 * Searches for the first child with the given type. If no such child is
-	 * found, <code>null</code> is returned.
+	 * Searches for the first child with the given type. If no such child is found,
+	 * <code>null</code> is returned.
 	 */
 	public static <T> T getFirstChildByType(EObject me, Class<T> type) {
 		Iterator<EObject> it = me.eAllContents();
@@ -178,27 +179,24 @@ public class CommentableExtension {
 	}
 
 	/**
-	 * Finds the {@link ConcreteClassifier} representing the class with the
-	 * given classified name.
+	 * Finds the {@link ConcreteClassifier} representing the class with the given
+	 * classified name.
 	 *
-	 * @param name
-	 *            classified name of the ConcreteClassifier
+	 * @param name classified name of the ConcreteClassifier
 	 */
 	public static ConcreteClassifier getConcreteClassifier(Commentable me, String name) {
 		return JavaClasspath.get().getFirstConcreteClassifier(name);
 	}
 
 	/**
-	 * Finds all {@link ConcreteClassifier} representing the classes in the
-	 * given package or a single class from that package.
+	 * Finds all {@link ConcreteClassifier} representing the classes in the given
+	 * package or a single class from that package.
 	 *
-	 * @param packageName
-	 *            name of the package
-	 * @param classifierQuery
-	 *            * for all classifiers or name of a single classifier
+	 * @param packageName     name of the package
+	 * @param classifierQuery * for all classifiers or name of a single classifier
 	 */
-	public static EList<ConcreteClassifier> getConcreteClassifiers(
-			Commentable me, String packageName, String classifierQuery) {
+	public static EList<ConcreteClassifier> getConcreteClassifiers(Commentable me, String packageName,
+			String classifierQuery) {
 		EList<ConcreteClassifier> result = new UniqueEList<>();
 		if ("*".equals(classifierQuery)) {
 			tools.mdsd.jamopp.model.java.containers.Package pack = JavaClasspath.get().getPackage(packageName);
@@ -206,7 +204,8 @@ public class CommentableExtension {
 				result.addAll(pack.getClassifiers());
 			}
 		} else {
-			ConcreteClassifier classifier = JavaClasspath.get().getConcreteClassifier(packageName + "." + classifierQuery);
+			ConcreteClassifier classifier = JavaClasspath.get()
+					.getConcreteClassifier(packageName + "." + classifierQuery);
 			if (classifier != null) {
 				result.add(classifier);
 			}
@@ -215,12 +214,10 @@ public class CommentableExtension {
 	}
 
 	/**
-	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class}
-	 * representing the class with the given name located in
-	 * <code>java.lang</code>.
+	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class} representing
+	 * the class with the given name located in <code>java.lang</code>.
 	 *
-	 * @param name
-	 *            name of the Class.
+	 * @param name name of the Class.
 	 * @return the Class.
 	 */
 	public static tools.mdsd.jamopp.model.java.classifiers.Class getLibClass(Commentable me, String name) {
@@ -236,8 +233,7 @@ public class CommentableExtension {
 	 * representing the interface with the given name located in
 	 * <code>java.lang</code>.
 	 *
-	 * @param name
-	 *            name of the Interface.
+	 * @param name name of the Interface.
 	 * @return the interface.
 	 */
 	public static Interface getLibInterface(Commentable me, String name) {
@@ -249,28 +245,28 @@ public class CommentableExtension {
 	}
 
 	/**
-	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class}
-	 * representing <code>java.lang.Class</code>.
+	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class} representing
+	 * <code>java.lang.Class</code>.
 	 *
 	 * @return the Class.
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class getClassClass(Commentable me)  {
+	public static tools.mdsd.jamopp.model.java.classifiers.Class getClassClass(Commentable me) {
 		return me.getLibClass("Class");
 	}
 
 	/**
-	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class}
-	 * representing <code>java.lang.Object</code>.
+	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class} representing
+	 * <code>java.lang.Object</code>.
 	 *
 	 * @return the Class.
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class getObjectClass(Commentable me)  {
+	public static tools.mdsd.jamopp.model.java.classifiers.Class getObjectClass(Commentable me) {
 		return me.getLibClass("Object");
 	}
 
 	/**
-	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class}
-	 * representing <code>java.lang.String</code>.
+	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class} representing
+	 * <code>java.lang.String</code>.
 	 *
 	 * @return the Class.
 	 */
@@ -292,7 +288,7 @@ public class CommentableExtension {
 		return null;
 	}
 
-	//===== Container look up =====
+	// ===== Container look up =====
 
 	/**
 	 * Finds the containing classifier for the given element.
@@ -309,10 +305,10 @@ public class CommentableExtension {
 	}
 
 	/**
-	 * Finds the classifier that is the parent of this element. If this element
-	 * is an inner classifier the parent classifier does not necessarily contain
-	 * this element, since it can reside in a different compilation unit when
-	 * stored in byte code.
+	 * Finds the classifier that is the parent of this element. If this element is
+	 * an inner classifier the parent classifier does not necessarily contain this
+	 * element, since it can reside in a different compilation unit when stored in
+	 * byte code.
 	 *
 	 * @return containing classifier
 	 */
@@ -327,8 +323,8 @@ public class CommentableExtension {
 	 */
 	public static AnonymousClass getContainingAnonymousClass(Commentable me) {
 		EObject value = me;
-		while (!(value instanceof AnonymousClass)
-				&& !(value instanceof ConcreteClassifier) // Do not jump over other classifiers
+		while (!(value instanceof AnonymousClass) && !(value instanceof ConcreteClassifier) // Do not jump over other
+																							// classifiers
 				&& value != null) {
 			value = value.eContainer();
 		}
@@ -380,8 +376,7 @@ public class CommentableExtension {
 			}
 		}
 		List<String> packageNameParts = cu.getNamespaces().subList(0, idx);
-		BasicEList<String> packageNameList = new BasicEList<>(
-				packageNameParts);
+		BasicEList<String> packageNameList = new BasicEList<>(packageNameParts);
 		return ECollections.unmodifiableEList(packageNameList);
 	}
 
