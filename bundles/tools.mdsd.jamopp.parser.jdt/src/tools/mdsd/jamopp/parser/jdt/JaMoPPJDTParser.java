@@ -38,7 +38,6 @@ import com.google.inject.name.Names;
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
-import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.injection.ConverterModule;
 import tools.mdsd.jamopp.parser.jdt.injection.FactoryModule;
 import tools.mdsd.jamopp.parser.jdt.injection.HelperModule;
@@ -105,6 +104,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		UTIL_JDT_RESOLVER.setResourceSet(resourceSet);
 	}
 
+	@Override
 	public List<JavaRoot> convertCompilationUnits(Map<String, CompilationUnit> compilationUnits) {
 		List<JavaRoot> result = new ArrayList<>();
 		for (String sourceFilePath : compilationUnits.keySet()) {
@@ -149,6 +149,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		return Objects.equals(resourceSet, other.resourceSet);
 	}
 
+	@Override
 	public <T> Set<T> get(Class<T> type) {
 		return resourceSet.getResources().stream().filter(Objects::nonNull)
 				.filter(r -> !r.getContents().isEmpty() && !"file".equals(r.getURI().scheme()))
@@ -156,10 +157,12 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 				.collect(Collectors.toSet());
 	}
 
+	@Override
 	public ResourceSet getResourceSet() {
 		return resourceSet;
 	}
 
+	@Override
 	public String[] getSourcepathEntries(Path dir) {
 		try (Stream<Path> paths = Files.walk(dir)) {
 			return paths
@@ -207,11 +210,12 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		return VISITOR.getConvertedElement();
 	}
 
+	@Override
 	public ResourceSet parseDirectory(ASTParser parser, Path dir) {
 		String[] sources = getSourcepathEntries(dir);
 		String[] encodings = new String[sources.length];
 		Arrays.fill(encodings, DEFAULT_ENCODING);
-		parseFilesWithJDT(parser, getClasspathEntries(dir), sources, encodings);
+		convertCompilationUnits(getCompilationUnits(parser, getClasspathEntries(dir), sources, encodings));
 
 		ResourceSet result = resourceSet;
 		resourceSet = null;
@@ -229,20 +233,14 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		if (result != null) {
 			return result;
 		}
-		result = parseFilesWithJDT(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
-				new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING }).get(0)
+		result = convertCompilationUnits(getCompilationUnits(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
+				new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING })).get(0)
 				.eResource();
 		resourceSet = null;
 		return result;
 	}
 
-	private List<JavaRoot> parseFilesWithJDT(ASTParser parser, String[] classpathEntries, String[] sources,
-			String[] encodings) {
-		Map<String, CompilationUnit> compilationUnits = getCompilationUnits(parser, classpathEntries, sources,
-				encodings);
-		return convertCompilationUnits(compilationUnits);
-	}
-
+	@Override
 	public ResourceSet parsePackage(IPackageFragment javaPackage) {
 		Map<String, CompilationUnit> compilationUnits = new HashMap<>();
 
@@ -263,6 +261,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		return result;
 	}
 
+	@Override
 	public ResourceSet parseProject(IJavaProject javaProject) {
 		Map<String, CompilationUnit> compilationUnits = new HashMap<>();
 

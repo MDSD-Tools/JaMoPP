@@ -15,8 +15,8 @@ import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.containers.Package;
-import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
 import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.jdt.JaMoPPParserAPI;
 import tools.mdsd.jamopp.resource.JavaResource2Factory;
 
 /**
