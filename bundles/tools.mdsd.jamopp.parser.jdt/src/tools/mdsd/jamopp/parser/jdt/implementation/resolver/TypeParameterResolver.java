@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
@@ -32,7 +32,7 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 			return getBindings().get(paramName);
 		}
 		typeBindings.add(binding);
-		tools.mdsd.jamopp.model.java.generics.TypeParameter result = genericsFactory.createTypeParameter();
+		TypeParameter result = genericsFactory.createTypeParameter();
 		getBindings().put(paramName, result);
 		return result;
 	}

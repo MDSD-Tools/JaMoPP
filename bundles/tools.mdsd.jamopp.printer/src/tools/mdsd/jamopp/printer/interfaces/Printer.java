@@ -5,6 +5,6 @@ import java.io.IOException;
 
 public interface Printer<Element> {
 
-	public void print(Element element, BufferedWriter writer) throws IOException;
+	void print(Element element, BufferedWriter writer) throws IOException;
 
 }

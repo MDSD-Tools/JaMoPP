@@ -14,7 +14,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilReferenceWalker;
 
-public class ToPrimaryExpressionConverter implements Converter<org.eclipse.jdt.core.dom.Expression, PrimaryExpression> {
+public class ToPrimaryExpressionConverter implements Converter<Expression, PrimaryExpression> {
 
 	private final LiteralsFactory literalsFactory;
 	private final UtilLayout layoutInformationConverter;

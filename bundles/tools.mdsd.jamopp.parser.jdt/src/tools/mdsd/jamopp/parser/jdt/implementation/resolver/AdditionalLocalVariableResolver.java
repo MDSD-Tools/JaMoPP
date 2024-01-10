@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IVariableBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
@@ -37,8 +37,7 @@ public class AdditionalLocalVariableResolver extends ResolverAbstract<Additional
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable result = variablesFactory
-				.createAdditionalLocalVariable();
+		AdditionalLocalVariable result = variablesFactory.createAdditionalLocalVariable();
 		getBindings().put(name, result);
 		return result;
 	}

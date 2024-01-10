@@ -31,7 +31,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 	private final UtilLayout layoutInformationConverter;
 	private final UtilReferenceWalker utilReferenceWalker;
 	private final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
 	private final Converter<Type, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromType;
@@ -39,7 +39,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 
 	@Inject
 	ToMethodReferenceExpressionConverter(
-			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, Converter<Type, TypeReference> toTypeReferenceConverter,
 			ExpressionsFactory expressionsFactory, ReferencesFactory referencesFactory, LiteralsFactory literalsFactory,
 			Converter<Type, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromType,

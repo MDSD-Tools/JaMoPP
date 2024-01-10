@@ -28,7 +28,7 @@ public class HandlerInfixExpression implements ExpressionHandler {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Map<Function<InfixExpression, tools.mdsd.jamopp.model.java.expressions.Expression>, Set<InfixExpression.Operator>> mapping;
 
 	@Inject
@@ -36,7 +36,7 @@ public class HandlerInfixExpression implements ExpressionHandler {
 			Converter<InfixExpression, ShiftExpression> toShiftExpressionConverter,
 			Converter<InfixExpression, RelationExpression> toRelationExpressionConverter,
 			Converter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter,
-			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			Converter<InfixExpression, EqualityExpression> toEqualityExpressionConverter,
 			Converter<InfixExpression, AdditiveExpression> toAdditiveExpressionConverter,
 			ExpressionsFactory expressionsFactory) {

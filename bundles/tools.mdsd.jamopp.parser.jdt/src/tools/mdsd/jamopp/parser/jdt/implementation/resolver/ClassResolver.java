@@ -3,15 +3,15 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class ClassResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java.classifiers.Class, ITypeBinding> {
+public class ClassResolver extends ResolverAbstract<Class, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
@@ -37,11 +37,11 @@ public class ClassResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.classifiers.Class result;
+		Class result;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(name);
-		if (potClass instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
-			result = (tools.mdsd.jamopp.model.java.classifiers.Class) potClass;
+		if (potClass instanceof Class) {
+			result = (Class) potClass;
 		} else {
 			result = classifiersFactory.createClass();
 		}

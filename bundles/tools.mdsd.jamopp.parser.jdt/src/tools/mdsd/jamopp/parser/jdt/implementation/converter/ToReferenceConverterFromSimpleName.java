@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
@@ -31,8 +31,7 @@ public class ToReferenceConverterFromSimpleName implements Converter<SimpleName,
 
 	@Override
 	public IdentifierReference convert(SimpleName name) {
-		tools.mdsd.jamopp.model.java.references.IdentifierReference result = referencesFactory
-				.createIdentifierReference();
+		IdentifierReference result = referencesFactory.createIdentifierReference();
 		IBinding b = name.resolveBinding();
 		tools.mdsd.jamopp.model.java.references.ReferenceableElement target = null;
 		if (b instanceof ITypeBinding) {

@@ -96,15 +96,14 @@ public class ToTypeNameConverter {
 		return null;
 	}
 
-	private String convertNamespaceClassifierReference(
-			tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference nRef) {
+	private String convertNamespaceClassifierReference(NamespaceClassifierReference nRef) {
 		if (!nRef.getClassifierReferences().isEmpty()) {
 			return convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
 		}
 		return nRef.getNamespacesAsString();
 	}
 
-	private String convertClassifierReference(tools.mdsd.jamopp.model.java.types.ClassifierReference convRef) {
+	private String convertClassifierReference(ClassifierReference convRef) {
 		if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) {
 			return ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())
 					.getQualifiedName();

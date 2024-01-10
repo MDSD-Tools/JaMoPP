@@ -2,6 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -9,13 +11,11 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.LambdaExpression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -27,7 +27,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
 	private final JdtResolver iUtilJdtResolver;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 	private final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
@@ -35,7 +35,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	@Inject
 	HandlerLambdaExpression(UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
-			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
@@ -64,7 +64,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 			lambda.parameters().forEach(obj -> {
 				VariableDeclarationFragment frag = (VariableDeclarationFragment) obj;
 				IVariableBinding binding = frag.resolveBinding();
-				tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter nextParam;
+				OrdinaryParameter nextParam;
 				if (binding != null) {
 					nextParam = iUtilJdtResolver.getOrdinaryParameter(binding);
 					nextParam.setTypeReference(toTypeReferencesConverter.convert(binding.getType()).get(0));

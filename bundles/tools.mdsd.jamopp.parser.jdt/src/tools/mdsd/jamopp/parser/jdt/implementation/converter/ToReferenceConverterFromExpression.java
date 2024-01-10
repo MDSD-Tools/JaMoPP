@@ -165,7 +165,7 @@ public class ToReferenceConverterFromExpression
 			tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getQualifier());
 			parent.setNext(partOne);
 		}
-		tools.mdsd.jamopp.model.java.references.MethodCall partTwo = referencesFactory.createMethodCall();
+		MethodCall partTwo = referencesFactory.createMethodCall();
 		arr.typeArguments()
 				.forEach(obj -> partTwo.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		arr.arguments()
@@ -192,8 +192,7 @@ public class ToReferenceConverterFromExpression
 			tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getQualifier());
 			parent.setNext(partOne);
 		}
-		tools.mdsd.jamopp.model.java.references.IdentifierReference partTwo = toReferenceConverterFromName
-				.convert(arr.getName());
+		IdentifierReference partTwo = toReferenceConverterFromName.convert(arr.getName());
 		partOne.setNext(partTwo);
 		return partTwo;
 	}
@@ -220,8 +219,7 @@ public class ToReferenceConverterFromExpression
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleQualifiedName(Expression expr) {
 		QualifiedName arr = (QualifiedName) expr;
-		tools.mdsd.jamopp.model.java.references.IdentifierReference result = toReferenceConverterFromName
-				.convert(arr.getName());
+		IdentifierReference result = toReferenceConverterFromName.convert(arr.getName());
 		tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getQualifier());
 		parent.setNext(result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
@@ -231,8 +229,7 @@ public class ToReferenceConverterFromExpression
 	private tools.mdsd.jamopp.model.java.references.Reference handleFieldAcces(Expression expr) {
 		FieldAccess arr = (FieldAccess) expr;
 		tools.mdsd.jamopp.model.java.references.Reference parent = convert(arr.getExpression());
-		tools.mdsd.jamopp.model.java.references.IdentifierReference result = toReferenceConverterFromName
-				.convert(arr.getName());
+		IdentifierReference result = toReferenceConverterFromName.convert(arr.getName());
 		parent.setNext(result);
 		return result;
 	}

@@ -419,7 +419,7 @@ public class ConverterModule extends AbstractModule {
 			/* empty */}).to(ToPrimaryExpressionConverter.class);
 		bind(new TypeLiteral<Converter<MethodDeclaration, ReceiverParameter>>() {
 			/* empty */}).to(ToReceiverParameterConverter.class);
-		bind(new TypeLiteral<Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference>>() {
+		bind(new TypeLiteral<Converter<Expression, Reference>>() {
 			/* empty */}).to(ToReferenceConverterFromExpression.class);
 		bind(new TypeLiteral<Converter<MethodInvocation, MethodCall>>() {
 			/* empty */}).to(ToReferenceConverterFromMethodInvocation.class);
@@ -427,7 +427,7 @@ public class ConverterModule extends AbstractModule {
 			/* empty */}).to(ToReferenceConverterFromName.class);
 		bind(new TypeLiteral<Converter<SimpleName, IdentifierReference>>() {
 			/* empty */}).to(ToReferenceConverterFromSimpleName.class);
-		bind(new TypeLiteral<Converter<Statement, tools.mdsd.jamopp.model.java.references.Reference>>() {
+		bind(new TypeLiteral<Converter<Statement, Reference>>() {
 			/* empty */}).to(ToReferenceConverterFromStatement.class);
 		bind(new TypeLiteral<Converter<Type, Reference>>() {
 			/* empty */}).to(ToReferenceConverterFromType.class);
@@ -443,7 +443,7 @@ public class ConverterModule extends AbstractModule {
 			/* empty */}).to(ToSwitchCaseConverter.class);
 		bind(new TypeLiteral<Converter<ITypeBinding, TypeArgument>>() {
 			/* empty */}).to(ToTypeArgumentConverter.class);
-		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter>>() {
+		bind(new TypeLiteral<Converter<org.eclipse.jdt.core.dom.TypeParameter, TypeParameter>>() {
 			/* empty */}).to(ToTypeParameterConverter.class);
 		bind(new TypeLiteral<Converter<Type, TypeReference>>() {
 			/* empty */}).to(ToTypeReferenceConverter.class);

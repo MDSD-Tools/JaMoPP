@@ -3,16 +3,15 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
 
-public class InterfaceResolver
-		extends ResolverAbstract<tools.mdsd.jamopp.model.java.classifiers.Interface, ITypeBinding> {
+public class InterfaceResolver extends ResolverAbstract<Interface, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final HashSet<ITypeBinding> typeBindings;
@@ -34,11 +33,11 @@ public class InterfaceResolver
 			return getBindings().get(interName);
 		}
 		typeBindings.add(binding);
-		tools.mdsd.jamopp.model.java.classifiers.Interface result;
+		Interface result;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 				.getConcreteClassifier(interName);
-		if (classifier instanceof tools.mdsd.jamopp.model.java.classifiers.Interface) {
-			result = (tools.mdsd.jamopp.model.java.classifiers.Interface) classifier;
+		if (classifier instanceof Interface) {
+			result = (Interface) classifier;
 		} else {
 			result = classifiersFactory.createInterface();
 		}

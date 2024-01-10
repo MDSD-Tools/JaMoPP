@@ -1,12 +1,12 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
-import org.eclipse.jdt.core.dom.Assignment;
-import org.eclipse.jdt.core.dom.Expression;
-import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
-import tools.mdsd.jamopp.model.java.operators.AssignmentOperator;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.Expression;
+
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.operators.AssignmentOperator;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -16,11 +16,11 @@ public class HandlerAssignment implements ExpressionHandler {
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
 	private final Converter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	HandlerAssignment(UtilLayout utilLayout,
-			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			Converter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter,
 			ExpressionsFactory expressionsFactory) {
 		this.toAssignmentOperatorConverter = toAssignmentOperatorConverter;

@@ -1,17 +1,17 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Expression;
+
 import tools.mdsd.jamopp.model.java.expressions.ConditionalExpression;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class ToConditionalExpressionConverter
-		implements Converter<org.eclipse.jdt.core.dom.ConditionalExpression, tools.mdsd.jamopp.model.java.expressions.ConditionalExpression> {
+		implements Converter<org.eclipse.jdt.core.dom.ConditionalExpression, ConditionalExpression> {
 
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout layoutInformationConverter;

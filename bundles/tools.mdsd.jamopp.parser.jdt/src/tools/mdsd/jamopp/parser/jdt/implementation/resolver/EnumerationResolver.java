@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
@@ -35,9 +35,9 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 		typeBindings.add(binding);
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 				.getConcreteClassifier(enumName);
-		tools.mdsd.jamopp.model.java.classifiers.Enumeration result;
-		if (classifier instanceof tools.mdsd.jamopp.model.java.classifiers.Enumeration) {
-			result = (tools.mdsd.jamopp.model.java.classifiers.Enumeration) classifier;
+		Enumeration result;
+		if (classifier instanceof Enumeration) {
+			result = (Enumeration) classifier;
 		} else {
 			result = classifiersFactory.createEnumeration();
 		}

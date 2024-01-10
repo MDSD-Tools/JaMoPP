@@ -48,10 +48,10 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 		}
 		ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
 				.getClassifier(methoDeclaration.getDeclaringClass());
-		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = null;
+		InterfaceMethod result = null;
 		if (classifier != null) {
 			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
-				if (mem instanceof tools.mdsd.jamopp.model.java.members.InterfaceMethod) {
+				if (mem instanceof InterfaceMethod) {
 					result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
 							methoDeclaration);
 					if (result != null) {
@@ -72,13 +72,13 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = createNewInterfaceMethod();
+		InterfaceMethod result = createNewInterfaceMethod();
 		getBindings().put(name, result);
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.members.InterfaceMethod createNewInterfaceMethod() {
-		tools.mdsd.jamopp.model.java.members.InterfaceMethod result = membersFactory.createInterfaceMethod();
+	private InterfaceMethod createNewInterfaceMethod() {
+		InterfaceMethod result = membersFactory.createInterfaceMethod();
 		result.setTypeReference(typesFactory.createVoid());
 		result.setStatement(statementsFactory.createEmptyStatement());
 		return result;

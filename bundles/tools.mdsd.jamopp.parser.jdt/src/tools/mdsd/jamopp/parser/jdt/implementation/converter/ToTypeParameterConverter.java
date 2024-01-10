@@ -13,8 +13,8 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
-public class ToTypeParameterConverter implements
-		Converter<org.eclipse.jdt.core.dom.TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> {
+public class ToTypeParameterConverter
+		implements Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> {
 
 	private final UtilNamedElement utilNamedElement;
 	private final JdtResolver utilJDTResolver;

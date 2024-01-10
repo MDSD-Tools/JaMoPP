@@ -3,15 +3,15 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IModuleBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IModuleBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.Module;
 
-public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.java.containers.Module, IModuleBinding> {
+public class ModuleResolver extends ResolverAbstract<Module, IModuleBinding> {
 
 	private final HashSet<IModuleBinding> moduleBindings;
 	private final ContainersFactory containersFactory;
@@ -35,7 +35,7 @@ public class ModuleResolver extends ResolverAbstract<tools.mdsd.jamopp.model.jav
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.containers.Module result = JavaClasspath.get().getModule(name);
+		Module result = JavaClasspath.get().getModule(name);
 		if (result == null) {
 			result = containersFactory.createModule();
 		}

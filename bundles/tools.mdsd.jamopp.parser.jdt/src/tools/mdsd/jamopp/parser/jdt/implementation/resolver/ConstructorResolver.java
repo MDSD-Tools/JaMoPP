@@ -59,7 +59,7 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.members.Constructor result = membersFactory.createConstructor();
+		Constructor result = membersFactory.createConstructor();
 		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
 		block.setName("");
 		result.setBlock(block);
@@ -77,8 +77,7 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		}
 
 		for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-			if (mem instanceof tools.mdsd.jamopp.model.java.members.Constructor con
-					&& mem.getName().equals(binding.getName())) {
+			if (mem instanceof Constructor con && mem.getName().equals(binding.getName())) {
 				int receiveOffset = 0;
 				if (binding.getDeclaredReceiverType() != null) {
 					receiveOffset = 1;
@@ -97,14 +96,11 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		return result;
 	}
 
-	private boolean skip(IMethodBinding binding, tools.mdsd.jamopp.model.java.members.Constructor con,
-			int receiveOffset) {
+	private boolean skip(IMethodBinding binding, Constructor con, int receiveOffset) {
 		return receiveOffset == 1
-				&& (!(con.getParameters()
-						.get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
-						|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType())
-								.equals(toTypeNameConverter
-										.convertToTypeName(con.getParameters().get(0).getTypeReference())))
+				&& (!(con.getParameters().get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
+						|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType()).equals(
+								toTypeNameConverter.convertToTypeName(con.getParameters().get(0).getTypeReference())))
 				|| skipMember(binding, con, receiveOffset);
 	}
 

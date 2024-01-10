@@ -39,7 +39,7 @@ public final class JaMoPPPrinter {
 				var buffWriter = new BufferedWriter(outWriter)) {
 			JAVA_ROOT_PRINTER.print(root, buffWriter);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			// Ignore
 		}
 	}
 
@@ -53,7 +53,7 @@ public final class JaMoPPPrinter {
 		try (var writer = Files.newBufferedWriter(file)) {
 			JAVA_ROOT_PRINTER.print(root, writer);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			// Ignore
 		}
 	}
 

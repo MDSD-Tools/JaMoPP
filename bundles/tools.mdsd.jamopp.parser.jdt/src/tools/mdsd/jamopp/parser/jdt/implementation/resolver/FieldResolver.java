@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IVariableBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Field;
@@ -43,12 +43,11 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 		if (binding.getDeclaringClass() != null) {
 			potClass = (ConcreteClassifier) classifierResolver.getClassifier(binding.getDeclaringClass());
 		}
-		tools.mdsd.jamopp.model.java.members.Field result = null;
+		Field result = null;
 		if (potClass != null) {
 			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof tools.mdsd.jamopp.model.java.members.Field
-						&& mem.getName().equals(binding.getName())) {
-					result = (tools.mdsd.jamopp.model.java.members.Field) mem;
+				if (mem instanceof Field && mem.getName().equals(binding.getName())) {
+					result = (Field) mem;
 					break;
 				}
 			}
@@ -66,7 +65,7 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.members.Field result = membersFactory.createField();
+		Field result = membersFactory.createField();
 		getBindings().put(name, result);
 		return result;
 	}

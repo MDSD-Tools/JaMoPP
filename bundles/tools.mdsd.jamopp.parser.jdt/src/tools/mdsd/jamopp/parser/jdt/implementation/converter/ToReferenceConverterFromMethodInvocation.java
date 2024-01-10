@@ -47,7 +47,7 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 		if (arr.getExpression() != null) {
 			parent = toReferenceConverterFromExpression.convert(arr.getExpression());
 		}
-		tools.mdsd.jamopp.model.java.references.MethodCall result = referencesFactory.createMethodCall();
+		MethodCall result = referencesFactory.createMethodCall();
 		arr.typeArguments()
 				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		arr.arguments().forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));

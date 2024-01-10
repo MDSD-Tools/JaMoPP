@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
@@ -7,13 +9,11 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.UnionType;
+
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.statements.CatchBlock;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -31,8 +31,7 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 
 	@Inject
 	ToCatchblockConverter(UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
-			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			JdtResolver jdtResolverUtility,
+			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
 			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;
@@ -47,7 +46,7 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 	@SuppressWarnings("unchecked")
 	@Override
 	public CatchBlock convert(CatchClause block) {
-		tools.mdsd.jamopp.model.java.statements.CatchBlock result = statementsFactory.createCatchBlock();
+		CatchBlock result = statementsFactory.createCatchBlock();
 		SingleVariableDeclaration decl = block.getException();
 		tools.mdsd.jamopp.model.java.parameters.CatchParameter param;
 		IVariableBinding binding = decl.resolveBinding();

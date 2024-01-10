@@ -1,12 +1,12 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.PostfixExpression;
-import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
-import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.PostfixExpression;
+
+import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -16,11 +16,11 @@ public class HandlerPostfixExpression implements ExpressionHandler {
 	private final OperatorsFactory operatorsFactory;
 	private final ExpressionsFactory expressionsFactory;
 	private final UtilLayout utilLayout;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
 	HandlerPostfixExpression(UtilLayout utilLayout,
-			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		this.expressionsFactory = expressionsFactory;
@@ -38,8 +38,9 @@ public class HandlerPostfixExpression implements ExpressionHandler {
 		} else {
 			result.setOperator(operatorsFactory.createPlusPlus());
 		}
-		result.setChild((tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild) toExpressionConverter
-				.convert(postfixExpr.getOperand()));
+		result.setChild(
+				(tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild) toExpressionConverter
+						.convert(postfixExpr.getOperand()));
 		utilLayout.convertToMinimalLayoutInformation(result, postfixExpr);
 		return result;
 	}

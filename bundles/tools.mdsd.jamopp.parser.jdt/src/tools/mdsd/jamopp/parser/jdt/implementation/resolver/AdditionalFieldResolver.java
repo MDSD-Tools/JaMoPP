@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IVariableBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
@@ -35,14 +35,14 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 			return getBindings().get(varName);
 		}
 		variableBindings.add(binding);
-		tools.mdsd.jamopp.model.java.members.AdditionalField result = null;
+		AdditionalField result = null;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 		if (potClass != null) {
 			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
 				if (mem instanceof tools.mdsd.jamopp.model.java.members.Field field) {
 					boolean leave = false;
-					for (tools.mdsd.jamopp.model.java.members.AdditionalField af : field.getAdditionalFields()) {
+					for (AdditionalField af : field.getAdditionalFields()) {
 						if (af.getName().equals(binding.getName())) {
 							result = af;
 							leave = true;
@@ -67,7 +67,7 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.members.AdditionalField result = membersFactory.createAdditionalField();
+		AdditionalField result = membersFactory.createAdditionalField();
 		getBindings().put(name, result);
 		return result;
 	}

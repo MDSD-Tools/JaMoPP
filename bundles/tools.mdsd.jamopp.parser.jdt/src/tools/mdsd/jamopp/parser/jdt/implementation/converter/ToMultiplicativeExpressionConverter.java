@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.InfixExpression;
+
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression;
 import tools.mdsd.jamopp.model.java.operators.MultiplicativeOperator;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -32,8 +32,7 @@ public class ToMultiplicativeExpressionConverter implements Converter<InfixExpre
 	@SuppressWarnings("unchecked")
 	@Override
 	public MultiplicativeExpression convert(InfixExpression expr) {
-		tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression result = expressionsFactory
-				.createMultiplicativeExpression();
+		MultiplicativeExpression result = expressionsFactory.createMultiplicativeExpression();
 		mergeMultiplicativeExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getMultiplicativeOperators().add(toMultiplicativeOperatorConverter.convert(expr.getOperator()));
 		mergeMultiplicativeExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
@@ -45,13 +44,13 @@ public class ToMultiplicativeExpressionConverter implements Converter<InfixExpre
 		return result;
 	}
 
-	private void mergeMultiplicativeExpressionAndExpression(
-			tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression mulExpr,
+	private void mergeMultiplicativeExpressionAndExpression(MultiplicativeExpression mulExpr,
 			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
 		if (potChild instanceof tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpressionChild) {
-			mulExpr.getChildren().add((tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpressionChild) potChild);
+			mulExpr.getChildren()
+					.add((tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpressionChild) potChild);
 		} else {
-			tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression expr = (tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression) potChild;
+			MultiplicativeExpression expr = (MultiplicativeExpression) potChild;
 			mulExpr.getChildren().addAll(expr.getChildren());
 			mulExpr.getMultiplicativeOperators().addAll(expr.getMultiplicativeOperators());
 		}

@@ -62,7 +62,7 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 	private ClassMethod handleClassifier(IMethodBinding binding, ConcreteClassifier classifier, ClassMethod method) {
 		ClassMethod result = null;
 		for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
-			if (mem instanceof tools.mdsd.jamopp.model.java.members.ClassMethod) {
+			if (mem instanceof ClassMethod) {
 				result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
 				if (result != null) {
 					break;
@@ -80,13 +80,13 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.members.ClassMethod result = createNewClassMethod();
+		ClassMethod result = createNewClassMethod();
 		getBindings().put(name, result);
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.members.ClassMethod createNewClassMethod() {
-		tools.mdsd.jamopp.model.java.members.ClassMethod result = membersFactory.createClassMethod();
+	private ClassMethod createNewClassMethod() {
+		ClassMethod result = membersFactory.createClassMethod();
 		result.setTypeReference(typesFactory.createVoid());
 		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
 		block.setName("");

@@ -31,8 +31,7 @@ public class ToRelationExpressionConverter implements Converter<InfixExpression,
 	@Override
 	@SuppressWarnings("unchecked")
 	public RelationExpression convert(InfixExpression expr) {
-		tools.mdsd.jamopp.model.java.expressions.RelationExpression result = expressionsFactory
-				.createRelationExpression();
+		RelationExpression result = expressionsFactory.createRelationExpression();
 		mergeRelationExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getRelationOperators().add(toRelationOperatorConverter.convert(expr.getOperator()));
 		mergeRelationExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
@@ -44,13 +43,12 @@ public class ToRelationExpressionConverter implements Converter<InfixExpression,
 		return result;
 	}
 
-	private void mergeRelationExpressionAndExpression(
-			tools.mdsd.jamopp.model.java.expressions.RelationExpression relExpr,
+	private void mergeRelationExpressionAndExpression(RelationExpression relExpr,
 			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
 		if (potChild instanceof tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild) {
 			relExpr.getChildren().add((tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild) potChild);
 		} else {
-			tools.mdsd.jamopp.model.java.expressions.RelationExpression expr = (tools.mdsd.jamopp.model.java.expressions.RelationExpression) potChild;
+			RelationExpression expr = (RelationExpression) potChild;
 			relExpr.getChildren().addAll(expr.getChildren());
 			relExpr.getRelationOperators().addAll(expr.getRelationOperators());
 		}

@@ -4,15 +4,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
-import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 
-import javax.inject.Inject;
 import com.google.inject.Singleton;
 
+import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilTypeInstructionSeparation;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
@@ -21,7 +22,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSeparation {
 
 	private final JdtResolver jdtResolverUtility;
-	private final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
+	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 	private final Converter<Expression, AnnotationValue> toAnnotationValueConverter;
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
@@ -40,7 +41,7 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	UtilTypeInstructionSeparationImpl(Converter<Expression, AnnotationValue> toAnnotationValueConverter,
 			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
 			JdtResolver jdtResolverUtility,
-			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -52,9 +53,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	@Override
 	public void convertAll() {
 		int oldSize;
-		int newSize = this.methods.size() + this.constructors.size() + this.fields.size() + this.addFields.size()
-				+ this.initializers.size() + this.annotationMethods.size() + this.singleAnnotations.size()
-				+ this.annotationSetting.size();
+		int newSize = methods.size() + constructors.size() + fields.size() + addFields.size() + initializers.size()
+				+ annotationMethods.size() + singleAnnotations.size() + annotationSetting.size();
 		do {
 			oldSize = newSize;
 			handleMethods();
@@ -65,198 +65,197 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 			handleAnnotationMethods();
 			handleSingleAnnotations();
 			handleAnnotationSetting();
-			newSize = this.methods.size() + this.constructors.size() + this.fields.size() + this.addFields.size()
-					+ this.initializers.size() + this.annotationMethods.size() + this.singleAnnotations.size()
-					+ this.annotationSetting.size();
+			newSize = methods.size() + constructors.size() + fields.size() + addFields.size() + initializers.size()
+					+ annotationMethods.size() + singleAnnotations.size() + annotationSetting.size();
 		} while (newSize != oldSize);
 
-		this.methods.clear();
-		this.constructors.clear();
-		this.fields.clear();
-		this.addFields.clear();
-		this.initializers.clear();
-		this.annotationMethods.clear();
-		this.singleAnnotations.clear();
-		this.annotationSetting.clear();
-		this.visitedObjects.clear();
+		methods.clear();
+		constructors.clear();
+		fields.clear();
+		addFields.clear();
+		initializers.clear();
+		annotationMethods.clear();
+		singleAnnotations.clear();
+		annotationSetting.clear();
+		visitedObjects.clear();
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleAnnotationSetting() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting = (HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting>) this.annotationSetting
+		HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting> clonedAnnotationSetting = (HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting>) annotationSetting
 				.clone();
 		exprIter = clonedAnnotationSetting.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (this.visitedObjects.contains(clonedAnnotationSetting.get(exprIter.next()))) {
+			if (visitedObjects.contains(clonedAnnotationSetting.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
 		clonedAnnotationSetting.forEach((expr, aas) -> {
-			this.visitedObjects.add(aas);
-			aas.setValue(this.toAnnotationValueConverter.convert(expr));
+			visitedObjects.add(aas);
+			aas.setValue(toAnnotationValueConverter.convert(expr));
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleSingleAnnotations() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations = (HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter>) this.singleAnnotations
+		HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter> clonedSingleAnnotations = (HashMap<Expression, tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter>) singleAnnotations
 				.clone();
 		exprIter = clonedSingleAnnotations.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (this.visitedObjects.contains(clonedSingleAnnotations.get(exprIter.next()))) {
+			if (visitedObjects.contains(clonedSingleAnnotations.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
 		clonedSingleAnnotations.forEach((expr, sap) -> {
-			this.visitedObjects.add(sap);
-			sap.setValue(this.toAnnotationValueConverter.convert(expr));
+			visitedObjects.add(sap);
+			sap.setValue(toAnnotationValueConverter.convert(expr));
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleAnnotationMethods() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, tools.mdsd.jamopp.model.java.members.InterfaceMethod> clonedAnnotationMethods = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.InterfaceMethod>) this.annotationMethods
+		HashMap<Expression, tools.mdsd.jamopp.model.java.members.InterfaceMethod> clonedAnnotationMethods = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.InterfaceMethod>) annotationMethods
 				.clone();
 		exprIter = clonedAnnotationMethods.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (this.visitedObjects.contains(clonedAnnotationMethods.get(exprIter.next()))) {
+			if (visitedObjects.contains(clonedAnnotationMethods.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
 		clonedAnnotationMethods.forEach((expr, m) -> {
-			this.visitedObjects.add(m);
-			m.setDefaultValue(this.toAnnotationValueConverter.convert(expr));
+			visitedObjects.add(m);
+			m.setDefaultValue(toAnnotationValueConverter.convert(expr));
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleInitializers() {
 		Iterator<Block> iter;
-		HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> clonedInitializers = (HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block>) this.initializers
+		HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> clonedInitializers = (HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block>) initializers
 				.clone();
 		iter = clonedInitializers.keySet().iterator();
 		while (iter.hasNext()) {
-			if (this.visitedObjects.contains(clonedInitializers.get(iter.next()))) {
+			if (visitedObjects.contains(clonedInitializers.get(iter.next()))) {
 				iter.remove();
 			}
 		}
 		clonedInitializers.forEach((b1, b2) -> {
-			this.visitedObjects.add(b2);
-			this.jdtResolverUtility.prepareNextUid();
-			b1.statements().forEach(
-					obj -> b2.getStatements().add(this.statementToStatementConverter.convert((Statement) obj)));
+			visitedObjects.add(b2);
+			jdtResolverUtility.prepareNextUid();
+			b1.statements()
+					.forEach(obj -> b2.getStatements().add(statementToStatementConverter.convert((Statement) obj)));
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleAddFields() {
 		Iterator<Expression> exprIter;
-		HashMap<Expression, tools.mdsd.jamopp.model.java.members.AdditionalField> clonedAddFields = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.AdditionalField>) this.addFields
+		HashMap<Expression, tools.mdsd.jamopp.model.java.members.AdditionalField> clonedAddFields = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.AdditionalField>) addFields
 				.clone();
 		exprIter = clonedAddFields.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (this.visitedObjects.contains(clonedAddFields.get(exprIter.next()))) {
+			if (visitedObjects.contains(clonedAddFields.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
 		clonedAddFields.forEach((expr, f) -> {
-			this.visitedObjects.add(f);
-			f.setInitialValue(this.expressionConverterUtility.convert(expr));
+			visitedObjects.add(f);
+			f.setInitialValue(expressionConverterUtility.convert(expr));
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleFields() {
-		HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> clonedFields = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field>) this.fields
+		HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> clonedFields = (HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field>) fields
 				.clone();
 		Iterator<Expression> exprIter = clonedFields.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (this.visitedObjects.contains(clonedFields.get(exprIter.next()))) {
+			if (visitedObjects.contains(clonedFields.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
 		clonedFields.forEach((expr, f) -> {
-			this.visitedObjects.add(f);
-			f.setInitialValue(this.expressionConverterUtility.convert(expr));
+			visitedObjects.add(f);
+			f.setInitialValue(expressionConverterUtility.convert(expr));
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleConstructors() {
 		Iterator<Block> iter;
-		HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> clonedConstructors = (HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor>) this.constructors
+		HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> clonedConstructors = (HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor>) constructors
 				.clone();
 		iter = clonedConstructors.keySet().iterator();
 		while (iter.hasNext()) {
-			if (this.visitedObjects.contains(clonedConstructors.get(iter.next()))) {
+			if (visitedObjects.contains(clonedConstructors.get(iter.next()))) {
 				iter.remove();
 			}
 		}
 		clonedConstructors.forEach((b, c) -> {
-			this.visitedObjects.add(c);
-			c.setBlock(this.blockToBlockConverter.convert(b));
+			visitedObjects.add(c);
+			c.setBlock(blockToBlockConverter.convert(b));
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	private void handleMethods() {
-		HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> clonedMethods = (HashMap<Block, tools.mdsd.jamopp.model.java.members.Method>) this.methods
+		HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> clonedMethods = (HashMap<Block, tools.mdsd.jamopp.model.java.members.Method>) methods
 				.clone();
 		Iterator<Block> iter = clonedMethods.keySet().iterator();
 		while (iter.hasNext()) {
-			if (this.visitedObjects.contains(clonedMethods.get(iter.next()))) {
+			if (visitedObjects.contains(clonedMethods.get(iter.next()))) {
 				iter.remove();
 			}
 		}
 		clonedMethods.forEach((b, m) -> {
-			this.visitedObjects.add(m);
-			m.setStatement(this.blockToBlockConverter.convert(b));
+			visitedObjects.add(m);
+			m.setStatement(blockToBlockConverter.convert(b));
 		});
 	}
 
 	@Override
 	public void addMethod(Block block, tools.mdsd.jamopp.model.java.members.Method method) {
-		this.methods.put(block, method);
+		methods.put(block, method);
 	}
 
 	@Override
 	public void addConstructor(Block block, tools.mdsd.jamopp.model.java.members.Constructor constructor) {
-		this.constructors.put(block, constructor);
+		constructors.put(block, constructor);
 	}
 
 	@Override
 	public void addField(Expression initializer, tools.mdsd.jamopp.model.java.members.Field field) {
-		this.fields.put(initializer, field);
+		fields.put(initializer, field);
 	}
 
 	@Override
 	public void addAdditionalField(Expression initializer, tools.mdsd.jamopp.model.java.members.AdditionalField field) {
-		this.addFields.put(initializer, field);
+		addFields.put(initializer, field);
 	}
 
 	@Override
 	public void addInitializer(Block block, tools.mdsd.jamopp.model.java.statements.Block correspondingBlock) {
-		this.initializers.put(block, correspondingBlock);
+		initializers.put(block, correspondingBlock);
 	}
 
 	@Override
 	public void addAnnotationMethod(Expression value, tools.mdsd.jamopp.model.java.members.InterfaceMethod method) {
-		this.annotationMethods.put(value, method);
+		annotationMethods.put(value, method);
 	}
 
 	@Override
 	public void addSingleAnnotationParameter(Expression value,
 			tools.mdsd.jamopp.model.java.annotations.SingleAnnotationParameter param) {
-		this.singleAnnotations.put(value, param);
+		singleAnnotations.put(value, param);
 	}
 
 	@Override
 	public void addAnnotationAttributeSetting(Expression value,
 			tools.mdsd.jamopp.model.java.annotations.AnnotationAttributeSetting setting) {
-		this.annotationSetting.put(value, setting);
+		annotationSetting.put(value, setting);
 	}
 
 }

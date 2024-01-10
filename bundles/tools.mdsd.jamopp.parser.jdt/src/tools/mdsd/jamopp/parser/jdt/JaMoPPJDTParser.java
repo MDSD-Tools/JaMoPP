@@ -112,7 +112,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			JavaRoot root = VISITOR.getConvertedElement();
 			Resource newResource;
 			if (root.eResource() == null) {
-				newResource = JaMoPPJDTParser.this.resourceSet.createResource(URI.createFileURI(sourceFilePath));
+				newResource = resourceSet.createResource(URI.createFileURI(sourceFilePath));
 				newResource.getContents().add(root);
 			} else {
 				newResource = root.eResource();
@@ -151,7 +151,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	public <T> Set<T> get(Class<T> type) {
 		return resourceSet.getResources().stream().filter(Objects::nonNull)
-				.filter(r -> (!r.getContents().isEmpty() && !"file".equals(r.getURI().scheme())))
+				.filter(r -> !r.getContents().isEmpty() && !"file".equals(r.getURI().scheme()))
 				.map(r -> r.getContents().get(0)).filter(Objects::nonNull).filter(type::isInstance).map(type::cast)
 				.collect(Collectors.toSet());
 	}
@@ -168,7 +168,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 					.map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).filter(p -> {
 						Resource r = JavaClasspath.get().getResource(URI.createFileURI(p));
 						if (r != null) {
-							JaMoPPJDTParser.this.resourceSet.getResources().add(r);
+							resourceSet.getResources().add(r);
 							return false;
 						}
 						return true;

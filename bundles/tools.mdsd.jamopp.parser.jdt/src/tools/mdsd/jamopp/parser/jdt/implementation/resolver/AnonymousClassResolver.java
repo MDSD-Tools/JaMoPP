@@ -2,9 +2,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
 import java.util.HashMap;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
@@ -33,7 +33,7 @@ public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITy
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.classifiers.AnonymousClass result = classifiersFactory.createAnonymousClass();
+		AnonymousClass result = classifiersFactory.createAnonymousClass();
 		getBindings().put(name, result);
 		return result;
 	}

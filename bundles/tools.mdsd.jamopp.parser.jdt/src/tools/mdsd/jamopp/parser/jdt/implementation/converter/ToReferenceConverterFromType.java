@@ -70,7 +70,7 @@ public class ToReferenceConverterFromType
 			tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference primRef = (tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference) result;
 			utilToArrayDimensionsAndSetConverter.convert(arr, primRef);
 		} else {
-			tools.mdsd.jamopp.model.java.references.IdentifierReference idRef = (tools.mdsd.jamopp.model.java.references.IdentifierReference) result;
+			IdentifierReference idRef = (IdentifierReference) result;
 			utilToArrayDimensionsAndSetConverter.convert(arr, idRef);
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
@@ -78,7 +78,7 @@ public class ToReferenceConverterFromType
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handlePrimitiveType(Type t) {
-		tools.mdsd.jamopp.model.java.types.TypeReference typeRef = toTypeReferenceConverter.convert(t);
+		TypeReference typeRef = toTypeReferenceConverter.convert(t);
 		tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference temp = referencesFactory
 				.createPrimitiveTypeReference();
 		temp.setPrimitiveType((tools.mdsd.jamopp.model.java.types.PrimitiveType) typeRef);
@@ -89,8 +89,7 @@ public class ToReferenceConverterFromType
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.references.Reference handleSimpleType(Type t) {
 		SimpleType sType = (SimpleType) t;
-		tools.mdsd.jamopp.model.java.references.IdentifierReference result = toReferenceConverterFromName
-				.convert(sType.getName());
+		IdentifierReference result = toReferenceConverterFromName.convert(sType.getName());
 		sType.annotations()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, sType);
@@ -101,8 +100,7 @@ public class ToReferenceConverterFromType
 	private tools.mdsd.jamopp.model.java.references.Reference handleQualifiedType(Type t) {
 		QualifiedType qType = (QualifiedType) t;
 		tools.mdsd.jamopp.model.java.references.Reference parent = convert(qType.getQualifier());
-		tools.mdsd.jamopp.model.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
-				.convert(qType.getName());
+		IdentifierReference child = toReferenceConverterFromSimpleName.convert(qType.getName());
 		qType.annotations()
 				.forEach(obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		parent.setNext(child);
@@ -113,10 +111,8 @@ public class ToReferenceConverterFromType
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.references.Reference handleNameQualifiedType(Type t) {
 		NameQualifiedType nqType = (NameQualifiedType) t;
-		tools.mdsd.jamopp.model.java.references.IdentifierReference parent = toReferenceConverterFromName
-				.convert(nqType.getQualifier());
-		tools.mdsd.jamopp.model.java.references.IdentifierReference child = toReferenceConverterFromSimpleName
-				.convert(nqType.getName());
+		IdentifierReference parent = toReferenceConverterFromName.convert(nqType.getQualifier());
+		IdentifierReference child = toReferenceConverterFromSimpleName.convert(nqType.getName());
 		parent.setNext(child);
 		nqType.annotations()
 				.forEach(obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));

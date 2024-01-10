@@ -5,6 +5,6 @@ import java.io.IOException;
 
 public interface EmptyPrinter {
 
-	public void print(BufferedWriter writer) throws IOException;
+	void print(BufferedWriter writer) throws IOException;
 
 }

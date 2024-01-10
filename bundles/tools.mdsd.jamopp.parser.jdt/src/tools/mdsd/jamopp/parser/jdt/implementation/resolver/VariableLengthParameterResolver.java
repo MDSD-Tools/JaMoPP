@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IVariableBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
@@ -33,8 +33,7 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 			return getBindings().get(paramName);
 		}
 		variableBindings.add(binding);
-		tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter result = parametersFactory
-				.createVariableLengthParameter();
+		VariableLengthParameter result = parametersFactory.createVariableLengthParameter();
 		getBindings().put(paramName, result);
 		return result;
 	}

@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.IVariableBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
@@ -37,9 +37,9 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 		variableBindings.add(binding);
 		tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = enumerationResolver
 				.getByBinding(binding.getDeclaringClass());
-		tools.mdsd.jamopp.model.java.members.EnumConstant result = null;
+		EnumConstant result = null;
 		if (potPar != null) {
-			for (tools.mdsd.jamopp.model.java.members.EnumConstant con : potPar.getConstants()) {
+			for (EnumConstant con : potPar.getConstants()) {
 				if (con.getName().equals(binding.getName())) {
 					result = con;
 					break;
@@ -58,7 +58,7 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.members.EnumConstant result = membersFactory.createEnumConstant();
+		EnumConstant result = membersFactory.createEnumConstant();
 		getBindings().put(name, result);
 		return result;
 	}

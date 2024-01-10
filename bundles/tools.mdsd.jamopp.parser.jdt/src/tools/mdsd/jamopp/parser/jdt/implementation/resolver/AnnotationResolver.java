@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
@@ -37,11 +37,11 @@ public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBindin
 		if (getBindings().containsKey(name)) {
 			return getBindings().get(name);
 		}
-		tools.mdsd.jamopp.model.java.classifiers.Annotation result;
+		Annotation result;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(name);
-		if (potClass instanceof tools.mdsd.jamopp.model.java.classifiers.Annotation) {
-			result = (tools.mdsd.jamopp.model.java.classifiers.Annotation) potClass;
+		if (potClass instanceof Annotation) {
+			result = (Annotation) potClass;
 		} else {
 			result = classifiersFactory.createAnnotation();
 		}
