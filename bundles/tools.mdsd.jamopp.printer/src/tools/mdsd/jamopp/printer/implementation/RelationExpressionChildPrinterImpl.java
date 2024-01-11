@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpression;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpressionChild;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class RelationExpressionChildPrinterImpl implements Printer<RelationExpressionChild> {
@@ -25,10 +24,10 @@ public class RelationExpressionChildPrinterImpl implements Printer<RelationExpre
 
 	@Override
 	public void print(RelationExpressionChild element, BufferedWriter writer) throws IOException {
-		if (element instanceof ShiftExpression s) {
-			this.shiftExpressionPrinter.print(s, writer);
+		if (element instanceof ShiftExpression) {
+			shiftExpressionPrinter.print((ShiftExpression) element, writer);
 		} else {
-			this.shiftExpressionChildPrinter.print((ShiftExpressionChild) element, writer);
+			shiftExpressionChildPrinter.print((ShiftExpressionChild) element, writer);
 		}
 	}
 

@@ -22,6 +22,10 @@ import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ClassMethodPrinterImpl implements Printer<ClassMethod> {
 
+	private static final String VALUES = "values";
+	private static final String VALUE_OF = "valueOf";
+	private static final String JAVA_LANG_STRING = "java.lang.String";
+
 	private final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter;
 	private final Printer<List<ArrayDimension>> arrayDimensionsPrinter;
 	private final Printer<ExceptionThrower> exceptionThrowerPrinter;
@@ -64,29 +68,31 @@ public class ClassMethodPrinterImpl implements Printer<ClassMethod> {
 	}
 
 	private boolean shouldNotBePrinted(ClassMethod element) {
+		boolean returnValue = false;
 		if (element.eContainer() instanceof Enumeration) {
-			var isStatic = false;
-			var isPublic = false;
-			for (Modifier m : element.getModifiers()) {
-				if (m instanceof Static) {
-					isStatic = true;
-				} else if (m instanceof Public) {
-					isPublic = true;
-				}
-			}
-			if (isStatic && isPublic) {
-				if ("valueOf".equals(element.getName()) && element.getParameters().size() == 1) {
-					var t = element.getParameters().get(0).getTypeReference().getTarget();
-					if (t instanceof tools.mdsd.jamopp.model.java.classifiers.Class cla
-							&& "java.lang.String".equals(cla.getQualifiedName())) {
-						return true;
-					}
-				} else if ("values".equals(element.getName()) && element.getParameters().isEmpty()) {
-					return true;
-				}
+			boolean isStaticAndPublic = checkIfStaticAndPublic(element);
+			if (isStaticAndPublic) {
+				returnValue = VALUE_OF.equals(element.getName()) && element.getParameters().size() == 1
+						&& element.getParameters().get(0).getTypeReference()
+								.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.Class cla
+						&& JAVA_LANG_STRING.equals(cla.getQualifiedName())
+						|| VALUES.equals(element.getName()) && element.getParameters().isEmpty();
 			}
 		}
-		return false;
+		return returnValue;
+	}
+
+	private boolean checkIfStaticAndPublic(ClassMethod element) {
+		boolean isStatic = false;
+		boolean isPublic = false;
+		for (Modifier m : element.getModifiers()) {
+			if (m instanceof Static) {
+				isStatic = true;
+			} else if (m instanceof Public) {
+				isPublic = true;
+			}
+		}
+		return isStatic && isPublic;
 	}
 
 }

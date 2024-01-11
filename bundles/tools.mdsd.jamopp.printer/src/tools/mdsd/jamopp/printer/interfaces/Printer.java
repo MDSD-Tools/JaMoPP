@@ -3,8 +3,8 @@ package tools.mdsd.jamopp.printer.interfaces;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public interface Printer<Element> {
+public interface Printer<E> {
 
-	void print(Element element, BufferedWriter writer) throws IOException;
+	void print(E element, BufferedWriter writer) throws IOException;
 
 }
