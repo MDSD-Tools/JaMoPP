@@ -2,11 +2,11 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
@@ -24,7 +24,7 @@ public class BindingToTypeParameterConverter implements Converter<ITypeBinding, 
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	BindingToTypeParameterConverter(UtilNamedElement utilNamedElement,
+	public BindingToTypeParameterConverter(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, JdtResolver jdtTResolverUtility,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
@@ -36,20 +36,20 @@ public class BindingToTypeParameterConverter implements Converter<ITypeBinding, 
 	@Override
 	public TypeParameter convert(ITypeBinding binding) {
 		TypeParameter result = jdtTResolverUtility.getTypeParameter(binding);
-		if (result.eContainer() != null) {
-			return result;
-		}
-		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+		if (result.eContainer() == null) {
+			try {
+				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+					result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+				}
+				for (ITypeBinding typeBind : binding.getTypeBounds()) {
+					result.getExtendTypes().addAll(toTypeReferencesConverter.convert(typeBind));
+				}
+			} catch (AbortCompilation e) {
+				// Ignore
 			}
-			for (ITypeBinding typeBind : binding.getTypeBounds()) {
-				result.getExtendTypes().addAll(toTypeReferencesConverter.convert(typeBind));
-			}
-		} catch (AbortCompilation e) {
-			// Ignore
+			utilNamedElement.convertToNameAndSet(binding, result);
+
 		}
-		utilNamedElement.convertToNameAndSet(binding, result);
 		return result;
 	}
 

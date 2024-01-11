@@ -27,17 +27,17 @@ public class BindingToEnumConstantConverter implements Converter<IVariableBindin
 	@Override
 	public EnumConstant convert(IVariableBinding binding) {
 		EnumConstant result = iUtilJdtResolver.getEnumConstant(binding);
-		if (result.eContainer() != null) {
-			return result;
-		}
-		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+		if (result.eContainer() == null) {
+			try {
+				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+					result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+				}
+			} catch (AbortCompilation e) {
+				// Ignore
 			}
-		} catch (AbortCompilation e) {
-			// Ignore
+			result.setName(binding.getName());
+
 		}
-		result.setName(binding.getName());
 		return result;
 	}
 

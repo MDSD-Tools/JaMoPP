@@ -3,12 +3,12 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
@@ -37,7 +37,7 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	BindingToConstructorConverter(UtilArrays utilJdtBindingConverter,
+	public BindingToConstructorConverter(UtilArrays utilJdtBindingConverter,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			ParametersFactory parametersFactory, LiteralsFactory literalsFactory, JdtResolver jdtTResolverUtility,
@@ -58,14 +58,14 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 	@Override
 	public Constructor convert(IMethodBinding binding) {
 		Constructor result = jdtTResolverUtility.getConstructor(binding);
-		if (result.eContainer() != null) {
-			return result;
+		if (result.eContainer() == null) {
+			addAnnotationsAndModifiers(binding, result);
+			result.setName(binding.getName());
+			addTypeParameters(binding, result);
+			addParameters(binding, result);
+			addExceptions(binding, result);
+
 		}
-		addAnnotationsAndModifiers(binding, result);
-		result.setName(binding.getName());
-		addTypeParameters(binding, result);
-		addParameters(binding, result);
-		addExceptions(binding, result);
 		return result;
 	}
 

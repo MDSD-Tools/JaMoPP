@@ -42,7 +42,7 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	private final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
+	public BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
@@ -66,18 +66,17 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	@Override
 	public Method convert(IMethodBinding binding) {
 		Method result = jdtTResolverUtility.getMethod(binding);
-		if (result.eContainer() != null) {
-			return result;
+		if (result.eContainer() == null) {
+			addAnnotationsAndModifiers(binding, result);
+			result.setName(binding.getName());
+			result.setTypeReference(toTypeReferencesConverter.convert(binding.getReturnType()).get(0));
+			utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getReturnType(), result);
+			addTypeParamters(binding, result);
+			addParameters(binding, result);
+			setDefaultValue(binding, result);
+			addExceptions(binding, result);
+			handleInterface(binding, result);
 		}
-		addAnnotationsAndModifiers(binding, result);
-		result.setName(binding.getName());
-		result.setTypeReference(toTypeReferencesConverter.convert(binding.getReturnType()).get(0));
-		utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getReturnType(), result);
-		addTypeParamters(binding, result);
-		addParameters(binding, result);
-		setDefaultValue(binding, result);
-		addExceptions(binding, result);
-		handleInterface(binding, result);
 		return result;
 	}
 

@@ -2,11 +2,11 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.Collections;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -20,7 +20,7 @@ public class BindingToPackageConverter
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	BindingToPackageConverter(JdtResolver jdtTResolverUtility,
+	public BindingToPackageConverter(JdtResolver jdtTResolverUtility,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
@@ -30,18 +30,17 @@ public class BindingToPackageConverter
 	public tools.mdsd.jamopp.model.java.containers.Package convert(IPackageBinding binding) {
 		tools.mdsd.jamopp.model.java.containers.Package pack = jdtTResolverUtility.getPackage(binding);
 		pack.setModule(jdtTResolverUtility.getModule(binding.getModule()));
-		if (!pack.getAnnotations().isEmpty()) {
-			return pack;
-		}
-		pack.getNamespaces().clear();
-		Collections.addAll(pack.getNamespaces(), binding.getNameComponents());
-		pack.setName("");
-		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				pack.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+		if (pack.getAnnotations().isEmpty()) {
+			pack.getNamespaces().clear();
+			Collections.addAll(pack.getNamespaces(), binding.getNameComponents());
+			pack.setName("");
+			try {
+				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+					pack.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+				}
+			} catch (AbortCompilation e) {
+				// Ignore
 			}
-		} catch (AbortCompilation e) {
-			// Ignore
 		}
 		return pack;
 	}

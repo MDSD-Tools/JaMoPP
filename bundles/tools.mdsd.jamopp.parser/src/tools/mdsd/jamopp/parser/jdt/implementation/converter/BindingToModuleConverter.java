@@ -52,19 +52,18 @@ public class BindingToModuleConverter
 	@Override
 	public tools.mdsd.jamopp.model.java.containers.Module convert(IModuleBinding binding) {
 		tools.mdsd.jamopp.model.java.containers.Module result = jdtTResolverUtility.getModule(binding);
-		if (!result.eContents().isEmpty()) {
-			return result;
-		}
-		addAnnotations(binding, result);
-		if (binding.isOpen()) {
-			result.setOpen(modifiersFactory.createOpen());
-		}
-		utilNamedElement.convertToNamespacesAndSet(binding.getName(), result);
-		result.setName("");
-		try {
-			addTargets(binding, result);
-		} catch (AbortCompilation e) {
-			// Ignore
+		if (result.eContents().isEmpty()) {
+			addAnnotations(binding, result);
+			if (binding.isOpen()) {
+				result.setOpen(modifiersFactory.createOpen());
+			}
+			utilNamedElement.convertToNamespacesAndSet(binding.getName(), result);
+			result.setName("");
+			try {
+				addTargets(binding, result);
+			} catch (AbortCompilation e) {
+				// Ignore
+			}
 		}
 		return result;
 	}

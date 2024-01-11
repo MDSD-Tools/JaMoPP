@@ -16,7 +16,7 @@ public class BlockToBlockConverterImpl implements Converter<Block, tools.mdsd.ja
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
-	BlockToBlockConverterImpl(StatementsFactory statementsFactory,
+	public BlockToBlockConverterImpl(StatementsFactory statementsFactory,
 			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
 			UtilLayout layoutInformationConverter) {
 		this.statementsFactory = statementsFactory;

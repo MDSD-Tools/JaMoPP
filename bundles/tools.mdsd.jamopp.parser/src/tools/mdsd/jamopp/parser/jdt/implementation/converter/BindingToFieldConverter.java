@@ -47,26 +47,29 @@ public class BindingToFieldConverter implements Converter<IVariableBinding, Fiel
 	@Override
 	public Field convert(IVariableBinding binding) {
 		ReferenceableElement refElement = jdtTResolverUtility.getReferencableElement(binding);
+		Field result;
 		if (refElement.eContainer() != null) {
 			if (refElement instanceof AdditionalField) {
-				return (Field) ((AdditionalField) refElement).eContainer();
+				result = (Field) ((AdditionalField) refElement).eContainer();
+			} else {
+				result = (Field) refElement;
 			}
-			return (Field) refElement;
-		}
-		Field result = (Field) refElement;
-		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
-		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
-				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+		} else {
+			result = (Field) refElement;
+			result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
+			try {
+				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+					result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
+				}
+			} catch (AbortCompilation e) {
+				// Ignore
 			}
-		} catch (AbortCompilation e) {
-			// Ignore
-		}
-		result.setName(binding.getName());
-		result.setTypeReference(toTypeReferencesConverter.convert(binding.getType()).get(0));
-		utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getType(), result);
-		if (binding.getConstantValue() != null) {
-			result.setInitialValue(objectToPrimaryExpressionConverter.convert(binding.getConstantValue()));
+			result.setName(binding.getName());
+			result.setTypeReference(toTypeReferencesConverter.convert(binding.getType()).get(0));
+			utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding.getType(), result);
+			if (binding.getConstantValue() != null) {
+				result.setInitialValue(objectToPrimaryExpressionConverter.convert(binding.getConstantValue()));
+			}
 		}
 		return result;
 	}

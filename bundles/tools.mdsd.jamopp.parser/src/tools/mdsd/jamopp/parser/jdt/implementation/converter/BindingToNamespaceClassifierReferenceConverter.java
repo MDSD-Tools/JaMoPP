@@ -2,13 +2,13 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.Collections;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.ITypeBinding;
+
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
@@ -19,7 +19,7 @@ public class BindingToNamespaceClassifierReferenceConverter
 	private final JdtResolver jdtTResolverUtility;
 
 	@Inject
-	BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, JdtResolver jdtTResolverUtility) {
+	public BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, JdtResolver jdtTResolverUtility) {
 		this.typesFactory = typesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}

@@ -42,29 +42,31 @@ public class ObjectToAnnotationValueConverter implements Converter<Object, Annot
 
 	@Override
 	public AnnotationValue convert(Object value) {
+		AnnotationValue result;
 		if (value instanceof IVariableBinding varBind) {
 			Reference parentRef = bindingToInternalReferenceConverter.convert(varBind.getDeclaringClass());
 			IdentifierReference varRef = referencesFactory.createIdentifierReference();
 			varRef.setTarget(jdtTResolverUtility.getEnumConstant(varBind));
 			parentRef.setNext(varRef);
-			return getTopReference(varRef);
+			result = getTopReference(varRef);
 		} else if (value instanceof IAnnotationBinding) {
-			return bindingToAnnotationInstanceConverter.convert((IAnnotationBinding) value);
+			result = bindingToAnnotationInstanceConverter.convert((IAnnotationBinding) value);
 		} else if (value instanceof Object[] values) {
 			tools.mdsd.jamopp.model.java.arrays.ArrayInitializer initializer = arraysFactory.createArrayInitializer();
 			for (Object value2 : values) {
 				initializer.getInitialValues()
 						.add((tools.mdsd.jamopp.model.java.arrays.ArrayInitializationValue) convert(value2));
 			}
-			return initializer;
+			result = initializer;
 		} else if (value instanceof ITypeBinding) {
 			Reference parentRef = bindingToInternalReferenceConverter.convert((ITypeBinding) value);
 			ReflectiveClassReference classRef = referencesFactory.createReflectiveClassReference();
 			parentRef.setNext(classRef);
-			return getTopReference(classRef);
+			result = getTopReference(classRef);
 		} else {
-			return objectToPrimaryExpressionConverter.convert(value);
+			result = objectToPrimaryExpressionConverter.convert(value);
 		}
+		return result;
 	}
 
 	private Reference getTopReference(Reference ref) {
