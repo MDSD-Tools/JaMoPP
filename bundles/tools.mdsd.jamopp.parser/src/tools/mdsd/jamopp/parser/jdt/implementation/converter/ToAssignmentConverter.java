@@ -19,7 +19,7 @@ public class ToAssignmentConverter implements Converter<Assignment.Operator, Ass
 	private final Map<Assignment.Operator, Supplier<AssignmentOperator>> mapping;
 
 	@Inject
-	ToAssignmentConverter(OperatorsFactory operatorsFactory) {
+	public ToAssignmentConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		mapping = new HashMap<>();
 		mapping.put(Assignment.Operator.ASSIGN, () -> operatorsFactory.createAssignment());
@@ -38,8 +38,8 @@ public class ToAssignmentConverter implements Converter<Assignment.Operator, Ass
 	}
 
 	@Override
-	public AssignmentOperator convert(Assignment.Operator op) {
-		return mapping.getOrDefault(op, () -> operatorsFactory.createAssignmentMultiplication()).get();
+	public AssignmentOperator convert(Assignment.Operator operator) {
+		return mapping.getOrDefault(operator, () -> operatorsFactory.createAssignmentMultiplication()).get();
 	}
 
 }

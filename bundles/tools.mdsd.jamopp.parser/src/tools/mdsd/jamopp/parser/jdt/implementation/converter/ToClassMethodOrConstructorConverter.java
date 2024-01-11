@@ -44,7 +44,7 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	private final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
-	ToClassMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	public ToClassMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
@@ -73,10 +73,13 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 
 	@Override
 	public Member convert(MethodDeclaration methodDecl) {
+		Member result;
 		if (methodDecl.isConstructor()) {
-			return handleConstructor(methodDecl);
+			result = handleConstructor(methodDecl);
+		} else {
+			result = handleClassMethod(methodDecl);
 		}
-		return handleClassMethod(methodDecl);
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")

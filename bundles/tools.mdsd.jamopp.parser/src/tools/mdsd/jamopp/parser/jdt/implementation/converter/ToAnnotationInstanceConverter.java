@@ -32,7 +32,7 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	@Inject
-	ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
+	public ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
 			JdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;

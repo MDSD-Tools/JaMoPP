@@ -24,7 +24,8 @@ public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, C
 	private final Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter;
 
 	@Inject
-	ToClassOrInterfaceConverter(JdtResolver iUtilJdtResolver, Converter<Type, TypeReference> toTypeReferenceConverter,
+	public ToClassOrInterfaceConverter(JdtResolver iUtilJdtResolver,
+			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
 			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMemberConverter,
 			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
@@ -38,6 +39,7 @@ public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, C
 	@SuppressWarnings("unchecked")
 	@Override
 	public ConcreteClassifier convert(TypeDeclaration typeDecl) {
+		ConcreteClassifier result;
 		if (typeDecl.isInterface()) {
 			Interface interfaceObj = iUtilJdtResolver.getInterface(typeDecl.resolveBinding());
 			typeDecl.typeParameters().forEach(
@@ -46,19 +48,22 @@ public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, C
 					.forEach(obj -> interfaceObj.getExtends().add(toTypeReferenceConverter.convert((Type) obj)));
 			typeDecl.bodyDeclarations().forEach(
 					obj -> interfaceObj.getMembers().add(toInterfaceMemberConverter.convert((BodyDeclaration) obj)));
-			return interfaceObj;
+			result = interfaceObj;
+		} else {
+			tools.mdsd.jamopp.model.java.classifiers.Class classObj = iUtilJdtResolver
+					.getClass(typeDecl.resolveBinding());
+			typeDecl.typeParameters().forEach(
+					obj -> classObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
+			if (typeDecl.getSuperclassType() != null) {
+				classObj.setExtends(toTypeReferenceConverter.convert(typeDecl.getSuperclassType()));
+			}
+			typeDecl.superInterfaceTypes()
+					.forEach(obj -> classObj.getImplements().add(toTypeReferenceConverter.convert((Type) obj)));
+			typeDecl.bodyDeclarations()
+					.forEach(obj -> classObj.getMembers().add(toClassMemberConverter.convert((BodyDeclaration) obj)));
+			result = classObj;
 		}
-		tools.mdsd.jamopp.model.java.classifiers.Class classObj = iUtilJdtResolver.getClass(typeDecl.resolveBinding());
-		typeDecl.typeParameters().forEach(
-				obj -> classObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
-		if (typeDecl.getSuperclassType() != null) {
-			classObj.setExtends(toTypeReferenceConverter.convert(typeDecl.getSuperclassType()));
-		}
-		typeDecl.superInterfaceTypes()
-				.forEach(obj -> classObj.getImplements().add(toTypeReferenceConverter.convert((Type) obj)));
-		typeDecl.bodyDeclarations()
-				.forEach(obj -> classObj.getMembers().add(toClassMemberConverter.convert((BodyDeclaration) obj)));
-		return classObj;
+		return result;
 	}
 
 }

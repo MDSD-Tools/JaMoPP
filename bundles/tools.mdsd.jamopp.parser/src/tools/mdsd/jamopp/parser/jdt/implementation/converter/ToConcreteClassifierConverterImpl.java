@@ -30,7 +30,7 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 	private final Converter<EnumDeclaration, Enumeration> toEnumConverter;
 
 	@Inject
-	ToConcreteClassifierConverterImpl(
+	public ToConcreteClassifierConverterImpl(
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, UtilNamedElement utilNamedElement,
 			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMember,
@@ -48,14 +48,14 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 	@Override
 	@SuppressWarnings("unchecked")
 	public ConcreteClassifier convert(AbstractTypeDeclaration typeDecl) {
-		ConcreteClassifier result = null;
+		ConcreteClassifier result;
 		if (typeDecl.getNodeType() == ASTNode.TYPE_DECLARATION) {
 			result = toClassOrInterface.convert((TypeDeclaration) typeDecl);
 		} else if (typeDecl.getNodeType() == ASTNode.ANNOTATION_TYPE_DECLARATION) {
 			result = jdtResolverUtility.getAnnotation(typeDecl.resolveBinding());
-			ConcreteClassifier fR = result;
+			ConcreteClassifier concreteClassifier = result;
 			typeDecl.bodyDeclarations()
-					.forEach(obj -> fR.getMembers().add(toInterfaceMember.convert((BodyDeclaration) obj)));
+					.forEach(obj -> concreteClassifier.getMembers().add(toInterfaceMember.convert((BodyDeclaration) obj)));
 		} else {
 			result = toEnumConverter.convert((EnumDeclaration) typeDecl);
 		}

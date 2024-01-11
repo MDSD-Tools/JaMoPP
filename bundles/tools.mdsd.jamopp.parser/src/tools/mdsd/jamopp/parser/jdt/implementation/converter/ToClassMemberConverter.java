@@ -29,7 +29,8 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 	private final Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter;
 
 	@Inject
-	ToClassMemberConverter(Converter<Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter,
+	public ToClassMemberConverter(
+			Converter<Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter,
 			@Named("ToClassMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
 			Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter,
 			Converter<FieldDeclaration, Field> toFieldConverter) {
@@ -41,22 +42,19 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 
 	@Override
 	public Member convert(BodyDeclaration body) {
+		Member result = null;
 		if (body instanceof AbstractTypeDeclaration) {
-			return toConcreteClassifierConverter.convert((AbstractTypeDeclaration) body);
+			result = toConcreteClassifierConverter.convert((AbstractTypeDeclaration) body);
+		} else if (body.getNodeType() == ASTNode.INITIALIZER) {
+			result = toBlockConverter.convert((Initializer) body);
+		} else if (body.getNodeType() == ASTNode.FIELD_DECLARATION) {
+			result = toFieldConverter.convert((FieldDeclaration) body);
+		} else if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
+			result = toClassMethodOrConstructorConverter.convert((MethodDeclaration) body);
+		} else if (body.getNodeType() == ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION) {
+			result = toInterfaceMethodConverter.convert((AnnotationTypeMemberDeclaration) body);
 		}
-		if (body.getNodeType() == ASTNode.INITIALIZER) {
-			return toBlockConverter.convert((Initializer) body);
-		}
-		if (body.getNodeType() == ASTNode.FIELD_DECLARATION) {
-			return toFieldConverter.convert((FieldDeclaration) body);
-		}
-		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
-			return toClassMethodOrConstructorConverter.convert((MethodDeclaration) body);
-		}
-		if (body.getNodeType() == ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION) {
-			return toInterfaceMethodConverter.convert((AnnotationTypeMemberDeclaration) body);
-		}
-		return null;
+		return result;
 	}
 
 	@Inject

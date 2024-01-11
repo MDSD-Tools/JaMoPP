@@ -1,10 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.Dimension;
-import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
-import tools.mdsd.jamopp.model.java.arrays.ArrayTypeable;
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Dimension;
+
+import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
+import tools.mdsd.jamopp.model.java.arrays.ArrayTypeable;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 
@@ -13,7 +14,7 @@ public class ToArrayDimensionAfterAndSetConverterImpl implements ToArrayDimensio
 	private final Converter<Dimension, ArrayDimension> toArrayDimensionConverter;
 
 	@Inject
-	ToArrayDimensionAfterAndSetConverterImpl(Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
+	public ToArrayDimensionAfterAndSetConverterImpl(Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 

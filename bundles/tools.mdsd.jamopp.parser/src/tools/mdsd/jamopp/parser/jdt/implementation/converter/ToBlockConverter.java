@@ -17,7 +17,7 @@ public class ToBlockConverter implements Converter<Initializer, Block> {
 	private final Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter;
 
 	@Inject
-	ToBlockConverter(Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
+	public ToBlockConverter(Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
 			UtilTypeInstructionSeparation toInstructionSeparation, StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toInstructionSeparation = toInstructionSeparation;

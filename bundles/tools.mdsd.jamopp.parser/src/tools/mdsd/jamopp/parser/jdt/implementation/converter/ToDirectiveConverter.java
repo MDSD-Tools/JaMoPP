@@ -44,16 +44,18 @@ public class ToDirectiveConverter
 
 	@Override
 	public tools.mdsd.jamopp.model.java.modules.ModuleDirective convert(ModuleDirective directive) {
+		tools.mdsd.jamopp.model.java.modules.ModuleDirective result;
 		if (directive.getNodeType() == ASTNode.REQUIRES_DIRECTIVE) {
-			return handleRequiresDirective(directive);
+			result = handleRequiresDirective(directive);
 		} else if (directive.getNodeType() == ASTNode.EXPORTS_DIRECTIVE
 				|| directive.getNodeType() == ASTNode.OPENS_DIRECTIVE) {
-			return handlesExportsAndOpensDirective(directive);
+			result = handlesExportsAndOpensDirective(directive);
 		} else if (directive.getNodeType() == ASTNode.PROVIDES_DIRECTIVE) {
-			return handleProvidesDirective(directive);
+			result = handleProvidesDirective(directive);
 		} else {
-			return handleUsesDirective(directive);
+			result = handleUsesDirective(directive);
 		}
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")

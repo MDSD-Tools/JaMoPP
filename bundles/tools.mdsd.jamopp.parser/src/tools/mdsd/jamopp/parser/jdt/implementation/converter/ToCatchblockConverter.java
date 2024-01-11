@@ -30,8 +30,9 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	ToCatchblockConverter(UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
-			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
+	public ToCatchblockConverter(UtilNamedElement utilNamedElement,
+			Converter<Type, TypeReference> toTypeReferenceConverter, StatementsFactory statementsFactory,
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
 			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;
@@ -58,10 +59,10 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 		decl.modifiers().forEach(obj -> param.getAnnotationsAndModifiers()
 				.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
 		if (decl.getType().isUnionType()) {
-			UnionType un = (UnionType) decl.getType();
-			param.setTypeReference(toTypeReferenceConverter.convert((Type) un.types().get(0)));
-			for (int index = 1; index < un.types().size(); index++) {
-				param.getTypeReferences().add(toTypeReferenceConverter.convert((Type) un.types().get(index)));
+			UnionType unionType = (UnionType) decl.getType();
+			param.setTypeReference(toTypeReferenceConverter.convert((Type) unionType.types().get(0)));
+			for (int index = 1; index < unionType.types().size(); index++) {
+				param.getTypeReferences().add(toTypeReferenceConverter.convert((Type) unionType.types().get(index)));
 			}
 		} else {
 			param.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));

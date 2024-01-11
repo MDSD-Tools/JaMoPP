@@ -18,7 +18,7 @@ public class ToArrayDimensionConverter implements Converter<Dimension, ArrayDime
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToArrayDimensionConverter(UtilLayout utilLayout,
+	public ToArrayDimensionConverter(UtilLayout utilLayout,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;

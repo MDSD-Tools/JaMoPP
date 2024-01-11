@@ -18,7 +18,7 @@ public class ToConditionalExpressionConverter
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	ToConditionalExpressionConverter(
+	public ToConditionalExpressionConverter(
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
