@@ -5,8 +5,8 @@ import tools.mdsd.jamopp.model.java.arrays.ArrayTypeable;
 
 public interface ToArrayDimensionsAndSetConverter {
 
-	void convert(Type t, ArrayTypeable arrDimContainer);
+	void convert(Type type, ArrayTypeable arrDimContainer);
 
-	void convert(Type t, ArrayTypeable arrDimContainer, int ignoreDimensions);
+	void convert(Type type, ArrayTypeable arrDimContainer, int ignoreDimensions);
 
 }

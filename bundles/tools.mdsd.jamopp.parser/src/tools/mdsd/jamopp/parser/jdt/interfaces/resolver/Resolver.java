@@ -4,12 +4,16 @@ import java.util.Map;
 
 import org.eclipse.jdt.core.dom.IBinding;
 
-public interface Resolver<Clazz, BindingType extends IBinding> {
+/**
+ * @param <C> Class
+ * @param <B> BindingType
+ */
+public interface Resolver<C, B extends IBinding> {
 
-	Map<String, Clazz> getBindings();
+	Map<String, C> getBindings();
 
-	Clazz getByBinding(BindingType binding);
+	C getByBinding(B binding);
 
-	Clazz getByName(String name);
+	C getByName(String name);
 
 }

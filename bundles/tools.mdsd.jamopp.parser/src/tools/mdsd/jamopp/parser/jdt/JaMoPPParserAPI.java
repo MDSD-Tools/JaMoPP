@@ -81,14 +81,13 @@ public interface JaMoPPParserAPI {
 	 * @return the resource set
 	 */
 	default ResourceSet parseUri(URI uri) {
+		ResourceSet returnValue = null;
 		if (uri.isFile()) {
-			return parseFile(Path.of(uri.toFileString())).getResourceSet();
+			returnValue = parseFile(Path.of(uri.toFileString())).getResourceSet();
+		} else if (uri.hasPath()) {
+			returnValue = parseDirectory(Path.of(uri.path()));
 		}
-
-		if (uri.hasPath()) {
-			return parseDirectory(Path.of(uri.path()));
-		}
-		return null;
+		return returnValue;
 	}
 
 	/**

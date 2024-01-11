@@ -1,7 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.interfaces.converter;
 
-public interface Converter<From, To> {
+/**
+ * Converts an instance of F to an instance of T.
+ *
+ * @param <F>   From
+ * @param <T>To
+ */
+public interface Converter<F, T> {
 
-	To convert(From from);
+	T convert(F from);
 
 }

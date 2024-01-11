@@ -9,11 +9,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,6 +67,8 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private final static JdtResolver UTIL_JDT_RESOLVER;
 	private final static UtilTypeInstructionSeparation UTIL_TYPE_INSTRUCTION_SEPARATION;
 
+	private ResourceSet resourceSet;
+
 	static {
 		Injector injector = Guice.createInjector(new HelperModule(), new FactoryModule(), new ConverterModule(),
 				new VisitorModule(), new JamoppModule(JaMoPPJDTParser.class.getSimpleName()), new ResolverModule());
@@ -82,21 +85,6 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		JAMOPP_JAVA_PARSER_FACTORY = injector.getInstance(JamoppJavaParserFactory.class);
 		JAMOPP_FILE_WITH_JDT_PARSER = injector.getInstance(JamoppFileWithJDTParser.class);
 	}
-
-	public static String[] getClasspathEntries(Path dir) {
-		return JAMOPP_CLASSPATH_ENTRIES_SEARCHER.getClasspathEntries(dir);
-	}
-
-	public static Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries,
-			String[] sources, String[] encodings) {
-		return JAMOPP_COMPILATION_UNITS_FACTORY.getCompilationUnits(parser, classpathEntries, sources, encodings);
-	}
-
-	public static ASTParser getJavaParser(String version) {
-		return JAMOPP_JAVA_PARSER_FACTORY.getJavaParser(version);
-	}
-
-	private ResourceSet resourceSet;
 
 	public JaMoPPJDTParser() {
 		CONTAINERS_FACTORY.createEmptyModel();
@@ -139,14 +127,16 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public boolean equals(Object obj) {
+		boolean returnValue;
 		if (this == obj) {
-			return true;
+			returnValue = true;
+		} else if (obj == null || getClass() != obj.getClass()) {
+			returnValue = false;
+		} else {
+			JaMoPPJDTParser other = (JaMoPPJDTParser) obj;
+			returnValue = Objects.equals(resourceSet, other.resourceSet);
 		}
-		if (obj == null || getClass() != obj.getClass()) {
-			return false;
-		}
-		JaMoPPJDTParser other = (JaMoPPJDTParser) obj;
-		return Objects.equals(resourceSet, other.resourceSet);
+		return returnValue;
 	}
 
 	@Override
@@ -164,22 +154,24 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public String[] getSourcepathEntries(Path dir) {
+		String[] returnValue;
 		try (Stream<Path> paths = Files.walk(dir)) {
-			return paths
+			returnValue = paths
 					.filter(path -> Files.isRegularFile(path)
-							&& path.getFileName().toString().toLowerCase().endsWith("java"))
+							&& path.getFileName().toString().toLowerCase(Locale.US).endsWith("java"))
 					.map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).filter(p -> {
-						Resource r = JavaClasspath.get().getResource(URI.createFileURI(p));
-						if (r != null) {
-							resourceSet.getResources().add(r);
+						Resource resource = JavaClasspath.get().getResource(URI.createFileURI(p));
+						if (resource != null) {
+							resourceSet.getResources().add(resource);
 							return false;
 						}
 						return true;
 					}).toArray(i -> new String[i]);
 		} catch (IOException e) {
 			LOGGER.error(dir, e);
-			return new String[0];
+			returnValue = new String[0];
 		}
+		return returnValue;
 	}
 
 	@Override
@@ -189,25 +181,28 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public JavaRoot parse(String fileName, InputStream input) {
-		Resource r = JavaClasspath.get().getResource(URI.createFileURI(fileName));
-		if (r != null) {
-			return (JavaRoot) r.getContents().get(0);
+		Resource resource = JavaClasspath.get().getResource(URI.createFileURI(fileName));
+		JavaRoot root;
+		if (resource != null) {
+			root = (JavaRoot) resource.getContents().get(0);
+		} else {
+			StringBuilder builder = new StringBuilder();
+			String lineSep = System.lineSeparator();
+			try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
+				buffReader.lines().forEach(line -> builder.append(line).append(lineSep));
+			} catch (IOException e) {
+				LOGGER.error(input, e);
+			}
+			String src = builder.toString();
+			ASTNode ast = JAMOPP_FILE_WITH_JDT_PARSER.parseFileWithJDT(src, fileName);
+			VISITOR.setSource(src);
+			ast.accept(VISITOR);
+			UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();
+			UTIL_JDT_RESOLVER.completeResolution();
+			resourceSet = null;
+			root = VISITOR.getConvertedElement();
 		}
-		StringBuilder builder = new StringBuilder();
-		String lineSep = System.lineSeparator();
-		try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
-			buffReader.lines().forEach(line -> builder.append(line + lineSep));
-		} catch (IOException e) {
-			LOGGER.error(input, e);
-		}
-		String src = builder.toString();
-		ASTNode ast = JAMOPP_FILE_WITH_JDT_PARSER.parseFileWithJDT(src, fileName);
-		VISITOR.setSource(src);
-		ast.accept(VISITOR);
-		UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();
-		UTIL_JDT_RESOLVER.completeResolution();
-		resourceSet = null;
-		return VISITOR.getConvertedElement();
+		return root;
 	}
 
 	@Override
@@ -230,19 +225,20 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	@Override
 	public Resource parseFile(Path file) {
 		Resource result = JavaClasspath.get().getResource(URI.createFileURI(file.toAbsolutePath().toString()));
-		if (result != null) {
-			return result;
+		if (result == null) {
+			result = convertCompilationUnits(getCompilationUnits(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
+					new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING })).get(0)
+					.eResource();
+			resourceSet = null;
 		}
-		result = convertCompilationUnits(getCompilationUnits(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
-				new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING })).get(0)
-				.eResource();
-		resourceSet = null;
+
 		return result;
+
 	}
 
 	@Override
 	public ResourceSet parsePackage(IPackageFragment javaPackage) {
-		Map<String, CompilationUnit> compilationUnits = new HashMap<>();
+		Map<String, CompilationUnit> compilationUnits = new ConcurrentHashMap<>();
 
 		try {
 			for (ICompilationUnit unit : javaPackage.getCompilationUnits()) {
@@ -263,7 +259,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public ResourceSet parseProject(IJavaProject javaProject) {
-		Map<String, CompilationUnit> compilationUnits = new HashMap<>();
+		Map<String, CompilationUnit> compilationUnits = new ConcurrentHashMap<>();
 
 		try {
 			for (IPackageFragment mypackage : javaProject.getPackageFragments()) {
@@ -292,6 +288,19 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	@Override
 	public String toString() {
 		return "JaMoPPJDTParser [resourceSet=" + resourceSet + "]";
+	}
+
+	public static String[] getClasspathEntries(Path dir) {
+		return JAMOPP_CLASSPATH_ENTRIES_SEARCHER.getClasspathEntries(dir);
+	}
+
+	public static Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries,
+			String[] sources, String[] encodings) {
+		return JAMOPP_COMPILATION_UNITS_FACTORY.getCompilationUnits(parser, classpathEntries, sources, encodings);
+	}
+
+	public static ASTParser getJavaParser(String version) {
+		return JAMOPP_JAVA_PARSER_FACTORY.getJavaParser(version);
 	}
 
 }
