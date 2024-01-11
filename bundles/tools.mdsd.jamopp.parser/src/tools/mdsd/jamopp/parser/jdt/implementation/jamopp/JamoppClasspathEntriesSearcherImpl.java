@@ -3,11 +3,12 @@ package tools.mdsd.jamopp.parser.jdt.implementation.jamopp;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.stream.Stream;
 
-import org.apache.log4j.Logger;
-
 import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppClasspathEntriesSearcher;
 
@@ -16,22 +17,23 @@ public class JamoppClasspathEntriesSearcherImpl implements JamoppClasspathEntrie
 	private final Logger logger;
 
 	@Inject
-	public
-	JamoppClasspathEntriesSearcherImpl(Logger logger) {
+	public JamoppClasspathEntriesSearcherImpl(Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
 	public String[] getClasspathEntries(Path dir) {
+		String[] entries;
 		try (Stream<Path> paths = Files.walk(dir)) {
-			return paths
+			entries = paths
 					.filter(path -> Files.isRegularFile(path)
-							&& path.getFileName().toString().toLowerCase().endsWith("jar"))
+							&& path.getFileName().toString().toLowerCase(Locale.US).endsWith("jar"))
 					.map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
 		} catch (final IOException e) {
 			logger.error(dir, e);
-			return new String[0];
+			entries = new String[0];
 		}
+		return entries;
 	}
 
 }

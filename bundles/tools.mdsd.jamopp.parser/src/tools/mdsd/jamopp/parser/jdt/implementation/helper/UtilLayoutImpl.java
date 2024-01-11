@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2020, Martin Armbruster
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *   Martin Armbruster
  *      - Initial implementation
@@ -13,29 +13,31 @@
 
 package tools.mdsd.jamopp.parser.jdt.implementation.helper;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.ASTNode;
+
 import tools.mdsd.jamopp.commons.layout.LayoutFactory;
 import tools.mdsd.jamopp.commons.layout.MinimalLayoutInformation;
 import tools.mdsd.jamopp.model.java.commons.Commentable;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
 public class UtilLayoutImpl implements UtilLayout {
 
 	private final LayoutFactory layoutFactory;
-	private static MinimalLayoutInformation currentRootLayout;
+	private MinimalLayoutInformation currentRootLayout;
+	private boolean layoutSet;
 
 	@Inject
 	public UtilLayoutImpl(LayoutFactory layoutFactory) {
 		this.layoutFactory = layoutFactory;
+		layoutSet = false;
 	}
 
 	@Override
 	public void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode) {
-		currentRootLayout = null;
+		layoutSet = false;
 		if (sourceCode != null) {
 			currentRootLayout = layoutFactory.createMinimalLayoutInformation();
 			currentRootLayout.setVisibleTokenText(sourceCode);
@@ -44,18 +46,19 @@ public class UtilLayoutImpl implements UtilLayout {
 			currentRootLayout.setObject(root);
 			currentRootLayout.setRootLayout(currentRootLayout);
 			root.getLayoutInformations().add(currentRootLayout);
+			layoutSet = true;
 		}
 	}
 
 	@Override
 	public void convertToMinimalLayoutInformation(Commentable target, ASTNode source) {
-		if (currentRootLayout != null) {
-			MinimalLayoutInformation li = layoutFactory.createMinimalLayoutInformation();
-			li.setStartOffset(source.getStartPosition());
-			li.setLength(source.getLength());
-			li.setObject(target);
-			li.setRootLayout(currentRootLayout);
-			target.getLayoutInformations().add(li);
+		if (layoutSet) {
+			MinimalLayoutInformation information = layoutFactory.createMinimalLayoutInformation();
+			information.setStartOffset(source.getStartPosition());
+			information.setLength(source.getLength());
+			information.setObject(target);
+			information.setRootLayout(currentRootLayout);
+			target.getLayoutInformations().add(information);
 		}
 	}
 

@@ -1,15 +1,15 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.jamopp;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.jamopp.JamoppCompilationUnitsFactory;
 
@@ -18,15 +18,14 @@ public class JamoppCompilationUnitsFactoryImpl implements JamoppCompilationUnits
 	private final Logger logger;
 
 	@Inject
-	public
-	JamoppCompilationUnitsFactoryImpl(Logger logger) {
+	public JamoppCompilationUnitsFactoryImpl(Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
-	public Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries, String[] sources,
-			String[] encodings) {
-		final Map<String, CompilationUnit> compilationUnits = new HashMap<>();
+	public Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries,
+			String[] sources, String[] encodings) {
+		final Map<String, CompilationUnit> compilationUnits = new ConcurrentHashMap<>();
 		try {
 			parser.setEnvironment(classpathEntries, new String[0], new String[0], true);
 			parser.createASTs(sources, encodings, new String[0], new FileASTRequestor() {

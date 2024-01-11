@@ -1,9 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.helper;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.ITypeBinding;
+
+import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilArrays;
 
 public class UtilArraysImpl implements UtilArrays {
@@ -11,7 +12,7 @@ public class UtilArraysImpl implements UtilArrays {
 	private final ArraysFactory arraysFactory;
 
 	@Inject
-	UtilArraysImpl(ArraysFactory arraysFactory) {
+	public UtilArraysImpl(ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 	}
 
