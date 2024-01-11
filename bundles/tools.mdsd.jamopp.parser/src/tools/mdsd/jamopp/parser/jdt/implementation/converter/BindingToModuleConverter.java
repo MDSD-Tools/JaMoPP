@@ -37,7 +37,7 @@ public class BindingToModuleConverter
 	private Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	BindingToModuleConverter(Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+	public BindingToModuleConverter(Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			ModulesFactory modulesFactory, ModifiersFactory modifiersFactory, JdtResolver jdtTResolverUtility,
 			UtilNamedElement utilNamedElement,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {

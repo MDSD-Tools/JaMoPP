@@ -28,31 +28,31 @@ import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class LiteralPrinterImpl implements Printer<Literal> {
 
-	private final List<Pair<?>> mapping;
+	private final List<Mapping<?>> mappings;
 
 	@Inject
 	public LiteralPrinterImpl() {
-		mapping = new ArrayList<>();
-		mapping.add(new Pair<>(BooleanLiteral.class, lit -> Boolean.toString(lit.isValue())));
-		mapping.add(new Pair<>(CharacterLiteral.class, lit -> "'" + lit.getValue() + "'"));
-		mapping.add(new Pair<>(NullLiteral.class, lit -> "null"));
-		mapping.add(new Pair<>(DecimalFloatLiteral.class, lit -> Float.toString(lit.getDecimalValue()) + "F"));
-		mapping.add(new Pair<>(HexFloatLiteral.class, lit -> Float.toHexString(lit.getHexValue()) + "F"));
-		mapping.add(new Pair<>(DecimalDoubleLiteral.class, lit -> Double.toString(lit.getDecimalValue()) + "D"));
-		mapping.add(new Pair<>(HexDoubleLiteral.class, lit -> Double.toHexString(lit.getHexValue()) + "D"));
-		mapping.add(new Pair<>(DecimalIntegerLiteral.class, lit -> lit.getDecimalValue().toString()));
-		mapping.add(new Pair<>(HexIntegerLiteral.class, lit -> "0x" + lit.getHexValue().toString(16)));
-		mapping.add(new Pair<>(OctalIntegerLiteral.class, lit -> "0" + lit.getOctalValue().toString(8)));
-		mapping.add(new Pair<>(BinaryIntegerLiteral.class, lit -> "0b" + lit.getBinaryValue().toString(2)));
-		mapping.add(new Pair<>(DecimalLongLiteral.class, lit -> lit.getDecimalValue().toString() + "L"));
-		mapping.add(new Pair<>(HexLongLiteral.class, lit -> "0x" + lit.getHexValue().toString(16) + "L"));
-		mapping.add(new Pair<>(OctalLongLiteral.class, lit -> "0" + lit.getOctalValue().toString(8) + "L"));
-		mapping.add(new Pair<>(BinaryLongLiteral.class, lit -> "0b" + lit.getBinaryValue().toString(2) + "L"));
+		mappings = new ArrayList<>();
+		mappings.add(new Mapping<>(BooleanLiteral.class, lit -> Boolean.toString(lit.isValue())));
+		mappings.add(new Mapping<>(CharacterLiteral.class, lit -> "'" + lit.getValue() + "'"));
+		mappings.add(new Mapping<>(NullLiteral.class, lit -> "null"));
+		mappings.add(new Mapping<>(DecimalFloatLiteral.class, lit -> Float.toString(lit.getDecimalValue()) + "F"));
+		mappings.add(new Mapping<>(HexFloatLiteral.class, lit -> Float.toHexString(lit.getHexValue()) + "F"));
+		mappings.add(new Mapping<>(DecimalDoubleLiteral.class, lit -> Double.toString(lit.getDecimalValue()) + "D"));
+		mappings.add(new Mapping<>(HexDoubleLiteral.class, lit -> Double.toHexString(lit.getHexValue()) + "D"));
+		mappings.add(new Mapping<>(DecimalIntegerLiteral.class, lit -> lit.getDecimalValue().toString()));
+		mappings.add(new Mapping<>(HexIntegerLiteral.class, lit -> "0x" + lit.getHexValue().toString(16)));
+		mappings.add(new Mapping<>(OctalIntegerLiteral.class, lit -> "0" + lit.getOctalValue().toString(8)));
+		mappings.add(new Mapping<>(BinaryIntegerLiteral.class, lit -> "0b" + lit.getBinaryValue().toString(2)));
+		mappings.add(new Mapping<>(DecimalLongLiteral.class, lit -> lit.getDecimalValue().toString() + "L"));
+		mappings.add(new Mapping<>(HexLongLiteral.class, lit -> "0x" + lit.getHexValue().toString(16) + "L"));
+		mappings.add(new Mapping<>(OctalLongLiteral.class, lit -> "0" + lit.getOctalValue().toString(8) + "L"));
+		mappings.add(new Mapping<>(BinaryLongLiteral.class, lit -> "0b" + lit.getBinaryValue().toString(2) + "L"));
 	}
 
 	@Override
 	public void print(Literal element, BufferedWriter writer) throws IOException {
-		for (Pair<?> pair : mapping) {
+		for (Mapping<?> pair : mappings) {
 			if (pair.getClazz().isInstance(element)) {
 				writer.append(pair.convert(element));
 				return;
@@ -60,21 +60,21 @@ public class LiteralPrinterImpl implements Printer<Literal> {
 		}
 	}
 
-	private static class Pair<K extends Literal> {
+	private static class Mapping<K extends Literal> {
 
 		private final Class<K> clazz;
 		private final Function<K, String> fun;
 
-		Pair(Class<K> clazz, Function<K, String> fun) {
+		private Mapping(Class<K> clazz, Function<K, String> fun) {
 			this.clazz = clazz;
 			this.fun = fun;
 		}
 
-		Class<K> getClazz() {
+		private Class<K> getClazz() {
 			return clazz;
 		}
 
-		String convert(Literal literal) {
+		private String convert(Literal literal) {
 			return fun.apply(clazz.cast(literal));
 		}
 	}

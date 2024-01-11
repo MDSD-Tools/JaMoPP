@@ -33,7 +33,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	HandlerLambdaExpression(UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
+	public HandlerLambdaExpression(UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,

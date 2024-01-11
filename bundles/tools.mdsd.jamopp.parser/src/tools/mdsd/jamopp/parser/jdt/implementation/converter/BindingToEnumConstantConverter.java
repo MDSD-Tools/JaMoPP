@@ -1,10 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
@@ -18,7 +18,7 @@ public class BindingToEnumConstantConverter implements Converter<IVariableBindin
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	BindingToEnumConstantConverter(JdtResolver iUtilJdtResolver,
+	public BindingToEnumConstantConverter(JdtResolver iUtilJdtResolver,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;

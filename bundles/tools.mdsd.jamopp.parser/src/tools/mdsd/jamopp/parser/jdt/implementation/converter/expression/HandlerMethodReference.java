@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.MethodReference;
-import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpression;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.MethodReference;
+
+import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpression;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ExpressionHandler;
 
@@ -14,7 +14,7 @@ public class HandlerMethodReference implements ExpressionHandler {
 	private final Converter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter;
 
 	@Inject
-	HandlerMethodReference(
+	public HandlerMethodReference(
 			Converter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter) {
 		this.toMethodReferenceExpressionConverter = toMethodReferenceExpressionConverter;
 	}

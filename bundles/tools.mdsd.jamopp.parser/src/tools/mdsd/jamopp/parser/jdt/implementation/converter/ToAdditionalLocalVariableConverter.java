@@ -24,7 +24,7 @@ public class ToAdditionalLocalVariableConverter
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	ToAdditionalLocalVariableConverter(UtilNamedElement utilNamedElement,
+	public ToAdditionalLocalVariableConverter(UtilNamedElement utilNamedElement,
 			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
 			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {

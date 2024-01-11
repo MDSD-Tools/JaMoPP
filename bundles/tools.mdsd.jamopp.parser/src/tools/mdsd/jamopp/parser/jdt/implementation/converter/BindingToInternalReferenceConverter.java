@@ -16,7 +16,7 @@ public class BindingToInternalReferenceConverter implements Converter<ITypeBindi
 	private final JdtResolver jdtTResolverUtility;
 
 	@Inject
-	BindingToInternalReferenceConverter(ReferencesFactory referencesFactory, JdtResolver jdtTResolverUtility) {
+	public BindingToInternalReferenceConverter(ReferencesFactory referencesFactory, JdtResolver jdtTResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}

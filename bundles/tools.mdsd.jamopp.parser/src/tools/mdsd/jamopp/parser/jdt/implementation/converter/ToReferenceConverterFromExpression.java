@@ -64,7 +64,7 @@ public class ToReferenceConverterFromExpression
 	private Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	void setMembers(UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
+	public void setMembers(UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<Type, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromType,
 			Converter<SimpleName, IdentifierReference> toReferenceConverterFromName,
 			Converter<MethodInvocation, MethodCall> toReferenceConverterFromMethodInvocation,

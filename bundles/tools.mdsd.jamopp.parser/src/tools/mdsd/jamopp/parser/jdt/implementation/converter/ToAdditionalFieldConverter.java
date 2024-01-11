@@ -1,12 +1,12 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -23,7 +23,7 @@ public class ToAdditionalFieldConverter implements Converter<VariableDeclaration
 	private final UtilLayout utilLayout;
 
 	@Inject
-	ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+	public ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
 			JdtResolver iUtilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
 			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
@@ -44,8 +44,8 @@ public class ToAdditionalFieldConverter implements Converter<VariableDeclaration
 			result = iUtilJdtResolver.getAdditionalField(frag.getName().getIdentifier());
 		}
 		utilNamedElement.setNameOfElement(frag.getName(), result);
-		frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, result));
+		frag.extraDimensions()
+				.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convert((Dimension) obj, result));
 		if (frag.getInitializer() != null) {
 			toInstructionSeparation.addAdditionalField(frag.getInitializer(), result);
 		}

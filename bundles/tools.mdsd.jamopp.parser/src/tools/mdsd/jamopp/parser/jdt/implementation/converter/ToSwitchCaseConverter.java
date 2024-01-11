@@ -1,22 +1,23 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.SwitchCase;
-import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.SwitchCase;
+
+import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class ToSwitchCaseConverter implements Converter<SwitchCase, tools.mdsd.jamopp.model.java.statements.SwitchCase> {
+public class ToSwitchCaseConverter
+		implements Converter<SwitchCase, tools.mdsd.jamopp.model.java.statements.SwitchCase> {
 
 	private final StatementsFactory statementsFactory;
 	private final UtilLayout layoutInformationConverter;
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	ToSwitchCaseConverter(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
+	public ToSwitchCaseConverter(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -25,7 +26,7 @@ public class ToSwitchCaseConverter implements Converter<SwitchCase, tools.mdsd.j
 
 	@Override
 	public tools.mdsd.jamopp.model.java.statements.SwitchCase convert(SwitchCase switchCase) {
-		tools.mdsd.jamopp.model.java.statements.SwitchCase result = null;
+		tools.mdsd.jamopp.model.java.statements.SwitchCase result;
 		if (switchCase.isSwitchLabeledRule() && switchCase.isDefault()) {
 			result = statementsFactory.createDefaultSwitchRule();
 		} else if (switchCase.isSwitchLabeledRule() && !switchCase.isDefault()) {

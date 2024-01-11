@@ -21,7 +21,8 @@ public class BindingToAnnotationInstanceConverter implements Converter<IAnnotati
 	private Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
 
 	@Inject
-	BindingToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, AnnotationsFactory annotationsFactory) {
+	public BindingToAnnotationInstanceConverter(UtilNamedElement utilNamedElement,
+			AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.utilNamedElement = utilNamedElement;
 	}

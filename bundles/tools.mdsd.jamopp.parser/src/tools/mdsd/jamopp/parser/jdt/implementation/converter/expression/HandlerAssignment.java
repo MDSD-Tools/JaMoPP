@@ -19,7 +19,7 @@ public class HandlerAssignment implements ExpressionHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerAssignment(UtilLayout utilLayout,
+	public HandlerAssignment(UtilLayout utilLayout,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			Converter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter,
 			ExpressionsFactory expressionsFactory) {

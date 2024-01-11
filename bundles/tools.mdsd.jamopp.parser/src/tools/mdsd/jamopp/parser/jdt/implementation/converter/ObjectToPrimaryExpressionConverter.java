@@ -2,6 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.math.BigInteger;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
 import tools.mdsd.jamopp.model.java.literals.BooleanLiteral;
 import tools.mdsd.jamopp.model.java.literals.CharacterLiteral;
@@ -12,8 +14,6 @@ import tools.mdsd.jamopp.model.java.literals.DecimalLongLiteral;
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 import tools.mdsd.jamopp.model.java.references.StringReference;
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ObjectToPrimaryExpressionConverter implements Converter<Object, PrimaryExpression> {
@@ -22,7 +22,7 @@ public class ObjectToPrimaryExpressionConverter implements Converter<Object, Pri
 	private final LiteralsFactory literalsFactory;
 
 	@Inject
-	ObjectToPrimaryExpressionConverter(ReferencesFactory referencesFactory, LiteralsFactory literalsFactory) {
+	public ObjectToPrimaryExpressionConverter(ReferencesFactory referencesFactory, LiteralsFactory literalsFactory) {
 		this.referencesFactory = referencesFactory;
 		this.literalsFactory = literalsFactory;
 	}
@@ -33,48 +33,41 @@ public class ObjectToPrimaryExpressionConverter implements Converter<Object, Pri
 			StringReference ref = referencesFactory.createStringReference();
 			ref.setValue((String) value);
 			return ref;
-		}
-		if (value instanceof Boolean) {
+		} else if (value instanceof Boolean) {
 			BooleanLiteral literal = literalsFactory.createBooleanLiteral();
 			literal.setValue((boolean) value);
 			return literal;
-		}
-		if (value instanceof Character) {
+		} else if (value instanceof Character) {
 			CharacterLiteral literal = literalsFactory.createCharacterLiteral();
 			literal.setValue("\\u" + Integer.toHexString((Character) value));
 			return literal;
-		}
-		if (value instanceof Byte) {
+		} else if (value instanceof Byte) {
 			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((byte) value));
 			return literal;
-		}
-		if (value instanceof Short) {
+		} else if (value instanceof Short) {
 			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((short) value));
 			return literal;
-		}
-		if (value instanceof Integer) {
+		} else if (value instanceof Integer) {
 			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((int) value));
 			return literal;
-		}
-		if (value instanceof Long) {
+		} else if (value instanceof Long) {
 			DecimalLongLiteral literal = literalsFactory.createDecimalLongLiteral();
 			literal.setDecimalValue(BigInteger.valueOf((long) value));
 			return literal;
-		}
-		if (value instanceof Float) {
+		} else if (value instanceof Float) {
 			DecimalFloatLiteral literal = literalsFactory.createDecimalFloatLiteral();
 			literal.setDecimalValue((float) value);
 			return literal;
-		}
-		if (value instanceof Double) {
+		} else if (value instanceof Double) {
 			DecimalDoubleLiteral literal = literalsFactory.createDecimalDoubleLiteral();
 			literal.setDecimalValue((double) value);
 			return literal;
+		} else {
+			return literalsFactory.createNullLiteral();
 		}
-		return literalsFactory.createNullLiteral();
 	}
 
 }

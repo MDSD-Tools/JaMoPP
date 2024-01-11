@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
@@ -7,12 +9,10 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
@@ -34,7 +34,7 @@ public class ToLocalVariableConverter
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	ToLocalVariableConverter(UtilNamedElement utilNamedElement,
+	public ToLocalVariableConverter(UtilNamedElement utilNamedElement,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
@@ -69,8 +69,7 @@ public class ToLocalVariableConverter
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		loc.setTypeReference(toTypeReferenceConverter.convert(expr.getType()));
 		utilToArrayDimensionsAndSetConverter.convert(expr.getType(), loc);
-		frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, loc));
+		frag.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convert((Dimension) obj, loc));
 		if (frag.getInitializer() != null) {
 			loc.setInitialValue(expressionConverterUtility.convert(frag.getInitializer()));
 		}

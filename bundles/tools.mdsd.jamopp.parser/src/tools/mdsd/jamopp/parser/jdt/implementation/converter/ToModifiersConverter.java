@@ -4,24 +4,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.jdt.core.dom.Modifier;
-import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Modifier;
+
+import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
-public class ToModifiersConverter implements Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> {
+public class ToModifiersConverter
+		implements Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> {
 
 	private final ModifiersFactory modifiersFactory;
 
 	@Inject
-	ToModifiersConverter(ModifiersFactory modifiersFactory) {
+	public ToModifiersConverter(ModifiersFactory modifiersFactory) {
 		this.modifiersFactory = modifiersFactory;
 	}
 
 	@Override
-	public
-	Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier> convert(Integer modifiers) {
+	public Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier> convert(Integer modifiers) {
 		List<tools.mdsd.jamopp.model.java.modifiers.Modifier> result = new ArrayList<>();
 		if (Modifier.isAbstract(modifiers)) {
 			result.add(modifiersFactory.createAbstract());

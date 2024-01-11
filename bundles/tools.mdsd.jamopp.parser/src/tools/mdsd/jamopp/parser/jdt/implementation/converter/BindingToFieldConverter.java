@@ -3,12 +3,12 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
@@ -31,7 +31,7 @@ public class BindingToFieldConverter implements Converter<IVariableBinding, Fiel
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	BindingToFieldConverter(UtilArrays utilJdtBindingConverter,
+	public BindingToFieldConverter(UtilArrays utilJdtBindingConverter,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter, JdtResolver jdtTResolverUtility,

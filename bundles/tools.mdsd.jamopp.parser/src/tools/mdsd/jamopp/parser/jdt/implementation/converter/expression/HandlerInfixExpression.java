@@ -32,7 +32,7 @@ public class HandlerInfixExpression implements ExpressionHandler {
 	private final Map<Function<InfixExpression, tools.mdsd.jamopp.model.java.expressions.Expression>, Set<InfixExpression.Operator>> mapping;
 
 	@Inject
-	HandlerInfixExpression(UtilLayout utilLayout,
+	public HandlerInfixExpression(UtilLayout utilLayout,
 			Converter<InfixExpression, ShiftExpression> toShiftExpressionConverter,
 			Converter<InfixExpression, RelationExpression> toRelationExpressionConverter,
 			Converter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter,

@@ -26,8 +26,8 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement, ReferencesFactory referencesFactory,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
+	public ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement,
+			ReferencesFactory referencesFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
 			Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
@@ -52,7 +52,7 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		arr.arguments().forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 		IMethodBinding methBind = arr.resolveMethodBinding();
-		tools.mdsd.jamopp.model.java.members.Method methodProxy = null;
+		tools.mdsd.jamopp.model.java.members.Method methodProxy;
 		if (methBind != null) {
 			methodProxy = jdtResolverUtility.getMethod(methBind);
 		} else {

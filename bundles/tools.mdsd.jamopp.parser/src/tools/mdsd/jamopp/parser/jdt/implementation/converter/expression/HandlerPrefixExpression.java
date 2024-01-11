@@ -21,7 +21,7 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerPrefixExpression(UtilLayout utilLayout,
+	public HandlerPrefixExpression(UtilLayout utilLayout,
 			Converter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {

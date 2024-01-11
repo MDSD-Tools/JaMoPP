@@ -1,12 +1,12 @@
 package tools.mdsd.jamopp.parser.jdt.interfaces.resolver;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jdt.core.dom.IBinding;
 
 public interface Resolver<Clazz, BindingType extends IBinding> {
 
-	HashMap<String, Clazz> getBindings();
+	Map<String, Clazz> getBindings();
 
 	Clazz getByBinding(BindingType binding);
 

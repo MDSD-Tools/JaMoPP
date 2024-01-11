@@ -23,7 +23,7 @@ public class HandlerInstanceOf implements ExpressionHandler {
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	HandlerInstanceOf(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
+	public HandlerInstanceOf(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory,
 			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {

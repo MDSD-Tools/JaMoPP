@@ -31,7 +31,7 @@ public class ToExpressionConverterImpl
 	private final Map<Integer, ExpressionHandler> mapping;
 
 	@Inject
-	ToExpressionConverterImpl() {
+	public ToExpressionConverterImpl() {
 		mapping = new HashMap<>();
 	}
 

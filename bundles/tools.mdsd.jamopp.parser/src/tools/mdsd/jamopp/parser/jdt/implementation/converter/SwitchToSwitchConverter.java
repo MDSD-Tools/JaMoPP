@@ -19,7 +19,7 @@ public class SwitchToSwitchConverter implements Converter<SwitchStatement, Switc
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	SwitchToSwitchConverter(ToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
+	public SwitchToSwitchConverter(ToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
 			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;

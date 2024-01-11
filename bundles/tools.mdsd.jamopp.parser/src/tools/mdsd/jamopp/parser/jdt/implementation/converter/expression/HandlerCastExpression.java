@@ -23,7 +23,7 @@ public class HandlerCastExpression implements ExpressionHandler {
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	HandlerCastExpression(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
+	public HandlerCastExpression(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			ExpressionsFactory expressionsFactory,
 			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {

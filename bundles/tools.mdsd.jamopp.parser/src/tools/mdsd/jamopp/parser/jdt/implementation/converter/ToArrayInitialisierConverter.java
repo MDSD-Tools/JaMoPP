@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.Expression;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -20,7 +20,7 @@ public class ToArrayInitialisierConverter
 	private Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToArrayInitialisierConverter(UtilLayout utilLayout, ArraysFactory arraysFactory) {
+	public ToArrayInitialisierConverter(UtilLayout utilLayout, ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;
 	}
@@ -30,7 +30,7 @@ public class ToArrayInitialisierConverter
 	public tools.mdsd.jamopp.model.java.arrays.ArrayInitializer convert(ArrayInitializer arr) {
 		tools.mdsd.jamopp.model.java.arrays.ArrayInitializer result = arraysFactory.createArrayInitializer();
 		arr.expressions().forEach(obj -> {
-			tools.mdsd.jamopp.model.java.arrays.ArrayInitializationValue value = null;
+			tools.mdsd.jamopp.model.java.arrays.ArrayInitializationValue value;
 			Expression expr = (Expression) obj;
 			if (expr instanceof ArrayInitializer) {
 				value = convert((ArrayInitializer) expr);

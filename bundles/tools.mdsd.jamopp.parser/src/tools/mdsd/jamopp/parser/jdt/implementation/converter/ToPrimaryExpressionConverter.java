@@ -23,8 +23,8 @@ public class ToPrimaryExpressionConverter implements Converter<Expression, Prima
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
-	ToPrimaryExpressionConverter(LiteralsFactory literalsFactory, ToNumberLiteralConverter toNumberLiteralConverter,
-			UtilLayout layoutInformationConverter,
+	public ToPrimaryExpressionConverter(LiteralsFactory literalsFactory,
+			ToNumberLiteralConverter toNumberLiteralConverter, UtilLayout layoutInformationConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
 			UtilReferenceWalker utilReferenceWalker) {
 		this.utilReferenceWalker = utilReferenceWalker;

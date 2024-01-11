@@ -41,7 +41,7 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 	private final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	BindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
+	public BindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
 			JdtResolver jdtTResolverUtility, Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
@@ -133,7 +133,7 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 	}
 
 	private ConcreteClassifier getConcreteClassifier(ITypeBinding binding, boolean extractAdditionalInformation) {
-		ConcreteClassifier result = null;
+		ConcreteClassifier result;
 		if (binding.isAnnotation()) {
 			result = jdtTResolverUtility.getAnnotation(binding);
 		} else if (binding.isClass()) {

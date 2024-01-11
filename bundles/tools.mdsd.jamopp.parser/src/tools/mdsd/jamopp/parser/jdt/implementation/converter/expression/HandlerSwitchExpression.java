@@ -19,7 +19,7 @@ public class HandlerSwitchExpression implements ExpressionHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	HandlerSwitchExpression(ToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
+	public HandlerSwitchExpression(ToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;

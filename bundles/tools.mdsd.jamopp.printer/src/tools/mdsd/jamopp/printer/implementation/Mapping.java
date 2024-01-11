@@ -42,11 +42,12 @@ public class Mapping<K> {
 	 * @throws IOException if the printer throws an IOException while printing
 	 */
 	public boolean checkAndPrint(EObject element, BufferedWriter writer) throws IOException {
+		boolean printed = false;
 		if (clazz.isInstance(element)) {
 			printer.print(clazz.cast(element), writer);
-			return true;
+			printed = true;
 		}
-		return false;
+		return printed;
 	}
 
 }

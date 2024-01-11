@@ -1,8 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 import tools.mdsd.jamopp.model.java.arrays.ArraysFactory;
@@ -11,8 +14,6 @@ import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import tools.mdsd.jamopp.model.java.references.Reference;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 import tools.mdsd.jamopp.model.java.references.ReflectiveClassReference;
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
@@ -27,8 +28,7 @@ public class ObjectToAnnotationValueConverter implements Converter<Object, Annot
 
 	@Inject
 	public ObjectToAnnotationValueConverter(ReferencesFactory referencesFactory,
-			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
-			JdtResolver jdtTResolverUtility,
+			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter, JdtResolver jdtTResolverUtility,
 			Converter<ITypeBinding, Reference> bindingToInternalReferenceConverter,
 			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
 			ArraysFactory arraysFactory) {
@@ -48,25 +48,23 @@ public class ObjectToAnnotationValueConverter implements Converter<Object, Annot
 			varRef.setTarget(jdtTResolverUtility.getEnumConstant(varBind));
 			parentRef.setNext(varRef);
 			return getTopReference(varRef);
-		}
-		if (value instanceof IAnnotationBinding) {
+		} else if (value instanceof IAnnotationBinding) {
 			return bindingToAnnotationInstanceConverter.convert((IAnnotationBinding) value);
-		}
-		if (value instanceof Object[] values) {
+		} else if (value instanceof Object[] values) {
 			tools.mdsd.jamopp.model.java.arrays.ArrayInitializer initializer = arraysFactory.createArrayInitializer();
 			for (Object value2 : values) {
 				initializer.getInitialValues()
 						.add((tools.mdsd.jamopp.model.java.arrays.ArrayInitializationValue) convert(value2));
 			}
 			return initializer;
-		}
-		if (value instanceof ITypeBinding) {
+		} else if (value instanceof ITypeBinding) {
 			Reference parentRef = bindingToInternalReferenceConverter.convert((ITypeBinding) value);
 			ReflectiveClassReference classRef = referencesFactory.createReflectiveClassReference();
 			parentRef.setNext(classRef);
 			return getTopReference(classRef);
+		} else {
+			return objectToPrimaryExpressionConverter.convert(value);
 		}
-		return objectToPrimaryExpressionConverter.convert(value);
 	}
 
 	private Reference getTopReference(Reference ref) {
