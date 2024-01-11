@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -14,11 +14,11 @@ import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
-	private final HashSet<ITypeBinding> typeBindings;
+	private final Set<ITypeBinding> typeBindings;
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public EnumerationResolver(HashMap<String, Enumeration> bindings, HashSet<ITypeBinding> typeBindings,
+	public EnumerationResolver(Map<String, Enumeration> bindings, Set<ITypeBinding> typeBindings,
 			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;

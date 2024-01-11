@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,14 +23,14 @@ import tools.mdsd.jamopp.model.java.members.Field;
 public class ResolutionCompleter {
 
 	private final boolean extractAdditionalInfosFromTypeBindings;
-	private final HashMap<IVariableBinding, Integer> varBindToUid;
-	private final HashMap<IBinding, String> nameCache;
-	private final HashSet<IModuleBinding> moduleBindings;
-	private final HashSet<IPackageBinding> packageBindings;
-	private final HashSet<ITypeBinding> typeBindings;
-	private final HashSet<IMethodBinding> methodBindings;
-	private final HashSet<IVariableBinding> variableBindings;
-	private final HashSet<EObject> objVisited;
+	private final Map<IVariableBinding, Integer> varBindToUid;
+	private final Map<IBinding, String> nameCache;
+	private final Set<IModuleBinding> moduleBindings;
+	private final Set<IPackageBinding> packageBindings;
+	private final Set<ITypeBinding> typeBindings;
+	private final Set<IMethodBinding> methodBindings;
+	private final Set<IVariableBinding> variableBindings;
+	private final Set<EObject> objVisited;
 	private final ModuleResolver moduleResolver;
 	private final PackageResolver packageResolver;
 	private final AnnotationResolver annotationResolver;
@@ -59,12 +59,12 @@ public class ResolutionCompleter {
 
 	@Inject
 	public ResolutionCompleter(VariableLengthParameterResolver variableLengthParameterResolver,
-			HashSet<IVariableBinding> variableBindings, HashMap<IVariableBinding, Integer> varBindToUid,
-			TypeParameterResolver typeParameterResolver, HashSet<ITypeBinding> typeBindings,
+			Set<IVariableBinding> variableBindings, Map<IVariableBinding, Integer> varBindToUid,
+			TypeParameterResolver typeParameterResolver, Set<ITypeBinding> typeBindings,
 			PureTypeBindingsConverter pureTypeBindingsConverter, PackageResolver packageResolver,
-			HashSet<IPackageBinding> packageBindings, OrdinaryParameterResolver ordinaryParameterResolver,
-			HashSet<EObject> objVisited, ModuleResolver moduleResolver, HashSet<IModuleBinding> moduleBindings,
-			MethodCompleter methodCompleter, HashSet<IMethodBinding> methodBindings,
+			Set<IPackageBinding> packageBindings, OrdinaryParameterResolver ordinaryParameterResolver,
+			Set<EObject> objVisited, ModuleResolver moduleResolver, Set<IModuleBinding> moduleBindings,
+			MethodCompleter methodCompleter, Set<IMethodBinding> methodBindings,
 			LocalVariableResolver localVariableResolver, InterfaceResolver interfaceResolver,
 			InterfaceMethodResolver interfaceMethodResolver, FieldResolver fieldResolver,
 			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
@@ -75,7 +75,7 @@ public class ResolutionCompleter {
 			AdditionalLocalVariableResolver additionalLocalVariableResolver,
 			AdditionalFieldResolver additionalFieldResolver, ClassResolverSynthetic classResolverSynthetic,
 			ToTypeNameConverter toTypeNameConverter, ToFieldNameConverter toFieldNameConverter,
-			ClassifierResolver classifierResolver, HashMap<IBinding, String> nameCache) {
+			ClassifierResolver classifierResolver, Map<IBinding, String> nameCache) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;

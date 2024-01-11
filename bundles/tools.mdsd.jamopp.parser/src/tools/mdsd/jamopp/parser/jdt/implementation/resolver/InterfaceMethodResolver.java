@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -18,14 +18,14 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
-	private final HashSet<IMethodBinding> methodBindings;
+	private final Set<IMethodBinding> methodBindings;
 	private final ClassifierResolver classifierResolver;
 	private final MethodChecker methodChecker;
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public InterfaceMethodResolver(HashMap<String, InterfaceMethod> bindings, TypesFactory typesFactory,
-			StatementsFactory statementsFactory, HashSet<IMethodBinding> methodBindings, MembersFactory membersFactory,
+	public InterfaceMethodResolver(Map<String, InterfaceMethod> bindings, TypesFactory typesFactory,
+			StatementsFactory statementsFactory, Set<IMethodBinding> methodBindings, MembersFactory membersFactory,
 			ClassifierResolver classifierResolver, MethodChecker methodChecker,
 			ToMethodNameConverter toMethodNameConverter) {
 		super(bindings);

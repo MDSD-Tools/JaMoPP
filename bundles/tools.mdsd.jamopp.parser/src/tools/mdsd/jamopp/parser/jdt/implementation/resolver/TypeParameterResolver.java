@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -12,12 +12,12 @@ import tools.mdsd.jamopp.model.java.generics.TypeParameter;
 
 public class TypeParameterResolver extends ResolverAbstract<TypeParameter, ITypeBinding> {
 
-	private final HashSet<ITypeBinding> typeBindings;
+	private final Set<ITypeBinding> typeBindings;
 	private final GenericsFactory genericsFactory;
 	private final ToTypeParameterNameConverter toTypeParameterNameConverter;
 
 	@Inject
-	public TypeParameterResolver(HashMap<String, TypeParameter> bindings, HashSet<ITypeBinding> typeBindings,
+	public TypeParameterResolver(Map<String, TypeParameter> bindings, Set<ITypeBinding> typeBindings,
 			GenericsFactory genericsFactory, ToTypeParameterNameConverter toTypeParameterNameConverter) {
 		super(bindings);
 		this.typeBindings = typeBindings;

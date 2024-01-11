@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -14,15 +14,15 @@ import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
 public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 
-	private final HashSet<IVariableBinding> variableBindings;
+	private final Set<IVariableBinding> variableBindings;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
 	private final ClassifierResolver classifierResolver;
 	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
-	public FieldResolver(HashMap<String, Field> bindings, HashSet<IVariableBinding> variableBindings,
-			TypesFactory typesFactory, MembersFactory membersFactory, ClassifierResolver classifierResolver,
+	public FieldResolver(Map<String, Field> bindings, Set<IVariableBinding> variableBindings, TypesFactory typesFactory,
+			MembersFactory membersFactory, ClassifierResolver classifierResolver,
 			ToFieldNameConverter toFieldNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;

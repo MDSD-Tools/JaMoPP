@@ -1,9 +1,9 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -18,9 +18,9 @@ import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 
 public class ReferenceableElementResolver {
 
-	private final HashSet<ITypeBinding> typeBindings;
-	private final HashSet<IMethodBinding> methodBindings;
-	private final HashSet<IVariableBinding> variableBindings;
+	private final Set<ITypeBinding> typeBindings;
+	private final Set<IMethodBinding> methodBindings;
+	private final Set<IVariableBinding> variableBindings;
 	private final AnnotationResolver annotationResolver;
 	private final EnumerationResolver enumerationResolver;
 	private final InterfaceResolver interfaceResolver;
@@ -44,9 +44,9 @@ public class ReferenceableElementResolver {
 
 	@Inject
 	public ReferenceableElementResolver(VariableLengthParameterResolver variableLengthParameterResolver,
-			HashSet<IVariableBinding> variableBindings, TypeParameterResolver typeParameterResolver,
-			HashSet<ITypeBinding> typeBindings, OrdinaryParameterResolver ordinaryParameterResolver,
-			HashSet<IMethodBinding> methodBindings, LocalVariableResolver localVariableResolver,
+			Set<IVariableBinding> variableBindings, TypeParameterResolver typeParameterResolver,
+			Set<ITypeBinding> typeBindings, OrdinaryParameterResolver ordinaryParameterResolver,
+			Set<IMethodBinding> methodBindings, LocalVariableResolver localVariableResolver,
 			InterfaceResolver interfaceResolver, InterfaceMethodResolver interfaceMethodResolver,
 			FieldResolver fieldResolver, EnumerationResolver enumerationResolver,
 			EnumConstantResolver enumConstantResolver, ClassResolver classResolver,

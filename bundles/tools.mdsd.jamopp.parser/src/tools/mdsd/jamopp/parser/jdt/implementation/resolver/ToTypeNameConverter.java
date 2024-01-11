@@ -19,14 +19,14 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 
 public class ToTypeNameConverter {
 
-	private final HashMap<IBinding, String> nameCache;
+	private final Map<IBinding, String> nameCache;
 	private final Provider<ToMethodNameConverter> toMethodNameConverter;
 	private final ToFieldNameConverter toFieldNameConverter;
 	private final Map<Class<?>, Function<TypeReference, String>> mapping;
 
 	@Inject
 	public ToTypeNameConverter(Provider<ToMethodNameConverter> toMethodNameConverter,
-			ToFieldNameConverter toFieldNameConverter, HashMap<IBinding, String> nameCache) {
+			ToFieldNameConverter toFieldNameConverter, Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toMethodNameConverter = toMethodNameConverter;
 		this.toFieldNameConverter = toFieldNameConverter;

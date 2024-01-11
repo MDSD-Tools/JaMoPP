@@ -2,6 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.injection;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.IBinding;
@@ -34,61 +36,61 @@ public class ResolverModule extends AbstractModule {
 		bind(Boolean.class).annotatedWith(Names.named("extractAdditionalInfosFromTypeBindings"))
 				.toInstance(EXTRACT_ADDITIONAL_INFORMATION_FROM_TYPE_BINDINGS);
 
-		bind(new TypeLiteral<HashSet<IModuleBinding>>() {
+		bind(new TypeLiteral<Set<IModuleBinding>>() {
 			/* empty */}).toInstance(new HashSet<>());
-		bind(new TypeLiteral<HashSet<IPackageBinding>>() {
+		bind(new TypeLiteral<Set<IPackageBinding>>() {
 			/* empty */}).toInstance(new HashSet<>());
-		bind(new TypeLiteral<HashSet<ITypeBinding>>() {
+		bind(new TypeLiteral<Set<ITypeBinding>>() {
 			/* empty */}).toInstance(new HashSet<>());
-		bind(new TypeLiteral<HashSet<IMethodBinding>>() {
+		bind(new TypeLiteral<Set<IMethodBinding>>() {
 			/* empty */}).toInstance(new HashSet<>());
-		bind(new TypeLiteral<HashSet<IVariableBinding>>() {
+		bind(new TypeLiteral<Set<IVariableBinding>>() {
 			/* empty */}).toInstance(new HashSet<>());
-		bind(new TypeLiteral<HashSet<EObject>>() {
+		bind(new TypeLiteral<Set<EObject>>() {
 			/* empty */}).toInstance(new HashSet<>());
 
-		bind(new TypeLiteral<HashMap<IVariableBinding, Integer>>() {
+		bind(new TypeLiteral<Map<IVariableBinding, Integer>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<IBinding, String>>() {
+		bind(new TypeLiteral<Map<IBinding, String>>() {
 			/* empty */}).toInstance(new HashMap<>());
 
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.containers.Module>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.containers.Module>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.containers.Package>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.containers.Package>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Annotation>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.classifiers.Annotation>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.classifiers.Enumeration>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Interface>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.classifiers.Interface>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.classifiers.Class>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.classifiers.Class>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.generics.TypeParameter>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.generics.TypeParameter>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.members.InterfaceMethod>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.members.ClassMethod>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.members.ClassMethod>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.members.Constructor>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.members.Constructor>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.members.Field>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.members.Field>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.members.AdditionalField>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.members.AdditionalField>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.variables.LocalVariable>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.variables.LocalVariable>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.members.EnumConstant>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.members.EnumConstant>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.parameters.CatchParameter>>() {
 			/* empty */}).toInstance(new HashMap<>());
-		bind(new TypeLiteral<HashMap<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass>>() {
+		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass>>() {
 			/* empty */}).toInstance(new HashMap<>());
 
 	}

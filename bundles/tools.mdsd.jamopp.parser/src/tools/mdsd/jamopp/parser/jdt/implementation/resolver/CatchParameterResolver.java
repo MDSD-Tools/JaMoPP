@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -12,12 +12,12 @@ import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 
 public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVariableBinding> {
 
-	private final HashSet<IVariableBinding> variableBindings;
+	private final Set<IVariableBinding> variableBindings;
 	private final ParametersFactory parametersFactory;
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public CatchParameterResolver(HashMap<String, CatchParameter> bindings, HashSet<IVariableBinding> variableBindings,
+	public CatchParameterResolver(Map<String, CatchParameter> bindings, Set<IVariableBinding> variableBindings,
 			ParametersFactory parametersFactory, ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;

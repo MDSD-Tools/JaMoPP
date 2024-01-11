@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITy
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public AnonymousClassResolver(HashMap<String, AnonymousClass> bindings, ClassifiersFactory classifiersFactory,
+	public AnonymousClassResolver(Map<String, AnonymousClass> bindings, ClassifiersFactory classifiersFactory,
 			ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;

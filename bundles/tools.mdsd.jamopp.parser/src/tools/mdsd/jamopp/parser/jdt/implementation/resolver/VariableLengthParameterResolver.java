@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -12,13 +12,13 @@ import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 
 public class VariableLengthParameterResolver extends ResolverAbstract<VariableLengthParameter, IVariableBinding> {
 
-	private final HashSet<IVariableBinding> variableBindings;
+	private final Set<IVariableBinding> variableBindings;
 	private final ParametersFactory parametersFactory;
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public VariableLengthParameterResolver(HashMap<String, VariableLengthParameter> bindings,
-			HashSet<IVariableBinding> variableBindings, ParametersFactory parametersFactory,
+	public VariableLengthParameterResolver(Map<String, VariableLengthParameter> bindings,
+			Set<IVariableBinding> variableBindings, ParametersFactory parametersFactory,
 			ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;

@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -13,11 +13,11 @@ import tools.mdsd.jamopp.model.java.containers.Package;
 
 public class PackageResolver extends ResolverAbstract<Package, IPackageBinding> {
 
-	private final HashSet<IPackageBinding> packageBindings;
+	private final Set<IPackageBinding> packageBindings;
 	private final ContainersFactory containersFactory;
 
 	@Inject
-	public PackageResolver(HashMap<String, Package> bindings, HashSet<IPackageBinding> packageBindings,
+	public PackageResolver(Map<String, Package> bindings, Set<IPackageBinding> packageBindings,
 			ContainersFactory containersFactory) {
 		super(bindings);
 		this.packageBindings = packageBindings;

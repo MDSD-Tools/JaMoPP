@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -12,13 +12,13 @@ import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 
 public class AdditionalLocalVariableResolver extends ResolverAbstract<AdditionalLocalVariable, IVariableBinding> {
 
-	private final HashSet<IVariableBinding> variableBindings;
+	private final Set<IVariableBinding> variableBindings;
 	private final VariablesFactory variablesFactory;
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public AdditionalLocalVariableResolver(HashMap<String, AdditionalLocalVariable> bindings,
-			VariablesFactory variablesFactory, HashSet<IVariableBinding> variableBindings,
+	public AdditionalLocalVariableResolver(Map<String, AdditionalLocalVariable> bindings,
+			VariablesFactory variablesFactory, Set<IVariableBinding> variableBindings,
 			ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;

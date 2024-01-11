@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -13,12 +13,12 @@ import tools.mdsd.jamopp.model.java.members.MembersFactory;
 public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariableBinding> {
 
 	private final MembersFactory membersFactory;
-	private final HashSet<IVariableBinding> variableBindings;
+	private final Set<IVariableBinding> variableBindings;
 	private final EnumerationResolver enumerationResolver;
 	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
-	public EnumConstantResolver(HashMap<String, EnumConstant> bindings, HashSet<IVariableBinding> variableBindings,
+	public EnumConstantResolver(Map<String, EnumConstant> bindings, Set<IVariableBinding> variableBindings,
 			MembersFactory membersFactory, EnumerationResolver enumerationResolver,
 			ToFieldNameConverter toFieldNameConverter) {
 		super(bindings);

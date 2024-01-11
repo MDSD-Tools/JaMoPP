@@ -1,16 +1,16 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashSet;
-
-import org.eclipse.jdt.core.dom.IMethodBinding;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.jdt.core.dom.IMethodBinding;
+
 public class MethodCompleter {
 
 	private final AnonymousClassResolver anonymousClassResolver;
-	private final HashSet<IMethodBinding> methodBindings;
+	private final Set<IMethodBinding> methodBindings;
 	private final boolean extractAdditionalInfosFromTypeBindings;
 	private final ToMethodNameConverter toMethodNameConverter;
 	private final ClassifierResolver classifierResolver;
@@ -18,7 +18,7 @@ public class MethodCompleter {
 	private final ClassResolverSynthetic classResolverSynthetic;
 
 	@Inject
-	public MethodCompleter(HashSet<IMethodBinding> methodBindings,
+	public MethodCompleter(Set<IMethodBinding> methodBindings,
 			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromBindings,
 			AnonymousClassResolver anonymousClassResolver, ToTypeNameConverter toTypeNameConverter,
 			ToMethodNameConverter toMethodNameConverter, ClassifierResolver classifierResolver,

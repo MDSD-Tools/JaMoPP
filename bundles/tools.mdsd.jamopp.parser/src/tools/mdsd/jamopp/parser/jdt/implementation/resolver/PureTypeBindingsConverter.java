@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,10 +31,10 @@ public class PureTypeBindingsConverter {
 	private final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter;
 	private final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter;
 
-	private final HashSet<IModuleBinding> moduleBindings;
-	private final HashSet<IPackageBinding> packageBindings;
-	private final HashSet<ITypeBinding> typeBindings;
-	private final HashSet<EObject> objVisited;
+	private final Set<IModuleBinding> moduleBindings;
+	private final Set<IPackageBinding> packageBindings;
+	private final Set<ITypeBinding> typeBindings;
+	private final Set<EObject> objVisited;
 
 	private final ModuleResolver moduleResolver;
 	private final PackageResolver packageResolver;
@@ -54,9 +54,8 @@ public class PureTypeBindingsConverter {
 			EnumerationResolver enumerationResolver, ContainersFactory containersFactory, ClassResolver classResolver,
 			Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
 			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
-			AnnotationResolver annotationResolver, HashSet<ITypeBinding> typeBindings,
-			HashSet<IPackageBinding> packageBindings, HashSet<EObject> objVisited,
-			HashSet<IModuleBinding> moduleBindings, ToTypeNameConverter toTypeNameConverter,
+			AnnotationResolver annotationResolver, Set<ITypeBinding> typeBindings, Set<IPackageBinding> packageBindings,
+			Set<EObject> objVisited, Set<IModuleBinding> moduleBindings, ToTypeNameConverter toTypeNameConverter,
 			ClassifierResolver classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.containersFactory = containersFactory;
@@ -138,8 +137,8 @@ public class PureTypeBindingsConverter {
 		for (int index = 0; index < namespaces.length - 1; index++) {
 			cu.getNamespaces().add(namespaces[index]);
 		}
-		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty",
-				"JaMoPP-CompilationUnit", null, new String[] { typeName + ".java" }, null, null));
+		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-CompilationUnit",
+				null, new String[] { typeName + ".java" }, null, null));
 		newResource.getContents().add(cu);
 	}
 

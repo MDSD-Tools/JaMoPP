@@ -1,7 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -13,12 +13,12 @@ import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParameter, IVariableBinding> {
 
 	private final ParametersFactory parametersFactory;
-	private final HashSet<IVariableBinding> variableBindings;
+	private final Set<IVariableBinding> variableBindings;
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public OrdinaryParameterResolver(HashMap<String, OrdinaryParameter> bindings, ParametersFactory parametersFactory,
-			HashSet<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter) {
+	public OrdinaryParameterResolver(Map<String, OrdinaryParameter> bindings, ParametersFactory parametersFactory,
+			Set<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.parametersFactory = parametersFactory;
 		this.variableBindings = variableBindings;

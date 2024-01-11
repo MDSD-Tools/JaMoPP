@@ -1,21 +1,21 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-import javax.inject.Inject;
-
 public class ToTypeParameterNameConverter {
 
-	private final HashMap<IBinding, String> nameCache;
+	private final Map<IBinding, String> nameCache;
 	private final ToTypeNameConverter toTypeNameConverter;
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
 	public ToTypeParameterNameConverter(ToTypeNameConverter toTypeNameConverter,
-			ToMethodNameConverter toMethodNameConverter, HashMap<IBinding, String> nameCache) {
+			ToMethodNameConverter toMethodNameConverter, Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.toMethodNameConverter = toMethodNameConverter;

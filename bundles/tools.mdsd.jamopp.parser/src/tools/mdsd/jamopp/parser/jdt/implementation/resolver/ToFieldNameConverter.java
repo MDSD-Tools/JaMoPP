@@ -1,21 +1,20 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import java.util.HashMap;
-
-import org.eclipse.jdt.core.dom.IBinding;
-import org.eclipse.jdt.core.dom.IVariableBinding;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.IVariableBinding;
+
 public class ToFieldNameConverter {
 
-	private final HashMap<IBinding, String> nameCache;
+	private final Map<IBinding, String> nameCache;
 	private final Provider<ToTypeNameConverter> toTypeNameConverter;
 
 	@Inject
-	public ToFieldNameConverter(Provider<ToTypeNameConverter> toTypeNameConverter,
-			HashMap<IBinding, String> nameCache) {
+	public ToFieldNameConverter(Provider<ToTypeNameConverter> toTypeNameConverter, Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
