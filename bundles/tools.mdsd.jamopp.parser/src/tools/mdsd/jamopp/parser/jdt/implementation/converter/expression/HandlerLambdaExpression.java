@@ -56,10 +56,10 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 		tools.mdsd.jamopp.model.java.expressions.LambdaExpression result = expressionsFactory.createLambdaExpression();
 		if (!lambda.parameters().isEmpty() && lambda.parameters().get(0) instanceof VariableDeclarationFragment) {
 			tools.mdsd.jamopp.model.java.expressions.ImplicitlyTypedLambdaParameters param;
-			if (!lambda.hasParentheses()) {
-				param = expressionsFactory.createSingleImplicitLambdaParameter();
-			} else {
+			if (lambda.hasParentheses()) {
 				param = expressionsFactory.createImplicitlyTypedLambdaParameters();
+			} else {
+				param = expressionsFactory.createSingleImplicitLambdaParameter();
 			}
 			lambda.parameters().forEach(obj -> {
 				VariableDeclarationFragment frag = (VariableDeclarationFragment) obj;

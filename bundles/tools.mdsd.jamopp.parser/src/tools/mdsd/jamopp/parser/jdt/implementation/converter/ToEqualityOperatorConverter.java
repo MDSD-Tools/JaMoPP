@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.InfixExpression;
-import tools.mdsd.jamopp.model.java.operators.EqualityOperator;
-import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.InfixExpression;
+
+import tools.mdsd.jamopp.model.java.operators.EqualityOperator;
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToEqualityOperatorConverter implements Converter<InfixExpression.Operator, EqualityOperator> {
@@ -13,19 +13,19 @@ public class ToEqualityOperatorConverter implements Converter<InfixExpression.Op
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	ToEqualityOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToEqualityOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public EqualityOperator convert(InfixExpression.Operator op) {
-		if (op == InfixExpression.Operator.EQUALS) {
-			return operatorsFactory.createEqual();
+	public EqualityOperator convert(InfixExpression.Operator operator) {
+		EqualityOperator result = null;
+		if (operator.equals(InfixExpression.Operator.EQUALS)) {
+			result = operatorsFactory.createEqual();
+		} else if (operator.equals(InfixExpression.Operator.NOT_EQUALS)) {
+			result = operatorsFactory.createNotEqual();
 		}
-		if (op == InfixExpression.Operator.NOT_EQUALS) {
-			return operatorsFactory.createNotEqual();
-		}
-		return null;
+		return result;
 	}
 
 }

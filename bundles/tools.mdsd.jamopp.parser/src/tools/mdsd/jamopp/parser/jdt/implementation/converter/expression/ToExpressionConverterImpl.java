@@ -50,11 +50,13 @@ public class ToExpressionConverterImpl
 			mapping.put(ASTNode.LAMBDA_EXPRESSION, handlerLambdaExpression);
 		}
 
+		tools.mdsd.jamopp.model.java.expressions.Expression result;
 		if (expr instanceof MethodReference) {
-			return handlerMethodReference.handle(expr);
+			result = handlerMethodReference.handle(expr);
+		} else {
+			result = mapping.getOrDefault(expr.getNodeType(), handlerPrimaryExpression).handle(expr);
 		}
-
-		return mapping.getOrDefault(expr.getNodeType(), handlerPrimaryExpression).handle(expr);
+		return result;
 	}
 
 	@Inject

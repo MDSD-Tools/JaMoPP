@@ -31,45 +31,58 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 	@Override
 	public AdditionalField getByBinding(IVariableBinding binding) {
 		String varName = toFieldNameConverter.convertToFieldName(binding);
+		AdditionalField additionalField;
 		if (getBindings().containsKey(varName)) {
-			return getBindings().get(varName);
+			additionalField = getBindings().get(varName);
+		} else {
+			variableBindings.add(binding);
+			AdditionalField result = null;
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
+					.getClassifier(binding.getDeclaringClass());
+			if (potClass != null) {
+				result = handleNullPotClass(binding, result, potClass);
+			}
+			if (result == null) {
+				result = membersFactory.createAdditionalField();
+			}
+			getBindings().put(varName, result);
+			additionalField = result;
 		}
-		variableBindings.add(binding);
-		AdditionalField result = null;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
-				.getClassifier(binding.getDeclaringClass());
-		if (potClass != null) {
-			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof tools.mdsd.jamopp.model.java.members.Field field) {
-					boolean leave = false;
-					for (AdditionalField af : field.getAdditionalFields()) {
-						if (af.getName().equals(binding.getName())) {
-							result = af;
-							leave = true;
-							break;
-						}
-					}
-					if (leave) {
+		return additionalField;
+	}
+
+	private AdditionalField handleNullPotClass(IVariableBinding binding, AdditionalField result,
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass) {
+		AdditionalField additionalField = result;
+		for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+			if (mem instanceof tools.mdsd.jamopp.model.java.members.Field field) {
+				boolean leave = false;
+				for (AdditionalField af : field.getAdditionalFields()) {
+					if (af.getName().equals(binding.getName())) {
+						additionalField = af;
+						leave = true;
 						break;
 					}
 				}
+				if (leave) {
+					break;
+				}
 			}
 		}
-		if (result == null) {
-			result = membersFactory.createAdditionalField();
-		}
-		getBindings().put(varName, result);
-		return result;
+		return additionalField;
 	}
 
 	@Override
 	public AdditionalField getByName(String name) {
+		AdditionalField additionalField;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			additionalField = getBindings().get(name);
+		} else {
+			AdditionalField result = membersFactory.createAdditionalField();
+			getBindings().put(name, result);
+			additionalField = result;
 		}
-		AdditionalField result = membersFactory.createAdditionalField();
-		getBindings().put(name, result);
-		return result;
+		return additionalField;
 	}
 
 }

@@ -34,7 +34,7 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 	private final Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
 
 	@Inject
-	ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
+	public ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			UtilTypeInstructionSeparation toInstructionSeparation,

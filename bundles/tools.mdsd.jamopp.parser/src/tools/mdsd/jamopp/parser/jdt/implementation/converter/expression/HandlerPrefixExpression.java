@@ -35,17 +35,17 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 	@Override
 	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
 		PrefixExpression prefixExpr = (PrefixExpression) expr;
-		if (prefixExpr.getOperator() == PrefixExpression.Operator.COMPLEMENT
-				|| prefixExpr.getOperator() == PrefixExpression.Operator.NOT
-				|| prefixExpr.getOperator() == PrefixExpression.Operator.PLUS
-				|| prefixExpr.getOperator() == PrefixExpression.Operator.MINUS) {
-			return toUnaryExpressionConverter.convert(prefixExpr);
-		}
-		if (prefixExpr.getOperator() == PrefixExpression.Operator.DECREMENT
-				|| prefixExpr.getOperator() == PrefixExpression.Operator.INCREMENT) {
+		tools.mdsd.jamopp.model.java.expressions.Expression expression = null;
+		if (prefixExpr.getOperator().equals(PrefixExpression.Operator.COMPLEMENT)
+				|| prefixExpr.getOperator().equals(PrefixExpression.Operator.NOT)
+				|| prefixExpr.getOperator().equals(PrefixExpression.Operator.PLUS)
+				|| prefixExpr.getOperator().equals(PrefixExpression.Operator.MINUS)) {
+			expression = toUnaryExpressionConverter.convert(prefixExpr);
+		} else if (prefixExpr.getOperator().equals(PrefixExpression.Operator.DECREMENT)
+				|| prefixExpr.getOperator().equals(PrefixExpression.Operator.INCREMENT)) {
 			tools.mdsd.jamopp.model.java.expressions.PrefixUnaryModificationExpression result = expressionsFactory
 					.createPrefixUnaryModificationExpression();
-			if (prefixExpr.getOperator() == PrefixExpression.Operator.DECREMENT) {
+			if (prefixExpr.getOperator().equals(PrefixExpression.Operator.DECREMENT)) {
 				result.setOperator(operatorsFactory.createMinusMinus());
 			} else {
 				result.setOperator(operatorsFactory.createPlusPlus());
@@ -54,9 +54,9 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 					(tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild) toExpressionConverter
 							.convert(prefixExpr.getOperand()));
 			utilLayout.convertToMinimalLayoutInformation(result, prefixExpr);
-			return result;
+			expression = result;
 		}
-		return null;
+		return expression;
 	}
 
 }

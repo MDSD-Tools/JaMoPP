@@ -20,7 +20,8 @@ public class ToEqualityExpressionConverter implements Converter<InfixExpression,
 	private final Converter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter;
 
 	@Inject
-	ToEqualityExpressionConverter(Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
+	public ToEqualityExpressionConverter(
+			Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
 			Converter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
