@@ -34,19 +34,22 @@ public class ClassResolver extends ResolverAbstract<Class, ITypeBinding> {
 
 	@Override
 	public Class getByName(String name) {
+		Class resultClass;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
-		}
-		Class result;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
-				.getConcreteClassifier(name);
-		if (potClass instanceof Class) {
-			result = (Class) potClass;
+			resultClass = getBindings().get(name);
 		} else {
-			result = classifiersFactory.createClass();
+			Class result;
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+					.getConcreteClassifier(name);
+			if (potClass instanceof Class) {
+				result = (Class) potClass;
+			} else {
+				result = classifiersFactory.createClass();
+			}
+			getBindings().put(name, result);
+			resultClass = result;
 		}
-		getBindings().put(name, result);
-		return result;
+		return resultClass;
 	}
 
 }

@@ -31,36 +31,42 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 	@Override
 	public EnumConstant getByBinding(IVariableBinding binding) {
 		String enumCN = toFieldNameConverter.convertToFieldName(binding);
+		EnumConstant enumConstant;
 		if (getBindings().containsKey(enumCN)) {
-			return getBindings().get(enumCN);
-		}
-		variableBindings.add(binding);
-		tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = enumerationResolver
-				.getByBinding(binding.getDeclaringClass());
-		EnumConstant result = null;
-		if (potPar != null) {
-			for (EnumConstant con : potPar.getConstants()) {
-				if (con.getName().equals(binding.getName())) {
-					result = con;
-					break;
+			enumConstant = getBindings().get(enumCN);
+		} else {
+			variableBindings.add(binding);
+			tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = enumerationResolver
+					.getByBinding(binding.getDeclaringClass());
+			EnumConstant result = null;
+			if (potPar != null) {
+				for (EnumConstant con : potPar.getConstants()) {
+					if (con.getName().equals(binding.getName())) {
+						result = con;
+						break;
+					}
 				}
 			}
+			if (result == null) {
+				result = membersFactory.createEnumConstant();
+			}
+			getBindings().put(enumCN, result);
+			enumConstant = result;
 		}
-		if (result == null) {
-			result = membersFactory.createEnumConstant();
-		}
-		getBindings().put(enumCN, result);
-		return result;
+		return enumConstant;
 	}
 
 	@Override
 	public EnumConstant getByName(String name) {
+		EnumConstant enumConstant;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			enumConstant = getBindings().get(name);
+		} else {
+			EnumConstant result = membersFactory.createEnumConstant();
+			getBindings().put(name, result);
+			enumConstant = result;
 		}
-		EnumConstant result = membersFactory.createEnumConstant();
-		getBindings().put(name, result);
-		return result;
+		return enumConstant;
 	}
 
 }

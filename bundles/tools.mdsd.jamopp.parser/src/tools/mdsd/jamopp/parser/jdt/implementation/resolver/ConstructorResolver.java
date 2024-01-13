@@ -71,27 +71,24 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		ConcreteClassifier potClass = (ConcreteClassifier) classifierResolver
 				.getClassifier(binding.getDeclaringClass());
 
-		if (potClass == null) {
-			return null;
-		}
-
-		for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-			if (mem instanceof Constructor con && mem.getName().equals(binding.getName())) {
-				int receiveOffset = 0;
-				if (binding.getDeclaredReceiverType() != null) {
-					receiveOffset = 1;
-				}
-				if (con.getParameters().size() == binding.getParameterTypes().length + receiveOffset) {
-					if (skip(binding, con, receiveOffset)) {
-						continue;
+		if (potClass != null) {
+			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+				if (mem instanceof Constructor con && mem.getName().equals(binding.getName())) {
+					int receiveOffset = 0;
+					if (binding.getDeclaredReceiverType() != null) {
+						receiveOffset = 1;
 					}
+					if (con.getParameters().size() == binding.getParameterTypes().length + receiveOffset) {
+						if (skip(binding, con, receiveOffset)) {
+							continue;
+						}
 
-					result = con;
-					break;
+						result = con;
+						break;
+					}
 				}
 			}
 		}
-
 		return result;
 	}
 

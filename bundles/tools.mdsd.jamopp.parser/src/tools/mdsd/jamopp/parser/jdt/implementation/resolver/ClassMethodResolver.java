@@ -43,20 +43,23 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 		IMethodBinding methodDeclaration = binding.getMethodDeclaration();
 		methodBindings.add(methodDeclaration);
 		String methName = toMethodNameConverter.convertToMethodName(methodDeclaration);
+		ClassMethod classMethod;
 		if (getBindings().containsKey(methName)) {
-			return getBindings().get(methName);
+			classMethod = getBindings().get(methName);
+		} else {
+			ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
+					.getClassifier(methodDeclaration.getDeclaringClass());
+			ClassMethod result = null;
+			if (classifier != null) {
+				result = handleClassifier(methodDeclaration, classifier, result);
+			}
+			if (result == null) {
+				result = createNewClassMethod();
+			}
+			getBindings().put(methName, result);
+			classMethod = result;
 		}
-		ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
-				.getClassifier(methodDeclaration.getDeclaringClass());
-		ClassMethod result = null;
-		if (classifier != null) {
-			result = handleClassifier(methodDeclaration, classifier, result);
-		}
-		if (result == null) {
-			result = createNewClassMethod();
-		}
-		getBindings().put(methName, result);
-		return result;
+		return classMethod;
 	}
 
 	private ClassMethod handleClassifier(IMethodBinding binding, ConcreteClassifier classifier, ClassMethod method) {
@@ -69,20 +72,28 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 				}
 			}
 		}
+
+		ClassMethod classMethod;
 		if (result != null) {
-			return result;
+			classMethod = result;
+		} else {
+			classMethod = method;
 		}
-		return method;
+		return classMethod;
 	}
 
 	@Override
 	public ClassMethod getByName(String name) {
+		ClassMethod classMethod;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			classMethod = getBindings().get(name);
+		} else {
+			ClassMethod result = createNewClassMethod();
+			getBindings().put(name, result);
+			classMethod = result;
 		}
-		ClassMethod result = createNewClassMethod();
-		getBindings().put(name, result);
-		return result;
+		return classMethod;
+
 	}
 
 	private ClassMethod createNewClassMethod() {

@@ -32,34 +32,27 @@ public class ClassifierResolver {
 
 	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(ITypeBinding binding) {
 		String typeName = toTypeNameConverter.convertToTypeName(binding);
+		tools.mdsd.jamopp.model.java.classifiers.Classifier classifier = null;
 		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
 		if (potClass != null) {
-			return potClass;
-		}
-		if (binding.isAnonymous() || binding.isLocal() && binding.getDeclaringMember() == null
+			classifier = potClass;
+		} else if (binding.isAnonymous() || binding.isLocal() && binding.getDeclaringMember() == null
 				|| anonymousClassResolver.getBindings().containsKey(toTypeNameConverter.convertToTypeName(binding))) {
-			return null;
+		} else if (binding.isAnnotation()) {
+			classifier = annotationResolver.getByBinding(binding);
+		} else if (binding.isInterface()) {
+			classifier = interfaceResolver.getByBinding(binding);
+		} else if (binding.isEnum()) {
+			classifier = enumerationResolver.getByBinding(binding);
+		} else if (binding.isClass()) {
+			classifier = classResolver.getByBinding(binding);
+		} else if (binding.isTypeVariable()) {
+			classifier = typeParameterResolver.getByBinding(binding);
+		} else if (binding.isArray()) {
+			classifier = getClassifier(binding.getElementType());
 		}
-		if (binding.isAnnotation()) {
-			return annotationResolver.getByBinding(binding);
-		}
-		if (binding.isInterface()) {
-			return interfaceResolver.getByBinding(binding);
-		}
-		if (binding.isEnum()) {
-			return enumerationResolver.getByBinding(binding);
-		}
-		if (binding.isClass()) {
-			return classResolver.getByBinding(binding);
-		}
-		if (binding.isTypeVariable()) {
-			return typeParameterResolver.getByBinding(binding);
-		}
-		if (binding.isArray()) {
-			return getClassifier(binding.getElementType());
-		}
-		return null;
+		return classifier;
 	}
 
 }
