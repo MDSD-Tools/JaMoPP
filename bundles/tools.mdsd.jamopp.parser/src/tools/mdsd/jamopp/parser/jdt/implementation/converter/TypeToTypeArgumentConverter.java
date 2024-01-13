@@ -40,30 +40,34 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public TypeArgument convert(Type t) {
-		if (!t.isWildcardType()) {
-			return handleIsNotWildcard(t);
+	public TypeArgument convert(Type type) {
+		TypeArgument result;
+		if (type.isWildcardType()) {
+			WildcardType wildType = (WildcardType) type;
+			if (wildType.getBound() == null) {
+				result = handleNoBound(wildType);
+			} else if (wildType.isUpperBound()) {
+				result = handleUpperBound(wildType);
+			} else {
+				SuperTypeArgument newResult = genericsFactory.createSuperTypeArgument();
+				wildType.annotations().forEach(
+						obj -> newResult.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
+				newResult.setSuperType(toTypeReferenceConverter.convert(wildType.getBound()));
+				utilToArrayDimensionsAndSetConverter.convert(wildType.getBound(), newResult);
+				layoutInformationConverter.convertToMinimalLayoutInformation(newResult, wildType);
+				result = newResult;
+			}
+		} else {
+			result = handleIsNotWildcard(type);
 		}
-		WildcardType wildType = (WildcardType) t;
-		if (wildType.getBound() == null) {
-			return handleNoBound(wildType);
-		} else if (wildType.isUpperBound()) {
-			return handleUpperBound(wildType);
-		}
-		SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
-		wildType.annotations()
-				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
-		result.setSuperType(toTypeReferenceConverter.convert(wildType.getBound()));
-		utilToArrayDimensionsAndSetConverter.convert(wildType.getBound(), result);
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
 		return result;
 	}
 
-	private TypeArgument handleIsNotWildcard(Type t) {
+	private TypeArgument handleIsNotWildcard(Type type) {
 		QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
-		result.setTypeReference(toTypeReferenceConverter.convert(t));
-		utilToArrayDimensionsAndSetConverter.convert(t, result);
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, t);
+		result.setTypeReference(toTypeReferenceConverter.convert(type));
+		utilToArrayDimensionsAndSetConverter.convert(type, result);
+		layoutInformationConverter.convertToMinimalLayoutInformation(result, type);
 		return result;
 	}
 

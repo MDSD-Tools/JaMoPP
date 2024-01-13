@@ -24,7 +24,7 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	private Converter<ITypeBinding, TypeArgument> toTypeArgumentConverter;
 
 	@Inject
-	ToTypeReferencesConverter(TypesFactory typesFactory, UtilNamedElement utilNamedElement,
+	public ToTypeReferencesConverter(TypesFactory typesFactory, UtilNamedElement utilNamedElement,
 			JdtResolver iUtilJdtResolver) {
 		this.typesFactory = typesFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;

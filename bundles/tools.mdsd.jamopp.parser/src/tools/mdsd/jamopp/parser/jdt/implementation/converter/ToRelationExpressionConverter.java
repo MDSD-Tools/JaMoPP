@@ -19,7 +19,8 @@ public class ToRelationExpressionConverter implements Converter<InfixExpression,
 	private final Converter<InfixExpression.Operator, RelationOperator> toRelationOperatorConverter;
 
 	@Inject
-	ToRelationExpressionConverter(Converter<InfixExpression.Operator, RelationOperator> toRelationOperatorConverter,
+	public ToRelationExpressionConverter(
+			Converter<InfixExpression.Operator, RelationOperator> toRelationOperatorConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;

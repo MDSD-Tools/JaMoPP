@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.InfixExpression;
-import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
-import tools.mdsd.jamopp.model.java.operators.ShiftOperator;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.InfixExpression;
+
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
+import tools.mdsd.jamopp.model.java.operators.ShiftOperator;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToShiftOperatorConverter implements Converter<InfixExpression.Operator, ShiftOperator> {
@@ -13,22 +13,21 @@ public class ToShiftOperatorConverter implements Converter<InfixExpression.Opera
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public ShiftOperator convert(InfixExpression.Operator op) {
-		if (op == InfixExpression.Operator.LEFT_SHIFT) {
-			return operatorsFactory.createLeftShift();
+	public ShiftOperator convert(InfixExpression.Operator operator) {
+		ShiftOperator result = null;
+		if (operator.equals(InfixExpression.Operator.LEFT_SHIFT)) {
+			result = operatorsFactory.createLeftShift();
+		} else if (operator.equals(InfixExpression.Operator.RIGHT_SHIFT_SIGNED)) {
+			result = operatorsFactory.createRightShift();
+		} else if (operator.equals(InfixExpression.Operator.RIGHT_SHIFT_UNSIGNED)) {
+			result = operatorsFactory.createUnsignedRightShift();
 		}
-		if (op == InfixExpression.Operator.RIGHT_SHIFT_SIGNED) {
-			return operatorsFactory.createRightShift();
-		}
-		if (op == InfixExpression.Operator.RIGHT_SHIFT_UNSIGNED) {
-			return operatorsFactory.createUnsignedRightShift();
-		}
-		return null;
+		return result;
 	}
 
 }

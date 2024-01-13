@@ -2,6 +2,8 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -13,6 +15,7 @@ import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
@@ -20,9 +23,6 @@ import tools.mdsd.jamopp.model.java.types.InferableType;
 import tools.mdsd.jamopp.model.java.types.NamespaceClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilArrays;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
@@ -39,7 +39,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	private Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToTypeReferenceConverter(Converter<Name, TypeReference> utilBaseConverter, TypesFactory typesFactory,
+	public ToTypeReferenceConverter(Converter<Name, TypeReference> utilBaseConverter, TypesFactory typesFactory,
 			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
@@ -54,45 +54,45 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@Override
-	public TypeReference convert(Type t) {
-		if (t.isPrimitiveType()) {
-			return handlePrimitiveType(t);
-		} else if (t.isVar()) {
-			return handleVar(t);
-		} else if (t.isArrayType()) {
-			return handleArrayType(t);
-		} else if (t.isSimpleType()) {
-			return handleSimpleType(t);
-		} else if (t.isQualifiedType()) {
-			return handleQualifiedType(t);
-		} else if (t.isNameQualifiedType()) {
-			return handleNameQualifiedType(t);
-		} else if (t.isParameterizedType()) {
-			return handleParameterizedType(t);
-		} else {
-			return null;
+	public TypeReference convert(Type type) {
+		TypeReference result = null;
+		if (type.isPrimitiveType()) {
+			result = handlePrimitiveType(type);
+		} else if (type.isVar()) {
+			result = handleVar(type);
+		} else if (type.isArrayType()) {
+			result = handleArrayType(type);
+		} else if (type.isSimpleType()) {
+			result = handleSimpleType(type);
+		} else if (type.isQualifiedType()) {
+			result = handleQualifiedType(type);
+		} else if (type.isNameQualifiedType()) {
+			result = handleNameQualifiedType(type);
+		} else if (type.isParameterizedType()) {
+			result = handleParameterizedType(type);
 		}
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
-	private TypeReference handlePrimitiveType(Type t) {
-		PrimitiveType primType = (PrimitiveType) t;
+	private TypeReference handlePrimitiveType(Type type) {
+		PrimitiveType primType = (PrimitiveType) type;
 		tools.mdsd.jamopp.model.java.types.PrimitiveType convertedType;
-		if (primType.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
+		if (primType.getPrimitiveTypeCode().equals(PrimitiveType.BOOLEAN)) {
 			convertedType = typesFactory.createBoolean();
-		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.BYTE) {
+		} else if (primType.getPrimitiveTypeCode().equals(PrimitiveType.BYTE)) {
 			convertedType = typesFactory.createByte();
-		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.CHAR) {
+		} else if (primType.getPrimitiveTypeCode().equals(PrimitiveType.CHAR)) {
 			convertedType = typesFactory.createChar();
-		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.DOUBLE) {
+		} else if (primType.getPrimitiveTypeCode().equals(PrimitiveType.DOUBLE)) {
 			convertedType = typesFactory.createDouble();
-		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.FLOAT) {
+		} else if (primType.getPrimitiveTypeCode().equals(PrimitiveType.FLOAT)) {
 			convertedType = typesFactory.createFloat();
-		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.INT) {
+		} else if (primType.getPrimitiveTypeCode().equals(PrimitiveType.INT)) {
 			convertedType = typesFactory.createInt();
-		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.LONG) {
+		} else if (primType.getPrimitiveTypeCode().equals(PrimitiveType.LONG)) {
 			convertedType = typesFactory.createLong();
-		} else if (primType.getPrimitiveTypeCode() == PrimitiveType.SHORT) {
+		} else if (primType.getPrimitiveTypeCode().equals(PrimitiveType.SHORT)) {
 			convertedType = typesFactory.createShort();
 		} else { // primType.getPrimitiveTypeCode() == PrimitiveType.VOID
 			convertedType = typesFactory.createVoid();
@@ -104,8 +104,8 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	private TypeReference handleParameterizedType(Type t) {
-		ParameterizedType paramT = (ParameterizedType) t;
+	private TypeReference handleParameterizedType(Type type) {
+		ParameterizedType paramT = (ParameterizedType) type;
 		TypeReference ref = convert(paramT.getType());
 		ClassifierReference container;
 		if (ref instanceof ClassifierReference) {
@@ -121,8 +121,8 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@SuppressWarnings("unchecked")
-	private TypeReference handleNameQualifiedType(Type t) {
-		NameQualifiedType nqT = (NameQualifiedType) t;
+	private TypeReference handleNameQualifiedType(Type type) {
+		NameQualifiedType nqT = (NameQualifiedType) type;
 		NamespaceClassifierReference result;
 		TypeReference parentRef = utilBaseConverter.convert(nqT.getQualifier());
 		if (parentRef instanceof ClassifierReference) {
@@ -140,8 +140,8 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@SuppressWarnings("unchecked")
-	private TypeReference handleQualifiedType(Type t) {
-		QualifiedType qualType = (QualifiedType) t;
+	private TypeReference handleQualifiedType(Type type) {
+		QualifiedType qualType = (QualifiedType) type;
 		NamespaceClassifierReference result;
 		TypeReference parentRef = convert(qualType.getQualifier());
 		if (parentRef instanceof ClassifierReference) {
@@ -160,29 +160,29 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	private TypeReference handleSimpleType(Type t) {
-		SimpleType simT = (SimpleType) t;
+	private TypeReference handleSimpleType(Type type) {
+		SimpleType simT = (SimpleType) type;
 		TypeReference ref;
-		if (!simT.annotations().isEmpty()) {
+		if (simT.annotations().isEmpty()) {
+			ref = utilBaseConverter.convert(simT.getName());
+		} else {
 			ClassifierReference tempRef = toClassifierReferenceConverter.convert((SimpleName) simT.getName());
 			simT.annotations().forEach(
 					obj -> tempRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			ref = tempRef;
-		} else {
-			ref = utilBaseConverter.convert(simT.getName());
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(ref, simT);
 		return ref;
 	}
 
-	private TypeReference handleArrayType(Type t) {
-		ArrayType arrT = (ArrayType) t;
+	private TypeReference handleArrayType(Type type) {
+		ArrayType arrT = (ArrayType) type;
 		return convert(arrT.getElementType());
 	}
 
-	private TypeReference handleVar(Type t) {
+	private TypeReference handleVar(Type type) {
 		InferableType ref = typesFactory.createInferableType();
-		ITypeBinding binding = t.resolveBinding();
+		ITypeBinding binding = type.resolveBinding();
 		if (binding != null) {
 			ref.getActualTargets().addAll(toTypeReferencesConverter.convert(binding));
 			if (binding.isArray()) {
@@ -191,7 +191,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 				jdtBindingConverterUtility.convertToArrayDimensionsAndSet(binding.getTypeBounds()[0], ref);
 			}
 		}
-		layoutInformationConverter.convertToMinimalLayoutInformation(ref, t);
+		layoutInformationConverter.convertToMinimalLayoutInformation(ref, type);
 		return ref;
 	}
 

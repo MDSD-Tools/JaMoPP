@@ -20,7 +20,7 @@ public class ToShiftExpressionConverter implements Converter<InfixExpression, Sh
 	private final Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter;
 
 	@Inject
-	ToShiftExpressionConverter(Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter,
+	public ToShiftExpressionConverter(Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;

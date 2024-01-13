@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.PrefixExpression;
-import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
-import tools.mdsd.jamopp.model.java.operators.UnaryOperator;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.PrefixExpression;
+
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
+import tools.mdsd.jamopp.model.java.operators.UnaryOperator;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToUnaryOperatorConverter implements Converter<PrefixExpression.Operator, UnaryOperator> {
@@ -13,26 +13,24 @@ public class ToUnaryOperatorConverter implements Converter<PrefixExpression.Oper
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	ToUnaryOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToUnaryOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 
 	}
 
 	@Override
-	public UnaryOperator convert(PrefixExpression.Operator op) {
-		if (op == PrefixExpression.Operator.COMPLEMENT) {
-			return operatorsFactory.createComplement();
+	public UnaryOperator convert(PrefixExpression.Operator operator) {
+		UnaryOperator result = null;
+		if (operator.equals(PrefixExpression.Operator.COMPLEMENT)) {
+			result = operatorsFactory.createComplement();
+		} else if (operator.equals(PrefixExpression.Operator.NOT)) {
+			result = operatorsFactory.createNegate();
+		} else if (operator.equals(PrefixExpression.Operator.PLUS)) {
+			result = operatorsFactory.createAddition();
+		} else if (operator.equals(PrefixExpression.Operator.MINUS)) {
+			result = operatorsFactory.createSubtraction();
 		}
-		if (op == PrefixExpression.Operator.NOT) {
-			return operatorsFactory.createNegate();
-		}
-		if (op == PrefixExpression.Operator.PLUS) {
-			return operatorsFactory.createAddition();
-		}
-		if (op == PrefixExpression.Operator.MINUS) {
-			return operatorsFactory.createSubtraction();
-		}
-		return null;
+		return result;
 	}
 
 }

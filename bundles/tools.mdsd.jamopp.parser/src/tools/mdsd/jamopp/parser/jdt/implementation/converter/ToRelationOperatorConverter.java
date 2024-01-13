@@ -13,25 +13,23 @@ public class ToRelationOperatorConverter implements Converter<InfixExpression.Op
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	ToRelationOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToRelationOperatorConverter(OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public RelationOperator convert(InfixExpression.Operator op) {
-		if (op == InfixExpression.Operator.GREATER) {
-			return operatorsFactory.createGreaterThan();
+	public RelationOperator convert(InfixExpression.Operator operator) {
+		RelationOperator result = null;
+		if (operator.equals(InfixExpression.Operator.GREATER)) {
+			result = operatorsFactory.createGreaterThan();
+		} else if (operator.equals(InfixExpression.Operator.GREATER_EQUALS)) {
+			result = operatorsFactory.createGreaterThanOrEqual();
+		} else if (operator.equals(InfixExpression.Operator.LESS)) {
+			result = operatorsFactory.createLessThan();
+		} else if (operator.equals(InfixExpression.Operator.LESS_EQUALS)) {
+			result = operatorsFactory.createLessThanOrEqual();
 		}
-		if (op == InfixExpression.Operator.GREATER_EQUALS) {
-			return operatorsFactory.createGreaterThanOrEqual();
-		}
-		if (op == InfixExpression.Operator.LESS) {
-			return operatorsFactory.createLessThan();
-		}
-		if (op == InfixExpression.Operator.LESS_EQUALS) {
-			return operatorsFactory.createLessThanOrEqual();
-		}
-		return null;
+		return result;
 	}
 
 }

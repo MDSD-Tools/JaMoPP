@@ -26,7 +26,7 @@ public class ToReferenceConverterFromStatement
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToReferenceConverterFromStatement(LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
+	public ToReferenceConverterFromStatement(LiteralsFactory literalsFactory, UtilLayout layoutInformationConverter,
 			InstantiationsFactory instantiationsFactory,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
 			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
@@ -41,9 +41,10 @@ public class ToReferenceConverterFromStatement
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public tools.mdsd.jamopp.model.java.references.Reference convert(Statement st) {
-		if (st.getNodeType() == ASTNode.CONSTRUCTOR_INVOCATION) {
-			ConstructorInvocation invoc = (ConstructorInvocation) st;
+	public tools.mdsd.jamopp.model.java.references.Reference convert(Statement statement) {
+		tools.mdsd.jamopp.model.java.references.Reference reference = null;
+		if (statement.getNodeType() == ASTNode.CONSTRUCTOR_INVOCATION) {
+			ConstructorInvocation invoc = (ConstructorInvocation) statement;
 			tools.mdsd.jamopp.model.java.instantiations.ExplicitConstructorCall result = instantiationsFactory
 					.createExplicitConstructorCall();
 			invoc.typeArguments()
@@ -52,10 +53,9 @@ public class ToReferenceConverterFromStatement
 			invoc.arguments()
 					.forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, invoc);
-			return result;
-		}
-		if (st.getNodeType() == ASTNode.SUPER_CONSTRUCTOR_INVOCATION) {
-			SuperConstructorInvocation invoc = (SuperConstructorInvocation) st;
+			reference = result;
+		} else if (statement.getNodeType() == ASTNode.SUPER_CONSTRUCTOR_INVOCATION) {
+			SuperConstructorInvocation invoc = (SuperConstructorInvocation) statement;
 			tools.mdsd.jamopp.model.java.instantiations.ExplicitConstructorCall result = instantiationsFactory
 					.createExplicitConstructorCall();
 			invoc.typeArguments()
@@ -69,9 +69,9 @@ public class ToReferenceConverterFromStatement
 						.convert(invoc.getExpression());
 				parent.setNext(result);
 			}
-			return result;
+			reference = result;
 		}
-		return null;
+		return reference;
 	}
 
 }

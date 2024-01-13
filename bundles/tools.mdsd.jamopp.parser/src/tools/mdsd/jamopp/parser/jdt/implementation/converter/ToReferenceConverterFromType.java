@@ -32,7 +32,7 @@ public class ToReferenceConverterFromType
 	private final Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
 
 	@Inject
-	ToReferenceConverterFromType(Converter<Type, TypeReference> toTypeReferenceConverter,
+	public ToReferenceConverterFromType(Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<Name, IdentifierReference> toReferenceConverterFromName,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
 			ReferencesFactory referencesFactory, UtilLayout layoutInformationConverter,
@@ -48,23 +48,24 @@ public class ToReferenceConverterFromType
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.references.Reference convert(Type t) {
-		if (t.isNameQualifiedType()) {
-			return handleNameQualifiedType(t);
-		} else if (t.isQualifiedType()) {
-			return handleQualifiedType(t);
-		} else if (t.isSimpleType()) {
-			return handleSimpleType(t);
-		} else if (t.isPrimitiveType()) {
-			return handlePrimitiveType(t);
-		} else if (t.isArrayType()) {
-			return handleArrayType(t);
+	public tools.mdsd.jamopp.model.java.references.Reference convert(Type type) {
+		tools.mdsd.jamopp.model.java.references.Reference result = null;
+		if (type.isNameQualifiedType()) {
+			result = handleNameQualifiedType(type);
+		} else if (type.isQualifiedType()) {
+			result = handleQualifiedType(type);
+		} else if (type.isSimpleType()) {
+			result = handleSimpleType(type);
+		} else if (type.isPrimitiveType()) {
+			result = handlePrimitiveType(type);
+		} else if (type.isArrayType()) {
+			result = handleArrayType(type);
 		}
-		return null;
+		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.references.Reference handleArrayType(Type t) {
-		ArrayType arr = (ArrayType) t;
+	private tools.mdsd.jamopp.model.java.references.Reference handleArrayType(Type type) {
+		ArrayType arr = (ArrayType) type;
 		tools.mdsd.jamopp.model.java.references.Reference result = convert(arr.getElementType());
 		if (arr.getElementType().isPrimitiveType()) {
 			tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference primRef = (tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference) result;
@@ -77,8 +78,8 @@ public class ToReferenceConverterFromType
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.references.Reference handlePrimitiveType(Type t) {
-		TypeReference typeRef = toTypeReferenceConverter.convert(t);
+	private tools.mdsd.jamopp.model.java.references.Reference handlePrimitiveType(Type type) {
+		TypeReference typeRef = toTypeReferenceConverter.convert(type);
 		tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference temp = referencesFactory
 				.createPrimitiveTypeReference();
 		temp.setPrimitiveType((tools.mdsd.jamopp.model.java.types.PrimitiveType) typeRef);
@@ -87,8 +88,8 @@ public class ToReferenceConverterFromType
 	}
 
 	@SuppressWarnings("unchecked")
-	private tools.mdsd.jamopp.model.java.references.Reference handleSimpleType(Type t) {
-		SimpleType sType = (SimpleType) t;
+	private tools.mdsd.jamopp.model.java.references.Reference handleSimpleType(Type type) {
+		SimpleType sType = (SimpleType) type;
 		IdentifierReference result = toReferenceConverterFromName.convert(sType.getName());
 		sType.annotations()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
@@ -97,8 +98,8 @@ public class ToReferenceConverterFromType
 	}
 
 	@SuppressWarnings("unchecked")
-	private tools.mdsd.jamopp.model.java.references.Reference handleQualifiedType(Type t) {
-		QualifiedType qType = (QualifiedType) t;
+	private tools.mdsd.jamopp.model.java.references.Reference handleQualifiedType(Type type) {
+		QualifiedType qType = (QualifiedType) type;
 		tools.mdsd.jamopp.model.java.references.Reference parent = convert(qType.getQualifier());
 		IdentifierReference child = toReferenceConverterFromSimpleName.convert(qType.getName());
 		qType.annotations()
@@ -109,8 +110,8 @@ public class ToReferenceConverterFromType
 	}
 
 	@SuppressWarnings("unchecked")
-	private tools.mdsd.jamopp.model.java.references.Reference handleNameQualifiedType(Type t) {
-		NameQualifiedType nqType = (NameQualifiedType) t;
+	private tools.mdsd.jamopp.model.java.references.Reference handleNameQualifiedType(Type type) {
+		NameQualifiedType nqType = (NameQualifiedType) type;
 		IdentifierReference parent = toReferenceConverterFromName.convert(nqType.getQualifier());
 		IdentifierReference child = toReferenceConverterFromSimpleName.convert(nqType.getName());
 		parent.setNext(child);

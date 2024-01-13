@@ -23,8 +23,8 @@ public class ToTypeParameterConverter
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver utilJDTResolver,
-			ToTypeReferenceConverter toTypeReferenceConverter,
+	public ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
+			JdtResolver utilJDTResolver, ToTypeReferenceConverter toTypeReferenceConverter,
 			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;
