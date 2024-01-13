@@ -32,15 +32,18 @@ public class ModuleResolver extends ResolverAbstract<Module, IModuleBinding> {
 
 	@Override
 	public Module getByName(String name) {
+		Module module;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			module = getBindings().get(name);
+		} else {
+			Module result = JavaClasspath.get().getModule(name);
+			if (result == null) {
+				result = containersFactory.createModule();
+			}
+			getBindings().put(name, result);
+			module = result;
 		}
-		Module result = JavaClasspath.get().getModule(name);
-		if (result == null) {
-			result = containersFactory.createModule();
-		}
-		getBindings().put(name, result);
-		return result;
+		return module;
 	}
 
 }

@@ -52,9 +52,9 @@ public class MethodCompleter {
 						classResolverSynthetic.addToSyntheticClass(method);
 					}
 				} else if (!extractAdditionalInfosFromTypeBindings
-						&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i
-						&& !i.getMembers().contains(method)) {
-					i.getMembers().add(method);
+						&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
+						&& !classifier.getMembers().contains(method)) {
+					classifier.getMembers().add(method);
 				}
 			} else {
 				classResolverSynthetic.addToSyntheticClass(method);

@@ -1,8 +1,8 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import org.eclipse.jdt.core.dom.IMethodBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.IMethodBinding;
 
 public class MethodResolver {
 
@@ -16,10 +16,13 @@ public class MethodResolver {
 	}
 
 	public tools.mdsd.jamopp.model.java.members.Method getMethod(IMethodBinding binding) {
+		tools.mdsd.jamopp.model.java.members.Method method;
 		if (binding.getDeclaringClass().isInterface()) {
-			return interfaceMethodResolver.getByBinding(binding);
+			method = interfaceMethodResolver.getByBinding(binding);
+		} else {
+			method = classMethodResolver.getByBinding(binding);
 		}
-		return classMethodResolver.getByBinding(binding);
+		return method;
 	}
 
 }
