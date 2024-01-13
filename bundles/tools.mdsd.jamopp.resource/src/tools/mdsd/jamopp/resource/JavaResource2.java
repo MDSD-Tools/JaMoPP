@@ -22,9 +22,9 @@ public class JavaResource2 extends ResourceImpl {
 
 	@Override
 	protected void doLoad(InputStream input, Map<?, ?> options) {
-		Resource r = JavaClasspath.get().getResource(getURI());
-		if (r != null) {
-			this.getContents().addAll(r.getContents());
+		Resource resource = JavaClasspath.get().getResource(getURI());
+		if (resource != null) {
+			this.getContents().addAll(resource.getContents());
 			return;
 		}
 		JaMoPPParserAPI api = new JaMoPPJDTParser();

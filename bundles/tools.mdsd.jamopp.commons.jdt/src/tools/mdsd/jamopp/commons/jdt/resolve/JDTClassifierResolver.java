@@ -49,24 +49,23 @@ public class JDTClassifierResolver {
 	 */
 	public IJavaProject getJavaProject(URI uri) {
 		IProject project = getProject(uri);
-		if (project == null) {
-			return null;
+		IJavaProject javaProject = null;
+		if (project != null) {
+			javaProject = getJavaProject(project);
 		}
-
-		return getJavaProject(project);
+		return javaProject;
 	}
 
 	private static boolean isJavaProject(IProject project) {
-		if (project == null) {
-			return false;
+		boolean result = false;
+		if (project != null) {
+			try {
+				result = project.isNatureEnabled("org.eclipse.jdt.core.javanature");
+			} catch (CoreException e) {
+				// Ignore
+			}
 		}
-
-		try {
-			return project.isNatureEnabled("org.eclipse.jdt.core.javanature");
-		} catch (CoreException e) {
-			// Ignore
-		}
-		return false;
+		return result;
 	}
 
 	private static IProject getProject(URI uri) {
@@ -83,10 +82,11 @@ public class JDTClassifierResolver {
 	}
 
 	private static IJavaProject getJavaProject(IProject project) {
+		IJavaProject javaProject = null;
 		if (isJavaProject(project)) {
-			return JavaCore.create(project);
+			javaProject = JavaCore.create(project);
 		}
-		return null;
+		return javaProject;
 	}
 
 	/**
@@ -133,9 +133,9 @@ public class JDTClassifierResolver {
 	/**
 	 * Logs the given exception.
 	 */
-	private static void logWarning(String message, JavaModelException e) {
+	private static void logWarning(String message, JavaModelException exception) {
 		String pluginName = JdtPackage.class.getPackage().getName();
-		Status status = new Status(IStatus.WARNING, pluginName, message, e);
+		Status status = new Status(IStatus.WARNING, pluginName, message, exception);
 		ResourcesPlugin.getPlugin().getLog().log(status);
 	}
 }
