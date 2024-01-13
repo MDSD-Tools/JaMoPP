@@ -20,21 +20,24 @@ public class MethodChecker {
 
 	@SuppressWarnings("unchecked")
 	protected <T extends Method> T checkMethod(Method mem, IMethodBinding binding) {
+		T result = null;
 		if (mem.getName().equals(binding.getName())) {
 			T meth = (T) mem;
 			if ("clone".equals(meth.getName())) {
-				return meth;
-			}
-			int receiveOffset = 0;
-			if (binding.getDeclaredReceiverType() != null) {
-				receiveOffset = 1;
-			}
-			if (binding.getParameterTypes().length + receiveOffset == meth.getParameters().size()
-					&& !predicateOne(binding, meth, receiveOffset) && !predicateThree(binding, mem, receiveOffset)) {
-				return meth;
+				result = meth;
+			} else {
+				int receiveOffset = 0;
+				if (binding.getDeclaredReceiverType() != null) {
+					receiveOffset = 1;
+				}
+				if (binding.getParameterTypes().length + receiveOffset == meth.getParameters().size()
+						&& !predicateOne(binding, meth, receiveOffset)
+						&& !predicateThree(binding, mem, receiveOffset)) {
+					result = meth;
+				}
 			}
 		}
-		return null;
+		return result;
 	}
 
 	private boolean predicateThree(IMethodBinding binding, Parametrizable meth, int receiveOffset) {

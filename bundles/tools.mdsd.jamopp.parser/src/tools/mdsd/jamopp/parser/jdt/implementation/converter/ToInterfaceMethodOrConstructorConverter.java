@@ -45,7 +45,7 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 	private final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
-	ToInterfaceMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	public ToInterfaceMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,

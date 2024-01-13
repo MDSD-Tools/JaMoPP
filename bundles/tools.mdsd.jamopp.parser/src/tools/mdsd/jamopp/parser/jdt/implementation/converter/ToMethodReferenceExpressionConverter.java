@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -81,7 +83,6 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 		return expression;
 	}
 
-	@SuppressWarnings("unchecked")
 	private MethodReferenceExpression handleCreationReference(MethodReference ref) {
 		MethodReferenceExpression expression;
 		CreationReference crRef = (CreationReference) ref;
@@ -96,7 +97,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 			tools.mdsd.jamopp.model.java.expressions.ClassTypeConstructorReferenceExpression result = expressionsFactory
 					.createClassTypeConstructorReferenceExpression();
 			result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
-			crRef.typeArguments()
+			((List<?>) crRef.typeArguments())
 					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
 			expression = result;
@@ -104,28 +105,25 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 		return expression;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void handleTypeMethodReference(MethodReference ref, PrimaryExpressionReferenceExpression result) {
 		TypeMethodReference typeRef = (TypeMethodReference) ref;
 		result.setChild(utilReferenceWalker.walkUp(toReferenceConverterFromType.convert(typeRef.getType())));
-		typeRef.typeArguments()
+		((List<?>) typeRef.typeArguments())
 				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		result.setMethodReference(
 				utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(typeRef.getName())));
 	}
 
-	@SuppressWarnings("unchecked")
 	private void handleExpressionMethodReference(MethodReference ref, PrimaryExpressionReferenceExpression result) {
 		ExpressionMethodReference exprRef = (ExpressionMethodReference) ref;
 		result.setChild((tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild) toExpressionConverter
 				.convert(exprRef.getExpression()));
-		exprRef.typeArguments()
+		((List<?>) exprRef.typeArguments())
 				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		result.setMethodReference(
 				utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(exprRef.getName())));
 	}
 
-	@SuppressWarnings("unchecked")
 	private void handleSuperMethodReference(MethodReference ref, PrimaryExpressionReferenceExpression result) {
 		SuperMethodReference superRef = (SuperMethodReference) ref;
 		if (superRef.getQualifier() != null) {
@@ -146,7 +144,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 			child.setSelf(literalsFactory.createSuper());
 			result.setChild(child);
 		}
-		superRef.typeArguments()
+		((List<?>) superRef.typeArguments())
 				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		result.setMethodReference(
 				utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(superRef.getName())));

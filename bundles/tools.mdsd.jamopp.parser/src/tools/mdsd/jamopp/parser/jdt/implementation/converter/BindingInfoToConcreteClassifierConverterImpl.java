@@ -98,37 +98,50 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 
 	private void extractAdditionalInformation(ITypeBinding binding, ConcreteClassifier result) {
 		try {
-			Member member;
-			for (IVariableBinding varBind : binding.getDeclaredFields()) {
-				if (varBind.isEnumConstant()) {
-					continue;
-				}
-				member = bindingToFieldConverter.convert(varBind);
-				if (!result.getMembers().contains(member)) {
-					result.getMembers().add(member);
-				}
-			}
-			for (IMethodBinding methBind : binding.getDeclaredMethods()) {
-				if (methBind.isDefaultConstructor()) {
-					continue;
-				}
-				if (methBind.isConstructor()) {
-					member = bindingToConstructorConverter.convert(methBind);
-				} else {
-					member = bindingToMethodConverter.convert(methBind);
-				}
-				if (!result.getMembers().contains(member)) {
-					result.getMembers().add(member);
-				}
-			}
-			for (ITypeBinding typeBind : binding.getDeclaredTypes()) {
-				member = convert(typeBind, true);
-				if (!result.getMembers().contains(member)) {
-					result.getMembers().add(member);
-				}
-			}
+			addFields(binding, result);
+			addMethods(binding, result);
+			addTypes(binding, result);
 		} catch (AbortCompilation ignore) {
 			// Ignore
+		}
+	}
+
+	private void addTypes(ITypeBinding binding, ConcreteClassifier result) {
+		Member member;
+		for (ITypeBinding typeBind : binding.getDeclaredTypes()) {
+			member = convert(typeBind, true);
+			if (!result.getMembers().contains(member)) {
+				result.getMembers().add(member);
+			}
+		}
+	}
+
+	private void addFields(ITypeBinding binding, ConcreteClassifier result) {
+		for (IVariableBinding varBind : binding.getDeclaredFields()) {
+			if (varBind.isEnumConstant()) {
+				continue;
+			}
+			Member member = bindingToFieldConverter.convert(varBind);
+			if (!result.getMembers().contains(member)) {
+				result.getMembers().add(member);
+			}
+		}
+	}
+
+	private void addMethods(ITypeBinding binding, ConcreteClassifier result) {
+		for (IMethodBinding methBind : binding.getDeclaredMethods()) {
+			if (methBind.isDefaultConstructor()) {
+				continue;
+			}
+			Member member;
+			if (methBind.isConstructor()) {
+				member = bindingToConstructorConverter.convert(methBind);
+			} else {
+				member = bindingToMethodConverter.convert(methBind);
+			}
+			if (!result.getMembers().contains(member)) {
+				result.getMembers().add(member);
+			}
 		}
 	}
 
