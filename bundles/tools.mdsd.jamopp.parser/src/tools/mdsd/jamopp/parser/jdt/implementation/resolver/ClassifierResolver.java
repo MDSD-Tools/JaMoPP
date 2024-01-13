@@ -1,8 +1,8 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 

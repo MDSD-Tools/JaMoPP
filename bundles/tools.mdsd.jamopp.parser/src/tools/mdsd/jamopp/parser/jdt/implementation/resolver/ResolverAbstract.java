@@ -8,24 +8,28 @@ import org.eclipse.jdt.core.dom.IBinding;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.Resolver;
 
-public abstract class ResolverAbstract<Clazz, BindingType extends IBinding> implements Resolver<Clazz, BindingType> {
+/**
+ * @param <C> Class
+ * @param <B> BindingType
+ */
+public abstract class ResolverAbstract<C, B extends IBinding> implements Resolver<C, B> {
 
-	private final Map<String, Clazz> bindings;
+	private final Map<String, C> bindings;
 
 	@Inject
-	public ResolverAbstract(Map<String, Clazz> bindings) {
+	public ResolverAbstract(Map<String, C> bindings) {
 		this.bindings = bindings;
 	}
 
 	@Override
-	public final Map<String, Clazz> getBindings() {
+	public final Map<String, C> getBindings() {
 		return bindings;
 	}
 
 	@Override
-	public abstract Clazz getByBinding(BindingType binding);
+	public abstract C getByBinding(B binding);
 
 	@Override
-	public abstract Clazz getByName(String name);
+	public abstract C getByName(String name);
 
 }

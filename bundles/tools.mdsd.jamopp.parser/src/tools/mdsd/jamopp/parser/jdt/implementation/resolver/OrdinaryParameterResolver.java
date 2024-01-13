@@ -33,12 +33,15 @@ public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParamete
 
 	@Override
 	public OrdinaryParameter getByName(String name) {
+		OrdinaryParameter ordinaryParameter;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			ordinaryParameter = getBindings().get(name);
+		} else {
+			OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
+			getBindings().put(name, result);
+			ordinaryParameter = result;
 		}
-		OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
-		getBindings().put(name, result);
-		return result;
+		return ordinaryParameter;
 	}
 
 }

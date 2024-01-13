@@ -22,21 +22,23 @@ public class ToTypeParameterNameConverter {
 	}
 
 	protected String convertToTypeParameterName(ITypeBinding binding) {
+		String result;
 		if (binding == null) {
-			return "";
+			result = "";
+		} else if (nameCache.containsKey(binding)) {
+			result = nameCache.get(binding);
+		} else {
+			StringBuilder name = new StringBuilder();
+			if (binding.getDeclaringClass() != null) {
+				name.append(toTypeNameConverter.convertToTypeName(binding.getDeclaringClass()));
+			} else if (binding.getDeclaringMethod() != null) {
+				name.append(toMethodNameConverter.convertToMethodName(binding.getDeclaringMethod()));
+			}
+			name.append('.').append(binding.getName());
+			nameCache.put(binding, name.toString());
+			result = name.toString();
 		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
-		}
-		String name = "";
-		if (binding.getDeclaringClass() != null) {
-			name += toTypeNameConverter.convertToTypeName(binding.getDeclaringClass());
-		} else if (binding.getDeclaringMethod() != null) {
-			name += toMethodNameConverter.convertToMethodName(binding.getDeclaringMethod());
-		}
-		name += "." + binding.getName();
-		nameCache.put(binding, name);
-		return name;
+		return result;
 	}
 
 }

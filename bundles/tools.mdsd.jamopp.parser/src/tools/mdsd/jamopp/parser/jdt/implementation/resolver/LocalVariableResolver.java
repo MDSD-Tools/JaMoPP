@@ -33,12 +33,15 @@ public class LocalVariableResolver extends ResolverAbstract<LocalVariable, IVari
 
 	@Override
 	public LocalVariable getByName(String name) {
+		LocalVariable localVariable;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			localVariable = getBindings().get(name);
+		} else {
+			LocalVariable result = variablesFactory.createLocalVariable();
+			getBindings().put(name, result);
+			localVariable = result;
 		}
-		LocalVariable result = variablesFactory.createLocalVariable();
-		getBindings().put(name, result);
-		return result;
+		return localVariable;
 	}
 
 }

@@ -28,13 +28,16 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 	@Override
 	public TypeParameter getByBinding(ITypeBinding binding) {
 		String paramName = toTypeParameterNameConverter.convertToTypeParameterName(binding);
+		TypeParameter typeParameter;
 		if (getBindings().containsKey(paramName)) {
-			return getBindings().get(paramName);
+			typeParameter = getBindings().get(paramName);
+		} else {
+			typeBindings.add(binding);
+			TypeParameter result = genericsFactory.createTypeParameter();
+			getBindings().put(paramName, result);
+			typeParameter = result;
 		}
-		typeBindings.add(binding);
-		TypeParameter result = genericsFactory.createTypeParameter();
-		getBindings().put(paramName, result);
-		return result;
+		return typeParameter;
 	}
 
 	@Override

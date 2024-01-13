@@ -34,12 +34,15 @@ public class AdditionalLocalVariableResolver extends ResolverAbstract<Additional
 
 	@Override
 	public AdditionalLocalVariable getByName(String name) {
+		AdditionalLocalVariable additionalLocalVariable;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			additionalLocalVariable = getBindings().get(name);
+		} else {
+			AdditionalLocalVariable result = variablesFactory.createAdditionalLocalVariable();
+			getBindings().put(name, result);
+			additionalLocalVariable = result;
 		}
-		AdditionalLocalVariable result = variablesFactory.createAdditionalLocalVariable();
-		getBindings().put(name, result);
-		return result;
+		return additionalLocalVariable;
 	}
 
 }

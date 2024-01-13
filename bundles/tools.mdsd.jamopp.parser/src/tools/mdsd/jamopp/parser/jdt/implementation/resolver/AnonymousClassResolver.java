@@ -30,12 +30,15 @@ public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITy
 
 	@Override
 	public AnonymousClass getByName(String name) {
+		AnonymousClass anonymousClass;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			anonymousClass = getBindings().get(name);
+		} else {
+			AnonymousClass result = classifiersFactory.createAnonymousClass();
+			getBindings().put(name, result);
+			anonymousClass = result;
 		}
-		AnonymousClass result = classifiersFactory.createAnonymousClass();
-		getBindings().put(name, result);
-		return result;
+		return anonymousClass;
 	}
 
 }

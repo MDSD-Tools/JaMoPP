@@ -28,14 +28,17 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 
 	@Override
 	public VariableLengthParameter getByBinding(IVariableBinding binding) {
+		VariableLengthParameter variableLengthParameter;
 		String paramName = toParameterNameConverter.convertToParameterName(binding, true);
 		if (getBindings().containsKey(paramName)) {
-			return getBindings().get(paramName);
+			variableLengthParameter = getBindings().get(paramName);
+		} else {
+			variableBindings.add(binding);
+			VariableLengthParameter result = parametersFactory.createVariableLengthParameter();
+			getBindings().put(paramName, result);
+			variableLengthParameter = result;
 		}
-		variableBindings.add(binding);
-		VariableLengthParameter result = parametersFactory.createVariableLengthParameter();
-		getBindings().put(paramName, result);
-		return result;
+		return variableLengthParameter;
 	}
 
 	@Override

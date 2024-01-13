@@ -35,39 +35,45 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 	@Override
 	public Field getByBinding(IVariableBinding binding) {
 		String varName = toFieldNameConverter.convertToFieldName(binding);
+		Field field;
 		if (getBindings().containsKey(varName)) {
-			return getBindings().get(varName);
-		}
-		variableBindings.add(binding);
-		ConcreteClassifier potClass = null;
-		if (binding.getDeclaringClass() != null) {
-			potClass = (ConcreteClassifier) classifierResolver.getClassifier(binding.getDeclaringClass());
-		}
-		Field result = null;
-		if (potClass != null) {
-			for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-				if (mem instanceof Field && mem.getName().equals(binding.getName())) {
-					result = (Field) mem;
-					break;
+			field = getBindings().get(varName);
+		} else {
+			variableBindings.add(binding);
+			ConcreteClassifier potClass = null;
+			if (binding.getDeclaringClass() != null) {
+				potClass = (ConcreteClassifier) classifierResolver.getClassifier(binding.getDeclaringClass());
+			}
+			Field result = null;
+			if (potClass != null) {
+				for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+					if (mem instanceof Field && mem.getName().equals(binding.getName())) {
+						result = (Field) mem;
+						break;
+					}
 				}
 			}
+			if (result == null) {
+				result = membersFactory.createField();
+				result.setTypeReference(typesFactory.createInt());
+			}
+			getBindings().put(varName, result);
+			field = result;
 		}
-		if (result == null) {
-			result = membersFactory.createField();
-			result.setTypeReference(typesFactory.createInt());
-		}
-		getBindings().put(varName, result);
-		return result;
+		return field;
 	}
 
 	@Override
 	public Field getByName(String name) {
+		Field field;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			field = getBindings().get(name);
+		} else {
+			Field result = membersFactory.createField();
+			getBindings().put(name, result);
+			field = result;
 		}
-		Field result = membersFactory.createField();
-		getBindings().put(name, result);
-		return result;
+		return field;
 	}
 
 }

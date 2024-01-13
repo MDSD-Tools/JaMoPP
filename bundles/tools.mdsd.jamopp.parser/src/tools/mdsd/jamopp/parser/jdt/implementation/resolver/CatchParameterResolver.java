@@ -33,12 +33,15 @@ public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVa
 
 	@Override
 	public CatchParameter getByName(String name) {
+		CatchParameter catchParameter;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			catchParameter = getBindings().get(name);
+		} else {
+			CatchParameter result = parametersFactory.createCatchParameter();
+			getBindings().put(name, result);
+			catchParameter = result;
 		}
-		CatchParameter result = parametersFactory.createCatchParameter();
-		getBindings().put(name, result);
-		return result;
+		return catchParameter;
 	}
 
 }

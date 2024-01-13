@@ -32,15 +32,18 @@ public class PackageResolver extends ResolverAbstract<Package, IPackageBinding> 
 
 	@Override
 	public Package getByName(String name) {
+		Package resultPackage;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			resultPackage = getBindings().get(name);
+		} else {
+			Package result = JavaClasspath.get().getPackage(name);
+			if (result == null) {
+				result = containersFactory.createPackage();
+			}
+			getBindings().put(name, result);
+			resultPackage = result;
 		}
-		Package result = JavaClasspath.get().getPackage(name);
-		if (result == null) {
-			result = containersFactory.createPackage();
-		}
-		getBindings().put(name, result);
-		return result;
+		return resultPackage;
 	}
 
 }
