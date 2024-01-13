@@ -1,16 +1,17 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
+
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.imports.ClassifierImport;
 import tools.mdsd.jamopp.model.java.imports.Import;
 import tools.mdsd.jamopp.model.java.imports.ImportsFactory;
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -35,12 +36,12 @@ public class ToNonOnDemandNonStaticConverter implements Converter<ImportDeclarat
 	@Override
 	public Import convert(ImportDeclaration importDecl) {
 		ClassifierImport convertedImport = importsFactory.createClassifierImport();
-		Classifier proxy = null;
-		IBinding b = importDecl.getName().resolveBinding();
-		if (b instanceof IPackageBinding) {
+		Classifier proxy;
+		IBinding iBinding = importDecl.getName().resolveBinding();
+		if (iBinding instanceof IPackageBinding) {
 			proxy = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 		} else {
-			ITypeBinding binding = (ITypeBinding) b;
+			ITypeBinding binding = (ITypeBinding) iBinding;
 			if (binding == null || binding.isRecovered()) {
 				proxy = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 			} else {

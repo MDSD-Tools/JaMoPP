@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.InfixExpression;
-import tools.mdsd.jamopp.model.java.operators.MultiplicativeOperator;
-import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.InfixExpression;
+
+import tools.mdsd.jamopp.model.java.operators.MultiplicativeOperator;
+import tools.mdsd.jamopp.model.java.operators.OperatorsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToMultiplicativeOperatorConverter implements Converter<InfixExpression.Operator, MultiplicativeOperator> {
@@ -18,17 +18,16 @@ public class ToMultiplicativeOperatorConverter implements Converter<InfixExpress
 	}
 
 	@Override
-	public MultiplicativeOperator convert(InfixExpression.Operator op) {
-		if (op == InfixExpression.Operator.TIMES) {
-			return operatorsFactory.createMultiplication();
+	public MultiplicativeOperator convert(InfixExpression.Operator operator) {
+		MultiplicativeOperator result = null;
+		if (operator.equals(InfixExpression.Operator.TIMES)) {
+			result = operatorsFactory.createMultiplication();
+		} else if (operator.equals(InfixExpression.Operator.DIVIDE)) {
+			result = operatorsFactory.createDivision();
+		} else if (operator.equals(InfixExpression.Operator.REMAINDER)) {
+			result = operatorsFactory.createRemainder();
 		}
-		if (op == InfixExpression.Operator.DIVIDE) {
-			return operatorsFactory.createDivision();
-		}
-		if (op == InfixExpression.Operator.REMAINDER) {
-			return operatorsFactory.createRemainder();
-		}
-		return null;
+		return result;
 	}
 
 }

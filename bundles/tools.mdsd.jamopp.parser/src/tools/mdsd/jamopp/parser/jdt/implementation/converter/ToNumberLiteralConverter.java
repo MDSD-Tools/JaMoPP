@@ -14,6 +14,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.math.BigInteger;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -26,12 +27,14 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 public class ToNumberLiteralConverter
 		implements Converter<NumberLiteral, tools.mdsd.jamopp.model.java.literals.Literal> {
 
+	private static final String ZERO_INT = "0";
+	private static final String ZERO_LONG = "0l";
 	private final LiteralsFactory lieteralsFactory;
 	private final UtilLayout layoutInformationConverter;
 
 	private static final String HEX_PREFIX = "0x";
 	private static final String BIN_PREFIX = "0b";
-	private static final String OCT_PREFIX = "0";
+	private static final String OCT_PREFIX = ZERO_INT;
 	private static final String LONG_SUFFIX = "l";
 	private static final String FLOAT_SUFFIX = "f";
 	private static final String DOUBLE_SUFFIX = "d";
@@ -44,14 +47,14 @@ public class ToNumberLiteralConverter
 	private static final String UNDER_SCORE = "_";
 
 	@Inject
-	ToNumberLiteralConverter(UtilLayout layoutInformationConverter, LiteralsFactory lieteralsFactory) {
+	public ToNumberLiteralConverter(UtilLayout layoutInformationConverter, LiteralsFactory lieteralsFactory) {
 		this.lieteralsFactory = lieteralsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.literals.Literal convert(NumberLiteral literal) {
-		tools.mdsd.jamopp.model.java.literals.Literal result = null;
+		tools.mdsd.jamopp.model.java.literals.Literal result;
 		String string = buildString(literal);
 		if (string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX)) {
 			result = handleBinaryLong(string);
@@ -69,9 +72,9 @@ public class ToNumberLiteralConverter
 			result = handleDecimalFloat(string);
 		} else if (string.contains(".") || string.contains(DECIMAL_EXPONENT) || string.endsWith(DOUBLE_SUFFIX)) {
 			result = handleDecimalDouble(string);
-		} else if ("0l".equals(string) || !string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX)) {
+		} else if (ZERO_LONG.equals(string) || !string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX)) {
 			result = handleDecimalLong(string);
-		} else if ("0".equals(string) || !string.startsWith(OCT_PREFIX)) {
+		} else if (ZERO_INT.equals(string) || !string.startsWith(OCT_PREFIX)) {
 			result = handleDecimalInteger(string);
 		} else if (string.endsWith(LONG_SUFFIX)) {
 			result = handleOctalLong(string);
@@ -183,6 +186,6 @@ public class ToNumberLiteralConverter
 			string = actualLiteral.toString();
 		}
 		string = string.replace(UNDER_SCORE, "");
-		return string.toLowerCase();
+		return string.toLowerCase(Locale.US);
 	}
 }

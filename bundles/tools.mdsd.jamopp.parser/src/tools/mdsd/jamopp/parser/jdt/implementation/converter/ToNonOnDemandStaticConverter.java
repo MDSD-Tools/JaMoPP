@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.QualifiedName;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
@@ -46,15 +46,18 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 		StaticMemberImport convertedImport = importsFactory.createStaticMemberImport();
 		convertedImport.setStatic(modifiersFactory.createStatic());
 		QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
-		IBinding b = qualifiedName.resolveBinding();
+		IBinding iBinding = qualifiedName.resolveBinding();
 		ReferenceableElement proxyMember = null;
 		Classifier proxyClass = null;
-		if (b instanceof IMethodBinding) {
-			proxyMember = jdtResolverUtility.getMethod((IMethodBinding) b);
-		} else if (b instanceof IVariableBinding) {
-			proxyMember = jdtResolverUtility.getReferencableElement((IVariableBinding) b);
-		} else if (b instanceof ITypeBinding typeBinding) {
-			if (!typeBinding.isNested()) {
+		if (iBinding instanceof IMethodBinding) {
+			proxyMember = jdtResolverUtility.getMethod((IMethodBinding) iBinding);
+		} else if (iBinding instanceof IVariableBinding) {
+			proxyMember = jdtResolverUtility.getReferencableElement((IVariableBinding) iBinding);
+		} else if (iBinding instanceof ITypeBinding typeBinding) {
+			if (typeBinding.isNested()) {
+				proxyMember = jdtResolverUtility.getClassifier(typeBinding);
+				proxyClass = jdtResolverUtility.getClassifier(typeBinding.getDeclaringClass());
+			} else {
 				proxyClass = jdtResolverUtility.getClassifier(typeBinding);
 				ConcreteClassifier conCl = (ConcreteClassifier) proxyClass;
 				for (Member m : conCl.getMembers()) {
@@ -68,9 +71,6 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 					proxyMember.setName(qualifiedName.getName().getIdentifier());
 					conCl.getMembers().add((Member) proxyMember);
 				}
-			} else {
-				proxyMember = jdtResolverUtility.getClassifier(typeBinding);
-				proxyClass = jdtResolverUtility.getClassifier(typeBinding.getDeclaringClass());
 			}
 		} else {
 			proxyMember = jdtResolverUtility.getField(qualifiedName.getFullyQualifiedName());

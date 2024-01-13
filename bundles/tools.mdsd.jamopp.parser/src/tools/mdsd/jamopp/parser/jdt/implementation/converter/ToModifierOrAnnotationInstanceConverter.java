@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.Modifier;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToModifierOrAnnotationInstanceConverter
@@ -17,7 +17,7 @@ public class ToModifierOrAnnotationInstanceConverter
 	private final Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter;
 
 	@Inject
-	ToModifierOrAnnotationInstanceConverter(
+	public ToModifierOrAnnotationInstanceConverter(
 			Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
 			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
@@ -26,10 +26,13 @@ public class ToModifierOrAnnotationInstanceConverter
 
 	@Override
 	public AnnotationInstanceOrModifier convert(IExtendedModifier mod) {
+		AnnotationInstanceOrModifier result;
 		if (mod.isModifier()) {
-			return toModifierConverter.convert((Modifier) mod);
+			result = toModifierConverter.convert((Modifier) mod);
+		} else {
+			result = toAnnotationInstanceConverter.convert((Annotation) mod);
 		}
-		return toAnnotationInstanceConverter.convert((Annotation) mod);
+		return result;
 	}
 
 }

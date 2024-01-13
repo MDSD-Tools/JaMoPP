@@ -30,7 +30,7 @@ public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMembe
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+	public ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
 			UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,

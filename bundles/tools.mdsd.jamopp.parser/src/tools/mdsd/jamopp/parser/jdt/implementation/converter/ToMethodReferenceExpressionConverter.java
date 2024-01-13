@@ -38,7 +38,7 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	ToMethodReferenceExpressionConverter(
+	public ToMethodReferenceExpressionConverter(
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, Converter<Type, TypeReference> toTypeReferenceConverter,
 			ExpressionsFactory expressionsFactory, ReferencesFactory referencesFactory, LiteralsFactory literalsFactory,
@@ -62,23 +62,28 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 
 	@Override
 	public MethodReferenceExpression convert(MethodReference ref) {
+		MethodReferenceExpression expression;
 		if (ref.getNodeType() == ASTNode.CREATION_REFERENCE) {
-			return handleCreationReference(ref);
+			expression = handleCreationReference(ref);
+		} else {
+			PrimaryExpressionReferenceExpression result = expressionsFactory
+					.createPrimaryExpressionReferenceExpression();
+			if (ref.getNodeType() == ASTNode.TYPE_METHOD_REFERENCE) {
+				handleTypeMethodReference(ref, result);
+			} else if (ref.getNodeType() == ASTNode.SUPER_METHOD_REFERENCE) {
+				handleSuperMethodReference(ref, result);
+			} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
+				handleExpressionMethodReference(ref, result);
+			}
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, ref);
+			expression = result;
 		}
-		PrimaryExpressionReferenceExpression result = expressionsFactory.createPrimaryExpressionReferenceExpression();
-		if (ref.getNodeType() == ASTNode.TYPE_METHOD_REFERENCE) {
-			handleTypeMethodReference(ref, result);
-		} else if (ref.getNodeType() == ASTNode.SUPER_METHOD_REFERENCE) {
-			handleSuperMethodReference(ref, result);
-		} else if (ref.getNodeType() == ASTNode.EXPRESSION_METHOD_REFERENCE) {
-			handleExpressionMethodReference(ref, result);
-		}
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, ref);
-		return result;
+		return expression;
 	}
 
 	@SuppressWarnings("unchecked")
 	private MethodReferenceExpression handleCreationReference(MethodReference ref) {
+		MethodReferenceExpression expression;
 		CreationReference crRef = (CreationReference) ref;
 		if (crRef.getType().isArrayType()) {
 			tools.mdsd.jamopp.model.java.expressions.ArrayConstructorReferenceExpression result = expressionsFactory
@@ -86,15 +91,17 @@ public class ToMethodReferenceExpressionConverter implements Converter<MethodRef
 			result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
 			utilToArrayDimensionsAndSetConverter.convert(crRef.getType(), result);
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
-			return result;
+			expression = result;
+		} else {
+			tools.mdsd.jamopp.model.java.expressions.ClassTypeConstructorReferenceExpression result = expressionsFactory
+					.createClassTypeConstructorReferenceExpression();
+			result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
+			crRef.typeArguments()
+					.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
+			expression = result;
 		}
-		tools.mdsd.jamopp.model.java.expressions.ClassTypeConstructorReferenceExpression result = expressionsFactory
-				.createClassTypeConstructorReferenceExpression();
-		result.setTypeReference(toTypeReferenceConverter.convert(crRef.getType()));
-		crRef.typeArguments()
-				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, crRef);
-		return result;
+		return expression;
 	}
 
 	@SuppressWarnings("unchecked")

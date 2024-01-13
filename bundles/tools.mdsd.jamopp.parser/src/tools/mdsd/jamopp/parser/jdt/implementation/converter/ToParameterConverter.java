@@ -1,19 +1,19 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.Parameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
@@ -34,7 +34,7 @@ public class ToParameterConverter implements Converter<SingleVariableDeclaration
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver utilJDTResolver,
+	public ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver utilJDTResolver,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
@@ -55,6 +55,7 @@ public class ToParameterConverter implements Converter<SingleVariableDeclaration
 	@SuppressWarnings("unchecked")
 	@Override
 	public Parameter convert(SingleVariableDeclaration decl) {
+		Parameter parameter;
 		if (decl.isVarargs()) {
 			VariableLengthParameter result = utilJDTResolver.getVariableLengthParameter(decl.resolveBinding());
 			decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
@@ -62,14 +63,16 @@ public class ToParameterConverter implements Converter<SingleVariableDeclaration
 			result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
 			utilToArrayDimensionsAndSetConverter.convert(decl.getType(), result);
 			utilNamedElement.setNameOfElement(decl.getName(), result);
-			decl.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-					.convert((Dimension) obj, result));
+			decl.extraDimensions()
+					.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convert((Dimension) obj, result));
 			decl.varargsAnnotations().forEach(
 					obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			utilLayout.convertToMinimalLayoutInformation(result, decl);
-			return result;
+			parameter = result;
+		} else {
+			parameter = toOrdinaryParameterConverter.convert(decl);
 		}
-		return toOrdinaryParameterConverter.convert(decl);
+		return parameter;
 	}
 
 }

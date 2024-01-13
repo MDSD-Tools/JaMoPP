@@ -1,10 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.Modifier;
-import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
-
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.Modifier;
+
+import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
@@ -14,14 +14,14 @@ public class ToModifierConverter implements Converter<Modifier, tools.mdsd.jamop
 	private final UtilLayout layoutInformationConverter;
 
 	@Inject
-	ToModifierConverter(UtilLayout layoutInformationConverter, ModifiersFactory modifiersFactory) {
+	public ToModifierConverter(UtilLayout layoutInformationConverter, ModifiersFactory modifiersFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 	}
 
 	@Override
 	public tools.mdsd.jamopp.model.java.modifiers.Modifier convert(Modifier mod) {
-		tools.mdsd.jamopp.model.java.modifiers.Modifier result = null;
+		tools.mdsd.jamopp.model.java.modifiers.Modifier result;
 		if (mod.isAbstract()) {
 			result = modifiersFactory.createAbstract();
 		} else if (mod.isDefault()) {

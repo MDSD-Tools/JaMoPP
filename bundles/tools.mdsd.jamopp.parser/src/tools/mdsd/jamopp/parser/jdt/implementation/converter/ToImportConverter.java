@@ -29,15 +29,18 @@ public class ToImportConverter implements Converter<ImportDeclaration, Import> {
 
 	@Override
 	public Import convert(ImportDeclaration declaration) {
+		Import result;
 		if (declaration.isOnDemand()) {
 			if (declaration.isStatic()) {
-				return toOnDemandStaticConverter.convert(declaration);
+				result = toOnDemandStaticConverter.convert(declaration);
+			} else {
+				result = toOnDemandNonStaticConverter.convert(declaration);
 			}
-			return toOnDemandNonStaticConverter.convert(declaration);
 		} else if (declaration.isStatic()) {
-			return toNonOnDemandStaticConverter.convert(declaration);
+			result = toNonOnDemandStaticConverter.convert(declaration);
 		} else {
-			return toNonOnDemandNonStaticConverter.convert(declaration);
+			result = toNonOnDemandNonStaticConverter.convert(declaration);
 		}
+		return result;
 	}
 }

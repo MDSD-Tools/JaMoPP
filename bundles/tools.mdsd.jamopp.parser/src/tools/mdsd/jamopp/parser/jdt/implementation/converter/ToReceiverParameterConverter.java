@@ -1,16 +1,16 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Type;
+
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.parameters.ReceiverParameter;
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToReceiverParameterConverter implements Converter<MethodDeclaration, ReceiverParameter> {
@@ -21,7 +21,7 @@ public class ToReceiverParameterConverter implements Converter<MethodDeclaration
 	private final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
 
 	@Inject
-	ToReceiverParameterConverter(Converter<Type, TypeReference> toTypeReferenceConverter,
+	public ToReceiverParameterConverter(Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
 			ParametersFactory parametersFactory, LiteralsFactory literalsFactory) {
 		this.literalsFactory = literalsFactory;

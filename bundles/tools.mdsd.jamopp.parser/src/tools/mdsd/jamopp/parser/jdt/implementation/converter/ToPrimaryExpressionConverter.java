@@ -36,16 +36,19 @@ public class ToPrimaryExpressionConverter implements Converter<Expression, Prima
 
 	@Override
 	public PrimaryExpression convert(Expression expr) {
+		PrimaryExpression result;
 		if (expr.getNodeType() == ASTNode.BOOLEAN_LITERAL) {
-			return createBooleanLiteral(expr);
+			result = createBooleanLiteral(expr);
 		} else if (expr.getNodeType() == ASTNode.NULL_LITERAL) {
-			return createNullLiteral(expr);
+			result = createNullLiteral(expr);
 		} else if (expr.getNodeType() == ASTNode.CHARACTER_LITERAL) {
-			return createCharacterLiteral(expr);
+			result = createCharacterLiteral(expr);
 		} else if (expr.getNodeType() == ASTNode.NUMBER_LITERAL) {
-			return toNumberLiteralConverter.convert((NumberLiteral) expr);
+			result = toNumberLiteralConverter.convert((NumberLiteral) expr);
+		} else {
+			result = utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(expr));
 		}
-		return utilReferenceWalker.walkUp(toReferenceConverterFromExpression.convert(expr));
+		return result;
 	}
 
 	private PrimaryExpression createCharacterLiteral(Expression expr) {

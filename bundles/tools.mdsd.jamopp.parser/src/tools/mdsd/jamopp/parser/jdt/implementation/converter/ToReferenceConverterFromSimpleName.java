@@ -32,16 +32,16 @@ public class ToReferenceConverterFromSimpleName implements Converter<SimpleName,
 	@Override
 	public IdentifierReference convert(SimpleName name) {
 		IdentifierReference result = referencesFactory.createIdentifierReference();
-		IBinding b = name.resolveBinding();
-		tools.mdsd.jamopp.model.java.references.ReferenceableElement target = null;
-		if (b instanceof ITypeBinding) {
-			target = jdtResolverUtility.getClassifier((ITypeBinding) b);
-		} else if (b instanceof IVariableBinding) {
-			target = jdtResolverUtility.getReferencableElement((IVariableBinding) b);
-		} else if (b instanceof IMethodBinding) {
-			target = jdtResolverUtility.getMethod((IMethodBinding) b);
-		} else if (b instanceof IPackageBinding) {
-			target = jdtResolverUtility.getPackage((IPackageBinding) b);
+		IBinding binding = name.resolveBinding();
+		tools.mdsd.jamopp.model.java.references.ReferenceableElement target;
+		if (binding instanceof ITypeBinding) {
+			target = jdtResolverUtility.getClassifier((ITypeBinding) binding);
+		} else if (binding instanceof IVariableBinding) {
+			target = jdtResolverUtility.getReferencableElement((IVariableBinding) binding);
+		} else if (binding instanceof IMethodBinding) {
+			target = jdtResolverUtility.getMethod((IMethodBinding) binding);
+		} else if (binding instanceof IPackageBinding) {
+			target = jdtResolverUtility.getPackage((IPackageBinding) binding);
 		} else {
 			target = jdtResolverUtility.getReferenceableElementByNameMatching(name.getIdentifier());
 		}

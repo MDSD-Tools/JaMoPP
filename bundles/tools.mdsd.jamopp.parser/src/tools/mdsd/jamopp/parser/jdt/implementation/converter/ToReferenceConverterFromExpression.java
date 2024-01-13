@@ -99,38 +99,39 @@ public class ToReferenceConverterFromExpression
 
 	@Override
 	public tools.mdsd.jamopp.model.java.references.Reference convert(Expression expr) {
+		tools.mdsd.jamopp.model.java.references.Reference result = null;
 		if (expr instanceof Annotation) {
-			return toAnnotationInstanceConverter.convert((Annotation) expr);
+			result = toAnnotationInstanceConverter.convert((Annotation) expr);
 		} else if (expr.getNodeType() == ASTNode.ARRAY_ACCESS) {
-			return handleArrayAcces(expr);
+			result = handleArrayAcces(expr);
 		} else if (expr.getNodeType() == ASTNode.ARRAY_CREATION) {
-			return handleArrayCreation(expr);
+			result = handleArrayCreation(expr);
 		} else if (expr.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
-			return handleArrayInitiliazer(expr);
+			result = handleArrayInitiliazer(expr);
 		} else if (expr.getNodeType() == ASTNode.CLASS_INSTANCE_CREATION) {
-			return handleClassInstanceCreation(expr);
+			result = handleClassInstanceCreation(expr);
 		} else if (expr.getNodeType() == ASTNode.FIELD_ACCESS) {
-			return handleFieldAcces(expr);
+			result = handleFieldAcces(expr);
 		} else if (expr.getNodeType() == ASTNode.METHOD_INVOCATION) {
-			return toReferenceConverterFromMethodInvocation.convert((MethodInvocation) expr);
+			result = toReferenceConverterFromMethodInvocation.convert((MethodInvocation) expr);
 		} else if (expr.getNodeType() == ASTNode.QUALIFIED_NAME) {
-			return handleQualifiedName(expr);
+			result = handleQualifiedName(expr);
 		} else if (expr.getNodeType() == ASTNode.SIMPLE_NAME) {
-			return handleSimpleName(expr);
+			result = handleSimpleName(expr);
 		} else if (expr.getNodeType() == ASTNode.PARENTHESIZED_EXPRESSION) {
-			return handleParanthesizedExpression(expr);
+			result = handleParanthesizedExpression(expr);
 		} else if (expr.getNodeType() == ASTNode.STRING_LITERAL) {
-			return handleStringLiteral(expr);
+			result = handleStringLiteral(expr);
 		} else if (expr.getNodeType() == ASTNode.SUPER_FIELD_ACCESS) {
-			return handleSuperFieldAcces(expr);
+			result = handleSuperFieldAcces(expr);
 		} else if (expr.getNodeType() == ASTNode.SUPER_METHOD_INVOCATION) {
-			return handleSuperMethodInvocation(expr);
+			result = handleSuperMethodInvocation(expr);
 		} else if (expr.getNodeType() == ASTNode.THIS_EXPRESSION) {
-			return handleThisExpression(expr);
+			result = handleThisExpression(expr);
 		} else if (expr.getNodeType() == ASTNode.TYPE_LITERAL) {
-			return handleTypeLiteral(expr);
+			result = handleTypeLiteral(expr);
 		}
-		return null;
+		return result;
 
 	}
 
@@ -269,6 +270,7 @@ public class ToReferenceConverterFromExpression
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.references.Reference handleArrayCreation(Expression expr) {
 		ArrayCreation arr = (ArrayCreation) expr;
+		tools.mdsd.jamopp.model.java.references.Reference reference;
 		if (arr.getInitializer() != null) {
 			tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationByValuesTyped result = arraysFactory
 					.createArrayInstantiationByValuesTyped();
@@ -276,15 +278,18 @@ public class ToReferenceConverterFromExpression
 			utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result);
 			result.setArrayInitializer(toArrayInitialisierConverter.convert(arr.getInitializer()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
-			return result;
+			reference = result;
+		} else {
+			tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationBySize result = arraysFactory
+					.createArrayInstantiationBySize();
+			result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
+			utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result, arr.dimensions().size());
+			arr.dimensions()
+					.forEach(obj -> result.getSizes().add(expressionConverterUtility.convert((Expression) obj)));
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
+			reference = result;
 		}
-		tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationBySize result = arraysFactory
-				.createArrayInstantiationBySize();
-		result.setTypeReference(toTypeReferenceConverter.convert(arr.getType()));
-		utilToArrayDimensionsAndSetConverter.convert(arr.getType(), result, arr.dimensions().size());
-		arr.dimensions().forEach(obj -> result.getSizes().add(expressionConverterUtility.convert((Expression) obj)));
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, arr);
-		return result;
+		return reference;
 	}
 
 	private tools.mdsd.jamopp.model.java.references.Reference handleArrayAcces(Expression expr) {

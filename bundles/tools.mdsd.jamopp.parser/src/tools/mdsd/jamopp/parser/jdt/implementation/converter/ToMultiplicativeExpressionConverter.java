@@ -19,7 +19,7 @@ public class ToMultiplicativeExpressionConverter implements Converter<InfixExpre
 	private final Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter;
 
 	@Inject
-	ToMultiplicativeExpressionConverter(
+	public ToMultiplicativeExpressionConverter(
 			Converter<InfixExpression.Operator, MultiplicativeOperator> toMultiplicativeOperatorConverter,
 			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
 			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {

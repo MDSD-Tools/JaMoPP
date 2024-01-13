@@ -1,12 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.BodyDeclaration;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
-import tools.mdsd.jamopp.model.java.members.Member;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+
+import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 
 public class ToInterfaceMemberConverter implements Converter<BodyDeclaration, Member> {
@@ -15,7 +16,7 @@ public class ToInterfaceMemberConverter implements Converter<BodyDeclaration, Me
 	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	ToInterfaceMemberConverter(
+	public ToInterfaceMemberConverter(
 			@Named("ToInterfaceMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toInterfaceMethodOrConstructorConverter,
 			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toInterfaceMethodOrConstructorConverter = toInterfaceMethodOrConstructorConverter;
@@ -24,10 +25,13 @@ public class ToInterfaceMemberConverter implements Converter<BodyDeclaration, Me
 
 	@Override
 	public Member convert(BodyDeclaration body) {
+		Member result;
 		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
-			return toInterfaceMethodOrConstructorConverter.convert((MethodDeclaration) body);
+			result = toInterfaceMethodOrConstructorConverter.convert((MethodDeclaration) body);
+		} else {
+			result = toClassMemberConverter.convert(body);
 		}
-		return toClassMemberConverter.convert(body);
+		return result;
 	}
 
 }
