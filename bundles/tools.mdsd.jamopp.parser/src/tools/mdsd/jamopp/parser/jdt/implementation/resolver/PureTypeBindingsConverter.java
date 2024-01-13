@@ -107,25 +107,29 @@ public class PureTypeBindingsConverter {
 			objVisited.add(classifier);
 			ConcreteClassifier potClass = JavaClasspath.get().getConcreteClassifier(typeName);
 			if (!Objects.equals(potClass, classifier)) {
-				ITypeBinding typeBind = typeBindings.stream()
-						.filter(type -> type != null && typeName.equals(toTypeNameConverter.convertToTypeName(type)))
-						.findFirst().orElse(null);
-				if (typeBind == null) {
-					classifier.setPackage(packageResolver.getByName(""));
-					if (classifier.eContainer() != null) {
-						return;
-					}
-				} else if (typeBind.isTopLevel()) {
-					handleTopLevel(typeBind);
-				} else if (typeBind.isNested()) {
-					handleNested(classifier, resourceSet, typeBind);
-				} else if (typeBind.isArray()) {
-					handleArray(typeName, resourceSet, typeBind);
-				}
-				if (classifier.eContainer() == null) {
-					handleNullContainer(typeName, classifier, resourceSet);
-				}
+				convert(typeName, classifier, resourceSet);
 			}
+		}
+	}
+
+	private void convert(String typeName, ConcreteClassifier classifier, ResourceSet resourceSet) {
+		ITypeBinding typeBind = typeBindings.stream()
+				.filter(type -> type != null && typeName.equals(toTypeNameConverter.convertToTypeName(type)))
+				.findFirst().orElse(null);
+		if (typeBind == null) {
+			classifier.setPackage(packageResolver.getByName(""));
+			if (classifier.eContainer() != null) {
+				return;
+			}
+		} else if (typeBind.isTopLevel()) {
+			handleTopLevel(typeBind);
+		} else if (typeBind.isNested()) {
+			handleNested(classifier, resourceSet, typeBind);
+		} else if (typeBind.isArray()) {
+			handleArray(typeName, resourceSet, typeBind);
+		}
+		if (classifier.eContainer() == null) {
+			handleNullContainer(typeName, classifier, resourceSet);
 		}
 	}
 
