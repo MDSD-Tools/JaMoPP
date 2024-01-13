@@ -20,16 +20,18 @@ public class ToFieldNameConverter {
 	}
 
 	public String convertToFieldName(IVariableBinding binding) {
+		String result;
 		if (binding == null || !binding.isField()) {
-			return "";
+			result = "";
+		} else if (nameCache.containsKey(binding)) {
+			result = nameCache.get(binding);
+		} else {
+			String name = toTypeNameConverter.get().convertToTypeName(binding.getDeclaringClass()) + "::"
+					+ binding.getName();
+			nameCache.put(binding, name);
+			result = name;
 		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
-		}
-		String name = toTypeNameConverter.get().convertToTypeName(binding.getDeclaringClass()) + "::"
-				+ binding.getName();
-		nameCache.put(binding, name);
-		return name;
+		return result;
 	}
 
 }

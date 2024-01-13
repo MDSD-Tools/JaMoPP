@@ -43,7 +43,7 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 
 	@Override
 	public VariableLengthParameter getByName(String name) {
-		throw new RuntimeException("Not implemented");
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 }

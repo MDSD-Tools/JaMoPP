@@ -38,32 +38,38 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 	@Override
 	public Constructor getByBinding(IMethodBinding binding) {
 		String methName = toMethodNameConverter.convertToMethodName(binding);
+		Constructor constructor;
 		if (getBindings().containsKey(methName)) {
-			return getBindings().get(methName);
+			constructor = getBindings().get(methName);
+		} else {
+			methodBindings.add(binding);
+			Constructor result = getConstructor(binding);
+			if (result == null) {
+				result = membersFactory.createConstructor();
+				tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
+				block.setName("");
+				result.setBlock(block);
+			}
+			getBindings().put(methName, result);
+			constructor = result;
 		}
-		methodBindings.add(binding);
-		Constructor result = getConstructor(binding);
-		if (result == null) {
-			result = membersFactory.createConstructor();
-			tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
-			block.setName("");
-			result.setBlock(block);
-		}
-		getBindings().put(methName, result);
-		return result;
+		return constructor;
 	}
 
 	@Override
 	public Constructor getByName(String name) {
+		Constructor constructor;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			constructor = getBindings().get(name);
+		} else {
+			Constructor result = membersFactory.createConstructor();
+			tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
+			block.setName("");
+			result.setBlock(block);
+			getBindings().put(name, result);
+			constructor = result;
 		}
-		Constructor result = membersFactory.createConstructor();
-		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
-		block.setName("");
-		result.setBlock(block);
-		getBindings().put(name, result);
-		return result;
+		return constructor;
 	}
 
 	private Constructor getConstructor(IMethodBinding binding) {

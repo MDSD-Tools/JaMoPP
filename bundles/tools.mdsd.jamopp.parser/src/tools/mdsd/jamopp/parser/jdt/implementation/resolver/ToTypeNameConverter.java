@@ -47,37 +47,40 @@ public class ToTypeNameConverter {
 	}
 
 	public String convertToTypeName(ITypeBinding binding) {
+		String result;
 		if (binding == null) {
-			return "";
+			result = "";
 		} else if (binding.isTypeVariable()) {
-			return binding.getName();
+			result = binding.getName();
 		} else if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
+			result = nameCache.get(binding);
 		} else if (binding.isLocal()) {
-			return handleLocal(binding);
-		}
-
-		String qualifiedName;
-		if (binding.isMember()) {
-			qualifiedName = convertToTypeName(binding.getDeclaringClass()) + "." + binding.getName();
+			result = handleLocal(binding);
 		} else {
-			qualifiedName = binding.getQualifiedName();
+			String qualifiedName;
+			if (binding.isMember()) {
+				qualifiedName = convertToTypeName(binding.getDeclaringClass()) + "." + binding.getName();
+			} else {
+				qualifiedName = binding.getQualifiedName();
+			}
+			if (qualifiedName.contains("<")) {
+				qualifiedName = qualifiedName.substring(0, qualifiedName.indexOf('<'));
+			}
+			nameCache.put(binding, qualifiedName);
+			result = qualifiedName;
 		}
-		if (qualifiedName.contains("<")) {
-			qualifiedName = qualifiedName.substring(0, qualifiedName.indexOf("<"));
-		}
-		nameCache.put(binding, qualifiedName);
-		return qualifiedName;
+		return result;
 	}
 
 	private String handleLocal(ITypeBinding binding) {
 		String qualifiedName;
-		IBinding b = binding.getDeclaringMember();
-		if (b instanceof IMethodBinding) {
-			qualifiedName = toMethodNameConverter.get().convertToMethodName((IMethodBinding) b) + "."
+		IBinding iBinding = binding.getDeclaringMember();
+		if (iBinding instanceof IMethodBinding) {
+			qualifiedName = toMethodNameConverter.get().convertToMethodName((IMethodBinding) iBinding) + "."
 					+ binding.getKey();
-		} else if (b instanceof IVariableBinding) {
-			qualifiedName = toFieldNameConverter.convertToFieldName((IVariableBinding) b) + "." + binding.getKey();
+		} else if (iBinding instanceof IVariableBinding) {
+			qualifiedName = toFieldNameConverter.convertToFieldName((IVariableBinding) iBinding) + "."
+					+ binding.getKey();
 		} else {
 			qualifiedName = binding.getKey();
 		}
@@ -86,32 +89,39 @@ public class ToTypeNameConverter {
 	}
 
 	public String convertToTypeName(TypeReference ref) {
+		String result = null;
 		for (Entry<Class<?>, Function<TypeReference, String>> entry : mapping.entrySet()) {
 			Class<?> key = entry.getKey();
 			Function<TypeReference, String> val = entry.getValue();
 			if (key.isInstance(ref)) {
-				return val.apply(ref);
+				result = val.apply(ref);
+				break;
 			}
 		}
-		return null;
+		return result;
 	}
 
 	private String convertNamespaceClassifierReference(NamespaceClassifierReference nRef) {
-		if (!nRef.getClassifierReferences().isEmpty()) {
-			return convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
+		String result;
+		if (nRef.getClassifierReferences().isEmpty()) {
+			result = nRef.getNamespacesAsString();
+		} else {
+			result = convertToTypeName(nRef.getClassifierReferences().get(nRef.getClassifierReferences().size() - 1));
 		}
-		return nRef.getNamespacesAsString();
+		return result;
 	}
 
 	private String convertClassifierReference(ClassifierReference convRef) {
+		String result;
 		if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) {
-			return ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())
+			result = ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())
 					.getQualifiedName();
+		} else if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.types.InferableType) {
+			result = "var";
+		} else {
+			result = ((tools.mdsd.jamopp.model.java.generics.TypeParameter) convRef.getTarget()).getName();
 		}
-		if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.types.InferableType) {
-			return "var";
-		}
-		return ((tools.mdsd.jamopp.model.java.generics.TypeParameter) convRef.getTarget()).getName();
+		return result;
 	}
 
 }

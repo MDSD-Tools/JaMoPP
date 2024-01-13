@@ -29,25 +29,28 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 	@Override
 	public Enumeration getByBinding(ITypeBinding binding) {
 		String enumName = toTypeNameConverter.convertToTypeName(binding);
+		Enumeration enumeration;
 		if (getBindings().containsKey(enumName)) {
-			return getBindings().get(enumName);
-		}
-		typeBindings.add(binding);
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
-				.getConcreteClassifier(enumName);
-		Enumeration result;
-		if (classifier instanceof Enumeration) {
-			result = (Enumeration) classifier;
+			enumeration = getBindings().get(enumName);
 		} else {
-			result = classifiersFactory.createEnumeration();
+			typeBindings.add(binding);
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
+					.getConcreteClassifier(enumName);
+			Enumeration result;
+			if (classifier instanceof Enumeration) {
+				result = (Enumeration) classifier;
+			} else {
+				result = classifiersFactory.createEnumeration();
+			}
+			getBindings().put(enumName, result);
+			enumeration = result;
 		}
-		getBindings().put(enumName, result);
-		return result;
+		return enumeration;
 	}
 
 	@Override
 	public Enumeration getByName(String name) {
-		throw new RuntimeException("Not implemented");
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 }

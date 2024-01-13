@@ -42,7 +42,7 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 
 	@Override
 	public TypeParameter getByName(String name) {
-		throw new RuntimeException("Not implemented");
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 }

@@ -80,25 +80,28 @@ public class ReferenceableElementResolver {
 	}
 
 	public ReferenceableElement getByBinding(IVariableBinding binding) {
+		ReferenceableElement referenceableElement;
 		if (binding.isEnumConstant()) {
-			return handleIsEnumConstant(binding);
+			referenceableElement = handleIsEnumConstant(binding);
 		} else if (binding.isField()) {
-			return handleIsField(binding);
+			referenceableElement = handleIsField(binding);
 		} else if (binding.isParameter()) {
-			return handleIsParameter(binding);
-		}
-		String paramName = toParameterNameConverter.convertToParameterName(binding, false);
-		if (catchParameterResolver.getBindings().containsKey(paramName)) {
-			return catchParameterResolver.getBindings().get(paramName);
-		} else if (localVariableResolver.getBindings().containsKey(paramName)) {
-			return localVariableResolver.getBindings().get(paramName);
-		} else if (additionalLocalVariableResolver.getBindings().containsKey(paramName)) {
-			return additionalLocalVariableResolver.getBindings().get(paramName);
-		} else if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
-			return ordinaryParameterResolver.getBindings().get(paramName);
+			referenceableElement = handleIsParameter(binding);
 		} else {
-			return localVariableResolver.getByBinding(binding);
+			String paramName = toParameterNameConverter.convertToParameterName(binding, false);
+			if (catchParameterResolver.getBindings().containsKey(paramName)) {
+				referenceableElement = catchParameterResolver.getBindings().get(paramName);
+			} else if (localVariableResolver.getBindings().containsKey(paramName)) {
+				referenceableElement = localVariableResolver.getBindings().get(paramName);
+			} else if (additionalLocalVariableResolver.getBindings().containsKey(paramName)) {
+				referenceableElement = additionalLocalVariableResolver.getBindings().get(paramName);
+			} else if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
+				referenceableElement = ordinaryParameterResolver.getBindings().get(paramName);
+			} else {
+				referenceableElement = localVariableResolver.getByBinding(binding);
+			}
 		}
+		return referenceableElement;
 	}
 
 	private ReferenceableElement handleIsEnumConstant(IVariableBinding binding) {
@@ -107,24 +110,28 @@ public class ReferenceableElementResolver {
 
 	private ReferenceableElement handleIsParameter(IVariableBinding binding) {
 		String paramName = toParameterNameConverter.convertToParameterName(binding, false);
+		ReferenceableElement referenceableElement;
 		if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
-			return ordinaryParameterResolver.getBindings().get(paramName);
+			referenceableElement = ordinaryParameterResolver.getBindings().get(paramName);
 		} else if (variableLengthParameterResolver.getBindings().containsKey(paramName)) {
-			return variableLengthParameterResolver.getBindings().get(paramName);
+			referenceableElement = variableLengthParameterResolver.getBindings().get(paramName);
 		} else {
-			return ordinaryParameterResolver.getByBinding(binding);
+			referenceableElement = ordinaryParameterResolver.getByBinding(binding);
 		}
+		return referenceableElement;
 	}
 
 	private ReferenceableElement handleIsField(IVariableBinding binding) {
+		ReferenceableElement referenceableElement;
 		String fieldName = toFieldNameConverter.convertToFieldName(binding);
 		if (fieldResolver.getBindings().containsKey(fieldName)) {
-			return fieldResolver.getBindings().get(fieldName);
+			referenceableElement = fieldResolver.getBindings().get(fieldName);
 		} else if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
-			return additionalFieldResolver.getBindings().get(fieldName);
+			referenceableElement = additionalFieldResolver.getBindings().get(fieldName);
 		} else {
-			return fieldResolver.getByBinding(binding);
+			referenceableElement = fieldResolver.getByBinding(binding);
 		}
+		return referenceableElement;
 	}
 
 	public ReferenceableElement getByName(String name) {
@@ -148,12 +155,14 @@ public class ReferenceableElementResolver {
 		streams.add(classResolver.getBindings().values().stream().filter(filter(name)));
 		streams.add(interfaceResolver.getBindings().values().stream().filter(filter(name)));
 
-		Optional<? extends ReferenceableElement> a = streams.stream().flatMap(s -> s).findFirst();
-		if (a.isPresent()) {
-			return a.get();
+		ReferenceableElement referenceableElement;
+		Optional<? extends ReferenceableElement> optionalRefElement = streams.stream().flatMap(s -> s).findFirst();
+		if (optionalRefElement.isPresent()) {
+			referenceableElement = optionalRefElement.get();
+		} else {
+			referenceableElement = classResolver.getByName(name);
 		}
-
-		return classResolver.getByName(name);
+		return referenceableElement;
 	}
 
 	private Predicate<? super IVariableBinding> bindingsFilter(String name) {

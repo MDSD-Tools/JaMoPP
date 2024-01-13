@@ -24,26 +24,28 @@ public class ToParameterNameConverter {
 	}
 
 	public String convertToParameterName(IVariableBinding binding, boolean register) {
+		String result;
 		if (binding == null) {
-			return "";
-		}
-		if (nameCache.containsKey(binding)) {
-			return nameCache.get(binding);
-		}
-		String prefix = "";
-		if (binding.getDeclaringMethod() != null) {
-			prefix = toMethodNameConverter.convertToMethodName(binding.getDeclaringMethod());
-		} else if (varBindToUid.containsKey(binding)) {
-			prefix = varBindToUid.get(binding) + "";
+			result = "";
+		} else if (nameCache.containsKey(binding)) {
+			result = nameCache.get(binding);
 		} else {
-			prefix = uidManager.getUid() + "";
-			if (register) {
-				varBindToUid.put(binding, uidManager.getUid());
+			String prefix;
+			if (binding.getDeclaringMethod() != null) {
+				prefix = toMethodNameConverter.convertToMethodName(binding.getDeclaringMethod());
+			} else if (varBindToUid.containsKey(binding)) {
+				prefix = String.valueOf(varBindToUid.get(binding));
+			} else {
+				prefix = String.valueOf(uidManager.getUid());
+				if (register) {
+					varBindToUid.put(binding, uidManager.getUid());
+				}
 			}
+			String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();
+			nameCache.put(binding, name);
+			result = name;
 		}
-		String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();
-		nameCache.put(binding, name);
-		return name;
+		return result;
 	}
 
 }

@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.Field;
 
@@ -134,25 +135,29 @@ public class ResolutionCompleter {
 			if (varBind == null || varBind.getDeclaringClass() == null) {
 				classResolverSynthetic.addToSyntheticClass(field);
 			} else {
-				tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
-						.getClassifier(varBind.getDeclaringClass());
-				if (cla == null) {
-					String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
-					if (anonymousClassResolver.getBindings().containsKey(typeName)) {
-						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-								.getBindings().get(typeName);
-						if (!anonClass.getMembers().contains(field)) {
-							anonClass.getMembers().add(field);
-						}
-					} else {
-						classResolverSynthetic.addToSyntheticClass(field);
-					}
-				} else if (!extractAdditionalInfosFromTypeBindings
-						&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier i
-						&& !i.getMembers().contains(field)) {
-					i.getMembers().add(field);
-				}
+				handleFieldsElse(field, varBind);
 			}
+		}
+	}
+
+	private void handleFieldsElse(Field field, IVariableBinding varBind) {
+		tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
+				.getClassifier(varBind.getDeclaringClass());
+		if (cla == null) {
+			String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
+			if (anonymousClassResolver.getBindings().containsKey(typeName)) {
+				tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
+						.getBindings().get(typeName);
+				if (!anonClass.getMembers().contains(field)) {
+					anonClass.getMembers().add(field);
+				}
+			} else {
+				classResolverSynthetic.addToSyntheticClass(field);
+			}
+		} else if (!extractAdditionalInfosFromTypeBindings
+				&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
+				&& !classifier.getMembers().contains(field)) {
+			classifier.getMembers().add(field);
 		}
 	}
 
@@ -162,9 +167,9 @@ public class ResolutionCompleter {
 					binding -> binding != null && constName.equals(toFieldNameConverter.convertToFieldName(binding)))
 					.findFirst().get();
 			if (!varBind.getDeclaringClass().isAnonymous()) {
-				var en = enumerationResolver.getByBinding(varBind.getDeclaringClass());
-				if (!extractAdditionalInfosFromTypeBindings && !en.getConstants().contains(enConst)) {
-					en.getConstants().add(enConst);
+				Enumeration enumeration = enumerationResolver.getByBinding(varBind.getDeclaringClass());
+				if (!extractAdditionalInfosFromTypeBindings && !enumeration.getConstants().contains(enConst)) {
+					enumeration.getConstants().add(enConst);
 				}
 			}
 		}
@@ -230,7 +235,7 @@ public class ResolutionCompleter {
 			String name = ele.getName();
 			name.codePoints().forEach(i -> {
 				if (i <= 0x20 || Character.MIN_SURROGATE <= i && i <= Character.MAX_SURROGATE) {
-					builder.append("\\u" + String.format("%04x", i));
+					builder.append("\\u").append(String.format("%04x", i));
 				} else {
 					builder.appendCodePoint(i);
 				}
