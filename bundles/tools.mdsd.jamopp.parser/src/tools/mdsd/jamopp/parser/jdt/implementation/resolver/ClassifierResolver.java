@@ -37,10 +37,16 @@ public class ClassifierResolver {
 				.getConcreteClassifier(typeName);
 		if (potClass != null) {
 			classifier = potClass;
-		} else if (binding.isAnonymous() || binding.isLocal() && binding.getDeclaringMember() == null
-				|| anonymousClassResolver.getBindings().containsKey(toTypeNameConverter.convertToTypeName(binding))) {
-			classifier = null;
-		} else if (binding.isAnnotation()) {
+		} else if (!binding.isAnonymous() && (!binding.isLocal() || binding.getDeclaringMember() != null)
+				&& !anonymousClassResolver.getBindings().containsKey(toTypeNameConverter.convertToTypeName(binding))) {
+			classifier = switchOverBinding(binding);
+		}
+		return classifier;
+	}
+
+	private tools.mdsd.jamopp.model.java.classifiers.Classifier switchOverBinding(ITypeBinding binding) {
+		tools.mdsd.jamopp.model.java.classifiers.Classifier classifier = null;
+		if (binding.isAnnotation()) {
 			classifier = annotationResolver.getByBinding(binding);
 		} else if (binding.isInterface()) {
 			classifier = interfaceResolver.getByBinding(binding);

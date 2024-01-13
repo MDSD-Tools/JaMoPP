@@ -85,7 +85,6 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(CompilationUnit node) {
-
 		setConvertedElement(null);
 		if (!node.types().isEmpty()) {
 			setConvertedElement(toCompilationUnitConverter.convert(node));
@@ -94,19 +93,17 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			tools.mdsd.jamopp.model.java.containers.Module module = toModuleConverter.convert(node.getModule());
 			setConvertedElement(module);
 		}
-		JavaRoot root = convertedRootElement;
-		if (root == null && node.getPackage() != null) {
-			root = jdtResolverUtility.getPackage(node.getPackage().resolveBinding());
-			root.setName("");
-			layoutInformationConverter.convertJavaRootLayoutInformation(root, node, getSource());
-			setConvertedElement(root);
+		if (convertedRootElement == null && node.getPackage() != null) {
+			convertedRootElement = jdtResolverUtility.getPackage(node.getPackage().resolveBinding());
+			convertedRootElement.setName("");
+			layoutInformationConverter.convertJavaRootLayoutInformation(convertedRootElement, node, getSource());
+			setConvertedElement(convertedRootElement);
 		}
-		JavaRoot finalRoot = root;
-		if (node.getPackage() != null && finalRoot != null && root != null) {
-			node.getPackage().annotations().forEach(
-					obj -> finalRoot.getAnnotations().add(annotationInstanceConverter.convert((Annotation) obj)));
-			root.getNamespaces().clear();
-			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), root);
+		if (node.getPackage() != null && convertedRootElement != null) {
+			node.getPackage().annotations().forEach(obj -> convertedRootElement.getAnnotations()
+					.add(annotationInstanceConverter.convert((Annotation) obj)));
+			convertedRootElement.getNamespaces().clear();
+			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), convertedRootElement);
 		}
 		if (convertedRootElement == null) {
 			convertedRootElement = containersFactory.createEmptyModel();
