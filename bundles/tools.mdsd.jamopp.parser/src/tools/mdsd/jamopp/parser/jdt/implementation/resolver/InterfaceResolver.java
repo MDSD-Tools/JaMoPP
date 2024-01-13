@@ -29,25 +29,28 @@ public class InterfaceResolver extends ResolverAbstract<Interface, ITypeBinding>
 	@Override
 	public Interface getByBinding(ITypeBinding binding) {
 		String interName = toTypeNameConverter.convertToTypeName(binding);
+		Interface interfaceResult;
 		if (getBindings().containsKey(interName)) {
-			return getBindings().get(interName);
-		}
-		typeBindings.add(binding);
-		Interface result;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
-				.getConcreteClassifier(interName);
-		if (classifier instanceof Interface) {
-			result = (Interface) classifier;
+			interfaceResult = getBindings().get(interName);
 		} else {
-			result = classifiersFactory.createInterface();
+			typeBindings.add(binding);
+			Interface result;
+			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
+					.getConcreteClassifier(interName);
+			if (classifier instanceof Interface) {
+				result = (Interface) classifier;
+			} else {
+				result = classifiersFactory.createInterface();
+			}
+			getBindings().put(interName, result);
+			interfaceResult = result;
 		}
-		getBindings().put(interName, result);
-		return result;
+		return interfaceResult;
 	}
 
 	@Override
 	public Interface getByName(String name) {
-		throw new RuntimeException("Not implemented");
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 }

@@ -43,38 +43,51 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 		IMethodBinding methoDeclaration = binding.getMethodDeclaration();
 		methodBindings.add(methoDeclaration);
 		String methName = toMethodNameConverter.convertToMethodName(methoDeclaration);
+		InterfaceMethod interfaceMethod;
 		if (getBindings().containsKey(methName)) {
-			return getBindings().get(methName);
+			interfaceMethod = getBindings().get(methName);
+		} else {
+			ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
+					.getClassifier(methoDeclaration.getDeclaringClass());
+			InterfaceMethod result = null;
+			if (classifier != null) {
+				result = handleNullClassifier(methoDeclaration, classifier, result);
+			}
+			if (result == null) {
+				result = createNewInterfaceMethod();
+			}
+			getBindings().put(methName, result);
+			interfaceMethod = result;
 		}
-		ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
-				.getClassifier(methoDeclaration.getDeclaringClass());
-		InterfaceMethod result = null;
-		if (classifier != null) {
-			for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
-				if (mem instanceof InterfaceMethod) {
-					result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
-							methoDeclaration);
-					if (result != null) {
-						break;
-					}
+		return interfaceMethod;
+	}
+
+	private InterfaceMethod handleNullClassifier(IMethodBinding methoDeclaration, ConcreteClassifier classifier,
+			InterfaceMethod result) {
+		InterfaceMethod interfaceMethod = result;
+		for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
+			if (mem instanceof InterfaceMethod) {
+				interfaceMethod = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
+						methoDeclaration);
+				if (result != null) {
+					break;
 				}
 			}
 		}
-		if (result == null) {
-			result = createNewInterfaceMethod();
-		}
-		getBindings().put(methName, result);
-		return result;
+		return interfaceMethod;
 	}
 
 	@Override
 	public InterfaceMethod getByName(String name) {
+		InterfaceMethod interfaceMethod;
 		if (getBindings().containsKey(name)) {
-			return getBindings().get(name);
+			interfaceMethod = getBindings().get(name);
+		} else {
+			InterfaceMethod result = createNewInterfaceMethod();
+			getBindings().put(name, result);
+			interfaceMethod = result;
 		}
-		InterfaceMethod result = createNewInterfaceMethod();
-		getBindings().put(name, result);
-		return result;
+		return interfaceMethod;
 	}
 
 	private InterfaceMethod createNewInterfaceMethod() {

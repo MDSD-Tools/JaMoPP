@@ -39,6 +39,7 @@ public class ClassifierResolver {
 			classifier = potClass;
 		} else if (binding.isAnonymous() || binding.isLocal() && binding.getDeclaringMember() == null
 				|| anonymousClassResolver.getBindings().containsKey(toTypeNameConverter.convertToTypeName(binding))) {
+			classifier = null;
 		} else if (binding.isAnnotation()) {
 			classifier = annotationResolver.getByBinding(binding);
 		} else if (binding.isInterface()) {
