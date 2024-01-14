@@ -1,6 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.expression;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -77,10 +78,10 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorAnd(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.AndExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.AndExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.AndExpression) expression;
 		} else {
@@ -89,18 +90,17 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		}
 		result.getChildren().add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) toExpressionConverter
 				.convert(infix.getRightOperand()));
-		infix.extendedOperands()
-				.forEach(obj -> result.getChildren()
-						.add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) toExpressionConverter
-								.convert((Expression) obj)));
+		((List<?>) infix.extendedOperands()).forEach(obj -> result.getChildren()
+				.add((tools.mdsd.jamopp.model.java.expressions.AndExpressionChild) toExpressionConverter
+						.convert((Expression) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorXor(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression) expression;
 		} else {
@@ -110,18 +110,17 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		result.getChildren()
 				.add((tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) toExpressionConverter
 						.convert(infix.getRightOperand()));
-		infix.extendedOperands()
-				.forEach(obj -> result.getChildren()
-						.add((tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) toExpressionConverter
-								.convert((Expression) obj)));
+		((List<?>) infix.extendedOperands()).forEach(obj -> result.getChildren()
+				.add((tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild) toExpressionConverter
+						.convert((Expression) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorOr(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression) expression;
 		} else {
@@ -131,18 +130,17 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		result.getChildren()
 				.add((tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) toExpressionConverter
 						.convert(infix.getRightOperand()));
-		infix.extendedOperands()
-				.forEach(obj -> result.getChildren()
-						.add((tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) toExpressionConverter
-								.convert((Expression) obj)));
+		((List<?>) infix.extendedOperands()).forEach(obj -> result.getChildren()
+				.add((tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpressionChild) toExpressionConverter
+						.convert((Expression) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalAnd(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression) expression;
 		} else {
@@ -151,16 +149,16 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		}
 		result.getChildren()
 				.add((ConditionalAndExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
-		infix.extendedOperands().forEach(obj -> result.getChildren()
+		((List<?>) infix.extendedOperands()).forEach(obj -> result.getChildren()
 				.add((ConditionalAndExpressionChild) toExpressionConverter.convert((Expression) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalOr(InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter.convert(infix.getLeftOperand());
+		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression) expression;
 		} else {
@@ -168,7 +166,7 @@ public class HandlerInfixExpression implements ExpressionHandler {
 			result.getChildren().add((ConditionalOrExpressionChild) expression);
 		}
 		result.getChildren().add((ConditionalOrExpressionChild) toExpressionConverter.convert(infix.getRightOperand()));
-		infix.extendedOperands().forEach(obj -> result.getChildren()
+		((List<?>) infix.extendedOperands()).forEach(obj -> result.getChildren()
 				.add((ConditionalOrExpressionChild) toExpressionConverter.convert((Expression) obj)));
 		utilLayout.convertToMinimalLayoutInformation(result, infix);
 		return result;

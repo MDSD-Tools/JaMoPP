@@ -33,16 +33,19 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 
 	@Override
 	public List<TypeReference> convert(ITypeBinding binding) {
-		List<TypeReference> result = new ArrayList<>();
+		List<TypeReference> list;
 		if (binding.isPrimitive()) {
-			handlePrimitive(binding, result);
+			list = new ArrayList<>();
+			handlePrimitive(binding, list);
 		} else if (binding.isArray()) {
-			return convert(binding.getElementType());
+			list = convert(binding.getElementType());
 		} else if (binding.isIntersectionType()) {
+			list = new ArrayList<>();
 			for (ITypeBinding b : binding.getTypeBounds()) {
-				result.addAll(convert(b));
+				list.addAll(convert(b));
 			}
 		} else {
+			list = new ArrayList<>();
 			Classifier classifier = iUtilJdtResolver.getClassifier(binding);
 			utilNamedElement.convertToNameAndSet(binding, classifier);
 			ClassifierReference ref = typesFactory.createClassifierReference();
@@ -52,9 +55,10 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 				}
 			}
 			ref.setTarget(classifier);
-			result.add(ref);
+			list.add(ref);
 		}
-		return result;
+
+		return list;
 	}
 
 	private void handlePrimitive(ITypeBinding binding, List<TypeReference> result) {

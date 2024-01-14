@@ -33,6 +33,7 @@ public class ExpressionStatementHandler implements StatementHandler {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
+		tools.mdsd.jamopp.model.java.statements.Statement statementResult;
 		ExpressionStatement exprSt = (ExpressionStatement) statement;
 		if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {
 			tools.mdsd.jamopp.model.java.statements.LocalVariableStatement result = statementsFactory
@@ -40,12 +41,14 @@ public class ExpressionStatementHandler implements StatementHandler {
 			result.setVariable(
 					toLocalVariableConverter.convert((VariableDeclarationExpression) exprSt.getExpression()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
-			return result;
+			statementResult = result;
+		} else {
+			tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = statementsFactory
+					.createExpressionStatement();
+			result.setExpression(expressionConverterUtility.convert(exprSt.getExpression()));
+			layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
+			statementResult = result;
 		}
-		tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = statementsFactory
-				.createExpressionStatement();
-		result.setExpression(expressionConverterUtility.convert(exprSt.getExpression()));
-		layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
-		return result;
+		return statementResult;
 	}
 }
