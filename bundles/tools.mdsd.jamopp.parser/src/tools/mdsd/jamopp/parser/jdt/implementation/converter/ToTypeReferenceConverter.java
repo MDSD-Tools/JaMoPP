@@ -74,7 +74,6 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private TypeReference handlePrimitiveType(Type type) {
 		PrimitiveType primType = (PrimitiveType) type;
 		tools.mdsd.jamopp.model.java.types.PrimitiveType convertedType;
@@ -97,7 +96,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		} else { // primType.getPrimitiveTypeCode() == PrimitiveType.VOID
 			convertedType = typesFactory.createVoid();
 		}
-		primType.annotations().forEach(
+		((List<?>) primType.annotations()).forEach(
 				obj -> convertedType.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedType, primType);
 		return convertedType;
@@ -120,7 +119,6 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		return ref;
 	}
 
-	@SuppressWarnings("unchecked")
 	private TypeReference handleNameQualifiedType(Type type) {
 		NameQualifiedType nqT = (NameQualifiedType) type;
 		NamespaceClassifierReference result;
@@ -132,14 +130,13 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 			result = (NamespaceClassifierReference) parentRef;
 		}
 		ClassifierReference child = toClassifierReferenceConverter.convert(nqT.getName());
-		nqT.annotations()
+		((List<?>) nqT.annotations())
 				.forEach(obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.getClassifierReferences().add(child);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, nqT);
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	private TypeReference handleQualifiedType(Type type) {
 		QualifiedType qualType = (QualifiedType) type;
 		NamespaceClassifierReference result;
@@ -152,14 +149,13 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 			result = (NamespaceClassifierReference) parentRef;
 		}
 		ClassifierReference childRef = toClassifierReferenceConverter.convert(qualType.getName());
-		qualType.annotations()
+		((List<?>) qualType.annotations())
 				.forEach(obj -> childRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.getClassifierReferences().add(childRef);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, qualType);
 		return result;
 	}
 
-	@SuppressWarnings({ "unchecked" })
 	private TypeReference handleSimpleType(Type type) {
 		SimpleType simT = (SimpleType) type;
 		TypeReference ref;
@@ -167,7 +163,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 			ref = utilBaseConverter.convert(simT.getName());
 		} else {
 			ClassifierReference tempRef = toClassifierReferenceConverter.convert((SimpleName) simT.getName());
-			simT.annotations().forEach(
+			((List<?>) simT.annotations()).forEach(
 					obj -> tempRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			ref = tempRef;
 		}

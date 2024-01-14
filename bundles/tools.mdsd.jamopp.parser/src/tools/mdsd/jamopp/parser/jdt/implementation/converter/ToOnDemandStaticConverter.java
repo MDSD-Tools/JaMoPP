@@ -1,16 +1,17 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
+
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.imports.Import;
 import tools.mdsd.jamopp.model.java.imports.ImportsFactory;
 import tools.mdsd.jamopp.model.java.imports.StaticClassifierImport;
 import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -26,8 +27,7 @@ public class ToOnDemandStaticConverter implements Converter<ImportDeclaration, I
 
 	@Inject
 	public ToOnDemandStaticConverter(UtilNamedElement utilNamedElement, ModifiersFactory modifiersFactory,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			ImportsFactory importsFactory) {
+			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, ImportsFactory importsFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -40,7 +40,7 @@ public class ToOnDemandStaticConverter implements Converter<ImportDeclaration, I
 		StaticClassifierImport convertedImport = importsFactory.createStaticClassifierImport();
 		convertedImport.setStatic(modifiersFactory.createStatic());
 		IBinding binding = importDecl.getName().resolveBinding();
-		Classifier proxyClass = null;
+		Classifier proxyClass;
 		if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
 			proxyClass = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 		} else {

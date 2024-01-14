@@ -2,7 +2,12 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import javax.inject.Inject;
 
@@ -14,52 +19,36 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 public class ToModifiersConverter
 		implements Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> {
 
-	private final ModifiersFactory modifiersFactory;
+	private final Map<Predicate<Integer>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> mappings;
 
 	@Inject
 	public ToModifiersConverter(ModifiersFactory modifiersFactory) {
-		this.modifiersFactory = modifiersFactory;
+		mappings = new HashMap<>();
+		mappings.put(Modifier::isAbstract, () -> modifiersFactory.createAbstract());
+		mappings.put(Modifier::isDefault, () -> modifiersFactory.createDefault());
+		mappings.put(Modifier::isFinal, () -> modifiersFactory.createFinal());
+		mappings.put(Modifier::isNative, () -> modifiersFactory.createNative());
+		mappings.put(Modifier::isPrivate, () -> modifiersFactory.createPrivate());
+		mappings.put(Modifier::isProtected, () -> modifiersFactory.createProtected());
+		mappings.put(Modifier::isPublic, () -> modifiersFactory.createPublic());
+		mappings.put(Modifier::isStatic, () -> modifiersFactory.createStatic());
+		mappings.put(Modifier::isStrictfp, () -> modifiersFactory.createStrictfp());
+		mappings.put(Modifier::isSynchronized, () -> modifiersFactory.createSynchronized());
+		mappings.put(Modifier::isTransient, () -> modifiersFactory.createTransient());
+		mappings.put(Modifier::isVolatile, () -> modifiersFactory.createVolatile());
 	}
 
 	@Override
 	public Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier> convert(Integer modifiers) {
 		List<tools.mdsd.jamopp.model.java.modifiers.Modifier> result = new ArrayList<>();
-		if (Modifier.isAbstract(modifiers)) {
-			result.add(modifiersFactory.createAbstract());
+
+		for (Entry<Predicate<Integer>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> entry : mappings
+				.entrySet()) {
+			if (entry.getKey().test(modifiers)) {
+				result.add(entry.getValue().get());
+			}
 		}
-		if (Modifier.isDefault(modifiers)) {
-			result.add(modifiersFactory.createDefault());
-		}
-		if (Modifier.isFinal(modifiers)) {
-			result.add(modifiersFactory.createFinal());
-		}
-		if (Modifier.isNative(modifiers)) {
-			result.add(modifiersFactory.createNative());
-		}
-		if (Modifier.isPrivate(modifiers)) {
-			result.add(modifiersFactory.createPrivate());
-		}
-		if (Modifier.isProtected(modifiers)) {
-			result.add(modifiersFactory.createProtected());
-		}
-		if (Modifier.isPublic(modifiers)) {
-			result.add(modifiersFactory.createPublic());
-		}
-		if (Modifier.isStatic(modifiers)) {
-			result.add(modifiersFactory.createStatic());
-		}
-		if (Modifier.isStrictfp(modifiers)) {
-			result.add(modifiersFactory.createStrictfp());
-		}
-		if (Modifier.isSynchronized(modifiers)) {
-			result.add(modifiersFactory.createSynchronized());
-		}
-		if (Modifier.isTransient(modifiers)) {
-			result.add(modifiersFactory.createTransient());
-		}
-		if (Modifier.isVolatile(modifiers)) {
-			result.add(modifiersFactory.createVolatile());
-		}
+
 		return result;
 	}
 

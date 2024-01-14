@@ -1,15 +1,15 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Dimension;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
+
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionAfterAndSetConverter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.ToArrayDimensionsAndSetConverter;
@@ -28,7 +28,7 @@ public class ToOrdinaryParameterConverter implements Converter<SingleVariableDec
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement,
+	public ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement,
 			Converter<Type, TypeReference> toTypeReferenceConverter,
 			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
 			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
@@ -52,8 +52,8 @@ public class ToOrdinaryParameterConverter implements Converter<SingleVariableDec
 		result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));
 		utilToArrayDimensionsAndSetConverter.convert(decl.getType(), result);
 		utilNamedElement.setNameOfElement(decl.getName(), result);
-		decl.extraDimensions().forEach(obj -> utilToArrayDimensionAfterAndSetConverter
-				.convert((Dimension) obj, result));
+		decl.extraDimensions()
+				.forEach(obj -> utilToArrayDimensionAfterAndSetConverter.convert((Dimension) obj, result));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, decl);
 		return result;
 	}

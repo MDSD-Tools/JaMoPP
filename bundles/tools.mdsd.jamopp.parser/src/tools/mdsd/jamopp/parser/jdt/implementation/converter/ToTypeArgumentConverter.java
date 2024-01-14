@@ -32,21 +32,23 @@ public class ToTypeArgumentConverter implements Converter<ITypeBinding, TypeArgu
 	@Override
 	public TypeArgument convert(ITypeBinding binding) {
 		TypeArgument typeArgument;
-		if (!binding.isWildcardType()) {
+		if (binding.isWildcardType()) {
+			if (binding.getBound() == null) {
+				typeArgument = genericsFactory.createUnknownTypeArgument();
+			} else if (binding.isUpperbound()) {
+				ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
+				result.setExtendType(toTypeReferencesConverter.convert(binding.getBound()).get(0));
+				utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
+				typeArgument = result;
+			} else {
+				SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
+				result.setSuperType(toTypeReferencesConverter.convert(binding.getBound()).get(0));
+				utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
+				typeArgument = result;
+			}
+		} else {
 			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 			result.setTypeReference(toTypeReferencesConverter.convert(binding).get(0));
-			utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
-			typeArgument = result;
-		} else if (binding.getBound() == null) {
-			typeArgument = genericsFactory.createUnknownTypeArgument();
-		} else if (binding.isUpperbound()) {
-			ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
-			result.setExtendType(toTypeReferencesConverter.convert(binding.getBound()).get(0));
-			utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
-			typeArgument = result;
-		} else {
-			SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
-			result.setSuperType(toTypeReferencesConverter.convert(binding.getBound()).get(0));
 			utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
 			typeArgument = result;
 		}
