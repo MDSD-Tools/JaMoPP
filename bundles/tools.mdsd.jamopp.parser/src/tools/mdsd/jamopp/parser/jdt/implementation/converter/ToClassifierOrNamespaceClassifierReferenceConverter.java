@@ -13,6 +13,8 @@
 
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -50,33 +52,41 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter implements Conv
 			QualifiedName qualifiedName = (QualifiedName) name;
 			NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 			if (name.resolveBinding() == null) {
-				ref.getClassifierReferences().add(toClassifierReferenceConverter.convert(qualifiedName.getName()));
-				utilNamedElement.addNameToNameSpace(qualifiedName.getQualifier(), ref);
+				handleResolveBindingsNull(qualifiedName, ref);
 			} else {
-				Name qualifier = qualifiedName.getQualifier();
-				SimpleName simpleName = qualifiedName.getName();
-				while (simpleName != null && simpleName.resolveBinding() instanceof ITypeBinding) {
-					ref.getClassifierReferences().add(0, toClassifierReferenceConverter.convert(simpleName));
-					if (qualifier == null) {
-						simpleName = null;
-					} else if (qualifier.isSimpleName()) {
-						simpleName = (SimpleName) qualifier;
-						qualifier = null;
-					} else {
-						simpleName = ((QualifiedName) qualifier).getName();
-						qualifier = ((QualifiedName) qualifier).getQualifier();
-					}
-				}
-				if (simpleName != null && !(simpleName.resolveBinding() instanceof ITypeBinding)) {
-					utilNamedElement.addNameToNameSpace(simpleName, ref);
-				}
-				if (qualifier != null) {
-					utilNamedElement.addNameToNameSpace(qualifier, ref);
-				}
+				handleResolveBindingsNotNull(qualifiedName, ref);
 			}
 			result = ref;
 		}
 		return result;
+	}
+
+	private void handleResolveBindingsNotNull(QualifiedName qualifiedName, NamespaceClassifierReference ref) {
+		Optional<Name> qualifier = Optional.of(qualifiedName.getQualifier());
+		Optional<SimpleName> simpleName = Optional.of(qualifiedName.getName());
+		while (simpleName.isPresent() && simpleName.get().resolveBinding() instanceof ITypeBinding) {
+			ref.getClassifierReferences().add(0, toClassifierReferenceConverter.convert(simpleName.get()));
+			if (qualifier.isEmpty()) {
+				simpleName = Optional.empty();
+			} else if (qualifier.get().isSimpleName()) {
+				simpleName = Optional.of((SimpleName) qualifier.get());
+				qualifier = Optional.empty();
+			} else {
+				simpleName = Optional.of(((QualifiedName) qualifier.get()).getName());
+				qualifier = Optional.of(((QualifiedName) qualifier.get()).getQualifier());
+			}
+		}
+		if (simpleName.isPresent() && !(simpleName.get().resolveBinding() instanceof ITypeBinding)) {
+			utilNamedElement.addNameToNameSpace(simpleName.get(), ref);
+		}
+		if (qualifier.isPresent()) {
+			utilNamedElement.addNameToNameSpace(qualifier.get(), ref);
+		}
+	}
+
+	private void handleResolveBindingsNull(QualifiedName qualifiedName, NamespaceClassifierReference ref) {
+		ref.getClassifierReferences().add(toClassifierReferenceConverter.convert(qualifiedName.getName()));
+		utilNamedElement.addNameToNameSpace(qualifiedName.getQualifier(), ref);
 	}
 
 }
