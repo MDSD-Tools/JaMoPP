@@ -1,6 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
 
 import javax.inject.Inject;
 
@@ -20,56 +24,97 @@ public class ObjectToPrimaryExpressionConverter implements Converter<Object, Pri
 
 	private final ReferencesFactory referencesFactory;
 	private final LiteralsFactory literalsFactory;
+	private final Map<Class<?>, Function<Object, PrimaryExpression>> mappings;
 
 	@Inject
 	public ObjectToPrimaryExpressionConverter(ReferencesFactory referencesFactory, LiteralsFactory literalsFactory) {
 		this.referencesFactory = referencesFactory;
 		this.literalsFactory = literalsFactory;
+		mappings = new HashMap<>();
+
+		mappings.put(String.class, this::handleString);
+		mappings.put(Boolean.class, this::handleBoolean);
+		mappings.put(Character.class, this::handleCharacter);
+		mappings.put(Byte.class, this::handleByte);
+		mappings.put(Short.class, this::handleShort);
+		mappings.put(Integer.class, this::handleInteger);
+		mappings.put(Long.class, this::handleLong);
+		mappings.put(Float.class, this::handleFloat);
+		mappings.put(Double.class, this::handleDouble);
 	}
 
 	@Override
 	public PrimaryExpression convert(Object value) {
-		PrimaryExpression result;
-		if (value instanceof String) {
-			StringReference ref = referencesFactory.createStringReference();
-			ref.setValue((String) value);
-			result = ref;
-		} else if (value instanceof Boolean) {
-			BooleanLiteral literal = literalsFactory.createBooleanLiteral();
-			literal.setValue((boolean) value);
-			result = literal;
-		} else if (value instanceof Character) {
-			CharacterLiteral literal = literalsFactory.createCharacterLiteral();
-			literal.setValue("\\u" + Integer.toHexString((Character) value));
-			result = literal;
-		} else if (value instanceof Byte) {
-			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
-			literal.setDecimalValue(BigInteger.valueOf((byte) value));
-			result = literal;
-		} else if (value instanceof Short) {
-			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
-			literal.setDecimalValue(BigInteger.valueOf((short) value));
-			result = literal;
-		} else if (value instanceof Integer) {
-			DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
-			literal.setDecimalValue(BigInteger.valueOf((int) value));
-			result = literal;
-		} else if (value instanceof Long) {
-			DecimalLongLiteral literal = literalsFactory.createDecimalLongLiteral();
-			literal.setDecimalValue(BigInteger.valueOf((long) value));
-			result = literal;
-		} else if (value instanceof Float) {
-			DecimalFloatLiteral literal = literalsFactory.createDecimalFloatLiteral();
-			literal.setDecimalValue((float) value);
-			result = literal;
-		} else if (value instanceof Double) {
-			DecimalDoubleLiteral literal = literalsFactory.createDecimalDoubleLiteral();
-			literal.setDecimalValue((double) value);
-			result = literal;
-		} else {
+		PrimaryExpression result = null;
+
+		for (Entry<Class<?>, Function<Object, PrimaryExpression>> entry : mappings.entrySet()) {
+			Class<?> key = entry.getKey();
+			Function<Object, PrimaryExpression> val = entry.getValue();
+			if (key.isInstance(value)) {
+				result = val.apply(value);
+				break;
+			}
+		}
+
+		if (result == null) {
 			result = literalsFactory.createNullLiteral();
 		}
+
 		return result;
+	}
+
+	private PrimaryExpression handleDouble(Object value) {
+		DecimalDoubleLiteral literal = literalsFactory.createDecimalDoubleLiteral();
+		literal.setDecimalValue((double) value);
+		return literal;
+	}
+
+	private PrimaryExpression handleFloat(Object value) {
+		DecimalFloatLiteral literal = literalsFactory.createDecimalFloatLiteral();
+		literal.setDecimalValue((float) value);
+		return literal;
+	}
+
+	private PrimaryExpression handleLong(Object value) {
+		DecimalLongLiteral literal = literalsFactory.createDecimalLongLiteral();
+		literal.setDecimalValue(BigInteger.valueOf((long) value));
+		return literal;
+	}
+
+	private PrimaryExpression handleInteger(Object value) {
+		DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
+		literal.setDecimalValue(BigInteger.valueOf((int) value));
+		return literal;
+	}
+
+	private PrimaryExpression handleShort(Object value) {
+		DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
+		literal.setDecimalValue(BigInteger.valueOf((short) value));
+		return literal;
+	}
+
+	private PrimaryExpression handleByte(Object value) {
+		DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
+		literal.setDecimalValue(BigInteger.valueOf((byte) value));
+		return literal;
+	}
+
+	private PrimaryExpression handleCharacter(Object value) {
+		CharacterLiteral literal = literalsFactory.createCharacterLiteral();
+		literal.setValue("\\u" + Integer.toHexString((Character) value));
+		return literal;
+	}
+
+	private PrimaryExpression handleBoolean(Object value) {
+		BooleanLiteral literal = literalsFactory.createBooleanLiteral();
+		literal.setValue((boolean) value);
+		return literal;
+	}
+
+	private PrimaryExpression handleString(Object value) {
+		StringReference ref = referencesFactory.createStringReference();
+		ref.setValue((String) value);
+		return ref;
 	}
 
 }
