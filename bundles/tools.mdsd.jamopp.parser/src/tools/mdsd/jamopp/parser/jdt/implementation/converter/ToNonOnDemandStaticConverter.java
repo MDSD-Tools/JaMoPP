@@ -47,48 +47,61 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 		convertedImport.setStatic(modifiersFactory.createStatic());
 		QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
 		IBinding iBinding = qualifiedName.resolveBinding();
-		ReferenceableElement proxyMember = null;
+
+		ReferenceableElement proxyMember;
 		Classifier proxyClass = null;
+
 		if (iBinding instanceof IMethodBinding) {
 			proxyMember = jdtResolverUtility.getMethod((IMethodBinding) iBinding);
 		} else if (iBinding instanceof IVariableBinding) {
 			proxyMember = jdtResolverUtility.getReferencableElement((IVariableBinding) iBinding);
+		} else if (iBinding instanceof ITypeBinding typeBinding && typeBinding.isNested()) {
+			proxyMember = jdtResolverUtility.getClassifier(typeBinding);
+			proxyClass = jdtResolverUtility.getClassifier(typeBinding.getDeclaringClass());
 		} else if (iBinding instanceof ITypeBinding typeBinding) {
-			if (typeBinding.isNested()) {
-				proxyMember = jdtResolverUtility.getClassifier(typeBinding);
-				proxyClass = jdtResolverUtility.getClassifier(typeBinding.getDeclaringClass());
-			} else {
-				proxyClass = jdtResolverUtility.getClassifier(typeBinding);
-				ConcreteClassifier conCl = (ConcreteClassifier) proxyClass;
-				for (Member m : conCl.getMembers()) {
-					if (!(m instanceof Constructor) && m.getName().equals(qualifiedName.getName().getIdentifier())) {
-						proxyMember = (ReferenceableElement) m;
-						break;
-					}
-				}
-				if (proxyMember == null) {
-					proxyMember = jdtResolverUtility.getClassMethod(qualifiedName.getFullyQualifiedName());
-					proxyMember.setName(qualifiedName.getName().getIdentifier());
-					conCl.getMembers().add((Member) proxyMember);
-				}
+			proxyClass = jdtResolverUtility.getClassifier(typeBinding);
+			ConcreteClassifier conCl = (ConcreteClassifier) proxyClass;
+			proxyMember = findProxyMember(qualifiedName, conCl);
+			if (proxyMember == null) {
+				proxyMember = jdtResolverUtility.getClassMethod(qualifiedName.getFullyQualifiedName());
+				proxyMember.setName(qualifiedName.getName().getIdentifier());
+				conCl.getMembers().add((Member) proxyMember);
 			}
 		} else {
 			proxyMember = jdtResolverUtility.getField(qualifiedName.getFullyQualifiedName());
 		}
+
 		proxyMember.setName(qualifiedName.getName().getIdentifier());
 		convertedImport.getStaticMembers().add(proxyMember);
 		if (proxyClass == null) {
-			IBinding binding = qualifiedName.getQualifier().resolveBinding();
-			if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
-				proxyClass = jdtResolverUtility.getClass(qualifiedName.getQualifier().getFullyQualifiedName());
-			} else {
-				proxyClass = jdtResolverUtility.getClassifier((ITypeBinding) binding);
-			}
+			proxyClass = handleProxyClassIsNull(qualifiedName);
 		}
 		convertedImport.setClassifier((ConcreteClassifier) proxyClass);
 		utilNamedElement.addNameToNameSpaceAndElement(qualifiedName.getQualifier(), convertedImport, proxyClass);
 		layoutInformationConverter.convertToMinimalLayoutInformation(convertedImport, importDecl);
 		return convertedImport;
+	}
+
+	private ReferenceableElement findProxyMember(QualifiedName qualifiedName, ConcreteClassifier conCl) {
+		ReferenceableElement newProxyMember = null;
+		for (Member m : conCl.getMembers()) {
+			if (!(m instanceof Constructor) && m.getName().equals(qualifiedName.getName().getIdentifier())) {
+				newProxyMember = (ReferenceableElement) m;
+				break;
+			}
+		}
+		return newProxyMember;
+	}
+
+	private Classifier handleProxyClassIsNull(QualifiedName qualifiedName) {
+		Classifier proxyClass;
+		IBinding binding = qualifiedName.getQualifier().resolveBinding();
+		if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
+			proxyClass = jdtResolverUtility.getClass(qualifiedName.getQualifier().getFullyQualifiedName());
+		} else {
+			proxyClass = jdtResolverUtility.getClassifier((ITypeBinding) binding);
+		}
+		return proxyClass;
 	}
 
 }
