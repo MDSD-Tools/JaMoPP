@@ -1,7 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Supplier;
 
 import javax.inject.Inject;
 
@@ -22,6 +26,7 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	private final JdtResolver iUtilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
 	private Converter<ITypeBinding, TypeArgument> toTypeArgumentConverter;
+	private final Map<String, Supplier<TypeReference>> mappings;
 
 	@Inject
 	public ToTypeReferencesConverter(TypesFactory typesFactory, UtilNamedElement utilNamedElement,
@@ -29,6 +34,16 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 		this.typesFactory = typesFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
+		mappings = new HashMap<>();
+		mappings.put("int", () -> typesFactory.createInt());
+		mappings.put("byte", () -> typesFactory.createByte());
+		mappings.put("short", () -> typesFactory.createShort());
+		mappings.put("long", () -> typesFactory.createLong());
+		mappings.put("boolean", () -> typesFactory.createBoolean());
+		mappings.put("double", () -> typesFactory.createDouble());
+		mappings.put("float", () -> typesFactory.createFloat());
+		mappings.put("void", () -> typesFactory.createVoid());
+		mappings.put("char", () -> typesFactory.createChar());
 	}
 
 	@Override
@@ -62,24 +77,11 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	}
 
 	private void handlePrimitive(ITypeBinding binding, List<TypeReference> result) {
-		if ("int".equals(binding.getName())) {
-			result.add(typesFactory.createInt());
-		} else if ("byte".equals(binding.getName())) {
-			result.add(typesFactory.createByte());
-		} else if ("short".equals(binding.getName())) {
-			result.add(typesFactory.createShort());
-		} else if ("long".equals(binding.getName())) {
-			result.add(typesFactory.createLong());
-		} else if ("boolean".equals(binding.getName())) {
-			result.add(typesFactory.createBoolean());
-		} else if ("double".equals(binding.getName())) {
-			result.add(typesFactory.createDouble());
-		} else if ("float".equals(binding.getName())) {
-			result.add(typesFactory.createFloat());
-		} else if ("void".equals(binding.getName())) {
-			result.add(typesFactory.createVoid());
-		} else if ("char".equals(binding.getName())) {
-			result.add(typesFactory.createChar());
+		for (Entry<String, Supplier<TypeReference>> entry : mappings.entrySet()) {
+			if (entry.getKey().equals(binding.getName())) {
+				result.add(entry.getValue().get());
+				break;
+			}
 		}
 	}
 

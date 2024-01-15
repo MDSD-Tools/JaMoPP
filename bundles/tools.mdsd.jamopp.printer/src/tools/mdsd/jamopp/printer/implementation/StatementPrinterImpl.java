@@ -96,7 +96,6 @@ public class StatementPrinterImpl implements Printer<Statement> {
 
 	@Override
 	public void print(Statement element, BufferedWriter writer) throws IOException {
-
 		if (mappings.isEmpty()) {
 			mappings.add(new Mapping<>(ConcreteClassifier.class, concreteClassifierPrinter));
 			mappings.add(new Mapping<>(Assert.class, assertPrinter));

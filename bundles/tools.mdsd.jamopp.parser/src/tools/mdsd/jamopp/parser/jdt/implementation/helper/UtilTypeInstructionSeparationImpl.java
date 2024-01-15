@@ -88,45 +88,42 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleAnnotationSetting() {
-		Iterator<Expression> exprIter;
-		HashMap<Expression, AnnotationAttributeSetting> clonedAnnotationSetting = new HashMap<>(annotationSetting);
-		exprIter = clonedAnnotationSetting.keySet().iterator();
+		HashMap<Expression, AnnotationAttributeSetting> clone = new HashMap<>(annotationSetting);
+		Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (visitedObjects.contains(clonedAnnotationSetting.get(exprIter.next()))) {
+			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
-		clonedAnnotationSetting.forEach((expr, aas) -> {
+		clone.forEach((expr, aas) -> {
 			visitedObjects.add(aas);
 			aas.setValue(toAnnotationValueConverter.convert(expr));
 		});
 	}
 
 	private void handleSingleAnnotations() {
-		Iterator<Expression> exprIter;
-		HashMap<Expression, SingleAnnotationParameter> clonedSingleAnnotations = new HashMap<>(singleAnnotations);
-		exprIter = clonedSingleAnnotations.keySet().iterator();
+		HashMap<Expression, SingleAnnotationParameter> clone = new HashMap<>(singleAnnotations);
+		Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (visitedObjects.contains(clonedSingleAnnotations.get(exprIter.next()))) {
+			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
-		clonedSingleAnnotations.forEach((expr, sap) -> {
+		clone.forEach((expr, sap) -> {
 			visitedObjects.add(sap);
 			sap.setValue(toAnnotationValueConverter.convert(expr));
 		});
 	}
 
 	private void handleAnnotationMethods() {
-		Iterator<Expression> exprIter;
-		HashMap<Expression, InterfaceMethod> clonedAnnotationMethods = new HashMap<>(annotationMethods);
-		exprIter = clonedAnnotationMethods.keySet().iterator();
+		HashMap<Expression, InterfaceMethod> clone = new HashMap<>(annotationMethods);
+		Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (visitedObjects.contains(clonedAnnotationMethods.get(exprIter.next()))) {
+			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
-		clonedAnnotationMethods.forEach((expr, m) -> {
+		clone.forEach((expr, m) -> {
 			visitedObjects.add(m);
 			m.setDefaultValue(toAnnotationValueConverter.convert(expr));
 		});
@@ -134,15 +131,14 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 
 	@SuppressWarnings("unchecked")
 	private void handleInitializers() {
-		Iterator<Block> iter;
-		HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> clonedInitializers = new HashMap<>(initializers);
-		iter = clonedInitializers.keySet().iterator();
+		HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> clone = new HashMap<>(initializers);
+		Iterator<Block> iter = clone.keySet().iterator();
 		while (iter.hasNext()) {
-			if (visitedObjects.contains(clonedInitializers.get(iter.next()))) {
+			if (visitedObjects.contains(clone.get(iter.next()))) {
 				iter.remove();
 			}
 		}
-		clonedInitializers.forEach((b1, b2) -> {
+		clone.forEach((b1, b2) -> {
 			visitedObjects.add(b2);
 			jdtResolverUtility.prepareNextUid();
 			b1.statements()
@@ -151,59 +147,56 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleAddFields() {
-		Iterator<Expression> exprIter;
-		HashMap<Expression, AdditionalField> clonedAddFields = new HashMap<>(addFields);
-		exprIter = clonedAddFields.keySet().iterator();
+		HashMap<Expression, AdditionalField> clone = new HashMap<>(addFields);
+		Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (visitedObjects.contains(clonedAddFields.get(exprIter.next()))) {
+			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
-		clonedAddFields.forEach((expr, f) -> {
+		clone.forEach((expr, f) -> {
 			visitedObjects.add(f);
 			f.setInitialValue(expressionConverterUtility.convert(expr));
 		});
 	}
 
 	private void handleFields() {
-		HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> clonedFields = new HashMap<>(fields);
-		Iterator<Expression> exprIter = clonedFields.keySet().iterator();
+		HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> clone = new HashMap<>(fields);
+		Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
-			if (visitedObjects.contains(clonedFields.get(exprIter.next()))) {
+			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
 			}
 		}
-		clonedFields.forEach((expr, f) -> {
+		clone.forEach((expr, f) -> {
 			visitedObjects.add(f);
 			f.setInitialValue(expressionConverterUtility.convert(expr));
 		});
 	}
 
 	private void handleConstructors() {
-		Iterator<Block> iter;
-		HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> clonedConstructors = new HashMap<>(
-				constructors);
-		iter = clonedConstructors.keySet().iterator();
+		HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> clone = new HashMap<>(constructors);
+		Iterator<Block> iter = clone.keySet().iterator();
 		while (iter.hasNext()) {
-			if (visitedObjects.contains(clonedConstructors.get(iter.next()))) {
+			if (visitedObjects.contains(clone.get(iter.next()))) {
 				iter.remove();
 			}
 		}
-		clonedConstructors.forEach((b, c) -> {
+		clone.forEach((b, c) -> {
 			visitedObjects.add(c);
 			c.setBlock(blockToBlockConverter.convert(b));
 		});
 	}
 
 	private void handleMethods() {
-		HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> clonedMethods = new HashMap<>(methods);
-		Iterator<Block> iter = clonedMethods.keySet().iterator();
+		HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> clone = new HashMap<>(methods);
+		Iterator<Block> iter = clone.keySet().iterator();
 		while (iter.hasNext()) {
-			if (visitedObjects.contains(clonedMethods.get(iter.next()))) {
+			if (visitedObjects.contains(clone.get(iter.next()))) {
 				iter.remove();
 			}
 		}
-		clonedMethods.forEach((b, m) -> {
+		clone.forEach((b, m) -> {
 			visitedObjects.add(m);
 			m.setStatement(blockToBlockConverter.convert(b));
 		});
