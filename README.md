@@ -1,27 +1,11 @@
 # JaMoPP
+
 **Notice:** This repository is not endorsed by or affiliated with DevBoost GmbH or Software Technology Group, Dresden University of Technology.
 
 JaMoPP can parse Java source code into EMF-based models and vice versa. It can be used for code analysis and refactoring.
 
-# Getting Started
-* For stand-alone usage, use the code in jamopp.standalone.JaMoPPStandalone.java (jamopp.standalone/src/jamopp/standalone/JaMoPPStandalone.java) as a starting point.
+## State
 
-# Download/Installation
-Currently, JaMoPP only supports a direct inclusion of its sources into Eclipse.
-To get the project running, you need to follow these steps:
-1. Download Eclipse Modeling
-2. Download Java 17
-3. Download Maven 3.8.7
-4. In Eclipse: click File -> Import and select General -> Existing Projects into Workspace
-5. Select root folder of project and import all nested projects
-6. Go to "java.genmodel" and "layout.genmodel", rightclick on the root element and press "generate all"
-7. To test the setup, open cmd in root folder and build project with "mvn clean verify"
-
-# Sources on GitHub
-[https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools](https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools)\
-Original repository: [https://github.com/DevBoost/JaMoPP](https://github.com/DevBoost/JaMoPP)
-
-# State 
 - Complete support for Java up to 14 and support of Java 15 in meta-model and printer implementation.
 - Removed loading of class files and old reference resolution and parser.
 - For parsing and reference resolution, JDT is used.
@@ -29,29 +13,52 @@ Original repository: [https://github.com/DevBoost/JaMoPP](https://github.com/Dev
 - Replaced the JavaResource with a new, simple JavaResource2 implementation.
 - Updated and extended all test cases.
 
-# User Guide
+## Getting Started
 
-# Developer Guide
+Currently, JaMoPP only supports a direct inclusion of its sources into Eclipse.
 
-# Modules
-An overview of all four modules with short descriptions about their content and usage.
-* bundles
-    * tools.mdsd.jamopp.commons.jdt
-    * tools.mdsd.jamopp.commons.layout
-    * tools.mdsd.jamopp.commons.layout.edit
-    * tools.mdsd.jamopp.model.java (Contains the model)
-    * tools.mdsd.jamopp.model.java.edit
-    * tools.mdsd.jamopp.model.java.editor
-    * tools.mdsd.jamopp.parser (Contains the interface JaMoPPParserAPI that parses file contents into JavaRoot instances)
-    * tools.mdsd.jamopp.parser.jdt (Implements interface from tools.mdsd.jamopp.parser)
-    * tools.mdsd.jamopp.printer (Writes a JavaRoot instance into a OutputStream)
-    * tools.mdsd.jamopp.resource (Contains JavaResource2 which extends ResourceImpl)
-    * tools.mdsd.jamopp.standalone (Contains a main class for standalone usage of jamopp)
-* features
-    * org.emftext.language.java.feature
-* releng
-    * tools.mdsd.jamopp.mwe2
-    * tools.mdsd.jamopp.targetplatform
-    * tools.mdsd.jamopp.updatesite
-* tests
-    * org.emftext.language.java.test
+For stand-alone usage, use the code in `jamopp.standalone.JaMoPPStandalone.java`  as a starting point.
+
+### Prerequisites
+
+- Eclipse Modeling
+
+- Java 17
+
+- Maven 3.8.7
+
+### Installing
+
+1. In Eclipse: click File -> Import and select General -> Existing Projects into Workspace
+2. Select root folder of project and import all `/tools.mdsd.jamopp` nested projects except `/tools.mdsd.jamopp.mwe2`.
+3. Generate code from `.genmodel` files. For each file right click on the root element and press Generate All
+   - `/tools.mdsd.jamopp.model.java/metamodel/java.genmodel`
+   
+   - `/tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel`
+   
+   - `/tools.mdsd.jamopp.commons.jdt/metamodel/jdt.genmodel`
+4. To test the setup, open the console in root folder and build project with "mvn clean verify"
+
+## Built With
+
+- [Eclipse Tycho](https://projects.eclipse.org/projects/technology.tycho)
+
+- [Maven](https://maven.apache.org/)
+
+## Codestyle
+
+For styling the Eclipse plugin [Eclipse-PMD](https://github.com/eclipse-pmd) and [Teamscale](https://teamscale.com) is used.
+
+The PMD ruleset is `JaMoPP\codestyle\jamopp-ruleset.xml`.
+
+The Teamscale analysis profile is `JaMoPP\codestyle\Jamopp-Profile.tsanalysisprofile`.
+
+## Links
+
+- Related: [GitHub - PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools](https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools)
+
+- Original repository: [GitHub - DevBoost/JaMoPP](https://github.com/DevBoost/JaMoPP)
+
+## Licensing
+
+The code in this project is licensed under the [Eclipse Public License - Version 1.0](https://www.eclipse.org/legal/epl-v10.html).
