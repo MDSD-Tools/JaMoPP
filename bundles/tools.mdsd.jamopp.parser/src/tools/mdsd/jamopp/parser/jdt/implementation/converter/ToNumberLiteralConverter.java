@@ -14,22 +14,28 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import java.math.BigInteger;
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import javax.inject.Inject;
 
 import org.eclipse.jdt.core.dom.NumberLiteral;
 
+import tools.mdsd.jamopp.model.java.literals.Literal;
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 
-public class ToNumberLiteralConverter
-		implements Converter<NumberLiteral, tools.mdsd.jamopp.model.java.literals.Literal> {
+public class ToNumberLiteralConverter implements Converter<NumberLiteral, Literal> {
 
+	private static final char DOUBLE_BACKSLASH = '\\';
 	private static final String ZERO_INT = "0";
 	private static final String ZERO_LONG = "0l";
-	private final LiteralsFactory lieteralsFactory;
+	private final LiteralsFactory literalsFactory;
 	private final UtilLayout layoutInformationConverter;
 
 	private static final String HEX_PREFIX = "0x";
@@ -46,124 +52,129 @@ public class ToNumberLiteralConverter
 	private static final int OCT_BASE = 8;
 	private static final String UNDER_SCORE = "_";
 
+	private final Map<Predicate<String>, Function<String, Literal>> mappings;
+
 	@Inject
-	public ToNumberLiteralConverter(UtilLayout layoutInformationConverter, LiteralsFactory lieteralsFactory) {
-		this.lieteralsFactory = lieteralsFactory;
+	public ToNumberLiteralConverter(UtilLayout layoutInformationConverter, LiteralsFactory literalsFactory) {
+		this.literalsFactory = literalsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
+
+		mappings = new LinkedHashMap<>();
+		mappings.put(string -> string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX), this::handleBinaryLong);
+		mappings.put(string -> string.startsWith(BIN_PREFIX), this::handleBinaryInteger);
+		mappings.put(string -> string.contains(HEX_EXPONENT) && string.endsWith(FLOAT_SUFFIX), this::handleHexFloat);
+		mappings.put(string -> string.contains(HEX_EXPONENT), this::handleHexDouble);
+		mappings.put(string -> string.startsWith(HEX_PREFIX) && string.endsWith(LONG_SUFFIX), this::handleHexLong);
+		mappings.put(string -> string.startsWith(HEX_PREFIX), this::handleHexInteger);
+		mappings.put(string -> string.endsWith(FLOAT_SUFFIX), this::handleDecimalFloat);
+		mappings.put(
+				string -> string.contains(".") || string.contains(DECIMAL_EXPONENT) || string.endsWith(DOUBLE_SUFFIX),
+				this::handleDecimalDouble);
+		mappings.put(
+				string -> ZERO_LONG.equals(string) || !string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX),
+				this::handleDecimalLong);
+		mappings.put(string -> ZERO_INT.equals(string) || !string.startsWith(OCT_PREFIX), this::handleDecimalInteger);
+		mappings.put(string -> string.endsWith(LONG_SUFFIX), this::handleOctalLong);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.literals.Literal convert(NumberLiteral literal) {
-		tools.mdsd.jamopp.model.java.literals.Literal result;
+	public Literal convert(NumberLiteral literal) {
+		Literal result = null;
 		String string = buildString(literal);
-		if (string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX)) {
-			result = handleBinaryLong(string);
-		} else if (string.startsWith(BIN_PREFIX)) {
-			result = handleBinaryInteger(string);
-		} else if (string.contains(HEX_EXPONENT) && string.endsWith(FLOAT_SUFFIX)) {
-			result = handleHexFloat(string);
-		} else if (string.contains(HEX_EXPONENT)) {
-			result = handleHexDouble(string);
-		} else if (string.startsWith(HEX_PREFIX) && string.endsWith(LONG_SUFFIX)) {
-			result = handleHexLong(string);
-		} else if (string.startsWith(HEX_PREFIX)) {
-			result = handleHexInteger(string);
-		} else if (string.endsWith(FLOAT_SUFFIX)) {
-			result = handleDecimalFloat(string);
-		} else if (string.contains(".") || string.contains(DECIMAL_EXPONENT) || string.endsWith(DOUBLE_SUFFIX)) {
-			result = handleDecimalDouble(string);
-		} else if (ZERO_LONG.equals(string) || !string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX)) {
-			result = handleDecimalLong(string);
-		} else if (ZERO_INT.equals(string) || !string.startsWith(OCT_PREFIX)) {
-			result = handleDecimalInteger(string);
-		} else if (string.endsWith(LONG_SUFFIX)) {
-			result = handleOctalLong(string);
-		} else {
+
+		for (Entry<Predicate<String>, Function<String, Literal>> entry : mappings.entrySet()) {
+			if (entry.getKey().test(string)) {
+				result = entry.getValue().apply(string);
+				break;
+			}
+		}
+
+		if (result == null) {
 			result = handleOctalInteger(string);
 		}
+
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, literal);
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleOctalInteger(String string) {
-		tools.mdsd.jamopp.model.java.literals.OctalIntegerLiteral lit = lieteralsFactory.createOctalIntegerLiteral();
+	private Literal handleOctalInteger(String string) {
+		tools.mdsd.jamopp.model.java.literals.OctalIntegerLiteral lit = literalsFactory.createOctalIntegerLiteral();
 		lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length()), OCT_BASE));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleOctalLong(String string) {
-		tools.mdsd.jamopp.model.java.literals.OctalLongLiteral lit = lieteralsFactory.createOctalLongLiteral();
+	private Literal handleOctalLong(String string) {
+		tools.mdsd.jamopp.model.java.literals.OctalLongLiteral lit = literalsFactory.createOctalLongLiteral();
 		lit.setOctalValue(new BigInteger(string.substring(OCT_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
 				OCT_BASE));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleDecimalInteger(String string) {
-		tools.mdsd.jamopp.model.java.literals.DecimalIntegerLiteral lit = lieteralsFactory
-				.createDecimalIntegerLiteral();
+	private Literal handleDecimalInteger(String string) {
+		tools.mdsd.jamopp.model.java.literals.DecimalIntegerLiteral lit = literalsFactory.createDecimalIntegerLiteral();
 		lit.setDecimalValue(new BigInteger(string, DEC_BASE));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleDecimalLong(String string) {
-		tools.mdsd.jamopp.model.java.literals.DecimalLongLiteral lit = lieteralsFactory.createDecimalLongLiteral();
+	private Literal handleDecimalLong(String string) {
+		tools.mdsd.jamopp.model.java.literals.DecimalLongLiteral lit = literalsFactory.createDecimalLongLiteral();
 		lit.setDecimalValue(new BigInteger(string.substring(0, string.length() - LONG_SUFFIX.length()), DEC_BASE));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleDecimalDouble(String string) {
+	private Literal handleDecimalDouble(String string) {
 		String newString = string;
 		if (newString.endsWith(DOUBLE_SUFFIX)) {
 			newString = newString.substring(0, newString.length() - DOUBLE_SUFFIX.length());
 		}
-		tools.mdsd.jamopp.model.java.literals.DecimalDoubleLiteral lit = lieteralsFactory.createDecimalDoubleLiteral();
+		tools.mdsd.jamopp.model.java.literals.DecimalDoubleLiteral lit = literalsFactory.createDecimalDoubleLiteral();
 		lit.setDecimalValue(Double.parseDouble(newString));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleDecimalFloat(String string) {
-		tools.mdsd.jamopp.model.java.literals.DecimalFloatLiteral lit = lieteralsFactory.createDecimalFloatLiteral();
+	private Literal handleDecimalFloat(String string) {
+		tools.mdsd.jamopp.model.java.literals.DecimalFloatLiteral lit = literalsFactory.createDecimalFloatLiteral();
 		lit.setDecimalValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleHexInteger(String string) {
-		tools.mdsd.jamopp.model.java.literals.HexIntegerLiteral lit = lieteralsFactory.createHexIntegerLiteral();
+	private Literal handleHexInteger(String string) {
+		tools.mdsd.jamopp.model.java.literals.HexIntegerLiteral lit = literalsFactory.createHexIntegerLiteral();
 		lit.setHexValue(new BigInteger(string.substring(HEX_PREFIX.length()), HEX_BASE));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleHexLong(String string) {
-		tools.mdsd.jamopp.model.java.literals.HexLongLiteral lit = lieteralsFactory.createHexLongLiteral();
+	private Literal handleHexLong(String string) {
+		tools.mdsd.jamopp.model.java.literals.HexLongLiteral lit = literalsFactory.createHexLongLiteral();
 		lit.setHexValue(new BigInteger(string.substring(HEX_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
 				HEX_BASE));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleHexDouble(String string) {
+	private Literal handleHexDouble(String string) {
 		String newString = string;
 		if (newString.endsWith(DOUBLE_SUFFIX)) {
 			newString = newString.substring(0, newString.length() - DOUBLE_SUFFIX.length());
 		}
-		tools.mdsd.jamopp.model.java.literals.HexDoubleLiteral lit = lieteralsFactory.createHexDoubleLiteral();
+		tools.mdsd.jamopp.model.java.literals.HexDoubleLiteral lit = literalsFactory.createHexDoubleLiteral();
 		lit.setHexValue(Double.parseDouble(newString));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleHexFloat(String string) {
-		tools.mdsd.jamopp.model.java.literals.HexFloatLiteral lit = lieteralsFactory.createHexFloatLiteral();
+	private Literal handleHexFloat(String string) {
+		tools.mdsd.jamopp.model.java.literals.HexFloatLiteral lit = literalsFactory.createHexFloatLiteral();
 		lit.setHexValue(Float.parseFloat(string.substring(0, string.length() - FLOAT_SUFFIX.length())));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleBinaryInteger(String string) {
-		tools.mdsd.jamopp.model.java.literals.BinaryIntegerLiteral lit = lieteralsFactory.createBinaryIntegerLiteral();
+	private Literal handleBinaryInteger(String string) {
+		tools.mdsd.jamopp.model.java.literals.BinaryIntegerLiteral lit = literalsFactory.createBinaryIntegerLiteral();
 		lit.setBinaryValue(new BigInteger(string.substring(BIN_PREFIX.length()), BIN_BASE));
 		return lit;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.Literal handleBinaryLong(String string) {
-		tools.mdsd.jamopp.model.java.literals.BinaryLongLiteral lit = lieteralsFactory.createBinaryLongLiteral();
+	private Literal handleBinaryLong(String string) {
+		tools.mdsd.jamopp.model.java.literals.BinaryLongLiteral lit = literalsFactory.createBinaryLongLiteral();
 		lit.setBinaryValue(new BigInteger(string.substring(BIN_PREFIX.length(), string.length() - LONG_SUFFIX.length()),
 				BIN_BASE));
 		return lit;
@@ -173,14 +184,16 @@ public class ToNumberLiteralConverter
 		String string = literal.getToken();
 		if (string.contains("\\u")) {
 			StringBuilder actualLiteral = new StringBuilder();
-			for (int index = 0; index < string.length(); index++) {
+			int index = 0;
+			while (index < string.length()) {
 				char currentChar = string.charAt(index);
-				if (currentChar == '\\') {
+				if (currentChar == DOUBLE_BACKSLASH) {
 					int codePoint = Integer.parseInt(string.substring(index + 2, index + 6), 16);
 					actualLiteral.append(Character.toString(codePoint));
-					index += 5;
+					index += 6;
 				} else {
 					actualLiteral.append(currentChar);
+					index += 1;
 				}
 			}
 			string = actualLiteral.toString();
