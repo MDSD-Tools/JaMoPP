@@ -30,21 +30,23 @@ import tools.mdsd.jamopp.resource.JavaResource2Factory;
  * If you have Problems opening the .xmi file with the Ecore Model Editor make
  * sure you installed the Standalone version as an Ecplise Plugin
  */
-
-public class JaMoPPStandalone {
+public final class JaMoPPStandalone {
 
 	private static final String INPUT = "";
 	private static final boolean ENABLE_OUTPUT_OF_LIBRARY_FILES = false;
 
-	public static void main(String[] agrs) throws Exception {
+	private JaMoPPStandalone() {
+	}
+
+	public static void main(String[] agrs) {
 
 		ContainersFactory.eINSTANCE.createEmptyModel();
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
 		JaMoPPParserAPI parser = new JaMoPPJDTParser();
-		ResourceSet rs = parser.parseUri(URI.createURI(INPUT));
-		EcoreUtil.resolveAll(rs);
-		for (Resource javaResource : new ArrayList<>(rs.getResources())) {
+		ResourceSet resourceSet = parser.parseUri(URI.createURI(INPUT));
+		EcoreUtil.resolveAll(resourceSet);
+		for (Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
 
 			if (javaResource.getContents().isEmpty()) {
 				System.out.println("WARNING: Emtpy Resource: " + javaResource.getURI());
@@ -55,24 +57,28 @@ public class JaMoPPStandalone {
 				continue;
 			}
 
-			File outputFile = new File(
-					"." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
+			File outputFile = createFile(javaResource);
 			outputFile.getParentFile().mkdirs();
 
 			URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
-			Resource xmiResource = rs.createResource(xmiFileURI);
+			Resource xmiResource = resourceSet.createResource(xmiFileURI);
 			xmiResource.getContents().addAll(javaResource.getContents());
 		}
 
-		for (Resource xmiResource : rs.getResources()) {
+		for (Resource xmiResource : resourceSet.getResources()) {
 			if (xmiResource instanceof XMIResource) {
 				try {
-					xmiResource.save(rs.getLoadOptions());
+					xmiResource.save(resourceSet.getLoadOptions());
 				} catch (IOException e) {
 					// Ignore
 				}
 			}
 		}
+	}
+
+	private static File createFile(Resource javaResource) {
+		return new File(
+				"." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
 	}
 
 	private static String checkScheme(Resource javaResource) {
@@ -81,11 +87,11 @@ public class JaMoPPStandalone {
 
 		if (root instanceof CompilationUnit) {
 			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
-			CompilationUnit cu = (CompilationUnit) root;
-			if (!cu.getClassifiers().isEmpty()) {
-				outputFileName += cu.getClassifiers().get(0).getName();
-			} else {
+			CompilationUnit compilationUnit = (CompilationUnit) root;
+			if (compilationUnit.getClassifiers().isEmpty()) {
 				outputFileName += 0;
+			} else {
+				outputFileName += compilationUnit.getClassifiers().get(0).getName();
 			}
 
 		} else if (root instanceof Package) {

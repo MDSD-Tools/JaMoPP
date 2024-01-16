@@ -15,37 +15,36 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 import tools.mdsd.jamopp.model.java.members.ClassMethod;
 import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.model.java.statements.Statement;
-import org.junit.jupiter.api.Test;
 
 /**
  * A test for resolving method calls to the respective method.
  */
 public class MethodCallResolverTest extends AbstractResolverTestCase {
 
-    @Test
-    public void testReferencing() throws Exception {
-        final String typename = "MethodCalls";
-        final tools.mdsd.jamopp.model.java.classifiers.Class clazz = assertParsesToClass(typename);
-        assertNotNull(clazz);
-        assertMemberCount(clazz, 4);
+	@Test
+	public void testReferencing() throws Exception {
+		final String typename = "MethodCalls";
+		final tools.mdsd.jamopp.model.java.classifiers.Class clazz = assertParsesToClass(typename);
+		assertNotNull(clazz);
+		assertMemberCount(clazz, 4);
 
-        final List<Member> members = clazz.getMembers();
+		final List<Member> members = clazz.getMembers();
 
-        final ClassMethod method1 = assertIsMethod(members.get(0), "m1");
-        final ClassMethod method2 = assertIsMethod(members.get(1), "m2");
-        final ClassMethod method3 = assertIsMethod(members.get(2), "m3");
-        final ClassMethod method4 = assertIsMethod(members.get(3), "m3");
+		final ClassMethod method1 = assertIsMethod(members.get(0), "m1");
+		final ClassMethod method2 = assertIsMethod(members.get(1), "m2");
+		final ClassMethod method3 = assertIsMethod(members.get(2), "m3");
+		final ClassMethod method4 = assertIsMethod(members.get(3), "m3");
 
-        final List<? extends Statement> methodStatements2 = method2.getStatements();
+		final List<? extends Statement> methodStatements2 = method2.getStatements();
 
-        // assertEquals(4, methodStatements2.size());
-        assertIsCallToMethod(methodStatements2.get(0), method1);
-        assertIsCallToMethod(methodStatements2.get(1), method2);
-        assertIsCallToMethod(methodStatements2.get(2), method3);
-        // the last call should refer to m4, because of the signature
-        assertIsCallToMethod(methodStatements2.get(3), method4);
-    }
+		assertIsCallToMethod(methodStatements2.get(0), method1);
+		assertIsCallToMethod(methodStatements2.get(1), method2);
+		assertIsCallToMethod(methodStatements2.get(2), method3);
+		assertIsCallToMethod(methodStatements2.get(3), method4);
+	}
 }

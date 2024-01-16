@@ -11,26 +11,24 @@
  ******************************************************************************/
 package tools.mdsd.jamopp.model.java.test.bugs;
 
+import org.junit.jupiter.api.Test;
+
 import tools.mdsd.jamopp.model.java.members.ClassMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
 import tools.mdsd.jamopp.model.java.statements.Return;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
-import org.junit.jupiter.api.Test;
 
 public class Bug1818Test extends AbstractBugTestCase {
-    @Test
-    public void testPrintReturn() {
-        final Return newReturnStatement = StatementsFactory.eINSTANCE.createReturn();
-        final ClassMethod method = MembersFactory.eINSTANCE.createClassMethod();
-        method.setName("methodCall");
-        final MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
-        methodCall.setTarget(method);
-        method.getStatements()
-            .add(newReturnStatement);
-        newReturnStatement.setReturnValue(methodCall);
-        // String text = JavaResourceUtil.getText(newReturnStatement);
-        // assertEquals("return methodCall();", text);
-    }
+	@Test
+	public void testPrintReturn() {
+		final Return newReturnStatement = StatementsFactory.eINSTANCE.createReturn();
+		final ClassMethod method = MembersFactory.eINSTANCE.createClassMethod();
+		method.setName("methodCall");
+		final MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
+		methodCall.setTarget(method);
+		method.getStatements().add(newReturnStatement);
+		newReturnStatement.setReturnValue(methodCall);
+	}
 }
