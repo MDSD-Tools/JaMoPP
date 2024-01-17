@@ -5,7 +5,7 @@
     editorDirectory="/tools.mdsd.jamopp.model.java.editor/src-gen" modelPluginID="tools.mdsd.jamopp.model.java"
     templateDirectory="" modelName="Java" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl"
     importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" containmentProxies="true"
-    complianceLevel="11.0" copyrightFields="false" usedGenPackages="platform:/resource/tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel#//layout">
+    complianceLevel="11.0" copyrightFields="false" usedGenPackages="../../tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel#//layout">
   <foreignModel>java.ecore</foreignModel>
   <genPackages prefix="Java" basePackage="tools.mdsd.jamopp.model" disposableProviderFactory="true"
       ecorePackage="java.ecore#_WosmsNz1Ed2bJ_pQViWxFg">
@@ -32,8 +32,8 @@
       </genClasses>
       <genClasses image="false" ecoreClass="java.ecore#//annotations/AnnotationValue"/>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Arrays" basePackage="tools.mdsd.jamopp.model.java" disposableProviderFactory="true"
-        ecorePackage="java.ecore#//arrays">
+    <nestedGenPackages prefix="Arrays" basePackage="tools.mdsd.jamopp.model.java"
+        disposableProviderFactory="true" ecorePackage="java.ecore#//arrays">
       <genClasses image="false" ecoreClass="java.ecore#//arrays/ArrayTypeable">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//arrays/ArrayTypeable/arrayDimensionsBefore"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//arrays/ArrayTypeable/arrayDimensionsAfter"/>
@@ -134,8 +134,8 @@
         </genOperations>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Commons" basePackage="tools.mdsd.jamopp.model.java" disposableProviderFactory="true"
-        ecorePackage="java.ecore#//commons">
+    <nestedGenPackages prefix="Commons" basePackage="tools.mdsd.jamopp.model.java"
+        disposableProviderFactory="true" ecorePackage="java.ecore#//commons">
       <genClasses image="false" ecoreClass="java.ecore#//commons/Commentable">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//commons/Commentable/layoutInformations"/>
         <genOperations ecoreOperation="java.ecore#//commons/Commentable/getConcreteClassifier"
@@ -367,9 +367,9 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//expressions/CastExpression/additionalBounds"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#_Wo2YXdz1Ed2bJ_pQViWxFg"/>
         <genOperations ecoreOperation="java.ecore#//expressions/CastExpression/getChild"
-            body="return tools.mdsd.jamopp.model.java.extensions.expressions.CastExpressionExtension.getChild((tools.mdsd.jamopp.model.java.expressions.CastExpression) this);"/>
+            body="&#x9;if (getGeneralChild() instanceof MultiplicativeExpressionChild) {return (MultiplicativeExpressionChild) getGeneralChild();}return null;"/>
         <genOperations ecoreOperation="java.ecore#//expressions/CastExpression/setChild"
-            body="tools.mdsd.jamopp.model.java.extensions.expressions.CastExpressionExtension.setChild((tools.mdsd.jamopp.model.java.expressions.CastExpression) this, newChild);">
+            body="setGeneralChild(newChild);">
           <genParameters ecoreParameter="java.ecore#//expressions/CastExpression/setChild/newChild"/>
         </genOperations>
       </genClasses>
@@ -395,8 +395,8 @@
       <genClasses ecoreClass="java.ecore#//expressions/ImplicitlyTypedLambdaParameters"/>
       <genClasses ecoreClass="java.ecore#//expressions/SingleImplicitLambdaParameter"/>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Generics" basePackage="tools.mdsd.jamopp.model.java" disposableProviderFactory="true"
-        ecorePackage="java.ecore#//generics">
+    <nestedGenPackages prefix="Generics" basePackage="tools.mdsd.jamopp.model.java"
+        disposableProviderFactory="true" ecorePackage="java.ecore#//generics">
       <genClasses image="false" ecoreClass="java.ecore#//generics/TypeArgument"/>
       <genClasses image="false" ecoreClass="java.ecore#//generics/TypeArgumentable">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//generics/TypeArgumentable/typeArguments"/>
@@ -432,8 +432,8 @@
       </genClasses>
       <genClasses ecoreClass="java.ecore#//generics/UnknownTypeArgument"/>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Imports" basePackage="tools.mdsd.jamopp.model.java" disposableProviderFactory="true"
-        ecorePackage="java.ecore#//imports">
+    <nestedGenPackages prefix="Imports" basePackage="tools.mdsd.jamopp.model.java"
+        disposableProviderFactory="true" ecorePackage="java.ecore#//imports">
       <genClasses image="false" ecoreClass="java.ecore#//imports/Import">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference java.ecore#//imports/Import/classifier"/>
@@ -472,8 +472,8 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//instantiations/ExplicitConstructorCall/callTarget"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Literals" basePackage="tools.mdsd.jamopp.model.java" disposableProviderFactory="true"
-        ecorePackage="java.ecore#_Wo2Yntz1Ed2bJ_pQViWxFg">
+    <nestedGenPackages prefix="Literals" basePackage="tools.mdsd.jamopp.model.java"
+        disposableProviderFactory="true" ecorePackage="java.ecore#_Wo2Yntz1Ed2bJ_pQViWxFg">
       <genClasses image="false" ecoreClass="java.ecore#_Wo2YsNz1Ed2bJ_pQViWxFg">
         <genOperations ecoreOperation="java.ecore#//literals/Literal/getOneType" body="return tools.mdsd.jamopp.model.java.extensions.literals.LiteralExtension.getOneType((tools.mdsd.jamopp.model.java.literals.Literal) this);">
           <genParameters ecoreParameter="java.ecore#//literals/Literal/getOneType/alternative"/>
@@ -530,8 +530,8 @@
       <genClasses ecoreClass="java.ecore#//literals/Super"/>
       <genClasses ecoreClass="java.ecore#//literals/This"/>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Members" basePackage="tools.mdsd.jamopp.model.java" disposableProviderFactory="true"
-        ecorePackage="java.ecore#//members">
+    <nestedGenPackages prefix="Members" basePackage="tools.mdsd.jamopp.model.java"
+        disposableProviderFactory="true" ecorePackage="java.ecore#//members">
       <genClasses image="false" ecoreClass="java.ecore#//members/ExceptionThrower">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//members/ExceptionThrower/exceptions"/>
       </genClasses>
