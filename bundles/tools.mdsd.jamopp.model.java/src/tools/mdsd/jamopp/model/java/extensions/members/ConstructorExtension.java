@@ -27,7 +27,6 @@ import tools.mdsd.jamopp.model.java.instantiations.NewConstructorCall;
 import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.parameters.Parameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
-import tools.mdsd.jamopp.model.java.statements.Statement;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
@@ -157,18 +156,5 @@ public class ConstructorExtension {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns a list of all statements within the block of a constructor. This is a
-	 * legacy method to provide a stable and backwards-compatible API.
-	 *
-	 * @param me the constructor for which the statements are obtained.
-	 * @return the list of all statements.
-	 * @deprecated Use getBlock().getStatements().
-	 */
-	@Deprecated
-	public static EList<Statement> getStatements(Constructor me) {
-		return me.getBlock().getStatements();
 	}
 }

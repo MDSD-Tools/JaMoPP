@@ -36,6 +36,7 @@ public final class JaMoPPStandalone {
 	private static final boolean ENABLE_OUTPUT_OF_LIBRARY_FILES = false;
 
 	private JaMoPPStandalone() {
+		// Should not be initiated
 	}
 
 	public static void main(String[] agrs) {
@@ -77,8 +78,7 @@ public final class JaMoPPStandalone {
 	}
 
 	private static File createFile(Resource javaResource) {
-		return new File(
-				"." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
+		return new File("." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
 	}
 
 	private static String checkScheme(Resource javaResource) {

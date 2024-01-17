@@ -27,7 +27,6 @@ import tools.mdsd.jamopp.model.java.parameters.Parameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.statements.Block;
-import tools.mdsd.jamopp.model.java.statements.Statement;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
@@ -144,23 +143,6 @@ public class MethodExtension {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns a list of all statements within the block of a method. This is a
-	 * legacy method to provide a stable and backwards-compatible API.
-	 *
-	 * @param me the method for which the statements are obtained.
-	 * @return the list of all statements.
-	 * @deprecated Use getBlock().getStatements().
-	 */
-	@Deprecated
-	public static EList<Statement> getStatements(Method me) {
-		Block b = getBlock(me);
-		if (b == null) {
-			return new BasicEList<>();
-		}
-		return b.getStatements();
 	}
 
 	/**

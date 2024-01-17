@@ -410,7 +410,7 @@
       <genClasses ecoreClass="java.ecore#//generics/ExtendsTypeArgument">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//generics/ExtendsTypeArgument/extendType"/>
         <genOperations ecoreOperation="java.ecore#//generics/ExtendsTypeArgument/getExtendTypes"
-            body="return tools.mdsd.jamopp.model.java.extensions.generics.ExtendsTypeArgumentExtension.getExtendTypes((tools.mdsd.jamopp.model.java.generics.ExtendsTypeArgument) this);"/>
+            body="EList&lt;TypeReference> result = new &lt;%org.eclipse.emf.common.util.BasicEList%>&lt;>();&#xA;result.add(getExtendType());&#xA;return result;"/>
       </genClasses>
       <genClasses ecoreClass="java.ecore#//generics/QualifiedTypeArgument"/>
       <genClasses ecoreClass="java.ecore#//generics/SuperTypeArgument">
@@ -574,7 +574,7 @@
       <genClasses ecoreClass="java.ecore#//members/AdditionalField"/>
       <genClasses ecoreClass="java.ecore#//members/Constructor">
         <genOperations ecoreOperation="java.ecore#//members/Constructor/getStatements"
-            body="return tools.mdsd.jamopp.model.java.extensions.members.ConstructorExtension.getStatements((tools.mdsd.jamopp.model.java.members.Constructor) this);"/>
+            body="return getBlock().getStatements();"/>
       </genClasses>
       <genClasses ecoreClass="java.ecore#//members/EmptyMember"/>
       <genClasses ecoreClass="java.ecore#//members/Field">
@@ -597,7 +597,7 @@
         </genOperations>
         <genOperations ecoreOperation="java.ecore#//members/Method/getBlock" body="return tools.mdsd.jamopp.model.java.extensions.members.MethodExtension.getBlock((tools.mdsd.jamopp.model.java.members.Method) this);"/>
         <genOperations ecoreOperation="java.ecore#//members/Method/getStatements"
-            body="return tools.mdsd.jamopp.model.java.extensions.members.MethodExtension.getStatements((tools.mdsd.jamopp.model.java.members.Method) this);"/>
+            body="&#x9;&#x9;Block b = tools.mdsd.jamopp.model.java.extensions.members.MethodExtension.getBlock(this);&#xA;&#x9;&#x9;if (b == null) {&#xA;&#x9;&#x9;&#x9;return new org.eclipse.emf.common.util.BasicEList&lt;>();&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return b.getStatements();"/>
       </genClasses>
       <genClasses ecoreClass="java.ecore#//members/InterfaceMethod">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//members/InterfaceMethod/defaultValue"/>
@@ -794,7 +794,7 @@
       <genClasses ecoreClass="java.ecore#_Wo2ZD9z1Ed2bJ_pQViWxFg">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#_Wo2ZEdz1Ed2bJ_pQViWxFg"/>
         <genOperations ecoreOperation="java.ecore#//statements/CatchBlock/getStatements"
-            body="return tools.mdsd.jamopp.model.java.extensions.statements.CatchBlockExtension.getStatements((tools.mdsd.jamopp.model.java.statements.CatchBlock) this);"/>
+            body="return getBlock().getStatements();"/>
       </genClasses>
       <genClasses ecoreClass="java.ecore#_Wo2Y1Nz1Ed2bJ_pQViWxFg">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#_Wo2Y2tz1Ed2bJ_pQViWxFg"/>
@@ -835,7 +835,7 @@
       <genClasses ecoreClass="java.ecore#_Wo2ZFdz1Ed2bJ_pQViWxFg">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#_Wo2ZF9z1Ed2bJ_pQViWxFg"/>
         <genOperations ecoreOperation="java.ecore#//statements/SynchronizedBlock/getStatements"
-            body="return tools.mdsd.jamopp.model.java.extensions.statements.SynchronizedBlockExtension.getStatements((tools.mdsd.jamopp.model.java.statements.SynchronizedBlock) this);"/>
+            body="return getBlock().getStatements();"/>
       </genClasses>
       <genClasses ecoreClass="java.ecore#_Wo2ZH9z1Ed2bJ_pQViWxFg">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#_Wo2ZIdz1Ed2bJ_pQViWxFg"/>
