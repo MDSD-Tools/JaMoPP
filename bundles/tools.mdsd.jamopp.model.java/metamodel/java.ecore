@@ -551,12 +551,12 @@
         eSuperTypes="#//expressions/AssignmentExpressionChild">
       <eOperations name="getExpressionElse" lowerBound="1" eType="#//expressions/AssignmentExpressionChild">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.expressions.ConditionalExpressionExtension.getExpressionElse((tools.mdsd.jamopp.model.java.expressions.ConditionalExpression) this);"/>
+          <details key="body" value="if (getGeneralExpressionElse() instanceof AssignmentExpressionChild) {return (AssignmentExpressionChild) getGeneralExpressionElse();}return null;"/>
         </eAnnotations>
       </eOperations>
       <eOperations name="setExpressionChild" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="tools.mdsd.jamopp.model.java.extensions.expressions.ConditionalExpressionExtension.setExpressionElse((tools.mdsd.jamopp.model.java.expressions.ConditionalExpression) this, newChild);"/>
+          <details key="body" value="setGeneralExpressionElse(newChild);"/>
         </eAnnotations>
         <eParameters name="newChild" lowerBound="1" eType="#//expressions/AssignmentExpressionChild"/>
       </eOperations>
