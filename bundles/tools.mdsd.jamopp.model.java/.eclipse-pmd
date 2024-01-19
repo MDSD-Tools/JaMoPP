@@ -3,5 +3,6 @@
   <analysis enabled="true" />
   <rulesets>
     <ruleset name="Jamopp Custom Rules" ref="C:\ProggenProjekte\JaMoPP\codestyle\jamopp-ruleset.xml" refcontext="filesystem" />
+    <ruleset name="Jamopp Custom Rules" ref="C:\Programmieren\JaMoPP\codestyle\jamopp-ruleset.xml" refcontext="filesystem" />
   </rulesets>
 </eclipse-pmd>

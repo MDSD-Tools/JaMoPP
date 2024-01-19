@@ -16,11 +16,16 @@ package tools.mdsd.jamopp.model.java.extensions.arrays;
 import tools.mdsd.jamopp.model.java.arrays.ArrayTypeable;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 
-public class ArrayTypeableExtension {
+public final class ArrayTypeableExtension {
 
-	public static long getArrayDimension(ArrayTypeable me) {
-		long size = (long) me.getArrayDimensionsBefore().size() + me.getArrayDimensionsAfter().size();
-		if (me instanceof VariableLengthParameter) {
+	private ArrayTypeableExtension() {
+		// Should not be initiated.
+	}
+
+	public static long getArrayDimension(ArrayTypeable arrayTypeable) {
+		long size = (long) arrayTypeable.getArrayDimensionsBefore().size()
+				+ arrayTypeable.getArrayDimensionsAfter().size();
+		if (arrayTypeable instanceof VariableLengthParameter) {
 			size++;
 		}
 		return size;
