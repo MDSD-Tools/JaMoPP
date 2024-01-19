@@ -50,14 +50,15 @@ public final class ConcreteClassifierExtension {
 			List<ConcreteClassifier> superInnerList = superClassifier.getInnerClassifiers();
 
 			for (ConcreteClassifier superInner : superInnerList) {
-				if (superInner.eIsProxy()) {
-					EObject resolved = EcoreUtil.resolve(superInner, concreteClassifier);
-					superInner = (ConcreteClassifier) resolved;
+				ConcreteClassifier newSuperInner = superInner;
+				if (newSuperInner.eIsProxy()) {
+					EObject resolved = EcoreUtil.resolve(newSuperInner, concreteClassifier);
+					newSuperInner = (ConcreteClassifier) resolved;
 				}
 
-				boolean isVisible = !superInner.isHidden(concreteClassifier);
+				boolean isVisible = !newSuperInner.isHidden(concreteClassifier);
 				if (isVisible) {
-					innerClassifierList.add(superInner);
+					innerClassifierList.add(newSuperInner);
 				}
 			}
 		}

@@ -30,7 +30,11 @@ import tools.mdsd.jamopp.model.java.statements.Block;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-public class MethodExtension {
+public final class MethodExtension {
+
+	private MethodExtension() {
+		// Should not be initiated.
+	}
 
 	/**
 	 * Returns <code>true</code> if the given method matches the given call.
@@ -38,8 +42,8 @@ public class MethodExtension {
 	 * @param methodCall
 	 * @return
 	 */
-	public static boolean isSomeMethodForCall(Method me, MethodCall methodCall) {
-		return me.isMethodForCall(methodCall, false);
+	public static boolean isSomeMethodForCall(Method method, MethodCall methodCall) {
+		return method.isMethodForCall(methodCall, false);
 	}
 
 	/**
@@ -51,16 +55,16 @@ public class MethodExtension {
 	 * @param methodCall
 	 * @return
 	 */
-	public static boolean isBetterMethodForCall(Method me, Method otherMethod, MethodCall methodCall) {
+	public static boolean isBetterMethodForCall(Method method, Method otherMethod, MethodCall methodCall) {
 
-		if (!me.isMethodForCall(methodCall, false)) {
+		if (!method.isMethodForCall(methodCall, false)) {
 			return false;
 		}
 
 		if (otherMethod.isMethodForCall(methodCall, true)) {
-			if (me.isMethodForCall(methodCall, true)) {
+			if (method.isMethodForCall(methodCall, true)) {
 				// We both match perfectly; lets compare our return types
-				Type target = me.getTypeReference().getTarget();
+				Type target = method.getTypeReference().getTarget();
 				if (target instanceof ConcreteClassifier && ((ConcreteClassifier) target).getAllSuperClassifiers()
 						.contains(otherMethod.getTypeReference().getTarget())) {
 					// I am the more concrete type
@@ -77,7 +81,7 @@ public class MethodExtension {
 			return true;
 		}
 		// we both match, I am only better if I match perfectly
-		return me.isMethodForCall(methodCall, true);
+		return method.isMethodForCall(methodCall, true);
 	}
 
 	public static boolean isMethodForCall(Method me, MethodCall methodCall, boolean needsPerfectMatch) {
@@ -148,12 +152,12 @@ public class MethodExtension {
 	/**
 	 * Returns a block representing the body of a method.
 	 *
-	 * @param me the method for which the body is returned.
+	 * @param method the method for which the body is returned.
 	 * @return the block or null if the method has no implementation.
 	 */
-	public static Block getBlock(Method me) {
-		if (me.getStatement() instanceof Block) {
-			return (Block) me.getStatement();
+	public static Block getBlock(Method method) {
+		if (method.getStatement() instanceof Block) {
+			return (Block) method.getStatement();
 		}
 		return null;
 	}

@@ -33,12 +33,16 @@ import tools.mdsd.jamopp.model.java.types.TypesFactory;
  * A utility class that provides methods that belong to class MemberContainer,
  * but can not go there, because MemberContainer is generated.
  */
-public class MemberContainerExtension {
+public final class MemberContainerExtension {
 
-	public static EList<Method> getMethods(MemberContainer me) {
+	private MemberContainerExtension() {
+		// Should not be initiated.
+	}
+
+	public static EList<Method> getMethods(MemberContainer memberContainer) {
 		EList<Method> methodList = new BasicEList<>();
 
-		for (Member member : me.getMembers()) {
+		for (Member member : memberContainer.getMembers()) {
 			if (member instanceof Method) {
 				methodList.add((Method) member);
 			}
@@ -46,10 +50,10 @@ public class MemberContainerExtension {
 		return ECollections.unmodifiableEList(methodList);
 	}
 
-	public static EList<Field> getFields(MemberContainer me) {
+	public static EList<Field> getFields(MemberContainer memberContainer) {
 		EList<Field> fieldList = new BasicEList<>();
 
-		for (Member member : me.getMembers()) {
+		for (Member member : memberContainer.getMembers()) {
 			if (member instanceof Field) {
 				fieldList.add((Field) member);
 			}
@@ -57,10 +61,10 @@ public class MemberContainerExtension {
 		return ECollections.unmodifiableEList(fieldList);
 	}
 
-	public static EList<Constructor> getConstructors(MemberContainer me) {
+	public static EList<Constructor> getConstructors(MemberContainer memberContainer) {
 		EList<Constructor> constructorList = new BasicEList<>();
 
-		for (Member member : me.getMembers()) {
+		for (Member member : memberContainer.getMembers()) {
 			if (member instanceof Constructor) {
 				constructorList.add((Constructor) member);
 			}
@@ -68,10 +72,10 @@ public class MemberContainerExtension {
 		return ECollections.unmodifiableEList(constructorList);
 	}
 
-	public static EList<Member> getMembersByName(MemberContainer me, String name) {
+	public static EList<Member> getMembersByName(MemberContainer memberContainer, String name) {
 		EList<Member> matchingMembers = new BasicEList<>();
 
-		for (Member member : me.getMembers()) {
+		for (Member member : memberContainer.getMembers()) {
 			if (name.equals(member.getName())) {
 				matchingMembers.add(member);
 			}
@@ -79,15 +83,15 @@ public class MemberContainerExtension {
 		return ECollections.unmodifiableEList(matchingMembers);
 	}
 
-	public static void removeMethods(MemberContainer me, String name) {
+	public static void removeMethods(MemberContainer memberContainer, String name) {
 		EList<Method> methodsToRemove = new BasicEList<>();
 
-		for (Member member : me.getMembers()) {
+		for (Member member : memberContainer.getMembers()) {
 			if (member instanceof Method && name.equals(member.getName())) {
 				methodsToRemove.add((Method) member);
 			}
 		}
-		me.getMembers().removeAll(methodsToRemove);
+		memberContainer.getMembers().removeAll(methodsToRemove);
 	}
 
 	/**
@@ -95,13 +99,13 @@ public class MemberContainerExtension {
 	 * @param name
 	 * @return classifier with the given name defined in this member container
 	 */
-	public static ConcreteClassifier getContainedClassifier(MemberContainer me, String name) {
-		for (Member member : me.getMembers()) {
+	public static ConcreteClassifier getContainedClassifier(MemberContainer memberContainer, String name) {
+		for (Member member : memberContainer.getMembers()) {
 			if (member instanceof ConcreteClassifier && name.equals(member.getName())) {
 				return (ConcreteClassifier) member;
 			}
 		}
-		for (Member member : me.getDefaultMembers()) {
+		for (Member member : memberContainer.getDefaultMembers()) {
 			if (member instanceof ConcreteClassifier && name.equals(member.getName())) {
 				return (ConcreteClassifier) member;
 			}
@@ -114,13 +118,13 @@ public class MemberContainerExtension {
 	 * @param name
 	 * @return field with the given name defined in this member container
 	 */
-	public static Field getContainedField(MemberContainer me, String name) {
-		for (Member member : me.getMembers()) {
+	public static Field getContainedField(MemberContainer memberContainer, String name) {
+		for (Member member : memberContainer.getMembers()) {
 			if (member instanceof Field && name.equals(member.getName())) {
 				return (Field) member;
 			}
 		}
-		for (Member member : me.getDefaultMembers()) {
+		for (Member member : memberContainer.getDefaultMembers()) {
 			if (member instanceof Field && name.equals(member.getName())) {
 				return (Field) member;
 			}
@@ -135,9 +139,9 @@ public class MemberContainerExtension {
 	 *         there is no such method or if there are multiple methods with the
 	 *         same name
 	 */
-	public static Method getContainedMethod(MemberContainer me, String name) {
+	public static Method getContainedMethod(MemberContainer memberContainer, String name) {
 		Method found = null;
-		for (Member member : me.getMembers()) {
+		for (Member member : memberContainer.getMembers()) {
 			if (member instanceof Method && name.equals(member.getName())) {
 				if (found != null) {
 					return null;
@@ -145,7 +149,7 @@ public class MemberContainerExtension {
 				found = (Method) member;
 			}
 		}
-		for (Member member : me.getDefaultMembers()) {
+		for (Member member : memberContainer.getDefaultMembers()) {
 			if (member instanceof Method && name.equals(member.getName())) {
 				if (found != null) {
 					return null;
@@ -156,13 +160,13 @@ public class MemberContainerExtension {
 		return found;
 	}
 
-	public static Field createField(MemberContainer me, String name, String qualifiedTypeName) {
+	public static Field createField(MemberContainer memberContainer, String name, String qualifiedTypeName) {
 		Field field = MembersFactory.eINSTANCE.createField();
 		field.setName(name);
 		ClassifierReference typeRef = TypesFactory.eINSTANCE.createClassifierReference();
-		typeRef.setTarget(me.getConcreteClassifier(qualifiedTypeName));
+		typeRef.setTarget(memberContainer.getConcreteClassifier(qualifiedTypeName));
 		field.setTypeReference(typeRef);
-		me.getMembers().add(field);
+		memberContainer.getMembers().add(field);
 		return field;
 	}
 }

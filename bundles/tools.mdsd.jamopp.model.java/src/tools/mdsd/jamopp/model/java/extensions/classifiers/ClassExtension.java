@@ -88,15 +88,14 @@ public final class ClassExtension {
 			superClassReference = clazz.getDefaultExtends();
 		}
 
-		if (superClassReference == null) {
-			return null;
+		tools.mdsd.jamopp.model.java.classifiers.Class result = null;
+		if (superClassReference != null) {
+			Type target = superClassReference.getTarget();
+			if (target instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
+				result = (tools.mdsd.jamopp.model.java.classifiers.Class) target;
+			}
 		}
-
-		Type result = superClassReference.getTarget();
-		if (result instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
-			return (tools.mdsd.jamopp.model.java.classifiers.Class) result;
-		}
-		return null;
+		return result;
 	}
 
 	/**

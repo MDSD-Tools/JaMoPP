@@ -34,7 +34,11 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
  * Extension providing utility methods for the the Constructor meta model class.
  */
 
-public class ConstructorExtension {
+public final class ConstructorExtension {
+
+	private ConstructorExtension() {
+		// Should not initiated.
+	}
 
 	/**
 	 * Returns <code>true</code> if the given {@link Constructor} <code>co</code> is
@@ -51,23 +55,23 @@ public class ConstructorExtension {
 	 * least weak match</li>
 	 * </ol>
 	 *
-	 * @param co    The constructor to check if it is better.
-	 * @param other The existing constructor to compare with.
-	 * @param call  The call to check for.
+	 * @param constructor The constructor to check if it is better.
+	 * @param other       The existing constructor to compare with.
+	 * @param call        The call to check for.
 	 * @return True only if the new {@link Constructor} <code>co</code> is better
 	 *         than the other one.
 	 */
-	public static boolean isBetterConstructorForCall(Constructor co, Constructor other, NewConstructorCall call) {
-
+	public static boolean isBetterConstructorForCall(Constructor constructor, Constructor other,
+			NewConstructorCall call) {
+		boolean result;
 		if (isConstructorForCall(other, call, true)) {
-			return false;
+			result = false;
+		} else if (isConstructorForCall(other, call, false)) {
+			result = isConstructorForCall(constructor, call, true);
+		} else {
+			result = isConstructorForCall(constructor, call, false);
 		}
-
-		if (isConstructorForCall(other, call, false)) {
-			return isConstructorForCall(co, call, true);
-		}
-
-		return isConstructorForCall(co, call, false);
+		return result;
 	}
 
 	/**
