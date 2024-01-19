@@ -15,16 +15,37 @@
  ******************************************************************************/
 package tools.mdsd.jamopp.model.java.extensions.types;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.eclipse.emf.common.util.EList;
 
 import tools.mdsd.jamopp.model.java.commons.Commentable;
 import tools.mdsd.jamopp.model.java.members.Member;
+import tools.mdsd.jamopp.model.java.types.Char;
+import tools.mdsd.jamopp.model.java.types.Int;
 import tools.mdsd.jamopp.model.java.types.PrimitiveType;
 
 public final class PrimitiveTypeExtension {
 
+	private final static Map<Class<?>, String> MAPPINGS;
+
+	static {
+		MAPPINGS = new HashMap<>();
+		MAPPINGS.put(Boolean.class, "Boolean");
+		MAPPINGS.put(Byte.class, "Byte");
+		MAPPINGS.put(Char.class, "Character");
+		MAPPINGS.put(Double.class, "Double");
+		MAPPINGS.put(Float.class, "Float");
+		MAPPINGS.put(Int.class, "Integer");
+		MAPPINGS.put(Long.class, "Long");
+		MAPPINGS.put(Short.class, "Short");
+		MAPPINGS.put(Void.class, "Void");
+	}
+
 	private PrimitiveTypeExtension() {
-		// Should not initiated.
+		// Should not be initiated
 	}
 
 	/**
@@ -41,25 +62,13 @@ public final class PrimitiveTypeExtension {
 	 */
 	public static tools.mdsd.jamopp.model.java.classifiers.Class wrapPrimitiveType(PrimitiveType type) {
 		tools.mdsd.jamopp.model.java.classifiers.Class javaClass = null;
-		if (type instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
-			javaClass = type.getLibClass("Boolean");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Byte) {
-			javaClass = type.getLibClass("Byte");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Char) {
-			javaClass = type.getLibClass("Character");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Double) {
-			javaClass = type.getLibClass("Double");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Float) {
-			javaClass = type.getLibClass("Float");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Int) {
-			javaClass = type.getLibClass("Integer");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Long) {
-			javaClass = type.getLibClass("Long");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Short) {
-			javaClass = type.getLibClass("Short");
-		} else if (type instanceof tools.mdsd.jamopp.model.java.types.Void) {
-			javaClass = type.getLibClass("Void");
+		for (Entry<Class<?>, String> entry : MAPPINGS.entrySet()) {
+			if (entry.getKey().isInstance(type)) {
+				javaClass = type.getLibClass(entry.getValue());
+				break;
+			}
 		}
+
 		return javaClass;
 	}
 }

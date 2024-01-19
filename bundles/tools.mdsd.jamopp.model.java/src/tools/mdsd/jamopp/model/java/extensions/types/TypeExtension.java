@@ -48,9 +48,9 @@ public final class TypeExtension {
 	 *
 	 * @return if both type are equal
 	 */
-	public static boolean equalsType(Type me, long arrayDimension, Type otherType, long otherArrayDimension) {
+	public static boolean equalsType(Type type, long arrayDimension, Type otherType, long otherArrayDimension) {
 		Type lOtherType = otherType;
-		Type thisType = me;
+		Type thisType = type;
 		// comparison for type parameters
 		if (thisType instanceof TypeParameter typeParameter) {
 			for (TypeReference referencedType : typeParameter.getExtendTypes()) {
@@ -60,19 +60,19 @@ public final class TypeExtension {
 				}
 			}
 			if (typeParameter.getExtendTypes().isEmpty()
-					&& me.getObjectClass().equalsType(arrayDimension, lOtherType, otherArrayDimension)) {
+					&& type.getObjectClass().equalsType(arrayDimension, lOtherType, otherArrayDimension)) {
 				return true;
 			}
 		}
 		if (lOtherType instanceof TypeParameter typeParameter) {
 			for (TypeReference referencedType : typeParameter.getExtendTypes()) {
 				if (referencedType.getTarget() != null && !referencedType.getTarget().eIsProxy()
-						&& me.equalsType(arrayDimension, referencedType.getTarget(), otherArrayDimension)) {
+						&& type.equalsType(arrayDimension, referencedType.getTarget(), otherArrayDimension)) {
 					return true;
 				}
 			}
 			if (typeParameter.getExtendTypes().isEmpty()
-					&& me.equalsType(arrayDimension, me.getObjectClass(), otherArrayDimension)) {
+					&& type.equalsType(arrayDimension, type.getObjectClass(), otherArrayDimension)) {
 				return true;
 			}
 		}

@@ -31,62 +31,71 @@ import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-public class AnonymousClassExtension {
+public final class AnonymousClassExtension {
+
+	private AnonymousClassExtension() {
+		// Should not be initiated.
+	}
 
 	/**
 	 * @param context to check protected visibility
 	 * @return a view on all members including super classifiers' members
 	 */
-	public static EList<Member> getAllMembers(AnonymousClass me, Commentable context) {
+	public static EList<Member> getAllMembers(AnonymousClass anonymousClass, Commentable context) {
 		EList<Member> memberList = new UniqueEList<>();
-		memberList.addAll(me.getMembers());
-		memberList.addAll(me.getDefaultMembers());
+		memberList.addAll(anonymousClass.getMembers());
+		memberList.addAll(anonymousClass.getDefaultMembers());
 
 		NewConstructorCall ncCall = null;
-		EObject eContainer = me.eContainer();
+		EObject eContainer = anonymousClass.eContainer();
 		if (eContainer instanceof NewConstructorCall) {
 			ncCall = (NewConstructorCall) eContainer;
 		}
 
-		if (ncCall == null) {
-			return memberList;
-		}
-		TypeReference typeReference = ncCall.getTypeReference();
-		Type target = typeReference.getTarget();
-		ConcreteClassifier classifier = (ConcreteClassifier) target;
-		if (classifier != null) {
-			EList<Member> superMemberList = classifier.getAllMembers(context);
-			for (Member superMember : superMemberList) {
-				// Exclude private members
-				if (superMember instanceof AnnotableAndModifiable) {
-					if (superMember.eIsProxy()) {
-						superMember = (Member) EcoreUtil.resolve(superMember, me);
-					}
-					AnnotableAndModifiable modifiable = (AnnotableAndModifiable) superMember;
-					if (!modifiable.isHidden(context)) {
-						memberList.add(superMember);
-					}
-				} else {
-					memberList.add(superMember);
+		if (ncCall != null) {
+			TypeReference typeReference = ncCall.getTypeReference();
+			Type target = typeReference.getTarget();
+			ConcreteClassifier classifier = (ConcreteClassifier) target;
+			if (classifier != null) {
+				EList<Member> superMemberList = classifier.getAllMembers(context);
+				for (Member superMember : superMemberList) {
+					addToList(anonymousClass, context, memberList, superMember);
 				}
 			}
 		}
 		return memberList;
 	}
 
+	private static void addToList(AnonymousClass anonymousClass, Commentable context, EList<Member> memberList,
+			Member superMember) {
+		Member newMember = superMember;
+		// Exclude private members
+		if (newMember instanceof AnnotableAndModifiable) {
+			if (newMember.eIsProxy()) {
+				newMember = (Member) EcoreUtil.resolve(newMember, anonymousClass);
+			}
+			AnnotableAndModifiable modifiable = (AnnotableAndModifiable) newMember;
+			if (!modifiable.isHidden(context)) {
+				memberList.add(newMember);
+			}
+		} else {
+			memberList.add(newMember);
+		}
+	}
+
 	/**
 	 * @return a view on all super classifiers
 	 */
-	public static EList<ConcreteClassifier> getAllSuperClassifiers(AnonymousClass me) {
+	public static EList<ConcreteClassifier> getAllSuperClassifiers(AnonymousClass anonymousClass) {
 		EList<ConcreteClassifier> superClassifierList = new UniqueEList<>();
 
-		ConcreteClassifier superClassifier = me.getSuperClassifier();
+		ConcreteClassifier superClassifier = anonymousClass.getSuperClassifier();
 
 		if (superClassifier != null) {
 			superClassifierList.add(superClassifier);
 			superClassifierList.addAll(superClassifier.getAllSuperClassifiers());
 		} else {
-			superClassifierList.add(me.getObjectClass());
+			superClassifierList.add(anonymousClass.getObjectClass());
 		}
 		return superClassifierList;
 	}
@@ -94,18 +103,18 @@ public class AnonymousClassExtension {
 	/**
 	 * @return the direct super classifier
 	 */
-	public static ConcreteClassifier getSuperClassifier(EObject me) {
-		NewConstructorCall ncCall = null;
-		EObject eContainer = me.eContainer();
+	public static ConcreteClassifier getSuperClassifier(EObject eObject) {
+		NewConstructorCall ncCall;
+		EObject eContainer = eObject.eContainer();
+		ConcreteClassifier result = null;
 		if (eContainer instanceof NewConstructorCall) {
 			ncCall = (NewConstructorCall) eContainer;
 			TypeReference typeReference = ncCall.getTypeReference();
 			Type target = typeReference.getTarget();
-			return (ConcreteClassifier) target;
+			result = (ConcreteClassifier) target;
+		} else if (eContainer instanceof EnumConstant && eContainer.eContainer() instanceof Enumeration) {
+			result = (Enumeration) eContainer.eContainer();
 		}
-		if (eContainer instanceof EnumConstant && eContainer.eContainer() instanceof Enumeration) {
-			return (Enumeration) eContainer.eContainer();
-		}
-		return null;
+		return result;
 	}
 }

@@ -102,12 +102,14 @@ public final class TypeReferenceExtension {
 			type = ((TypeParameter) type).getBoundType(typeReference, reference);
 		}
 
+		Type result;
 		if (type != null && type.eIsProxy()) {
 			// this may happen, when e.g. a super type is resolved. It is ok.
-			return null;
+			result = null;
+		} else {
+			result = type;
 		}
-
-		return type;
+		return result;
 	}
 
 	private static Type getType(TypeReference typeReference) {
