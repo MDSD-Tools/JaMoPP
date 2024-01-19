@@ -40,18 +40,22 @@ import tools.mdsd.jamopp.model.java.references.Reference;
 import tools.mdsd.jamopp.model.java.references.SelfReference;
 import tools.mdsd.jamopp.model.java.types.Type;
 
-public class AnnotableAndModifiableExtension {
+public final class AnnotableAndModifiableExtension {
+
+	private AnnotableAndModifiableExtension() {
+		// Should not be initiated.
+	}
 
 	/**
 	 * Sets the visibility of this element to <code>private</code>.
 	 */
-	public static void makePrivate(AnnotableAndModifiable me) {
-		if (me.isPrivate()) {
+	public static void makePrivate(AnnotableAndModifiable annotableAndModifiable) {
+		if (annotableAndModifiable.isPrivate()) {
 			return;
 		}
-		me.removeModifier(Public.class);
-		me.removeModifier(Protected.class);
-		me.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createPrivate());
+		annotableAndModifiable.removeModifier(Public.class);
+		annotableAndModifiable.removeModifier(Protected.class);
+		annotableAndModifiable.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createPrivate());
 	}
 
 	/**
@@ -69,21 +73,21 @@ public class AnnotableAndModifiableExtension {
 	/**
 	 * Sets the visibility of this element to <code>protected</code>.
 	 */
-	public static void makeProtected(AnnotableAndModifiable me) {
-		if (me.isProtected()) {
+	public static void makeProtected(AnnotableAndModifiable annotableAndModifiable) {
+		if (annotableAndModifiable.isProtected()) {
 			return;
 		}
-		me.removeModifier(Private.class);
-		me.removeModifier(Public.class);
-		me.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createProtected());
+		annotableAndModifiable.removeModifier(Private.class);
+		annotableAndModifiable.removeModifier(Public.class);
+		annotableAndModifiable.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createProtected());
 	}
 
 	/**
 	 * Removes all modifiers from this element.
 	 */
-	public static void removeAllModifiers(AnnotableAndModifiable me) {
-		List<Modifier> modifiers = me.getModifiers();
-		EList<AnnotationInstanceOrModifier> elements = me.getAnnotationsAndModifiers();
+	public static void removeAllModifiers(AnnotableAndModifiable annotableAndModifiable) {
+		List<Modifier> modifiers = annotableAndModifiable.getModifiers();
+		EList<AnnotationInstanceOrModifier> elements = annotableAndModifiable.getAnnotationsAndModifiers();
 		elements.removeAll(modifiers);
 	}
 

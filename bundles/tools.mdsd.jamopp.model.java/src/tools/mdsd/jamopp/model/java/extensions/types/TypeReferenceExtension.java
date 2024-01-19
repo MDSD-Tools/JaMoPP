@@ -30,7 +30,13 @@ import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
-public class TypeReferenceExtension {
+public final class TypeReferenceExtension {
+
+	private static final String CLONE = "clone";
+
+	private TypeReferenceExtension() {
+		// Should not initiated.
+	}
 
 	/**
 	 * Returns the type referenced by this <code>TypeReference</code> considering
@@ -39,8 +45,8 @@ public class TypeReferenceExtension {
 	 *
 	 * @return the referenced type
 	 */
-	public static Type getTarget(TypeReference me) {
-		return me.getBoundTarget(null);
+	public static Type getTarget(TypeReference typeReference) {
+		return typeReference.getBoundTarget(null);
 	}
 
 	/**
@@ -48,21 +54,21 @@ public class TypeReferenceExtension {
 	 *
 	 * @param type the new type to set as target.
 	 */
-	public static void setTarget(TypeReference me, Classifier type) {
+	public static void setTarget(TypeReference typeReference, Classifier type) {
 		if (type == null || type.eIsProxy()) {
 			return;
 		}
 
-		if (me instanceof NamespaceClassifierReference nsClassifierReference) {
+		if (typeReference instanceof NamespaceClassifierReference nsClassifierReference) {
 			nsClassifierReference.getClassifierReferences().clear();
 			nsClassifierReference.getNamespaces().clear();
 			nsClassifierReference.getNamespaces().addAll(type.getContainingContainerName());
 			ClassifierReference classifierRef = TypesFactory.eINSTANCE.createClassifierReference();
 			classifierRef.setTarget(type);
 			nsClassifierReference.getClassifierReferences().add(classifierRef);
-		} else if (me instanceof ClassifierReference ref) {
+		} else if (typeReference instanceof ClassifierReference ref) {
 			ref.setTarget(type);
-		} else if (me instanceof InferableType ref) {
+		} else if (typeReference instanceof InferableType ref) {
 			ref.getArrayDimensionsBefore().clear();
 			ref.getActualTargets().clear();
 			ClassifierReference newRef = TypesFactory.eINSTANCE.createClassifierReference();
@@ -81,36 +87,19 @@ public class TypeReferenceExtension {
 	 *
 	 * @return the referenced type.
 	 */
-	public static Type getBoundTarget(TypeReference me, Reference reference) {
+	public static Type getBoundTarget(TypeReference typeReference, Reference reference) {
 		Type type = null;
-		if (me instanceof ClassifierReference || me instanceof NamespaceClassifierReference) {
-			ClassifierReference classifierRef = me.getPureClassifierReference();
-			if (classifierRef != null) {
-				type = classifierRef.getTarget();
-			}
-
-			if (reference instanceof MethodCall potentialCloneCall) {
-				// clone returns the type of the cloned in the case of arrays
-				ReferenceableElement potentialCloneCallTarget = potentialCloneCall.getTarget();
-				if (potentialCloneCallTarget != null && !potentialCloneCallTarget.eIsProxy()
-						&& "clone".equals(potentialCloneCallTarget.getName())
-						&& potentialCloneCall.getPrevious() instanceof ElementReference) {
-					ElementReference prevRef = (ElementReference) potentialCloneCall.getPrevious();
-					if (prevRef.getTarget() instanceof ArrayTypeable
-							&& ((ArrayTypeable) prevRef.getTarget()).getArrayDimension() > 0) {
-						type = prevRef.getReferencedType();
-					}
-				}
-			}
-		} else if (me instanceof PrimitiveType) {
-			return (PrimitiveType) me;
-		} else if (me instanceof InferableType t && !t.getActualTargets().isEmpty()) {
+		if (typeReference instanceof ClassifierReference || typeReference instanceof NamespaceClassifierReference) {
+			type = getType(typeReference);
+		} else if (typeReference instanceof PrimitiveType) {
+			return (PrimitiveType) typeReference;
+		} else if (typeReference instanceof InferableType t && !t.getActualTargets().isEmpty()) {
 			return t.getActualTargets().get(0).getBoundTarget(reference);
 		}
 
 		// resolve parameter to real type
 		if (type instanceof TypeParameter) {
-			type = ((TypeParameter) type).getBoundType(me, reference);
+			type = ((TypeParameter) type).getBoundType(typeReference, reference);
 		}
 
 		if (type != null && type.eIsProxy()) {
@@ -121,28 +110,53 @@ public class TypeReferenceExtension {
 		return type;
 	}
 
+	private static Type getType(TypeReference typeReference) {
+		Type newType = null;
+		ClassifierReference classifierRef = typeReference.getPureClassifierReference();
+		if (classifierRef != null) {
+			newType = classifierRef.getTarget();
+		}
+
+		if (typeReference instanceof MethodCall potentialCloneCall) {
+			// clone returns the type of the cloned in the case of arrays
+			ReferenceableElement potentialCloneCallTarget = potentialCloneCall.getTarget();
+			if (potentialCloneCallTarget != null && !potentialCloneCallTarget.eIsProxy()
+					&& CLONE.equals(potentialCloneCallTarget.getName())
+					&& potentialCloneCall.getPrevious() instanceof ElementReference) {
+				ElementReference prevRef = (ElementReference) potentialCloneCall.getPrevious();
+				if (prevRef.getTarget() instanceof ArrayTypeable
+						&& ((ArrayTypeable) prevRef.getTarget()).getArrayDimension() > 0) {
+					newType = prevRef.getReferencedType();
+				}
+			}
+		}
+		return newType;
+	}
+
 	/**
 	 * Extracts the (possibly nested) classifier reference (if any) from this type
 	 * references.
 	 *
 	 * @return
 	 */
-	public static ClassifierReference getPureClassifierReference(TypeReference me) {
+	public static ClassifierReference getPureClassifierReference(TypeReference typeReference) {
 		ClassifierReference classifierReference = null;
-		if (me instanceof ClassifierReference) {
-			classifierReference = (ClassifierReference) me;
+		if (typeReference instanceof ClassifierReference) {
+			classifierReference = (ClassifierReference) typeReference;
 		}
 
-		if (me instanceof NamespaceClassifierReference nsClassifierReference
+		if (typeReference instanceof NamespaceClassifierReference nsClassifierReference
 				&& !nsClassifierReference.getClassifierReferences().isEmpty()) {
 			int lastIndex = nsClassifierReference.getClassifierReferences().size() - 1;
 			classifierReference = nsClassifierReference.getClassifierReferences().get(lastIndex);
 		}
 
-		if (me instanceof InferableType t && !t.getActualTargets().isEmpty()) {
-			return t.getActualTargets().get(0).getPureClassifierReference();
+		ClassifierReference result;
+		if (typeReference instanceof InferableType type && !type.getActualTargets().isEmpty()) {
+			result = type.getActualTargets().get(0).getPureClassifierReference();
+		} else {
+			result = classifierReference;
 		}
-
-		return classifierReference;
+		return result;
 	}
 }

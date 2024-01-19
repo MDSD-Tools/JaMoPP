@@ -35,7 +35,11 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypedElement;
 import tools.mdsd.jamopp.model.java.util.TemporalCompositeClassifier;
 
-public class TypeExtension {
+public final class TypeExtension {
+
+	private TypeExtension() {
+		// Should not initiated.
+	}
 
 	/**
 	 * @param arrayDimension

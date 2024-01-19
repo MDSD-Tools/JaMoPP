@@ -56,14 +56,18 @@ import tools.mdsd.jamopp.model.java.types.TypedElement;
 import tools.mdsd.jamopp.model.java.util.TemporalCompositeClassifier;
 import tools.mdsd.jamopp.model.java.util.TemporalTypeArgumentHolder;
 
-public class TypeParameterExtension {
+public final class TypeParameterExtension {
+
+	private TypeParameterExtension() {
+		// Should not be initiated.
+	}
 
 	/**
 	 * @return all type restrictions
 	 */
-	public static EList<ConcreteClassifier> getAllSuperClassifiers(TypeParameter me) {
+	public static EList<ConcreteClassifier> getAllSuperClassifiers(TypeParameter typeParameter) {
 		EList<ConcreteClassifier> result = new UniqueEList<>();
-		for (TypeReference typeRef : me.getExtendTypes()) {
+		for (TypeReference typeRef : typeParameter.getExtendTypes()) {
 			Type type = typeRef.getTarget();
 			if (type instanceof ConcreteClassifier concreteClassifier) {
 				result.add(concreteClassifier);
@@ -83,16 +87,16 @@ public class TypeParameterExtension {
 	 * @param context to check protected visibility
 	 * @return member list
 	 */
-	public static EList<Member> getAllMembers(TypeParameter me, Commentable context) {
+	public static EList<Member> getAllMembers(TypeParameter typeParameter, Commentable context) {
 		EList<Member> memberList = new UniqueEList<>();
 
 		UniqueEList<Type> possiblyVisibleSuperClassifier = new UniqueEList<>();
-		for (TypeReference typeReference : me.getExtendTypes()) {
+		for (TypeReference typeReference : typeParameter.getExtendTypes()) {
 			Type target = typeReference.getTarget();
 			possiblyVisibleSuperClassifier.add(target);
 		}
 
-		for (ConcreteClassifier superClassifier : me.getAllSuperClassifiers()) {
+		for (ConcreteClassifier superClassifier : typeParameter.getAllSuperClassifiers()) {
 			for (Member member : superClassifier.getMembers()) {
 				if (member instanceof AnnotableAndModifiable modifiable) {
 					if (!modifiable.isHidden(context) || possiblyVisibleSuperClassifier.contains(superClassifier)) {
@@ -115,11 +119,11 @@ public class TypeParameterExtension {
 	 * @param reference
 	 * @return bound type or parameter if not bound
 	 */
-	public static Type getBoundType(TypeParameter me, EObject typeReference, Reference reference) {
+	public static Type getBoundType(TypeParameter typeParameter, EObject typeReference, Reference reference) {
 
 		EList<Type> resultList = new BasicEList<>();
 
-		TypeParametrizable typeParameterDeclarator = (TypeParametrizable) me.eContainer();
+		TypeParametrizable typeParameterDeclarator = (TypeParametrizable) typeParameter.eContainer();
 		Reference parentReference = null;
 		EList<Type> prevTypeList = new UniqueEList<>();
 
@@ -132,23 +136,23 @@ public class TypeParameterExtension {
 		}
 
 		for (Type prevType : prevTypeList) {
-			processType(me, reference, resultList, typeParameterDeclarator, parentReference, prevType);
+			processType(typeParameter, reference, resultList, typeParameterDeclarator, parentReference, prevType);
 		}
 
 		if (typeParameterDeclarator instanceof Method method && reference instanceof MethodCall methodCall) {
-			handleTypeAndReferenceAreMethods(me, typeReference, resultList, parentReference, method, methodCall);
+			handleTypeAndReferenceAreMethods(typeParameter, typeReference, resultList, parentReference, method, methodCall);
 		}
 
 		removeNulls(resultList);
 
-		if (resultList.isEmpty() || resultList.size() == 1 && resultList.get(0).equals(me)) {
-			return me;
+		if (resultList.isEmpty() || resultList.size() == 1 && resultList.get(0).equals(typeParameter)) {
+			return typeParameter;
 		}
-		TemporalCompositeClassifier temp = new TemporalCompositeClassifier(me);
+		TemporalCompositeClassifier temp = new TemporalCompositeClassifier(typeParameter);
 		for (Type aResult : resultList) {
 			processResult(temp, aResult);
 		}
-		temp.getSuperTypes().add(me);
+		temp.getSuperTypes().add(typeParameter);
 		return temp;
 	}
 
