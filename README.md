@@ -2,7 +2,7 @@
 
 **Notice:** This repository is not endorsed by or affiliated with DevBoost GmbH or Software Technology Group, Dresden University of Technology.
 
-JaMoPP can parse Java source code into EMF-based models and vice versa. It can be used for code analysis and refactoring. For more information read the original publication: [JaMoPP publications](https://github.com/DevBoost/JaMoPP/tree/master/Doc/org.emftext.language.java.doc/publications)
+JaMoPP can parse Java source code into EMF-based models and vice versa. It can be used for code analysis and refactoring. For more information read the original publications: [JaMoPP publications](https://github.com/DevBoost/JaMoPP/tree/master/Doc/org.emftext.language.java.doc/publications)
 
 ## State
 
