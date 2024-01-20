@@ -101,27 +101,27 @@ public final class ClassExtension {
 	/**
 	 * @return primitive type, if the class can be wrapped
 	 */
-	public static PrimitiveType unWrapPrimitiveType(tools.mdsd.jamopp.model.java.classifiers.Class me) {
-
-		if (me.getLibClass("Boolean").equals(me)) {
-			return TypesFactory.eINSTANCE.createBoolean();
-		} else if (me.getLibClass("Byte").equals(me)) {
-			return TypesFactory.eINSTANCE.createByte();
-		} else if (me.getLibClass("Character").equals(me)) {
-			return TypesFactory.eINSTANCE.createChar();
-		} else if (me.getLibClass("Float").equals(me)) {
-			return TypesFactory.eINSTANCE.createFloat();
-		} else if (me.getLibClass("Double").equals(me)) {
-			return TypesFactory.eINSTANCE.createDouble();
-		} else if (me.getLibClass("Integer").equals(me)) {
-			return TypesFactory.eINSTANCE.createInt();
-		} else if (me.getLibClass("Long").equals(me)) {
-			return TypesFactory.eINSTANCE.createLong();
-		} else if (me.getLibClass("Short").equals(me)) {
-			return TypesFactory.eINSTANCE.createShort();
-		} else if (me.getLibClass("Void").equals(me)) {
-			return TypesFactory.eINSTANCE.createVoid();
+	public static PrimitiveType unWrapPrimitiveType(tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
+		PrimitiveType result = null;
+		if (clazz.getLibClass("Boolean").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createBoolean();
+		} else if (clazz.getLibClass("Byte").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createByte();
+		} else if (clazz.getLibClass("Character").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createChar();
+		} else if (clazz.getLibClass("Float").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createFloat();
+		} else if (clazz.getLibClass("Double").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createDouble();
+		} else if (clazz.getLibClass("Integer").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createInt();
+		} else if (clazz.getLibClass("Long").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createLong();
+		} else if (clazz.getLibClass("Short").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createShort();
+		} else if (clazz.getLibClass("Void").equals(clazz)) {
+			result = TypesFactory.eINSTANCE.createVoid();
 		}
-		return null;
+		return result;
 	}
 }

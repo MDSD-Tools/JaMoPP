@@ -65,33 +65,40 @@ public final class ConcreteClassifierExtension {
 		return innerClassifierList;
 	}
 
-	public static EList<ConcreteClassifier> getInnerClassifiers(ConcreteClassifier me) {
-		if (me.eIsProxy()) {
-			return ECollections.emptyEList();
+	public static EList<ConcreteClassifier> getInnerClassifiers(ConcreteClassifier concreteClassifier) {
+		EList<ConcreteClassifier> result;
+		if (concreteClassifier.eIsProxy()) {
+			result = ECollections.emptyEList();
+		} else {
+			StringBuilder suffix = new StringBuilder();
+			ConcreteClassifier containingClass = concreteClassifier;
+			while (containingClass.eContainer() instanceof ConcreteClassifier) {
+				containingClass = (ConcreteClassifier) containingClass.eContainer();
+				suffix.insert(0, '.').insert(0, containingClass.getName());
+			}
+			if (containingClass.eContainer() instanceof CompilationUnit) {
+				CompilationUnit compilationUnit = (CompilationUnit) containingClass.eContainer();
+				String fullName = compilationUnit.getNamespacesAsString() + suffix + concreteClassifier.getName();
+				result = concreteClassifier.getConcreteClassifiers(fullName, "*");
+			} else {
+				result = handleClassedDeclaredInsideMethods(concreteClassifier);
+			}
 		}
-		String suffix = "";
-		ConcreteClassifier containingClass = me;
-		while (containingClass.eContainer() instanceof ConcreteClassifier) {
-			containingClass = (ConcreteClassifier) containingClass.eContainer();
-			suffix = containingClass.getName() + "." + suffix;
-		}
-		if (containingClass.eContainer() instanceof CompilationUnit) {
-			CompilationUnit compilationUnit = (CompilationUnit) containingClass.eContainer();
-			String fullName = compilationUnit.getNamespacesAsString() + suffix + me.getName();
-			return me.getConcreteClassifiers(fullName, "*");
-		}
+		return result;
+	}
 
+	private static EList<ConcreteClassifier> handleClassedDeclaredInsideMethods(ConcreteClassifier concreteClassifier) {
 		// For classes declared locally inside methods that are not registered
 		// in the class path
 		EList<ConcreteClassifier> result = new UniqueEList<>();
 		// Can not call ClassifierUtil.getAllMembers, because it will try to
 		// call this method!
-		for (Member member : me.getMembers()) {
+		for (Member member : concreteClassifier.getMembers()) {
 			if (member instanceof ConcreteClassifier) {
 				result.add((ConcreteClassifier) member);
 			}
 		}
-		for (ConcreteClassifier superClassifier : me.getAllSuperClassifiers()) {
+		for (ConcreteClassifier superClassifier : concreteClassifier.getAllSuperClassifiers()) {
 			for (Member member : superClassifier.getMembers()) {
 				if (member instanceof ConcreteClassifier) {
 					result.add((ConcreteClassifier) member);
