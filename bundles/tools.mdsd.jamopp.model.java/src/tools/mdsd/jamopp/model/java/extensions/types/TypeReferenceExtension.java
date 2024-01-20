@@ -89,27 +89,30 @@ public final class TypeReferenceExtension {
 	 */
 	public static Type getBoundTarget(TypeReference typeReference, Reference reference) {
 		Type type = null;
-		if (typeReference instanceof ClassifierReference || typeReference instanceof NamespaceClassifierReference) {
-			type = getType(typeReference);
-		} else if (typeReference instanceof PrimitiveType) {
-			return (PrimitiveType) typeReference;
-		} else if (typeReference instanceof InferableType t && !t.getActualTargets().isEmpty()) {
-			return t.getActualTargets().get(0).getBoundTarget(reference);
-		}
-
-		// resolve parameter to real type
-		if (type instanceof TypeParameter) {
-			type = ((TypeParameter) type).getBoundType(typeReference, reference);
-		}
-
-		Type result;
-		if (type != null && type.eIsProxy()) {
-			// this may happen, when e.g. a super type is resolved. It is ok.
-			result = null;
+		Type result = null;
+		if (typeReference instanceof PrimitiveType) {
+			result = (PrimitiveType) typeReference;
+		} else if (typeReference instanceof InferableType inferableType
+				&& !inferableType.getActualTargets().isEmpty()) {
+			result = inferableType.getActualTargets().get(0).getBoundTarget(reference);
 		} else {
-			result = type;
+			if (typeReference instanceof ClassifierReference || typeReference instanceof NamespaceClassifierReference) {
+				type = getType(typeReference);
+			}
+			type = resolveParameterToRealType(typeReference, reference, type);
+			if (type == null || !type.eIsProxy()) {
+				result = type;
+			}
 		}
 		return result;
+	}
+
+	private static Type resolveParameterToRealType(TypeReference typeReference, Reference reference, Type type) {
+		Type newType = type;
+		if (newType instanceof TypeParameter) {
+			newType = ((TypeParameter) newType).getBoundType(typeReference, reference);
+		}
+		return newType;
 	}
 
 	private static Type getType(TypeReference typeReference) {

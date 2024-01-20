@@ -221,12 +221,12 @@ public final class TypeExtension {
 		// there are some specifics for primitive types not reflected in the type
 		// hierarchy
 		if (lOtherType instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
-			PrimitiveType primitiveType = ((tools.mdsd.jamopp.model.java.classifiers.Class) lOtherType)
-					.unWrapPrimitiveType();
-			if (primitiveType == null) {
+			if (((tools.mdsd.jamopp.model.java.classifiers.Class) lOtherType)
+					.unWrapPrimitiveType() == null) {
 				return false;
 			}
-			lOtherType = primitiveType;
+			lOtherType = ((tools.mdsd.jamopp.model.java.classifiers.Class) lOtherType)
+					.unWrapPrimitiveType();
 		}
 
 		if (thisType instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
@@ -241,6 +241,7 @@ public final class TypeExtension {
 		if (thisType instanceof tools.mdsd.jamopp.model.java.types.Boolean) {
 			return lOtherType instanceof tools.mdsd.jamopp.model.java.types.Boolean;
 		}
+
 		if (thisType instanceof tools.mdsd.jamopp.model.java.types.Byte
 				|| thisType instanceof tools.mdsd.jamopp.model.java.types.Int
 				|| thisType instanceof tools.mdsd.jamopp.model.java.types.Short
@@ -262,7 +263,7 @@ public final class TypeExtension {
 						|| lOtherType instanceof tools.mdsd.jamopp.model.java.types.Double);
 	}
 
-	public static EList<Member> getAllMembers(Type me) {
+	public static EList<Member> getAllMembers(Type type) {
 		// method has to be specified in subclasses
 		throw new UnsupportedOperationException();
 	}
