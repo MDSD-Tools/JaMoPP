@@ -37,6 +37,8 @@ import tools.mdsd.jamopp.model.java.statements.StatementListContainer;
 
 public final class CommentableExtension {
 
+	private static final char DOLLAR = '$';
+
 	private CommentableExtension() {
 		// Should not be initiated.
 	}
@@ -100,13 +102,15 @@ public final class CommentableExtension {
 	 */
 	public static EObject getParentByEType(EObject eObject, EClassifier type) {
 		EObject container = eObject.eContainer();
+		EObject result = null;
 		while (container != null) {
 			if (type.isInstance(container)) {
-				return container;
+				result = container;
+				break;
 			}
 			container = container.eContainer();
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -115,13 +119,15 @@ public final class CommentableExtension {
 	 */
 	public static <T> T getParentByType(EObject eObject, Class<T> type) {
 		EObject container = eObject.eContainer();
+		T result = null;
 		while (container != null) {
 			if (type.isInstance(container)) {
-				return type.cast(container);
+				result = type.cast(container);
+				break;
 			}
 			container = container.eContainer();
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -130,13 +136,15 @@ public final class CommentableExtension {
 	 */
 	public static EObject getFirstChildByEType(EObject eObject, EClassifier type) {
 		Iterator<EObject> iterator = eObject.eAllContents();
+		EObject result = null;
 		while (iterator.hasNext()) {
 			EObject next = iterator.next();
 			if (type.isInstance(next)) {
-				return next;
+				result = next;
+				break;
 			}
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -144,14 +152,16 @@ public final class CommentableExtension {
 	 * <code>null</code> is returned.
 	 */
 	public static <T> T getFirstChildByType(EObject eObject, Class<T> type) {
-		Iterator<EObject> it = eObject.eAllContents();
-		while (it.hasNext()) {
-			EObject next = it.next();
+		Iterator<EObject> iterator = eObject.eAllContents();
+		T result = null;
+		while (iterator.hasNext()) {
+			EObject next = iterator.next();
 			if (type.isInstance(next)) {
-				return type.cast(next);
+				result = type.cast(next);
+				break;
 			}
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -159,9 +169,9 @@ public final class CommentableExtension {
 	 */
 	public static EList<EObject> getChildrenByEType(EObject eObject, EClassifier type) {
 		EList<EObject> children = new BasicEList<>();
-		Iterator<EObject> it = eObject.eAllContents();
-		while (it.hasNext()) {
-			EObject next = it.next();
+		Iterator<EObject> iterator = eObject.eAllContents();
+		while (iterator.hasNext()) {
+			EObject next = iterator.next();
 			if (type.isInstance(next)) {
 				children.add(next);
 			}
@@ -174,9 +184,9 @@ public final class CommentableExtension {
 	 */
 	public static <T> EList<T> getChildrenByType(EObject eObject, Class<T> type) {
 		EList<T> children = new BasicEList<>();
-		Iterator<EObject> it = eObject.eAllContents();
-		while (it.hasNext()) {
-			EObject next = it.next();
+		Iterator<EObject> iterator = eObject.eAllContents();
+		while (iterator.hasNext()) {
+			EObject next = iterator.next();
 			if (type.isInstance(next)) {
 				children.add(type.cast(next));
 			}
@@ -201,7 +211,7 @@ public final class CommentableExtension {
 	 * @param packageName     name of the package
 	 * @param classifierQuery * for all classifiers or name of a single classifier
 	 */
-	public static EList<ConcreteClassifier> getConcreteClassifiers(Commentable me, String packageName,
+	public static EList<ConcreteClassifier> getConcreteClassifiers(Commentable commentable, String packageName,
 			String classifierQuery) {
 		EList<ConcreteClassifier> result = new UniqueEList<>();
 		if ("*".equals(classifierQuery)) {
@@ -228,10 +238,11 @@ public final class CommentableExtension {
 	 */
 	public static tools.mdsd.jamopp.model.java.classifiers.Class getLibClass(Commentable commentable, String name) {
 		ConcreteClassifier result = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
+		tools.mdsd.jamopp.model.java.classifiers.Class resultClass = null;
 		if (result instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
-			return (tools.mdsd.jamopp.model.java.classifiers.Class) result;
+			resultClass = (tools.mdsd.jamopp.model.java.classifiers.Class) result;
 		}
-		return null;
+		return resultClass;
 	}
 
 	/**
@@ -244,10 +255,11 @@ public final class CommentableExtension {
 	 */
 	public static Interface getLibInterface(Commentable commentable, String name) {
 		ConcreteClassifier interfaceClass = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
+		Interface result = null;
 		if (interfaceClass instanceof Interface) {
-			return (Interface) interfaceClass;
+			result = (Interface) interfaceClass;
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -288,10 +300,11 @@ public final class CommentableExtension {
 	 */
 	public static Interface getAnnotationInterface(Commentable commentable) {
 		ConcreteClassifier proxy = JavaClasspath.get().getConcreteClassifier("java.lang.annotation.Annotation");
+		Interface result = null;
 		if (proxy instanceof Interface) {
-			return (Interface) proxy;
+			result = (Interface) proxy;
 		}
-		return null;
+		return result;
 	}
 
 	// ===== Container look up =====
@@ -329,15 +342,17 @@ public final class CommentableExtension {
 	 */
 	public static AnonymousClass getContainingAnonymousClass(Commentable commentable) {
 		EObject value = commentable;
-		while (!(value instanceof AnonymousClass) && !(value instanceof ConcreteClassifier) // Do not jump over other
-																							// classifiers
+		while (!(value instanceof AnonymousClass) && !(value instanceof ConcreteClassifier)
+		// Do not jump over other classifiers
 				&& value != null) {
 			value = value.eContainer();
 		}
-		if (!(value instanceof AnonymousClass)) {
-			return null;
+
+		AnonymousClass result = null;
+		if (value instanceof AnonymousClass) {
+			result = (AnonymousClass) value;
 		}
-		return (AnonymousClass) value;
+		return result;
 	}
 
 	/**
@@ -368,29 +383,34 @@ public final class CommentableExtension {
 
 	public static EList<String> getContainingPackageName(Commentable commentable) {
 		CompilationUnit compilationUnit = commentable.getContainingCompilationUnit();
+		EList<String> result;
 		if (compilationUnit == null) {
-			return ECollections.emptyEList();
-		}
-
-		int idx = compilationUnit.getNamespaces().size();
-		if (compilationUnit.getName() != null) {
-			char[] fullName = compilationUnit.getName().toCharArray();
-			for (char element : fullName) {
-				if (element == '$') {
-					idx--;
+			result = ECollections.emptyEList();
+		} else {
+			int idx = compilationUnit.getNamespaces().size();
+			if (compilationUnit.getName() != null) {
+				char[] fullName = compilationUnit.getName().toCharArray();
+				for (char element : fullName) {
+					if (element == DOLLAR) {
+						idx--;
+					}
 				}
 			}
+			List<String> packageNameParts = compilationUnit.getNamespaces().subList(0, idx);
+			BasicEList<String> packageNameList = new BasicEList<>(packageNameParts);
+			result = ECollections.unmodifiableEList(packageNameList);
 		}
-		List<String> packageNameParts = compilationUnit.getNamespaces().subList(0, idx);
-		BasicEList<String> packageNameList = new BasicEList<>(packageNameParts);
-		return ECollections.unmodifiableEList(packageNameList);
+		return result;
 	}
 
 	public static EList<String> getContainingContainerName(Commentable commentable) {
 		CompilationUnit compilationUnit = commentable.getContainingCompilationUnit();
+		EList<String> result;
 		if (compilationUnit == null) {
-			return ECollections.emptyEList();
+			result = ECollections.emptyEList();
+		} else {
+			result = ECollections.unmodifiableEList(compilationUnit.getNamespaces());
 		}
-		return ECollections.unmodifiableEList(compilationUnit.getNamespaces());
+		return result;
 	}
 }

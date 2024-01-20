@@ -15,6 +15,11 @@
  ******************************************************************************/
 package tools.mdsd.jamopp.model.java.extensions.classifiers;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Supplier;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 
@@ -26,6 +31,21 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
 public final class ClassExtension {
+
+	private static final Map<String, Supplier<PrimitiveType>> MAPPINGS;
+
+	static {
+		MAPPINGS = new HashMap<>();
+		MAPPINGS.put("Boolean", () -> TypesFactory.eINSTANCE.createBoolean());
+		MAPPINGS.put("Byte", () -> TypesFactory.eINSTANCE.createByte());
+		MAPPINGS.put("Character", () -> TypesFactory.eINSTANCE.createChar());
+		MAPPINGS.put("Float", () -> TypesFactory.eINSTANCE.createFloat());
+		MAPPINGS.put("Double", () -> TypesFactory.eINSTANCE.createDouble());
+		MAPPINGS.put("Integer", () -> TypesFactory.eINSTANCE.createInt());
+		MAPPINGS.put("Long", () -> TypesFactory.eINSTANCE.createLong());
+		MAPPINGS.put("Short", () -> TypesFactory.eINSTANCE.createShort());
+		MAPPINGS.put("Void", () -> TypesFactory.eINSTANCE.createVoid());
+	}
 
 	private ClassExtension() {
 		// Should not be initiated.
@@ -103,25 +123,15 @@ public final class ClassExtension {
 	 */
 	public static PrimitiveType unWrapPrimitiveType(tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
 		PrimitiveType result = null;
-		if (clazz.getLibClass("Boolean").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createBoolean();
-		} else if (clazz.getLibClass("Byte").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createByte();
-		} else if (clazz.getLibClass("Character").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createChar();
-		} else if (clazz.getLibClass("Float").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createFloat();
-		} else if (clazz.getLibClass("Double").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createDouble();
-		} else if (clazz.getLibClass("Integer").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createInt();
-		} else if (clazz.getLibClass("Long").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createLong();
-		} else if (clazz.getLibClass("Short").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createShort();
-		} else if (clazz.getLibClass("Void").equals(clazz)) {
-			result = TypesFactory.eINSTANCE.createVoid();
+		for (Entry<String, Supplier<PrimitiveType>> entry : MAPPINGS.entrySet()) {
+			String key = entry.getKey();
+			Supplier<PrimitiveType> val = entry.getValue();
+			if (clazz.getLibClass(key).equals(clazz)) {
+				result = val.get();
+				break;
+			}
 		}
+
 		return result;
 	}
 }
