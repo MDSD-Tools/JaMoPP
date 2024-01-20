@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="tools.mdsd.jamopp.model.java.feature"
+      id="tools.mdsd.jamopp.feature"
       label="JaMoPP - Java Model Parser and Printer"
       version="5.1.0.qualifier"
       provider-name="MDSD-Tools">
