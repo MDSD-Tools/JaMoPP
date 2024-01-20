@@ -45,16 +45,13 @@ public final class CompilationUnitExtension {
 	 * @return the classifier if one is found, otherwise <code>null</code>
 	 */
 	public static ConcreteClassifier getContainedClassifier(CompilationUnit compilationUnit, String name) {
-		if (name == null) {
-			return null;
-		}
-
+		ConcreteClassifier result = null;
 		for (ConcreteClassifier candidate : compilationUnit.getClassifiers()) {
 			if (name.equals(candidate.getName())) {
-				return candidate;
+				result = candidate;
 			}
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -84,15 +81,11 @@ public final class CompilationUnitExtension {
 	 */
 	public static Class getContainedClass(CompilationUnit compilationUnit) {
 		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+		Class result = null;
+		if (classifiers.get(0) instanceof Class clazz && classifiers.size() == 1) {
+			result = clazz;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Class) {
-			return (Class) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -106,15 +99,11 @@ public final class CompilationUnitExtension {
 	 */
 	public static Interface getContainedInterface(CompilationUnit compilationUnit) {
 		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+		Interface result = null;
+		if (classifiers.get(0) instanceof Interface interfaze && classifiers.size() == 1) {
+			result = interfaze;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Interface) {
-			return (Interface) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -129,15 +118,11 @@ public final class CompilationUnitExtension {
 	 */
 	public static Annotation getContainedAnnotation(CompilationUnit compilationUnit) {
 		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+		Annotation result = null;
+		if (classifiers.get(0) instanceof Annotation annotation && classifiers.size() == 1) {
+			result = annotation;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Annotation) {
-			return (Annotation) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -152,15 +137,11 @@ public final class CompilationUnitExtension {
 	 */
 	public static Enumeration getContainedEnumeration(CompilationUnit compilationUnit) {
 		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+		Enumeration result = null;
+		if (classifiers.get(0) instanceof Enumeration enumeration && classifiers.size() == 1) {
+			result = enumeration;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Enumeration) {
-			return (Enumeration) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**

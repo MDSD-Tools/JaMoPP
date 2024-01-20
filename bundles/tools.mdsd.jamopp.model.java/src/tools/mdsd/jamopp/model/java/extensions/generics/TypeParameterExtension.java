@@ -140,7 +140,8 @@ public final class TypeParameterExtension {
 		}
 
 		if (typeParameterDeclarator instanceof Method method && reference instanceof MethodCall methodCall) {
-			handleTypeAndReferenceAreMethods(typeParameter, typeReference, resultList, parentReference, method, methodCall);
+			handleTypeAndReferenceAreMethods(typeParameter, typeReference, resultList, parentReference, method,
+					methodCall);
 		}
 
 		removeNulls(resultList);
@@ -215,10 +216,10 @@ public final class TypeParameterExtension {
 		}
 	}
 
-	private static EList<Classifier> handleMethodParameter(TypeParameter me, Method method, MethodCall methodCall,
-			EList<Classifier> allSuperTypes, Parameter parameter) {
+	private static EList<Classifier> handleMethodParameter(TypeParameter typeParameter, Method method,
+			MethodCall methodCall, EList<Classifier> allSuperTypes, Parameter parameter) {
 		int idx;
-		if (me.equals(parameter.getTypeReference().getTarget())) {
+		if (typeParameter.equals(parameter.getTypeReference().getTarget())) {
 			idx = method.getParameters().indexOf(parameter);
 			Classifier argumentType = (Classifier) methodCall.getArguments().get(idx).getType();
 			if (allSuperTypes == null) {
@@ -242,7 +243,7 @@ public final class TypeParameterExtension {
 		return allSuperTypes;
 	}
 
-	private static void handleIndexInBetween(TypeParameter me, EList<Type> resultList, Method method,
+	private static void handleIndexInBetween(TypeParameter typeParameter, EList<Type> resultList, Method method,
 			MethodCall methodCall, int idx) {
 		Expression argument = methodCall.getArguments().get(idx);
 		Parameter parameter = method.getParameters().get(idx);
@@ -253,8 +254,8 @@ public final class TypeParameterExtension {
 			if (argumentType != null
 					&& parameterType.getTypeArguments().size() == argumentType.getTypeArguments().size()) {
 				for (TypeArgument typeArgument : parameterType.getTypeArguments()) {
-					if (typeArgument instanceof QualifiedTypeArgument
-							&& ((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget().equals(me)) {
+					if (typeArgument instanceof QualifiedTypeArgument && ((QualifiedTypeArgument) typeArgument)
+							.getTypeReference().getTarget().equals(typeParameter)) {
 						resultList.add(0,
 								((QualifiedTypeArgument) argumentType.getTypeArguments()
 										.get(parameterType.getTypeArguments().indexOf(typeArgument))).getTypeReference()
@@ -283,7 +284,7 @@ public final class TypeParameterExtension {
 							for (TypeArgument typeArgument : parameterType.getTypeArguments()) {
 								if (typeArgument instanceof QualifiedTypeArgument
 										&& ((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget()
-												.equals(me)) {
+												.equals(typeParameter)) {
 									int idx2 = parameterType.getTypeArguments().indexOf(typeArgument);
 									if (argumentType.getTypeArguments().get(idx2) instanceof QualifiedTypeArgument) {
 										resultList.add(0,
@@ -306,8 +307,8 @@ public final class TypeParameterExtension {
 				if (elementReference.getNext() instanceof ReflectiveClassReference
 						&& parameterType.getTypeArguments().size() == 1) {
 					for (TypeArgument typeArgument : parameterType.getTypeArguments()) {
-						if (typeArgument instanceof QualifiedTypeArgument
-								&& ((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget().equals(me)) {
+						if (typeArgument instanceof QualifiedTypeArgument && ((QualifiedTypeArgument) typeArgument)
+								.getTypeReference().getTarget().equals(typeParameter)) {
 							resultList.add(0, elementReference.getReferencedType());
 						}
 					}
@@ -342,10 +343,10 @@ public final class TypeParameterExtension {
 		return idx;
 	}
 
-	private static void processType(TypeParameter me, Reference reference, EList<Type> resultList,
+	private static void processType(TypeParameter typeParameter, Reference reference, EList<Type> resultList,
 			TypeParametrizable typeParameterDeclarator, Reference parentReference, Type prevType) {
 		if (typeParameterDeclarator instanceof ConcreteClassifier) {
-			int typeParameterIndex = typeParameterDeclarator.getTypeParameters().indexOf(me);
+			int typeParameterIndex = typeParameterDeclarator.getTypeParameters().indexOf(typeParameter);
 			if (reference != null) {
 				ClassifierReference classifierReference = null;
 				if (parentReference instanceof ElementReference) {
