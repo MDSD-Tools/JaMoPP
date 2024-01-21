@@ -51,7 +51,7 @@ Currently, JaMoPP only supports a direct inclusion of its sources into Eclipse. 
 
 ## Codestyle
 
-For styling the Eclipse plugin [Eclipse-PMD](https://github.com/eclipse-pmd) and [Teamscale](https://teamscale.com) is used.
+For styling and coding conventions the Eclipse plugin [Eclipse-PMD](https://github.com/eclipse-pmd) and [Teamscale](https://teamscale.com) are used.
 
 The PMD ruleset is `JaMoPP\codestyle\jamopp-ruleset.xml`.
 
