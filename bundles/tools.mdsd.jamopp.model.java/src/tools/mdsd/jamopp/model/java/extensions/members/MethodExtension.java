@@ -59,9 +59,7 @@ public final class MethodExtension {
 
 		if (!method.isMethodForCall(methodCall, false)) {
 			return false;
-		}
-
-		if (otherMethod.isMethodForCall(methodCall, true)) {
+		} else if (otherMethod.isMethodForCall(methodCall, true)) {
 			if (method.isMethodForCall(methodCall, true)) {
 				// We both match perfectly; lets compare our return types
 				Type target = method.getTypeReference().getTarget();
@@ -74,14 +72,13 @@ public final class MethodExtension {
 
 			// the other already matches perfectly; I am not better
 			return false;
-		}
-
-		if (!otherMethod.isMethodForCall(methodCall, false)) {
+		} else if (!otherMethod.isMethodForCall(methodCall, false)) {
 			// I match, but the other does not
 			return true;
+		} else {
+			// we both match, I am only better if I match perfectly
+			return method.isMethodForCall(methodCall, true);
 		}
-		// we both match, I am only better if I match perfectly
-		return method.isMethodForCall(methodCall, true);
 	}
 
 	public static boolean isMethodForCall(Method method, MethodCall methodCall, boolean needsPerfectMatch) {
@@ -156,9 +153,10 @@ public final class MethodExtension {
 	 * @return the block or null if the method has no implementation.
 	 */
 	public static Block getBlock(Method method) {
-		if (method.getStatement() instanceof Block) {
-			return (Block) method.getStatement();
+		Block result = null;
+		if (method.getStatement() instanceof Block block) {
+			result = block;
 		}
-		return null;
+		return result;
 	}
 }

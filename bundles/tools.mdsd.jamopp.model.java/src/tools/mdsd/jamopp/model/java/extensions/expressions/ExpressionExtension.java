@@ -122,7 +122,6 @@ public final class ExpressionExtension {
 			return subExp.getOneType(alternative);
 		} else if (expression instanceof UnaryExpression) {
 			Expression subExp = ((UnaryExpression) expression).getChild();
-
 			return subExp.getOneType(alternative);
 		} else {
 			for (TreeIterator<EObject> i = expression.eAllContents(); i.hasNext();) {
@@ -163,24 +162,29 @@ public final class ExpressionExtension {
 	}
 
 	public static long getArrayDimension(Expression expression) {
+		long result;
 		if (expression instanceof NestedExpression && ((NestedExpression) expression).getNext() == null) {
-			return ((NestedExpression) expression).getExpression().getArrayDimension()
+			result = ((NestedExpression) expression).getExpression().getArrayDimension()
 					- ((NestedExpression) expression).getArraySelectors().size();
-		}
-		if (expression instanceof ConditionalExpression
+		} else if (expression instanceof ConditionalExpression
 				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
-			return ((ConditionalExpression) expression).getExpressionIf().getArrayDimension();
-		}
-		if (expression instanceof AssignmentExpression) {
+			result = ((ConditionalExpression) expression).getExpressionIf().getArrayDimension();
+		} else if (expression instanceof AssignmentExpression) {
 			Expression value = ((AssignmentExpression) expression).getValue();
 			if (value == null) {
-				return 0;
+				result = 0;
+			} else {
+				result = value.getArrayDimension();
 			}
-			return value.getArrayDimension();
+		} else if (expression instanceof InstanceOfExpression) {
+			result = 0;
+		} else {
+			result = calcSize(expression);
 		}
-		if (expression instanceof InstanceOfExpression) {
-			return 0;
-		}
+		return result;
+	}
+
+	private static long calcSize(Expression expression) {
 		long size = 0;
 		ArrayTypeable arrayType = null;
 		if (expression instanceof Reference reference) {
