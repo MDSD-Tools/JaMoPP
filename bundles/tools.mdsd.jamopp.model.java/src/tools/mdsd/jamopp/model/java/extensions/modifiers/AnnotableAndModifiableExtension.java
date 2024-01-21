@@ -134,8 +134,8 @@ public final class AnnotableAndModifiableExtension {
 	 *
 	 * @param modifierType
 	 */
-	public static void removeModifier(AnnotableAndModifiable me, Class<?> modifierType) {
-		List<AnnotationInstanceOrModifier> modifiers = me.getAnnotationsAndModifiers();
+	public static void removeModifier(AnnotableAndModifiable annotableAndModifiable, Class<?> modifierType) {
+		List<AnnotationInstanceOrModifier> modifiers = annotableAndModifiable.getAnnotationsAndModifiers();
 		List<AnnotationInstanceOrModifier> modifiersToRemove = new ArrayList<>();
 		for (AnnotationInstanceOrModifier modifier : modifiers) {
 			if (modifierType.isInstance(modifier)) {
@@ -234,13 +234,14 @@ public final class AnnotableAndModifiableExtension {
 
 	private static boolean checkProtected(ConcreteClassifier iContextClassifier, ConcreteClassifier myClassifier,
 			Commentable commentable, Commentable lContext) {
-		ConcreteClassifier concreteClassifier = iContextClassifier;
 		// package visibility
 		if (commentable.getContainingPackageName() != null
 				&& commentable.getContainingPackageName().equals(lContext.getContainingPackageName())) {
 			return false;
 		}
+
 		// try outer classifiers as well
+		ConcreteClassifier concreteClassifier = iContextClassifier;
 		while (concreteClassifier != null) {
 			if (concreteClassifier.isSuperType(0, myClassifier, null)) {
 				return false;

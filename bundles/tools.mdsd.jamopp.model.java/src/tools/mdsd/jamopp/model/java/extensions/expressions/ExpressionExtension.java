@@ -53,6 +53,8 @@ import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 
 public final class ExpressionExtension {
 
+	private static final String CLONE = "clone";
+
 	private ExpressionExtension() {
 		// Should not be initiated.
 	}
@@ -188,7 +190,7 @@ public final class ExpressionExtension {
 			// an array clone? -> dimension defined by cloned array
 			if (reference instanceof ElementReference && reference.getPrevious() != null) {
 				ReferenceableElement target = ((ElementReference) reference).getTarget();
-				if (target instanceof Method && "clone".equals(((Method) target).getName())) {
+				if (target instanceof Method && CLONE.equals(((Method) target).getName())) {
 					reference = (Reference) reference.eContainer();
 				}
 			}

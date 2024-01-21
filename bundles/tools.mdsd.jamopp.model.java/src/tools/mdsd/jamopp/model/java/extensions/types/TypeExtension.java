@@ -123,9 +123,9 @@ public final class TypeExtension {
 				otherTypeList.add(thisType);
 			}
 
-			for (Type one_thisType : thisTypeList) {
+			for (Type oneThisType : thisTypeList) {
 				for (Type oneOtherType : otherTypeList) {
-					boolean result = one_thisType.isSuperType(arrayDimension, oneOtherType, otherArrayType);
+					boolean result = oneThisType.isSuperType(arrayDimension, oneOtherType, otherArrayType);
 					if (result) {
 						return true;
 					}

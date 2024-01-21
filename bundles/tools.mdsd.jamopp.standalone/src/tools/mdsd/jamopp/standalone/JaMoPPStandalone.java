@@ -2,6 +2,7 @@ package tools.mdsd.jamopp.standalone;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.util.URI;
@@ -32,6 +33,7 @@ import tools.mdsd.jamopp.resource.JavaResource2Factory;
  */
 public final class JaMoPPStandalone {
 
+	private static final PrintStream OUTPUT = System.out;
 	private static final String INPUT = "";
 	private static final boolean ENABLE_OUTPUT_OF_LIBRARY_FILES = false;
 
@@ -50,7 +52,7 @@ public final class JaMoPPStandalone {
 		for (Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
 
 			if (javaResource.getContents().isEmpty()) {
-				System.out.println("WARNING: Emtpy Resource: " + javaResource.getURI());
+				OUTPUT.println("WARNING: Emtpy Resource: " + javaResource.getURI());
 				continue;
 			}
 
