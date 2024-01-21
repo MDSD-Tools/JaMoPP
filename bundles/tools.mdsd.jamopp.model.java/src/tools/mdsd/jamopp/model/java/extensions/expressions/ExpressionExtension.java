@@ -88,7 +88,8 @@ public final class ExpressionExtension {
 			type = ((CastExpression) expression).getTypeReference().getTarget();
 		} else if (expression instanceof AssignmentExpression) {
 			type = ((AssignmentExpression) expression).getChild().getOneType(alternative);
-		} else if (expression instanceof ConditionalExpression && ((ConditionalExpression) expression).getExpressionIf() != null) {
+		} else if (expression instanceof ConditionalExpression
+				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
 			if (alternative) {
 				type = ((ConditionalExpression) expression).getExpressionElse().getOneType(alternative);
 			} else {
@@ -113,7 +114,8 @@ public final class ExpressionExtension {
 			}
 
 			@SuppressWarnings("unchecked")
-			Expression subExp = ((EList<Expression>) expression.eGet(expression.eClass().getEStructuralFeature("children"))).get(0);
+			Expression subExp = ((EList<Expression>) expression
+					.eGet(expression.eClass().getEStructuralFeature("children"))).get(0);
 
 			return subExp.getOneType(alternative);
 		} else if (expression instanceof UnaryExpression) {
@@ -163,7 +165,8 @@ public final class ExpressionExtension {
 			return ((NestedExpression) expression).getExpression().getArrayDimension()
 					- ((NestedExpression) expression).getArraySelectors().size();
 		}
-		if (expression instanceof ConditionalExpression && ((ConditionalExpression) expression).getExpressionIf() != null) {
+		if (expression instanceof ConditionalExpression
+				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
 			return ((ConditionalExpression) expression).getExpressionIf().getArrayDimension();
 		}
 		if (expression instanceof AssignmentExpression) {

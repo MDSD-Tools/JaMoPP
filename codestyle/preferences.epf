@@ -1,4 +1,4 @@
-#Sun Jan 21 12:21:24 CET 2024
+#Sun Jan 21 12:31:02 CET 2024
 \!/=
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.builder.annotationPath.allLocations=disabled
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.annotation.inheritNullAnnotations=disabled
@@ -17,7 +17,7 @@
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.annotatedTypeArgumentToUnannotated=info
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.annotationSuperInterface=warning
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
-/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.autoboxing=warning
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.autoboxing=ignore
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.comparingIdentical=warning
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.deadCode=warning
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.deprecation=warning
