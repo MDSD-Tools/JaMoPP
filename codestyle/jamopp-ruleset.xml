@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration>
-    <excludes>
-        <exclude>.*/src-gen/*.*</exclude>
-    </excludes>
-</configuration>
-
 <!-- Custom Ruleset made for Jamopp. All Rules are in the list. Some stupid ones are deactivated. -->
 <ruleset name="Jamopp Custom Rules"
 	xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+	<exclude-pattern>.*/src-gen/.*</exclude-pattern>
 
 	<rule ref="category/java/bestpractices.xml/AbstractClassWithoutAbstractMethod" />
 	<rule ref="category/java/bestpractices.xml/AccessorClassGeneration" />

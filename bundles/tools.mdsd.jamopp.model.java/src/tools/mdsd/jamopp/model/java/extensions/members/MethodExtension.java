@@ -84,10 +84,10 @@ public final class MethodExtension {
 		return method.isMethodForCall(methodCall, true);
 	}
 
-	public static boolean isMethodForCall(Method me, MethodCall methodCall, boolean needsPerfectMatch) {
+	public static boolean isMethodForCall(Method method, MethodCall methodCall, boolean needsPerfectMatch) {
 
 		EList<Type> argumentTypeList = methodCall.getArgumentTypes();
-		EList<Parameter> parameterList = new BasicEList<>(me.getParameters());
+		EList<Parameter> parameterList = new BasicEList<>(method.getParameters());
 
 		EList<Type> parameterTypeList = new BasicEList<>();
 		for (Parameter parameter : parameterList) {

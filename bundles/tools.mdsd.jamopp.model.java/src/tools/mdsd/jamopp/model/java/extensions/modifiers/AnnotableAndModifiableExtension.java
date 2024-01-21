@@ -61,13 +61,13 @@ public final class AnnotableAndModifiableExtension {
 	/**
 	 * Sets the visibility of this element to <code>public</code>.
 	 */
-	public static void makePublic(AnnotableAndModifiable me) {
-		if (me.isPublic()) {
+	public static void makePublic(AnnotableAndModifiable annotableAndModifiable) {
+		if (annotableAndModifiable.isPublic()) {
 			return;
 		}
-		me.removeModifier(Private.class);
-		me.removeModifier(Protected.class);
-		me.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createPublic());
+		annotableAndModifiable.removeModifier(Private.class);
+		annotableAndModifiable.removeModifier(Protected.class);
+		annotableAndModifiable.getAnnotationsAndModifiers().add(ModifiersFactory.eINSTANCE.createPublic());
 	}
 
 	/**
@@ -233,11 +233,11 @@ public final class AnnotableAndModifiableExtension {
 	}
 
 	private static boolean checkProtected(ConcreteClassifier iContextClassifier, ConcreteClassifier myClassifier,
-			Commentable me, Commentable lContext) {
+			Commentable commentable, Commentable lContext) {
 		ConcreteClassifier concreteClassifier = iContextClassifier;
 		// package visibility
-		if (me.getContainingPackageName() != null
-				&& me.getContainingPackageName().equals(lContext.getContainingPackageName())) {
+		if (commentable.getContainingPackageName() != null
+				&& commentable.getContainingPackageName().equals(lContext.getContainingPackageName())) {
 			return false;
 		}
 		// try outer classifiers as well

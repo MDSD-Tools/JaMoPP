@@ -180,10 +180,11 @@ public final class TypeParameterExtension {
 		return newResult;
 	}
 
-	private static void handleTypeAndReferenceAreMethods(TypeParameter me, EObject typeReference,
+	private static void handleTypeAndReferenceAreMethods(TypeParameter typeParameter, EObject typeReference,
 			EList<Type> resultList, Reference parentReference, Method method, MethodCall methodCall) {
 		if (method.getTypeParameters().size() == methodCall.getCallTypeArguments().size()) {
-			TypeArgument typeArgument = methodCall.getCallTypeArguments().get(method.getTypeParameters().indexOf(me));
+			TypeArgument typeArgument = methodCall.getCallTypeArguments()
+					.get(method.getTypeParameters().indexOf(typeParameter));
 			if (typeArgument instanceof QualifiedTypeArgument) {
 				resultList.add(0,
 						((QualifiedTypeArgument) typeArgument).getTypeReference().getBoundTarget(parentReference));
@@ -195,11 +196,11 @@ public final class TypeParameterExtension {
 
 		// method type parameter
 		if (idx == -1) {
-			idx = handleIndexIsMinusOne(me, method, idx);
+			idx = handleIndexIsMinusOne(typeParameter, method, idx);
 		}
 
 		if (idx < methodCall.getArguments().size() && idx >= 0) {
-			handleIndexInBetween(me, resultList, method, methodCall, idx);
+			handleIndexInBetween(typeParameter, resultList, method, methodCall, idx);
 		}
 
 		// return type
@@ -207,7 +208,7 @@ public final class TypeParameterExtension {
 			// bound by the type of a method argument?
 			EList<Classifier> allSuperTypes = null;
 			for (Parameter parameter : method.getParameters()) {
-				allSuperTypes = handleMethodParameter(me, method, methodCall, allSuperTypes, parameter);
+				allSuperTypes = handleMethodParameter(typeParameter, method, methodCall, allSuperTypes, parameter);
 			}
 			// all types given by all bindings
 			if (allSuperTypes != null) {
@@ -323,12 +324,12 @@ public final class TypeParameterExtension {
 		}
 	}
 
-	private static int handleIndexIsMinusOne(TypeParameter me, Method method, int idx) {
+	private static int handleIndexIsMinusOne(TypeParameter typeParameter, Method method, int idx) {
 		int newIdx = idx;
 		for (Parameter parameter : method.getParameters()) {
 			for (TypeArgument typeArgument : parameter.getTypeArguments()) {
 				if (typeArgument instanceof QualifiedTypeArgument
-						&& ((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget().equals(me)) {
+						&& ((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget().equals(typeParameter)) {
 					newIdx = method.getParameters().indexOf(parameter);
 				}
 			}
@@ -336,7 +337,7 @@ public final class TypeParameterExtension {
 			if (paramTypeReference != null) {
 				for (TypeArgument typeArgument : paramTypeReference.getTypeArguments()) {
 					if (typeArgument instanceof QualifiedTypeArgument
-							&& me.equals(((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget())) {
+							&& typeParameter.equals(((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget())) {
 						newIdx = method.getParameters().indexOf(parameter);
 					}
 				}

@@ -87,21 +87,21 @@ public final class ConstructorExtension {
 	 * hard criteria and thus checked as part of the general
 	 * {@link #isConstructorForCall(Constructor, NewConstructorCall, boolean)}.
 	 *
-	 * @param co                The constructor to check.
+	 * @param constructor                The constructor to check.
 	 * @param call              The call to check for.
 	 * @param needsPerfectMatch Flag how to handle parameters with variable argument
 	 *                          (array) length
 	 * @return True if the constructor is valid for the call.
 	 */
-	public static boolean isConstructorForCall(Constructor co, NewConstructorCall call, boolean needsPerfectMatch) {
+	public static boolean isConstructorForCall(Constructor constructor, NewConstructorCall call, boolean needsPerfectMatch) {
 
 		Type callType = call.getReferencedType();
-		if (!(callType instanceof ConcreteClassifier) || !((ConcreteClassifier) callType).getMembers().contains(co)) {
+		if (!(callType instanceof ConcreteClassifier) || !((ConcreteClassifier) callType).getMembers().contains(constructor)) {
 			return false;
 		}
 
 		EList<Type> argumentTypeList = call.getArgumentTypes();
-		EList<Parameter> parameterList = new BasicEList<>(co.getParameters());
+		EList<Parameter> parameterList = new BasicEList<>(constructor.getParameters());
 
 		EList<Type> parameterTypeList = new BasicEList<>();
 		for (Parameter parameter : parameterList) {

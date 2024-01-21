@@ -96,14 +96,14 @@ public final class TypeExtension {
 	 * @param otherArrayType
 	 * @return if the other type is equal to me or a super type of me
 	 */
-	public static boolean isSuperType(Type me, long arrayDimension, Type otherType, ArrayTypeable otherArrayType) {
+	public static boolean isSuperType(Type typeParam, long arrayDimension, Type otherType, ArrayTypeable otherArrayType) {
 		Type lOtherType = otherType;
 
 		if (lOtherType == null) {
 			return false;
 		}
 
-		Type thisType = me;
+		Type thisType = typeParam;
 
 		if (thisType instanceof TemporalCompositeClassifier || lOtherType instanceof TemporalCompositeClassifier) {
 			EList<Type> thisTypeList = new UniqueEList<>();
@@ -137,14 +137,14 @@ public final class TypeExtension {
 		// if I am a void, I am of every type
 		// if the other is Object I am a subtype in any case (also array dimensions do
 		// not matter)
-		if (thisType.equals(me.getLibClass("Void")) || lOtherType.equals(me.getObjectClass())) {
+		if (thisType.equals(typeParam.getLibClass("Void")) || lOtherType.equals(typeParam.getObjectClass())) {
 			return true;
 		}
 
 		// String, primitives, and arrays are serializable
 		ConcreteClassifier serializableClass = JavaClasspath.get().getConcreteClassifier("java.io.Serializable");
 		if (lOtherType.equals(serializableClass) && thisType.equals(serializableClass)
-				|| thisType.equals(me.getStringClass()) || thisType instanceof PrimitiveType || arrayDimension > 0) {
+				|| thisType.equals(typeParam.getStringClass()) || thisType instanceof PrimitiveType || arrayDimension > 0) {
 			return true;
 		}
 
@@ -184,8 +184,8 @@ public final class TypeExtension {
 		}
 
 		// annotations
-		if (thisType instanceof Annotation && (lOtherType.equals(me.getAnnotationInterface())
-				|| ((ConcreteClassifier) thisType).getAllSuperClassifiers().contains(me.getAnnotationInterface()))) {
+		if (thisType instanceof Annotation && (lOtherType.equals(typeParam.getAnnotationInterface())
+				|| ((ConcreteClassifier) thisType).getAllSuperClassifiers().contains(typeParam.getAnnotationInterface()))) {
 			return true;
 		}
 
@@ -211,7 +211,7 @@ public final class TypeExtension {
 
 		// everything can be implicitly casted to CharSequence, so I match when the
 		// other type is a CharSequence
-		Interface charSequenceClass = me.getLibInterface("CharSequence");
+		Interface charSequenceClass = typeParam.getLibInterface("CharSequence");
 
 		if (lOtherType instanceof ConcreteClassifier && (lOtherType.equals(charSequenceClass)
 				|| ((ConcreteClassifier) lOtherType).getAllSuperClassifiers().contains(charSequenceClass))) {
