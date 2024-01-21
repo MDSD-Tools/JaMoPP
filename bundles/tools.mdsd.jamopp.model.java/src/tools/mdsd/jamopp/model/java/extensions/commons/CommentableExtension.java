@@ -198,7 +198,8 @@ public final class CommentableExtension {
 	 * Finds the {@link ConcreteClassifier} representing the class with the given
 	 * classified name.
 	 *
-	 * @param name classified name of the ConcreteClassifier
+	 * @param commentable unused
+	 * @param name        classified name of the ConcreteClassifier
 	 */
 	public static ConcreteClassifier getConcreteClassifier(Commentable commentable, String name) {
 		return JavaClasspath.get().getFirstConcreteClassifier(name);
@@ -208,6 +209,7 @@ public final class CommentableExtension {
 	 * Finds all {@link ConcreteClassifier} representing the classes in the given
 	 * package or a single class from that package.
 	 *
+	 * @param commentable     unused
 	 * @param packageName     name of the package
 	 * @param classifierQuery * for all classifiers or name of a single classifier
 	 */
@@ -233,7 +235,8 @@ public final class CommentableExtension {
 	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Class} representing
 	 * the class with the given name located in <code>java.lang</code>.
 	 *
-	 * @param name name of the Class.
+	 * @param commentable unused
+	 * @param name        name of the Class.
 	 * @return the Class.
 	 */
 	public static tools.mdsd.jamopp.model.java.classifiers.Class getLibClass(Commentable commentable, String name) {
@@ -250,7 +253,8 @@ public final class CommentableExtension {
 	 * representing the interface with the given name located in
 	 * <code>java.lang</code>.
 	 *
-	 * @param name name of the Interface.
+	 * @param commentable unused
+	 * @param name        name of the Interface.
 	 * @return the interface.
 	 */
 	public static Interface getLibInterface(Commentable commentable, String name) {
@@ -296,6 +300,7 @@ public final class CommentableExtension {
 	 * Finds the {@link tools.mdsd.jamopp.model.java.classifiers.Interface}
 	 * representing <code>java.lang.annotation.Annotation</code>.
 	 *
+	 * @param commentable unused
 	 * @return the Class.
 	 */
 	public static Interface getAnnotationInterface(Commentable commentable) {

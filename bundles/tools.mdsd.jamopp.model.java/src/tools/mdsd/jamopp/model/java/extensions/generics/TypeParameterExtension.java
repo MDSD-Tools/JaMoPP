@@ -219,28 +219,29 @@ public final class TypeParameterExtension {
 	private static EList<Classifier> handleMethodParameter(TypeParameter typeParameter, Method method,
 			MethodCall methodCall, EList<Classifier> allSuperTypes, Parameter parameter) {
 		int idx;
+		EList<Classifier> newAllSuperTypes = allSuperTypes;
 		if (typeParameter.equals(parameter.getTypeReference().getTarget())) {
 			idx = method.getParameters().indexOf(parameter);
 			Classifier argumentType = (Classifier) methodCall.getArguments().get(idx).getType();
-			if (allSuperTypes == null) {
-				allSuperTypes = new UniqueEList<>();
-				allSuperTypes.add(argumentType);
-				allSuperTypes.addAll(argumentType.getAllSuperClassifiers());
+			if (newAllSuperTypes == null) {
+				newAllSuperTypes = new UniqueEList<>();
+				newAllSuperTypes.add(argumentType);
+				newAllSuperTypes.addAll(argumentType.getAllSuperClassifiers());
 			} else {
-				allSuperTypes.add(argumentType);
+				newAllSuperTypes.add(argumentType);
 				EList<Classifier> allOtherSuperTypes = new UniqueEList<>();
 				allOtherSuperTypes.add(argumentType);
 				allOtherSuperTypes.addAll(argumentType.getAllSuperClassifiers());
-				EList<Classifier> temp = allSuperTypes;
-				allSuperTypes = new UniqueEList<>();
+				EList<Classifier> temp = newAllSuperTypes;
+				newAllSuperTypes = new UniqueEList<>();
 				for (Classifier st : allOtherSuperTypes) {
 					if (temp.contains(st)) {
-						allSuperTypes.add(st);
+						newAllSuperTypes.add(st);
 					}
 				}
 			}
 		}
-		return allSuperTypes;
+		return newAllSuperTypes;
 	}
 
 	private static void handleIndexInBetween(TypeParameter typeParameter, EList<Type> resultList, Method method,
@@ -314,7 +315,7 @@ public final class TypeParameterExtension {
 					}
 				}
 			} else if (parameterType.getTarget() instanceof TypeParameter) {
-				while (argReference.getNext() instanceof Reference) {
+				while (argReference.getNext() != null) {
 					argReference = argReference.getNext();
 				}
 				resultList.add(0, argReference.getReferencedType());
@@ -323,11 +324,12 @@ public final class TypeParameterExtension {
 	}
 
 	private static int handleIndexIsMinusOne(TypeParameter me, Method method, int idx) {
+		int newIdx = idx;
 		for (Parameter parameter : method.getParameters()) {
 			for (TypeArgument typeArgument : parameter.getTypeArguments()) {
 				if (typeArgument instanceof QualifiedTypeArgument
 						&& ((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget().equals(me)) {
-					idx = method.getParameters().indexOf(parameter);
+					newIdx = method.getParameters().indexOf(parameter);
 				}
 			}
 			ClassifierReference paramTypeReference = parameter.getTypeReference().getPureClassifierReference();
@@ -335,12 +337,12 @@ public final class TypeParameterExtension {
 				for (TypeArgument typeArgument : paramTypeReference.getTypeArguments()) {
 					if (typeArgument instanceof QualifiedTypeArgument
 							&& me.equals(((QualifiedTypeArgument) typeArgument).getTypeReference().getTarget())) {
-						idx = method.getParameters().indexOf(parameter);
+						newIdx = method.getParameters().indexOf(parameter);
 					}
 				}
 			}
 		}
-		return idx;
+		return newIdx;
 	}
 
 	private static void processType(TypeParameter typeParameter, Reference reference, EList<Type> resultList,
@@ -503,6 +505,7 @@ public final class TypeParameterExtension {
 
 	private static Reference getParentReferenceAndFillPrevTypeList(Reference reference, Reference parentReference,
 			EList<Type> prevTypeList) {
+		Reference newParentReference = parentReference;
 		NestedExpression nestedExpression = (NestedExpression) reference.getPrevious();
 		Expression expression = null;
 		Expression nestedExpressionExpression = nestedExpression.getExpression();
@@ -518,7 +521,7 @@ public final class TypeParameterExtension {
 				expressionReference = expressionReference.getNext();
 			}
 
-			parentReference = expressionReference;
+			newParentReference = expressionReference;
 			Type prevType = nestedExpressionExpression.getType();
 			if (prevType instanceof TemporalCompositeClassifier temporalCompositeClassifier) {
 				for (EObject nextSuperType : temporalCompositeClassifier.getSuperTypes()) {
@@ -530,6 +533,6 @@ public final class TypeParameterExtension {
 		} else if (nestedExpressionExpression instanceof CastExpression castExpression) {
 			prevTypeList.add(castExpression.getTypeReference().getTarget());
 		}
-		return parentReference;
+		return newParentReference;
 	}
 }

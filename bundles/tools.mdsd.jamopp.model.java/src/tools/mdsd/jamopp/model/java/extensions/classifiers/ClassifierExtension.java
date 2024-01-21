@@ -29,7 +29,7 @@ public final class ClassifierExtension {
 
 	public static EList<ConcreteClassifier> getAllSuperClassifiers(Classifier classifier) {
 		// Method has to be specified in subclasses
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("Not implemented in superclass for: " + classifier);
 	}
 
 	/**
