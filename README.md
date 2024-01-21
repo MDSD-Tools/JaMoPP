@@ -21,7 +21,7 @@ Currently, JaMoPP only supports a direct inclusion of its sources into Eclipse. 
 
 ### Installing
 1. In Eclipse: click File -> Import and select General -> Existing Projects into Workspace
-2. Select root folder of project and import all `/tools.mdsd.jamopp` nested projects except `/tools.mdsd.jamopp.mwe2`.
+2. Select root folder of project and import the 'JaMoPP' project and all `/tools.mdsd.jamopp` nested projects except `/tools.mdsd.jamopp.mwe2`.
 3. Generate code from `.genmodel` files. For each file right click on the root element and press Generate all. The three files are:
    - `/tools.mdsd.jamopp.model.java/metamodel/java.genmodel`   
    - `/tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel`
