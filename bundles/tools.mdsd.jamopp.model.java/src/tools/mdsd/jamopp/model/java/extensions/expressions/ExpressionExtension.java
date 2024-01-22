@@ -76,120 +76,88 @@ public final class ExpressionExtension {
 	public static Type getOneType(Expression expression, boolean alternative) {
 		tools.mdsd.jamopp.model.java.classifiers.Class stringClass = expression.getStringClass();
 
-		Type type;
+		Type type = null;
+
 		if (expression instanceof Reference reference) {
-			type = handleReference(reference);
+			// navigate down references
+			while (reference.getNext() != null) {
+				reference = reference.getNext();
+			}
+			type = reference.getReferencedType();
 		} else if (expression instanceof Literal) {
 			type = ((Literal) expression).getType();
 		} else if (expression instanceof CastExpression) {
 			type = ((CastExpression) expression).getTypeReference().getTarget();
 		} else if (expression instanceof AssignmentExpression) {
 			type = ((AssignmentExpression) expression).getChild().getOneType(alternative);
-		} else if (checkConditional(expression)) {
-			type = handleConditional(expression, alternative);
-		} else if (checkBoolean(expression)) {
+		} else if (expression instanceof ConditionalExpression
+				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
+			if (alternative) {
+				type = ((ConditionalExpression) expression).getExpressionElse().getOneType(alternative);
+			} else {
+				type = ((ConditionalExpression) expression).getExpressionIf().getOneType(alternative);
+			}
+
+		} else if (expression instanceof EqualityExpression || expression instanceof RelationExpression
+				|| expression instanceof ConditionalOrExpression || expression instanceof ConditionalAndExpression
+				|| expression instanceof InstanceOfExpression) {
 			type = expression.getLibClass("Boolean");
-		} else if (checkMost(expression)) {
-			type = handleMost(expression, alternative, stringClass);
+		} else if (expression instanceof AdditiveExpression || expression instanceof MultiplicativeExpression
+				|| expression instanceof InclusiveOrExpression || expression instanceof ExclusiveOrExpression
+				|| expression instanceof AndExpression || expression instanceof ShiftExpression) {
+
+			if (expression instanceof AdditiveExpression additiveExpression) {
+				for (Expression subExp : additiveExpression.getChildren()) {
+					if (stringClass.equals(subExp.getOneType(alternative))) {
+						// special case: string concatenation
+						return stringClass;
+					}
+				}
+			}
+
+			@SuppressWarnings("unchecked")
+			Expression subExp = ((EList<Expression>) expression
+					.eGet(expression.eClass().getEStructuralFeature("children"))).get(0);
+
+			return subExp.getOneType(alternative);
 		} else if (expression instanceof UnaryExpression) {
 			Expression subExp = ((UnaryExpression) expression).getChild();
-			type = subExp.getOneType(alternative);
+			return subExp.getOneType(alternative);
 		} else {
-			type = handleElse(expression, stringClass);
+			for (TreeIterator<EObject> i = expression.eAllContents(); i.hasNext();) {
+				EObject next = i.next();
+				Type nextType = null;
+
+				if (next instanceof PrimaryExpression) {
+
+					if (next instanceof Reference ref) {
+						// navigate down references
+						while (ref.getNext() != null) {
+							ref = ref.getNext();
+						}
+						next = ref;
+					}
+					if (next instanceof Literal) {
+						nextType = ((Literal) next).getType();
+					} else if (next instanceof CastExpression) {
+						nextType = ((CastExpression) next).getTypeReference().getTarget();
+					} else {
+						nextType = ((Reference) next).getReferencedType();
+					}
+					i.prune();
+
+				}
+				if (nextType != null) {
+					type = nextType;
+					// in the special case that this is an expression with
+					// some string included, everything is converted to string
+					if (stringClass.equals(type)) {
+						break;
+					}
+				}
+			}
 		}
 		// type can be null in cases of unresolved/unresolvable proxies
-		return type;
-	}
-
-	private static boolean checkBoolean(Expression expression) {
-		return expression instanceof EqualityExpression || expression instanceof RelationExpression
-				|| expression instanceof ConditionalOrExpression || expression instanceof ConditionalAndExpression
-				|| expression instanceof InstanceOfExpression;
-	}
-
-	private static boolean checkMost(Expression expression) {
-		return expression instanceof AdditiveExpression || expression instanceof MultiplicativeExpression
-				|| expression instanceof InclusiveOrExpression || expression instanceof ExclusiveOrExpression
-				|| expression instanceof AndExpression || expression instanceof ShiftExpression;
-	}
-
-	private static boolean checkConditional(Expression expression) {
-		return expression instanceof ConditionalExpression
-				&& ((ConditionalExpression) expression).getExpressionIf() != null;
-	}
-
-	private static Type handleReference(Reference reference) {
-		Reference newReference = reference;
-		// navigate down references
-		while (newReference.getNext() != null) {
-			newReference = newReference.getNext();
-		}
-		return newReference.getReferencedType();
-	}
-
-	private static Type handleConditional(Expression expression, boolean alternative) {
-		Type type;
-		if (alternative) {
-			type = ((ConditionalExpression) expression).getExpressionElse().getOneType(alternative);
-		} else {
-			type = ((ConditionalExpression) expression).getExpressionIf().getOneType(alternative);
-		}
-		return type;
-	}
-
-	@SuppressWarnings("unchecked")
-	private static Type handleMost(Expression expression, boolean alternative,
-			tools.mdsd.jamopp.model.java.classifiers.Class stringClass) {
-		Type type = null;
-		if (expression instanceof AdditiveExpression additiveExpression) {
-			for (Expression subExp : additiveExpression.getChildren()) {
-				if (stringClass.equals(subExp.getOneType(alternative))) {
-					// special case: string concatenation
-					type = stringClass;
-				}
-			}
-		}
-		if (type != null) {
-			type = ((EList<Expression>) expression.eGet(expression.eClass().getEStructuralFeature("children"))).get(0)
-					.getOneType(alternative);
-		}
-		return type;
-	}
-
-	private static Type handleElse(Expression expression, tools.mdsd.jamopp.model.java.classifiers.Class stringClass) {
-		Type type = null;
-		for (TreeIterator<EObject> i = expression.eAllContents(); i.hasNext();) {
-			EObject next = i.next();
-			Type nextType = null;
-
-			if (next instanceof PrimaryExpression) {
-
-				if (next instanceof Reference ref) {
-					// navigate down references
-					while (ref.getNext() != null) {
-						ref = ref.getNext();
-					}
-					next = ref;
-				}
-				if (next instanceof Literal) {
-					nextType = ((Literal) next).getType();
-				} else if (next instanceof CastExpression) {
-					nextType = ((CastExpression) next).getTypeReference().getTarget();
-				} else {
-					nextType = ((Reference) next).getReferencedType();
-				}
-				i.prune();
-
-			}
-			if (nextType != null) {
-				type = nextType;
-				// in the special case that this is an expression with
-				// some string included, everything is converted to string
-				if (stringClass.equals(type)) {
-					break;
-				}
-			}
-		}
 		return type;
 	}
 
@@ -198,7 +166,8 @@ public final class ExpressionExtension {
 		if (expression instanceof NestedExpression && ((NestedExpression) expression).getNext() == null) {
 			result = ((NestedExpression) expression).getExpression().getArrayDimension()
 					- ((NestedExpression) expression).getArraySelectors().size();
-		} else if (checkConditional(expression)) {
+		} else if (expression instanceof ConditionalExpression
+				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
 			result = ((ConditionalExpression) expression).getExpressionIf().getArrayDimension();
 		} else if (expression instanceof AssignmentExpression) {
 			Expression value = ((AssignmentExpression) expression).getValue();
