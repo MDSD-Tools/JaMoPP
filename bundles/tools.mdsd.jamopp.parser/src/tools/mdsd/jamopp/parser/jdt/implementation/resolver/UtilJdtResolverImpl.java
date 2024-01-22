@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
@@ -7,8 +9,12 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
-import javax.inject.Inject;
-
+import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
+import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
 public class UtilJdtResolverImpl implements JdtResolver {
@@ -246,49 +252,47 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.variables.LocalVariable getLocalVariable(IVariableBinding binding) {
+	public LocalVariable getLocalVariable(IVariableBinding binding) {
 		return localVariableResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.variables.LocalVariable getLocalVariable(String varName) {
+	public LocalVariable getLocalVariable(String varName) {
 		return localVariableResolver.getByName(varName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(
-			IVariableBinding binding) {
+	public AdditionalLocalVariable getAdditionalLocalVariable(IVariableBinding binding) {
 		return additionalLocalVariableResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
+	public AdditionalLocalVariable getAdditionalLocalVariable(String varName) {
 		return additionalLocalVariableResolver.getByName(varName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
+	public OrdinaryParameter getOrdinaryParameter(IVariableBinding binding) {
 		return ordinaryParameterResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter getOrdinaryParameter(String paramName) {
+	public OrdinaryParameter getOrdinaryParameter(String paramName) {
 		return ordinaryParameterResolver.getByName(paramName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter getVariableLengthParameter(
-			IVariableBinding binding) {
+	public VariableLengthParameter getVariableLengthParameter(IVariableBinding binding) {
 		return variableLengthParameterResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(IVariableBinding binding) {
+	public CatchParameter getCatchParameter(IVariableBinding binding) {
 		return catchParameterResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.parameters.CatchParameter getCatchParameter(String paramName) {
+	public CatchParameter getCatchParameter(String paramName) {
 		return catchParameterResolver.getByName(paramName);
 	}
 
@@ -298,14 +302,12 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.references.ReferenceableElement getReferencableElement(
-			IVariableBinding binding) {
+	public ReferenceableElement getReferencableElement(IVariableBinding binding) {
 		return referenceableElementResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.references.ReferenceableElement getReferenceableElementByNameMatching(
-			String name) {
+	public ReferenceableElement getReferenceableElementByNameMatching(String name) {
 		return referenceableElementResolver.getByName(name);
 	}
 
