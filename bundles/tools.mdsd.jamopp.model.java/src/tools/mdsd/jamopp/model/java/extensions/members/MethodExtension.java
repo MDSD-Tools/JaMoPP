@@ -56,29 +56,30 @@ public final class MethodExtension {
 	 * @return
 	 */
 	public static boolean isBetterMethodForCall(Method method, Method otherMethod, MethodCall methodCall) {
-
-		if (!method.isMethodForCall(methodCall, false)) {
-			return false;
-		} else if (otherMethod.isMethodForCall(methodCall, true)) {
-			if (method.isMethodForCall(methodCall, true)) {
+		boolean result;
+		if (method.isMethodForCall(methodCall, false)) {
+			if (otherMethod.isMethodForCall(methodCall, true) && method.isMethodForCall(methodCall, true)) {
 				// We both match perfectly; lets compare our return types
 				Type target = method.getTypeReference().getTarget();
 				if (target instanceof ConcreteClassifier && ((ConcreteClassifier) target).getAllSuperClassifiers()
 						.contains(otherMethod.getTypeReference().getTarget())) {
 					// I am the more concrete type
-					return true;
+					result = true;
+				} else {
+					result = false;
 				}
+			} else {
+				result = false;
 			}
-
-			// the other already matches perfectly; I am not better
-			return false;
-		} else if (!otherMethod.isMethodForCall(methodCall, false)) {
-			// I match, but the other does not
-			return true;
-		} else {
+		} else if (otherMethod.isMethodForCall(methodCall, false)) {
 			// we both match, I am only better if I match perfectly
-			return method.isMethodForCall(methodCall, true);
+			result = method.isMethodForCall(methodCall, true);
+		} else {
+			// I match, but the other does not
+			result = true;
 		}
+
+		return result;
 	}
 
 	public static boolean isMethodForCall(Method method, MethodCall methodCall, boolean needsPerfectMatch) {
