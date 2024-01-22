@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	private final static JdtResolver UTIL_JDT_RESOLVER;
 	private final static UtilTypeInstructionSeparation UTIL_TYPE_INSTRUCTION_SEPARATION;
 
-	private ResourceSet resourceSet;
+	private Optional<ResourceSet> resourceSet;
 
 	static {
 		Injector injector = Guice.createInjector(new HelperModule(), new FactoryModule(), new ConverterModule(),
@@ -88,8 +89,8 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	public JaMoPPJDTParser() {
 		CONTAINERS_FACTORY.createEmptyModel();
-		resourceSet = new ResourceSetImpl();
-		UTIL_JDT_RESOLVER.setResourceSet(resourceSet);
+		resourceSet = Optional.of(new ResourceSetImpl());
+		UTIL_JDT_RESOLVER.setResourceSet(resourceSet.get());
 	}
 
 	@Override
@@ -100,7 +101,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			JavaRoot root = VISITOR.getConvertedElement();
 			Resource newResource;
 			if (root.eResource() == null) {
-				newResource = resourceSet.createResource(URI.createFileURI(sourceFilePath));
+				newResource = resourceSet.get().createResource(URI.createFileURI(sourceFilePath));
 				newResource.getContents().add(root);
 			} else {
 				newResource = root.eResource();
@@ -113,10 +114,10 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 		UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();
 		UTIL_JDT_RESOLVER.completeResolution();
-		for (Resource res : new ArrayList<>(resourceSet.getResources())) {
+		for (Resource res : new ArrayList<>(resourceSet.get().getResources())) {
 			if (res.getContents().isEmpty()) {
 				try {
-					res.delete(resourceSet.getLoadOptions());
+					res.delete(resourceSet.get().getLoadOptions());
 				} catch (IOException e) {
 					LOGGER.error(res.getURI(), e);
 				}
@@ -134,14 +135,14 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			returnValue = false;
 		} else {
 			JaMoPPJDTParser other = (JaMoPPJDTParser) obj;
-			returnValue = Objects.equals(resourceSet, other.resourceSet);
+			returnValue = Objects.equals(resourceSet.get(), other.resourceSet.get());
 		}
 		return returnValue;
 	}
 
 	@Override
 	public <T> Set<T> get(Class<T> type) {
-		return resourceSet.getResources().stream().filter(Objects::nonNull)
+		return resourceSet.get().getResources().stream().filter(Objects::nonNull)
 				.filter(r -> !r.getContents().isEmpty() && !"file".equals(r.getURI().scheme()))
 				.map(r -> r.getContents().get(0)).filter(Objects::nonNull).filter(type::isInstance).map(type::cast)
 				.collect(Collectors.toSet());
@@ -149,7 +150,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public ResourceSet getResourceSet() {
-		return resourceSet;
+		return resourceSet.get();
 	}
 
 	@Override
@@ -162,7 +163,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 					.map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).filter(p -> {
 						Resource resource = JavaClasspath.get().getResource(URI.createFileURI(p));
 						if (resource != null) {
-							resourceSet.getResources().add(resource);
+							resourceSet.get().getResources().add(resource);
 							return false;
 						}
 						return true;
@@ -176,7 +177,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(resourceSet);
+		return Objects.hash(resourceSet.get());
 	}
 
 	@Override
@@ -199,7 +200,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			ast.accept(VISITOR);
 			UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();
 			UTIL_JDT_RESOLVER.completeResolution();
-			resourceSet = null;
+			resourceSet = Optional.empty();
 			root = VISITOR.getConvertedElement();
 		}
 		return root;
@@ -212,8 +213,8 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		Arrays.fill(encodings, DEFAULT_ENCODING);
 		convertCompilationUnits(getCompilationUnits(parser, getClasspathEntries(dir), sources, encodings));
 
-		ResourceSet result = resourceSet;
-		resourceSet = null;
+		ResourceSet result = resourceSet.get();
+		resourceSet = Optional.empty();
 		return result;
 	}
 
@@ -229,7 +230,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			result = convertCompilationUnits(getCompilationUnits(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
 					new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING })).get(0)
 					.eResource();
-			resourceSet = null;
+			resourceSet = Optional.empty();
 		}
 
 		return result;
@@ -252,8 +253,8 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 
 		convertCompilationUnits(compilationUnits);
-		ResourceSet result = resourceSet;
-		resourceSet = null;
+		ResourceSet result = resourceSet.get();
+		resourceSet = Optional.empty();
 		return result;
 	}
 
@@ -275,19 +276,19 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 
 		convertCompilationUnits(compilationUnits);
-		ResourceSet result = resourceSet;
-		resourceSet = null;
+		ResourceSet result = resourceSet.get();
+		resourceSet = Optional.empty();
 		return result;
 	}
 
 	@Override
 	public void setResourceSet(ResourceSet set) {
-		resourceSet = Objects.requireNonNull(set);
+		resourceSet = Optional.of(Objects.requireNonNull(set));
 	}
 
 	@Override
 	public String toString() {
-		return "JaMoPPJDTParser [resourceSet=" + resourceSet + "]";
+		return "JaMoPPJDTParser [resourceSet=" + resourceSet.get() + "]";
 	}
 
 	public static String[] getClasspathEntries(Path dir) {

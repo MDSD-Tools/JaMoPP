@@ -17,6 +17,7 @@ package tools.mdsd.jamopp.model.java.extensions.modifiers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
@@ -241,34 +242,36 @@ public final class AnnotableAndModifiableExtension {
 		}
 
 		// try outer classifiers as well
-		ConcreteClassifier concreteClassifier = iContextClassifier;
-		while (concreteClassifier != null) {
-			if (concreteClassifier.isSuperType(0, myClassifier, null)) {
+		Optional<ConcreteClassifier> concreteClassifier = Optional.of(iContextClassifier);
+		while (concreteClassifier.isPresent()) {
+			if (concreteClassifier.get().isSuperType(0, myClassifier, null)) {
 				return false;
-			} else if (concreteClassifier.eContainer() instanceof Commentable) {
-				concreteClassifier = ((Commentable) concreteClassifier.eContainer()).getParentConcreteClassifier();
+			} else if (concreteClassifier.get().eContainer() instanceof Commentable) {
+				concreteClassifier = Optional
+						.of(((Commentable) concreteClassifier.get().eContainer()).getParentConcreteClassifier());
 			} else {
-				concreteClassifier = null;
+				concreteClassifier = Optional.empty();
 			}
 
-			if (concreteClassifier != null && !concreteClassifier.eIsProxy()
-					&& concreteClassifier.isSuperType(0, myClassifier, null)) {
+			if (concreteClassifier.isPresent() && !concreteClassifier.get().eIsProxy()
+					&& concreteClassifier.get().isSuperType(0, myClassifier, null)) {
 				return false;
 			}
 		}
 		// visibility through anonymous subclass
-		AnonymousClass anonymousClass = lContext.getContainingAnonymousClass();
+		Optional<AnonymousClass> anonymousClass = Optional.of(lContext.getContainingAnonymousClass());
 		while (anonymousClass != null) {
-			if (anonymousClass.getSuperClassifier() == null) {
+			if (anonymousClass.get().getSuperClassifier() == null) {
 				return true;
-			} else if (anonymousClass.getSuperClassifier().isSuperType(0, myClassifier, null)) {
+			} else if (anonymousClass.get().getSuperClassifier().isSuperType(0, myClassifier, null)) {
 				return false;
 			}
 
-			if (anonymousClass.eContainer() instanceof Commentable) {
-				anonymousClass = ((Commentable) anonymousClass.eContainer()).getContainingAnonymousClass();
+			if (anonymousClass.get().eContainer() instanceof Commentable) {
+				anonymousClass = Optional
+						.of(((Commentable) anonymousClass.get().eContainer()).getContainingAnonymousClass());
 			} else {
-				anonymousClass = null;
+				anonymousClass = Optional.empty();
 			}
 		}
 		return true;

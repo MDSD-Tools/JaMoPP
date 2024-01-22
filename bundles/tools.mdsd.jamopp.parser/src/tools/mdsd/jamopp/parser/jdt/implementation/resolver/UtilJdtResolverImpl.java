@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.resolver;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
 
