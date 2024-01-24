@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -95,8 +96,10 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	@Override
 	public List<JavaRoot> convertCompilationUnits(final Map<String, CompilationUnit> compilationUnits) {
 		final List<JavaRoot> result = new ArrayList<>();
-		for (final String sourceFilePath : compilationUnits.keySet()) {
-			compilationUnits.get(sourceFilePath).accept(VISITOR);
+
+		for (final Entry<String, CompilationUnit> entry : compilationUnits.entrySet()) {
+			final String sourceFilePath = entry.getKey();
+			entry.getValue().accept(VISITOR);
 			final JavaRoot root = VISITOR.getConvertedElement();
 			Resource newResource;
 			if (root.eResource() == null) {
@@ -109,6 +112,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 				}
 			}
 			result.add(root);
+
 		}
 
 		UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();

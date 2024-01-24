@@ -59,27 +59,30 @@ public class ToNumberLiteralConverter implements Converter<NumberLiteral, Litera
 			final LiteralsFactory literalsFactory) {
 		this.literalsFactory = literalsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
-
 		mappings = new LinkedHashMap<>();
-		mappings.put(string -> string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX), this::handleBinaryLong);
-		mappings.put(string -> string.startsWith(BIN_PREFIX), this::handleBinaryInteger);
-		mappings.put(string -> string.contains(HEX_EXPONENT) && string.endsWith(FLOAT_SUFFIX), this::handleHexFloat);
-		mappings.put(string -> string.contains(HEX_EXPONENT), this::handleHexDouble);
-		mappings.put(string -> string.startsWith(HEX_PREFIX) && string.endsWith(LONG_SUFFIX), this::handleHexLong);
-		mappings.put(string -> string.startsWith(HEX_PREFIX), this::handleHexInteger);
-		mappings.put(string -> string.endsWith(FLOAT_SUFFIX), this::handleDecimalFloat);
-		mappings.put(
-				string -> string.contains(".") || string.contains(DECIMAL_EXPONENT) || string.endsWith(DOUBLE_SUFFIX),
-				this::handleDecimalDouble);
-		mappings.put(
-				string -> ZERO_LONG.equals(string) || !string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX),
-				this::handleDecimalLong);
-		mappings.put(string -> ZERO_INT.equals(string) || !string.startsWith(OCT_PREFIX), this::handleDecimalInteger);
-		mappings.put(string -> string.endsWith(LONG_SUFFIX), this::handleOctalLong);
 	}
 
 	@Override
 	public Literal convert(final NumberLiteral literal) {
+		if (mappings.isEmpty()) {
+			mappings.put(string -> string.startsWith(BIN_PREFIX) && string.endsWith(LONG_SUFFIX),
+					this::handleBinaryLong);
+			mappings.put(string -> string.startsWith(BIN_PREFIX), this::handleBinaryInteger);
+			mappings.put(string -> string.contains(HEX_EXPONENT) && string.endsWith(FLOAT_SUFFIX),
+					this::handleHexFloat);
+			mappings.put(string -> string.contains(HEX_EXPONENT), this::handleHexDouble);
+			mappings.put(string -> string.startsWith(HEX_PREFIX) && string.endsWith(LONG_SUFFIX), this::handleHexLong);
+			mappings.put(string -> string.startsWith(HEX_PREFIX), this::handleHexInteger);
+			mappings.put(string -> string.endsWith(FLOAT_SUFFIX), this::handleDecimalFloat);
+			mappings.put(string -> string.contains(".") || string.contains(DECIMAL_EXPONENT)
+					|| string.endsWith(DOUBLE_SUFFIX), this::handleDecimalDouble);
+			mappings.put(string -> ZERO_LONG.equals(string)
+					|| !string.startsWith(OCT_PREFIX) && string.endsWith(LONG_SUFFIX), this::handleDecimalLong);
+			mappings.put(string -> ZERO_INT.equals(string) || !string.startsWith(OCT_PREFIX),
+					this::handleDecimalInteger);
+			mappings.put(string -> string.endsWith(LONG_SUFFIX), this::handleOctalLong);
+		}
+
 		Literal result = null;
 		final String string = buildString(literal);
 

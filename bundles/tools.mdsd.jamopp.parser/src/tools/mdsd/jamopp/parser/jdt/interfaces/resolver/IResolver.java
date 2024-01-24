@@ -8,7 +8,7 @@ import org.eclipse.jdt.core.dom.IBinding;
  * @param <C> Class
  * @param <B> BindingType
  */
-public interface Resolver<C, B extends IBinding> {
+public interface IResolver<C, B extends IBinding> {
 
 	Map<String, C> getBindings();
 

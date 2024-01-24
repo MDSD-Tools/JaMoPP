@@ -6,13 +6,13 @@ import javax.inject.Inject;
 
 import org.eclipse.jdt.core.dom.IBinding;
 
-import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.IResolver;
 
 /**
  * @param <C> Class
  * @param <B> BindingType
  */
-public abstract class ResolverAbstract<C, B extends IBinding> implements Resolver<C, B> {
+public abstract class ResolverAbstract<C, B extends IBinding> implements IResolver<C, B> {
 
 	private final Map<String, C> bindings;
 
@@ -25,11 +25,5 @@ public abstract class ResolverAbstract<C, B extends IBinding> implements Resolve
 	public final Map<String, C> getBindings() {
 		return bindings;
 	}
-
-	@Override
-	public abstract C getByBinding(B binding);
-
-	@Override
-	public abstract C getByName(String name);
 
 }
