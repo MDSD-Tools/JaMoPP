@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Custom Ruleset made for Jamopp. All Rules are in the list. Some stupid ones are deactivated. -->
+<!-- Custom Ruleset made for Jamopp. All Rules are in the list. Only some are removed. -->
 <ruleset name="Jamopp Custom Rules"
 	xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -25,7 +25,6 @@
 	<rule ref="category/java/bestpractices.xml/DoubleBraceInitialization" />
 	<rule ref="category/java/bestpractices.xml/ForLoopCanBeForeach" />
 	<rule ref="category/java/bestpractices.xml/ForLoopVariableCount" />
-	<!-- Stupid Rule <rule ref="category/java/bestpractices.xml/GuardLogStatement" /> -->
 	<rule ref="category/java/bestpractices.xml/JUnit4SuitesShouldUseSuiteAnnotation" />
 	<rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseAfterAnnotation" />
 	<rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseBeforeAnnotation" />
@@ -56,15 +55,12 @@
 	<rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty" />
 	<rule ref="category/java/bestpractices.xml/UseStandardCharsets" />
 	<rule ref="category/java/bestpractices.xml/UseTryWithResources" />
-	<!-- Stupid Rule <rule ref="category/java/bestpractices.xml/UseVarargs" /> -->
 	<rule ref="category/java/bestpractices.xml/WhileLoopWithLiteralBoolean" />
-	<!-- Stupid Rule <rule ref="category/java/codestyle.xml/AtLeastOneConstructor" /> -->
 	<rule ref="category/java/codestyle.xml/AvoidDollarSigns" />
 	<rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
 	<rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
 	<rule ref="category/java/codestyle.xml/AvoidUsingNativeCode" />
 	<rule ref="category/java/codestyle.xml/BooleanGetMethodName" />
-	<!-- Stupid Rule <rule ref="category/java/codestyle.xml/CallSuperInConstructor" /> -->
 	<rule ref="category/java/codestyle.xml/ClassNamingConventions" />
 	<rule ref="category/java/codestyle.xml/CommentDefaultAccessModifier" />
 	<rule ref="category/java/codestyle.xml/ConfusingTernary" />
@@ -82,11 +78,10 @@
 	<rule ref="category/java/codestyle.xml/LinguisticNaming" />
 	<rule ref="category/java/codestyle.xml/LocalHomeNamingConvention" />
 	<rule ref="category/java/codestyle.xml/LocalInterfaceSessionNamingConvention" />
-	<!-- Stupid Rule <rule ref="category/java/codestyle.xml/LocalVariableCouldBeFinal" /> -->
+	<rule ref="category/java/codestyle.xml/LocalVariableCouldBeFinal" />
 	<rule ref="category/java/codestyle.xml/LocalVariableNamingConventions" />
-	<!-- Stupid Rule <rule ref="category/java/codestyle.xml/LongVariable" /> -->
 	<rule ref="category/java/codestyle.xml/MDBAndSessionBeanNamingConvention" />
-	<!-- Stupid Rule <rule ref="category/java/codestyle.xml/MethodArgumentCouldBeFinal" /> -->
+	<rule ref="category/java/codestyle.xml/MethodArgumentCouldBeFinal" />
 	<rule ref="category/java/codestyle.xml/MethodNamingConventions" />
 	<rule ref="category/java/codestyle.xml/NoPackage" />
 	<rule ref="category/java/codestyle.xml/OnlyOneReturn" />
@@ -99,7 +94,6 @@
 	<rule ref="category/java/codestyle.xml/ShortVariable" />
 	<rule ref="category/java/codestyle.xml/TooManyStaticImports" />
 	<rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement" />
-	<!-- broken <rule ref="category/java/codestyle.xml/UnnecessaryBoxing" /> -->
 	<rule ref="category/java/codestyle.xml/UnnecessaryCast" />
 	<rule ref="category/java/codestyle.xml/UnnecessaryConstructor" />
 	<rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName" />
@@ -109,7 +103,6 @@
 	<rule ref="category/java/codestyle.xml/UnnecessaryReturn" />
 	<rule ref="category/java/codestyle.xml/UnnecessarySemicolon" />
 	<rule ref="category/java/codestyle.xml/UseDiamondOperator" />
-	<!-- broken <rule ref="category/java/codestyle.xml/UseExplicitTypes" /> -->
 	<rule ref="category/java/codestyle.xml/UselessParentheses" />
 	<rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
 	<rule ref="category/java/codestyle.xml/UseShortArrayInitializer" />
@@ -123,23 +116,18 @@
 	<rule ref="category/java/design.xml/AvoidThrowingRawExceptionTypes" />
 	<rule ref="category/java/design.xml/AvoidUncheckedExceptionsInSignatures" />
 	<rule ref="category/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal" />
-	<!-- Stupid rule <rule ref="category/java/design.xml/CognitiveComplexity" /> -->
+	<rule ref="category/java/design.xml/CognitiveComplexity" />
 	<rule ref="category/java/design.xml/CollapsibleIfStatements" />
 	<rule ref="category/java/design.xml/CouplingBetweenObjects" />
 	<rule ref="category/java/design.xml/CyclomaticComplexity" />
-	<!-- Stupid rule <rule ref="category/java/design.xml/DataClass" /> -->
 	<rule ref="category/java/design.xml/DoNotExtendJavaLangError" />
 	<rule ref="category/java/design.xml/ExceptionAsFlowControl" />
 	<rule ref="category/java/design.xml/ExcessiveClassLength" />
-	<!-- Not really possible in this project <rule ref="category/java/design.xml/ExcessiveImports" /> -->
 	<rule ref="category/java/design.xml/ExcessiveMethodLength" />
-	<!-- Stupid rule <rule ref="category/java/design.xml/ExcessiveParameterList" /> -->
 	<rule ref="category/java/design.xml/ExcessivePublicCount" />
 	<rule ref="category/java/design.xml/FinalFieldCouldBeStatic" />
-	<!-- Only false postives in extension classes <rule ref="category/java/design.xml/GodClass" /> -->
 	<rule ref="category/java/design.xml/ImmutableField" />
 	<rule ref="category/java/design.xml/InvalidJavaBean" />
-	<!-- Stupid rule <rule ref="category/java/design.xml/LawOfDemeter" /> -->
 	<rule ref="category/java/design.xml/LogicInversion" />
 	<rule ref="category/java/design.xml/LoosePackageCoupling" />
 	<rule ref="category/java/design.xml/MutableStaticState" />
@@ -152,14 +140,10 @@
 	<rule ref="category/java/design.xml/SimplifyConditional" />
 	<rule ref="category/java/design.xml/SingularField" />
 	<rule ref="category/java/design.xml/SwitchDensity" />
-	<!-- Stupid rule <rule ref="category/java/design.xml/TooManyFields" /> -->
-	<!-- Stupid rule <rule ref="category/java/design.xml/TooManyMethods" /> -->
 	<rule ref="category/java/design.xml/UselessOverridingMethod" />
 	<rule ref="category/java/design.xml/UseObjectForClearerAPI" />
 	<rule ref="category/java/design.xml/UseUtilityClass" />
 	<rule ref="category/java/documentation.xml/CommentContent" />
-	<!-- Stupid rule <rule ref="category/java/documentation.xml/CommentRequired" /> -->
-	<!-- Stupid rule <rule ref="category/java/documentation.xml/CommentSize" /> -->
 	<rule ref="category/java/documentation.xml/UncommentedEmptyConstructor" />
 	<rule ref="category/java/documentation.xml/UncommentedEmptyMethodBody" />
 	<rule ref="category/java/documentation.xml/CommentContent" />
@@ -204,7 +188,7 @@
 	<rule ref="category/java/errorprone.xml/DoNotThrowExceptionInFinally" />
 	<rule ref="category/java/errorprone.xml/DontImportSun" />
 	<rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices" />
-	<!-- Stupid rule <rule ref="category/java/errorprone.xml/EmptyCatchBlock" /> -->
+	<rule ref="category/java/errorprone.xml/EmptyCatchBlock" />
 	<rule ref="category/java/errorprone.xml/EmptyFinalizer" />
 	<rule ref="category/java/errorprone.xml/EmptyFinallyBlock" />
 	<rule ref="category/java/errorprone.xml/EmptyIfStmt" />
