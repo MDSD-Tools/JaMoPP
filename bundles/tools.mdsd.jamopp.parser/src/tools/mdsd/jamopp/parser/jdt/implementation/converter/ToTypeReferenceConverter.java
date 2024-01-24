@@ -39,11 +39,12 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	private Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	public ToTypeReferenceConverter(Converter<Name, TypeReference> utilBaseConverter, TypesFactory typesFactory,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
-			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, UtilArrays jdtBindingConverterUtility) {
+	public ToTypeReferenceConverter(final Converter<Name, TypeReference> utilBaseConverter,
+			final TypesFactory typesFactory,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+			final UtilLayout layoutInformationConverter, final UtilArrays jdtBindingConverterUtility) {
 		this.typesFactory = typesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
@@ -54,7 +55,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@Override
-	public TypeReference convert(Type type) {
+	public TypeReference convert(final Type type) {
 		TypeReference result = null;
 		if (type.isPrimitiveType()) {
 			result = handlePrimitiveType(type);
@@ -74,8 +75,8 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		return result;
 	}
 
-	private TypeReference handlePrimitiveType(Type type) {
-		PrimitiveType primType = (PrimitiveType) type;
+	private TypeReference handlePrimitiveType(final Type type) {
+		final PrimitiveType primType = (PrimitiveType) type;
 		tools.mdsd.jamopp.model.java.types.PrimitiveType convertedType;
 		if (primType.getPrimitiveTypeCode().equals(PrimitiveType.BOOLEAN)) {
 			convertedType = typesFactory.createBoolean();
@@ -103,14 +104,14 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	private TypeReference handleParameterizedType(Type type) {
-		ParameterizedType paramT = (ParameterizedType) type;
-		TypeReference ref = convert(paramT.getType());
+	private TypeReference handleParameterizedType(final Type type) {
+		final ParameterizedType paramT = (ParameterizedType) type;
+		final TypeReference ref = convert(paramT.getType());
 		ClassifierReference container;
 		if (ref instanceof ClassifierReference) {
 			container = (ClassifierReference) ref;
 		} else {
-			NamespaceClassifierReference containerContainer = (NamespaceClassifierReference) ref;
+			final NamespaceClassifierReference containerContainer = (NamespaceClassifierReference) ref;
 			container = containerContainer.getClassifierReferences()
 					.get(containerContainer.getClassifierReferences().size() - 1);
 		}
@@ -119,17 +120,17 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		return ref;
 	}
 
-	private TypeReference handleNameQualifiedType(Type type) {
-		NameQualifiedType nqT = (NameQualifiedType) type;
+	private TypeReference handleNameQualifiedType(final Type type) {
+		final NameQualifiedType nqT = (NameQualifiedType) type;
 		NamespaceClassifierReference result;
-		TypeReference parentRef = utilBaseConverter.convert(nqT.getQualifier());
+		final TypeReference parentRef = utilBaseConverter.convert(nqT.getQualifier());
 		if (parentRef instanceof ClassifierReference) {
 			result = typesFactory.createNamespaceClassifierReference();
 			result.getClassifierReferences().add((ClassifierReference) parentRef);
 		} else {
 			result = (NamespaceClassifierReference) parentRef;
 		}
-		ClassifierReference child = toClassifierReferenceConverter.convert(nqT.getName());
+		final ClassifierReference child = toClassifierReferenceConverter.convert(nqT.getName());
 		((List<?>) nqT.annotations())
 				.forEach(obj -> child.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.getClassifierReferences().add(child);
@@ -137,10 +138,10 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		return result;
 	}
 
-	private TypeReference handleQualifiedType(Type type) {
-		QualifiedType qualType = (QualifiedType) type;
+	private TypeReference handleQualifiedType(final Type type) {
+		final QualifiedType qualType = (QualifiedType) type;
 		NamespaceClassifierReference result;
-		TypeReference parentRef = convert(qualType.getQualifier());
+		final TypeReference parentRef = convert(qualType.getQualifier());
 		if (parentRef instanceof ClassifierReference) {
 			result = typesFactory.createNamespaceClassifierReference();
 			result.getClassifierReferences().add((ClassifierReference) parentRef);
@@ -148,7 +149,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 			// parentRef instanceof NamespaceClassifierReference
 			result = (NamespaceClassifierReference) parentRef;
 		}
-		ClassifierReference childRef = toClassifierReferenceConverter.convert(qualType.getName());
+		final ClassifierReference childRef = toClassifierReferenceConverter.convert(qualType.getName());
 		((List<?>) qualType.annotations())
 				.forEach(obj -> childRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.getClassifierReferences().add(childRef);
@@ -156,13 +157,13 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		return result;
 	}
 
-	private TypeReference handleSimpleType(Type type) {
-		SimpleType simT = (SimpleType) type;
+	private TypeReference handleSimpleType(final Type type) {
+		final SimpleType simT = (SimpleType) type;
 		TypeReference ref;
 		if (simT.annotations().isEmpty()) {
 			ref = utilBaseConverter.convert(simT.getName());
 		} else {
-			ClassifierReference tempRef = toClassifierReferenceConverter.convert((SimpleName) simT.getName());
+			final ClassifierReference tempRef = toClassifierReferenceConverter.convert((SimpleName) simT.getName());
 			((List<?>) simT.annotations()).forEach(
 					obj -> tempRef.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 			ref = tempRef;
@@ -171,14 +172,14 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		return ref;
 	}
 
-	private TypeReference handleArrayType(Type type) {
-		ArrayType arrT = (ArrayType) type;
+	private TypeReference handleArrayType(final Type type) {
+		final ArrayType arrT = (ArrayType) type;
 		return convert(arrT.getElementType());
 	}
 
-	private TypeReference handleVar(Type type) {
-		InferableType ref = typesFactory.createInferableType();
-		ITypeBinding binding = type.resolveBinding();
+	private TypeReference handleVar(final Type type) {
+		final InferableType ref = typesFactory.createInferableType();
+		final ITypeBinding binding = type.resolveBinding();
 		if (binding != null) {
 			ref.getActualTargets().addAll(toTypeReferencesConverter.convert(binding));
 			if (binding.isArray()) {
@@ -192,7 +193,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	}
 
 	@Inject
-	public void setTypeToTypeArgumentConverter(Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
+	public void setTypeToTypeArgumentConverter(final Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
 		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 

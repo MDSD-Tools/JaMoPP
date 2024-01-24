@@ -15,15 +15,15 @@ public class ToParameterNameConverter {
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public ToParameterNameConverter(Map<IVariableBinding, Integer> varBindToUid, UidManager uidManager,
-			ToMethodNameConverter toMethodNameConverter, Map<IBinding, String> nameCache) {
+	public ToParameterNameConverter(final Map<IVariableBinding, Integer> varBindToUid, final UidManager uidManager,
+			final ToMethodNameConverter toMethodNameConverter, final Map<IBinding, String> nameCache) {
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
 		this.uidManager = uidManager;
 		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
-	public String convertToParameterName(IVariableBinding binding, boolean register) {
+	public String convertToParameterName(final IVariableBinding binding, final boolean register) {
 		String result;
 		if (binding == null) {
 			result = "";
@@ -41,7 +41,7 @@ public class ToParameterNameConverter {
 					varBindToUid.put(binding, uidManager.getUid());
 				}
 			}
-			String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();
+			final String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();
 			nameCache.put(binding, name);
 			result = name;
 		}

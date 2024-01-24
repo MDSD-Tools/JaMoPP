@@ -17,8 +17,8 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 	private final ToTypeParameterNameConverter toTypeParameterNameConverter;
 
 	@Inject
-	public TypeParameterResolver(Map<String, TypeParameter> bindings, Set<ITypeBinding> typeBindings,
-			GenericsFactory genericsFactory, ToTypeParameterNameConverter toTypeParameterNameConverter) {
+	public TypeParameterResolver(final Map<String, TypeParameter> bindings, final Set<ITypeBinding> typeBindings,
+			final GenericsFactory genericsFactory, final ToTypeParameterNameConverter toTypeParameterNameConverter) {
 		super(bindings);
 		this.typeBindings = typeBindings;
 		this.genericsFactory = genericsFactory;
@@ -26,14 +26,14 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 	}
 
 	@Override
-	public TypeParameter getByBinding(ITypeBinding binding) {
-		String paramName = toTypeParameterNameConverter.convertToTypeParameterName(binding);
+	public TypeParameter getByBinding(final ITypeBinding binding) {
+		final String paramName = toTypeParameterNameConverter.convertToTypeParameterName(binding);
 		TypeParameter typeParameter;
 		if (getBindings().containsKey(paramName)) {
 			typeParameter = getBindings().get(paramName);
 		} else {
 			typeBindings.add(binding);
-			TypeParameter result = genericsFactory.createTypeParameter();
+			final TypeParameter result = genericsFactory.createTypeParameter();
 			getBindings().put(paramName, result);
 			typeParameter = result;
 		}
@@ -41,7 +41,7 @@ public class TypeParameterResolver extends ResolverAbstract<TypeParameter, IType
 	}
 
 	@Override
-	public TypeParameter getByName(String name) {
+	public TypeParameter getByName(final String name) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

@@ -37,13 +37,14 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	public BindingToConstructorConverter(UtilArrays utilJdtBindingConverter,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
-			ParametersFactory parametersFactory, LiteralsFactory literalsFactory, JdtResolver jdtTResolverUtility,
-			Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
-			Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingToConstructorConverter(final UtilArrays utilJdtBindingConverter,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
+			final ParametersFactory parametersFactory, final LiteralsFactory literalsFactory,
+			final JdtResolver jdtTResolverUtility,
+			final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			final Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.literalsFactory = literalsFactory;
 		this.parametersFactory = parametersFactory;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
@@ -56,8 +57,8 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 	}
 
 	@Override
-	public Constructor convert(IMethodBinding binding) {
-		Constructor result = jdtTResolverUtility.getConstructor(binding);
+	public Constructor convert(final IMethodBinding binding) {
+		final Constructor result = jdtTResolverUtility.getConstructor(binding);
 		if (result.eContainer() == null) {
 			addAnnotationsAndModifiers(binding, result);
 			result.setName(binding.getName());
@@ -69,15 +70,15 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 		return result;
 	}
 
-	private void addExceptions(IMethodBinding binding, Constructor result) {
-		for (ITypeBinding typeBind : binding.getExceptionTypes()) {
+	private void addExceptions(final IMethodBinding binding, final Constructor result) {
+		for (final ITypeBinding typeBind : binding.getExceptionTypes()) {
 			result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
 		}
 	}
 
-	private void addParameters(IMethodBinding binding, Constructor result) {
+	private void addParameters(final IMethodBinding binding, final Constructor result) {
 		if (binding.getDeclaredReceiverType() != null) {
-			ReceiverParameter param = parametersFactory.createReceiverParameter();
+			final ReceiverParameter param = parametersFactory.createReceiverParameter();
 			param.setName("");
 			param.setTypeReference(toTypeReferencesConverter.convert(binding.getDeclaredReceiverType()).get(0));
 			param.setOuterTypeReference(param.getTypeReference());
@@ -85,7 +86,7 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 			result.getParameters().add(param);
 		}
 		for (int index = 0; index < binding.getParameterTypes().length; index++) {
-			ITypeBinding typeBind = binding.getParameterTypes()[index];
+			final ITypeBinding typeBind = binding.getParameterTypes()[index];
 			Parameter param;
 			if (binding.isVarargs() && index == binding.getParameterTypes().length - 1) {
 				param = parametersFactory.createVariableLengthParameter();
@@ -95,35 +96,35 @@ public class BindingToConstructorConverter implements Converter<IMethodBinding, 
 			param.setName("param" + index);
 			param.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
 			utilJdtBindingConverter.convertToArrayDimensionsAndSet(typeBind, param);
-			IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
+			final IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
 			try {
-				for (IAnnotationBinding annotBind : binds) {
+				for (final IAnnotationBinding annotBind : binds) {
 					param.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 			result.getParameters().add(param);
 		}
 	}
 
-	private void addTypeParameters(IMethodBinding binding, Constructor result) {
+	private void addTypeParameters(final IMethodBinding binding, final Constructor result) {
 		try {
-			for (ITypeBinding typeBind : binding.getTypeParameters()) {
+			for (final ITypeBinding typeBind : binding.getTypeParameters()) {
 				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 			}
-		} catch (AbortCompilation e) {
+		} catch (final AbortCompilation e) {
 			// Ignore
 		}
 	}
 
-	private void addAnnotationsAndModifiers(IMethodBinding binding, Constructor result) {
+	private void addAnnotationsAndModifiers(final IMethodBinding binding, final Constructor result) {
 		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
 		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+			for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
-		} catch (AbortCompilation e) {
+		} catch (final AbortCompilation e) {
 			// Ignore
 		}
 	}

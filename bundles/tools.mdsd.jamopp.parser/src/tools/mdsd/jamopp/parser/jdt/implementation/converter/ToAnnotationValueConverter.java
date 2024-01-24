@@ -20,16 +20,16 @@ public class ToAnnotationValueConverter implements Converter<Expression, Annotat
 
 	@Inject
 	public ToAnnotationValueConverter(
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter,
-			Converter<ArrayInitializer, tools.mdsd.jamopp.model.java.arrays.ArrayInitializer> toArrayInitialisierComverter,
-			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter,
+			final Converter<ArrayInitializer, tools.mdsd.jamopp.model.java.arrays.ArrayInitializer> toArrayInitialisierComverter,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toArrayInitialisierComverter = toArrayInitialisierComverter;
 		toExpressionConverter = utilExpressionConverter;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	@Override
-	public AnnotationValue convert(Expression expr) {
+	public AnnotationValue convert(final Expression expr) {
 		AnnotationValue result;
 		if (expr instanceof Annotation) {
 			result = toAnnotationInstanceConverter.convert((Annotation) expr);

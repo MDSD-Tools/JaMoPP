@@ -9,13 +9,13 @@ public class ClassResolverSynthetic {
 	private final ClassResolver classResolver;
 
 	@Inject
-	public ClassResolverSynthetic(@Named("synthClass") String synthClass, ClassResolver classResolver) {
+	public ClassResolverSynthetic(@Named("synthClass") final String synthClass, final ClassResolver classResolver) {
 		this.synthClass = synthClass;
 		this.classResolver = classResolver;
 	}
 
-	public void addToSyntheticClass(tools.mdsd.jamopp.model.java.members.Member member) {
-		tools.mdsd.jamopp.model.java.classifiers.Class container = classResolver.getByName(synthClass);
+	public void addToSyntheticClass(final tools.mdsd.jamopp.model.java.members.Member member) {
+		final tools.mdsd.jamopp.model.java.classifiers.Class container = classResolver.getByName(synthClass);
 		container.setName(synthClass);
 		if (!container.getMembers().contains(member)) {
 			container.getMembers().add(member);

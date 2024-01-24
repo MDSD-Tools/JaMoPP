@@ -24,10 +24,10 @@ public class ToAdditionalLocalVariableConverter
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	public ToAdditionalLocalVariableConverter(UtilNamedElement utilNamedElement,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+	public ToAdditionalLocalVariableConverter(final UtilNamedElement utilNamedElement,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -37,9 +37,9 @@ public class ToAdditionalLocalVariableConverter
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public AdditionalLocalVariable convert(VariableDeclarationFragment frag) {
+	public AdditionalLocalVariable convert(final VariableDeclarationFragment frag) {
 		AdditionalLocalVariable result;
-		IVariableBinding binding = frag.resolveBinding();
+		final IVariableBinding binding = frag.resolveBinding();
 		if (binding == null) {
 			result = jdtResolverUtility
 					.getAdditionalLocalVariable(frag.getName().getIdentifier() + "-" + frag.hashCode());

@@ -14,21 +14,21 @@ public class ToTypeParameterNameConverter {
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public ToTypeParameterNameConverter(ToTypeNameConverter toTypeNameConverter,
-			ToMethodNameConverter toMethodNameConverter, Map<IBinding, String> nameCache) {
+	public ToTypeParameterNameConverter(final ToTypeNameConverter toTypeNameConverter,
+			final ToMethodNameConverter toMethodNameConverter, final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
-	protected String convertToTypeParameterName(ITypeBinding binding) {
+	protected String convertToTypeParameterName(final ITypeBinding binding) {
 		String result;
 		if (binding == null) {
 			result = "";
 		} else if (nameCache.containsKey(binding)) {
 			result = nameCache.get(binding);
 		} else {
-			StringBuilder name = new StringBuilder();
+			final StringBuilder name = new StringBuilder();
 			if (binding.getDeclaringClass() != null) {
 				name.append(toTypeNameConverter.convertToTypeName(binding.getDeclaringClass()));
 			} else if (binding.getDeclaringMethod() != null) {

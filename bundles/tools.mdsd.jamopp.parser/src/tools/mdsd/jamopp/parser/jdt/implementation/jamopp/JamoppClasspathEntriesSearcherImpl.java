@@ -17,12 +17,12 @@ public class JamoppClasspathEntriesSearcherImpl implements JamoppClasspathEntrie
 	private final Logger logger;
 
 	@Inject
-	public JamoppClasspathEntriesSearcherImpl(Logger logger) {
+	public JamoppClasspathEntriesSearcherImpl(final Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
-	public String[] getClasspathEntries(Path dir) {
+	public String[] getClasspathEntries(final Path dir) {
 		String[] entries;
 		try (Stream<Path> paths = Files.walk(dir)) {
 			entries = paths

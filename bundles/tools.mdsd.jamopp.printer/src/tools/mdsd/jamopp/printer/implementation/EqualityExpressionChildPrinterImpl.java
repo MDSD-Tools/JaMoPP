@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.EqualityExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpression;
 import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpressionChild;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class EqualityExpressionChildPrinterImpl implements Printer<EqualityExpressionChild> {
@@ -17,18 +16,18 @@ public class EqualityExpressionChildPrinterImpl implements Printer<EqualityExpre
 	private final Printer<InstanceOfExpression> instanceOfExpressionPrinter;
 
 	@Inject
-	public EqualityExpressionChildPrinterImpl(Printer<InstanceOfExpression> instanceOfExpressionPrinter,
-			Printer<InstanceOfExpressionChild> instanceOfExpressionChildPrinter) {
+	public EqualityExpressionChildPrinterImpl(final Printer<InstanceOfExpression> instanceOfExpressionPrinter,
+			final Printer<InstanceOfExpressionChild> instanceOfExpressionChildPrinter) {
 		this.instanceOfExpressionPrinter = instanceOfExpressionPrinter;
 		this.instanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
 	}
 
 	@Override
-	public void print(EqualityExpressionChild element, BufferedWriter writer) throws IOException {
+	public void print(final EqualityExpressionChild element, final BufferedWriter writer) throws IOException {
 		if (element instanceof InstanceOfExpression) {
-			this.instanceOfExpressionPrinter.print((InstanceOfExpression) element, writer);
+			instanceOfExpressionPrinter.print((InstanceOfExpression) element, writer);
 		} else {
-			this.instanceOfExpressionChildPrinter.print((InstanceOfExpressionChild) element, writer);
+			instanceOfExpressionChildPrinter.print((InstanceOfExpressionChild) element, writer);
 		}
 	}
 

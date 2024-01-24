@@ -1,10 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.Statement;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -19,10 +19,10 @@ public class IfStatementHandler implements StatementHandler {
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
-	public IfStatementHandler(StatementsFactory statementsFactory,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
-			UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+	public IfStatementHandler(final StatementsFactory statementsFactory,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
+			final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -30,9 +30,9 @@ public class IfStatementHandler implements StatementHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		IfStatement ifSt = (IfStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.Condition result = statementsFactory.createCondition();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final IfStatement ifSt = (IfStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.Condition result = statementsFactory.createCondition();
 		result.setCondition(expressionConverterUtility.convert(ifSt.getExpression()));
 		result.setStatement(statementToStatementConverter.convert(ifSt.getThenStatement()));
 		if (ifSt.getElseStatement() != null) {

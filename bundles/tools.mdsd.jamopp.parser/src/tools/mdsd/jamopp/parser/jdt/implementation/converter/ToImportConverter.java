@@ -17,10 +17,10 @@ public class ToImportConverter implements Converter<ImportDeclaration, Import> {
 
 	@Inject
 	public ToImportConverter(
-			@Named("ToOnDemandStaticConverter") Converter<ImportDeclaration, Import> toOnDemandStaticConverter,
-			@Named("ToOnDemandNonStaticConverter") Converter<ImportDeclaration, Import> toOnDemandNonStaticConverter,
-			@Named("ToNonOnDemandStaticConverter") Converter<ImportDeclaration, Import> toNonOnDemandStaticConverter,
-			@Named("ToNonOnDemandNonStaticConverter") Converter<ImportDeclaration, Import> toNonOnDemandNonStaticConverter) {
+			@Named("ToOnDemandStaticConverter") final Converter<ImportDeclaration, Import> toOnDemandStaticConverter,
+			@Named("ToOnDemandNonStaticConverter") final Converter<ImportDeclaration, Import> toOnDemandNonStaticConverter,
+			@Named("ToNonOnDemandStaticConverter") final Converter<ImportDeclaration, Import> toNonOnDemandStaticConverter,
+			@Named("ToNonOnDemandNonStaticConverter") final Converter<ImportDeclaration, Import> toNonOnDemandNonStaticConverter) {
 		this.toOnDemandStaticConverter = toOnDemandStaticConverter;
 		this.toOnDemandNonStaticConverter = toOnDemandNonStaticConverter;
 		this.toNonOnDemandStaticConverter = toNonOnDemandStaticConverter;
@@ -28,7 +28,7 @@ public class ToImportConverter implements Converter<ImportDeclaration, Import> {
 	}
 
 	@Override
-	public Import convert(ImportDeclaration declaration) {
+	public Import convert(final ImportDeclaration declaration) {
 		Import result;
 		if (declaration.isOnDemand()) {
 			if (declaration.isStatic()) {

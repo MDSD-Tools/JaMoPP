@@ -14,42 +14,42 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 public class UtilNamedElementImpl implements UtilNamedElement {
 
 	@Override
-	public void addNameToNameSpaceAndElement(Name name, NamespaceAwareElement namespaceElement,
-			NamedElement namedElement) {
+	public void addNameToNameSpaceAndElement(final Name name, final NamespaceAwareElement namespaceElement,
+			final NamedElement namedElement) {
 		if (name.isSimpleName()) {
 			namedElement.setName(((SimpleName) name).getIdentifier());
 		} else if (name.isQualifiedName()) {
-			QualifiedName qualifiedName = (QualifiedName) name;
+			final QualifiedName qualifiedName = (QualifiedName) name;
 			namedElement.setName(qualifiedName.getName().getIdentifier());
 			addNameToNameSpace(qualifiedName.getQualifier(), namespaceElement);
 		}
 	}
 
 	@Override
-	public void addNameToNameSpace(Name name, NamespaceAwareElement namespaceElement) {
+	public void addNameToNameSpace(final Name name, final NamespaceAwareElement namespaceElement) {
 		if (name.isSimpleName()) {
-			SimpleName simpleName = (SimpleName) name;
+			final SimpleName simpleName = (SimpleName) name;
 			namespaceElement.getNamespaces().add(0, simpleName.getIdentifier());
 		} else if (name.isQualifiedName()) {
-			QualifiedName qualifiedName = (QualifiedName) name;
+			final QualifiedName qualifiedName = (QualifiedName) name;
 			namespaceElement.getNamespaces().add(0, qualifiedName.getName().getIdentifier());
 			addNameToNameSpace(qualifiedName.getQualifier(), namespaceElement);
 		}
 	}
 
 	@Override
-	public void setNameOfElement(Name name, NamedElement namedElement) {
+	public void setNameOfElement(final Name name, final NamedElement namedElement) {
 		if (name.isSimpleName()) {
-			SimpleName simpleName = (SimpleName) name;
+			final SimpleName simpleName = (SimpleName) name;
 			namedElement.setName(simpleName.getIdentifier());
 		} else {
-			QualifiedName qualifiedName = (QualifiedName) name;
+			final QualifiedName qualifiedName = (QualifiedName) name;
 			namedElement.setName(qualifiedName.getName().getIdentifier());
 		}
 	}
 
 	@Override
-	public void convertToNameAndSet(ITypeBinding binding, NamedElement element) {
+	public void convertToNameAndSet(final ITypeBinding binding, final NamedElement element) {
 		String name = binding.getName();
 		if (binding.isParameterizedType()) {
 			name = name.substring(0, name.indexOf('<'));
@@ -60,9 +60,9 @@ public class UtilNamedElementImpl implements UtilNamedElement {
 	}
 
 	@Override
-	public void convertToNamespacesAndSet(String namespaces, NamespaceAwareElement ele) {
+	public void convertToNamespacesAndSet(final String namespaces, final NamespaceAwareElement ele) {
 		ele.getNamespaces().clear();
-		String[] singleNamespaces = namespaces.split("\\.");
+		final String[] singleNamespaces = namespaces.split("\\.");
 		Collections.addAll(ele.getNamespaces(), singleNamespaces);
 	}
 

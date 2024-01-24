@@ -16,17 +16,18 @@ public class BindingToInternalReferenceConverter implements Converter<ITypeBindi
 	private final JdtResolver jdtTResolverUtility;
 
 	@Inject
-	public BindingToInternalReferenceConverter(ReferencesFactory referencesFactory, JdtResolver jdtTResolverUtility) {
+	public BindingToInternalReferenceConverter(final ReferencesFactory referencesFactory,
+			final JdtResolver jdtTResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 
 	@Override
-	public Reference convert(ITypeBinding binding) {
-		IdentifierReference idRef = referencesFactory.createIdentifierReference();
+	public Reference convert(final ITypeBinding binding) {
+		final IdentifierReference idRef = referencesFactory.createIdentifierReference();
 		idRef.setTarget(jdtTResolverUtility.getClassifier(binding));
 		if (binding.isNested()) {
-			Reference parentRef = convert(binding.getDeclaringClass());
+			final Reference parentRef = convert(binding.getDeclaringClass());
 			parentRef.setNext(idRef);
 		}
 		return idRef;

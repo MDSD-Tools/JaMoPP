@@ -15,11 +15,10 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 public class ToAssignmentConverter implements Converter<Assignment.Operator, AssignmentOperator> {
 
 	private final OperatorsFactory operatorsFactory;
-
 	private final Map<Assignment.Operator, Supplier<AssignmentOperator>> mapping;
 
 	@Inject
-	public ToAssignmentConverter(OperatorsFactory operatorsFactory) {
+	public ToAssignmentConverter(final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		mapping = new HashMap<>();
 		mapping.put(Assignment.Operator.ASSIGN, () -> operatorsFactory.createAssignment());
@@ -38,7 +37,7 @@ public class ToAssignmentConverter implements Converter<Assignment.Operator, Ass
 	}
 
 	@Override
-	public AssignmentOperator convert(Assignment.Operator operator) {
+	public AssignmentOperator convert(final Assignment.Operator operator) {
 		return mapping.getOrDefault(operator, () -> operatorsFactory.createAssignmentMultiplication()).get();
 	}
 

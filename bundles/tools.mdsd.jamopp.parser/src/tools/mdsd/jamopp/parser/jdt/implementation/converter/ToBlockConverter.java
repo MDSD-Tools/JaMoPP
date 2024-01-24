@@ -17,8 +17,9 @@ public class ToBlockConverter implements Converter<Initializer, Block> {
 	private final Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter;
 
 	@Inject
-	public ToBlockConverter(Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
-			UtilTypeInstructionSeparation toInstructionSeparation, StatementsFactory statementsFactory) {
+	public ToBlockConverter(
+			final Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
+			final UtilTypeInstructionSeparation toInstructionSeparation, final StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toInstructionSeparation = toInstructionSeparation;
 		this.toModifierConverter = toModifierConverter;
@@ -26,8 +27,8 @@ public class ToBlockConverter implements Converter<Initializer, Block> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Block convert(Initializer init) {
-		Block result = statementsFactory.createBlock();
+	public Block convert(final Initializer init) {
+		final Block result = statementsFactory.createBlock();
 		result.setName("");
 		toInstructionSeparation.addInitializer(init.getBody(), result);
 		init.modifiers().forEach(obj -> result.getModifiers().add(toModifierConverter.convert((Modifier) obj)));

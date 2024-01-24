@@ -22,10 +22,10 @@ public class ToSwitchCasesAndSetConverterImpl implements ToSwitchCasesAndSetConv
 
 	@Inject
 	public ToSwitchCasesAndSetConverterImpl(
-			Converter<SwitchCase, tools.mdsd.jamopp.model.java.statements.SwitchCase> toSwitchCaseConverter,
-			StatementsFactory statementsFactory,
-			Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter) {
+			final Converter<SwitchCase, tools.mdsd.jamopp.model.java.statements.SwitchCase> toSwitchCaseConverter,
+			final StatementsFactory statementsFactory,
+			final Converter<org.eclipse.jdt.core.dom.Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter) {
 		this.statementsFactory = statementsFactory;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.toSwitchCaseConverter = toSwitchCaseConverter;
@@ -34,17 +34,18 @@ public class ToSwitchCasesAndSetConverterImpl implements ToSwitchCasesAndSetConv
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public void convert(tools.mdsd.jamopp.model.java.statements.Switch switchExprSt, List switchStatementList) {
+	public void convert(final tools.mdsd.jamopp.model.java.statements.Switch switchExprSt,
+			final List switchStatementList) {
 		tools.mdsd.jamopp.model.java.statements.SwitchCase currentCase = null;
-		for (Object element : switchStatementList) {
-			Statement statement = (Statement) element;
+		for (final Object element : switchStatementList) {
+			final Statement statement = (Statement) element;
 			if (statement.getNodeType() == ASTNode.SWITCH_CASE) {
 				currentCase = toSwitchCaseConverter.convert((SwitchCase) statement);
 				switchExprSt.getCases().add(currentCase);
 			} else if (currentCase instanceof tools.mdsd.jamopp.model.java.statements.SwitchRule
 					&& statement.getNodeType() == ASTNode.YIELD_STATEMENT) {
-				YieldStatement yieldStatement = (YieldStatement) statement;
-				tools.mdsd.jamopp.model.java.statements.ExpressionStatement exprSt = statementsFactory
+				final YieldStatement yieldStatement = (YieldStatement) statement;
+				final tools.mdsd.jamopp.model.java.statements.ExpressionStatement exprSt = statementsFactory
 						.createExpressionStatement();
 				exprSt.setExpression(expressionConverterUtility.convert(yieldStatement.getExpression()));
 				currentCase.getStatements().add(exprSt);

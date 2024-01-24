@@ -41,10 +41,10 @@ public final class VariableExtension {
 	 * @param methodName
 	 * @param arguments
 	 */
-	public static ExpressionStatement createMethodCallStatement(Variable variable, String methodName,
-			EList<Expression> arguments) {
+	public static ExpressionStatement createMethodCallStatement(final Variable variable, final String methodName,
+			final EList<Expression> arguments) {
 
-		ExpressionStatement callStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
+		final ExpressionStatement callStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
 		callStatement.setExpression(variable.createMethodCall(methodName, arguments));
 		return callStatement;
 	}
@@ -57,14 +57,14 @@ public final class VariableExtension {
 	 * @param methodName
 	 * @param arguments
 	 */
-	public static IdentifierReference createMethodCall(Variable variable, String methodName,
-			EList<Expression> arguments) {
-		IdentifierReference thisRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
+	public static IdentifierReference createMethodCall(final Variable variable, final String methodName,
+			final EList<Expression> arguments) {
+		final IdentifierReference thisRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
 		thisRef.setTarget(variable);
 		IdentifierReference result = null;
-		Type thisType = variable.getTypeReference().getTarget();
-		if (thisType instanceof MemberContainer castedType && castedType.getContainedMethod(methodName) != null) {
-			MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
+		final Type thisType = variable.getTypeReference().getTarget();
+		if (thisType instanceof final MemberContainer castedType && castedType.getContainedMethod(methodName) != null) {
+			final MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
 			methodCall.setTarget(castedType.getContainedMethod(methodName));
 			// add arguments
 			methodCall.getArguments().addAll(arguments);

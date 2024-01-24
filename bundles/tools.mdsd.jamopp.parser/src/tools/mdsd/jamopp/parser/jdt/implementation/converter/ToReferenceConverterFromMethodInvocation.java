@@ -26,11 +26,12 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 	private final Converter<Type, TypeArgument> typeToTypeArgumentConverter;
 
 	@Inject
-	public ToReferenceConverterFromMethodInvocation(UtilNamedElement utilNamedElement,
-			ReferencesFactory referencesFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
-			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
-			Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
+	public ToReferenceConverterFromMethodInvocation(final UtilNamedElement utilNamedElement,
+			final ReferencesFactory referencesFactory, final UtilLayout layoutInformationConverter,
+			final JdtResolver jdtResolverUtility,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
+			final Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -42,16 +43,16 @@ public class ToReferenceConverterFromMethodInvocation implements Converter<Metho
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public MethodCall convert(MethodInvocation arr) {
+	public MethodCall convert(final MethodInvocation arr) {
 		tools.mdsd.jamopp.model.java.references.Reference parent = null;
 		if (arr.getExpression() != null) {
 			parent = toReferenceConverterFromExpression.convert(arr.getExpression());
 		}
-		MethodCall result = referencesFactory.createMethodCall();
+		final MethodCall result = referencesFactory.createMethodCall();
 		arr.typeArguments()
 				.forEach(obj -> result.getCallTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
 		arr.arguments().forEach(obj -> result.getArguments().add(expressionConverterUtility.convert((Expression) obj)));
-		IMethodBinding methBind = arr.resolveMethodBinding();
+		final IMethodBinding methBind = arr.resolveMethodBinding();
 		tools.mdsd.jamopp.model.java.members.Method methodProxy;
 		if (methBind != null) {
 			methodProxy = jdtResolverUtility.getMethod(methBind);

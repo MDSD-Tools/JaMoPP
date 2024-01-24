@@ -18,15 +18,15 @@ public class AssignmentExpressionPrinterImpl implements Printer<AssignmentExpres
 	private final Printer<Expression> expressionPrinter;
 
 	@Inject
-	public AssignmentExpressionPrinterImpl(Printer<AssignmentExpressionChild> assignmentExpressionChildPrinter,
-			Printer<AssignmentOperator> assignmentOperatorPrinter, Printer<Expression> expressionPrinter) {
+	public AssignmentExpressionPrinterImpl(final Printer<AssignmentExpressionChild> assignmentExpressionChildPrinter,
+			final Printer<AssignmentOperator> assignmentOperatorPrinter, final Printer<Expression> expressionPrinter) {
 		this.assignmentExpressionChildPrinter = assignmentExpressionChildPrinter;
 		this.assignmentOperatorPrinter = assignmentOperatorPrinter;
 		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
-	public void print(AssignmentExpression element, BufferedWriter writer) throws IOException {
+	public void print(final AssignmentExpression element, final BufferedWriter writer) throws IOException {
 		assignmentExpressionChildPrinter.print(element.getChild(), writer);
 		if (element.getAssignmentOperator() != null) {
 			assignmentOperatorPrinter.print(element.getAssignmentOperator(), writer);

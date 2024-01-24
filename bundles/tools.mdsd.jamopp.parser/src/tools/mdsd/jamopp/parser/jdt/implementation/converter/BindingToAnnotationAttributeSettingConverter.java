@@ -19,16 +19,16 @@ public class BindingToAnnotationAttributeSettingConverter
 
 	@Inject
 	public BindingToAnnotationAttributeSettingConverter(
-			Converter<Object, AnnotationValue> objectToAnnotationValueConverter, JdtResolver jdtTResolverUtility,
-			AnnotationsFactory annotationsFactory) {
+			final Converter<Object, AnnotationValue> objectToAnnotationValueConverter,
+			final JdtResolver jdtTResolverUtility, final AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.objectToAnnotationValueConverter = objectToAnnotationValueConverter;
 	}
 
 	@Override
-	public AnnotationAttributeSetting convert(IMemberValuePairBinding binding) {
-		AnnotationAttributeSetting result = annotationsFactory.createAnnotationAttributeSetting();
+	public AnnotationAttributeSetting convert(final IMemberValuePairBinding binding) {
+		final AnnotationAttributeSetting result = annotationsFactory.createAnnotationAttributeSetting();
 		result.setAttribute(jdtTResolverUtility.getInterfaceMethod(binding.getMethodBinding()));
 		result.setValue(objectToAnnotationValueConverter.convert(binding.getValue()));
 		return result;

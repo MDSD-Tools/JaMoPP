@@ -18,7 +18,7 @@ public class PrimitiveTypePrinterImpl implements Printer<PrimitiveType> {
 	private final Map<Class<?>, String> mappings;
 
 	@Inject
-	public PrimitiveTypePrinterImpl(Printer<Annotable> annotablePrinter) {
+	public PrimitiveTypePrinterImpl(final Printer<Annotable> annotablePrinter) {
 		this.annotablePrinter = annotablePrinter;
 		mappings = new HashMap<>();
 		mappings.put(tools.mdsd.jamopp.model.java.types.Boolean.class, "boolean");
@@ -33,11 +33,11 @@ public class PrimitiveTypePrinterImpl implements Printer<PrimitiveType> {
 	}
 
 	@Override
-	public void print(PrimitiveType element, BufferedWriter writer) throws IOException {
+	public void print(final PrimitiveType element, final BufferedWriter writer) throws IOException {
 		annotablePrinter.print(element, writer);
-		for (Entry<Class<?>, String> entry : mappings.entrySet()) {
-			Class<?> key = entry.getKey();
-			String val = entry.getValue();
+		for (final Entry<Class<?>, String> entry : mappings.entrySet()) {
+			final Class<?> key = entry.getKey();
+			final String val = entry.getValue();
 			if (key.isInstance(element)) {
 				writer.append(val);
 				break;

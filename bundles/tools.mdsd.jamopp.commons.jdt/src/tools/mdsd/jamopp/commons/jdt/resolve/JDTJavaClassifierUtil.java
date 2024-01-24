@@ -31,18 +31,18 @@ public abstract class JDTJavaClassifierUtil {
 	/**
 	 * Returns the {@link IType} that corresponds to the given classifier.
 	 */
-	public IType getIType(JDTJavaClassifier classifier) {
-		String projectName = classifier.getProjectName();
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		IProject project = root.getProject(projectName);
-		IJavaProject javaProject = JavaCore.create(project);
+	public IType getIType(final JDTJavaClassifier classifier) {
+		final String projectName = classifier.getProjectName();
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspaceRoot root = workspace.getRoot();
+		final IProject project = root.getProject(projectName);
+		final IJavaProject javaProject = JavaCore.create(project);
 		IType result = null;
 		if (javaProject != null && javaProject.exists()) {
-			String qualifiedName = classifier.getQualifiedName();
+			final String qualifiedName = classifier.getQualifiedName();
 			try {
 				result = javaProject.findType(qualifiedName);
-			} catch (JavaModelException e) {
+			} catch (final JavaModelException e) {
 				handleException(e);
 			}
 		}

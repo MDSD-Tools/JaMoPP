@@ -18,8 +18,8 @@ public class InterfaceResolver extends ResolverAbstract<Interface, ITypeBinding>
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public InterfaceResolver(Map<String, Interface> bindings, Set<ITypeBinding> typeBindings,
-			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
+	public InterfaceResolver(final Map<String, Interface> bindings, final Set<ITypeBinding> typeBindings,
+			final ClassifiersFactory classifiersFactory, final ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;
@@ -27,15 +27,15 @@ public class InterfaceResolver extends ResolverAbstract<Interface, ITypeBinding>
 	}
 
 	@Override
-	public Interface getByBinding(ITypeBinding binding) {
-		String interName = toTypeNameConverter.convertToTypeName(binding);
+	public Interface getByBinding(final ITypeBinding binding) {
+		final String interName = toTypeNameConverter.convertToTypeName(binding);
 		Interface interfaceResult;
 		if (getBindings().containsKey(interName)) {
 			interfaceResult = getBindings().get(interName);
 		} else {
 			typeBindings.add(binding);
 			Interface result;
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
+			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 					.getConcreteClassifier(interName);
 			if (classifier instanceof Interface) {
 				result = (Interface) classifier;
@@ -49,7 +49,7 @@ public class InterfaceResolver extends ResolverAbstract<Interface, ITypeBinding>
 	}
 
 	@Override
-	public Interface getByName(String name) {
+	public Interface getByName(final String name) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

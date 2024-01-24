@@ -43,8 +43,8 @@ public class AssignmentOperatorPrinterImpl implements Printer<AssignmentOperator
 	}
 
 	@Override
-	public void print(AssignmentOperator element, BufferedWriter writer) throws IOException {
-		for (Entry<Class<?>, String> entry : mapping.entrySet()) {
+	public void print(final AssignmentOperator element, final BufferedWriter writer) throws IOException {
+		for (final Entry<Class<?>, String> entry : mapping.entrySet()) {
 			if (entry.getKey().isInstance(element)) {
 				writer.append(entry.getValue());
 				return;

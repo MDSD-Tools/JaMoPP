@@ -45,18 +45,18 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 	private final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
-	public ToInterfaceMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
-			Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
-			Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			@Named("ToClassMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
-			StatementsFactory statementsFactory,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public ToInterfaceMethodOrConstructorConverter(final UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+			final UtilNamedElement utilNamedElement, final UtilLayout utilLayout, final JdtResolver iUtilJdtResolver,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
+			final Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
+			final Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			@Named("ToClassMethodOrConstructorConverter") final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
+			final StatementsFactory statementsFactory,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
 		utilJdtResolver = iUtilJdtResolver;
@@ -75,13 +75,13 @@ public class ToInterfaceMethodOrConstructorConverter implements Converter<Method
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Member convert(MethodDeclaration methodDecl) {
+	public Member convert(final MethodDeclaration methodDecl) {
 		Member member;
 		if (methodDecl.isConstructor()) {
 			member = toClassMethodOrConstructorConverter.convert(methodDecl);
 		} else {
 			InterfaceMethod result;
-			IMethodBinding binding = methodDecl.resolveBinding();
+			final IMethodBinding binding = methodDecl.resolveBinding();
 			if (binding == null) {
 				result = utilJdtResolver.getInterfaceMethod(methodDecl.getName().getIdentifier());
 			} else {

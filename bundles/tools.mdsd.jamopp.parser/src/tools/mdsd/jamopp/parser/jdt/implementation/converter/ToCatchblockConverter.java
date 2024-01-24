@@ -30,11 +30,11 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	public ToCatchblockConverter(UtilNamedElement utilNamedElement,
-			Converter<Type, TypeReference> toTypeReferenceConverter, StatementsFactory statementsFactory,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
-			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
+	public ToCatchblockConverter(final UtilNamedElement utilNamedElement,
+			final Converter<Type, TypeReference> toTypeReferenceConverter, final StatementsFactory statementsFactory,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter,
+			final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -46,11 +46,11 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public CatchBlock convert(CatchClause block) {
-		CatchBlock result = statementsFactory.createCatchBlock();
-		SingleVariableDeclaration decl = block.getException();
+	public CatchBlock convert(final CatchClause block) {
+		final CatchBlock result = statementsFactory.createCatchBlock();
+		final SingleVariableDeclaration decl = block.getException();
 		tools.mdsd.jamopp.model.java.parameters.CatchParameter param;
-		IVariableBinding binding = decl.resolveBinding();
+		final IVariableBinding binding = decl.resolveBinding();
 		if (binding == null) {
 			param = jdtResolverUtility.getCatchParameter(decl.getName().getIdentifier() + "-" + block.hashCode());
 		} else {
@@ -59,7 +59,7 @@ public class ToCatchblockConverter implements Converter<CatchClause, CatchBlock>
 		decl.modifiers().forEach(obj -> param.getAnnotationsAndModifiers()
 				.add(annotationInstanceConverter.convert((IExtendedModifier) obj)));
 		if (decl.getType().isUnionType()) {
-			UnionType unionType = (UnionType) decl.getType();
+			final UnionType unionType = (UnionType) decl.getType();
 			param.setTypeReference(toTypeReferenceConverter.convert((Type) unionType.types().get(0)));
 			for (int index = 1; index < unionType.types().size(); index++) {
 				param.getTypeReferences().add(toTypeReferenceConverter.convert((Type) unionType.types().get(index)));

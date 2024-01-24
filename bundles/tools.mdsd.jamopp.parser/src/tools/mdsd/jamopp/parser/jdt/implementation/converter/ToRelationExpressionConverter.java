@@ -20,9 +20,9 @@ public class ToRelationExpressionConverter implements Converter<InfixExpression,
 
 	@Inject
 	public ToRelationExpressionConverter(
-			Converter<InfixExpression.Operator, RelationOperator> toRelationOperatorConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			final Converter<InfixExpression.Operator, RelationOperator> toRelationOperatorConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final UtilLayout layoutInformationConverter, final ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
@@ -31,8 +31,8 @@ public class ToRelationExpressionConverter implements Converter<InfixExpression,
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public RelationExpression convert(InfixExpression expr) {
-		RelationExpression result = expressionsFactory.createRelationExpression();
+	public RelationExpression convert(final InfixExpression expr) {
+		final RelationExpression result = expressionsFactory.createRelationExpression();
 		mergeRelationExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getRelationOperators().add(toRelationOperatorConverter.convert(expr.getOperator()));
 		mergeRelationExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
@@ -44,12 +44,12 @@ public class ToRelationExpressionConverter implements Converter<InfixExpression,
 		return result;
 	}
 
-	private void mergeRelationExpressionAndExpression(RelationExpression relExpr,
-			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
+	private void mergeRelationExpressionAndExpression(final RelationExpression relExpr,
+			final tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
 		if (potChild instanceof tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild) {
 			relExpr.getChildren().add((tools.mdsd.jamopp.model.java.expressions.RelationExpressionChild) potChild);
 		} else {
-			RelationExpression expr = (RelationExpression) potChild;
+			final RelationExpression expr = (RelationExpression) potChild;
 			relExpr.getChildren().addAll(expr.getChildren());
 			relExpr.getRelationOperators().addAll(expr.getRelationOperators());
 		}

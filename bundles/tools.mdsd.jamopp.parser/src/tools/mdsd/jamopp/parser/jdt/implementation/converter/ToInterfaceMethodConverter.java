@@ -30,12 +30,12 @@ public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMembe
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	public ToInterfaceMethodConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			StatementsFactory statementsFactory,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public ToInterfaceMethodConverter(final UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+			final UtilNamedElement utilNamedElement, final UtilLayout utilLayout, final JdtResolver iUtilJdtResolver,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			final StatementsFactory statementsFactory,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -48,8 +48,8 @@ public class ToInterfaceMethodConverter implements Converter<AnnotationTypeMembe
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public InterfaceMethod convert(AnnotationTypeMemberDeclaration annDecl) {
-		IMethodBinding binding = annDecl.resolveBinding();
+	public InterfaceMethod convert(final AnnotationTypeMemberDeclaration annDecl) {
+		final IMethodBinding binding = annDecl.resolveBinding();
 		InterfaceMethod result;
 		if (binding != null) {
 			result = iUtilJdtResolver.getInterfaceMethod(binding);

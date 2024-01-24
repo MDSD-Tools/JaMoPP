@@ -17,8 +17,9 @@ public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParamete
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public OrdinaryParameterResolver(Map<String, OrdinaryParameter> bindings, ParametersFactory parametersFactory,
-			Set<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter) {
+	public OrdinaryParameterResolver(final Map<String, OrdinaryParameter> bindings,
+			final ParametersFactory parametersFactory, final Set<IVariableBinding> variableBindings,
+			final ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.parametersFactory = parametersFactory;
 		this.variableBindings = variableBindings;
@@ -26,18 +27,18 @@ public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParamete
 	}
 
 	@Override
-	public OrdinaryParameter getByBinding(IVariableBinding binding) {
+	public OrdinaryParameter getByBinding(final IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override
-	public OrdinaryParameter getByName(String name) {
+	public OrdinaryParameter getByName(final String name) {
 		OrdinaryParameter ordinaryParameter;
 		if (getBindings().containsKey(name)) {
 			ordinaryParameter = getBindings().get(name);
 		} else {
-			OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
+			final OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
 			getBindings().put(name, result);
 			ordinaryParameter = result;
 		}

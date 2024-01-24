@@ -1,10 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.AssertStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -18,17 +18,18 @@ public class AssertStatementHandler implements StatementHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	public AssertStatementHandler(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+	public AssertStatementHandler(final StatementsFactory statementsFactory,
+			final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		AssertStatement assertSt = (AssertStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.Assert result = statementsFactory.createAssert();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final AssertStatement assertSt = (AssertStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.Assert result = statementsFactory.createAssert();
 		result.setCondition(expressionConverterUtility.convert(assertSt.getExpression()));
 		if (assertSt.getMessage() != null) {
 			result.setErrorMessage(expressionConverterUtility.convert(assertSt.getMessage()));

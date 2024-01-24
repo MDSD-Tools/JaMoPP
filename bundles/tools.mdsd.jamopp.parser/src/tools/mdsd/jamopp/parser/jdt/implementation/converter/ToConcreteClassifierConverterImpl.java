@@ -31,11 +31,12 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 
 	@Inject
 	public ToConcreteClassifierConverterImpl(
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, UtilNamedElement utilNamedElement,
-			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMember,
-			Converter<EnumDeclaration, Enumeration> toEnumConverter,
-			Converter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final UtilNamedElement utilNamedElement,
+			@Named("ToInterfaceMemberConverter") final Converter<BodyDeclaration, Member> toInterfaceMember,
+			final Converter<EnumDeclaration, Enumeration> toEnumConverter,
+			final Converter<TypeDeclaration, ConcreteClassifier> toClassOrInterface) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -47,19 +48,19 @@ public class ToConcreteClassifierConverterImpl implements Converter<AbstractType
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ConcreteClassifier convert(AbstractTypeDeclaration typeDecl) {
+	public ConcreteClassifier convert(final AbstractTypeDeclaration typeDecl) {
 		ConcreteClassifier result;
 		if (typeDecl.getNodeType() == ASTNode.TYPE_DECLARATION) {
 			result = toClassOrInterface.convert((TypeDeclaration) typeDecl);
 		} else if (typeDecl.getNodeType() == ASTNode.ANNOTATION_TYPE_DECLARATION) {
 			result = jdtResolverUtility.getAnnotation(typeDecl.resolveBinding());
-			ConcreteClassifier concreteClassifier = result;
-			typeDecl.bodyDeclarations()
-					.forEach(obj -> concreteClassifier.getMembers().add(toInterfaceMember.convert((BodyDeclaration) obj)));
+			final ConcreteClassifier concreteClassifier = result;
+			typeDecl.bodyDeclarations().forEach(
+					obj -> concreteClassifier.getMembers().add(toInterfaceMember.convert((BodyDeclaration) obj)));
 		} else {
 			result = toEnumConverter.convert((EnumDeclaration) typeDecl);
 		}
-		ConcreteClassifier finalResult = result;
+		final ConcreteClassifier finalResult = result;
 		typeDecl.modifiers().forEach(obj -> finalResult.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		utilNamedElement.setNameOfElement(typeDecl.getName(), result);

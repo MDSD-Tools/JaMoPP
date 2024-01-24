@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ModuleDeclaration;
 import org.eclipse.jdt.core.dom.ModuleDirective;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilLayout;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
@@ -25,11 +25,11 @@ public class ToModuleConverter implements Converter<ModuleDeclaration, tools.mds
 	private final Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective> toDirectiveConverter;
 
 	@Inject
-	public ToModuleConverter(AbstractVisitor visitor, UtilNamedElement utilNamedElement,
-			Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective> toDirectiveConverter,
-			ModifiersFactory modifiersFactory, UtilLayout layoutInformationConverter,
-			JdtResolver jdtResolverUtility,
-			Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
+	public ToModuleConverter(final AbstractVisitor visitor, final UtilNamedElement utilNamedElement,
+			final Converter<ModuleDirective, tools.mdsd.jamopp.model.java.modules.ModuleDirective> toDirectiveConverter,
+			final ModifiersFactory modifiersFactory, final UtilLayout layoutInformationConverter,
+			final JdtResolver jdtResolverUtility,
+			final Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilNamedElement = utilNamedElement;
@@ -41,8 +41,9 @@ public class ToModuleConverter implements Converter<ModuleDeclaration, tools.mds
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.Module convert(ModuleDeclaration node) {
-		tools.mdsd.jamopp.model.java.containers.Module module = jdtResolverUtility.getModule(node.resolveBinding());
+	public tools.mdsd.jamopp.model.java.containers.Module convert(final ModuleDeclaration node) {
+		final tools.mdsd.jamopp.model.java.containers.Module module = jdtResolverUtility
+				.getModule(node.resolveBinding());
 		if (node.isOpen()) {
 			module.setOpen(modifiersFactory.createOpen());
 		}

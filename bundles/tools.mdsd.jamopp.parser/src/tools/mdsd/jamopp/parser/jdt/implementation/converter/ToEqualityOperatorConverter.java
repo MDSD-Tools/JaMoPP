@@ -13,12 +13,12 @@ public class ToEqualityOperatorConverter implements Converter<InfixExpression.Op
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	public ToEqualityOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToEqualityOperatorConverter(final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public EqualityOperator convert(InfixExpression.Operator operator) {
+	public EqualityOperator convert(final InfixExpression.Operator operator) {
 		EqualityOperator result = null;
 		if (operator.equals(InfixExpression.Operator.EQUALS)) {
 			result = operatorsFactory.createEqual();

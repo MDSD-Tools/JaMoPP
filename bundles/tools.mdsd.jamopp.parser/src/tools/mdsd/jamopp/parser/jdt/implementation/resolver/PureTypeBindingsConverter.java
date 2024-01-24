@@ -50,15 +50,18 @@ public class PureTypeBindingsConverter {
 
 	@Inject
 	public PureTypeBindingsConverter(
-			Provider<ToConcreteClassifierConverterWithExtraInfo> utilBindingInfoToConcreteClassifierConverter,
-			PackageResolver packageResolver, ModuleResolver moduleResolver, InterfaceResolver interfaceResolver,
-			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
-			EnumerationResolver enumerationResolver, ContainersFactory containersFactory, ClassResolver classResolver,
-			Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
-			Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
-			AnnotationResolver annotationResolver, Set<ITypeBinding> typeBindings, Set<IPackageBinding> packageBindings,
-			Set<EObject> objVisited, Set<IModuleBinding> moduleBindings, ToTypeNameConverter toTypeNameConverter,
-			ClassifierResolver classifierResolver) {
+			final Provider<ToConcreteClassifierConverterWithExtraInfo> utilBindingInfoToConcreteClassifierConverter,
+			final PackageResolver packageResolver, final ModuleResolver moduleResolver,
+			final InterfaceResolver interfaceResolver,
+			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromTypeBindings,
+			final EnumerationResolver enumerationResolver, final ContainersFactory containersFactory,
+			final ClassResolver classResolver,
+			final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
+			final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
+			final AnnotationResolver annotationResolver, final Set<ITypeBinding> typeBindings,
+			final Set<IPackageBinding> packageBindings, final Set<EObject> objVisited,
+			final Set<IModuleBinding> moduleBindings, final ToTypeNameConverter toTypeNameConverter,
+			final ClassifierResolver classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.containersFactory = containersFactory;
 		this.utilBindingInfoToConcreteClassifierConverter = utilBindingInfoToConcreteClassifierConverter;
@@ -78,7 +81,7 @@ public class PureTypeBindingsConverter {
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
-	public void convertPureTypeBindings(ResourceSet resourceSet) {
+	public void convertPureTypeBindings(final ResourceSet resourceSet) {
 		int oldSize;
 		int newSize = annotationResolver.getBindings().size() + enumerationResolver.getBindings().size()
 				+ interfaceResolver.getBindings().size() + classResolver.getBindings().size()
@@ -98,22 +101,23 @@ public class PureTypeBindingsConverter {
 		} while (oldSize < newSize);
 	}
 
-	private <K, V> Map<K, V> cloneMap(Map<K, V> map) {
+	private <K, V> Map<K, V> cloneMap(final Map<K, V> map) {
 		return new HashMap<>(map);
 	}
 
-	private void convertPureTypeBinding(String typeName, ConcreteClassifier classifier, ResourceSet resourceSet) {
+	private void convertPureTypeBinding(final String typeName, final ConcreteClassifier classifier,
+			final ResourceSet resourceSet) {
 		if (!objVisited.contains(classifier)) {
 			objVisited.add(classifier);
-			ConcreteClassifier potClass = JavaClasspath.get().getConcreteClassifier(typeName);
+			final ConcreteClassifier potClass = JavaClasspath.get().getConcreteClassifier(typeName);
 			if (!Objects.equals(potClass, classifier)) {
 				convert(typeName, classifier, resourceSet);
 			}
 		}
 	}
 
-	private void convert(String typeName, ConcreteClassifier classifier, ResourceSet resourceSet) {
-		ITypeBinding typeBind = typeBindings.stream()
+	private void convert(final String typeName, final ConcreteClassifier classifier, final ResourceSet resourceSet) {
+		final ITypeBinding typeBind = typeBindings.stream()
 				.filter(type -> type != null && typeName.equals(toTypeNameConverter.convertToTypeName(type)))
 				.findFirst().orElse(null);
 		if (typeBind == null) {
@@ -133,48 +137,50 @@ public class PureTypeBindingsConverter {
 		}
 	}
 
-	private void handleNullContainer(String typeName, ConcreteClassifier classifier, ResourceSet resourceSet) {
-		tools.mdsd.jamopp.model.java.containers.CompilationUnit compulationUnit = containersFactory
+	private void handleNullContainer(final String typeName, final ConcreteClassifier classifier,
+			final ResourceSet resourceSet) {
+		final tools.mdsd.jamopp.model.java.containers.CompilationUnit compulationUnit = containersFactory
 				.createCompilationUnit();
 		compulationUnit.setName("");
 		compulationUnit.getClassifiers().add(classifier);
-		String[] namespaces = typeName.strip().split("\\.");
+		final String[] namespaces = typeName.strip().split("\\.");
 		classifier.setName(namespaces[namespaces.length - 1]);
 		for (int index = 0; index < namespaces.length - 1; index++) {
 			compulationUnit.getNamespaces().add(namespaces[index]);
 		}
-		Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-CompilationUnit",
-				null, new String[] { typeName + ".java" }, null, null));
+		final Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty",
+				"JaMoPP-CompilationUnit", null, new String[] { typeName + ".java" }, null, null));
 		newResource.getContents().add(compulationUnit);
 	}
 
-	private void handleTopLevel(ITypeBinding typeBind) {
+	private void handleTopLevel(final ITypeBinding typeBind) {
 		utilBindingInfoToConcreteClassifierConverter.get().convert(typeBind, extractAdditionalInfosFromTypeBindings);
 	}
 
-	private void handleNested(ConcreteClassifier classifier, ResourceSet resourceSet, ITypeBinding typeBind) {
-		ConcreteClassifier parentClassifier = (ConcreteClassifier) classifierResolver
+	private void handleNested(final ConcreteClassifier classifier, final ResourceSet resourceSet,
+			final ITypeBinding typeBind) {
+		final ConcreteClassifier parentClassifier = (ConcreteClassifier) classifierResolver
 				.getClassifier(typeBind.getDeclaringClass());
 		convertPureTypeBinding(toTypeNameConverter.convertToTypeName(typeBind.getDeclaringClass()), parentClassifier,
 				resourceSet);
 		classifier.setPackage(packageResolver.getByBinding(typeBind.getPackage()));
 	}
 
-	private void handleArray(String typeName, ResourceSet resourceSet, ITypeBinding typeBind) {
-		ITypeBinding elementType = typeBind.getElementType();
+	private void handleArray(final String typeName, final ResourceSet resourceSet, final ITypeBinding typeBind) {
+		final ITypeBinding elementType = typeBind.getElementType();
 		if (!elementType.isPrimitive() && !elementType.isTypeVariable()) {
 			convertPureTypeBinding(typeName, (ConcreteClassifier) classifierResolver.getClassifier(elementType),
 					resourceSet);
 		}
 	}
 
-	private void convertPurePackageBinding(String packageName, tools.mdsd.jamopp.model.java.containers.Package pack,
-			ResourceSet resourceSet) {
+	private void convertPurePackageBinding(final String packageName,
+			final tools.mdsd.jamopp.model.java.containers.Package pack, final ResourceSet resourceSet) {
 		if (!objVisited.contains(pack)) {
 			objVisited.add(pack);
-			tools.mdsd.jamopp.model.java.containers.Package potPack = JavaClasspath.get().getPackage(packageName);
+			final tools.mdsd.jamopp.model.java.containers.Package potPack = JavaClasspath.get().getPackage(packageName);
 			if (!Objects.equals(potPack, pack)) {
-				IPackageBinding binding = packageBindings.stream().filter(b -> packageName.equals(b.getName()))
+				final IPackageBinding binding = packageBindings.stream().filter(b -> packageName.equals(b.getName()))
 						.findFirst().orElse(null);
 				if (binding == null) {
 					pack.setName("");
@@ -185,31 +191,31 @@ public class PureTypeBindingsConverter {
 				if (pack.eResource() != null) {
 					return;
 				}
-				Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Package",
-						null, new String[] { packageName, "package-info.java" }, null, null));
+				final Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty",
+						"JaMoPP-Package", null, new String[] { packageName, "package-info.java" }, null, null));
 				newResource.getContents().add(pack);
 			}
 		}
 	}
 
-	private void convertPureModuleBinding(String modName, tools.mdsd.jamopp.model.java.containers.Module module,
-			ResourceSet resourceSet) {
+	private void convertPureModuleBinding(final String modName,
+			final tools.mdsd.jamopp.model.java.containers.Module module, final ResourceSet resourceSet) {
 		if (!objVisited.contains(module)) {
 			objVisited.add(module);
-			tools.mdsd.jamopp.model.java.containers.Module potMod = JavaClasspath.get().getModule(modName);
+			final tools.mdsd.jamopp.model.java.containers.Module potMod = JavaClasspath.get().getModule(modName);
 			if (!Objects.equals(potMod, module) && module.eResource() == null) {
-				IModuleBinding binding = moduleBindings.stream().filter(b -> modName.equals(b.getName())).findFirst()
-						.orElse(null);
+				final IModuleBinding binding = moduleBindings.stream().filter(b -> modName.equals(b.getName()))
+						.findFirst().orElse(null);
 				if (binding == null) {
 					module.getNamespaces().clear();
-					String[] parts = modName.split("\\.");
+					final String[] parts = modName.split("\\.");
 					Collections.addAll(module.getNamespaces(), parts);
 					module.setName("");
 				} else {
 					bindingToModuleConverter.get().convert(binding);
 				}
-				Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty", "JaMoPP-Module",
-						null, new String[] { modName, "module-info.java" }, null, null));
+				final Resource newResource = resourceSet.createResource(URI.createHierarchicalURI("empty",
+						"JaMoPP-Module", null, new String[] { modName, "module-info.java" }, null, null));
 				newResource.getContents().add(module);
 			}
 		}

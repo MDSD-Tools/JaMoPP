@@ -21,9 +21,9 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
-	public FieldResolver(Map<String, Field> bindings, Set<IVariableBinding> variableBindings, TypesFactory typesFactory,
-			MembersFactory membersFactory, ClassifierResolver classifierResolver,
-			ToFieldNameConverter toFieldNameConverter) {
+	public FieldResolver(final Map<String, Field> bindings, final Set<IVariableBinding> variableBindings,
+			final TypesFactory typesFactory, final MembersFactory membersFactory,
+			final ClassifierResolver classifierResolver, final ToFieldNameConverter toFieldNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.typesFactory = typesFactory;
@@ -33,8 +33,8 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 	}
 
 	@Override
-	public Field getByBinding(IVariableBinding binding) {
-		String varName = toFieldNameConverter.convertToFieldName(binding);
+	public Field getByBinding(final IVariableBinding binding) {
+		final String varName = toFieldNameConverter.convertToFieldName(binding);
 		Field field;
 		if (getBindings().containsKey(varName)) {
 			field = getBindings().get(varName);
@@ -46,7 +46,7 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 			}
 			Field result = null;
 			if (potClass != null) {
-				for (tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+				for (final tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
 					if (mem instanceof Field && mem.getName().equals(binding.getName())) {
 						result = (Field) mem;
 						break;
@@ -64,12 +64,12 @@ public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
 	}
 
 	@Override
-	public Field getByName(String name) {
+	public Field getByName(final String name) {
 		Field field;
 		if (getBindings().containsKey(name)) {
 			field = getBindings().get(name);
 		} else {
-			Field result = membersFactory.createField();
+			final Field result = membersFactory.createField();
 			getBindings().put(name, result);
 			field = result;
 		}

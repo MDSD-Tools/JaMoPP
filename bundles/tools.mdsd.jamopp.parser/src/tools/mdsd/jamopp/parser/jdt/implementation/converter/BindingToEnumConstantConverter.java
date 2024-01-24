@@ -18,21 +18,21 @@ public class BindingToEnumConstantConverter implements Converter<IVariableBindin
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	public BindingToEnumConstantConverter(JdtResolver iUtilJdtResolver,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingToEnumConstantConverter(final JdtResolver iUtilJdtResolver,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}
 
 	@Override
-	public EnumConstant convert(IVariableBinding binding) {
-		EnumConstant result = iUtilJdtResolver.getEnumConstant(binding);
+	public EnumConstant convert(final IVariableBinding binding) {
+		final EnumConstant result = iUtilJdtResolver.getEnumConstant(binding);
 		if (result.eContainer() == null) {
 			try {
-				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+				for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 					result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 			result.setName(binding.getName());

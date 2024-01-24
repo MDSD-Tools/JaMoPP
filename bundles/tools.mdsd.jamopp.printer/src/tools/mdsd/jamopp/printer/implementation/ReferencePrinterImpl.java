@@ -39,14 +39,16 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 	private final List<Mapping<?>> mappings;
 
 	@Inject
-	public ReferencePrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
-			Printer<NestedExpression> nestedExpressionPrinter,
-			@Named("ReflectiveClassReferencePrinter") EmptyPrinter reflectiveClassReferencePrinter,
-			Printer<PrimitiveTypeReference> primitiveTypeReferencePrinter,
-			Printer<StringReference> stringReferencePrinter, Printer<SelfReference> selfReferencePrinter,
-			Printer<ArrayInstantiation> arrayInstantiationPrinter, Printer<Instantiation> instantiationPrinter,
-			Printer<TextBlockReference> textBlockReferencePrinter, Printer<ElementReference> elementReferencePrinter,
-			Printer<ArraySelector> arraySelectorPrinter) {
+	public ReferencePrinterImpl(final Printer<AnnotationInstance> annotationInstancePrinter,
+			final Printer<NestedExpression> nestedExpressionPrinter,
+			@Named("ReflectiveClassReferencePrinter") final EmptyPrinter reflectiveClassReferencePrinter,
+			final Printer<PrimitiveTypeReference> primitiveTypeReferencePrinter,
+			final Printer<StringReference> stringReferencePrinter, final Printer<SelfReference> selfReferencePrinter,
+			final Printer<ArrayInstantiation> arrayInstantiationPrinter,
+			final Printer<Instantiation> instantiationPrinter,
+			final Printer<TextBlockReference> textBlockReferencePrinter,
+			final Printer<ElementReference> elementReferencePrinter,
+			final Printer<ArraySelector> arraySelectorPrinter) {
 		this.annotationInstancePrinter = annotationInstancePrinter;
 		this.nestedExpressionPrinter = nestedExpressionPrinter;
 		this.reflectiveClassReferencePrinter = reflectiveClassReferencePrinter;
@@ -62,7 +64,7 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 	}
 
 	@Override
-	public void print(Reference element, BufferedWriter writer) throws IOException {
+	public void print(final Reference element, final BufferedWriter writer) throws IOException {
 
 		if (mappings.isEmpty()) {
 			mappings.add(new Mapping<>(AnnotationInstance.class, annotationInstancePrinter));
@@ -77,7 +79,7 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 		}
 
 		boolean printed = false;
-		for (Mapping<?> mapping : mappings) {
+		for (final Mapping<?> mapping : mappings) {
 			printed = mapping.checkAndPrint(element, writer);
 			if (printed) {
 				break;
@@ -88,7 +90,7 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 			reflectiveClassReferencePrinter.print(writer);
 		}
 
-		for (ArraySelector sel : element.getArraySelectors()) {
+		for (final ArraySelector sel : element.getArraySelectors()) {
 			arraySelectorPrinter.print(sel, writer);
 		}
 		if (element.getNext() != null) {

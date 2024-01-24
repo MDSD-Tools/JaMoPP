@@ -41,22 +41,22 @@ public final class ConcreteClassifierExtension {
 		// Should not be initiated.
 	}
 
-	public static EList<ConcreteClassifier> getAllInnerClassifiers(ConcreteClassifier concreteClassifier) {
-		EList<ConcreteClassifier> innerClassifierList = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getAllInnerClassifiers(final ConcreteClassifier concreteClassifier) {
+		final EList<ConcreteClassifier> innerClassifierList = new UniqueEList<>();
 
 		innerClassifierList.addAll(concreteClassifier.getInnerClassifiers());
 
-		for (ConcreteClassifier superClassifier : concreteClassifier.getAllSuperClassifiers()) {
-			List<ConcreteClassifier> superInnerList = superClassifier.getInnerClassifiers();
+		for (final ConcreteClassifier superClassifier : concreteClassifier.getAllSuperClassifiers()) {
+			final List<ConcreteClassifier> superInnerList = superClassifier.getInnerClassifiers();
 
-			for (ConcreteClassifier superInner : superInnerList) {
+			for (final ConcreteClassifier superInner : superInnerList) {
 				ConcreteClassifier newSuperInner = superInner;
 				if (newSuperInner.eIsProxy()) {
-					EObject resolved = EcoreUtil.resolve(newSuperInner, concreteClassifier);
+					final EObject resolved = EcoreUtil.resolve(newSuperInner, concreteClassifier);
 					newSuperInner = (ConcreteClassifier) resolved;
 				}
 
-				boolean isVisible = !newSuperInner.isHidden(concreteClassifier);
+				final boolean isVisible = !newSuperInner.isHidden(concreteClassifier);
 				if (isVisible) {
 					innerClassifierList.add(newSuperInner);
 				}
@@ -65,20 +65,20 @@ public final class ConcreteClassifierExtension {
 		return innerClassifierList;
 	}
 
-	public static EList<ConcreteClassifier> getInnerClassifiers(ConcreteClassifier concreteClassifier) {
+	public static EList<ConcreteClassifier> getInnerClassifiers(final ConcreteClassifier concreteClassifier) {
 		EList<ConcreteClassifier> result;
 		if (concreteClassifier.eIsProxy()) {
 			result = ECollections.emptyEList();
 		} else {
-			StringBuilder suffix = new StringBuilder();
+			final StringBuilder suffix = new StringBuilder();
 			ConcreteClassifier containingClass = concreteClassifier;
 			while (containingClass.eContainer() instanceof ConcreteClassifier) {
 				containingClass = (ConcreteClassifier) containingClass.eContainer();
 				suffix.insert(0, '.').insert(0, containingClass.getName());
 			}
 			if (containingClass.eContainer() instanceof CompilationUnit) {
-				CompilationUnit compilationUnit = (CompilationUnit) containingClass.eContainer();
-				String fullName = compilationUnit.getNamespacesAsString() + suffix + concreteClassifier.getName();
+				final CompilationUnit compilationUnit = (CompilationUnit) containingClass.eContainer();
+				final String fullName = compilationUnit.getNamespacesAsString() + suffix + concreteClassifier.getName();
 				result = concreteClassifier.getConcreteClassifiers(fullName, "*");
 			} else {
 				result = handleClassedDeclaredInsideMethods(concreteClassifier);
@@ -87,19 +87,20 @@ public final class ConcreteClassifierExtension {
 		return result;
 	}
 
-	private static EList<ConcreteClassifier> handleClassedDeclaredInsideMethods(ConcreteClassifier concreteClassifier) {
+	private static EList<ConcreteClassifier> handleClassedDeclaredInsideMethods(
+			final ConcreteClassifier concreteClassifier) {
 		// For classes declared locally inside methods that are not registered
 		// in the class path
-		EList<ConcreteClassifier> result = new UniqueEList<>();
+		final EList<ConcreteClassifier> result = new UniqueEList<>();
 		// Can not call ClassifierUtil.getAllMembers, because it will try to
 		// call this method!
-		for (Member member : concreteClassifier.getMembers()) {
+		for (final Member member : concreteClassifier.getMembers()) {
 			if (member instanceof ConcreteClassifier) {
 				result.add((ConcreteClassifier) member);
 			}
 		}
-		for (ConcreteClassifier superClassifier : concreteClassifier.getAllSuperClassifiers()) {
-			for (Member member : superClassifier.getMembers()) {
+		for (final ConcreteClassifier superClassifier : concreteClassifier.getAllSuperClassifiers()) {
+			for (final Member member : superClassifier.getMembers()) {
 				if (member instanceof ConcreteClassifier) {
 					result.add((ConcreteClassifier) member);
 				}
@@ -109,16 +110,16 @@ public final class ConcreteClassifierExtension {
 		return result;
 	}
 
-	public static EList<ClassifierReference> getSuperTypeReferences(ConcreteClassifier concreteClassifier) {
-		EList<ClassifierReference> typeReferenceList = new UniqueEList<>();
-		if (concreteClassifier instanceof tools.mdsd.jamopp.model.java.classifiers.Class javaClass) {
+	public static EList<ClassifierReference> getSuperTypeReferences(final ConcreteClassifier concreteClassifier) {
+		final EList<ClassifierReference> typeReferenceList = new UniqueEList<>();
+		if (concreteClassifier instanceof final tools.mdsd.jamopp.model.java.classifiers.Class javaClass) {
 			// Add super type of class to super type list
-			TypeReference superClass = javaClass.getExtends();
+			final TypeReference superClass = javaClass.getExtends();
 			if (superClass != null) {
-				ClassifierReference classifierReference = superClass.getPureClassifierReference();
+				final ClassifierReference classifierReference = superClass.getPureClassifierReference();
 				typeReferenceList.add(classifierReference);
-				Classifier target = classifierReference.getTarget();
-				ConcreteClassifier concreteTarget = (ConcreteClassifier) target;
+				final Classifier target = classifierReference.getTarget();
+				final ConcreteClassifier concreteTarget = (ConcreteClassifier) target;
 				if (!concreteClassifier.isJavaLangObject(concreteTarget)) {
 					typeReferenceList.addAll(concreteTarget.getSuperTypeReferences());
 				}
@@ -127,27 +128,28 @@ public final class ConcreteClassifierExtension {
 			// Add all implemented interfaces to super type list
 			addSuperTypes(javaClass.getImplements(), typeReferenceList);
 
-		} else if (concreteClassifier instanceof Interface javaInterface) {
+		} else if (concreteClassifier instanceof final Interface javaInterface) {
 			// Add all super interfaces to super type list
 			addSuperTypes(javaInterface.getExtends(), typeReferenceList);
 		}
 		return typeReferenceList;
 	}
 
-	private static void addSuperTypes(List<TypeReference> typeReferences,
-			List<ClassifierReference> superTypeReferences) {
+	private static void addSuperTypes(final List<TypeReference> typeReferences,
+			final List<ClassifierReference> superTypeReferences) {
 
-		for (TypeReference interfaceReference : typeReferences) {
+		for (final TypeReference interfaceReference : typeReferences) {
 			addSuperType(interfaceReference, superTypeReferences);
 		}
 	}
 
-	private static void addSuperType(TypeReference typeReference, List<ClassifierReference> superTypeReferences) {
+	private static void addSuperType(final TypeReference typeReference,
+			final List<ClassifierReference> superTypeReferences) {
 
-		ClassifierReference classifierReference = typeReference.getPureClassifierReference();
+		final ClassifierReference classifierReference = typeReference.getPureClassifierReference();
 		superTypeReferences.add(classifierReference);
-		Classifier target = classifierReference.getTarget();
-		ConcreteClassifier concreteTarget = (ConcreteClassifier) target;
+		final Classifier target = classifierReference.getTarget();
+		final ConcreteClassifier concreteTarget = (ConcreteClassifier) target;
 		superTypeReferences.addAll(concreteTarget.getSuperTypeReferences());
 	}
 
@@ -158,19 +160,19 @@ public final class ConcreteClassifierExtension {
 	 * @param context to check protected visibility
 	 * @return member list
 	 */
-	public static EList<Member> getAllMembers(ConcreteClassifier classifier, Commentable context) {
-		EList<Member> memberList = new UniqueEList<>();
+	public static EList<Member> getAllMembers(final ConcreteClassifier classifier, final Commentable context) {
+		final EList<Member> memberList = new UniqueEList<>();
 
-		ConcreteClassifier concreteClassifier = classifier;
+		final ConcreteClassifier concreteClassifier = classifier;
 		memberList.addAll(concreteClassifier.getMembers());
 		memberList.addAll(concreteClassifier.getDefaultMembers());
 		// Because inner classes are found in separate class files
 		memberList.addAll(concreteClassifier.getAllInnerClassifiers());
 
-		for (ConcreteClassifier superClassifier : classifier.getAllSuperClassifiers()) {
-			for (Member member : superClassifier.getMembers()) {
-				if (member instanceof AnnotableAndModifiable modifiable) {
-					boolean isVisible = !modifiable.isHidden(context);
+		for (final ConcreteClassifier superClassifier : classifier.getAllSuperClassifiers()) {
+			for (final Member member : superClassifier.getMembers()) {
+				if (member instanceof final AnnotableAndModifiable modifiable) {
+					final boolean isVisible = !modifiable.isHidden(context);
 					if (isVisible) {
 						memberList.add(member);
 					}
@@ -186,15 +188,15 @@ public final class ConcreteClassifierExtension {
 	/**
 	 * Returns the qualified name of this concrete classifier.
 	 */
-	public static String getQualifiedName(ConcreteClassifier concreteClassifier) {
-		StringBuilder qualifiedName = new StringBuilder();
+	public static String getQualifiedName(final ConcreteClassifier concreteClassifier) {
+		final StringBuilder qualifiedName = new StringBuilder();
 		if (concreteClassifier.eContainer() instanceof ConcreteClassifier) {
 			qualifiedName.append(((ConcreteClassifier) concreteClassifier.eContainer()).getQualifiedName());
 			qualifiedName.append('.');
 		} else {
-			List<String> packageParts = concreteClassifier.getContainingPackageName();
+			final List<String> packageParts = concreteClassifier.getContainingPackageName();
 			if (packageParts != null) {
-				for (String packagePart : packageParts) {
+				for (final String packagePart : packageParts) {
 					qualifiedName.append(packagePart);
 					qualifiedName.append('.');
 				}
@@ -214,11 +216,11 @@ public final class ConcreteClassifierExtension {
 	 * @return <code>true</code> if <code>clazz</code> represents
 	 *         <code>java.lang.Object</code>, otherwise <code>false</code>
 	 */
-	public static boolean isJavaLangObject(ConcreteClassifier clazz) {
-		String name = clazz.getName();
+	public static boolean isJavaLangObject(final ConcreteClassifier clazz) {
+		final String name = clazz.getName();
 		boolean result;
 		if (OBJECT.equals(name)) {
-			List<String> packageName = clazz.getContainingPackageName();
+			final List<String> packageName = clazz.getContainingPackageName();
 			result = packageName.size() != 2 || !"java".equals(packageName.get(0))
 					|| !"lang".equals(packageName.get(1));
 		} else {

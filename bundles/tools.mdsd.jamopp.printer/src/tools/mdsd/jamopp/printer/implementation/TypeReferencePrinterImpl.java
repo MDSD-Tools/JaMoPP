@@ -22,9 +22,10 @@ public class TypeReferencePrinterImpl implements Printer<TypeReference> {
 	private final Printer<PrimitiveType> primitiveTypePrinter;
 
 	@Inject
-	public TypeReferencePrinterImpl(Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter,
-			Printer<ClassifierReference> classifierReferencePrinter, Printer<PrimitiveType> primitiveTypePrinter,
-			@Named("InferableTypePrinter") EmptyPrinter inferableTypePrinter) {
+	public TypeReferencePrinterImpl(final Printer<NamespaceClassifierReference> namespaceClassifierReferencePrinter,
+			final Printer<ClassifierReference> classifierReferencePrinter,
+			final Printer<PrimitiveType> primitiveTypePrinter,
+			@Named("InferableTypePrinter") final EmptyPrinter inferableTypePrinter) {
 		this.namespaceClassifierReferencePrinter = namespaceClassifierReferencePrinter;
 		this.classifierReferencePrinter = classifierReferencePrinter;
 		this.primitiveTypePrinter = primitiveTypePrinter;
@@ -32,7 +33,7 @@ public class TypeReferencePrinterImpl implements Printer<TypeReference> {
 	}
 
 	@Override
-	public void print(TypeReference element, BufferedWriter writer) throws IOException {
+	public void print(final TypeReference element, final BufferedWriter writer) throws IOException {
 		if (element instanceof NamespaceClassifierReference) {
 			namespaceClassifierReferencePrinter.print((NamespaceClassifierReference) element, writer);
 		} else if (element instanceof ClassifierReference) {

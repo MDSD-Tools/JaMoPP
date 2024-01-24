@@ -14,12 +14,13 @@ public class ToArrayDimensionAfterAndSetConverterImpl implements ToArrayDimensio
 	private final Converter<Dimension, ArrayDimension> toArrayDimensionConverter;
 
 	@Inject
-	public ToArrayDimensionAfterAndSetConverterImpl(Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
+	public ToArrayDimensionAfterAndSetConverterImpl(
+			final Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 
 	@Override
-	public void convert(Dimension dim, ArrayTypeable arrDimContainer) {
+	public void convert(final Dimension dim, final ArrayTypeable arrDimContainer) {
 		arrDimContainer.getArrayDimensionsAfter().add(toArrayDimensionConverter.convert(dim));
 	}
 

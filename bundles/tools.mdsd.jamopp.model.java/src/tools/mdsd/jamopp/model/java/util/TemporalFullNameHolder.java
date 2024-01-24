@@ -30,13 +30,13 @@ public final class TemporalFullNameHolder extends AdapterImpl {
 
 	private String fullName;
 
-	private TemporalFullNameHolder(String fullName) {
+	private TemporalFullNameHolder(final String fullName) {
 		this.fullName = fullName;
 	}
 
-	public static String getFullName(ConcreteClassifier concreteClassifier) {
+	public static String getFullName(final ConcreteClassifier concreteClassifier) {
 		String result = concreteClassifier.getName();
-		for (Adapter a : concreteClassifier.eAdapters()) {
+		for (final Adapter a : concreteClassifier.eAdapters()) {
 			if (a instanceof TemporalFullNameHolder) {
 				result = ((TemporalFullNameHolder) a).fullName;
 			}
@@ -44,8 +44,8 @@ public final class TemporalFullNameHolder extends AdapterImpl {
 		return result;
 	}
 
-	public static void setFullName(Notifier concreteClassifier, String otherName) {
-		for (Adapter a : concreteClassifier.eAdapters()) {
+	public static void setFullName(final Notifier concreteClassifier, final String otherName) {
+		for (final Adapter a : concreteClassifier.eAdapters()) {
 			if (a instanceof TemporalFullNameHolder) {
 				((TemporalFullNameHolder) a).fullName = otherName;
 				return;

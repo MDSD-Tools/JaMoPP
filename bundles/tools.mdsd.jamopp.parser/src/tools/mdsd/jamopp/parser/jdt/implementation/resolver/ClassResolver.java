@@ -18,8 +18,8 @@ public class ClassResolver extends ResolverAbstract<Class, ITypeBinding> {
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public ClassResolver(Map<String, Class> bindings, ClassifiersFactory classifiersFactory,
-			Set<ITypeBinding> typeBindings, ToTypeNameConverter toTypeNameConverter) {
+	public ClassResolver(final Map<String, Class> bindings, final ClassifiersFactory classifiersFactory,
+			final Set<ITypeBinding> typeBindings, final ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;
@@ -27,19 +27,19 @@ public class ClassResolver extends ResolverAbstract<Class, ITypeBinding> {
 	}
 
 	@Override
-	public Class getByBinding(ITypeBinding binding) {
+	public Class getByBinding(final ITypeBinding binding) {
 		typeBindings.add(binding);
 		return getByName(toTypeNameConverter.convertToTypeName(binding));
 	}
 
 	@Override
-	public Class getByName(String name) {
+	public Class getByName(final String name) {
 		Class resultClass;
 		if (getBindings().containsKey(name)) {
 			resultClass = getBindings().get(name);
 		} else {
 			Class result;
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 					.getConcreteClassifier(name);
 			if (potClass instanceof Class) {
 				result = (Class) potClass;

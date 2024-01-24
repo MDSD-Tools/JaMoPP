@@ -17,10 +17,10 @@ public class ClassifierResolver {
 	private final TypeParameterResolver typeParameterResolver;
 
 	@Inject
-	public ClassifierResolver(AnonymousClassResolver anonymousClassResolver,
-			TypeParameterResolver typeParameterResolver, ToTypeNameConverter toTypeNameConverter,
-			InterfaceResolver interfaceResolver, EnumerationResolver enumerationResolver, ClassResolver classResolver,
-			AnnotationResolver annotationResolver) {
+	public ClassifierResolver(final AnonymousClassResolver anonymousClassResolver,
+			final TypeParameterResolver typeParameterResolver, final ToTypeNameConverter toTypeNameConverter,
+			final InterfaceResolver interfaceResolver, final EnumerationResolver enumerationResolver,
+			final ClassResolver classResolver, final AnnotationResolver annotationResolver) {
 		this.anonymousClassResolver = anonymousClassResolver;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.annotationResolver = annotationResolver;
@@ -30,10 +30,10 @@ public class ClassifierResolver {
 		this.typeParameterResolver = typeParameterResolver;
 	}
 
-	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(ITypeBinding binding) {
-		String typeName = toTypeNameConverter.convertToTypeName(binding);
+	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(final ITypeBinding binding) {
+		final String typeName = toTypeNameConverter.convertToTypeName(binding);
 		tools.mdsd.jamopp.model.java.classifiers.Classifier classifier = null;
-		tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+		final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
 		if (potClass != null) {
 			classifier = potClass;
@@ -44,7 +44,7 @@ public class ClassifierResolver {
 		return classifier;
 	}
 
-	private tools.mdsd.jamopp.model.java.classifiers.Classifier switchOverBinding(ITypeBinding binding) {
+	private tools.mdsd.jamopp.model.java.classifiers.Classifier switchOverBinding(final ITypeBinding binding) {
 		tools.mdsd.jamopp.model.java.classifiers.Classifier classifier = null;
 		if (binding.isAnnotation()) {
 			classifier = annotationResolver.getByBinding(binding);

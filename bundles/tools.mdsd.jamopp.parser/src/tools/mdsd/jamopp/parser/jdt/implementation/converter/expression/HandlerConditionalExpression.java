@@ -14,12 +14,12 @@ public class HandlerConditionalExpression implements ExpressionHandler {
 
 	@Inject
 	public HandlerConditionalExpression(
-			Converter<ConditionalExpression, tools.mdsd.jamopp.model.java.expressions.ConditionalExpression> toConditionalExpressionConverter) {
+			final Converter<ConditionalExpression, tools.mdsd.jamopp.model.java.expressions.ConditionalExpression> toConditionalExpressionConverter) {
 		this.toConditionalExpressionConverter = toConditionalExpressionConverter;
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
 		return toConditionalExpressionConverter.convert((ConditionalExpression) expr);
 	}
 

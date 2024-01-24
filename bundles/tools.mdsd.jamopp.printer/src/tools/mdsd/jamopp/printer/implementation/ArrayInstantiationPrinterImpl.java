@@ -26,9 +26,10 @@ public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public ArrayInstantiationPrinterImpl(Printer<TypeReference> typeReferencePrinter,
-			Printer<TypeArgumentable> typeArgumentablePrinter, Printer<Expression> expressionPrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<ArrayInitializer> arrayInitializerPrinter) {
+	public ArrayInstantiationPrinterImpl(final Printer<TypeReference> typeReferencePrinter,
+			final Printer<TypeArgumentable> typeArgumentablePrinter, final Printer<Expression> expressionPrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter,
+			final Printer<ArrayInitializer> arrayInitializerPrinter) {
 		this.typeReferencePrinter = typeReferencePrinter;
 		this.typeArgumentablePrinter = typeArgumentablePrinter;
 		this.expressionPrinter = expressionPrinter;
@@ -37,19 +38,19 @@ public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation
 	}
 
 	@Override
-	public void print(ArrayInstantiation element, BufferedWriter writer) throws IOException {
-		if (element instanceof ArrayInstantiationBySize inst) {
+	public void print(final ArrayInstantiation element, final BufferedWriter writer) throws IOException {
+		if (element instanceof final ArrayInstantiationBySize inst) {
 			printArrayInstantiationBySize(writer, inst);
-		} else if (element instanceof ArrayInstantiationByValuesUntyped inst) {
+		} else if (element instanceof final ArrayInstantiationByValuesUntyped inst) {
 			printArrayInstantiationByValuesUntyped(writer, inst);
 		} else {
 			printArrayInstantiationByValuesTyped(element, writer);
 		}
 	}
 
-	private void printArrayInstantiationByValuesTyped(ArrayInstantiation element, BufferedWriter writer)
+	private void printArrayInstantiationByValuesTyped(final ArrayInstantiation element, final BufferedWriter writer)
 			throws IOException {
-		ArrayInstantiationByValuesTyped inst = (ArrayInstantiationByValuesTyped) element;
+		final ArrayInstantiationByValuesTyped inst = (ArrayInstantiationByValuesTyped) element;
 		writer.append("new ");
 		typeReferencePrinter.print(inst.getTypeReference(), writer);
 		typeArgumentablePrinter.print(inst, writer);
@@ -59,18 +60,18 @@ public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation
 		arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
 	}
 
-	private void printArrayInstantiationByValuesUntyped(BufferedWriter writer, ArrayInstantiationByValuesUntyped inst)
-			throws IOException {
+	private void printArrayInstantiationByValuesUntyped(final BufferedWriter writer,
+			final ArrayInstantiationByValuesUntyped inst) throws IOException {
 		arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
 	}
 
-	private void printArrayInstantiationBySize(BufferedWriter writer, ArrayInstantiationBySize inst)
+	private void printArrayInstantiationBySize(final BufferedWriter writer, final ArrayInstantiationBySize inst)
 			throws IOException {
 		writer.append("new ");
 		typeReferencePrinter.print(inst.getTypeReference(), writer);
 		typeArgumentablePrinter.print(inst, writer);
 		writer.append(" ");
-		for (Expression expr : inst.getSizes()) {
+		for (final Expression expr : inst.getSizes()) {
 			writer.append("[");
 			expressionPrinter.print(expr, writer);
 			writer.append("] ");

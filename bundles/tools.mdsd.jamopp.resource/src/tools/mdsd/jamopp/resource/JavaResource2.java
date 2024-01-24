@@ -16,25 +16,25 @@ import tools.mdsd.jamopp.printer.JaMoPPPrinter;
 
 public class JavaResource2 extends ResourceImpl {
 
-	public JavaResource2(URI uri) {
+	public JavaResource2(final URI uri) {
 		super(uri);
 	}
 
 	@Override
-	protected void doLoad(InputStream input, Map<?, ?> options) {
-		Resource resource = JavaClasspath.get().getResource(getURI());
+	protected void doLoad(final InputStream input, final Map<?, ?> options) {
+		final Resource resource = JavaClasspath.get().getResource(getURI());
 		if (resource != null) {
-			this.getContents().addAll(resource.getContents());
+			getContents().addAll(resource.getContents());
 			return;
 		}
-		JaMoPPParserAPI api = new JaMoPPJDTParser();
-		api.setResourceSet(this.getResourceSet());
-		this.getContents().add(api.parse(this.getURI().toString(), input));
+		final JaMoPPParserAPI api = new JaMoPPJDTParser();
+		api.setResourceSet(getResourceSet());
+		getContents().add(api.parse(getURI().toString(), input));
 	}
 
 	@Override
-	protected void doSave(OutputStream output, Map<?, ?> options) {
-		this.getContents().forEach(object -> {
+	protected void doSave(final OutputStream output, final Map<?, ?> options) {
+		getContents().forEach(object -> {
 			if (object instanceof JavaRoot) {
 				JaMoPPPrinter.print((JavaRoot) object, output);
 			}

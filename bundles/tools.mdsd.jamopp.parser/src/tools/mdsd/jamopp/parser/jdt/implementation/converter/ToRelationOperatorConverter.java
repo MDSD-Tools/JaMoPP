@@ -13,12 +13,12 @@ public class ToRelationOperatorConverter implements Converter<InfixExpression.Op
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	public ToRelationOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToRelationOperatorConverter(final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public RelationOperator convert(InfixExpression.Operator operator) {
+	public RelationOperator convert(final InfixExpression.Operator operator) {
 		RelationOperator result = null;
 		if (operator.equals(InfixExpression.Operator.GREATER)) {
 			result = operatorsFactory.createGreaterThan();

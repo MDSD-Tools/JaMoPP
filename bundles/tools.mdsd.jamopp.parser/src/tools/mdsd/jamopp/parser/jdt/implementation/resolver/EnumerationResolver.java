@@ -18,8 +18,8 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public EnumerationResolver(Map<String, Enumeration> bindings, Set<ITypeBinding> typeBindings,
-			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
+	public EnumerationResolver(final Map<String, Enumeration> bindings, final Set<ITypeBinding> typeBindings,
+			final ClassifiersFactory classifiersFactory, final ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;
@@ -27,14 +27,14 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 	}
 
 	@Override
-	public Enumeration getByBinding(ITypeBinding binding) {
-		String enumName = toTypeNameConverter.convertToTypeName(binding);
+	public Enumeration getByBinding(final ITypeBinding binding) {
+		final String enumName = toTypeNameConverter.convertToTypeName(binding);
 		Enumeration enumeration;
 		if (getBindings().containsKey(enumName)) {
 			enumeration = getBindings().get(enumName);
 		} else {
 			typeBindings.add(binding);
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
+			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier = JavaClasspath.get()
 					.getConcreteClassifier(enumName);
 			Enumeration result;
 			if (classifier instanceof Enumeration) {
@@ -49,7 +49,7 @@ public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBind
 	}
 
 	@Override
-	public Enumeration getByName(String name) {
+	public Enumeration getByName(final String name) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

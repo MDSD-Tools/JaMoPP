@@ -15,12 +15,12 @@ public class HandlerMethodReference implements ExpressionHandler {
 
 	@Inject
 	public HandlerMethodReference(
-			Converter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter) {
+			final Converter<MethodReference, MethodReferenceExpression> toMethodReferenceExpressionConverter) {
 		this.toMethodReferenceExpressionConverter = toMethodReferenceExpressionConverter;
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
 		return toMethodReferenceExpressionConverter.convert((MethodReference) expr);
 	}
 

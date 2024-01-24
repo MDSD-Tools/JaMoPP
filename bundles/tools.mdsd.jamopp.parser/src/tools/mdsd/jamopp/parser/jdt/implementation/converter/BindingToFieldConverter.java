@@ -31,11 +31,12 @@ public class BindingToFieldConverter implements Converter<IVariableBinding, Fiel
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	public BindingToFieldConverter(UtilArrays utilJdtBindingConverter,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
-			Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter, JdtResolver jdtTResolverUtility,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingToFieldConverter(final UtilArrays utilJdtBindingConverter,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
+			final Converter<Object, PrimaryExpression> objectToPrimaryExpressionConverter,
+			final JdtResolver jdtTResolverUtility,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.utilJdtBindingConverter = utilJdtBindingConverter;
@@ -45,8 +46,8 @@ public class BindingToFieldConverter implements Converter<IVariableBinding, Fiel
 	}
 
 	@Override
-	public Field convert(IVariableBinding binding) {
-		ReferenceableElement refElement = jdtTResolverUtility.getReferencableElement(binding);
+	public Field convert(final IVariableBinding binding) {
+		final ReferenceableElement refElement = jdtTResolverUtility.getReferencableElement(binding);
 		Field result;
 		if (refElement.eContainer() != null) {
 			if (refElement instanceof AdditionalField) {
@@ -58,10 +59,10 @@ public class BindingToFieldConverter implements Converter<IVariableBinding, Fiel
 			result = (Field) refElement;
 			result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
 			try {
-				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+				for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 					result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 			result.setName(binding.getName());

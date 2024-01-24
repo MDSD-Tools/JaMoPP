@@ -34,13 +34,13 @@ public class ToParameterConverter implements Converter<SingleVariableDeclaration
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	public ToParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver utilJDTResolver,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public ToParameterConverter(final UtilNamedElement utilNamedElement, final UtilLayout utilLayout,
+			final JdtResolver utilJDTResolver, final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.utilNamedElement = utilNamedElement;
@@ -54,10 +54,10 @@ public class ToParameterConverter implements Converter<SingleVariableDeclaration
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Parameter convert(SingleVariableDeclaration decl) {
+	public Parameter convert(final SingleVariableDeclaration decl) {
 		Parameter parameter;
 		if (decl.isVarargs()) {
-			VariableLengthParameter result = utilJDTResolver.getVariableLengthParameter(decl.resolveBinding());
+			final VariableLengthParameter result = utilJDTResolver.getVariableLengthParameter(decl.resolveBinding());
 			decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 					.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 			result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));

@@ -14,14 +14,14 @@ public class DefaultSwitchRulePrinterImpl implements Printer<DefaultSwitchRule> 
 	private final Printer<Statement> statementPrinter;
 
 	@Inject
-	public DefaultSwitchRulePrinterImpl(Printer<Statement> statementPrinter) {
+	public DefaultSwitchRulePrinterImpl(final Printer<Statement> statementPrinter) {
 		this.statementPrinter = statementPrinter;
 	}
 
 	@Override
-	public void print(DefaultSwitchRule element, BufferedWriter writer) throws IOException {
+	public void print(final DefaultSwitchRule element, final BufferedWriter writer) throws IOException {
 		writer.append("default -> ");
-		for (Statement s : element.getStatements()) {
+		for (final Statement s : element.getStatements()) {
 			statementPrinter.print(s, writer);
 		}
 	}

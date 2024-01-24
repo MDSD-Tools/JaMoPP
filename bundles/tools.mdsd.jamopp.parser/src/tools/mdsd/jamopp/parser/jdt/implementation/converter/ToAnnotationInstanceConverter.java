@@ -32,8 +32,9 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
 
 	@Inject
-	public ToAnnotationInstanceConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
-			JdtResolver jdtResolverUtility, AnnotationsFactory annotationsFactory) {
+	public ToAnnotationInstanceConverter(final UtilNamedElement utilNamedElement,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -41,11 +42,11 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 	}
 
 	@Override
-	public AnnotationInstance convert(Annotation annot) {
-		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
+	public AnnotationInstance convert(final Annotation annot) {
+		final AnnotationInstance result = annotationsFactory.createAnnotationInstance();
 		utilNamedElement.addNameToNameSpace(annot.getTypeName(), result);
 		tools.mdsd.jamopp.model.java.classifiers.Annotation proxyClass;
-		IAnnotationBinding binding = annot.resolveAnnotationBinding();
+		final IAnnotationBinding binding = annot.resolveAnnotationBinding();
 		if (binding == null) {
 			proxyClass = jdtResolverUtility.getAnnotation(annot.getTypeName().getFullyQualifiedName());
 		} else {
@@ -62,14 +63,14 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 	}
 
 	@SuppressWarnings("unchecked")
-	private void handleNormalAnnotation(Annotation annot, AnnotationInstance result,
-			tools.mdsd.jamopp.model.java.classifiers.Annotation proxyClass) {
-		AnnotationParameterList param = annotationsFactory.createAnnotationParameterList();
+	private void handleNormalAnnotation(final Annotation annot, final AnnotationInstance result,
+			final tools.mdsd.jamopp.model.java.classifiers.Annotation proxyClass) {
+		final AnnotationParameterList param = annotationsFactory.createAnnotationParameterList();
 		result.setParameter(param);
-		NormalAnnotation normalAnnot = (NormalAnnotation) annot;
+		final NormalAnnotation normalAnnot = (NormalAnnotation) annot;
 		normalAnnot.values().forEach(obj -> {
-			MemberValuePair memVal = (MemberValuePair) obj;
-			AnnotationAttributeSetting attrSet = annotationsFactory.createAnnotationAttributeSetting();
+			final MemberValuePair memVal = (MemberValuePair) obj;
+			final AnnotationAttributeSetting attrSet = annotationsFactory.createAnnotationAttributeSetting();
 			InterfaceMethod methodProxy;
 			if (memVal.resolveMemberValuePairBinding() != null) {
 				methodProxy = jdtResolverUtility
@@ -88,15 +89,16 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 		});
 	}
 
-	private void handleSingleMemberAnnotation(Annotation annot, AnnotationInstance result) {
-		SingleAnnotationParameter param = annotationsFactory.createSingleAnnotationParameter();
+	private void handleSingleMemberAnnotation(final Annotation annot, final AnnotationInstance result) {
+		final SingleAnnotationParameter param = annotationsFactory.createSingleAnnotationParameter();
 		result.setParameter(param);
-		SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
+		final SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
 		typeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
 	}
 
 	@Inject
-	public void setTypeInstructionSeparationUtility(UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
+	public void setTypeInstructionSeparationUtility(
+			final UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
 		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 

@@ -27,7 +27,7 @@ public final class ClassifierExtension {
 		// Should not be initiated.
 	}
 
-	public static EList<ConcreteClassifier> getAllSuperClassifiers(Classifier classifier) {
+	public static EList<ConcreteClassifier> getAllSuperClassifiers(final Classifier classifier) {
 		// Method has to be specified in subclasses
 		throw new UnsupportedOperationException("Not implemented in superclass for: " + classifier);
 	}
@@ -36,8 +36,8 @@ public final class ClassifierExtension {
 	 * Adds an import of the given class to the compilation unit that contains this
 	 * classifier.
 	 */
-	public static void addImport(Classifier classifier, String nameOfClassToImport) {
-		CompilationUnit compilationUnit = classifier.getParentByType(CompilationUnit.class);
+	public static void addImport(final Classifier classifier, final String nameOfClassToImport) {
+		final CompilationUnit compilationUnit = classifier.getParentByType(CompilationUnit.class);
 		compilationUnit.addImport(nameOfClassToImport);
 	}
 
@@ -45,8 +45,8 @@ public final class ClassifierExtension {
 	 * Adds an import of the given package to the compilation unit that contains
 	 * this classifier.
 	 */
-	public static void addPackageImport(Classifier classifier, String packageName) {
-		CompilationUnit compilationUnit = classifier.getParentByType(CompilationUnit.class);
+	public static void addPackageImport(final Classifier classifier, final String packageName) {
+		final CompilationUnit compilationUnit = classifier.getParentByType(CompilationUnit.class);
 		compilationUnit.addPackageImport(packageName);
 	}
 }

@@ -21,10 +21,10 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	public HandlerPrefixExpression(UtilLayout utilLayout,
-			Converter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {
+	public HandlerPrefixExpression(final UtilLayout utilLayout,
+			final Converter<PrefixExpression, UnaryExpression> toUnaryExpressionConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final ExpressionsFactory expressionsFactory, final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toUnaryExpressionConverter = toUnaryExpressionConverter;
@@ -33,8 +33,8 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		PrefixExpression prefixExpr = (PrefixExpression) expr;
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final PrefixExpression prefixExpr = (PrefixExpression) expr;
 		tools.mdsd.jamopp.model.java.expressions.Expression expression = null;
 		if (prefixExpr.getOperator().equals(PrefixExpression.Operator.COMPLEMENT)
 				|| prefixExpr.getOperator().equals(PrefixExpression.Operator.NOT)
@@ -43,7 +43,7 @@ public class HandlerPrefixExpression implements ExpressionHandler {
 			expression = toUnaryExpressionConverter.convert(prefixExpr);
 		} else if (prefixExpr.getOperator().equals(PrefixExpression.Operator.DECREMENT)
 				|| prefixExpr.getOperator().equals(PrefixExpression.Operator.INCREMENT)) {
-			tools.mdsd.jamopp.model.java.expressions.PrefixUnaryModificationExpression result = expressionsFactory
+			final tools.mdsd.jamopp.model.java.expressions.PrefixUnaryModificationExpression result = expressionsFactory
 					.createPrefixUnaryModificationExpression();
 			if (prefixExpr.getOperator().equals(PrefixExpression.Operator.DECREMENT)) {
 				result.setOperator(operatorsFactory.createMinusMinus());

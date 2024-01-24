@@ -33,12 +33,12 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	public HandlerLambdaExpression(UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
-			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			ExpressionsFactory expressionsFactory, TypesFactory typesFactory,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
+	public HandlerLambdaExpression(final UtilLayout utilLayout, final JdtResolver iUtilJdtResolver,
+			final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final ExpressionsFactory expressionsFactory, final TypesFactory typesFactory,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.typesFactory = typesFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -51,9 +51,10 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		LambdaExpression lambda = (LambdaExpression) expr;
-		tools.mdsd.jamopp.model.java.expressions.LambdaExpression result = expressionsFactory.createLambdaExpression();
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final LambdaExpression lambda = (LambdaExpression) expr;
+		final tools.mdsd.jamopp.model.java.expressions.LambdaExpression result = expressionsFactory
+				.createLambdaExpression();
 		if (!lambda.parameters().isEmpty() && lambda.parameters().get(0) instanceof VariableDeclarationFragment) {
 			tools.mdsd.jamopp.model.java.expressions.ImplicitlyTypedLambdaParameters param;
 			if (lambda.hasParentheses()) {
@@ -62,8 +63,8 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 				param = expressionsFactory.createSingleImplicitLambdaParameter();
 			}
 			lambda.parameters().forEach(obj -> {
-				VariableDeclarationFragment frag = (VariableDeclarationFragment) obj;
-				IVariableBinding binding = frag.resolveBinding();
+				final VariableDeclarationFragment frag = (VariableDeclarationFragment) obj;
+				final IVariableBinding binding = frag.resolveBinding();
 				OrdinaryParameter nextParam;
 				if (binding != null) {
 					nextParam = iUtilJdtResolver.getOrdinaryParameter(binding);
@@ -77,7 +78,7 @@ public class HandlerLambdaExpression implements ExpressionHandler {
 			});
 			result.setParameters(param);
 		} else {
-			tools.mdsd.jamopp.model.java.expressions.ExplicitlyTypedLambdaParameters param = expressionsFactory
+			final tools.mdsd.jamopp.model.java.expressions.ExplicitlyTypedLambdaParameters param = expressionsFactory
 					.createExplicitlyTypedLambdaParameters();
 			lambda.parameters().forEach(obj -> param.getParameters()
 					.add(toOrdinaryParameterConverter.convert((SingleVariableDeclaration) obj)));

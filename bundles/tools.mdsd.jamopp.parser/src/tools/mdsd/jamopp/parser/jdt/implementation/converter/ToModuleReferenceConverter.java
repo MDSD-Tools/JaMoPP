@@ -1,11 +1,12 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
-import org.eclipse.jdt.core.dom.IModuleBinding;
-import org.eclipse.jdt.core.dom.Name;
-import tools.mdsd.jamopp.model.java.modules.ModuleReference;
-import tools.mdsd.jamopp.model.java.modules.ModulesFactory;
 import javax.inject.Inject;
 
+import org.eclipse.jdt.core.dom.IModuleBinding;
+import org.eclipse.jdt.core.dom.Name;
+
+import tools.mdsd.jamopp.model.java.modules.ModuleReference;
+import tools.mdsd.jamopp.model.java.modules.ModulesFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.jdt.interfaces.helper.UtilNamedElement;
 import tools.mdsd.jamopp.parser.jdt.interfaces.resolver.JdtResolver;
@@ -17,17 +18,17 @@ public class ToModuleReferenceConverter implements Converter<Name, ModuleReferen
 	private final JdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToModuleReferenceConverter(UtilNamedElement utilNamedElement, ModulesFactory modulesFactory,
-			JdtResolver jdtResolverUtility) {
+	public ToModuleReferenceConverter(final UtilNamedElement utilNamedElement, final ModulesFactory modulesFactory,
+			final JdtResolver jdtResolverUtility) {
 		this.modulesFactory = modulesFactory;
 		this.utilNamedElement = utilNamedElement;
 		this.jdtResolverUtility = jdtResolverUtility;
 	}
 
 	@Override
-	public ModuleReference convert(Name name) {
-		ModuleReference ref = modulesFactory.createModuleReference();
-		tools.mdsd.jamopp.model.java.containers.Module modProxy = jdtResolverUtility
+	public ModuleReference convert(final Name name) {
+		final ModuleReference ref = modulesFactory.createModuleReference();
+		final tools.mdsd.jamopp.model.java.containers.Module modProxy = jdtResolverUtility
 				.getModule((IModuleBinding) name.resolveBinding());
 		modProxy.setName("");
 		ref.setTarget(modProxy);

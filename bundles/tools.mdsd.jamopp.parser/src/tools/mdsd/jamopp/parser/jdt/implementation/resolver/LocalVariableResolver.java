@@ -17,8 +17,8 @@ public class LocalVariableResolver extends ResolverAbstract<LocalVariable, IVari
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public LocalVariableResolver(Map<String, LocalVariable> bindings, VariablesFactory variablesFactory,
-			Set<IVariableBinding> variableBindings, ToParameterNameConverter toParameterNameConverter) {
+	public LocalVariableResolver(final Map<String, LocalVariable> bindings, final VariablesFactory variablesFactory,
+			final Set<IVariableBinding> variableBindings, final ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variablesFactory = variablesFactory;
 		this.variableBindings = variableBindings;
@@ -26,18 +26,18 @@ public class LocalVariableResolver extends ResolverAbstract<LocalVariable, IVari
 	}
 
 	@Override
-	public LocalVariable getByBinding(IVariableBinding binding) {
+	public LocalVariable getByBinding(final IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override
-	public LocalVariable getByName(String name) {
+	public LocalVariable getByName(final String name) {
 		LocalVariable localVariable;
 		if (getBindings().containsKey(name)) {
 			localVariable = getBindings().get(name);
 		} else {
-			LocalVariable result = variablesFactory.createLocalVariable();
+			final LocalVariable result = variablesFactory.createLocalVariable();
 			getBindings().put(name, result);
 			localVariable = result;
 		}

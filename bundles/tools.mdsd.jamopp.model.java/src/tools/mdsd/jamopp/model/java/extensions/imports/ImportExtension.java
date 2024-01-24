@@ -34,11 +34,11 @@ public final class ImportExtension {
 	 * @param name the name of the classifier
 	 * @return imported classifier (proxy)
 	 */
-	public static ConcreteClassifier getImportedClassifier(Import imp, String name) {
-		String containerName = imp.getNamespacesAsString();
+	public static ConcreteClassifier getImportedClassifier(final Import imp, final String name) {
+		final String containerName = imp.getNamespacesAsString();
 		ConcreteClassifier result = null;
 		if (containerName != null) {
-			String fullQualifiedName = containerName + "." + name;
+			final String fullQualifiedName = containerName + "." + name;
 			result = imp.getConcreteClassifier(fullQualifiedName);
 		}
 		return result;
@@ -51,8 +51,8 @@ public final class ImportExtension {
 	 * @param _this
 	 * @return imported classifier (proxy)
 	 */
-	public static EList<ConcreteClassifier> getImportedClassifiers(Import imp) {
-		String containerName = imp.getNamespacesAsString();
+	public static EList<ConcreteClassifier> getImportedClassifiers(final Import imp) {
+		final String containerName = imp.getNamespacesAsString();
 		EList<ConcreteClassifier> result;
 		if (containerName == null) {
 			result = ECollections.emptyEList();

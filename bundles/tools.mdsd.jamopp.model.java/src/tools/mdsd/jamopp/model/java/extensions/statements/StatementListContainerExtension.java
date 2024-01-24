@@ -35,10 +35,11 @@ public final class StatementListContainerExtension {
 	 * @return a local variable with the given name or <code>null</code> if no such
 	 *         variable was found
 	 */
-	public static LocalVariable getLocalVariable(StatementListContainer statementListContainer, String name) {
-		List<LocalVariable> localVariables = statementListContainer.getChildrenByType(LocalVariable.class);
+	public static LocalVariable getLocalVariable(final StatementListContainer statementListContainer,
+			final String name) {
+		final List<LocalVariable> localVariables = statementListContainer.getChildrenByType(LocalVariable.class);
 		LocalVariable result = null;
-		for (LocalVariable localVariable : localVariables) {
+		for (final LocalVariable localVariable : localVariables) {
 			if (localVariable.getName().equals(name)) {
 				result = localVariable;
 			}

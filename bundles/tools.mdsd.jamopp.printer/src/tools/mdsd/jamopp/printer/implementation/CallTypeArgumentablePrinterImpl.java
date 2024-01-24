@@ -3,11 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import tools.mdsd.jamopp.model.java.generics.CallTypeArgumentable;
-import tools.mdsd.jamopp.model.java.generics.TypeArgument;
-
 import javax.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.generics.CallTypeArgumentable;
+import tools.mdsd.jamopp.model.java.generics.TypeArgument;
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class CallTypeArgumentablePrinterImpl implements Printer<CallTypeArgumentable> {
@@ -15,18 +14,18 @@ public class CallTypeArgumentablePrinterImpl implements Printer<CallTypeArgument
 	private final Printer<TypeArgument> typeArgumentPrinter;
 
 	@Inject
-	public CallTypeArgumentablePrinterImpl(Printer<TypeArgument> typeArgumentPrinter) {
+	public CallTypeArgumentablePrinterImpl(final Printer<TypeArgument> typeArgumentPrinter) {
 		this.typeArgumentPrinter = typeArgumentPrinter;
 	}
 
 	@Override
-	public void print(CallTypeArgumentable element, BufferedWriter writer) throws IOException {
+	public void print(final CallTypeArgumentable element, final BufferedWriter writer) throws IOException {
 		if (!element.getCallTypeArguments().isEmpty()) {
 			writer.append("<");
-			this.typeArgumentPrinter.print(element.getCallTypeArguments().get(0), writer);
+			typeArgumentPrinter.print(element.getCallTypeArguments().get(0), writer);
 			for (var index = 1; index < element.getCallTypeArguments().size(); index++) {
 				writer.append(", ");
-				this.typeArgumentPrinter.print(element.getCallTypeArguments().get(index), writer);
+				typeArgumentPrinter.print(element.getCallTypeArguments().get(index), writer);
 			}
 			writer.append(">");
 		}

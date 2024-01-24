@@ -34,14 +34,14 @@ public class ToLocalVariableConverter
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	public ToLocalVariableConverter(UtilNamedElement utilNamedElement,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
-			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public ToLocalVariableConverter(final UtilNamedElement utilNamedElement,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			final Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -55,10 +55,10 @@ public class ToLocalVariableConverter
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public tools.mdsd.jamopp.model.java.variables.LocalVariable convert(VariableDeclarationExpression expr) {
-		VariableDeclarationFragment frag = (VariableDeclarationFragment) expr.fragments().get(0);
+	public tools.mdsd.jamopp.model.java.variables.LocalVariable convert(final VariableDeclarationExpression expr) {
+		final VariableDeclarationFragment frag = (VariableDeclarationFragment) expr.fragments().get(0);
 		tools.mdsd.jamopp.model.java.variables.LocalVariable loc;
-		IVariableBinding binding = frag.resolveBinding();
+		final IVariableBinding binding = frag.resolveBinding();
 		if (binding == null) {
 			loc = jdtResolverUtility.getLocalVariable(frag.getName().getIdentifier() + "-" + frag.hashCode());
 		} else {

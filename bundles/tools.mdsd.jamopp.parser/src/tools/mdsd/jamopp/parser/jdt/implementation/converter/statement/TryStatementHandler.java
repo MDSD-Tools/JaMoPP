@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.CatchBlock;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
@@ -27,12 +27,12 @@ public class TryStatementHandler implements StatementHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
-	public TryStatementHandler(UtilReferenceWalker utilReferenceWalker,
-			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
-			Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
-			Converter<CatchClause, CatchBlock> toCatchblockConverter, StatementsFactory statementsFactory,
-			UtilLayout layoutInformationConverter,
-			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
+	public TryStatementHandler(final UtilReferenceWalker utilReferenceWalker,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
+			final Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
+			final Converter<CatchClause, CatchBlock> toCatchblockConverter, final StatementsFactory statementsFactory,
+			final UtilLayout layoutInformationConverter,
+			final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilReferenceWalker = utilReferenceWalker;
@@ -44,11 +44,11 @@ public class TryStatementHandler implements StatementHandler {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		TryStatement trySt = (TryStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.TryBlock result = statementsFactory.createTryBlock();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final TryStatement trySt = (TryStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.TryBlock result = statementsFactory.createTryBlock();
 		trySt.resources().forEach(obj -> {
-			Expression resExpr = (Expression) obj;
+			final Expression resExpr = (Expression) obj;
 			if (resExpr instanceof VariableDeclarationExpression) {
 				result.getResources().add(toLocalVariableConverter.convert((VariableDeclarationExpression) resExpr));
 			} else {

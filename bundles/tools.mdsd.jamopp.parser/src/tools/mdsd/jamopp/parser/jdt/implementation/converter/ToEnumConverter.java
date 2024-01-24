@@ -23,9 +23,10 @@ public class ToEnumConverter implements Converter<EnumDeclaration, Enumeration> 
 	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	public ToEnumConverter(JdtResolver iUtilJdtResolver, Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter,
-			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
+	public ToEnumConverter(final JdtResolver iUtilJdtResolver,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<EnumConstantDeclaration, EnumConstant> toEnumConstantConverter,
+			@Named("ToClassMemberConverter") final Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.toEnumConstantConverter = toEnumConstantConverter;
@@ -34,8 +35,8 @@ public class ToEnumConverter implements Converter<EnumDeclaration, Enumeration> 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Enumeration convert(EnumDeclaration enumDecl) {
-		Enumeration result = iUtilJdtResolver.getEnumeration(enumDecl.resolveBinding());
+	public Enumeration convert(final EnumDeclaration enumDecl) {
+		final Enumeration result = iUtilJdtResolver.getEnumeration(enumDecl.resolveBinding());
 		enumDecl.superInterfaceTypes()
 				.forEach(obj -> result.getImplements().add(toTypeReferenceConverter.convert((Type) obj)));
 		enumDecl.enumConstants().forEach(

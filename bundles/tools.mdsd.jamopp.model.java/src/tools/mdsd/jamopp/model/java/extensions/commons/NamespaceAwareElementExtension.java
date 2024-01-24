@@ -33,9 +33,9 @@ public final class NamespaceAwareElementExtension {
 	 * @param namespaceAwareElement the given namespace aware element.
 	 * @return single string representation of namespace.
 	 */
-	public static String getNamespacesAsString(NamespaceAwareElement namespaceAwareElement) {
-		StringBuilder builder = new StringBuilder();
-		for (String part : namespaceAwareElement.getNamespaces()) {
+	public static String getNamespacesAsString(final NamespaceAwareElement namespaceAwareElement) {
+		final StringBuilder builder = new StringBuilder();
+		for (final String part : namespaceAwareElement.getNamespaces()) {
 			builder.append(part);
 			builder.append('.');
 		}
@@ -51,7 +51,7 @@ public final class NamespaceAwareElementExtension {
 	 * @param namespaceAwareElement the namespace aware element.
 	 * @return classifier at namespace.
 	 */
-	public static ConcreteClassifier getClassifierAtNamespaces(NamespaceAwareElement namespaceAwareElement) {
+	public static ConcreteClassifier getClassifierAtNamespaces(final NamespaceAwareElement namespaceAwareElement) {
 		return JavaClasspath.get().getConcreteClassifier(namespaceAwareElement.getNamespacesAsString());
 	}
 }

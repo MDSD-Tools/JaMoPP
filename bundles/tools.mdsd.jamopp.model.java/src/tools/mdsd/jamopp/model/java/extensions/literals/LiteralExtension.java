@@ -33,7 +33,7 @@ public final class LiteralExtension {
 	/**
 	 * @return type of the literal
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class getOneType(Literal literal) {
+	public static tools.mdsd.jamopp.model.java.classifiers.Class getOneType(final Literal literal) {
 		// Overrides implementation in Expression
 		tools.mdsd.jamopp.model.java.classifiers.Class javaClass = null;
 

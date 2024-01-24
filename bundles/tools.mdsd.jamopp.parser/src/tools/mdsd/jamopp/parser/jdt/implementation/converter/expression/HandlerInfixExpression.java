@@ -33,14 +33,14 @@ public class HandlerInfixExpression implements ExpressionHandler {
 	private final Map<Function<InfixExpression, tools.mdsd.jamopp.model.java.expressions.Expression>, Set<InfixExpression.Operator>> mapping;
 
 	@Inject
-	public HandlerInfixExpression(UtilLayout utilLayout,
-			Converter<InfixExpression, ShiftExpression> toShiftExpressionConverter,
-			Converter<InfixExpression, RelationExpression> toRelationExpressionConverter,
-			Converter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			Converter<InfixExpression, EqualityExpression> toEqualityExpressionConverter,
-			Converter<InfixExpression, AdditiveExpression> toAdditiveExpressionConverter,
-			ExpressionsFactory expressionsFactory) {
+	public HandlerInfixExpression(final UtilLayout utilLayout,
+			final Converter<InfixExpression, ShiftExpression> toShiftExpressionConverter,
+			final Converter<InfixExpression, RelationExpression> toRelationExpressionConverter,
+			final Converter<InfixExpression, MultiplicativeExpression> toMultiplicativeExpressionConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final Converter<InfixExpression, EqualityExpression> toEqualityExpressionConverter,
+			final Converter<InfixExpression, AdditiveExpression> toAdditiveExpressionConverter,
+			final ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;
@@ -64,10 +64,10 @@ public class HandlerInfixExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		InfixExpression infix = (InfixExpression) expr;
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final InfixExpression infix = (InfixExpression) expr;
 		tools.mdsd.jamopp.model.java.expressions.Expression result = null;
-		for (Entry<Function<InfixExpression, tools.mdsd.jamopp.model.java.expressions.Expression>, Set<Operator>> entry : mapping
+		for (final Entry<Function<InfixExpression, tools.mdsd.jamopp.model.java.expressions.Expression>, Set<Operator>> entry : mapping
 				.entrySet()) {
 			if (entry.getValue().contains(infix.getOperator())) {
 				result = entry.getKey().apply(infix);
@@ -78,9 +78,9 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorAnd(InfixExpression infix) {
+	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorAnd(final InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.AndExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+		final tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
 				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.AndExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.AndExpression) expression;
@@ -97,9 +97,9 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorXor(InfixExpression infix) {
+	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorXor(final InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+		final tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
 				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpression) expression;
@@ -117,9 +117,9 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorOr(InfixExpression infix) {
+	private tools.mdsd.jamopp.model.java.expressions.Expression handleOperatorOr(final InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+		final tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
 				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.InclusiveOrExpression) expression;
@@ -137,9 +137,9 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalAnd(InfixExpression infix) {
+	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalAnd(final InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+		final tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
 				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ConditionalAndExpression) expression;
@@ -155,9 +155,9 @@ public class HandlerInfixExpression implements ExpressionHandler {
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalOr(InfixExpression infix) {
+	private tools.mdsd.jamopp.model.java.expressions.Expression handleConditionalOr(final InfixExpression infix) {
 		tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression result;
-		tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
+		final tools.mdsd.jamopp.model.java.expressions.Expression expression = toExpressionConverter
 				.convert(infix.getLeftOperand());
 		if (expression instanceof tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression) {
 			result = (tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression) expression;

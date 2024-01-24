@@ -20,25 +20,25 @@ public class BindingToPackageConverter
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	public BindingToPackageConverter(JdtResolver jdtTResolverUtility,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingToPackageConverter(final JdtResolver jdtTResolverUtility,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.Package convert(IPackageBinding binding) {
-		tools.mdsd.jamopp.model.java.containers.Package pack = jdtTResolverUtility.getPackage(binding);
+	public tools.mdsd.jamopp.model.java.containers.Package convert(final IPackageBinding binding) {
+		final tools.mdsd.jamopp.model.java.containers.Package pack = jdtTResolverUtility.getPackage(binding);
 		pack.setModule(jdtTResolverUtility.getModule(binding.getModule()));
 		if (pack.getAnnotations().isEmpty()) {
 			pack.getNamespaces().clear();
 			Collections.addAll(pack.getNamespaces(), binding.getNameComponents());
 			pack.setName("");
 			try {
-				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+				for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 					pack.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 		}

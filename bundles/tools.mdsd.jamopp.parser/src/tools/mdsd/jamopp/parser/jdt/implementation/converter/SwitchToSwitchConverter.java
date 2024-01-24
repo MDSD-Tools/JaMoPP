@@ -19,9 +19,9 @@ public class SwitchToSwitchConverter implements Converter<SwitchStatement, Switc
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	public SwitchToSwitchConverter(ToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
-			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+	public SwitchToSwitchConverter(final ToSwitchCasesAndSetConverter toSwitchCasesAndSetConverter,
+			final StatementsFactory statementsFactory, final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -29,8 +29,8 @@ public class SwitchToSwitchConverter implements Converter<SwitchStatement, Switc
 	}
 
 	@Override
-	public Switch convert(SwitchStatement switchSt) {
-		Switch result = statementsFactory.createSwitch();
+	public Switch convert(final SwitchStatement switchSt) {
+		final Switch result = statementsFactory.createSwitch();
 		result.setVariable(expressionConverterUtility.convert(switchSt.getExpression()));
 		toSwitchCasesAndSetConverter.convert(result, switchSt.statements());
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, switchSt);

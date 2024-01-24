@@ -14,19 +14,20 @@ public class ToFieldNameConverter {
 	private final Provider<ToTypeNameConverter> toTypeNameConverter;
 
 	@Inject
-	public ToFieldNameConverter(Provider<ToTypeNameConverter> toTypeNameConverter, Map<IBinding, String> nameCache) {
+	public ToFieldNameConverter(final Provider<ToTypeNameConverter> toTypeNameConverter,
+			final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
-	public String convertToFieldName(IVariableBinding binding) {
+	public String convertToFieldName(final IVariableBinding binding) {
 		String result;
 		if (binding == null || !binding.isField()) {
 			result = "";
 		} else if (nameCache.containsKey(binding)) {
 			result = nameCache.get(binding);
 		} else {
-			String name = toTypeNameConverter.get().convertToTypeName(binding.getDeclaringClass()) + "::"
+			final String name = toTypeNameConverter.get().convertToTypeName(binding.getDeclaringClass()) + "::"
 					+ binding.getName();
 			nameCache.put(binding, name);
 			result = name;

@@ -49,7 +49,7 @@ public final class AnnotableAndModifiableExtension {
 	/**
 	 * Sets the visibility of this element to <code>private</code>.
 	 */
-	public static void makePrivate(AnnotableAndModifiable annotableAndModifiable) {
+	public static void makePrivate(final AnnotableAndModifiable annotableAndModifiable) {
 		if (annotableAndModifiable.isPrivate()) {
 			return;
 		}
@@ -61,7 +61,7 @@ public final class AnnotableAndModifiableExtension {
 	/**
 	 * Sets the visibility of this element to <code>public</code>.
 	 */
-	public static void makePublic(AnnotableAndModifiable annotableAndModifiable) {
+	public static void makePublic(final AnnotableAndModifiable annotableAndModifiable) {
 		if (annotableAndModifiable.isPublic()) {
 			return;
 		}
@@ -73,7 +73,7 @@ public final class AnnotableAndModifiableExtension {
 	/**
 	 * Sets the visibility of this element to <code>protected</code>.
 	 */
-	public static void makeProtected(AnnotableAndModifiable annotableAndModifiable) {
+	public static void makeProtected(final AnnotableAndModifiable annotableAndModifiable) {
 		if (annotableAndModifiable.isProtected()) {
 			return;
 		}
@@ -85,19 +85,19 @@ public final class AnnotableAndModifiableExtension {
 	/**
 	 * Removes all modifiers from this element.
 	 */
-	public static void removeAllModifiers(AnnotableAndModifiable annotableAndModifiable) {
-		List<Modifier> modifiers = annotableAndModifiable.getModifiers();
-		EList<AnnotationInstanceOrModifier> elements = annotableAndModifiable.getAnnotationsAndModifiers();
+	public static void removeAllModifiers(final AnnotableAndModifiable annotableAndModifiable) {
+		final List<Modifier> modifiers = annotableAndModifiable.getModifiers();
+		final EList<AnnotationInstanceOrModifier> elements = annotableAndModifiable.getAnnotationsAndModifiers();
 		elements.removeAll(modifiers);
 	}
 
 	/**
 	 * Returns an unmodifiable list of the modifiers that apply to this element.
 	 */
-	public static EList<Modifier> getModifiers(AnnotableAndModifiable annotableAndModifiable) {
-		EList<AnnotationInstanceOrModifier> elements = annotableAndModifiable.getAnnotationsAndModifiers();
-		EList<Modifier> modifiers = new BasicEList<>();
-		for (AnnotationInstanceOrModifier next : elements) {
+	public static EList<Modifier> getModifiers(final AnnotableAndModifiable annotableAndModifiable) {
+		final EList<AnnotationInstanceOrModifier> elements = annotableAndModifiable.getAnnotationsAndModifiers();
+		final EList<Modifier> modifiers = new BasicEList<>();
+		for (final AnnotationInstanceOrModifier next : elements) {
 			if (next instanceof Modifier) {
 				modifiers.add((Modifier) next);
 			}
@@ -108,10 +108,11 @@ public final class AnnotableAndModifiableExtension {
 	/**
 	 * Returns an unmodifiable list of the annotations that apply to this element.
 	 */
-	public static EList<AnnotationInstance> getAnnotationInstances(AnnotableAndModifiable annotableAndModifiable) {
-		EList<AnnotationInstanceOrModifier> elements = annotableAndModifiable.getAnnotationsAndModifiers();
-		EList<AnnotationInstance> annotations = new BasicEList<>();
-		for (AnnotationInstanceOrModifier next : elements) {
+	public static EList<AnnotationInstance> getAnnotationInstances(
+			final AnnotableAndModifiable annotableAndModifiable) {
+		final EList<AnnotationInstanceOrModifier> elements = annotableAndModifiable.getAnnotationsAndModifiers();
+		final EList<AnnotationInstance> annotations = new BasicEList<>();
+		for (final AnnotationInstanceOrModifier next : elements) {
 			if (next instanceof AnnotationInstance) {
 				annotations.add((AnnotationInstance) next);
 			}
@@ -125,7 +126,7 @@ public final class AnnotableAndModifiableExtension {
 	 *
 	 * @param newModifier the modifier to add
 	 */
-	public static void addModifier(AnnotableAndModifiable annotableAndModifiable, Modifier newModifier) {
+	public static void addModifier(final AnnotableAndModifiable annotableAndModifiable, final Modifier newModifier) {
 		annotableAndModifiable.getAnnotationsAndModifiers().add(newModifier);
 	}
 
@@ -134,10 +135,11 @@ public final class AnnotableAndModifiableExtension {
 	 *
 	 * @param modifierType
 	 */
-	public static void removeModifier(AnnotableAndModifiable annotableAndModifiable, Class<?> modifierType) {
-		List<AnnotationInstanceOrModifier> modifiers = annotableAndModifiable.getAnnotationsAndModifiers();
-		List<AnnotationInstanceOrModifier> modifiersToRemove = new ArrayList<>();
-		for (AnnotationInstanceOrModifier modifier : modifiers) {
+	public static void removeModifier(final AnnotableAndModifiable annotableAndModifiable,
+			final Class<?> modifierType) {
+		final List<AnnotationInstanceOrModifier> modifiers = annotableAndModifiable.getAnnotationsAndModifiers();
+		final List<AnnotationInstanceOrModifier> modifiersToRemove = new ArrayList<>();
+		for (final AnnotationInstanceOrModifier modifier : modifiers) {
 			if (modifierType.isInstance(modifier)) {
 				modifiersToRemove.add(modifier);
 			}
@@ -145,15 +147,15 @@ public final class AnnotableAndModifiableExtension {
 		modifiers.removeAll(modifiersToRemove);
 	}
 
-	public static boolean isPublic(AnnotableAndModifiable annotableAndModifiable) {
+	public static boolean isPublic(final AnnotableAndModifiable annotableAndModifiable) {
 		return annotableAndModifiable.hasModifier(Public.class);
 	}
 
-	public static boolean isPrivate(AnnotableAndModifiable annotableAndModifiable) {
+	public static boolean isPrivate(final AnnotableAndModifiable annotableAndModifiable) {
 		return annotableAndModifiable.hasModifier(Private.class);
 	}
 
-	public static boolean isProtected(AnnotableAndModifiable annotableAndModifiable) {
+	public static boolean isProtected(final AnnotableAndModifiable annotableAndModifiable) {
 		return annotableAndModifiable.hasModifier(Protected.class);
 	}
 
@@ -162,10 +164,10 @@ public final class AnnotableAndModifiableExtension {
 	 *
 	 * @param type
 	 */
-	public static boolean hasModifier(AnnotableAndModifiable annotableAndModifiable, Class<?> type) {
+	public static boolean hasModifier(final AnnotableAndModifiable annotableAndModifiable, final Class<?> type) {
 		boolean result = false;
-		List<AnnotationInstanceOrModifier> modifiers = annotableAndModifiable.getAnnotationsAndModifiers();
-		for (AnnotationInstanceOrModifier modifier : modifiers) {
+		final List<AnnotationInstanceOrModifier> modifiers = annotableAndModifiable.getAnnotationsAndModifiers();
+		for (final AnnotationInstanceOrModifier modifier : modifiers) {
 			if (type.isInstance(modifier)) {
 				result = true;
 			}
@@ -178,14 +180,14 @@ public final class AnnotableAndModifiableExtension {
 	 * modifier <code>static</code> or because this element is part of an
 	 * interface).
 	 */
-	public static boolean isStatic(AnnotableAndModifiable annotableAndModifiable) {
+	public static boolean isStatic(final AnnotableAndModifiable annotableAndModifiable) {
 		// all members of an interface are static by default
 		boolean result = false;
 		if (annotableAndModifiable.eContainer() instanceof Interface) {
 			result = true;
 		}
 
-		for (AnnotationInstanceOrModifier modifier : annotableAndModifiable.getAnnotationsAndModifiers()) {
+		for (final AnnotationInstanceOrModifier modifier : annotableAndModifiable.getAnnotationsAndModifiers()) {
 			if (modifier instanceof Static) {
 				result = true;
 				break;
@@ -194,7 +196,7 @@ public final class AnnotableAndModifiableExtension {
 		return result;
 	}
 
-	public static boolean isHidden(AnnotableAndModifiable annotableAndModifiable, Commentable context) {
+	public static boolean isHidden(final AnnotableAndModifiable annotableAndModifiable, final Commentable context) {
 		// all members of an interface are public by default
 		Commentable lContext = context;
 		if (annotableAndModifiable.eIsProxy() || annotableAndModifiable.eContainer() instanceof Interface) {
@@ -205,19 +207,19 @@ public final class AnnotableAndModifiableExtension {
 			return true;
 		}
 		ConcreteClassifier iContextClassifier = lContext.getContainingConcreteClassifier();
-		ConcreteClassifier myClassifier = ((Commentable) annotableAndModifiable.eContainer())
+		final ConcreteClassifier myClassifier = ((Commentable) annotableAndModifiable.eContainer())
 				.getParentConcreteClassifier();
 		if (lContext instanceof Reference && ((Reference) lContext).getPrevious() instanceof SelfReference) {
-			SelfReference selfReference = (SelfReference) ((Reference) lContext).getPrevious();
+			final SelfReference selfReference = (SelfReference) ((Reference) lContext).getPrevious();
 			if (selfReference.getPrevious() != null) {
-				Type type = selfReference.getPrevious().getReferencedType();
+				final Type type = selfReference.getPrevious().getReferencedType();
 				if (type instanceof ConcreteClassifier) {
 					iContextClassifier = (ConcreteClassifier) type;
 				}
 			}
 		}
 
-		for (AnnotationInstanceOrModifier modifier : annotableAndModifiable.getAnnotationsAndModifiers()) {
+		for (final AnnotationInstanceOrModifier modifier : annotableAndModifiable.getAnnotationsAndModifiers()) {
 			if (modifier instanceof Private) {
 				return myClassifier.equalsType(0, iContextClassifier, 0);
 			} else if (modifier instanceof Public) {
@@ -232,8 +234,8 @@ public final class AnnotableAndModifiableExtension {
 				|| !annotableAndModifiable.getContainingPackageName().equals(lContext.getContainingPackageName());
 	}
 
-	private static boolean checkProtected(ConcreteClassifier iContextClassifier, ConcreteClassifier myClassifier,
-			Commentable commentable, Commentable lContext) {
+	private static boolean checkProtected(final ConcreteClassifier iContextClassifier,
+			final ConcreteClassifier myClassifier, final Commentable commentable, final Commentable lContext) {
 		// package visibility
 		if (commentable.getContainingPackageName() != null
 				&& commentable.getContainingPackageName().equals(lContext.getContainingPackageName())) {

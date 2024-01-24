@@ -15,23 +15,23 @@ public class ToMethodNameConverter {
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public ToMethodNameConverter(ToTypeNameConverter toTypeNameConverter, Map<IBinding, String> nameCache) {
+	public ToMethodNameConverter(final ToTypeNameConverter toTypeNameConverter, final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
-	public String convertToMethodName(IMethodBinding binding) {
+	public String convertToMethodName(final IMethodBinding binding) {
 		String result;
 		if (binding == null) {
 			result = "";
 		} else if (nameCache.containsKey(binding)) {
 			result = nameCache.get(binding);
 		} else {
-			IMethodBinding methodDeclaration = binding.getMethodDeclaration();
-			StringBuilder builder = new StringBuilder();
+			final IMethodBinding methodDeclaration = binding.getMethodDeclaration();
+			final StringBuilder builder = new StringBuilder();
 			builder.append(toTypeNameConverter.convertToTypeName(methodDeclaration.getDeclaringClass())).append("::")
 					.append(methodDeclaration.getName()).append('(');
-			for (ITypeBinding p : methodDeclaration.getParameterTypes()) {
+			for (final ITypeBinding p : methodDeclaration.getParameterTypes()) {
 				builder.append(toTypeNameConverter.convertToTypeName(p));
 				for (int i = 0; i < p.getDimensions(); i++) {
 					builder.append("[]");
@@ -43,7 +43,7 @@ public class ToMethodNameConverter {
 			} else {
 				builder.append(toTypeNameConverter.convertToTypeName(methodDeclaration.getReturnType()));
 			}
-			String name = builder.toString();
+			final String name = builder.toString();
 			nameCache.put(methodDeclaration, name);
 			result = name;
 		}

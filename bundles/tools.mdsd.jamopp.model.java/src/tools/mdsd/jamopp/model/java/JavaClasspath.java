@@ -59,42 +59,42 @@ public final class JavaClasspath {
 		classifiers.clear();
 	}
 
-	public void registerPackage(tools.mdsd.jamopp.model.java.containers.Package pack) {
+	public void registerPackage(final tools.mdsd.jamopp.model.java.containers.Package pack) {
 		packages.add(pack);
 	}
 
-	public void registerModule(tools.mdsd.jamopp.model.java.containers.Module module) {
+	public void registerModule(final tools.mdsd.jamopp.model.java.containers.Module module) {
 		modules.add(module);
 	}
 
-	public void registerConcreteClassifier(ConcreteClassifier classifier) {
+	public void registerConcreteClassifier(final ConcreteClassifier classifier) {
 		classifiers.add(classifier);
 	}
 
-	public tools.mdsd.jamopp.model.java.containers.Package getPackage(String packageName) {
+	public tools.mdsd.jamopp.model.java.containers.Package getPackage(final String packageName) {
 		return packages.stream().filter(p -> p.getNamespacesAsString().equals(packageName)).findFirst().orElse(null);
 	}
 
-	public tools.mdsd.jamopp.model.java.containers.Module getModule(String moduleName) {
+	public tools.mdsd.jamopp.model.java.containers.Module getModule(final String moduleName) {
 		return modules.stream().filter(m -> m.getNamespacesAsString().equals(moduleName)).findFirst().orElse(null);
 	}
 
-	public ConcreteClassifier getConcreteClassifier(URI uri) {
+	public ConcreteClassifier getConcreteClassifier(final URI uri) {
 		return classifiers.stream()
 				.filter(c -> c.eResource() != null && c.eResource().getURI().toString().equals(uri.toString()))
 				.findFirst().orElse(null);
 	}
 
-	public ConcreteClassifier getConcreteClassifier(String fullQualifiedClassifierName) {
+	public ConcreteClassifier getConcreteClassifier(final String fullQualifiedClassifierName) {
 		return classifiers.stream().filter(c -> c.getQualifiedName().equals(fullQualifiedClassifierName)).findFirst()
 				.orElse(null);
 	}
 
-	public ConcreteClassifier getFirstConcreteClassifier(String simpleClassifierName) {
+	public ConcreteClassifier getFirstConcreteClassifier(final String simpleClassifierName) {
 		return classifiers.stream().filter(c -> c.getName().equals(simpleClassifierName)).findFirst().orElse(null);
 	}
 
-	public CompilationUnit getCompilationUnit(String fullQualifiedClassifierName) {
+	public CompilationUnit getCompilationUnit(final String fullQualifiedClassifierName) {
 		ConcreteClassifier classifier = getConcreteClassifier(fullQualifiedClassifierName);
 		CompilationUnit result = null;
 		if (classifier != null) {
@@ -108,11 +108,12 @@ public final class JavaClasspath {
 		return result;
 	}
 
-	public Resource getResource(URI resourceURI) {
-		ConcreteClassifier classifier = getConcreteClassifier(resourceURI);
-		tools.mdsd.jamopp.model.java.containers.Package pack = packages.stream().filter(p -> p.eResource() != null)
+	public Resource getResource(final URI resourceURI) {
+		final ConcreteClassifier classifier = getConcreteClassifier(resourceURI);
+		final tools.mdsd.jamopp.model.java.containers.Package pack = packages.stream()
+				.filter(p -> p.eResource() != null)
 				.filter(p -> p.eResource().getURI().toString().equals(resourceURI.toString())).findFirst().orElse(null);
-		tools.mdsd.jamopp.model.java.containers.Module mod = modules.stream().filter(m -> m.eResource() != null)
+		final tools.mdsd.jamopp.model.java.containers.Module mod = modules.stream().filter(m -> m.eResource() != null)
 				.filter(m -> m.eResource().getURI().toString().equals(resourceURI.toString())).findFirst().orElse(null);
 
 		Resource result = null;

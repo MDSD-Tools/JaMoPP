@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.AndExpression;
 import tools.mdsd.jamopp.model.java.expressions.AndExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.ExclusiveOrExpressionChild;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ExclusiveOrExpressionChildPrinterImpl implements Printer<ExclusiveOrExpressionChild> {
@@ -17,18 +16,18 @@ public class ExclusiveOrExpressionChildPrinterImpl implements Printer<ExclusiveO
 	private final Printer<AndExpression> andExpressionPrinter;
 
 	@Inject
-	public ExclusiveOrExpressionChildPrinterImpl(Printer<AndExpression> andExpressionPrinter,
-			Printer<AndExpressionChild> andExpressionChildPrinter) {
+	public ExclusiveOrExpressionChildPrinterImpl(final Printer<AndExpression> andExpressionPrinter,
+			final Printer<AndExpressionChild> andExpressionChildPrinter) {
 		this.andExpressionPrinter = andExpressionPrinter;
 		this.andExpressionChildPrinter = andExpressionChildPrinter;
 	}
 
 	@Override
-	public void print(ExclusiveOrExpressionChild element, BufferedWriter writer) throws IOException {
+	public void print(final ExclusiveOrExpressionChild element, final BufferedWriter writer) throws IOException {
 		if (element instanceof AndExpression) {
-			this.andExpressionPrinter.print((AndExpression) element, writer);
+			andExpressionPrinter.print((AndExpression) element, writer);
 		} else {
-			this.andExpressionChildPrinter.print((AndExpressionChild) element, writer);
+			andExpressionChildPrinter.print((AndExpressionChild) element, writer);
 		}
 	}
 

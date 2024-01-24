@@ -13,12 +13,12 @@ public class ToAdditiveOperatorConverter implements Converter<InfixExpression.Op
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	public ToAdditiveOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToAdditiveOperatorConverter(final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public AdditiveOperator convert(InfixExpression.Operator operator) {
+	public AdditiveOperator convert(final InfixExpression.Operator operator) {
 		AdditiveOperator result = null;
 		if (operator.equals(InfixExpression.Operator.PLUS)) {
 			result = operatorsFactory.createAddition();

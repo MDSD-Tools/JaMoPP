@@ -18,11 +18,11 @@ public class MethodCompleter {
 	private final ClassResolverSynthetic classResolverSynthetic;
 
 	@Inject
-	public MethodCompleter(Set<IMethodBinding> methodBindings,
-			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromBindings,
-			AnonymousClassResolver anonymousClassResolver, ToTypeNameConverter toTypeNameConverter,
-			ToMethodNameConverter toMethodNameConverter, ClassifierResolver classifierResolver,
-			ClassResolverSynthetic classResolverSynthetic) {
+	public MethodCompleter(final Set<IMethodBinding> methodBindings,
+			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromBindings,
+			final AnonymousClassResolver anonymousClassResolver, final ToTypeNameConverter toTypeNameConverter,
+			final ToMethodNameConverter toMethodNameConverter, final ClassifierResolver classifierResolver,
+			final ClassResolverSynthetic classResolverSynthetic) {
 		this.anonymousClassResolver = anonymousClassResolver;
 		this.methodBindings = methodBindings;
 		extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromBindings;
@@ -32,18 +32,18 @@ public class MethodCompleter {
 		this.classResolverSynthetic = classResolverSynthetic;
 	}
 
-	public void completeMethod(String methodName, tools.mdsd.jamopp.model.java.members.Member method) {
+	public void completeMethod(final String methodName, final tools.mdsd.jamopp.model.java.members.Member method) {
 		if (method.eContainer() == null) {
-			IMethodBinding methBind = methodBindings.stream()
+			final IMethodBinding methBind = methodBindings.stream()
 					.filter(meth -> methodName.equals(toMethodNameConverter.convertToMethodName(meth))).findFirst()
 					.orElse(null);
 			if (methBind != null) {
-				tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
+				final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
 						.getClassifier(methBind.getDeclaringClass());
 				if (cla == null) {
-					String typeName = toTypeNameConverter.convertToTypeName(methBind.getDeclaringClass());
+					final String typeName = toTypeNameConverter.convertToTypeName(methBind.getDeclaringClass());
 					if (anonymousClassResolver.getBindings().containsKey(typeName)) {
-						tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
+						final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
 								.getBindings().get(typeName);
 						if (!anonClass.getMembers().contains(method)) {
 							anonClass.getMembers().add(method);
@@ -52,7 +52,7 @@ public class MethodCompleter {
 						classResolverSynthetic.addToSyntheticClass(method);
 					}
 				} else if (!extractAdditionalInfosFromTypeBindings
-						&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
+						&& cla instanceof final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
 						&& !classifier.getMembers().contains(method)) {
 					classifier.getMembers().add(method);
 				}

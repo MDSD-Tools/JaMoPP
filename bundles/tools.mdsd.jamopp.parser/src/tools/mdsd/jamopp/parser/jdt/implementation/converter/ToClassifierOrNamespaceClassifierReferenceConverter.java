@@ -36,21 +36,22 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter implements Conv
 	private final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
 
 	@Inject
-	public ToClassifierOrNamespaceClassifierReferenceConverter(UtilNamedElement utilNamedElement,
-			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter, TypesFactory typesFactory) {
+	public ToClassifierOrNamespaceClassifierReferenceConverter(final UtilNamedElement utilNamedElement,
+			final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
+			final TypesFactory typesFactory) {
 		this.typesFactory = typesFactory;
 		this.utilNamedElement = utilNamedElement;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 	}
 
 	@Override
-	public TypeReference convert(Name name) {
+	public TypeReference convert(final Name name) {
 		TypeReference result;
 		if (name.isSimpleName()) {
 			result = toClassifierReferenceConverter.convert((SimpleName) name);
 		} else {
-			QualifiedName qualifiedName = (QualifiedName) name;
-			NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
+			final QualifiedName qualifiedName = (QualifiedName) name;
+			final NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 			if (name.resolveBinding() == null) {
 				handleResolveBindingsNull(qualifiedName, ref);
 			} else {
@@ -61,7 +62,8 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter implements Conv
 		return result;
 	}
 
-	private void handleResolveBindingsNotNull(QualifiedName qualifiedName, NamespaceClassifierReference ref) {
+	private void handleResolveBindingsNotNull(final QualifiedName qualifiedName,
+			final NamespaceClassifierReference ref) {
 		Optional<Name> qualifier = Optional.of(qualifiedName.getQualifier());
 		Optional<SimpleName> simpleName = Optional.of(qualifiedName.getName());
 		while (simpleName.isPresent() && simpleName.get().resolveBinding() instanceof ITypeBinding) {
@@ -84,7 +86,7 @@ public class ToClassifierOrNamespaceClassifierReferenceConverter implements Conv
 		}
 	}
 
-	private void handleResolveBindingsNull(QualifiedName qualifiedName, NamespaceClassifierReference ref) {
+	private void handleResolveBindingsNull(final QualifiedName qualifiedName, final NamespaceClassifierReference ref) {
 		ref.getClassifierReferences().add(toClassifierReferenceConverter.convert(qualifiedName.getName()));
 		utilNamedElement.addNameToNameSpace(qualifiedName.getQualifier(), ref);
 	}

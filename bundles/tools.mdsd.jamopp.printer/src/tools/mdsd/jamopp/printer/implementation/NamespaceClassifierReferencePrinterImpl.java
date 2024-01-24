@@ -14,12 +14,12 @@ public class NamespaceClassifierReferencePrinterImpl implements Printer<Namespac
 	private final Printer<ClassifierReference> classifierReferencePrinter;
 
 	@Inject
-	public NamespaceClassifierReferencePrinterImpl(Printer<ClassifierReference> classifierReferencePrinter) {
+	public NamespaceClassifierReferencePrinterImpl(final Printer<ClassifierReference> classifierReferencePrinter) {
 		this.classifierReferencePrinter = classifierReferencePrinter;
 	}
 
 	@Override
-	public void print(NamespaceClassifierReference element, BufferedWriter writer) throws IOException {
+	public void print(final NamespaceClassifierReference element, final BufferedWriter writer) throws IOException {
 		writer.append(element.getNamespacesAsString());
 		if (!element.getNamespaces().isEmpty()) {
 			writer.append(".");

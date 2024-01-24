@@ -24,10 +24,10 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public ClassMethodResolver(Map<String, ClassMethod> bindings, TypesFactory typesFactory,
-			StatementsFactory statementsFactory, Set<IMethodBinding> methodBindings, MembersFactory membersFactory,
-			ClassifierResolver classifierResolver, MethodChecker methodChecker,
-			ToMethodNameConverter toMethodNameConverter) {
+	public ClassMethodResolver(final Map<String, ClassMethod> bindings, final TypesFactory typesFactory,
+			final StatementsFactory statementsFactory, final Set<IMethodBinding> methodBindings,
+			final MembersFactory membersFactory, final ClassifierResolver classifierResolver,
+			final MethodChecker methodChecker, final ToMethodNameConverter toMethodNameConverter) {
 		super(bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;
@@ -39,15 +39,15 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 	}
 
 	@Override
-	public ClassMethod getByBinding(IMethodBinding binding) {
-		IMethodBinding methodDeclaration = binding.getMethodDeclaration();
+	public ClassMethod getByBinding(final IMethodBinding binding) {
+		final IMethodBinding methodDeclaration = binding.getMethodDeclaration();
 		methodBindings.add(methodDeclaration);
-		String methName = toMethodNameConverter.convertToMethodName(methodDeclaration);
+		final String methName = toMethodNameConverter.convertToMethodName(methodDeclaration);
 		ClassMethod classMethod;
 		if (getBindings().containsKey(methName)) {
 			classMethod = getBindings().get(methName);
 		} else {
-			ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
+			final ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
 					.getClassifier(methodDeclaration.getDeclaringClass());
 			ClassMethod result = null;
 			if (classifier != null) {
@@ -62,9 +62,10 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 		return classMethod;
 	}
 
-	private ClassMethod handleClassifier(IMethodBinding binding, ConcreteClassifier classifier, ClassMethod method) {
+	private ClassMethod handleClassifier(final IMethodBinding binding, final ConcreteClassifier classifier,
+			final ClassMethod method) {
 		ClassMethod result = null;
-		for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
+		for (final tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 			if (mem instanceof ClassMethod) {
 				result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
 				if (result != null) {
@@ -83,12 +84,12 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 	}
 
 	@Override
-	public ClassMethod getByName(String name) {
+	public ClassMethod getByName(final String name) {
 		ClassMethod classMethod;
 		if (getBindings().containsKey(name)) {
 			classMethod = getBindings().get(name);
 		} else {
-			ClassMethod result = createNewClassMethod();
+			final ClassMethod result = createNewClassMethod();
 			getBindings().put(name, result);
 			classMethod = result;
 		}
@@ -97,9 +98,9 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 	}
 
 	private ClassMethod createNewClassMethod() {
-		ClassMethod result = membersFactory.createClassMethod();
+		final ClassMethod result = membersFactory.createClassMethod();
 		result.setTypeReference(typesFactory.createVoid());
-		tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
+		final tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
 		block.setName("");
 		result.setStatement(block);
 		return result;

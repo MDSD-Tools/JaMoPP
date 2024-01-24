@@ -23,10 +23,10 @@ public class ToPrimaryExpressionConverter implements Converter<Expression, Prima
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression;
 
 	@Inject
-	public ToPrimaryExpressionConverter(LiteralsFactory literalsFactory,
-			ToNumberLiteralConverter toNumberLiteralConverter, UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
-			UtilReferenceWalker utilReferenceWalker) {
+	public ToPrimaryExpressionConverter(final LiteralsFactory literalsFactory,
+			final ToNumberLiteralConverter toNumberLiteralConverter, final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
+			final UtilReferenceWalker utilReferenceWalker) {
 		this.utilReferenceWalker = utilReferenceWalker;
 		this.toNumberLiteralConverter = toNumberLiteralConverter;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -35,7 +35,7 @@ public class ToPrimaryExpressionConverter implements Converter<Expression, Prima
 	}
 
 	@Override
-	public PrimaryExpression convert(Expression expr) {
+	public PrimaryExpression convert(final Expression expr) {
 		PrimaryExpression result;
 		if (expr.getNodeType() == ASTNode.BOOLEAN_LITERAL) {
 			result = createBooleanLiteral(expr);
@@ -51,23 +51,23 @@ public class ToPrimaryExpressionConverter implements Converter<Expression, Prima
 		return result;
 	}
 
-	private PrimaryExpression createCharacterLiteral(Expression expr) {
-		CharacterLiteral lit = (CharacterLiteral) expr;
-		tools.mdsd.jamopp.model.java.literals.CharacterLiteral result = literalsFactory.createCharacterLiteral();
+	private PrimaryExpression createCharacterLiteral(final Expression expr) {
+		final CharacterLiteral lit = (CharacterLiteral) expr;
+		final tools.mdsd.jamopp.model.java.literals.CharacterLiteral result = literalsFactory.createCharacterLiteral();
 		result.setValue(lit.getEscapedValue().substring(1, lit.getEscapedValue().length() - 1));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
 		return result;
 	}
 
-	private PrimaryExpression createNullLiteral(Expression expr) {
-		tools.mdsd.jamopp.model.java.literals.NullLiteral result = literalsFactory.createNullLiteral();
+	private PrimaryExpression createNullLiteral(final Expression expr) {
+		final tools.mdsd.jamopp.model.java.literals.NullLiteral result = literalsFactory.createNullLiteral();
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, expr);
 		return result;
 	}
 
-	private tools.mdsd.jamopp.model.java.literals.BooleanLiteral createBooleanLiteral(Expression expr) {
-		BooleanLiteral lit = (BooleanLiteral) expr;
-		tools.mdsd.jamopp.model.java.literals.BooleanLiteral result = literalsFactory.createBooleanLiteral();
+	private tools.mdsd.jamopp.model.java.literals.BooleanLiteral createBooleanLiteral(final Expression expr) {
+		final BooleanLiteral lit = (BooleanLiteral) expr;
+		final tools.mdsd.jamopp.model.java.literals.BooleanLiteral result = literalsFactory.createBooleanLiteral();
 		result.setValue(lit.booleanValue());
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, lit);
 		return result;

@@ -20,9 +20,9 @@ public class ToUnaryExpressionConverter implements Converter<PrefixExpression, U
 	private final Converter<PrefixExpression.Operator, UnaryOperator> toUnaryOperatorConverter;
 
 	@Inject
-	public ToUnaryExpressionConverter(ToUnaryOperatorConverter toUnaryOperatorConverter,
-			Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+	public ToUnaryExpressionConverter(final ToUnaryOperatorConverter toUnaryOperatorConverter,
+			final Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
+			final UtilLayout layoutInformationConverter, final ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -30,14 +30,14 @@ public class ToUnaryExpressionConverter implements Converter<PrefixExpression, U
 	}
 
 	@Override
-	public UnaryExpression convert(PrefixExpression expr) {
-		UnaryExpression result = expressionsFactory.createUnaryExpression();
+	public UnaryExpression convert(final PrefixExpression expr) {
+		final UnaryExpression result = expressionsFactory.createUnaryExpression();
 		result.getOperators().add(toUnaryOperatorConverter.convert(expr.getOperator()));
-		Expression potChild = toExpressionConverter.convert(expr.getOperand());
+		final Expression potChild = toExpressionConverter.convert(expr.getOperand());
 		if (potChild instanceof UnaryExpressionChild) {
 			result.setChild((UnaryExpressionChild) potChild);
 		} else {
-			UnaryExpression secRes = (UnaryExpression) potChild;
+			final UnaryExpression secRes = (UnaryExpression) potChild;
 			result.getOperators().addAll(secRes.getOperators());
 			result.setChild(secRes.getChild());
 		}

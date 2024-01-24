@@ -32,8 +32,9 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 	private final JdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToNonOnDemandStaticConverter(UtilNamedElement utilNamedElement, ModifiersFactory modifiersFactory,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, ImportsFactory importsFactory) {
+	public ToNonOnDemandStaticConverter(final UtilNamedElement utilNamedElement,
+			final ModifiersFactory modifiersFactory, final UtilLayout layoutInformationConverter,
+			final JdtResolver jdtResolverUtility, final ImportsFactory importsFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -42,11 +43,11 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 	}
 
 	@Override
-	public Import convert(ImportDeclaration importDecl) {
-		StaticMemberImport convertedImport = importsFactory.createStaticMemberImport();
+	public Import convert(final ImportDeclaration importDecl) {
+		final StaticMemberImport convertedImport = importsFactory.createStaticMemberImport();
 		convertedImport.setStatic(modifiersFactory.createStatic());
-		QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
-		IBinding iBinding = qualifiedName.resolveBinding();
+		final QualifiedName qualifiedName = (QualifiedName) importDecl.getName();
+		final IBinding iBinding = qualifiedName.resolveBinding();
 
 		ReferenceableElement proxyMember;
 		Classifier proxyClass = null;
@@ -55,12 +56,12 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 			proxyMember = jdtResolverUtility.getMethod((IMethodBinding) iBinding);
 		} else if (iBinding instanceof IVariableBinding) {
 			proxyMember = jdtResolverUtility.getReferencableElement((IVariableBinding) iBinding);
-		} else if (iBinding instanceof ITypeBinding typeBinding && typeBinding.isNested()) {
+		} else if (iBinding instanceof final ITypeBinding typeBinding && typeBinding.isNested()) {
 			proxyMember = jdtResolverUtility.getClassifier(typeBinding);
 			proxyClass = jdtResolverUtility.getClassifier(typeBinding.getDeclaringClass());
-		} else if (iBinding instanceof ITypeBinding typeBinding) {
+		} else if (iBinding instanceof final ITypeBinding typeBinding) {
 			proxyClass = jdtResolverUtility.getClassifier(typeBinding);
-			ConcreteClassifier conCl = (ConcreteClassifier) proxyClass;
+			final ConcreteClassifier conCl = (ConcreteClassifier) proxyClass;
 			proxyMember = findProxyMember(qualifiedName, conCl);
 			if (proxyMember == null) {
 				proxyMember = jdtResolverUtility.getClassMethod(qualifiedName.getFullyQualifiedName());
@@ -82,9 +83,9 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 		return convertedImport;
 	}
 
-	private ReferenceableElement findProxyMember(QualifiedName qualifiedName, ConcreteClassifier conCl) {
+	private ReferenceableElement findProxyMember(final QualifiedName qualifiedName, final ConcreteClassifier conCl) {
 		ReferenceableElement newProxyMember = null;
-		for (Member m : conCl.getMembers()) {
+		for (final Member m : conCl.getMembers()) {
 			if (!(m instanceof Constructor) && m.getName().equals(qualifiedName.getName().getIdentifier())) {
 				newProxyMember = (ReferenceableElement) m;
 				break;
@@ -93,9 +94,9 @@ public class ToNonOnDemandStaticConverter implements Converter<ImportDeclaration
 		return newProxyMember;
 	}
 
-	private Classifier handleProxyClassIsNull(QualifiedName qualifiedName) {
+	private Classifier handleProxyClassIsNull(final QualifiedName qualifiedName) {
 		Classifier proxyClass;
-		IBinding binding = qualifiedName.getQualifier().resolveBinding();
+		final IBinding binding = qualifiedName.getQualifier().resolveBinding();
 		if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
 			proxyClass = jdtResolverUtility.getClass(qualifiedName.getQualifier().getFullyQualifiedName());
 		} else {

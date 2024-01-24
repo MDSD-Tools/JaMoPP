@@ -37,13 +37,15 @@ public class VariableDeclarationStatementHandler implements StatementHandler {
 	private final Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter;
 
 	@Inject
-	public VariableDeclarationStatementHandler(ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			UtilNamedElement utilNamedElement, Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
-			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter) {
+	public VariableDeclarationStatementHandler(
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final UtilNamedElement utilNamedElement, final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<VariableDeclarationFragment, AdditionalLocalVariable> toAdditionalLocalVariableConverter,
+			final StatementsFactory statementsFactory, final UtilLayout layoutInformationConverter,
+			final JdtResolver jdtResolverUtility,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> annotationInstanceConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
@@ -58,13 +60,13 @@ public class VariableDeclarationStatementHandler implements StatementHandler {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		VariableDeclarationStatement varSt = (VariableDeclarationStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.LocalVariableStatement result = statementsFactory
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final VariableDeclarationStatement varSt = (VariableDeclarationStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.LocalVariableStatement result = statementsFactory
 				.createLocalVariableStatement();
-		VariableDeclarationFragment frag = (VariableDeclarationFragment) varSt.fragments().get(0);
+		final VariableDeclarationFragment frag = (VariableDeclarationFragment) varSt.fragments().get(0);
 		tools.mdsd.jamopp.model.java.variables.LocalVariable locVar;
-		IVariableBinding binding = frag.resolveBinding();
+		final IVariableBinding binding = frag.resolveBinding();
 		if (binding == null) {
 			locVar = jdtResolverUtility.getLocalVariable(frag.getName().getIdentifier() + "-" + frag.hashCode());
 		} else {

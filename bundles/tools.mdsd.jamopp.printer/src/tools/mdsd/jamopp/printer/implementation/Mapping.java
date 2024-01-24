@@ -22,12 +22,12 @@ public class Mapping<K> {
 	private final Class<K> clazz;
 	private final Printer<K> printer;
 
-	public Mapping(Class<K> clazz, Printer<K> printer) {
+	public Mapping(final Class<K> clazz, final Printer<K> printer) {
 		this.clazz = clazz;
 		this.printer = printer;
 	}
 
-	public Mapping(Class<K> clazz, Provider<Printer<K>> printer) {
+	public Mapping(final Class<K> clazz, final Provider<Printer<K>> printer) {
 		this.clazz = clazz;
 		this.printer = printer.get();
 	}
@@ -41,7 +41,7 @@ public class Mapping<K> {
 	 * @return true, if something was printed, otherwise else
 	 * @throws IOException if the printer throws an IOException while printing
 	 */
-	public boolean checkAndPrint(EObject element, BufferedWriter writer) throws IOException {
+	public boolean checkAndPrint(final EObject element, final BufferedWriter writer) throws IOException {
 		boolean printed = false;
 		if (clazz.isInstance(element)) {
 			printer.print(clazz.cast(element), writer);

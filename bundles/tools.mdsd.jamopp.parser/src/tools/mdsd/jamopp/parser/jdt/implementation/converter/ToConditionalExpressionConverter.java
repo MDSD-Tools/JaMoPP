@@ -19,16 +19,16 @@ public class ToConditionalExpressionConverter
 
 	@Inject
 	public ToConditionalExpressionConverter(
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final UtilLayout layoutInformationConverter, final ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 	}
 
 	@Override
-	public ConditionalExpression convert(org.eclipse.jdt.core.dom.ConditionalExpression expr) {
-		ConditionalExpression result = expressionsFactory.createConditionalExpression();
+	public ConditionalExpression convert(final org.eclipse.jdt.core.dom.ConditionalExpression expr) {
+		final ConditionalExpression result = expressionsFactory.createConditionalExpression();
 		result.setChild((ConditionalExpressionChild) toExpressionConverter.convert(expr.getExpression()));
 		result.setExpressionIf(toExpressionConverter.convert(expr.getThenExpression()));
 		result.setGeneralExpressionElse(toExpressionConverter.convert(expr.getElseExpression()));

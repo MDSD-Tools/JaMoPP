@@ -59,24 +59,25 @@ public class ResolutionCompleter {
 	private final ClassifierResolver classifierResolver;
 
 	@Inject
-	public ResolutionCompleter(VariableLengthParameterResolver variableLengthParameterResolver,
-			Set<IVariableBinding> variableBindings, Map<IVariableBinding, Integer> varBindToUid,
-			TypeParameterResolver typeParameterResolver, Set<ITypeBinding> typeBindings,
-			PureTypeBindingsConverter pureTypeBindingsConverter, PackageResolver packageResolver,
-			Set<IPackageBinding> packageBindings, OrdinaryParameterResolver ordinaryParameterResolver,
-			Set<EObject> objVisited, ModuleResolver moduleResolver, Set<IModuleBinding> moduleBindings,
-			MethodCompleter methodCompleter, Set<IMethodBinding> methodBindings,
-			LocalVariableResolver localVariableResolver, InterfaceResolver interfaceResolver,
-			InterfaceMethodResolver interfaceMethodResolver, FieldResolver fieldResolver,
-			@Named("extractAdditionalInfosFromTypeBindings") boolean extractAdditionalInfosFromTypeBindings,
-			EnumerationResolver enumerationResolver, EnumConstantResolver enumConstantResolver,
-			ConstructorResolver constructorResolver, ClassResolver classResolver,
-			ClassMethodResolver classMethodResolver, CatchParameterResolver catchParameterResolver,
-			AnonymousClassResolver anonymousClassResolver, AnnotationResolver annotationResolver,
-			AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			AdditionalFieldResolver additionalFieldResolver, ClassResolverSynthetic classResolverSynthetic,
-			ToTypeNameConverter toTypeNameConverter, ToFieldNameConverter toFieldNameConverter,
-			ClassifierResolver classifierResolver, Map<IBinding, String> nameCache) {
+	public ResolutionCompleter(final VariableLengthParameterResolver variableLengthParameterResolver,
+			final Set<IVariableBinding> variableBindings, final Map<IVariableBinding, Integer> varBindToUid,
+			final TypeParameterResolver typeParameterResolver, final Set<ITypeBinding> typeBindings,
+			final PureTypeBindingsConverter pureTypeBindingsConverter, final PackageResolver packageResolver,
+			final Set<IPackageBinding> packageBindings, final OrdinaryParameterResolver ordinaryParameterResolver,
+			final Set<EObject> objVisited, final ModuleResolver moduleResolver,
+			final Set<IModuleBinding> moduleBindings, final MethodCompleter methodCompleter,
+			final Set<IMethodBinding> methodBindings, final LocalVariableResolver localVariableResolver,
+			final InterfaceResolver interfaceResolver, final InterfaceMethodResolver interfaceMethodResolver,
+			final FieldResolver fieldResolver,
+			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromTypeBindings,
+			final EnumerationResolver enumerationResolver, final EnumConstantResolver enumConstantResolver,
+			final ConstructorResolver constructorResolver, final ClassResolver classResolver,
+			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
+			final AnonymousClassResolver anonymousClassResolver, final AnnotationResolver annotationResolver,
+			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
+			final AdditionalFieldResolver additionalFieldResolver, final ClassResolverSynthetic classResolverSynthetic,
+			final ToTypeNameConverter toTypeNameConverter, final ToFieldNameConverter toFieldNameConverter,
+			final ClassifierResolver classifierResolver, final Map<IBinding, String> nameCache) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
@@ -113,7 +114,7 @@ public class ResolutionCompleter {
 		this.classifierResolver = classifierResolver;
 	}
 
-	public void completeResolution(ResourceSet resourceSet) {
+	public void completeResolution(final ResourceSet resourceSet) {
 		enumConstantResolver.getBindings().forEach(this::handleEnumConstants);
 		fieldResolver.getBindings().forEach(this::handleFields);
 		constructorResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
@@ -127,9 +128,9 @@ public class ResolutionCompleter {
 		clear();
 	}
 
-	private void handleFields(String fieldName, Field field) {
+	private void handleFields(final String fieldName, final Field field) {
 		if (field.eContainer() == null) {
-			IVariableBinding varBind = variableBindings.stream().filter(
+			final IVariableBinding varBind = variableBindings.stream().filter(
 					binding -> binding != null && fieldName.equals(toFieldNameConverter.convertToFieldName(binding)))
 					.findFirst().orElse(null);
 			if (varBind == null || varBind.getDeclaringClass() == null) {
@@ -140,13 +141,13 @@ public class ResolutionCompleter {
 		}
 	}
 
-	private void handleFieldsElse(Field field, IVariableBinding varBind) {
-		tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
+	private void handleFieldsElse(final Field field, final IVariableBinding varBind) {
+		final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
 				.getClassifier(varBind.getDeclaringClass());
 		if (cla == null) {
-			String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
+			final String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
 			if (anonymousClassResolver.getBindings().containsKey(typeName)) {
-				tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
+				final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
 						.getBindings().get(typeName);
 				if (!anonClass.getMembers().contains(field)) {
 					anonClass.getMembers().add(field);
@@ -155,19 +156,19 @@ public class ResolutionCompleter {
 				classResolverSynthetic.addToSyntheticClass(field);
 			}
 		} else if (!extractAdditionalInfosFromTypeBindings
-				&& cla instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
+				&& cla instanceof final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
 				&& !classifier.getMembers().contains(field)) {
 			classifier.getMembers().add(field);
 		}
 	}
 
-	private void handleEnumConstants(String constName, EnumConstant enConst) {
+	private void handleEnumConstants(final String constName, final EnumConstant enConst) {
 		if (enConst.eContainer() == null) {
-			IVariableBinding varBind = variableBindings.stream().filter(
+			final IVariableBinding varBind = variableBindings.stream().filter(
 					binding -> binding != null && constName.equals(toFieldNameConverter.convertToFieldName(binding)))
 					.findFirst().get();
 			if (!varBind.getDeclaringClass().isAnonymous()) {
-				Enumeration enumeration = enumerationResolver.getByBinding(varBind.getDeclaringClass());
+				final Enumeration enumeration = enumerationResolver.getByBinding(varBind.getDeclaringClass());
 				if (!extractAdditionalInfosFromTypeBindings && !enumeration.getConstants().contains(enConst)) {
 					enumeration.getConstants().add(enConst);
 				}
@@ -225,14 +226,14 @@ public class ResolutionCompleter {
 		interfaceResolver.getBindings().values().forEach(this::escapeIdentifiers);
 	}
 
-	private void escapeIdentifiers(EObject obj) {
+	private void escapeIdentifiers(final EObject obj) {
 		obj.eAllContents().forEachRemaining(this::escapeIdentifier);
 	}
 
-	private void escapeIdentifier(Notifier not) {
-		if (not instanceof tools.mdsd.jamopp.model.java.commons.NamedElement ele) {
-			StringBuilder builder = new StringBuilder();
-			String name = ele.getName();
+	private void escapeIdentifier(final Notifier not) {
+		if (not instanceof final tools.mdsd.jamopp.model.java.commons.NamedElement ele) {
+			final StringBuilder builder = new StringBuilder();
+			final String name = ele.getName();
 			name.codePoints().forEach(i -> {
 				if (i <= 0x20 || Character.MIN_SURROGATE <= i && i <= Character.MAX_SURROGATE) {
 					builder.append("\\u").append(String.format("%04x", i));

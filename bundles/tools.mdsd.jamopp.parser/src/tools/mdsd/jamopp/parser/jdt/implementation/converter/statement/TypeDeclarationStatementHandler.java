@@ -1,10 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.TypeDeclarationStatement;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -16,13 +16,13 @@ public class TypeDeclarationStatementHandler implements StatementHandler {
 
 	@Inject
 	public TypeDeclarationStatementHandler(
-			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility) {
+			final Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility) {
 		this.classifierConverterUtility = classifierConverterUtility;
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		TypeDeclarationStatement declSt = (TypeDeclarationStatement) statement;
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final TypeDeclarationStatement declSt = (TypeDeclarationStatement) statement;
 		return classifierConverterUtility.convert(declSt.getDeclaration());
 	}
 

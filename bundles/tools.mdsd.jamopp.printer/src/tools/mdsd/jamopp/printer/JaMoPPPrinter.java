@@ -34,11 +34,11 @@ public final class JaMoPPPrinter {
 	 * @param root   the model instance to print.
 	 * @param output the output for printing.
 	 */
-	public static void print(JavaRoot root, OutputStream output) {
+	public static void print(final JavaRoot root, final OutputStream output) {
 		try (var outWriter = new OutputStreamWriter(output, StandardCharsets.UTF_8);
 				var buffWriter = new BufferedWriter(outWriter)) {
 			JAVA_ROOT_PRINTER.print(root, buffWriter);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// Ignore
 		}
 	}
@@ -49,10 +49,10 @@ public final class JaMoPPPrinter {
 	 * @param root the model instance to print.
 	 * @param file the file for printing.
 	 */
-	public static void print(JavaRoot root, Path file) {
+	public static void print(final JavaRoot root, final Path file) {
 		try (var writer = Files.newBufferedWriter(file)) {
 			JAVA_ROOT_PRINTER.print(root, writer);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// Ignore
 		}
 	}

@@ -17,9 +17,9 @@ public class AdditionalLocalVariableResolver extends ResolverAbstract<Additional
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public AdditionalLocalVariableResolver(Map<String, AdditionalLocalVariable> bindings,
-			VariablesFactory variablesFactory, Set<IVariableBinding> variableBindings,
-			ToParameterNameConverter toParameterNameConverter) {
+	public AdditionalLocalVariableResolver(final Map<String, AdditionalLocalVariable> bindings,
+			final VariablesFactory variablesFactory, final Set<IVariableBinding> variableBindings,
+			final ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.variablesFactory = variablesFactory;
@@ -27,18 +27,18 @@ public class AdditionalLocalVariableResolver extends ResolverAbstract<Additional
 	}
 
 	@Override
-	public AdditionalLocalVariable getByBinding(IVariableBinding binding) {
+	public AdditionalLocalVariable getByBinding(final IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override
-	public AdditionalLocalVariable getByName(String name) {
+	public AdditionalLocalVariable getByName(final String name) {
 		AdditionalLocalVariable additionalLocalVariable;
 		if (getBindings().containsKey(name)) {
 			additionalLocalVariable = getBindings().get(name);
 		} else {
-			AdditionalLocalVariable result = variablesFactory.createAdditionalLocalVariable();
+			final AdditionalLocalVariable result = variablesFactory.createAdditionalLocalVariable();
 			getBindings().put(name, result);
 			additionalLocalVariable = result;
 		}

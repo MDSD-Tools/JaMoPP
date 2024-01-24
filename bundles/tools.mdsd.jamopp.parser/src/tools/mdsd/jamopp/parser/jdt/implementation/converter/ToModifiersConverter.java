@@ -22,7 +22,7 @@ public class ToModifiersConverter
 	private final Map<Predicate<Integer>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> mappings;
 
 	@Inject
-	public ToModifiersConverter(ModifiersFactory modifiersFactory) {
+	public ToModifiersConverter(final ModifiersFactory modifiersFactory) {
 		mappings = new HashMap<>();
 		mappings.put(Modifier::isAbstract, () -> modifiersFactory.createAbstract());
 		mappings.put(Modifier::isDefault, () -> modifiersFactory.createDefault());
@@ -39,10 +39,10 @@ public class ToModifiersConverter
 	}
 
 	@Override
-	public Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier> convert(Integer modifiers) {
-		List<tools.mdsd.jamopp.model.java.modifiers.Modifier> result = new ArrayList<>();
+	public Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier> convert(final Integer modifiers) {
+		final List<tools.mdsd.jamopp.model.java.modifiers.Modifier> result = new ArrayList<>();
 
-		for (Entry<Predicate<Integer>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> entry : mappings
+		for (final Entry<Predicate<Integer>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> entry : mappings
 				.entrySet()) {
 			if (entry.getKey().test(modifiers)) {
 				result.add(entry.getValue().get());

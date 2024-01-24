@@ -35,6 +35,7 @@ import tools.mdsd.jamopp.model.java.containers.JavaRoot;
  * convert them to Java model instances.
  */
 public interface JaMoPPParserAPI {
+
 	/**
 	 * Reads an InputStream and parses its content into a Java model instance.
 	 *
@@ -80,7 +81,7 @@ public interface JaMoPPParserAPI {
 	 * @param uri the uri
 	 * @return the resource set
 	 */
-	default ResourceSet parseUri(URI uri) {
+	default ResourceSet parseUri(final URI uri) {
 		ResourceSet returnValue = null;
 		if (uri.isFile()) {
 			returnValue = parseFile(Path.of(uri.toFileString())).getResourceSet();

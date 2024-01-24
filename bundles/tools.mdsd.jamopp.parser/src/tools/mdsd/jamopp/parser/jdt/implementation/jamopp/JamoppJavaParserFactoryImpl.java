@@ -19,7 +19,7 @@ public class JamoppJavaParserFactoryImpl implements JamoppJavaParserFactory {
 
 	@SuppressWarnings("deprecation")
 	@Inject
-	public JamoppJavaParserFactoryImpl(Logger logger) {
+	public JamoppJavaParserFactoryImpl(final Logger logger) {
 		this.logger = logger;
 		mappings = new HashMap<>();
 
@@ -43,12 +43,12 @@ public class JamoppJavaParserFactoryImpl implements JamoppJavaParserFactory {
 	}
 
 	@Override
-	public ASTParser getJavaParser(String version) {
+	public ASTParser getJavaParser(final String version) {
 		String javaCoreVersion;
 		int astParserLevel;
 		final String stripedVersion = String.valueOf(version).strip();
 
-		Mapping mapping = mappings.get(stripedVersion);
+		final Mapping mapping = mappings.get(stripedVersion);
 		if (mapping != null) {
 			javaCoreVersion = mapping.getJavaCoreVersion();
 			astParserLevel = mapping.getAstParserLevel();
@@ -72,7 +72,7 @@ public class JamoppJavaParserFactoryImpl implements JamoppJavaParserFactory {
 		private final String javaCoreVersion;
 		private final int astParserLevel;
 
-		private Mapping(String javaCoreVersion, int astParserLevel) {
+		private Mapping(final String javaCoreVersion, final int astParserLevel) {
 			this.javaCoreVersion = javaCoreVersion;
 			this.astParserLevel = astParserLevel;
 		}

@@ -23,10 +23,11 @@ public class HandlerCastExpression implements ExpressionHandler {
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	public HandlerCastExpression(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			ExpressionsFactory expressionsFactory,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public HandlerCastExpression(final UtilLayout utilLayout,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final ExpressionsFactory expressionsFactory,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
@@ -35,11 +36,12 @@ public class HandlerCastExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		CastExpression castExpr = (CastExpression) expr;
-		tools.mdsd.jamopp.model.java.expressions.CastExpression result = expressionsFactory.createCastExpression();
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final CastExpression castExpr = (CastExpression) expr;
+		final tools.mdsd.jamopp.model.java.expressions.CastExpression result = expressionsFactory
+				.createCastExpression();
 		if (castExpr.getType().isIntersectionType()) {
-			IntersectionType interType = (IntersectionType) castExpr.getType();
+			final IntersectionType interType = (IntersectionType) castExpr.getType();
 			result.setTypeReference(toTypeReferenceConverter.convert((Type) interType.types().get(0)));
 			utilToArrayDimensionsAndSetConverter.convert((Type) interType.types().get(0), result);
 			for (int index = 1; index < interType.types().size(); index++) {

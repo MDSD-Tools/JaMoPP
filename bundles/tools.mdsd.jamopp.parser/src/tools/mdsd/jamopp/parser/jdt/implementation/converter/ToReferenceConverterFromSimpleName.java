@@ -22,17 +22,17 @@ public class ToReferenceConverterFromSimpleName implements Converter<SimpleName,
 	private final JdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToReferenceConverterFromSimpleName(ReferencesFactory referencesFactory,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility) {
+	public ToReferenceConverterFromSimpleName(final ReferencesFactory referencesFactory,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility) {
 		this.referencesFactory = referencesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 	}
 
 	@Override
-	public IdentifierReference convert(SimpleName name) {
-		IdentifierReference result = referencesFactory.createIdentifierReference();
-		IBinding binding = name.resolveBinding();
+	public IdentifierReference convert(final SimpleName name) {
+		final IdentifierReference result = referencesFactory.createIdentifierReference();
+		final IBinding binding = name.resolveBinding();
 		tools.mdsd.jamopp.model.java.references.ReferenceableElement target;
 		if (binding instanceof ITypeBinding) {
 			target = jdtResolverUtility.getClassifier((ITypeBinding) binding);

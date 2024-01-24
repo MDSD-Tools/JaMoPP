@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -20,9 +20,10 @@ public class SynchonizedStatementHandler implements StatementHandler {
 	private final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter;
 
 	@Inject
-	public SynchonizedStatementHandler(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
-			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
+	public SynchonizedStatementHandler(final StatementsFactory statementsFactory,
+			final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -30,9 +31,10 @@ public class SynchonizedStatementHandler implements StatementHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		SynchronizedStatement synSt = (SynchronizedStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.SynchronizedBlock result = statementsFactory.createSynchronizedBlock();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final SynchronizedStatement synSt = (SynchronizedStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.SynchronizedBlock result = statementsFactory
+				.createSynchronizedBlock();
 		result.setLockProvider(expressionConverterUtility.convert(synSt.getExpression()));
 		result.setBlock(blockToBlockConverter.convert(synSt.getBody()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, synSt);

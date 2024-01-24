@@ -9,7 +9,7 @@ import tools.mdsd.jamopp.printer.interfaces.Printer;
 public class TextBlockReferencePrinterImpl implements Printer<TextBlockReference> {
 
 	@Override
-	public void print(TextBlockReference element, BufferedWriter writer) throws IOException {
+	public void print(final TextBlockReference element, final BufferedWriter writer) throws IOException {
 		writer.append("\"\"\"\n");
 		writer.append(element.getValue());
 		writer.append("\n\"\"\"");

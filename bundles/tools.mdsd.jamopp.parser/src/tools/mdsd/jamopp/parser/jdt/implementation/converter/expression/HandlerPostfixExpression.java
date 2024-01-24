@@ -19,9 +19,9 @@ public class HandlerPostfixExpression implements ExpressionHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	public HandlerPostfixExpression(UtilLayout utilLayout,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			ExpressionsFactory expressionsFactory, OperatorsFactory operatorsFactory) {
+	public HandlerPostfixExpression(final UtilLayout utilLayout,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final ExpressionsFactory expressionsFactory, final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 		this.expressionsFactory = expressionsFactory;
 		this.toExpressionConverter = toExpressionConverter;
@@ -29,9 +29,9 @@ public class HandlerPostfixExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		PostfixExpression postfixExpr = (PostfixExpression) expr;
-		tools.mdsd.jamopp.model.java.expressions.SuffixUnaryModificationExpression result = expressionsFactory
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final PostfixExpression postfixExpr = (PostfixExpression) expr;
+		final tools.mdsd.jamopp.model.java.expressions.SuffixUnaryModificationExpression result = expressionsFactory
 				.createSuffixUnaryModificationExpression();
 		if (postfixExpr.getOperator().equals(PostfixExpression.Operator.DECREMENT)) {
 			result.setOperator(operatorsFactory.createMinusMinus());

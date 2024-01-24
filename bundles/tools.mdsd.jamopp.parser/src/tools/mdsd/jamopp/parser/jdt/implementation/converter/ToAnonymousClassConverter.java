@@ -20,8 +20,8 @@ public class ToAnonymousClassConverter implements Converter<AnonymousClassDeclar
 	private final Converter<BodyDeclaration, Member> toClassMemberConverter;
 
 	@Inject
-	public ToAnonymousClassConverter(UtilLayout utilLayout, JdtResolver utilJDTResolver,
-			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
+	public ToAnonymousClassConverter(final UtilLayout utilLayout, final JdtResolver utilJDTResolver,
+			@Named("ToClassMemberConverter") final Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.utilJDTResolver = utilJDTResolver;
 		this.utilLayout = utilLayout;
 		this.toClassMemberConverter = toClassMemberConverter;
@@ -29,8 +29,8 @@ public class ToAnonymousClassConverter implements Converter<AnonymousClassDeclar
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public AnonymousClass convert(AnonymousClassDeclaration anon) {
-		ITypeBinding binding = anon.resolveBinding();
+	public AnonymousClass convert(final AnonymousClassDeclaration anon) {
+		final ITypeBinding binding = anon.resolveBinding();
 		AnonymousClass result;
 		if (binding != null) {
 			result = utilJDTResolver.getAnonymousClass(binding);

@@ -30,10 +30,10 @@ public final class JavaRootExtension {
 	/**
 	 * @return all classes in the same package imports
 	 */
-	public static EList<ConcreteClassifier> getClassifiersInSamePackage(JavaRoot javaRoot) {
-		EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getClassifiersInSamePackage(final JavaRoot javaRoot) {
+		final EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
 
-		String packageName = javaRoot.getNamespacesAsString();
+		final String packageName = javaRoot.getNamespacesAsString();
 
 		defaultImportList.addAll(javaRoot.getConcreteClassifiers(packageName, "*"));
 

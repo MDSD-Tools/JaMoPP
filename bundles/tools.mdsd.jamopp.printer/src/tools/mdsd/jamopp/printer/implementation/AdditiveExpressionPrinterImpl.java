@@ -16,14 +16,14 @@ public class AdditiveExpressionPrinterImpl implements Printer<AdditiveExpression
 	private final Printer<AdditiveOperator> additiveOperatorPrinter;
 
 	@Inject
-	public AdditiveExpressionPrinterImpl(Printer<AdditiveExpressionChild> additiveExpressionChildPrinter,
-			Printer<AdditiveOperator> additiveOperatorPrinter) {
+	public AdditiveExpressionPrinterImpl(final Printer<AdditiveExpressionChild> additiveExpressionChildPrinter,
+			final Printer<AdditiveOperator> additiveOperatorPrinter) {
 		this.additiveExpressionChildPrinter = additiveExpressionChildPrinter;
 		this.additiveOperatorPrinter = additiveOperatorPrinter;
 	}
 
 	@Override
-	public void print(AdditiveExpression element, BufferedWriter writer) throws IOException {
+	public void print(final AdditiveExpression element, final BufferedWriter writer) throws IOException {
 		additiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
 			additiveOperatorPrinter.print(element.getAdditiveOperators().get(index - 1), writer);

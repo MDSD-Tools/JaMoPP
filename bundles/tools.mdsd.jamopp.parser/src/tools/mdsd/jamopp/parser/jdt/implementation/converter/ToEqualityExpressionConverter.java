@@ -21,9 +21,9 @@ public class ToEqualityExpressionConverter implements Converter<InfixExpression,
 
 	@Inject
 	public ToEqualityExpressionConverter(
-			Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
-			Converter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+			final Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
+			final Converter<InfixExpression.Operator, EqualityOperator> toEqualityOperatorConverter,
+			final UtilLayout layoutInformationConverter, final ExpressionsFactory expressionsFactory) {
 		this.expressionsFactory = expressionsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
@@ -32,8 +32,8 @@ public class ToEqualityExpressionConverter implements Converter<InfixExpression,
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public EqualityExpression convert(InfixExpression expr) {
-		EqualityExpression result = expressionsFactory.createEqualityExpression();
+	public EqualityExpression convert(final InfixExpression expr) {
+		final EqualityExpression result = expressionsFactory.createEqualityExpression();
 		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getEqualityOperators().add(toEqualityOperatorConverter.convert(expr.getOperator()));
 		mergeEqualityExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
@@ -46,11 +46,11 @@ public class ToEqualityExpressionConverter implements Converter<InfixExpression,
 		return result;
 	}
 
-	private void mergeEqualityExpressionAndExpression(EqualityExpression eqExpr, Expression potChild) {
+	private void mergeEqualityExpressionAndExpression(final EqualityExpression eqExpr, final Expression potChild) {
 		if (potChild instanceof EqualityExpressionChild) {
 			eqExpr.getChildren().add((EqualityExpressionChild) potChild);
 		} else {
-			EqualityExpression expr = (EqualityExpression) potChild;
+			final EqualityExpression expr = (EqualityExpression) potChild;
 			eqExpr.getChildren().addAll(expr.getChildren());
 			eqExpr.getEqualityOperators().addAll(expr.getEqualityOperators());
 		}

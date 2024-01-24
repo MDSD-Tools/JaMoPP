@@ -35,10 +35,12 @@ public class ClassMethodPrinterImpl implements Printer<ClassMethod> {
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public ClassMethodPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<TypeReference> typeReferencePrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Parametrizable> parametrizablePrinter,
-			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<Statement> statementPrinter) {
+	public ClassMethodPrinterImpl(final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			final Printer<TypeParametrizable> typeParametrizablePrinter,
+			final Printer<TypeReference> typeReferencePrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter,
+			final Printer<Parametrizable> parametrizablePrinter,
+			final Printer<ExceptionThrower> exceptionThrowerPrinter, final Printer<Statement> statementPrinter) {
 		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		this.typeParametrizablePrinter = typeParametrizablePrinter;
 		this.typeReferencePrinter = typeReferencePrinter;
@@ -49,7 +51,7 @@ public class ClassMethodPrinterImpl implements Printer<ClassMethod> {
 	}
 
 	@Override
-	public void print(ClassMethod element, BufferedWriter writer) throws IOException {
+	public void print(final ClassMethod element, final BufferedWriter writer) throws IOException {
 		if (shouldNotBePrinted(element)) {
 			return;
 		}
@@ -67,14 +69,14 @@ public class ClassMethodPrinterImpl implements Printer<ClassMethod> {
 		writer.append("\n");
 	}
 
-	private boolean shouldNotBePrinted(ClassMethod element) {
+	private boolean shouldNotBePrinted(final ClassMethod element) {
 		boolean returnValue = false;
 		if (element.eContainer() instanceof Enumeration) {
-			boolean isStaticAndPublic = checkIfStaticAndPublic(element);
+			final boolean isStaticAndPublic = checkIfStaticAndPublic(element);
 			if (isStaticAndPublic) {
 				returnValue = VALUE_OF.equals(element.getName()) && element.getParameters().size() == 1
 						&& element.getParameters().get(0).getTypeReference()
-								.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.Class cla
+								.getTarget() instanceof final tools.mdsd.jamopp.model.java.classifiers.Class cla
 						&& JAVA_LANG_STRING.equals(cla.getQualifiedName())
 						|| VALUES.equals(element.getName()) && element.getParameters().isEmpty();
 			}
@@ -82,10 +84,10 @@ public class ClassMethodPrinterImpl implements Printer<ClassMethod> {
 		return returnValue;
 	}
 
-	private boolean checkIfStaticAndPublic(ClassMethod element) {
+	private boolean checkIfStaticAndPublic(final ClassMethod element) {
 		boolean isStatic = false;
 		boolean isPublic = false;
-		for (Modifier m : element.getModifiers()) {
+		for (final Modifier m : element.getModifiers()) {
 			if (m instanceof Static) {
 				isStatic = true;
 			} else if (m instanceof Public) {

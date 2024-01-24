@@ -21,7 +21,7 @@ public class ToModifierConverter implements Converter<Modifier, tools.mdsd.jamop
 	private final Map<Predicate<Modifier>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> mappings;
 
 	@Inject
-	public ToModifierConverter(UtilLayout layoutInformationConverter, ModifiersFactory modifiersFactory) {
+	public ToModifierConverter(final UtilLayout layoutInformationConverter, final ModifiersFactory modifiersFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		mappings = new HashMap<>();
@@ -40,10 +40,10 @@ public class ToModifierConverter implements Converter<Modifier, tools.mdsd.jamop
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.modifiers.Modifier convert(Modifier mod) {
+	public tools.mdsd.jamopp.model.java.modifiers.Modifier convert(final Modifier mod) {
 		tools.mdsd.jamopp.model.java.modifiers.Modifier result = null;
 
-		for (Entry<Predicate<Modifier>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> entry : mappings
+		for (final Entry<Predicate<Modifier>, Supplier<tools.mdsd.jamopp.model.java.modifiers.Modifier>> entry : mappings
 				.entrySet()) {
 			if (entry.getKey().test(mod)) {
 				result = entry.getValue().get();

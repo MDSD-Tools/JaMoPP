@@ -13,13 +13,13 @@ public class ToUnaryOperatorConverter implements Converter<PrefixExpression.Oper
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	public ToUnaryOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToUnaryOperatorConverter(final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 
 	}
 
 	@Override
-	public UnaryOperator convert(PrefixExpression.Operator operator) {
+	public UnaryOperator convert(final PrefixExpression.Operator operator) {
 		UnaryOperator result = null;
 		if (operator.equals(PrefixExpression.Operator.COMPLEMENT)) {
 			result = operatorsFactory.createComplement();

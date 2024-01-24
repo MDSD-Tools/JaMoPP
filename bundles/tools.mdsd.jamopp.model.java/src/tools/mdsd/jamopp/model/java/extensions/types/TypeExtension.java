@@ -48,12 +48,13 @@ public final class TypeExtension {
 	 *
 	 * @return if both type are equal
 	 */
-	public static boolean equalsType(Type type, long arrayDimension, Type otherType, long otherArrayDimension) {
+	public static boolean equalsType(final Type type, final long arrayDimension, final Type otherType,
+			final long otherArrayDimension) {
 		Type lOtherType = otherType;
 		Type thisType = type;
 		// comparison for type parameters
-		if (thisType instanceof TypeParameter typeParameter) {
-			for (TypeReference referencedType : typeParameter.getExtendTypes()) {
+		if (thisType instanceof final TypeParameter typeParameter) {
+			for (final TypeReference referencedType : typeParameter.getExtendTypes()) {
 				if (referencedType.getTarget() != null && !referencedType.getTarget().eIsProxy()
 						&& referencedType.getTarget().equalsType(arrayDimension, lOtherType, otherArrayDimension)) {
 					return true;
@@ -64,8 +65,8 @@ public final class TypeExtension {
 				return true;
 			}
 		}
-		if (lOtherType instanceof TypeParameter typeParameter) {
-			for (TypeReference referencedType : typeParameter.getExtendTypes()) {
+		if (lOtherType instanceof final TypeParameter typeParameter) {
+			for (final TypeReference referencedType : typeParameter.getExtendTypes()) {
 				if (referencedType.getTarget() != null && !referencedType.getTarget().eIsProxy()
 						&& type.equalsType(arrayDimension, referencedType.getTarget(), otherArrayDimension)) {
 					return true;
@@ -96,7 +97,8 @@ public final class TypeExtension {
 	 * @param otherArrayType
 	 * @return if the other type is equal to me or a super type of me
 	 */
-	public static boolean isSuperType(Type typeParam, long arrayDimension, Type otherType, ArrayTypeable otherArrayType) {
+	public static boolean isSuperType(final Type typeParam, final long arrayDimension, final Type otherType,
+			final ArrayTypeable otherArrayType) {
 		Type lOtherType = otherType;
 
 		if (lOtherType == null) {
@@ -106,26 +108,26 @@ public final class TypeExtension {
 		Type thisType = typeParam;
 
 		if (thisType instanceof TemporalCompositeClassifier || lOtherType instanceof TemporalCompositeClassifier) {
-			EList<Type> thisTypeList = new UniqueEList<>();
-			EList<Type> otherTypeList = new UniqueEList<>();
+			final EList<Type> thisTypeList = new UniqueEList<>();
+			final EList<Type> otherTypeList = new UniqueEList<>();
 			if (thisType instanceof TemporalCompositeClassifier) {
-				for (EObject aType : ((TemporalCompositeClassifier) thisType).getSuperTypes()) {
+				for (final EObject aType : ((TemporalCompositeClassifier) thisType).getSuperTypes()) {
 					thisTypeList.add((Type) aType);
 				}
 			} else {
 				thisTypeList.add(thisType);
 			}
 			if (lOtherType instanceof TemporalCompositeClassifier) {
-				for (EObject aType : ((TemporalCompositeClassifier) lOtherType).getSuperTypes()) {
+				for (final EObject aType : ((TemporalCompositeClassifier) lOtherType).getSuperTypes()) {
 					otherTypeList.add((Type) aType);
 				}
 			} else {
 				otherTypeList.add(thisType);
 			}
 
-			for (Type oneThisType : thisTypeList) {
-				for (Type oneOtherType : otherTypeList) {
-					boolean result = oneThisType.isSuperType(arrayDimension, oneOtherType, otherArrayType);
+			for (final Type oneThisType : thisTypeList) {
+				for (final Type oneOtherType : otherTypeList) {
+					final boolean result = oneThisType.isSuperType(arrayDimension, oneOtherType, otherArrayType);
 					if (result) {
 						return true;
 					}
@@ -142,9 +144,10 @@ public final class TypeExtension {
 		}
 
 		// String, primitives, and arrays are serializable
-		ConcreteClassifier serializableClass = JavaClasspath.get().getConcreteClassifier("java.io.Serializable");
+		final ConcreteClassifier serializableClass = JavaClasspath.get().getConcreteClassifier("java.io.Serializable");
 		if (lOtherType.equals(serializableClass) && thisType.equals(serializableClass)
-				|| thisType.equals(typeParam.getStringClass()) || thisType instanceof PrimitiveType || arrayDimension > 0) {
+				|| thisType.equals(typeParam.getStringClass()) || thisType instanceof PrimitiveType
+				|| arrayDimension > 0) {
 			return true;
 		}
 
@@ -156,10 +159,10 @@ public final class TypeExtension {
 		// if array dimensions do not match, I am no subtype
 		boolean isTypeParameter = false;
 		if (otherArrayType instanceof TypedElement) {
-			Type type = ((TypedElement) otherArrayType).getTypeReference().getTarget();
+			final Type type = ((TypedElement) otherArrayType).getTypeReference().getTarget();
 			isTypeParameter = type instanceof TypeParameter;
 		}
-		boolean isVariableLengthParameter = otherArrayType instanceof VariableLengthParameter;
+		final boolean isVariableLengthParameter = otherArrayType instanceof VariableLengthParameter;
 
 		long otherArrayDim = 0;
 		if (otherArrayType != null) {
@@ -184,8 +187,9 @@ public final class TypeExtension {
 		}
 
 		// annotations
-		if (thisType instanceof Annotation && (lOtherType.equals(typeParam.getAnnotationInterface())
-				|| ((ConcreteClassifier) thisType).getAllSuperClassifiers().contains(typeParam.getAnnotationInterface()))) {
+		if (thisType instanceof Annotation
+				&& (lOtherType.equals(typeParam.getAnnotationInterface()) || ((ConcreteClassifier) thisType)
+						.getAllSuperClassifiers().contains(typeParam.getAnnotationInterface()))) {
 			return true;
 		}
 
@@ -211,7 +215,7 @@ public final class TypeExtension {
 
 		// everything can be implicitly casted to CharSequence, so I match when the
 		// other type is a CharSequence
-		Interface charSequenceClass = typeParam.getLibInterface("CharSequence");
+		final Interface charSequenceClass = typeParam.getLibInterface("CharSequence");
 
 		if (lOtherType instanceof ConcreteClassifier && (lOtherType.equals(charSequenceClass)
 				|| ((ConcreteClassifier) lOtherType).getAllSuperClassifiers().contains(charSequenceClass))) {
@@ -228,7 +232,7 @@ public final class TypeExtension {
 		}
 
 		if (thisType instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
-			PrimitiveType primitiveType = ((tools.mdsd.jamopp.model.java.classifiers.Class) thisType)
+			final PrimitiveType primitiveType = ((tools.mdsd.jamopp.model.java.classifiers.Class) thisType)
 					.unWrapPrimitiveType();
 			if (primitiveType == null) {
 				return false;
@@ -264,7 +268,7 @@ public final class TypeExtension {
 	/**
 	 * @param type unused
 	 */
-	public static EList<Member> getAllMembers(Type type) {
+	public static EList<Member> getAllMembers(final Type type) {
 		// method has to be specified in subclasses
 		throw new UnsupportedOperationException();
 	}

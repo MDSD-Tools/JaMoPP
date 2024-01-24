@@ -37,10 +37,10 @@ public class BindingToModuleConverter
 	private Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	public BindingToModuleConverter(Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			ModulesFactory modulesFactory, ModifiersFactory modifiersFactory, JdtResolver jdtTResolverUtility,
-			UtilNamedElement utilNamedElement,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingToModuleConverter(final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final ModulesFactory modulesFactory, final ModifiersFactory modifiersFactory,
+			final JdtResolver jdtTResolverUtility, final UtilNamedElement utilNamedElement,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
@@ -50,8 +50,8 @@ public class BindingToModuleConverter
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.Module convert(IModuleBinding binding) {
-		tools.mdsd.jamopp.model.java.containers.Module result = jdtTResolverUtility.getModule(binding);
+	public tools.mdsd.jamopp.model.java.containers.Module convert(final IModuleBinding binding) {
+		final tools.mdsd.jamopp.model.java.containers.Module result = jdtTResolverUtility.getModule(binding);
 		if (result.eContents().isEmpty()) {
 			addAnnotations(binding, result);
 			if (binding.isOpen()) {
@@ -61,76 +61,77 @@ public class BindingToModuleConverter
 			result.setName("");
 			try {
 				addTargets(binding, result);
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 		}
 		return result;
 	}
 
-	private void addTargets(IModuleBinding binding, tools.mdsd.jamopp.model.java.containers.Module result) {
-		for (IPackageBinding packBind : binding.getExportedPackages()) {
-			ExportsModuleDirective dir = modulesFactory.createExportsModuleDirective();
+	private void addTargets(final IModuleBinding binding, final tools.mdsd.jamopp.model.java.containers.Module result) {
+		for (final IPackageBinding packBind : binding.getExportedPackages()) {
+			final ExportsModuleDirective dir = modulesFactory.createExportsModuleDirective();
 			dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
-			String[] mods = binding.getExportedTo(packBind);
-			for (String modName : mods) {
-				ModuleReference ref = modulesFactory.createModuleReference();
+			final String[] mods = binding.getExportedTo(packBind);
+			for (final String modName : mods) {
+				final ModuleReference ref = modulesFactory.createModuleReference();
 				ref.setTarget(jdtTResolverUtility.getModule(modName));
 				dir.getModules().add(ref);
 			}
 			result.getTarget().add(dir);
 		}
-		for (IPackageBinding packBind : binding.getOpenedPackages()) {
-			OpensModuleDirective dir = modulesFactory.createOpensModuleDirective();
+		for (final IPackageBinding packBind : binding.getOpenedPackages()) {
+			final OpensModuleDirective dir = modulesFactory.createOpensModuleDirective();
 			dir.setAccessablePackage(jdtTResolverUtility.getPackage(packBind));
-			String[] mods = binding.getOpenedTo(packBind);
-			for (String modName : mods) {
-				ModuleReference ref = modulesFactory.createModuleReference();
+			final String[] mods = binding.getOpenedTo(packBind);
+			for (final String modName : mods) {
+				final ModuleReference ref = modulesFactory.createModuleReference();
 				ref.setTarget(jdtTResolverUtility.getModule(modName));
 				dir.getModules().add(ref);
 			}
 			result.getTarget().add(dir);
 		}
-		for (IModuleBinding modBind : binding.getRequiredModules()) {
-			RequiresModuleDirective dir = modulesFactory.createRequiresModuleDirective();
-			tools.mdsd.jamopp.model.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
-			ModuleReference ref = modulesFactory.createModuleReference();
+		for (final IModuleBinding modBind : binding.getRequiredModules()) {
+			final RequiresModuleDirective dir = modulesFactory.createRequiresModuleDirective();
+			final tools.mdsd.jamopp.model.java.containers.Module reqMod = jdtTResolverUtility.getModule(modBind);
+			final ModuleReference ref = modulesFactory.createModuleReference();
 			ref.setTarget(reqMod);
 			dir.setRequiredModule(ref);
 			result.getTarget().add(dir);
 		}
-		for (ITypeBinding typeBind : binding.getUses()) {
-			UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
+		for (final ITypeBinding typeBind : binding.getUses()) {
+			final UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
 			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
 			result.getTarget().add(dir);
 		}
-		for (ITypeBinding typeBind : binding.getServices()) {
-			ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
+		for (final ITypeBinding typeBind : binding.getServices()) {
+			final ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
 			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
-			for (ITypeBinding service : binding.getImplementations(typeBind)) {
+			for (final ITypeBinding service : binding.getImplementations(typeBind)) {
 				dir.getServiceProviders().addAll(toTypeReferencesConverter.convert(service));
 			}
 			result.getTarget().add(dir);
 		}
 	}
 
-	private void addAnnotations(IModuleBinding binding, tools.mdsd.jamopp.model.java.containers.Module result) {
+	private void addAnnotations(final IModuleBinding binding,
+			final tools.mdsd.jamopp.model.java.containers.Module result) {
 		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+			for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 				result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
-		} catch (AbortCompilation e) {
+		} catch (final AbortCompilation e) {
 			// Ignore
 		}
 	}
 
 	@Inject
-	public void setJdtTResolverUtility(JdtResolver jdtTResolverUtility) {
+	public void setJdtTResolverUtility(final JdtResolver jdtTResolverUtility) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 
 	@Inject
-	public void setToTypeReferencesConverter(ToTypeReferencesConverter toTypeReferencesConverter) {
+	public void setToTypeReferencesConverter(final ToTypeReferencesConverter toTypeReferencesConverter) {
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 	}
 

@@ -34,13 +34,13 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 	private final Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter;
 
 	@Inject
-	public ToFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout, JdtResolver iUtilJdtResolver,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			UtilTypeInstructionSeparation toInstructionSeparation,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public ToFieldConverter(final UtilNamedElement utilNamedElement, final UtilLayout utilLayout,
+			final JdtResolver iUtilJdtResolver, final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			final UtilTypeInstructionSeparation toInstructionSeparation,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final Converter<VariableDeclarationFragment, AdditionalField> toAdditionalFieldConverter,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.toModifierOrAnnotationInstanceConverter = toModifierOrAnnotationInstanceConverter;
@@ -54,10 +54,10 @@ public class ToFieldConverter implements Converter<FieldDeclaration, Field> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Field convert(FieldDeclaration fieldDecl) {
-		VariableDeclarationFragment firstFragment = (VariableDeclarationFragment) fieldDecl.fragments().get(0);
+	public Field convert(final FieldDeclaration fieldDecl) {
+		final VariableDeclarationFragment firstFragment = (VariableDeclarationFragment) fieldDecl.fragments().get(0);
 		Field result;
-		IVariableBinding binding = firstFragment.resolveBinding();
+		final IVariableBinding binding = firstFragment.resolveBinding();
 		if (binding != null) {
 			result = iUtilJdtResolver.getField(binding);
 		} else {

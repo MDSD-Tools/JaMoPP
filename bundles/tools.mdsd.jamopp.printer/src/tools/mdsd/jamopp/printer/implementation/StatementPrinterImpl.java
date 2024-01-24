@@ -58,19 +58,21 @@ public class StatementPrinterImpl implements Printer<Statement> {
 	private final List<Mapping<? extends Statement>> mappings;
 
 	@Inject
-	public StatementPrinterImpl(Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter,
-			Provider<Printer<Assert>> assertPrinter, Provider<Printer<Block>> blockPrinter,
-			Provider<Printer<Condition>> conditionPrinter,
-			@Named("EmptyStatementPrinter") Provider<EmptyPrinter> emptyStatementPrinter,
-			Provider<Printer<ExpressionStatement>> expressionStatementPrinter,
-			Provider<Printer<ForLoop>> forLoopPrinter, Provider<Printer<ForEachLoop>> forEachLoopPrinter,
-			Provider<Printer<Break>> breakPrinter, Provider<Printer<Continue>> continuePrinter,
-			Provider<Printer<JumpLabel>> jumpLabelPrinter,
-			Provider<Printer<LocalVariableStatement>> localVariableStatementPrinter,
-			Provider<Printer<Return>> returnPrinter, Provider<Printer<Switch>> switchPrinter,
-			Provider<Printer<SynchronizedBlock>> synchronizedBlockPrinter, Provider<Printer<Throw>> throwPrinter,
-			Provider<Printer<TryBlock>> tryBlockPrinter, Provider<Printer<DoWhileLoop>> doWhileLoopPrinter,
-			Provider<Printer<WhileLoop>> whileLoopPrinter, Provider<Printer<YieldStatement>> yieldStatementPrinter) {
+	public StatementPrinterImpl(final Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter,
+			final Provider<Printer<Assert>> assertPrinter, final Provider<Printer<Block>> blockPrinter,
+			final Provider<Printer<Condition>> conditionPrinter,
+			@Named("EmptyStatementPrinter") final Provider<EmptyPrinter> emptyStatementPrinter,
+			final Provider<Printer<ExpressionStatement>> expressionStatementPrinter,
+			final Provider<Printer<ForLoop>> forLoopPrinter, final Provider<Printer<ForEachLoop>> forEachLoopPrinter,
+			final Provider<Printer<Break>> breakPrinter, final Provider<Printer<Continue>> continuePrinter,
+			final Provider<Printer<JumpLabel>> jumpLabelPrinter,
+			final Provider<Printer<LocalVariableStatement>> localVariableStatementPrinter,
+			final Provider<Printer<Return>> returnPrinter, final Provider<Printer<Switch>> switchPrinter,
+			final Provider<Printer<SynchronizedBlock>> synchronizedBlockPrinter,
+			final Provider<Printer<Throw>> throwPrinter, final Provider<Printer<TryBlock>> tryBlockPrinter,
+			final Provider<Printer<DoWhileLoop>> doWhileLoopPrinter,
+			final Provider<Printer<WhileLoop>> whileLoopPrinter,
+			final Provider<Printer<YieldStatement>> yieldStatementPrinter) {
 		this.concreteClassifierPrinter = concreteClassifierPrinter;
 		this.assertPrinter = assertPrinter;
 		this.blockPrinter = blockPrinter;
@@ -95,7 +97,7 @@ public class StatementPrinterImpl implements Printer<Statement> {
 	}
 
 	@Override
-	public void print(Statement element, BufferedWriter writer) throws IOException {
+	public void print(final Statement element, final BufferedWriter writer) throws IOException {
 		if (mappings.isEmpty()) {
 			mappings.add(new Mapping<>(ConcreteClassifier.class, concreteClassifierPrinter));
 			mappings.add(new Mapping<>(Assert.class, assertPrinter));
@@ -118,8 +120,8 @@ public class StatementPrinterImpl implements Printer<Statement> {
 			mappings.add(new Mapping<>(YieldStatement.class, yieldStatementPrinter));
 		}
 
-		for (Mapping<? extends Statement> mapping : mappings) {
-			boolean printed = mapping.checkAndPrint(element, writer);
+		for (final Mapping<? extends Statement> mapping : mappings) {
+			final boolean printed = mapping.checkAndPrint(element, writer);
 			if (printed) {
 				return;
 			}

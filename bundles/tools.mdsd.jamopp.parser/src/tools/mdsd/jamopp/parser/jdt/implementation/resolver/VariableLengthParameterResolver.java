@@ -17,9 +17,9 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public VariableLengthParameterResolver(Map<String, VariableLengthParameter> bindings,
-			Set<IVariableBinding> variableBindings, ParametersFactory parametersFactory,
-			ToParameterNameConverter toParameterNameConverter) {
+	public VariableLengthParameterResolver(final Map<String, VariableLengthParameter> bindings,
+			final Set<IVariableBinding> variableBindings, final ParametersFactory parametersFactory,
+			final ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.parametersFactory = parametersFactory;
@@ -27,14 +27,14 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 	}
 
 	@Override
-	public VariableLengthParameter getByBinding(IVariableBinding binding) {
+	public VariableLengthParameter getByBinding(final IVariableBinding binding) {
 		VariableLengthParameter variableLengthParameter;
-		String paramName = toParameterNameConverter.convertToParameterName(binding, true);
+		final String paramName = toParameterNameConverter.convertToParameterName(binding, true);
 		if (getBindings().containsKey(paramName)) {
 			variableLengthParameter = getBindings().get(paramName);
 		} else {
 			variableBindings.add(binding);
-			VariableLengthParameter result = parametersFactory.createVariableLengthParameter();
+			final VariableLengthParameter result = parametersFactory.createVariableLengthParameter();
 			getBindings().put(paramName, result);
 			variableLengthParameter = result;
 		}
@@ -42,7 +42,7 @@ public class VariableLengthParameterResolver extends ResolverAbstract<VariableLe
 	}
 
 	@Override
-	public VariableLengthParameter getByName(String name) {
+	public VariableLengthParameter getByName(final String name) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

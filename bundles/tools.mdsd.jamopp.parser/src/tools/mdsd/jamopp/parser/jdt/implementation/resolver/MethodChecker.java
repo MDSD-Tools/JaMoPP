@@ -14,15 +14,15 @@ public class MethodChecker {
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public MethodChecker(ToTypeNameConverter toTypeNameConverter) {
+	public MethodChecker(final ToTypeNameConverter toTypeNameConverter) {
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T extends Method> T checkMethod(Method mem, IMethodBinding binding) {
+	protected <T extends Method> T checkMethod(final Method mem, final IMethodBinding binding) {
 		T result = null;
 		if (mem.getName().equals(binding.getName())) {
-			T meth = (T) mem;
+			final T meth = (T) mem;
 			if ("clone".equals(meth.getName())) {
 				result = meth;
 			} else {
@@ -40,11 +40,11 @@ public class MethodChecker {
 		return result;
 	}
 
-	private boolean predicateThree(IMethodBinding binding, Parametrizable meth, int receiveOffset) {
+	private boolean predicateThree(final IMethodBinding binding, final Parametrizable meth, final int receiveOffset) {
 		boolean result = false;
 		for (int i = 0; i < binding.getParameterTypes().length; i++) {
-			ITypeBinding currentParamType = binding.getParameterTypes()[i];
-			Parameter currentParam = meth.getParameters().get(i + receiveOffset);
+			final ITypeBinding currentParamType = binding.getParameterTypes()[i];
+			final Parameter currentParam = meth.getParameters().get(i + receiveOffset);
 			if (predicateTwo(currentParamType, currentParam)) {
 				result = true;
 			}
@@ -52,13 +52,14 @@ public class MethodChecker {
 		return result;
 	}
 
-	private boolean predicateTwo(ITypeBinding currentParamType, Parameter currentParam) {
+	private boolean predicateTwo(final ITypeBinding currentParamType, final Parameter currentParam) {
 		return !toTypeNameConverter.convertToTypeName(currentParamType)
 				.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
 				|| currentParamType.getDimensions() != currentParam.getArrayDimension();
 	}
 
-	private <T extends Method> boolean predicateOne(IMethodBinding binding, T meth, int receiveOffset) {
+	private <T extends Method> boolean predicateOne(final IMethodBinding binding, final T meth,
+			final int receiveOffset) {
 		return receiveOffset == 1
 				&& (!(meth.getParameters().get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
 						|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType()).equals(

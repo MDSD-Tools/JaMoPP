@@ -23,10 +23,10 @@ public class HandlerInstanceOf implements ExpressionHandler {
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	public HandlerInstanceOf(UtilLayout utilLayout, Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			ExpressionsFactory expressionsFactory,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public HandlerInstanceOf(final UtilLayout utilLayout, final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final ExpressionsFactory expressionsFactory,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.utilLayout = utilLayout;
 		this.toExpressionConverter = toExpressionConverter;
 		this.expressionsFactory = expressionsFactory;
@@ -35,9 +35,9 @@ public class HandlerInstanceOf implements ExpressionHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		InstanceofExpression castedExpr = (InstanceofExpression) expr;
-		tools.mdsd.jamopp.model.java.expressions.InstanceOfExpression result = expressionsFactory
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final InstanceofExpression castedExpr = (InstanceofExpression) expr;
+		final tools.mdsd.jamopp.model.java.expressions.InstanceOfExpression result = expressionsFactory
 				.createInstanceOfExpression();
 		result.setChild((InstanceOfExpressionChild) toExpressionConverter.convert(castedExpr.getLeftOperand()));
 		result.setTypeReference(toTypeReferenceConverter.convert(castedExpr.getRightOperand()));

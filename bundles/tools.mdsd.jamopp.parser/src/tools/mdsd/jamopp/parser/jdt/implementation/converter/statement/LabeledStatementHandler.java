@@ -2,10 +2,10 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.LabeledStatement;
 import org.eclipse.jdt.core.dom.Statement;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -22,10 +22,10 @@ public class LabeledStatementHandler implements StatementHandler {
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
-	public LabeledStatementHandler(UtilNamedElement utilNamedElement, StatementsFactory statementsFactory,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
-			UtilLayout layoutInformationConverter,
-			Set<tools.mdsd.jamopp.model.java.statements.JumpLabel> currentJumpLabels) {
+	public LabeledStatementHandler(final UtilNamedElement utilNamedElement, final StatementsFactory statementsFactory,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
+			final UtilLayout layoutInformationConverter,
+			final Set<tools.mdsd.jamopp.model.java.statements.JumpLabel> currentJumpLabels) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilNamedElement = utilNamedElement;
@@ -34,9 +34,9 @@ public class LabeledStatementHandler implements StatementHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		LabeledStatement labelSt = (LabeledStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.JumpLabel result = statementsFactory.createJumpLabel();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final LabeledStatement labelSt = (LabeledStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.JumpLabel result = statementsFactory.createJumpLabel();
 		utilNamedElement.setNameOfElement(labelSt.getLabel(), result);
 		currentJumpLabels.add(result);
 		result.setStatement(statementToStatementConverter.convert(labelSt.getBody()));

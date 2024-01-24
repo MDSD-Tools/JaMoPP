@@ -44,9 +44,9 @@ public final class CompilationUnitExtension {
 	 * @param name the name of the classifier to search for
 	 * @return the classifier if one is found, otherwise <code>null</code>
 	 */
-	public static ConcreteClassifier getContainedClassifier(CompilationUnit compilationUnit, String name) {
+	public static ConcreteClassifier getContainedClassifier(final CompilationUnit compilationUnit, final String name) {
 		ConcreteClassifier result = null;
-		for (ConcreteClassifier candidate : compilationUnit.getClassifiers()) {
+		for (final ConcreteClassifier candidate : compilationUnit.getClassifiers()) {
 			if (name.equals(candidate.getName())) {
 				result = candidate;
 			}
@@ -57,10 +57,10 @@ public final class CompilationUnitExtension {
 	/**
 	 * @return all classes in the same package imports
 	 */
-	public static EList<ConcreteClassifier> getClassifiersInSamePackage(CompilationUnit compilationUnit) {
-		EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getClassifiersInSamePackage(final CompilationUnit compilationUnit) {
+		final EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
 
-		String packageName = compilationUnit.getNamespacesAsString();
+		final String packageName = compilationUnit.getNamespacesAsString();
 
 		// locally defined in this container
 		defaultImportList.addAll(compilationUnit.getClassifiers());
@@ -79,10 +79,10 @@ public final class CompilationUnitExtension {
 	 * @return the class directly contained in the compilation unit (if there is
 	 *         exactly one contained classifier that is of type {@link Class})
 	 */
-	public static Class getContainedClass(CompilationUnit compilationUnit) {
-		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+	public static Class getContainedClass(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
 		Class result = null;
-		if (classifiers.get(0) instanceof Class clazz && classifiers.size() == 1) {
+		if (classifiers.get(0) instanceof final Class clazz && classifiers.size() == 1) {
 			result = clazz;
 		}
 		return result;
@@ -97,10 +97,10 @@ public final class CompilationUnitExtension {
 	 * @return the interface directly contained in the compilation unit (if there is
 	 *         exactly one contained classifier that is of type {@link Interface})
 	 */
-	public static Interface getContainedInterface(CompilationUnit compilationUnit) {
-		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+	public static Interface getContainedInterface(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
 		Interface result = null;
-		if (classifiers.get(0) instanceof Interface interfaze && classifiers.size() == 1) {
+		if (classifiers.get(0) instanceof final Interface interfaze && classifiers.size() == 1) {
 			result = interfaze;
 		}
 		return result;
@@ -116,10 +116,10 @@ public final class CompilationUnitExtension {
 	 *         is exactly one contained classifier that is of type
 	 *         {@link Annotation})
 	 */
-	public static Annotation getContainedAnnotation(CompilationUnit compilationUnit) {
-		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+	public static Annotation getContainedAnnotation(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
 		Annotation result = null;
-		if (classifiers.get(0) instanceof Annotation annotation && classifiers.size() == 1) {
+		if (classifiers.get(0) instanceof final Annotation annotation && classifiers.size() == 1) {
 			result = annotation;
 		}
 		return result;
@@ -135,10 +135,10 @@ public final class CompilationUnitExtension {
 	 *         is exactly one contained classifier that is of type
 	 *         {@link Enumeration})
 	 */
-	public static Enumeration getContainedEnumeration(CompilationUnit compilationUnit) {
-		List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+	public static Enumeration getContainedEnumeration(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
 		Enumeration result = null;
-		if (classifiers.get(0) instanceof Enumeration enumeration && classifiers.size() == 1) {
+		if (classifiers.get(0) instanceof final Enumeration enumeration && classifiers.size() == 1) {
 			result = enumeration;
 		}
 		return result;
@@ -147,9 +147,9 @@ public final class CompilationUnitExtension {
 	/**
 	 * Adds an import of the given class to this compilation unit.
 	 */
-	public static void addImport(CompilationUnit compilationUnit, String nameOfClassToImport) {
-		ClassifierImport classifierImport = ImportsFactory.eINSTANCE.createClassifierImport();
-		ConcreteClassifier classToImport = compilationUnit.getConcreteClassifier(nameOfClassToImport);
+	public static void addImport(final CompilationUnit compilationUnit, final String nameOfClassToImport) {
+		final ClassifierImport classifierImport = ImportsFactory.eINSTANCE.createClassifierImport();
+		final ConcreteClassifier classToImport = compilationUnit.getConcreteClassifier(nameOfClassToImport);
 		classifierImport.setClassifier(classToImport);
 		classifierImport.getNamespaces().addAll(classToImport.getContainingCompilationUnit().getNamespaces());
 		compilationUnit.getImports().add(classifierImport);
@@ -158,8 +158,8 @@ public final class CompilationUnitExtension {
 	/**
 	 * Adds an import of the given package to this compilation unit.
 	 */
-	public static void addPackageImport(CompilationUnit compilationUnit, String packageName) {
-		PackageImport nsImport = ImportsFactory.eINSTANCE.createPackageImport();
+	public static void addPackageImport(final CompilationUnit compilationUnit, final String packageName) {
+		final PackageImport nsImport = ImportsFactory.eINSTANCE.createPackageImport();
 		Collections.addAll(nsImport.getNamespaces(), packageName.split("\\."));
 		compilationUnit.getImports().add(nsImport);
 	}

@@ -27,10 +27,10 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	public TypeToTypeArgumentConverter(Converter<Type, TypeReference> toTypeReferenceConverter,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
-			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			UtilLayout layoutInformationConverter, GenericsFactory genericsFactory) {
+	public TypeToTypeArgumentConverter(final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+			final UtilLayout layoutInformationConverter, final GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -40,16 +40,16 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public TypeArgument convert(Type type) {
+	public TypeArgument convert(final Type type) {
 		TypeArgument result;
 		if (type.isWildcardType()) {
-			WildcardType wildType = (WildcardType) type;
+			final WildcardType wildType = (WildcardType) type;
 			if (wildType.getBound() == null) {
 				result = handleNoBound(wildType);
 			} else if (wildType.isUpperBound()) {
 				result = handleUpperBound(wildType);
 			} else {
-				SuperTypeArgument newResult = genericsFactory.createSuperTypeArgument();
+				final SuperTypeArgument newResult = genericsFactory.createSuperTypeArgument();
 				wildType.annotations().forEach(
 						obj -> newResult.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 				newResult.setSuperType(toTypeReferenceConverter.convert(wildType.getBound()));
@@ -63,8 +63,8 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 		return result;
 	}
 
-	private TypeArgument handleIsNotWildcard(Type type) {
-		QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
+	private TypeArgument handleIsNotWildcard(final Type type) {
+		final QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 		result.setTypeReference(toTypeReferenceConverter.convert(type));
 		utilToArrayDimensionsAndSetConverter.convert(type, result);
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, type);
@@ -72,8 +72,8 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 	}
 
 	@SuppressWarnings("unchecked")
-	private TypeArgument handleNoBound(WildcardType wildType) {
-		UnknownTypeArgument result = genericsFactory.createUnknownTypeArgument();
+	private TypeArgument handleNoBound(final WildcardType wildType) {
+		final UnknownTypeArgument result = genericsFactory.createUnknownTypeArgument();
 		wildType.annotations()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, wildType);
@@ -81,8 +81,8 @@ public class TypeToTypeArgumentConverter implements Converter<Type, TypeArgument
 	}
 
 	@SuppressWarnings("unchecked")
-	private TypeArgument handleUpperBound(WildcardType wildType) {
-		ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
+	private TypeArgument handleUpperBound(final WildcardType wildType) {
+		final ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
 		wildType.annotations()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));
 		result.setExtendType(toTypeReferenceConverter.convert(wildType.getBound()));

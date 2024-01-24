@@ -22,7 +22,7 @@ public final class ArrayTypeableExtension {
 		// Should not be initiated.
 	}
 
-	public static long getArrayDimension(ArrayTypeable arrayTypeable) {
+	public static long getArrayDimension(final ArrayTypeable arrayTypeable) {
 		long size = (long) arrayTypeable.getArrayDimensionsBefore().size()
 				+ arrayTypeable.getArrayDimensionsAfter().size();
 		if (arrayTypeable instanceof VariableLengthParameter) {

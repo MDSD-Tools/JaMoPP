@@ -18,8 +18,9 @@ public class ToArrayDimensionConverter implements Converter<Dimension, ArrayDime
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	public ToArrayDimensionConverter(UtilLayout utilLayout,
-			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter, ArraysFactory arraysFactory) {
+	public ToArrayDimensionConverter(final UtilLayout utilLayout,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
+			final ArraysFactory arraysFactory) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
@@ -27,8 +28,8 @@ public class ToArrayDimensionConverter implements Converter<Dimension, ArrayDime
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ArrayDimension convert(Dimension dim) {
-		ArrayDimension result = arraysFactory.createArrayDimension();
+	public ArrayDimension convert(final Dimension dim) {
+		final ArrayDimension result = arraysFactory.createArrayDimension();
 		dim.annotations().forEach(
 				annot -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) annot)));
 		utilLayout.convertToMinimalLayoutInformation(result, dim);

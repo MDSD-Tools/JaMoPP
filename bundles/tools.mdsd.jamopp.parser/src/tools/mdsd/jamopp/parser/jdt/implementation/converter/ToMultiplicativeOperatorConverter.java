@@ -13,12 +13,12 @@ public class ToMultiplicativeOperatorConverter implements Converter<InfixExpress
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	public ToMultiplicativeOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToMultiplicativeOperatorConverter(final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public MultiplicativeOperator convert(InfixExpression.Operator operator) {
+	public MultiplicativeOperator convert(final InfixExpression.Operator operator) {
 		MultiplicativeOperator result = null;
 		if (operator.equals(InfixExpression.Operator.TIMES)) {
 			result = operatorsFactory.createMultiplication();

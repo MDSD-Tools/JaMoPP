@@ -52,17 +52,17 @@ public final class PrimitiveTypeExtension {
 	 * @param context to check protected visibility
 	 * @return all members (including super type members)
 	 */
-	public static EList<Member> getAllMembers(PrimitiveType primitiveType, Commentable context) {
-		tools.mdsd.jamopp.model.java.classifiers.Class javaClass = primitiveType.wrapPrimitiveType();
+	public static EList<Member> getAllMembers(final PrimitiveType primitiveType, final Commentable context) {
+		final tools.mdsd.jamopp.model.java.classifiers.Class javaClass = primitiveType.wrapPrimitiveType();
 		return javaClass.getAllMembers(context);
 	}
 
 	/**
 	 * @return primitive type as a class representation
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class wrapPrimitiveType(PrimitiveType type) {
+	public static tools.mdsd.jamopp.model.java.classifiers.Class wrapPrimitiveType(final PrimitiveType type) {
 		tools.mdsd.jamopp.model.java.classifiers.Class javaClass = null;
-		for (Entry<Class<?>, String> entry : MAPPINGS.entrySet()) {
+		for (final Entry<Class<?>, String> entry : MAPPINGS.entrySet()) {
 			if (entry.getKey().isInstance(type)) {
 				javaClass = type.getLibClass(entry.getValue());
 				break;

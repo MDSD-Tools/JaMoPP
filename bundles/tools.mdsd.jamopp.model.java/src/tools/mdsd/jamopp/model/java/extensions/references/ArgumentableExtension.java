@@ -33,11 +33,11 @@ public final class ArgumentableExtension {
 	 *
 	 * @return list of types of 'me'
 	 */
-	public static EList<Type> getArgumentTypes(Argumentable argumentable) {
-		EList<Type> resultList = new BasicEList<>();
+	public static EList<Type> getArgumentTypes(final Argumentable argumentable) {
+		final EList<Type> resultList = new BasicEList<>();
 
-		for (Expression argument : argumentable.getArguments()) {
-			Type type = argument.getType();
+		for (final Expression argument : argumentable.getArguments()) {
+			final Type type = argument.getType();
 			resultList.add(type);
 		}
 		return resultList;

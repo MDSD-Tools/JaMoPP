@@ -56,9 +56,9 @@ public final class ClassExtension {
 	 * interfaces) of the given class.
 	 */
 	public static EList<ConcreteClassifier> getAllSuperClassifiers(
-			tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
+			final tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
 
-		EList<ConcreteClassifier> result = new UniqueEList<>();
+		final EList<ConcreteClassifier> result = new UniqueEList<>();
 
 		// Collects all super classes first
 		tools.mdsd.jamopp.model.java.classifiers.Class superClass = clazz;
@@ -75,8 +75,8 @@ public final class ClassExtension {
 		return result;
 	}
 
-	private static void collectImplementedInterfacesOfSuperClass(tools.mdsd.jamopp.model.java.classifiers.Class clazz,
-			EList<ConcreteClassifier> result) {
+	private static void collectImplementedInterfacesOfSuperClass(
+			final tools.mdsd.jamopp.model.java.classifiers.Class clazz, final EList<ConcreteClassifier> result) {
 		tools.mdsd.jamopp.model.java.classifiers.Class superClass;
 		superClass = clazz.getSuperClass();
 		if (superClass != null && !superClass.eIsProxy() && !clazz.isJavaLangObject(superClass)) {
@@ -84,10 +84,10 @@ public final class ClassExtension {
 		}
 	}
 
-	private static void collectAllImplementedInterfaces(tools.mdsd.jamopp.model.java.classifiers.Class clazz,
-			EList<ConcreteClassifier> result) {
-		for (TypeReference typeArg : clazz.getImplements()) {
-			ConcreteClassifier superInterface = (ConcreteClassifier) typeArg.getTarget();
+	private static void collectAllImplementedInterfaces(final tools.mdsd.jamopp.model.java.classifiers.Class clazz,
+			final EList<ConcreteClassifier> result) {
+		for (final TypeReference typeArg : clazz.getImplements()) {
+			final ConcreteClassifier superInterface = (ConcreteClassifier) typeArg.getTarget();
 			if (superInterface != null) {
 				result.add(superInterface);
 				if (superInterface instanceof Interface) {
@@ -101,7 +101,7 @@ public final class ClassExtension {
 	 * @return the direct super class
 	 */
 	public static tools.mdsd.jamopp.model.java.classifiers.Class getSuperClass(
-			tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
+			final tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
 
 		TypeReference superClassReference = clazz.getExtends();
 		if (superClassReference == null) {
@@ -110,7 +110,7 @@ public final class ClassExtension {
 
 		tools.mdsd.jamopp.model.java.classifiers.Class result = null;
 		if (superClassReference != null) {
-			Type target = superClassReference.getTarget();
+			final Type target = superClassReference.getTarget();
 			if (target instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
 				result = (tools.mdsd.jamopp.model.java.classifiers.Class) target;
 			}
@@ -121,11 +121,11 @@ public final class ClassExtension {
 	/**
 	 * @return primitive type, if the class can be wrapped
 	 */
-	public static PrimitiveType unWrapPrimitiveType(tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
+	public static PrimitiveType unWrapPrimitiveType(final tools.mdsd.jamopp.model.java.classifiers.Class clazz) {
 		PrimitiveType result = null;
-		for (Entry<String, Supplier<PrimitiveType>> entry : MAPPINGS.entrySet()) {
-			String key = entry.getKey();
-			Supplier<PrimitiveType> val = entry.getValue();
+		for (final Entry<String, Supplier<PrimitiveType>> entry : MAPPINGS.entrySet()) {
+			final String key = entry.getKey();
+			final Supplier<PrimitiveType> val = entry.getValue();
 			if (clazz.getLibClass(key).equals(clazz)) {
 				result = val.get();
 				break;

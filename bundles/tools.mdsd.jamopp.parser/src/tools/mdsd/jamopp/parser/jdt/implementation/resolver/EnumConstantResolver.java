@@ -18,9 +18,9 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 	private final ToFieldNameConverter toFieldNameConverter;
 
 	@Inject
-	public EnumConstantResolver(Map<String, EnumConstant> bindings, Set<IVariableBinding> variableBindings,
-			MembersFactory membersFactory, EnumerationResolver enumerationResolver,
-			ToFieldNameConverter toFieldNameConverter) {
+	public EnumConstantResolver(final Map<String, EnumConstant> bindings, final Set<IVariableBinding> variableBindings,
+			final MembersFactory membersFactory, final EnumerationResolver enumerationResolver,
+			final ToFieldNameConverter toFieldNameConverter) {
 		super(bindings);
 		this.membersFactory = membersFactory;
 		this.variableBindings = variableBindings;
@@ -29,18 +29,18 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 	}
 
 	@Override
-	public EnumConstant getByBinding(IVariableBinding binding) {
-		String enumCN = toFieldNameConverter.convertToFieldName(binding);
+	public EnumConstant getByBinding(final IVariableBinding binding) {
+		final String enumCN = toFieldNameConverter.convertToFieldName(binding);
 		EnumConstant enumConstant;
 		if (getBindings().containsKey(enumCN)) {
 			enumConstant = getBindings().get(enumCN);
 		} else {
 			variableBindings.add(binding);
-			tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = enumerationResolver
+			final tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = enumerationResolver
 					.getByBinding(binding.getDeclaringClass());
 			EnumConstant result = null;
 			if (potPar != null) {
-				for (EnumConstant con : potPar.getConstants()) {
+				for (final EnumConstant con : potPar.getConstants()) {
 					if (con.getName().equals(binding.getName())) {
 						result = con;
 						break;
@@ -57,12 +57,12 @@ public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariab
 	}
 
 	@Override
-	public EnumConstant getByName(String name) {
+	public EnumConstant getByName(final String name) {
 		EnumConstant enumConstant;
 		if (getBindings().containsKey(name)) {
 			enumConstant = getBindings().get(name);
 		} else {
-			EnumConstant result = membersFactory.createEnumConstant();
+			final EnumConstant result = membersFactory.createEnumConstant();
 			getBindings().put(name, result);
 			enumConstant = result;
 		}

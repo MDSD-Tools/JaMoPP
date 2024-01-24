@@ -17,35 +17,35 @@ public class ToSwitchCaseConverter
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility;
 
 	@Inject
-	public ToSwitchCaseConverter(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+	public ToSwitchCaseConverter(final StatementsFactory statementsFactory, final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.SwitchCase convert(SwitchCase switchCase) {
+	public tools.mdsd.jamopp.model.java.statements.SwitchCase convert(final SwitchCase switchCase) {
 		tools.mdsd.jamopp.model.java.statements.SwitchCase result;
 		if (switchCase.isSwitchLabeledRule() && switchCase.isDefault()) {
 			result = statementsFactory.createDefaultSwitchRule();
 		} else if (switchCase.isSwitchLabeledRule() && !switchCase.isDefault()) {
-			tools.mdsd.jamopp.model.java.statements.NormalSwitchRule normalRule = statementsFactory
+			final tools.mdsd.jamopp.model.java.statements.NormalSwitchRule normalRule = statementsFactory
 					.createNormalSwitchRule();
 			normalRule.setCondition(expressionConverterUtility.convert((Expression) switchCase.expressions().get(0)));
 			for (int index = 1; index < switchCase.expressions().size(); index++) {
-				Expression expr = (Expression) switchCase.expressions().get(index);
+				final Expression expr = (Expression) switchCase.expressions().get(index);
 				normalRule.getAdditionalConditions().add(expressionConverterUtility.convert(expr));
 			}
 			result = normalRule;
 		} else if (!switchCase.isSwitchLabeledRule() && switchCase.isDefault()) {
 			result = statementsFactory.createDefaultSwitchCase();
 		} else { // !switchCase.isSwitchLabeledRule() && !switchCase.isDefault()
-			tools.mdsd.jamopp.model.java.statements.NormalSwitchCase normalCase = statementsFactory
+			final tools.mdsd.jamopp.model.java.statements.NormalSwitchCase normalCase = statementsFactory
 					.createNormalSwitchCase();
 			normalCase.setCondition(expressionConverterUtility.convert((Expression) switchCase.expressions().get(0)));
 			for (int index = 1; index < switchCase.expressions().size(); index++) {
-				Expression expr = (Expression) switchCase.expressions().get(index);
+				final Expression expr = (Expression) switchCase.expressions().get(index);
 				normalCase.getAdditionalConditions().add(expressionConverterUtility.convert(expr));
 			}
 			result = normalCase;

@@ -41,15 +41,16 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 	private final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	public BindingInfoToConcreteClassifierConverterImpl(UtilNamedElement utilNamedElement,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
-			JdtResolver jdtTResolverUtility, Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
-			Converter<IMethodBinding, Method> bindingToMethodConverter,
-			Converter<IVariableBinding, Field> bindingToFieldConverter,
-			Converter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter,
-			Converter<IMethodBinding, Constructor> bindingToConstructorConverter,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingInfoToConcreteClassifierConverterImpl(final UtilNamedElement utilNamedElement,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
+			final JdtResolver jdtTResolverUtility,
+			final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			final Converter<IMethodBinding, Method> bindingToMethodConverter,
+			final Converter<IVariableBinding, Field> bindingToFieldConverter,
+			final Converter<IVariableBinding, EnumConstant> bindingToEnumConstantConverter,
+			final Converter<IMethodBinding, Constructor> bindingToConstructorConverter,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;
@@ -63,10 +64,10 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 	}
 
 	@Override
-	public ConcreteClassifier convert(ITypeBinding binding, boolean extractAdditionalInformation) {
-		ITypeBinding typeDeclaration = binding.getTypeDeclaration();
+	public ConcreteClassifier convert(final ITypeBinding binding, final boolean extractAdditionalInformation) {
+		final ITypeBinding typeDeclaration = binding.getTypeDeclaration();
 
-		ConcreteClassifier result = getConcreteClassifier(typeDeclaration, extractAdditionalInformation);
+		final ConcreteClassifier result = getConcreteClassifier(typeDeclaration, extractAdditionalInformation);
 
 		result.setPackage(jdtTResolverUtility.getPackage(typeDeclaration.getPackage()));
 		if (result.eContainer() == null) {
@@ -78,17 +79,17 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 		return result;
 	}
 
-	private void handleEmptyContainer(ITypeBinding binding, boolean extractAdditionalInformation,
-			ConcreteClassifier result) {
+	private void handleEmptyContainer(final ITypeBinding binding, final boolean extractAdditionalInformation,
+			final ConcreteClassifier result) {
 		if (extractAdditionalInformation) {
 			try {
-				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+				for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 					result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
-				for (ITypeBinding typeBind : binding.getTypeParameters()) {
+				for (final ITypeBinding typeBind : binding.getTypeParameters()) {
 					result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 		}
@@ -96,19 +97,19 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 		utilNamedElement.convertToNameAndSet(binding, result);
 	}
 
-	private void extractAdditionalInformation(ITypeBinding binding, ConcreteClassifier result) {
+	private void extractAdditionalInformation(final ITypeBinding binding, final ConcreteClassifier result) {
 		try {
 			addFields(binding, result);
 			addMethods(binding, result);
 			addTypes(binding, result);
-		} catch (AbortCompilation ignore) {
+		} catch (final AbortCompilation ignore) {
 			// Ignore
 		}
 	}
 
-	private void addTypes(ITypeBinding binding, ConcreteClassifier result) {
+	private void addTypes(final ITypeBinding binding, final ConcreteClassifier result) {
 		Member member;
-		for (ITypeBinding typeBind : binding.getDeclaredTypes()) {
+		for (final ITypeBinding typeBind : binding.getDeclaredTypes()) {
 			member = convert(typeBind, true);
 			if (!result.getMembers().contains(member)) {
 				result.getMembers().add(member);
@@ -116,20 +117,20 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 		}
 	}
 
-	private void addFields(ITypeBinding binding, ConcreteClassifier result) {
-		for (IVariableBinding varBind : binding.getDeclaredFields()) {
+	private void addFields(final ITypeBinding binding, final ConcreteClassifier result) {
+		for (final IVariableBinding varBind : binding.getDeclaredFields()) {
 			if (varBind.isEnumConstant()) {
 				continue;
 			}
-			Member member = bindingToFieldConverter.convert(varBind);
+			final Member member = bindingToFieldConverter.convert(varBind);
 			if (!result.getMembers().contains(member)) {
 				result.getMembers().add(member);
 			}
 		}
 	}
 
-	private void addMethods(ITypeBinding binding, ConcreteClassifier result) {
-		for (IMethodBinding methBind : binding.getDeclaredMethods()) {
+	private void addMethods(final ITypeBinding binding, final ConcreteClassifier result) {
+		for (final IMethodBinding methBind : binding.getDeclaredMethods()) {
 			if (methBind.isDefaultConstructor()) {
 				continue;
 			}
@@ -145,7 +146,8 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 		}
 	}
 
-	private ConcreteClassifier getConcreteClassifier(ITypeBinding binding, boolean extractAdditionalInformation) {
+	private ConcreteClassifier getConcreteClassifier(final ITypeBinding binding,
+			final boolean extractAdditionalInformation) {
 		ConcreteClassifier result;
 		if (binding.isAnnotation()) {
 			result = jdtTResolverUtility.getAnnotation(binding);
@@ -159,52 +161,53 @@ public class BindingInfoToConcreteClassifierConverterImpl implements ToConcreteC
 		return result;
 	}
 
-	private ConcreteClassifier handleElse(ITypeBinding binding, boolean extractAdditionalInformation) {
-		tools.mdsd.jamopp.model.java.classifiers.Enumeration resultEnum = jdtTResolverUtility.getEnumeration(binding);
+	private ConcreteClassifier handleElse(final ITypeBinding binding, final boolean extractAdditionalInformation) {
+		final tools.mdsd.jamopp.model.java.classifiers.Enumeration resultEnum = jdtTResolverUtility
+				.getEnumeration(binding);
 		if (resultEnum.eContainer() == null) {
 			try {
-				for (ITypeBinding typeBind : binding.getInterfaces()) {
+				for (final ITypeBinding typeBind : binding.getInterfaces()) {
 					resultEnum.getImplements().addAll(toTypeReferencesConverter.convert(typeBind));
 				}
 				if (extractAdditionalInformation) {
-					for (IVariableBinding varBind : binding.getDeclaredFields()) {
+					for (final IVariableBinding varBind : binding.getDeclaredFields()) {
 						if (varBind.isEnumConstant()) {
 							resultEnum.getConstants().add(bindingToEnumConstantConverter.convert(varBind));
 						}
 					}
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 		}
 		return resultEnum;
 	}
 
-	private ConcreteClassifier handleInterface(ITypeBinding binding) {
-		Interface resultInterface = jdtTResolverUtility.getInterface(binding);
+	private ConcreteClassifier handleInterface(final ITypeBinding binding) {
+		final Interface resultInterface = jdtTResolverUtility.getInterface(binding);
 		if (resultInterface.eContainer() == null) {
 			try {
-				for (ITypeBinding typeBind : binding.getInterfaces()) {
+				for (final ITypeBinding typeBind : binding.getInterfaces()) {
 					resultInterface.getExtends().addAll(toTypeReferencesConverter.convert(typeBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 		}
 		return resultInterface;
 	}
 
-	private ConcreteClassifier handleClass(ITypeBinding binding) {
-		tools.mdsd.jamopp.model.java.classifiers.Class resultClass = jdtTResolverUtility.getClass(binding);
+	private ConcreteClassifier handleClass(final ITypeBinding binding) {
+		final tools.mdsd.jamopp.model.java.classifiers.Class resultClass = jdtTResolverUtility.getClass(binding);
 		if (resultClass.eContainer() == null) {
 			try {
 				if (binding.getSuperclass() != null) {
 					resultClass.setExtends(toTypeReferencesConverter.convert(binding.getSuperclass()).get(0));
 				}
-				for (ITypeBinding typeBind : binding.getInterfaces()) {
+				for (final ITypeBinding typeBind : binding.getInterfaces()) {
 					resultClass.getImplements().addAll(toTypeReferencesConverter.convert(typeBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 		}

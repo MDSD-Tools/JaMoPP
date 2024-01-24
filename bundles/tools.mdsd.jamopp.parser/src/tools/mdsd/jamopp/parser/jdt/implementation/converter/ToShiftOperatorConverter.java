@@ -13,12 +13,12 @@ public class ToShiftOperatorConverter implements Converter<InfixExpression.Opera
 	private final OperatorsFactory operatorsFactory;
 
 	@Inject
-	public ToShiftOperatorConverter(OperatorsFactory operatorsFactory) {
+	public ToShiftOperatorConverter(final OperatorsFactory operatorsFactory) {
 		this.operatorsFactory = operatorsFactory;
 	}
 
 	@Override
-	public ShiftOperator convert(InfixExpression.Operator operator) {
+	public ShiftOperator convert(final InfixExpression.Operator operator) {
 		ShiftOperator result = null;
 		if (operator.equals(InfixExpression.Operator.LEFT_SHIFT)) {
 			result = operatorsFactory.createLeftShift();

@@ -18,13 +18,13 @@ public class JamoppCompilationUnitsFactoryImpl implements JamoppCompilationUnits
 	private final Logger logger;
 
 	@Inject
-	public JamoppCompilationUnitsFactoryImpl(Logger logger) {
+	public JamoppCompilationUnitsFactoryImpl(final Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
-	public Map<String, CompilationUnit> getCompilationUnits(ASTParser parser, String[] classpathEntries,
-			String[] sources, String[] encodings) {
+	public Map<String, CompilationUnit> getCompilationUnits(final ASTParser parser, final String[] classpathEntries,
+			final String[] sources, final String[] encodings) {
 		final Map<String, CompilationUnit> compilationUnits = new ConcurrentHashMap<>();
 		try {
 			parser.setEnvironment(classpathEntries, new String[0], new String[0], true);

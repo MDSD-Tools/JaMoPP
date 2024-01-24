@@ -19,9 +19,10 @@ public class HandlerSwitchExpression implements ExpressionHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	public HandlerSwitchExpression(ToSwitchCasesAndSetConverter utilStatementConverter, UtilLayout utilLayout,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			StatementsFactory statementsFactory) {
+	public HandlerSwitchExpression(final ToSwitchCasesAndSetConverter utilStatementConverter,
+			final UtilLayout utilLayout,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final StatementsFactory statementsFactory) {
 		this.statementsFactory = statementsFactory;
 		this.toExpressionConverter = toExpressionConverter;
 		this.utilLayout = utilLayout;
@@ -29,9 +30,9 @@ public class HandlerSwitchExpression implements ExpressionHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		SwitchExpression switchExpr = (SwitchExpression) expr;
-		tools.mdsd.jamopp.model.java.statements.Switch result = statementsFactory.createSwitch();
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final SwitchExpression switchExpr = (SwitchExpression) expr;
+		final tools.mdsd.jamopp.model.java.statements.Switch result = statementsFactory.createSwitch();
 		result.setVariable(toExpressionConverter.convert(switchExpr.getExpression()));
 		utilStatementConverter.convert(result, switchExpr.statements());
 		utilLayout.convertToMinimalLayoutInformation(result, switchExpr);

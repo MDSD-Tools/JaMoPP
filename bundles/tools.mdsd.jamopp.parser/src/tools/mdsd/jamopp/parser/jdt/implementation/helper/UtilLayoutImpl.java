@@ -30,13 +30,14 @@ public class UtilLayoutImpl implements UtilLayout {
 	private boolean layoutSet;
 
 	@Inject
-	public UtilLayoutImpl(LayoutFactory layoutFactory) {
+	public UtilLayoutImpl(final LayoutFactory layoutFactory) {
 		this.layoutFactory = layoutFactory;
 		layoutSet = false;
 	}
 
 	@Override
-	public void convertJavaRootLayoutInformation(JavaRoot root, ASTNode rootSource, String sourceCode) {
+	public void convertJavaRootLayoutInformation(final JavaRoot root, final ASTNode rootSource,
+			final String sourceCode) {
 		layoutSet = false;
 		if (sourceCode != null) {
 			currentRootLayout = layoutFactory.createMinimalLayoutInformation();
@@ -51,9 +52,9 @@ public class UtilLayoutImpl implements UtilLayout {
 	}
 
 	@Override
-	public void convertToMinimalLayoutInformation(Commentable target, ASTNode source) {
+	public void convertToMinimalLayoutInformation(final Commentable target, final ASTNode source) {
 		if (layoutSet) {
-			MinimalLayoutInformation information = layoutFactory.createMinimalLayoutInformation();
+			final MinimalLayoutInformation information = layoutFactory.createMinimalLayoutInformation();
 			information.setStartOffset(source.getStartPosition());
 			information.setLength(source.getLength());
 			information.setObject(target);

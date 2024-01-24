@@ -24,11 +24,11 @@ public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, C
 	private final Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter;
 
 	@Inject
-	public ToClassOrInterfaceConverter(JdtResolver iUtilJdtResolver,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
-			@Named("ToInterfaceMemberConverter") Converter<BodyDeclaration, Member> toInterfaceMemberConverter,
-			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
+	public ToClassOrInterfaceConverter(final JdtResolver iUtilJdtResolver,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
+			@Named("ToInterfaceMemberConverter") final Converter<BodyDeclaration, Member> toInterfaceMemberConverter,
+			@Named("ToClassMemberConverter") final Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toTypeParameterConverter = toTypeParameterConverter;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toClassMemberConverter = toClassMemberConverter;
@@ -38,10 +38,10 @@ public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, C
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ConcreteClassifier convert(TypeDeclaration typeDecl) {
+	public ConcreteClassifier convert(final TypeDeclaration typeDecl) {
 		ConcreteClassifier result;
 		if (typeDecl.isInterface()) {
-			Interface interfaceObj = iUtilJdtResolver.getInterface(typeDecl.resolveBinding());
+			final Interface interfaceObj = iUtilJdtResolver.getInterface(typeDecl.resolveBinding());
 			typeDecl.typeParameters().forEach(
 					obj -> interfaceObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));
 			typeDecl.superInterfaceTypes()
@@ -50,7 +50,7 @@ public class ToClassOrInterfaceConverter implements Converter<TypeDeclaration, C
 					obj -> interfaceObj.getMembers().add(toInterfaceMemberConverter.convert((BodyDeclaration) obj)));
 			result = interfaceObj;
 		} else {
-			tools.mdsd.jamopp.model.java.classifiers.Class classObj = iUtilJdtResolver
+			final tools.mdsd.jamopp.model.java.classifiers.Class classObj = iUtilJdtResolver
 					.getClass(typeDecl.resolveBinding());
 			typeDecl.typeParameters().forEach(
 					obj -> classObj.getTypeParameters().add(toTypeParameterConverter.convert((TypeParameter) obj)));

@@ -19,20 +19,20 @@ public class CastExpressionPrinterImpl implements Printer<CastExpression> {
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public CastExpressionPrinterImpl(Printer<TypeReference> typeReferencePrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Expression> expressionPrinter) {
+	public CastExpressionPrinterImpl(final Printer<TypeReference> typeReferencePrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter, final Printer<Expression> expressionPrinter) {
 		this.typeReferencePrinter = typeReferencePrinter;
 		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
-	public void print(CastExpression element, BufferedWriter writer) throws IOException {
+	public void print(final CastExpression element, final BufferedWriter writer) throws IOException {
 		writer.append("(");
 		typeReferencePrinter.print(element.getTypeReference(), writer);
 		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
-		for (TypeReference ref : element.getAdditionalBounds()) {
+		for (final TypeReference ref : element.getAdditionalBounds()) {
 			writer.append(" & ");
 			typeReferencePrinter.print(ref, writer);
 		}

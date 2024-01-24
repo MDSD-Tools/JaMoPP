@@ -22,9 +22,9 @@ public class ExpressionStatementHandler implements StatementHandler {
 
 	@Inject
 	public ExpressionStatementHandler(
-			Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
-			StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+			final Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
+			final StatementsFactory statementsFactory, final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -32,18 +32,18 @@ public class ExpressionStatementHandler implements StatementHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
 		tools.mdsd.jamopp.model.java.statements.Statement statementResult;
-		ExpressionStatement exprSt = (ExpressionStatement) statement;
+		final ExpressionStatement exprSt = (ExpressionStatement) statement;
 		if (exprSt.getExpression().getNodeType() == ASTNode.VARIABLE_DECLARATION_EXPRESSION) {
-			tools.mdsd.jamopp.model.java.statements.LocalVariableStatement result = statementsFactory
+			final tools.mdsd.jamopp.model.java.statements.LocalVariableStatement result = statementsFactory
 					.createLocalVariableStatement();
 			result.setVariable(
 					toLocalVariableConverter.convert((VariableDeclarationExpression) exprSt.getExpression()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);
 			statementResult = result;
 		} else {
-			tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = statementsFactory
+			final tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = statementsFactory
 					.createExpressionStatement();
 			result.setExpression(expressionConverterUtility.convert(exprSt.getExpression()));
 			layoutInformationConverter.convertToMinimalLayoutInformation(result, exprSt);

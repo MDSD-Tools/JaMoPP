@@ -19,18 +19,19 @@ public class BindingToNamespaceClassifierReferenceConverter
 	private final JdtResolver jdtTResolverUtility;
 
 	@Inject
-	public BindingToNamespaceClassifierReferenceConverter(TypesFactory typesFactory, JdtResolver jdtTResolverUtility) {
+	public BindingToNamespaceClassifierReferenceConverter(final TypesFactory typesFactory,
+			final JdtResolver jdtTResolverUtility) {
 		this.typesFactory = typesFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 
 	@Override
-	public NamespaceClassifierReference convert(ITypeBinding binding) {
-		NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
+	public NamespaceClassifierReference convert(final ITypeBinding binding) {
+		final NamespaceClassifierReference ref = typesFactory.createNamespaceClassifierReference();
 		if (binding.getPackage() != null) {
 			Collections.addAll(ref.getNamespaces(), binding.getPackage().getNameComponents());
 		}
-		ClassifierReference classRef = typesFactory.createClassifierReference();
+		final ClassifierReference classRef = typesFactory.createClassifierReference();
 		classRef.setTarget(jdtTResolverUtility.getClassifier(binding));
 		ref.getClassifierReferences().add(classRef);
 		return ref;

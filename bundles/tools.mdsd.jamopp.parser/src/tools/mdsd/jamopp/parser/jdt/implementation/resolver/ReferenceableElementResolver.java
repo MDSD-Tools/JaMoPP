@@ -43,18 +43,19 @@ public class ReferenceableElementResolver {
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public ReferenceableElementResolver(VariableLengthParameterResolver variableLengthParameterResolver,
-			Set<IVariableBinding> variableBindings, TypeParameterResolver typeParameterResolver,
-			Set<ITypeBinding> typeBindings, OrdinaryParameterResolver ordinaryParameterResolver,
-			Set<IMethodBinding> methodBindings, LocalVariableResolver localVariableResolver,
-			InterfaceResolver interfaceResolver, InterfaceMethodResolver interfaceMethodResolver,
-			FieldResolver fieldResolver, EnumerationResolver enumerationResolver,
-			EnumConstantResolver enumConstantResolver, ClassResolver classResolver,
-			ClassMethodResolver classMethodResolver, CatchParameterResolver catchParameterResolver,
-			AnnotationResolver annotationResolver, AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			AdditionalFieldResolver additionalFieldResolver, ToParameterNameConverter toParameterNameConverter,
-			ToFieldNameConverter toFieldNameConverter, MethodResolver methodResolver,
-			ClassifierResolver classifierResolver) {
+	public ReferenceableElementResolver(final VariableLengthParameterResolver variableLengthParameterResolver,
+			final Set<IVariableBinding> variableBindings, final TypeParameterResolver typeParameterResolver,
+			final Set<ITypeBinding> typeBindings, final OrdinaryParameterResolver ordinaryParameterResolver,
+			final Set<IMethodBinding> methodBindings, final LocalVariableResolver localVariableResolver,
+			final InterfaceResolver interfaceResolver, final InterfaceMethodResolver interfaceMethodResolver,
+			final FieldResolver fieldResolver, final EnumerationResolver enumerationResolver,
+			final EnumConstantResolver enumConstantResolver, final ClassResolver classResolver,
+			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
+			final AnnotationResolver annotationResolver,
+			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
+			final AdditionalFieldResolver additionalFieldResolver,
+			final ToParameterNameConverter toParameterNameConverter, final ToFieldNameConverter toFieldNameConverter,
+			final MethodResolver methodResolver, final ClassifierResolver classifierResolver) {
 		this.typeBindings = typeBindings;
 		this.methodBindings = methodBindings;
 		this.variableBindings = variableBindings;
@@ -79,7 +80,7 @@ public class ReferenceableElementResolver {
 		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
-	public ReferenceableElement getByBinding(IVariableBinding binding) {
+	public ReferenceableElement getByBinding(final IVariableBinding binding) {
 		ReferenceableElement referenceableElement;
 		if (binding.isEnumConstant()) {
 			referenceableElement = handleIsEnumConstant(binding);
@@ -88,7 +89,7 @@ public class ReferenceableElementResolver {
 		} else if (binding.isParameter()) {
 			referenceableElement = handleIsParameter(binding);
 		} else {
-			String paramName = toParameterNameConverter.convertToParameterName(binding, false);
+			final String paramName = toParameterNameConverter.convertToParameterName(binding, false);
 			if (catchParameterResolver.getBindings().containsKey(paramName)) {
 				referenceableElement = catchParameterResolver.getBindings().get(paramName);
 			} else if (localVariableResolver.getBindings().containsKey(paramName)) {
@@ -104,12 +105,12 @@ public class ReferenceableElementResolver {
 		return referenceableElement;
 	}
 
-	private ReferenceableElement handleIsEnumConstant(IVariableBinding binding) {
+	private ReferenceableElement handleIsEnumConstant(final IVariableBinding binding) {
 		return enumConstantResolver.getByBinding(binding);
 	}
 
-	private ReferenceableElement handleIsParameter(IVariableBinding binding) {
-		String paramName = toParameterNameConverter.convertToParameterName(binding, false);
+	private ReferenceableElement handleIsParameter(final IVariableBinding binding) {
+		final String paramName = toParameterNameConverter.convertToParameterName(binding, false);
 		ReferenceableElement referenceableElement;
 		if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
 			referenceableElement = ordinaryParameterResolver.getBindings().get(paramName);
@@ -121,9 +122,9 @@ public class ReferenceableElementResolver {
 		return referenceableElement;
 	}
 
-	private ReferenceableElement handleIsField(IVariableBinding binding) {
+	private ReferenceableElement handleIsField(final IVariableBinding binding) {
 		ReferenceableElement referenceableElement;
-		String fieldName = toFieldNameConverter.convertToFieldName(binding);
+		final String fieldName = toFieldNameConverter.convertToFieldName(binding);
 		if (fieldResolver.getBindings().containsKey(fieldName)) {
 			referenceableElement = fieldResolver.getBindings().get(fieldName);
 		} else if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
@@ -134,8 +135,8 @@ public class ReferenceableElementResolver {
 		return referenceableElement;
 	}
 
-	public ReferenceableElement getByName(String name) {
-		List<Stream<? extends ReferenceableElement>> streams = new ArrayList<>();
+	public ReferenceableElement getByName(final String name) {
+		final List<Stream<? extends ReferenceableElement>> streams = new ArrayList<>();
 		streams.add(variableBindings.stream().filter(bindingsFilter(name)).map(this::getByBinding));
 		streams.add(methodBindings.stream().filter(methodFilter(name)).map(methodResolver::getMethod));
 		streams.add(typeBindings.stream().filter(typeFilter(name)).map(classifierResolver::getClassifier));
@@ -156,7 +157,8 @@ public class ReferenceableElementResolver {
 		streams.add(interfaceResolver.getBindings().values().stream().filter(filter(name)));
 
 		ReferenceableElement referenceableElement;
-		Optional<? extends ReferenceableElement> optionalRefElement = streams.stream().flatMap(s -> s).findFirst();
+		final Optional<? extends ReferenceableElement> optionalRefElement = streams.stream().flatMap(s -> s)
+				.findFirst();
 		if (optionalRefElement.isPresent()) {
 			referenceableElement = optionalRefElement.get();
 		} else {
@@ -165,19 +167,19 @@ public class ReferenceableElementResolver {
 		return referenceableElement;
 	}
 
-	private Predicate<? super IVariableBinding> bindingsFilter(String name) {
+	private Predicate<? super IVariableBinding> bindingsFilter(final String name) {
 		return param -> param != null && name.equals(param.getName());
 	}
 
-	private Predicate<? super IMethodBinding> methodFilter(String name) {
+	private Predicate<? super IMethodBinding> methodFilter(final String name) {
 		return param -> !param.isConstructor() && name.equals(param.getName());
 	}
 
-	private Predicate<? super ITypeBinding> typeFilter(String name) {
+	private Predicate<? super ITypeBinding> typeFilter(final String name) {
 		return param -> param != null && name.equals(param.getName());
 	}
 
-	private Predicate<? super NamedElement> filter(String name) {
+	private Predicate<? super NamedElement> filter(final String name) {
 		return param -> param != null && name.equals(param.getName());
 	}
 

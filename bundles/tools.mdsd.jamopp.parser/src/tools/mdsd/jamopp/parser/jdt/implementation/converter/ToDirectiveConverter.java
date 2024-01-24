@@ -31,9 +31,10 @@ public class ToDirectiveConverter
 	private final Converter<Name, ModuleReference> toModuleReferenceConverter;
 
 	@Inject
-	public ToDirectiveConverter(Converter<Name, TypeReference> utilBaseConverter,
-			Converter<Name, ModuleReference> toModuleReferenceConverter, ModulesFactory modulesFactory,
-			ModifiersFactory modifiersFactory, UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility) {
+	public ToDirectiveConverter(final Converter<Name, TypeReference> utilBaseConverter,
+			final Converter<Name, ModuleReference> toModuleReferenceConverter, final ModulesFactory modulesFactory,
+			final ModifiersFactory modifiersFactory, final UtilLayout layoutInformationConverter,
+			final JdtResolver jdtResolverUtility) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -43,7 +44,7 @@ public class ToDirectiveConverter
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.modules.ModuleDirective convert(ModuleDirective directive) {
+	public tools.mdsd.jamopp.model.java.modules.ModuleDirective convert(final ModuleDirective directive) {
 		tools.mdsd.jamopp.model.java.modules.ModuleDirective result;
 		if (directive.getNodeType() == ASTNode.REQUIRES_DIRECTIVE) {
 			result = handleRequiresDirective(directive);
@@ -60,15 +61,15 @@ public class ToDirectiveConverter
 
 	@SuppressWarnings("unchecked")
 	private tools.mdsd.jamopp.model.java.modules.ModuleDirective handlesExportsAndOpensDirective(
-			ModuleDirective directive) {
-		ModulePackageAccess accessDir = (ModulePackageAccess) directive;
+			final ModuleDirective directive) {
+		final ModulePackageAccess accessDir = (ModulePackageAccess) directive;
 		tools.mdsd.jamopp.model.java.modules.AccessProvidingModuleDirective convertedDir;
 		if (directive.getNodeType() == ASTNode.OPENS_DIRECTIVE) {
 			convertedDir = modulesFactory.createOpensModuleDirective();
 		} else { // directive.getNodeType() == ASTNode.EXPORTS_DIRECTIVE
 			convertedDir = modulesFactory.createExportsModuleDirective();
 		}
-		IPackageBinding binding = (IPackageBinding) accessDir.getName().resolveBinding();
+		final IPackageBinding binding = (IPackageBinding) accessDir.getName().resolveBinding();
 		convertedDir.setAccessablePackage(jdtResolverUtility.getPackage(binding));
 		accessDir.modules()
 				.forEach(obj -> convertedDir.getModules().add(toModuleReferenceConverter.convert((Name) obj)));
@@ -76,21 +77,23 @@ public class ToDirectiveConverter
 		return convertedDir;
 	}
 
-	private tools.mdsd.jamopp.model.java.modules.ModuleDirective handleUsesDirective(ModuleDirective directive) {
-		UsesDirective usDir = (UsesDirective) directive;
-		tools.mdsd.jamopp.model.java.modules.UsesModuleDirective result = modulesFactory.createUsesModuleDirective();
+	private tools.mdsd.jamopp.model.java.modules.ModuleDirective handleUsesDirective(final ModuleDirective directive) {
+		final UsesDirective usDir = (UsesDirective) directive;
+		final tools.mdsd.jamopp.model.java.modules.UsesModuleDirective result = modulesFactory
+				.createUsesModuleDirective();
 		result.setTypeReference(utilBaseConverter.convert(usDir.getName()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, directive);
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
-	private tools.mdsd.jamopp.model.java.modules.ModuleDirective handleRequiresDirective(ModuleDirective directive) {
-		RequiresDirective reqDir = (RequiresDirective) directive;
-		tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective result = modulesFactory
+	private tools.mdsd.jamopp.model.java.modules.ModuleDirective handleRequiresDirective(
+			final ModuleDirective directive) {
+		final RequiresDirective reqDir = (RequiresDirective) directive;
+		final tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective result = modulesFactory
 				.createRequiresModuleDirective();
 		reqDir.modifiers().forEach(obj -> {
-			ModuleModifier modifier = (ModuleModifier) obj;
+			final ModuleModifier modifier = (ModuleModifier) obj;
 			if (modifier.isStatic()) {
 				result.setModifier(modifiersFactory.createStatic());
 			} else if (modifier.isTransitive()) {
@@ -103,9 +106,10 @@ public class ToDirectiveConverter
 	}
 
 	@SuppressWarnings("unchecked")
-	private tools.mdsd.jamopp.model.java.modules.ModuleDirective handleProvidesDirective(ModuleDirective directive) {
-		ProvidesDirective provDir = (ProvidesDirective) directive;
-		tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective result = modulesFactory
+	private tools.mdsd.jamopp.model.java.modules.ModuleDirective handleProvidesDirective(
+			final ModuleDirective directive) {
+		final ProvidesDirective provDir = (ProvidesDirective) directive;
+		final tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective result = modulesFactory
 				.createProvidesModuleDirective();
 		result.setTypeReference(utilBaseConverter.convert(provDir.getName()));
 		provDir.implementations()

@@ -10,12 +10,13 @@ public class MethodResolver {
 	private final ClassMethodResolver classMethodResolver;
 
 	@Inject
-	public MethodResolver(InterfaceMethodResolver interfaceMethodResolver, ClassMethodResolver classMethodResolver) {
+	public MethodResolver(final InterfaceMethodResolver interfaceMethodResolver,
+			final ClassMethodResolver classMethodResolver) {
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.classMethodResolver = classMethodResolver;
 	}
 
-	public tools.mdsd.jamopp.model.java.members.Method getMethod(IMethodBinding binding) {
+	public tools.mdsd.jamopp.model.java.members.Method getMethod(final IMethodBinding binding) {
 		tools.mdsd.jamopp.model.java.members.Method method;
 		if (binding.getDeclaringClass().isInterface()) {
 			method = interfaceMethodResolver.getByBinding(binding);

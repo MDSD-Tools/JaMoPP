@@ -36,30 +36,32 @@ public final class InterfaceExtension {
 	 * the returned list is {@link ConcreteClassifier}, because
 	 * <code>java.lang.Object</code> is also extended although it is a Class.
 	 */
-	public static EList<ConcreteClassifier> getAllSuperClassifiers(Interface interfaze) {
-		EList<ConcreteClassifier> result = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getAllSuperClassifiers(final Interface interfaze) {
+		final EList<ConcreteClassifier> result = new UniqueEList<>();
 
-		EList<TypeReference> explicitExtends = interfaze.getExtends();
+		final EList<TypeReference> explicitExtends = interfaze.getExtends();
 		addAllSuperClassifiers(explicitExtends, result);
 
-		EList<TypeReference> defaultExtends = interfaze.getDefaultExtends();
+		final EList<TypeReference> defaultExtends = interfaze.getDefaultExtends();
 		addAllSuperClassifiers(defaultExtends, result);
 
 		return result;
 	}
 
-	private static void addAllSuperClassifiers(List<TypeReference> typeReferences, List<ConcreteClassifier> result) {
-		for (TypeReference typeReference : typeReferences) {
+	private static void addAllSuperClassifiers(final List<TypeReference> typeReferences,
+			final List<ConcreteClassifier> result) {
+		for (final TypeReference typeReference : typeReferences) {
 			addAllSuperClassifiers(typeReference, result);
 		}
 	}
 
-	private static void addAllSuperClassifiers(TypeReference typeReference, List<ConcreteClassifier> result) {
+	private static void addAllSuperClassifiers(final TypeReference typeReference,
+			final List<ConcreteClassifier> result) {
 
 		// Use ConcreteClassifier instead of Interface because
 		// java.lang.Object can also act as implemented interface
-		Type target = typeReference.getTarget();
-		ConcreteClassifier superInterface = (ConcreteClassifier) target;
+		final Type target = typeReference.getTarget();
+		final ConcreteClassifier superInterface = (ConcreteClassifier) target;
 		if (superInterface != null) {
 			result.add(superInterface);
 			if (superInterface instanceof Interface) {

@@ -26,11 +26,11 @@ public class ToEnumConstantConverter implements Converter<EnumConstantDeclaratio
 	private final Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter;
 
 	@Inject
-	public ToEnumConstantConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			JdtResolver iUtilJdtResolver,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter,
-			Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
-			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
+	public ToEnumConstantConverter(final UtilNamedElement utilNamedElement, final UtilLayout utilLayout,
+			final JdtResolver iUtilJdtResolver,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter,
+			final Converter<AnonymousClassDeclaration, AnonymousClass> toAnonymousClassConverter,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;
@@ -41,9 +41,9 @@ public class ToEnumConstantConverter implements Converter<EnumConstantDeclaratio
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public EnumConstant convert(EnumConstantDeclaration enDecl) {
+	public EnumConstant convert(final EnumConstantDeclaration enDecl) {
 		EnumConstant result;
-		IVariableBinding binding = enDecl.resolveVariable();
+		final IVariableBinding binding = enDecl.resolveVariable();
 		if (binding == null) {
 			result = iUtilJdtResolver.getEnumConstant(enDecl.getName().getIdentifier());
 		} else {

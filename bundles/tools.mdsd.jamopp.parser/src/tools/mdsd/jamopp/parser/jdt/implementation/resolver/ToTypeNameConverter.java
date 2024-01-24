@@ -25,8 +25,8 @@ public class ToTypeNameConverter {
 	private final Map<Class<?>, Function<TypeReference, String>> mapping;
 
 	@Inject
-	public ToTypeNameConverter(Provider<ToMethodNameConverter> toMethodNameConverter,
-			ToFieldNameConverter toFieldNameConverter, Map<IBinding, String> nameCache) {
+	public ToTypeNameConverter(final Provider<ToMethodNameConverter> toMethodNameConverter,
+			final ToFieldNameConverter toFieldNameConverter, final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toMethodNameConverter = toMethodNameConverter;
 		this.toFieldNameConverter = toFieldNameConverter;
@@ -46,7 +46,7 @@ public class ToTypeNameConverter {
 		mapping.put(tools.mdsd.jamopp.model.java.types.Void.class, convRef -> "void");
 	}
 
-	public String convertToTypeName(ITypeBinding binding) {
+	public String convertToTypeName(final ITypeBinding binding) {
 		String result;
 		if (binding == null) {
 			result = "";
@@ -72,9 +72,9 @@ public class ToTypeNameConverter {
 		return result;
 	}
 
-	private String handleLocal(ITypeBinding binding) {
+	private String handleLocal(final ITypeBinding binding) {
 		String qualifiedName;
-		IBinding iBinding = binding.getDeclaringMember();
+		final IBinding iBinding = binding.getDeclaringMember();
 		if (iBinding instanceof IMethodBinding) {
 			qualifiedName = toMethodNameConverter.get().convertToMethodName((IMethodBinding) iBinding) + "."
 					+ binding.getKey();
@@ -88,11 +88,11 @@ public class ToTypeNameConverter {
 		return qualifiedName;
 	}
 
-	public String convertToTypeName(TypeReference ref) {
+	public String convertToTypeName(final TypeReference ref) {
 		String result = null;
-		for (Entry<Class<?>, Function<TypeReference, String>> entry : mapping.entrySet()) {
-			Class<?> key = entry.getKey();
-			Function<TypeReference, String> val = entry.getValue();
+		for (final Entry<Class<?>, Function<TypeReference, String>> entry : mapping.entrySet()) {
+			final Class<?> key = entry.getKey();
+			final Function<TypeReference, String> val = entry.getValue();
 			if (key.isInstance(ref)) {
 				result = val.apply(ref);
 				break;
@@ -101,7 +101,7 @@ public class ToTypeNameConverter {
 		return result;
 	}
 
-	private String convertNamespaceClassifierReference(NamespaceClassifierReference nRef) {
+	private String convertNamespaceClassifierReference(final NamespaceClassifierReference nRef) {
 		String result;
 		if (nRef.getClassifierReferences().isEmpty()) {
 			result = nRef.getNamespacesAsString();
@@ -111,7 +111,7 @@ public class ToTypeNameConverter {
 		return result;
 	}
 
-	private String convertClassifierReference(ClassifierReference convRef) {
+	private String convertClassifierReference(final ClassifierReference convRef) {
 		String result;
 		if (convRef.getTarget() instanceof tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) {
 			result = ((tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) convRef.getTarget())

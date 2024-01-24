@@ -17,21 +17,21 @@ public class ModuleResolver extends ResolverAbstract<Module, IModuleBinding> {
 	private final ContainersFactory containersFactory;
 
 	@Inject
-	public ModuleResolver(Map<String, Module> bindings, Set<IModuleBinding> moduleBindings,
-			ContainersFactory containersFactory) {
+	public ModuleResolver(final Map<String, Module> bindings, final Set<IModuleBinding> moduleBindings,
+			final ContainersFactory containersFactory) {
 		super(bindings);
 		this.moduleBindings = moduleBindings;
 		this.containersFactory = containersFactory;
 	}
 
 	@Override
-	public Module getByBinding(IModuleBinding binding) {
+	public Module getByBinding(final IModuleBinding binding) {
 		moduleBindings.add(binding);
 		return getByName(binding.getName());
 	}
 
 	@Override
-	public Module getByName(String name) {
+	public Module getByName(final String name) {
 		Module module;
 		if (getBindings().containsKey(name)) {
 			module = getBindings().get(name);

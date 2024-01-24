@@ -17,15 +17,15 @@ public class ToClassifierReferenceConverter implements Converter<SimpleName, Cla
 	private final JdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToClassifierReferenceConverter(JdtResolver jdtResolverUtility, TypesFactory typesFactory) {
+	public ToClassifierReferenceConverter(final JdtResolver jdtResolverUtility, final TypesFactory typesFactory) {
 		this.typesFactory = typesFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 	}
 
 	@Override
-	public ClassifierReference convert(SimpleName simpleName) {
-		ClassifierReference ref = typesFactory.createClassifierReference();
-		ITypeBinding binding = (ITypeBinding) simpleName.resolveBinding();
+	public ClassifierReference convert(final SimpleName simpleName) {
+		final ClassifierReference ref = typesFactory.createClassifierReference();
+		final ITypeBinding binding = (ITypeBinding) simpleName.resolveBinding();
 		Classifier proxy;
 		if (binding == null || binding.isRecovered()) {
 			proxy = jdtResolverUtility.getClass(simpleName.getIdentifier());

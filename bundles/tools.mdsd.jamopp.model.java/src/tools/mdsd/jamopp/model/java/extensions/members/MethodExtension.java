@@ -42,7 +42,7 @@ public final class MethodExtension {
 	 * @param methodCall
 	 * @return
 	 */
-	public static boolean isSomeMethodForCall(Method method, MethodCall methodCall) {
+	public static boolean isSomeMethodForCall(final Method method, final MethodCall methodCall) {
 		return method.isMethodForCall(methodCall, false);
 	}
 
@@ -55,12 +55,13 @@ public final class MethodExtension {
 	 * @param methodCall
 	 * @return
 	 */
-	public static boolean isBetterMethodForCall(Method method, Method otherMethod, MethodCall methodCall) {
+	public static boolean isBetterMethodForCall(final Method method, final Method otherMethod,
+			final MethodCall methodCall) {
 		boolean result;
 		if (method.isMethodForCall(methodCall, false)) {
 			if (otherMethod.isMethodForCall(methodCall, true) && method.isMethodForCall(methodCall, true)) {
 				// We both match perfectly; lets compare our return types
-				Type target = method.getTypeReference().getTarget();
+				final Type target = method.getTypeReference().getTarget();
 				if (target instanceof ConcreteClassifier && ((ConcreteClassifier) target).getAllSuperClassifiers()
 						.contains(otherMethod.getTypeReference().getTarget())) {
 					// I am the more concrete type
@@ -82,22 +83,23 @@ public final class MethodExtension {
 		return result;
 	}
 
-	public static boolean isMethodForCall(Method method, MethodCall methodCall, boolean needsPerfectMatch) {
+	public static boolean isMethodForCall(final Method method, final MethodCall methodCall,
+			final boolean needsPerfectMatch) {
 
-		EList<Type> argumentTypeList = methodCall.getArgumentTypes();
-		EList<Parameter> parameterList = new BasicEList<>(method.getParameters());
+		final EList<Type> argumentTypeList = methodCall.getArgumentTypes();
+		final EList<Parameter> parameterList = new BasicEList<>(method.getParameters());
 
-		EList<Type> parameterTypeList = new BasicEList<>();
-		for (Parameter parameter : parameterList) {
+		final EList<Type> parameterTypeList = new BasicEList<>();
+		for (final Parameter parameter : parameterList) {
 			// Determine types before messing with the parameters
-			TypeReference typeReference = parameter.getTypeReference();
-			Type boundTarget = typeReference.getBoundTarget(methodCall);
+			final TypeReference typeReference = parameter.getTypeReference();
+			final Type boundTarget = typeReference.getBoundTarget(methodCall);
 			parameterTypeList.add(boundTarget);
 		}
 
 		if (!parameterList.isEmpty()) {
-			Parameter lastParameter = parameterList.get(parameterList.size() - 1);
-			Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
+			final Parameter lastParameter = parameterList.get(parameterList.size() - 1);
+			final Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
 			if (lastParameter instanceof VariableLengthParameter) {
 				// In case of variable length add/remove some parameters
 				while (parameterList.size() < argumentTypeList.size()) {
@@ -121,18 +123,18 @@ public final class MethodExtension {
 		if (parameterList.size() == argumentTypeList.size()) {
 			boolean parametersMatch = true;
 			for (int i = 0; i < argumentTypeList.size(); i++) {
-				Type parameterType = parameterTypeList.get(i);
-				Type argumentType = argumentTypeList.get(i);
+				final Type parameterType = parameterTypeList.get(i);
+				final Type argumentType = argumentTypeList.get(i);
 
 				if (argumentType == null || parameterType == null
 						|| parameterType.eIsProxy() && argumentType.eIsProxy()) {
 					return false;
 				}
-				Expression argument = methodCall.getArguments().get(i);
-				long argumentArrayDimension = argument.getArrayDimension();
-				Parameter parameter = parameterList.get(i);
+				final Expression argument = methodCall.getArguments().get(i);
+				final long argumentArrayDimension = argument.getArrayDimension();
+				final Parameter parameter = parameterList.get(i);
 				if (needsPerfectMatch) {
-					long parameterArrayDimension = parameter.getArrayDimension();
+					final long parameterArrayDimension = parameter.getArrayDimension();
 					parametersMatch = parametersMatch
 							&& argumentType.equalsType(argumentArrayDimension, parameterType, parameterArrayDimension);
 				} else {
@@ -153,9 +155,9 @@ public final class MethodExtension {
 	 * @param method the method for which the body is returned.
 	 * @return the block or null if the method has no implementation.
 	 */
-	public static Block getBlock(Method method) {
+	public static Block getBlock(final Method method) {
 		Block result = null;
-		if (method.getStatement() instanceof Block block) {
+		if (method.getStatement() instanceof final Block block) {
 			result = block;
 		}
 		return result;

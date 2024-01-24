@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild;
 import tools.mdsd.jamopp.model.java.literals.Literal;
 import tools.mdsd.jamopp.model.java.references.Reference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class MethodReferenceExpressionChildPrinterImpl implements Printer<MethodReferenceExpressionChild> {
@@ -17,18 +16,18 @@ public class MethodReferenceExpressionChildPrinterImpl implements Printer<Method
 	private final Printer<Reference> referencePrinter;
 
 	@Inject
-	public MethodReferenceExpressionChildPrinterImpl(Printer<Literal> literalPrinter,
-			Printer<Reference> referencePrinter) {
+	public MethodReferenceExpressionChildPrinterImpl(final Printer<Literal> literalPrinter,
+			final Printer<Reference> referencePrinter) {
 		this.literalPrinter = literalPrinter;
 		this.referencePrinter = referencePrinter;
 	}
 
 	@Override
-	public void print(MethodReferenceExpressionChild element, BufferedWriter writer) throws IOException {
+	public void print(final MethodReferenceExpressionChild element, final BufferedWriter writer) throws IOException {
 		if (element instanceof Literal) {
-			this.literalPrinter.print((Literal) element, writer);
+			literalPrinter.print((Literal) element, writer);
 		} else {
-			this.referencePrinter.print((Reference) element, writer);
+			referencePrinter.print((Reference) element, writer);
 		}
 	}
 

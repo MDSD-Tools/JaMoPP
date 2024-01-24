@@ -27,7 +27,8 @@ public class ObjectToPrimaryExpressionConverter implements Converter<Object, Pri
 	private final Map<Class<?>, Function<Object, PrimaryExpression>> mappings;
 
 	@Inject
-	public ObjectToPrimaryExpressionConverter(ReferencesFactory referencesFactory, LiteralsFactory literalsFactory) {
+	public ObjectToPrimaryExpressionConverter(final ReferencesFactory referencesFactory,
+			final LiteralsFactory literalsFactory) {
 		this.referencesFactory = referencesFactory;
 		this.literalsFactory = literalsFactory;
 		mappings = new HashMap<>();
@@ -44,12 +45,12 @@ public class ObjectToPrimaryExpressionConverter implements Converter<Object, Pri
 	}
 
 	@Override
-	public PrimaryExpression convert(Object value) {
+	public PrimaryExpression convert(final Object value) {
 		PrimaryExpression result = null;
 
-		for (Entry<Class<?>, Function<Object, PrimaryExpression>> entry : mappings.entrySet()) {
-			Class<?> key = entry.getKey();
-			Function<Object, PrimaryExpression> val = entry.getValue();
+		for (final Entry<Class<?>, Function<Object, PrimaryExpression>> entry : mappings.entrySet()) {
+			final Class<?> key = entry.getKey();
+			final Function<Object, PrimaryExpression> val = entry.getValue();
 			if (key.isInstance(value)) {
 				result = val.apply(value);
 				break;
@@ -63,56 +64,56 @@ public class ObjectToPrimaryExpressionConverter implements Converter<Object, Pri
 		return result;
 	}
 
-	private PrimaryExpression handleDouble(Object value) {
-		DecimalDoubleLiteral literal = literalsFactory.createDecimalDoubleLiteral();
+	private PrimaryExpression handleDouble(final Object value) {
+		final DecimalDoubleLiteral literal = literalsFactory.createDecimalDoubleLiteral();
 		literal.setDecimalValue((double) value);
 		return literal;
 	}
 
-	private PrimaryExpression handleFloat(Object value) {
-		DecimalFloatLiteral literal = literalsFactory.createDecimalFloatLiteral();
+	private PrimaryExpression handleFloat(final Object value) {
+		final DecimalFloatLiteral literal = literalsFactory.createDecimalFloatLiteral();
 		literal.setDecimalValue((float) value);
 		return literal;
 	}
 
-	private PrimaryExpression handleLong(Object value) {
-		DecimalLongLiteral literal = literalsFactory.createDecimalLongLiteral();
+	private PrimaryExpression handleLong(final Object value) {
+		final DecimalLongLiteral literal = literalsFactory.createDecimalLongLiteral();
 		literal.setDecimalValue(BigInteger.valueOf((long) value));
 		return literal;
 	}
 
-	private PrimaryExpression handleInteger(Object value) {
-		DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
+	private PrimaryExpression handleInteger(final Object value) {
+		final DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 		literal.setDecimalValue(BigInteger.valueOf((int) value));
 		return literal;
 	}
 
-	private PrimaryExpression handleShort(Object value) {
-		DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
+	private PrimaryExpression handleShort(final Object value) {
+		final DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 		literal.setDecimalValue(BigInteger.valueOf((short) value));
 		return literal;
 	}
 
-	private PrimaryExpression handleByte(Object value) {
-		DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
+	private PrimaryExpression handleByte(final Object value) {
+		final DecimalIntegerLiteral literal = literalsFactory.createDecimalIntegerLiteral();
 		literal.setDecimalValue(BigInteger.valueOf((byte) value));
 		return literal;
 	}
 
-	private PrimaryExpression handleCharacter(Object value) {
-		CharacterLiteral literal = literalsFactory.createCharacterLiteral();
+	private PrimaryExpression handleCharacter(final Object value) {
+		final CharacterLiteral literal = literalsFactory.createCharacterLiteral();
 		literal.setValue("\\u" + Integer.toHexString((Character) value));
 		return literal;
 	}
 
-	private PrimaryExpression handleBoolean(Object value) {
-		BooleanLiteral literal = literalsFactory.createBooleanLiteral();
+	private PrimaryExpression handleBoolean(final Object value) {
+		final BooleanLiteral literal = literalsFactory.createBooleanLiteral();
 		literal.setValue((boolean) value);
 		return literal;
 	}
 
-	private PrimaryExpression handleString(Object value) {
-		StringReference ref = referencesFactory.createStringReference();
+	private PrimaryExpression handleString(final Object value) {
+		final StringReference ref = referencesFactory.createStringReference();
 		ref.setValue((String) value);
 		return ref;
 	}

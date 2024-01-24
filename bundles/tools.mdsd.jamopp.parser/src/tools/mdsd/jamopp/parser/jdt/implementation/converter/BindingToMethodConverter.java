@@ -42,14 +42,15 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	private final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter;
 
 	@Inject
-	public BindingToMethodConverter(UtilArrays utilJdtBindingConverter,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
-			StatementsFactory statementsFactory, ParametersFactory parametersFactory,
-			Converter<Object, AnnotationValue> objectToAnnotationValueConverter, LiteralsFactory literalsFactory,
-			JdtResolver jdtTResolverUtility, Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
-			Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingToMethodConverter(final UtilArrays utilJdtBindingConverter,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final Converter<Integer, Collection<tools.mdsd.jamopp.model.java.modifiers.Modifier>> toModifiersConverter,
+			final StatementsFactory statementsFactory, final ParametersFactory parametersFactory,
+			final Converter<Object, AnnotationValue> objectToAnnotationValueConverter,
+			final LiteralsFactory literalsFactory, final JdtResolver jdtTResolverUtility,
+			final Converter<ITypeBinding, TypeParameter> bindingToTypeParameterConverter,
+			final Converter<ITypeBinding, NamespaceClassifierReference> bindingToNamespaceClassifierReferenceConverter,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.statementsFactory = statementsFactory;
 		this.literalsFactory = literalsFactory;
 		this.parametersFactory = parametersFactory;
@@ -64,8 +65,8 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 	}
 
 	@Override
-	public Method convert(IMethodBinding binding) {
-		Method result = jdtTResolverUtility.getMethod(binding);
+	public Method convert(final IMethodBinding binding) {
+		final Method result = jdtTResolverUtility.getMethod(binding);
 		if (result.eContainer() == null) {
 			addAnnotationsAndModifiers(binding, result);
 			result.setName(binding.getName());
@@ -80,27 +81,27 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 		return result;
 	}
 
-	private void addAnnotationsAndModifiers(IMethodBinding binding, Method result) {
+	private void addAnnotationsAndModifiers(final IMethodBinding binding, final Method result) {
 		result.getAnnotationsAndModifiers().addAll(toModifiersConverter.convert(binding.getModifiers()));
 		try {
-			for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+			for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 				result.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 			}
-		} catch (AbortCompilation e) {
+		} catch (final AbortCompilation e) {
 			// Ignore
 		}
 	}
 
-	private void addParameters(IMethodBinding binding, Method result) {
+	private void addParameters(final IMethodBinding binding, final Method result) {
 		if (binding.getDeclaredReceiverType() != null) {
-			ReceiverParameter param = parametersFactory.createReceiverParameter();
+			final ReceiverParameter param = parametersFactory.createReceiverParameter();
 			param.setTypeReference(toTypeReferencesConverter.convert(binding.getDeclaredReceiverType()).get(0));
 			param.setName("");
 			param.setThisReference(literalsFactory.createThis());
 			result.getParameters().add(param);
 		}
 		for (int index = 0; index < binding.getParameterTypes().length; index++) {
-			ITypeBinding typeBind = binding.getParameterTypes()[index];
+			final ITypeBinding typeBind = binding.getParameterTypes()[index];
 			Parameter param;
 			if (binding.isVarargs() && index == binding.getParameterTypes().length - 1) {
 				param = parametersFactory.createVariableLengthParameter();
@@ -111,38 +112,38 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 			param.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
 			utilJdtBindingConverter.convertToArrayDimensionsAndSet(typeBind, param);
 			try {
-				IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
-				for (IAnnotationBinding annotBind : binds) {
+				final IAnnotationBinding[] binds = binding.getParameterAnnotations(index);
+				for (final IAnnotationBinding annotBind : binds) {
 					param.getAnnotationsAndModifiers().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 			result.getParameters().add(param);
 		}
 	}
 
-	private void addTypeParamters(IMethodBinding binding, Method result) {
+	private void addTypeParamters(final IMethodBinding binding, final Method result) {
 		try {
-			for (ITypeBinding typeBind : binding.getTypeParameters()) {
+			for (final ITypeBinding typeBind : binding.getTypeParameters()) {
 				result.getTypeParameters().add(bindingToTypeParameterConverter.convert(typeBind));
 			}
-		} catch (AbortCompilation e) {
+		} catch (final AbortCompilation e) {
 			// Ignore
 		}
 	}
 
-	private void setDefaultValue(IMethodBinding binding, Method result) {
+	private void setDefaultValue(final IMethodBinding binding, final Method result) {
 		if (binding.getDefaultValue() != null) {
 			((InterfaceMethod) result)
 					.setDefaultValue(objectToAnnotationValueConverter.convert(binding.getDefaultValue()));
 		}
 	}
 
-	private void handleInterface(IMethodBinding binding, Method result) {
+	private void handleInterface(final IMethodBinding binding, final Method result) {
 		if (binding.getDeclaringClass().isInterface()) {
 			boolean hasDefaultImpl = false;
-			for (tools.mdsd.jamopp.model.java.modifiers.Modifier mod : result.getModifiers()) {
+			for (final tools.mdsd.jamopp.model.java.modifiers.Modifier mod : result.getModifiers()) {
 				if (mod instanceof tools.mdsd.jamopp.model.java.modifiers.Default) {
 					hasDefaultImpl = true;
 					break;
@@ -154,12 +155,12 @@ public class BindingToMethodConverter implements Converter<IMethodBinding, Metho
 		}
 	}
 
-	private void addExceptions(IMethodBinding binding, Method result) {
+	private void addExceptions(final IMethodBinding binding, final Method result) {
 		try {
-			for (ITypeBinding typeBind : binding.getExceptionTypes()) {
+			for (final ITypeBinding typeBind : binding.getExceptionTypes()) {
 				result.getExceptions().add(bindingToNamespaceClassifierReferenceConverter.convert(typeBind));
 			}
-		} catch (AbortCompilation e) {
+		} catch (final AbortCompilation e) {
 			// Ignore
 		}
 	}

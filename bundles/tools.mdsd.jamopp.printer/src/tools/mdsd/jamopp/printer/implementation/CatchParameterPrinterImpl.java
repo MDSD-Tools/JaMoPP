@@ -16,18 +16,18 @@ public class CatchParameterPrinterImpl implements Printer<CatchParameter> {
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public CatchParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			Printer<TypeReference> typeReferencePrinter) {
+	public CatchParameterPrinterImpl(final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			final Printer<TypeReference> typeReferencePrinter) {
 		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		this.typeReferencePrinter = typeReferencePrinter;
 	}
 
 	@Override
-	public void print(CatchParameter element, BufferedWriter writer) throws IOException {
+	public void print(final CatchParameter element, final BufferedWriter writer) throws IOException {
 		annotableAndModifiablePrinter.print(element, writer);
 		typeReferencePrinter.print(element.getTypeReference(), writer);
 		if (!element.getTypeReferences().isEmpty()) {
-			for (TypeReference ref : element.getTypeReferences()) {
+			for (final TypeReference ref : element.getTypeReferences()) {
 				writer.append(" | ");
 				typeReferencePrinter.print(ref, writer);
 			}

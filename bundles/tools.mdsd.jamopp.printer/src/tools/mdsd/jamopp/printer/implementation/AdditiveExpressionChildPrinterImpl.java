@@ -16,14 +16,14 @@ public class AdditiveExpressionChildPrinterImpl implements Printer<AdditiveExpre
 	private final Printer<MultiplicativeExpression> multiplicativeExpressionPrinter;
 
 	@Inject
-	public AdditiveExpressionChildPrinterImpl(Printer<MultiplicativeExpression> multiplicativeExpressionPrinter,
-			Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter) {
+	public AdditiveExpressionChildPrinterImpl(final Printer<MultiplicativeExpression> multiplicativeExpressionPrinter,
+			final Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter) {
 		this.multiplicativeExpressionPrinter = multiplicativeExpressionPrinter;
 		this.multiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
 	}
 
 	@Override
-	public void print(AdditiveExpressionChild element, BufferedWriter writer) throws IOException {
+	public void print(final AdditiveExpressionChild element, final BufferedWriter writer) throws IOException {
 		if (element instanceof MultiplicativeExpression) {
 			multiplicativeExpressionPrinter.print((MultiplicativeExpression) element, writer);
 		} else {

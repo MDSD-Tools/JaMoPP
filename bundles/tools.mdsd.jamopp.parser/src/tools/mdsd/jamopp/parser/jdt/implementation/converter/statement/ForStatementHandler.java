@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
@@ -24,11 +24,11 @@ public class ForStatementHandler implements StatementHandler {
 
 	@Inject
 	public ForStatementHandler(
-			Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
-			StatementsFactory statementsFactory,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+			final Converter<VariableDeclarationExpression, tools.mdsd.jamopp.model.java.variables.LocalVariable> toLocalVariableConverter,
+			final StatementsFactory statementsFactory,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
+			final UtilLayout layoutInformationConverter, final ExpressionsFactory expressionsFactory,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.expressionsFactory = expressionsFactory;
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -39,14 +39,15 @@ public class ForStatementHandler implements StatementHandler {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		ForStatement forSt = (ForStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.ForLoop result = statementsFactory.createForLoop();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final ForStatement forSt = (ForStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.ForLoop result = statementsFactory.createForLoop();
 		if (forSt.initializers().size() == 1 && forSt.initializers().get(0) instanceof VariableDeclarationExpression) {
 			result.setInit(
 					toLocalVariableConverter.convert((VariableDeclarationExpression) forSt.initializers().get(0)));
 		} else {
-			tools.mdsd.jamopp.model.java.expressions.ExpressionList ini = expressionsFactory.createExpressionList();
+			final tools.mdsd.jamopp.model.java.expressions.ExpressionList ini = expressionsFactory
+					.createExpressionList();
 			forSt.initializers()
 					.forEach(obj -> ini.getExpressions().add(expressionConverterUtility.convert((Expression) obj)));
 			result.setInit(ini);

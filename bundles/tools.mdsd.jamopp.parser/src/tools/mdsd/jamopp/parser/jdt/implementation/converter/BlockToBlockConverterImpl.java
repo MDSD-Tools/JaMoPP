@@ -16,9 +16,9 @@ public class BlockToBlockConverterImpl implements Converter<Block, tools.mdsd.ja
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
-	public BlockToBlockConverterImpl(StatementsFactory statementsFactory,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
-			UtilLayout layoutInformationConverter) {
+	public BlockToBlockConverterImpl(final StatementsFactory statementsFactory,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
+			final UtilLayout layoutInformationConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.statementToStatementConverter = statementToStatementConverter;
@@ -26,8 +26,8 @@ public class BlockToBlockConverterImpl implements Converter<Block, tools.mdsd.ja
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public tools.mdsd.jamopp.model.java.statements.Block convert(Block block) {
-		tools.mdsd.jamopp.model.java.statements.Block result = statementsFactory.createBlock();
+	public tools.mdsd.jamopp.model.java.statements.Block convert(final Block block) {
+		final tools.mdsd.jamopp.model.java.statements.Block result = statementsFactory.createBlock();
 		result.setName("");
 		block.statements()
 				.forEach(obj -> result.getStatements().add(statementToStatementConverter.convert((Statement) obj)));

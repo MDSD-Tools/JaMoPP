@@ -20,9 +20,9 @@ public class ToShiftExpressionConverter implements Converter<InfixExpression, Sh
 	private final Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter;
 
 	@Inject
-	public ToShiftExpressionConverter(Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			UtilLayout layoutInformationConverter, ExpressionsFactory expressionsFactory) {
+	public ToShiftExpressionConverter(final Converter<InfixExpression.Operator, ShiftOperator> toShiftOperatorConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final UtilLayout layoutInformationConverter, final ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.toExpressionConverter = toExpressionConverter;
 		this.toShiftOperatorConverter = toShiftOperatorConverter;
@@ -31,8 +31,8 @@ public class ToShiftExpressionConverter implements Converter<InfixExpression, Sh
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ShiftExpression convert(InfixExpression expr) {
-		ShiftExpression result = expressionsFactory.createShiftExpression();
+	public ShiftExpression convert(final InfixExpression expr) {
+		final ShiftExpression result = expressionsFactory.createShiftExpression();
 		mergeShiftExpressionAndExpression(result, toExpressionConverter.convert(expr.getLeftOperand()));
 		result.getShiftOperators().add(toShiftOperatorConverter.convert(expr.getOperator()));
 		mergeShiftExpressionAndExpression(result, toExpressionConverter.convert(expr.getRightOperand()));
@@ -44,12 +44,12 @@ public class ToShiftExpressionConverter implements Converter<InfixExpression, Sh
 		return result;
 	}
 
-	private void mergeShiftExpressionAndExpression(ShiftExpression shiftExpr,
-			tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
+	private void mergeShiftExpressionAndExpression(final ShiftExpression shiftExpr,
+			final tools.mdsd.jamopp.model.java.expressions.Expression potChild) {
 		if (potChild instanceof ShiftExpressionChild) {
 			shiftExpr.getChildren().add((ShiftExpressionChild) potChild);
 		} else {
-			ShiftExpression expr = (ShiftExpression) potChild;
+			final ShiftExpression expr = (ShiftExpression) potChild;
 			shiftExpr.getChildren().addAll(expr.getChildren());
 			shiftExpr.getShiftOperators().addAll(expr.getShiftOperators());
 		}

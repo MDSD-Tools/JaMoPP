@@ -26,8 +26,9 @@ public class ToOnDemandStaticConverter implements Converter<ImportDeclaration, I
 	private final JdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToOnDemandStaticConverter(UtilNamedElement utilNamedElement, ModifiersFactory modifiersFactory,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility, ImportsFactory importsFactory) {
+	public ToOnDemandStaticConverter(final UtilNamedElement utilNamedElement, final ModifiersFactory modifiersFactory,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final ImportsFactory importsFactory) {
 		this.modifiersFactory = modifiersFactory;
 		this.importsFactory = importsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -36,10 +37,10 @@ public class ToOnDemandStaticConverter implements Converter<ImportDeclaration, I
 	}
 
 	@Override
-	public Import convert(ImportDeclaration importDecl) {
-		StaticClassifierImport convertedImport = importsFactory.createStaticClassifierImport();
+	public Import convert(final ImportDeclaration importDecl) {
+		final StaticClassifierImport convertedImport = importsFactory.createStaticClassifierImport();
 		convertedImport.setStatic(modifiersFactory.createStatic());
-		IBinding binding = importDecl.getName().resolveBinding();
+		final IBinding binding = importDecl.getName().resolveBinding();
 		Classifier proxyClass;
 		if (binding == null || binding.isRecovered() || !(binding instanceof ITypeBinding)) {
 			proxyClass = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());

@@ -19,10 +19,10 @@ public class HandlerAssignment implements ExpressionHandler {
 	private final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter;
 
 	@Inject
-	public HandlerAssignment(UtilLayout utilLayout,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
-			Converter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter,
-			ExpressionsFactory expressionsFactory) {
+	public HandlerAssignment(final UtilLayout utilLayout,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> toExpressionConverter,
+			final Converter<Assignment.Operator, AssignmentOperator> toAssignmentOperatorConverter,
+			final ExpressionsFactory expressionsFactory) {
 		this.toAssignmentOperatorConverter = toAssignmentOperatorConverter;
 		this.utilLayout = utilLayout;
 		this.toExpressionConverter = toExpressionConverter;
@@ -30,9 +30,9 @@ public class HandlerAssignment implements ExpressionHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.expressions.Expression handle(Expression expr) {
-		Assignment assign = (Assignment) expr;
-		tools.mdsd.jamopp.model.java.expressions.AssignmentExpression result = expressionsFactory
+	public tools.mdsd.jamopp.model.java.expressions.Expression handle(final Expression expr) {
+		final Assignment assign = (Assignment) expr;
+		final tools.mdsd.jamopp.model.java.expressions.AssignmentExpression result = expressionsFactory
 				.createAssignmentExpression();
 		result.setChild((tools.mdsd.jamopp.model.java.expressions.AssignmentExpressionChild) toExpressionConverter
 				.convert(assign.getLeftHandSide()));

@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
@@ -23,11 +23,11 @@ public class EnhancedForStatementHandler implements StatementHandler {
 
 	@Inject
 	public EnhancedForStatementHandler(
-			Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
-			StatementsFactory statementsFactory,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
-			UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
+			final Converter<SingleVariableDeclaration, OrdinaryParameter> toOrdinaryParameterConverter,
+			final StatementsFactory statementsFactory,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
+			final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -36,9 +36,9 @@ public class EnhancedForStatementHandler implements StatementHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		EnhancedForStatement forSt = (EnhancedForStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.ForEachLoop result = statementsFactory.createForEachLoop();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final EnhancedForStatement forSt = (EnhancedForStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.ForEachLoop result = statementsFactory.createForEachLoop();
 		result.setNext(toOrdinaryParameterConverter.convert(forSt.getParameter()));
 		result.setCollection(expressionConverterUtility.convert(forSt.getExpression()));
 		result.setStatement(statementToStatementConverter.convert(forSt.getBody()));

@@ -45,11 +45,11 @@ public class ModifierPrinterImpl implements Printer<Modifier> {
 	}
 
 	@Override
-	public void print(Modifier element, BufferedWriter writer) throws IOException {
+	public void print(final Modifier element, final BufferedWriter writer) throws IOException {
 
-		for (Entry<Class<?>, String> entry : mapping.entrySet()) {
-			Class<?> key = entry.getKey();
-			String val = entry.getValue();
+		for (final Entry<Class<?>, String> entry : mapping.entrySet()) {
+			final Class<?> key = entry.getKey();
+			final String val = entry.getValue();
 
 			if (key.isInstance(element)) {
 				writer.append(val);

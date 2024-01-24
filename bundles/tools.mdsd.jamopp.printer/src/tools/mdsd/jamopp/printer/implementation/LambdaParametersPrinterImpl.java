@@ -18,14 +18,14 @@ public class LambdaParametersPrinterImpl implements Printer<LambdaParameters> {
 	private final Printer<VariableLengthParameter> variableLengthParameterPrinter;
 
 	@Inject
-	public LambdaParametersPrinterImpl(Printer<OrdinaryParameter> ordinaryParameterPrinter,
-			Printer<VariableLengthParameter> variableLengthParameterPrinter) {
+	public LambdaParametersPrinterImpl(final Printer<OrdinaryParameter> ordinaryParameterPrinter,
+			final Printer<VariableLengthParameter> variableLengthParameterPrinter) {
 		this.ordinaryParameterPrinter = ordinaryParameterPrinter;
 		this.variableLengthParameterPrinter = variableLengthParameterPrinter;
 	}
 
 	@Override
-	public void print(LambdaParameters element, BufferedWriter writer) throws IOException {
+	public void print(final LambdaParameters element, final BufferedWriter writer) throws IOException {
 		if (element instanceof SingleImplicitLambdaParameter) {
 			handleSingleImplicitLambdaParameter(element, writer);
 		} else if (element instanceof ImplicitlyTypedLambdaParameters) {
@@ -35,15 +35,15 @@ public class LambdaParametersPrinterImpl implements Printer<LambdaParameters> {
 		}
 	}
 
-	private void handleSingleImplicitLambdaParameter(LambdaParameters element, BufferedWriter writer)
+	private void handleSingleImplicitLambdaParameter(final LambdaParameters element, final BufferedWriter writer)
 			throws IOException {
 		writer.append(element.getParameters().get(0).getName());
 	}
 
-	private void handleOther(LambdaParameters element, BufferedWriter writer) throws IOException {
+	private void handleOther(final LambdaParameters element, final BufferedWriter writer) throws IOException {
 		writer.append("(");
 		for (var index = 0; index < element.getParameters().size(); index++) {
-			var param = element.getParameters().get(index);
+			final var param = element.getParameters().get(index);
 			if (param instanceof OrdinaryParameter) {
 				ordinaryParameterPrinter.print((OrdinaryParameter) param, writer);
 			} else {
@@ -56,7 +56,7 @@ public class LambdaParametersPrinterImpl implements Printer<LambdaParameters> {
 		writer.append(")");
 	}
 
-	private void handleImplicitlyTypedLambdaParameters(LambdaParameters element, BufferedWriter writer)
+	private void handleImplicitlyTypedLambdaParameters(final LambdaParameters element, final BufferedWriter writer)
 			throws IOException {
 		writer.append("(");
 		for (var index = 0; index < element.getParameters().size(); index++) {

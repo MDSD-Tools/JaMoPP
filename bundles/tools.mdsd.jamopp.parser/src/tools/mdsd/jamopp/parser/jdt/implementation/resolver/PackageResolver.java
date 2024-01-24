@@ -17,21 +17,21 @@ public class PackageResolver extends ResolverAbstract<Package, IPackageBinding> 
 	private final ContainersFactory containersFactory;
 
 	@Inject
-	public PackageResolver(Map<String, Package> bindings, Set<IPackageBinding> packageBindings,
-			ContainersFactory containersFactory) {
+	public PackageResolver(final Map<String, Package> bindings, final Set<IPackageBinding> packageBindings,
+			final ContainersFactory containersFactory) {
 		super(bindings);
 		this.packageBindings = packageBindings;
 		this.containersFactory = containersFactory;
 	}
 
 	@Override
-	public Package getByBinding(IPackageBinding binding) {
+	public Package getByBinding(final IPackageBinding binding) {
 		packageBindings.add(binding);
 		return getByName(binding.getName());
 	}
 
 	@Override
-	public Package getByName(String name) {
+	public Package getByName(final String name) {
 		Package resultPackage;
 		if (getBindings().containsKey(name)) {
 			resultPackage = getBindings().get(name);

@@ -41,24 +41,24 @@ public final class AnonymousClassExtension {
 	 * @param context to check protected visibility
 	 * @return a view on all members including super classifiers' members
 	 */
-	public static EList<Member> getAllMembers(AnonymousClass anonymousClass, Commentable context) {
-		EList<Member> memberList = new UniqueEList<>();
+	public static EList<Member> getAllMembers(final AnonymousClass anonymousClass, final Commentable context) {
+		final EList<Member> memberList = new UniqueEList<>();
 		memberList.addAll(anonymousClass.getMembers());
 		memberList.addAll(anonymousClass.getDefaultMembers());
 
 		NewConstructorCall ncCall = null;
-		EObject eContainer = anonymousClass.eContainer();
+		final EObject eContainer = anonymousClass.eContainer();
 		if (eContainer instanceof NewConstructorCall) {
 			ncCall = (NewConstructorCall) eContainer;
 		}
 
 		if (ncCall != null) {
-			TypeReference typeReference = ncCall.getTypeReference();
-			Type target = typeReference.getTarget();
-			ConcreteClassifier classifier = (ConcreteClassifier) target;
+			final TypeReference typeReference = ncCall.getTypeReference();
+			final Type target = typeReference.getTarget();
+			final ConcreteClassifier classifier = (ConcreteClassifier) target;
 			if (classifier != null) {
-				EList<Member> superMemberList = classifier.getAllMembers(context);
-				for (Member superMember : superMemberList) {
+				final EList<Member> superMemberList = classifier.getAllMembers(context);
+				for (final Member superMember : superMemberList) {
 					addToList(anonymousClass, context, memberList, superMember);
 				}
 			}
@@ -66,15 +66,15 @@ public final class AnonymousClassExtension {
 		return memberList;
 	}
 
-	private static void addToList(AnonymousClass anonymousClass, Commentable context, EList<Member> memberList,
-			Member superMember) {
+	private static void addToList(final AnonymousClass anonymousClass, final Commentable context,
+			final EList<Member> memberList, final Member superMember) {
 		Member newMember = superMember;
 		// Exclude private members
 		if (newMember instanceof AnnotableAndModifiable) {
 			if (newMember.eIsProxy()) {
 				newMember = (Member) EcoreUtil.resolve(newMember, anonymousClass);
 			}
-			AnnotableAndModifiable modifiable = (AnnotableAndModifiable) newMember;
+			final AnnotableAndModifiable modifiable = (AnnotableAndModifiable) newMember;
 			if (!modifiable.isHidden(context)) {
 				memberList.add(newMember);
 			}
@@ -86,10 +86,10 @@ public final class AnonymousClassExtension {
 	/**
 	 * @return a view on all super classifiers
 	 */
-	public static EList<ConcreteClassifier> getAllSuperClassifiers(AnonymousClass anonymousClass) {
-		EList<ConcreteClassifier> superClassifierList = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getAllSuperClassifiers(final AnonymousClass anonymousClass) {
+		final EList<ConcreteClassifier> superClassifierList = new UniqueEList<>();
 
-		ConcreteClassifier superClassifier = anonymousClass.getSuperClassifier();
+		final ConcreteClassifier superClassifier = anonymousClass.getSuperClassifier();
 
 		if (superClassifier != null) {
 			superClassifierList.add(superClassifier);
@@ -103,14 +103,14 @@ public final class AnonymousClassExtension {
 	/**
 	 * @return the direct super classifier
 	 */
-	public static ConcreteClassifier getSuperClassifier(EObject eObject) {
+	public static ConcreteClassifier getSuperClassifier(final EObject eObject) {
 		NewConstructorCall ncCall;
-		EObject eContainer = eObject.eContainer();
+		final EObject eContainer = eObject.eContainer();
 		ConcreteClassifier result = null;
 		if (eContainer instanceof NewConstructorCall) {
 			ncCall = (NewConstructorCall) eContainer;
-			TypeReference typeReference = ncCall.getTypeReference();
-			Type target = typeReference.getTarget();
+			final TypeReference typeReference = ncCall.getTypeReference();
+			final Type target = typeReference.getTarget();
 			result = (ConcreteClassifier) target;
 		} else if (eContainer instanceof EnumConstant && eContainer.eContainer() instanceof Enumeration) {
 			result = (Enumeration) eContainer.eContainer();

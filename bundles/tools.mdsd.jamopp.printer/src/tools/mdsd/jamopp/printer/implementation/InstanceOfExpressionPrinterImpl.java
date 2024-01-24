@@ -4,13 +4,12 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpression;
 import tools.mdsd.jamopp.model.java.expressions.InstanceOfExpressionChild;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class InstanceOfExpressionPrinterImpl implements Printer<InstanceOfExpression> {
@@ -20,20 +19,21 @@ public class InstanceOfExpressionPrinterImpl implements Printer<InstanceOfExpres
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public InstanceOfExpressionPrinterImpl(Printer<InstanceOfExpressionChild> instanceOfExpressionChildPrinter,
-			Printer<TypeReference> typeReferencePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
+	public InstanceOfExpressionPrinterImpl(final Printer<InstanceOfExpressionChild> instanceOfExpressionChildPrinter,
+			final Printer<TypeReference> typeReferencePrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		this.instanceOfExpressionChildPrinter = instanceOfExpressionChildPrinter;
 		this.typeReferencePrinter = typeReferencePrinter;
 		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 	}
 
 	@Override
-	public void print(InstanceOfExpression element, BufferedWriter writer) throws IOException {
-		this.instanceOfExpressionChildPrinter.print(element.getChild(), writer);
+	public void print(final InstanceOfExpression element, final BufferedWriter writer) throws IOException {
+		instanceOfExpressionChildPrinter.print(element.getChild(), writer);
 		writer.append(" instanceof ");
-		this.typeReferencePrinter.print(element.getTypeReference(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		typeReferencePrinter.print(element.getTypeReference(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

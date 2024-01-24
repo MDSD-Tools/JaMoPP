@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.expressions.ArrayConstructorReferenceExpression;
 import tools.mdsd.jamopp.model.java.expressions.ClassTypeConstructorReferenceExpression;
@@ -13,9 +15,6 @@ import tools.mdsd.jamopp.model.java.expressions.PrimaryExpressionReferenceExpres
 import tools.mdsd.jamopp.model.java.generics.CallTypeArgumentable;
 import tools.mdsd.jamopp.model.java.references.Reference;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class MethodReferenceExpressionPrinterImpl implements Printer<MethodReferenceExpression> {
@@ -28,9 +27,10 @@ public class MethodReferenceExpressionPrinterImpl implements Printer<MethodRefer
 
 	@Inject
 	public MethodReferenceExpressionPrinterImpl(
-			Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter,
-			Printer<CallTypeArgumentable> callTypeArgumentablePrinter, Printer<Reference> referencePrinter,
-			Printer<TypeReference> typeReferencePrinter, Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
+			final Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter,
+			final Printer<CallTypeArgumentable> callTypeArgumentablePrinter, final Printer<Reference> referencePrinter,
+			final Printer<TypeReference> typeReferencePrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		this.methodReferenceExpressionChildPrinter = methodReferenceExpressionChildPrinter;
 		this.callTypeArgumentablePrinter = callTypeArgumentablePrinter;
 		this.referencePrinter = referencePrinter;
@@ -39,24 +39,24 @@ public class MethodReferenceExpressionPrinterImpl implements Printer<MethodRefer
 	}
 
 	@Override
-	public void print(MethodReferenceExpression element, BufferedWriter writer) throws IOException {
-		if (element instanceof PrimaryExpressionReferenceExpression ref) {
-			this.methodReferenceExpressionChildPrinter.print(ref.getChild(), writer);
+	public void print(final MethodReferenceExpression element, final BufferedWriter writer) throws IOException {
+		if (element instanceof final PrimaryExpressionReferenceExpression ref) {
+			methodReferenceExpressionChildPrinter.print(ref.getChild(), writer);
 			if (ref.getMethodReference() != null) {
 				writer.append("::");
-				this.callTypeArgumentablePrinter.print(ref, writer);
-				this.referencePrinter.print(ref.getMethodReference(), writer);
+				callTypeArgumentablePrinter.print(ref, writer);
+				referencePrinter.print(ref.getMethodReference(), writer);
 			}
-		} else if (element instanceof ClassTypeConstructorReferenceExpression ref) {
-			this.typeReferencePrinter.print(ref.getTypeReference(), writer);
+		} else if (element instanceof final ClassTypeConstructorReferenceExpression ref) {
+			typeReferencePrinter.print(ref.getTypeReference(), writer);
 			writer.append("::");
-			this.callTypeArgumentablePrinter.print(ref, writer);
+			callTypeArgumentablePrinter.print(ref, writer);
 			writer.append("new");
 		} else {
-			var ref = (ArrayConstructorReferenceExpression) element;
-			this.typeReferencePrinter.print(ref.getTypeReference(), writer);
-			this.arrayDimensionsPrinter.print(ref.getArrayDimensionsBefore(), writer);
-			this.arrayDimensionsPrinter.print(ref.getArrayDimensionsAfter(), writer);
+			final var ref = (ArrayConstructorReferenceExpression) element;
+			typeReferencePrinter.print(ref.getTypeReference(), writer);
+			arrayDimensionsPrinter.print(ref.getArrayDimensionsBefore(), writer);
+			arrayDimensionsPrinter.print(ref.getArrayDimensionsAfter(), writer);
 			writer.append("::new");
 		}
 	}

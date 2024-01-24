@@ -14,19 +14,20 @@ public class ToReferenceConverterFromName implements Converter<Name, IdentifierR
 	private final Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName;
 
 	@Inject
-	public ToReferenceConverterFromName(Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
+	public ToReferenceConverterFromName(
+			final Converter<SimpleName, IdentifierReference> toReferenceConverterFromSimpleName) {
 		this.toReferenceConverterFromSimpleName = toReferenceConverterFromSimpleName;
 	}
 
 	@Override
-	public IdentifierReference convert(Name name) {
+	public IdentifierReference convert(final Name name) {
 		IdentifierReference result;
 		if (name.isSimpleName()) {
 			result = toReferenceConverterFromSimpleName.convert((SimpleName) name);
 		} else {
-			QualifiedName qualifiedName = (QualifiedName) name;
-			IdentifierReference parent = convert(qualifiedName.getQualifier());
-			IdentifierReference child = toReferenceConverterFromSimpleName.convert(qualifiedName.getName());
+			final QualifiedName qualifiedName = (QualifiedName) name;
+			final IdentifierReference parent = convert(qualifiedName.getQualifier());
+			final IdentifierReference child = toReferenceConverterFromSimpleName.convert(qualifiedName.getName());
 			parent.setNext(child);
 			result = child;
 		}

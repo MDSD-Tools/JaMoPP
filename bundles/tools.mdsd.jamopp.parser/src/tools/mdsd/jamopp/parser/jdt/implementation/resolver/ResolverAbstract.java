@@ -17,7 +17,7 @@ public abstract class ResolverAbstract<C, B extends IBinding> implements Resolve
 	private final Map<String, C> bindings;
 
 	@Inject
-	public ResolverAbstract(Map<String, C> bindings) {
+	public ResolverAbstract(final Map<String, C> bindings) {
 		this.bindings = bindings;
 	}
 

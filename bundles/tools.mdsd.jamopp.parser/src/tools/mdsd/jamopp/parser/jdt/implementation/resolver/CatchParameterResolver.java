@@ -17,8 +17,9 @@ public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVa
 	private final ToParameterNameConverter toParameterNameConverter;
 
 	@Inject
-	public CatchParameterResolver(Map<String, CatchParameter> bindings, Set<IVariableBinding> variableBindings,
-			ParametersFactory parametersFactory, ToParameterNameConverter toParameterNameConverter) {
+	public CatchParameterResolver(final Map<String, CatchParameter> bindings,
+			final Set<IVariableBinding> variableBindings, final ParametersFactory parametersFactory,
+			final ToParameterNameConverter toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.parametersFactory = parametersFactory;
@@ -26,18 +27,18 @@ public class CatchParameterResolver extends ResolverAbstract<CatchParameter, IVa
 	}
 
 	@Override
-	public CatchParameter getByBinding(IVariableBinding binding) {
+	public CatchParameter getByBinding(final IVariableBinding binding) {
 		variableBindings.add(binding);
 		return getByName(toParameterNameConverter.convertToParameterName(binding, true));
 	}
 
 	@Override
-	public CatchParameter getByName(String name) {
+	public CatchParameter getByName(final String name) {
 		CatchParameter catchParameter;
 		if (getBindings().containsKey(name)) {
 			catchParameter = getBindings().get(name);
 		} else {
-			CatchParameter result = parametersFactory.createCatchParameter();
+			final CatchParameter result = parametersFactory.createCatchParameter();
 			getBindings().put(name, result);
 			catchParameter = result;
 		}

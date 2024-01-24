@@ -17,14 +17,14 @@ public class AdditionalFieldPrinterImpl implements Printer<AdditionalField> {
 	private final Printer<Expression> expressionPrinter;
 
 	@Inject
-	public AdditionalFieldPrinterImpl(Printer<Expression> expressionPrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
+	public AdditionalFieldPrinterImpl(final Printer<Expression> expressionPrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
-	public void print(AdditionalField element, BufferedWriter writer) throws IOException {
+	public void print(final AdditionalField element, final BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
 		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);

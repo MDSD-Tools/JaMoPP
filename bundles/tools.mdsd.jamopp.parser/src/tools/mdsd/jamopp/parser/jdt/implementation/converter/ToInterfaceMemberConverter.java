@@ -17,14 +17,14 @@ public class ToInterfaceMemberConverter implements Converter<BodyDeclaration, Me
 
 	@Inject
 	public ToInterfaceMemberConverter(
-			@Named("ToInterfaceMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toInterfaceMethodOrConstructorConverter,
-			@Named("ToClassMemberConverter") Converter<BodyDeclaration, Member> toClassMemberConverter) {
+			@Named("ToInterfaceMethodOrConstructorConverter") final Converter<MethodDeclaration, Member> toInterfaceMethodOrConstructorConverter,
+			@Named("ToClassMemberConverter") final Converter<BodyDeclaration, Member> toClassMemberConverter) {
 		this.toInterfaceMethodOrConstructorConverter = toInterfaceMethodOrConstructorConverter;
 		this.toClassMemberConverter = toClassMemberConverter;
 	}
 
 	@Override
-	public Member convert(BodyDeclaration body) {
+	public Member convert(final BodyDeclaration body) {
 		Member result;
 		if (body.getNodeType() == ASTNode.METHOD_DECLARATION) {
 			result = toInterfaceMethodOrConstructorConverter.convert((MethodDeclaration) body);

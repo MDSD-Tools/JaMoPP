@@ -10,7 +10,7 @@ import tools.mdsd.jamopp.printer.interfaces.Printer;
 public class AdditiveOperatorPrinterImpl implements Printer<AdditiveOperator> {
 
 	@Override
-	public void print(AdditiveOperator element, BufferedWriter writer) throws IOException {
+	public void print(final AdditiveOperator element, final BufferedWriter writer) throws IOException {
 		if (element instanceof Addition) {
 			writer.append(" + ");
 		} else {

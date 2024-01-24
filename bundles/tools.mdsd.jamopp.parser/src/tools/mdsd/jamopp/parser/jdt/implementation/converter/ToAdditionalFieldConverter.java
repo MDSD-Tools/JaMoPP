@@ -23,9 +23,9 @@ public class ToAdditionalFieldConverter implements Converter<VariableDeclaration
 	private final UtilLayout utilLayout;
 
 	@Inject
-	public ToAdditionalFieldConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			JdtResolver iUtilJdtResolver, UtilTypeInstructionSeparation toInstructionSeparation,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
+	public ToAdditionalFieldConverter(final UtilNamedElement utilNamedElement, final UtilLayout utilLayout,
+			final JdtResolver iUtilJdtResolver, final UtilTypeInstructionSeparation toInstructionSeparation,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter) {
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
 		this.utilToArrayDimensionAfterAndSetConverter = utilToArrayDimensionAfterAndSetConverter;
@@ -35,9 +35,9 @@ public class ToAdditionalFieldConverter implements Converter<VariableDeclaration
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public AdditionalField convert(VariableDeclarationFragment frag) {
+	public AdditionalField convert(final VariableDeclarationFragment frag) {
 		AdditionalField result;
-		IVariableBinding binding = frag.resolveBinding();
+		final IVariableBinding binding = frag.resolveBinding();
 		if (binding != null) {
 			result = iUtilJdtResolver.getAdditionalField(binding);
 		} else {

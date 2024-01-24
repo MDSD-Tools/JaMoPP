@@ -24,10 +24,10 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public InterfaceMethodResolver(Map<String, InterfaceMethod> bindings, TypesFactory typesFactory,
-			StatementsFactory statementsFactory, Set<IMethodBinding> methodBindings, MembersFactory membersFactory,
-			ClassifierResolver classifierResolver, MethodChecker methodChecker,
-			ToMethodNameConverter toMethodNameConverter) {
+	public InterfaceMethodResolver(final Map<String, InterfaceMethod> bindings, final TypesFactory typesFactory,
+			final StatementsFactory statementsFactory, final Set<IMethodBinding> methodBindings,
+			final MembersFactory membersFactory, final ClassifierResolver classifierResolver,
+			final MethodChecker methodChecker, final ToMethodNameConverter toMethodNameConverter) {
 		super(bindings);
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;
@@ -39,15 +39,15 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	}
 
 	@Override
-	public InterfaceMethod getByBinding(IMethodBinding binding) {
-		IMethodBinding methoDeclaration = binding.getMethodDeclaration();
+	public InterfaceMethod getByBinding(final IMethodBinding binding) {
+		final IMethodBinding methoDeclaration = binding.getMethodDeclaration();
 		methodBindings.add(methoDeclaration);
-		String methName = toMethodNameConverter.convertToMethodName(methoDeclaration);
+		final String methName = toMethodNameConverter.convertToMethodName(methoDeclaration);
 		InterfaceMethod interfaceMethod;
 		if (getBindings().containsKey(methName)) {
 			interfaceMethod = getBindings().get(methName);
 		} else {
-			ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
+			final ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
 					.getClassifier(methoDeclaration.getDeclaringClass());
 			InterfaceMethod result = null;
 			if (classifier != null) {
@@ -62,10 +62,10 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 		return interfaceMethod;
 	}
 
-	private InterfaceMethod handleNullClassifier(IMethodBinding methoDeclaration, ConcreteClassifier classifier,
-			InterfaceMethod result) {
+	private InterfaceMethod handleNullClassifier(final IMethodBinding methoDeclaration,
+			final ConcreteClassifier classifier, final InterfaceMethod result) {
 		InterfaceMethod interfaceMethod = result;
-		for (tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
+		for (final tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 			if (mem instanceof InterfaceMethod) {
 				interfaceMethod = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
 						methoDeclaration);
@@ -78,12 +78,12 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	}
 
 	@Override
-	public InterfaceMethod getByName(String name) {
+	public InterfaceMethod getByName(final String name) {
 		InterfaceMethod interfaceMethod;
 		if (getBindings().containsKey(name)) {
 			interfaceMethod = getBindings().get(name);
 		} else {
-			InterfaceMethod result = createNewInterfaceMethod();
+			final InterfaceMethod result = createNewInterfaceMethod();
 			getBindings().put(name, result);
 			interfaceMethod = result;
 		}
@@ -91,7 +91,7 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	}
 
 	private InterfaceMethod createNewInterfaceMethod() {
-		InterfaceMethod result = membersFactory.createInterfaceMethod();
+		final InterfaceMethod result = membersFactory.createInterfaceMethod();
 		result.setTypeReference(typesFactory.createVoid());
 		result.setStatement(statementsFactory.createEmptyStatement());
 		return result;

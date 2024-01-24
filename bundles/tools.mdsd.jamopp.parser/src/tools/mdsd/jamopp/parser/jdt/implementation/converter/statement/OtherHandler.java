@@ -1,8 +1,8 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
-import org.eclipse.jdt.core.dom.Statement;
-
 import javax.inject.Inject;
+
+import org.eclipse.jdt.core.dom.Statement;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -16,16 +16,16 @@ public class OtherHandler implements StatementHandler {
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromStatement;
 
 	@Inject
-	public OtherHandler(UtilReferenceWalker utilReferenceWalker, StatementsFactory statementsFactory,
-			Converter<Statement, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromStatement) {
+	public OtherHandler(final UtilReferenceWalker utilReferenceWalker, final StatementsFactory statementsFactory,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromStatement) {
 		this.statementsFactory = statementsFactory;
 		this.utilReferenceWalker = utilReferenceWalker;
 		this.toReferenceConverterFromStatement = toReferenceConverterFromStatement;
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = statementsFactory
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final tools.mdsd.jamopp.model.java.statements.ExpressionStatement result = statementsFactory
 				.createExpressionStatement();
 		result.setExpression(utilReferenceWalker.walkUp(toReferenceConverterFromStatement.convert(statement)));
 		return result;

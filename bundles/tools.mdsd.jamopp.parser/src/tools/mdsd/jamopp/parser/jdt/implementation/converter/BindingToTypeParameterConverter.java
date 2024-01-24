@@ -24,9 +24,10 @@ public class BindingToTypeParameterConverter implements Converter<ITypeBinding, 
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	@Inject
-	public BindingToTypeParameterConverter(UtilNamedElement utilNamedElement,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, JdtResolver jdtTResolverUtility,
-			Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+	public BindingToTypeParameterConverter(final UtilNamedElement utilNamedElement,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final JdtResolver jdtTResolverUtility,
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
 		this.utilNamedElement = utilNamedElement;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;
@@ -34,17 +35,17 @@ public class BindingToTypeParameterConverter implements Converter<ITypeBinding, 
 	}
 
 	@Override
-	public TypeParameter convert(ITypeBinding binding) {
-		TypeParameter result = jdtTResolverUtility.getTypeParameter(binding);
+	public TypeParameter convert(final ITypeBinding binding) {
+		final TypeParameter result = jdtTResolverUtility.getTypeParameter(binding);
 		if (result.eContainer() == null) {
 			try {
-				for (IAnnotationBinding annotBind : binding.getAnnotations()) {
+				for (final IAnnotationBinding annotBind : binding.getAnnotations()) {
 					result.getAnnotations().add(bindingToAnnotationInstanceConverter.convert(annotBind));
 				}
-				for (ITypeBinding typeBind : binding.getTypeBounds()) {
+				for (final ITypeBinding typeBind : binding.getTypeBounds()) {
 					result.getExtendTypes().addAll(toTypeReferencesConverter.convert(typeBind));
 				}
-			} catch (AbortCompilation e) {
+			} catch (final AbortCompilation e) {
 				// Ignore
 			}
 			utilNamedElement.convertToNameAndSet(binding, result);

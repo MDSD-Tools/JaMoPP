@@ -33,17 +33,17 @@ public final class EnumerationExtension {
 	/**
 	 * @return all interfaces extended by this enumeration.
 	 */
-	public static EList<ConcreteClassifier> getAllSuperClassifiers(Enumeration enumeration) {
-		EList<ConcreteClassifier> result = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getAllSuperClassifiers(final Enumeration enumeration) {
+		final EList<ConcreteClassifier> result = new UniqueEList<>();
 
 		// Enumerations inherit from java.lang.Enum
-		tools.mdsd.jamopp.model.java.classifiers.Class enumClass = enumeration.getLibClass("Enum");
+		final tools.mdsd.jamopp.model.java.classifiers.Class enumClass = enumeration.getLibClass("Enum");
 		result.add(enumClass);
 		result.addAll(enumClass.getAllSuperClassifiers());
 
 		// Collect all implemented interfaces
-		for (TypeReference typeArg : enumeration.getImplements()) {
-			ConcreteClassifier superInterface = (ConcreteClassifier) typeArg.getTarget();
+		for (final TypeReference typeArg : enumeration.getImplements()) {
+			final ConcreteClassifier superInterface = (ConcreteClassifier) typeArg.getTarget();
 			if (superInterface != null) {
 				result.add(superInterface);
 				if (superInterface instanceof Interface) {
@@ -55,9 +55,9 @@ public final class EnumerationExtension {
 		return result;
 	}
 
-	public static EnumConstant getContainedConstant(Enumeration enumeration, String name) {
+	public static EnumConstant getContainedConstant(final Enumeration enumeration, final String name) {
 		EnumConstant result = null;
-		for (EnumConstant constant : enumeration.getConstants()) {
+		for (final EnumConstant constant : enumeration.getConstants()) {
 			if (name.equals(constant.getName())) {
 				result = constant;
 				break;

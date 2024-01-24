@@ -51,8 +51,8 @@ public class LiteralPrinterImpl implements Printer<Literal> {
 	}
 
 	@Override
-	public void print(Literal element, BufferedWriter writer) throws IOException {
-		for (Mapping<?> pair : mappings) {
+	public void print(final Literal element, final BufferedWriter writer) throws IOException {
+		for (final Mapping<?> pair : mappings) {
 			if (pair.getClazz().isInstance(element)) {
 				writer.append(pair.convert(element));
 				return;
@@ -65,7 +65,7 @@ public class LiteralPrinterImpl implements Printer<Literal> {
 		private final Class<K> clazz;
 		private final Function<K, String> fun;
 
-		private Mapping(Class<K> clazz, Function<K, String> fun) {
+		private Mapping(final Class<K> clazz, final Function<K, String> fun) {
 			this.clazz = clazz;
 			this.fun = fun;
 		}
@@ -74,7 +74,7 @@ public class LiteralPrinterImpl implements Printer<Literal> {
 			return clazz;
 		}
 
-		private String convert(Literal literal) {
+		private String convert(final Literal literal) {
 			return fun.apply(clazz.cast(literal));
 		}
 	}

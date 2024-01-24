@@ -65,16 +65,16 @@ public final class ExpressionExtension {
 	 *
 	 * @return type of expression
 	 */
-	public static Type getType(Expression expression) {
+	public static Type getType(final Expression expression) {
 		return expression.getOneType(false);
 	}
 
-	public static Type getAlternativeType(Expression expression) {
+	public static Type getAlternativeType(final Expression expression) {
 		return expression.getOneType(true);
 	}
 
-	public static Type getOneType(Expression expression, boolean alternative) {
-		tools.mdsd.jamopp.model.java.classifiers.Class stringClass = expression.getStringClass();
+	public static Type getOneType(final Expression expression, final boolean alternative) {
+		final tools.mdsd.jamopp.model.java.classifiers.Class stringClass = expression.getStringClass();
 
 		Type type = null;
 
@@ -106,8 +106,8 @@ public final class ExpressionExtension {
 				|| expression instanceof InclusiveOrExpression || expression instanceof ExclusiveOrExpression
 				|| expression instanceof AndExpression || expression instanceof ShiftExpression) {
 
-			if (expression instanceof AdditiveExpression additiveExpression) {
-				for (Expression subExp : additiveExpression.getChildren()) {
+			if (expression instanceof final AdditiveExpression additiveExpression) {
+				for (final Expression subExp : additiveExpression.getChildren()) {
 					if (stringClass.equals(subExp.getOneType(alternative))) {
 						// special case: string concatenation
 						return stringClass;
@@ -116,15 +116,15 @@ public final class ExpressionExtension {
 			}
 
 			@SuppressWarnings("unchecked")
-			Expression subExp = ((EList<Expression>) expression
+			final Expression subExp = ((EList<Expression>) expression
 					.eGet(expression.eClass().getEStructuralFeature("children"))).get(0);
 
 			return subExp.getOneType(alternative);
 		} else if (expression instanceof UnaryExpression) {
-			Expression subExp = ((UnaryExpression) expression).getChild();
+			final Expression subExp = ((UnaryExpression) expression).getChild();
 			return subExp.getOneType(alternative);
 		} else {
-			for (TreeIterator<EObject> i = expression.eAllContents(); i.hasNext();) {
+			for (final TreeIterator<EObject> i = expression.eAllContents(); i.hasNext();) {
 				EObject next = i.next();
 				Type nextType = null;
 
@@ -161,7 +161,7 @@ public final class ExpressionExtension {
 		return type;
 	}
 
-	public static long getArrayDimension(Expression expression) {
+	public static long getArrayDimension(final Expression expression) {
 		long result;
 		if (expression instanceof NestedExpression && ((NestedExpression) expression).getNext() == null) {
 			result = ((NestedExpression) expression).getExpression().getArrayDimension()
@@ -170,7 +170,7 @@ public final class ExpressionExtension {
 				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
 			result = ((ConditionalExpression) expression).getExpressionIf().getArrayDimension();
 		} else if (expression instanceof AssignmentExpression) {
-			Expression value = ((AssignmentExpression) expression).getValue();
+			final Expression value = ((AssignmentExpression) expression).getValue();
 			if (value == null) {
 				result = 0;
 			} else {
@@ -184,7 +184,7 @@ public final class ExpressionExtension {
 		return result;
 	}
 
-	private static long calcSize(Expression expression) {
+	private static long calcSize(final Expression expression) {
 		long size = 0;
 		ArrayTypeable arrayType = null;
 		if (expression instanceof Reference reference) {
@@ -193,24 +193,24 @@ public final class ExpressionExtension {
 			}
 			// an array clone? -> dimension defined by cloned array
 			if (reference instanceof ElementReference && reference.getPrevious() != null) {
-				ReferenceableElement target = ((ElementReference) reference).getTarget();
+				final ReferenceableElement target = ((ElementReference) reference).getTarget();
 				if (target instanceof Method && CLONE.equals(((Method) target).getName())) {
 					reference = (Reference) reference.eContainer();
 				}
 			}
-			if (reference instanceof ElementReference elementReference) {
+			if (reference instanceof final ElementReference elementReference) {
 				if (elementReference.getTarget() instanceof ArrayTypeable) {
 					arrayType = (ArrayTypeable) elementReference.getTarget();
 				}
 				if (elementReference.getTarget() instanceof AdditionalLocalVariable) {
-					AdditionalLocalVariable additionalLocalVariable = (AdditionalLocalVariable) elementReference
+					final AdditionalLocalVariable additionalLocalVariable = (AdditionalLocalVariable) elementReference
 							.getTarget();
 					arrayType = (LocalVariable) additionalLocalVariable.eContainer();
 					size += additionalLocalVariable.getArrayDimensionsAfter().size();
 					size -= arrayType.getArrayDimensionsAfter().size();
 				}
 				if (elementReference.getTarget() instanceof AdditionalField) {
-					AdditionalField additionalField = (AdditionalField) elementReference.getTarget();
+					final AdditionalField additionalField = (AdditionalField) elementReference.getTarget();
 					arrayType = (Field) additionalField.eContainer();
 					size += additionalField.getArrayDimensionsAfter().size();
 					size -= arrayType.getArrayDimensionsAfter().size();

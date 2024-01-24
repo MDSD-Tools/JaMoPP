@@ -1,10 +1,10 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter.statement;
 
+import javax.inject.Inject;
+
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.WhileStatement;
-
-import javax.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
@@ -19,9 +19,9 @@ public class WhileStatementHandler implements StatementHandler {
 	private final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter;
 
 	@Inject
-	public WhileStatementHandler(StatementsFactory statementsFactory, UtilLayout layoutInformationConverter,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter) {
+	public WhileStatementHandler(final StatementsFactory statementsFactory, final UtilLayout layoutInformationConverter,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter) {
 		this.statementsFactory = statementsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.expressionConverterUtility = expressionConverterUtility;
@@ -29,9 +29,9 @@ public class WhileStatementHandler implements StatementHandler {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.statements.Statement handle(Statement statement) {
-		WhileStatement whileSt = (WhileStatement) statement;
-		tools.mdsd.jamopp.model.java.statements.WhileLoop result = statementsFactory.createWhileLoop();
+	public tools.mdsd.jamopp.model.java.statements.Statement handle(final Statement statement) {
+		final WhileStatement whileSt = (WhileStatement) statement;
+		final tools.mdsd.jamopp.model.java.statements.WhileLoop result = statementsFactory.createWhileLoop();
 		result.setCondition(expressionConverterUtility.convert(whileSt.getExpression()));
 		result.setStatement(statementToStatementConverter.convert(whileSt.getBody()));
 		layoutInformationConverter.convertToMinimalLayoutInformation(result, whileSt);

@@ -61,8 +61,8 @@ public final class ConstructorExtension {
 	 * @return True only if the new {@link Constructor} <code>co</code> is better
 	 *         than the other one.
 	 */
-	public static boolean isBetterConstructorForCall(Constructor constructor, Constructor other,
-			NewConstructorCall call) {
+	public static boolean isBetterConstructorForCall(final Constructor constructor, final Constructor other,
+			final NewConstructorCall call) {
 		boolean result;
 		if (isConstructorForCall(other, call, true)) {
 			result = false;
@@ -87,33 +87,35 @@ public final class ConstructorExtension {
 	 * hard criteria and thus checked as part of the general
 	 * {@link #isConstructorForCall(Constructor, NewConstructorCall, boolean)}.
 	 *
-	 * @param constructor                The constructor to check.
+	 * @param constructor       The constructor to check.
 	 * @param call              The call to check for.
 	 * @param needsPerfectMatch Flag how to handle parameters with variable argument
 	 *                          (array) length
 	 * @return True if the constructor is valid for the call.
 	 */
-	public static boolean isConstructorForCall(Constructor constructor, NewConstructorCall call, boolean needsPerfectMatch) {
+	public static boolean isConstructorForCall(final Constructor constructor, final NewConstructorCall call,
+			final boolean needsPerfectMatch) {
 
-		Type callType = call.getReferencedType();
-		if (!(callType instanceof ConcreteClassifier) || !((ConcreteClassifier) callType).getMembers().contains(constructor)) {
+		final Type callType = call.getReferencedType();
+		if (!(callType instanceof ConcreteClassifier)
+				|| !((ConcreteClassifier) callType).getMembers().contains(constructor)) {
 			return false;
 		}
 
-		EList<Type> argumentTypeList = call.getArgumentTypes();
-		EList<Parameter> parameterList = new BasicEList<>(constructor.getParameters());
+		final EList<Type> argumentTypeList = call.getArgumentTypes();
+		final EList<Parameter> parameterList = new BasicEList<>(constructor.getParameters());
 
-		EList<Type> parameterTypeList = new BasicEList<>();
-		for (Parameter parameter : parameterList) {
+		final EList<Type> parameterTypeList = new BasicEList<>();
+		for (final Parameter parameter : parameterList) {
 			// Determine types before messing with the parameters
-			TypeReference typeReference = parameter.getTypeReference();
-			Type boundTarget = typeReference.getBoundTarget(call);
+			final TypeReference typeReference = parameter.getTypeReference();
+			final Type boundTarget = typeReference.getBoundTarget(call);
 			parameterTypeList.add(boundTarget);
 		}
 
 		if (!parameterList.isEmpty()) {
-			Parameter lastParameter = parameterList.get(parameterList.size() - 1);
-			Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
+			final Parameter lastParameter = parameterList.get(parameterList.size() - 1);
+			final Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
 			if (lastParameter instanceof VariableLengthParameter) {
 				// In case of variable length add/remove some parameters
 				while (parameterList.size() < argumentTypeList.size()) {
@@ -137,18 +139,18 @@ public final class ConstructorExtension {
 		if (parameterList.size() == argumentTypeList.size()) {
 			boolean parametersMatch = true;
 			for (int i = 0; i < argumentTypeList.size(); i++) {
-				Type parameterType = parameterTypeList.get(i);
-				Type argumentType = argumentTypeList.get(i);
+				final Type parameterType = parameterTypeList.get(i);
+				final Type argumentType = argumentTypeList.get(i);
 
 				if (argumentType == null || parameterType == null
 						|| parameterType.eIsProxy() && argumentType.eIsProxy()) {
 					return false;
 				}
-				Expression argument = call.getArguments().get(i);
-				long argumentArrayDimension = argument.getArrayDimension();
-				Parameter parameter = parameterList.get(i);
+				final Expression argument = call.getArguments().get(i);
+				final long argumentArrayDimension = argument.getArrayDimension();
+				final Parameter parameter = parameterList.get(i);
 				if (needsPerfectMatch) {
-					long parameterArrayDimension = parameter.getArrayDimension();
+					final long parameterArrayDimension = parameter.getArrayDimension();
 					parametersMatch = parametersMatch
 							&& argumentType.equalsType(argumentArrayDimension, parameterType, parameterArrayDimension);
 				} else {

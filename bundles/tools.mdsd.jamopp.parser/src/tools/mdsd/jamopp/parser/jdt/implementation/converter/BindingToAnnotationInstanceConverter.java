@@ -21,22 +21,22 @@ public class BindingToAnnotationInstanceConverter implements Converter<IAnnotati
 	private Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter;
 
 	@Inject
-	public BindingToAnnotationInstanceConverter(UtilNamedElement utilNamedElement,
-			AnnotationsFactory annotationsFactory) {
+	public BindingToAnnotationInstanceConverter(final UtilNamedElement utilNamedElement,
+			final AnnotationsFactory annotationsFactory) {
 		this.annotationsFactory = annotationsFactory;
 		this.utilNamedElement = utilNamedElement;
 	}
 
 	@Override
-	public AnnotationInstance convert(IAnnotationBinding binding) {
-		AnnotationInstance result = annotationsFactory.createAnnotationInstance();
-		Annotation resultClass = jdtTResolverUtility.getAnnotation(binding.getAnnotationType());
+	public AnnotationInstance convert(final IAnnotationBinding binding) {
+		final AnnotationInstance result = annotationsFactory.createAnnotationInstance();
+		final Annotation resultClass = jdtTResolverUtility.getAnnotation(binding.getAnnotationType());
 		utilNamedElement.convertToNameAndSet(binding.getAnnotationType(), resultClass);
 		result.setAnnotation(resultClass);
 		if (binding.getDeclaredMemberValuePairs().length > 0) {
-			tools.mdsd.jamopp.model.java.annotations.AnnotationParameterList params = annotationsFactory
+			final tools.mdsd.jamopp.model.java.annotations.AnnotationParameterList params = annotationsFactory
 					.createAnnotationParameterList();
-			for (IMemberValuePairBinding memBind : binding.getDeclaredMemberValuePairs()) {
+			for (final IMemberValuePairBinding memBind : binding.getDeclaredMemberValuePairs()) {
 				params.getSettings().add(bindingToAnnotationAttributeSettingConverter.convert(memBind));
 			}
 			result.setParameter(params);
@@ -46,12 +46,12 @@ public class BindingToAnnotationInstanceConverter implements Converter<IAnnotati
 
 	@Inject
 	public void setBindingToAnnotationAttributeSettingConverter(
-			Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter) {
+			final Converter<IMemberValuePairBinding, AnnotationAttributeSetting> bindingToAnnotationAttributeSettingConverter) {
 		this.bindingToAnnotationAttributeSettingConverter = bindingToAnnotationAttributeSettingConverter;
 	}
 
 	@Inject
-	public void setJdtTResolverUtility(JdtResolver jdtTResolverUtility) {
+	public void setJdtTResolverUtility(final JdtResolver jdtTResolverUtility) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
 	}
 

@@ -18,8 +18,8 @@ public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBindin
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public AnnotationResolver(Map<String, Annotation> bindings, Set<ITypeBinding> typeBindings,
-			ClassifiersFactory classifiersFactory, ToTypeNameConverter toTypeNameConverter) {
+	public AnnotationResolver(final Map<String, Annotation> bindings, final Set<ITypeBinding> typeBindings,
+			final ClassifiersFactory classifiersFactory, final ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.typeBindings = typeBindings;
 		this.classifiersFactory = classifiersFactory;
@@ -27,19 +27,19 @@ public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBindin
 	}
 
 	@Override
-	public Annotation getByBinding(ITypeBinding binding) {
+	public Annotation getByBinding(final ITypeBinding binding) {
 		typeBindings.add(binding);
 		return getByName(toTypeNameConverter.convertToTypeName(binding));
 	}
 
 	@Override
-	public Annotation getByName(String name) {
+	public Annotation getByName(final String name) {
 		Annotation annotation;
 		if (getBindings().containsKey(name)) {
 			annotation = getBindings().get(name);
 		} else {
 			Annotation result;
-			tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
+			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 					.getConcreteClassifier(name);
 			if (potClass instanceof Annotation) {
 				result = (Annotation) potClass;

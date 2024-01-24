@@ -3,14 +3,13 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.classifiers.Implementor;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.MemberContainer;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
-
-import javax.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class EnumerationPrinterImpl implements Printer<Enumeration> {
@@ -21,9 +20,9 @@ public class EnumerationPrinterImpl implements Printer<Enumeration> {
 	private final Printer<MemberContainer> memberContainerPrinter;
 
 	@Inject
-	public EnumerationPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			Printer<Implementor> implementorPrinter, Printer<EnumConstant> enumConstantPrinter,
-			Printer<MemberContainer> memberContainerPrinter) {
+	public EnumerationPrinterImpl(final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			final Printer<Implementor> implementorPrinter, final Printer<EnumConstant> enumConstantPrinter,
+			final Printer<MemberContainer> memberContainerPrinter) {
 		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		this.implementorPrinter = implementorPrinter;
 		this.enumConstantPrinter = enumConstantPrinter;
@@ -31,18 +30,18 @@ public class EnumerationPrinterImpl implements Printer<Enumeration> {
 	}
 
 	@Override
-	public void print(Enumeration element, BufferedWriter writer) throws IOException {
-		this.annotableAndModifiablePrinter.print(element, writer);
+	public void print(final Enumeration element, final BufferedWriter writer) throws IOException {
+		annotableAndModifiablePrinter.print(element, writer);
 		writer.append("enum " + element.getName() + " ");
-		this.implementorPrinter.print(element, writer);
+		implementorPrinter.print(element, writer);
 		writer.append("{\n");
-		for (EnumConstant enc : element.getConstants()) {
-			this.enumConstantPrinter.print(enc, writer);
+		for (final EnumConstant enc : element.getConstants()) {
+			enumConstantPrinter.print(enc, writer);
 			writer.append(",\n");
 		}
 		if (!element.getMembers().isEmpty()) {
 			writer.append(";\n\n");
-			this.memberContainerPrinter.print(element, writer);
+			memberContainerPrinter.print(element, writer);
 		}
 		writer.append("}\n");
 	}

@@ -28,12 +28,12 @@ public class ToOrdinaryParameterConverter implements Converter<SingleVariableDec
 	private final Converter<Type, TypeReference> toTypeReferenceConverter;
 
 	@Inject
-	public ToOrdinaryParameterConverter(UtilNamedElement utilNamedElement,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			UtilLayout layoutInformationConverter, JdtResolver jdtResolverUtility,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public ToOrdinaryParameterConverter(final UtilNamedElement utilNamedElement,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
@@ -45,8 +45,8 @@ public class ToOrdinaryParameterConverter implements Converter<SingleVariableDec
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public OrdinaryParameter convert(SingleVariableDeclaration decl) {
-		OrdinaryParameter result = jdtResolverUtility.getOrdinaryParameter(decl.resolveBinding());
+	public OrdinaryParameter convert(final SingleVariableDeclaration decl) {
+		final OrdinaryParameter result = jdtResolverUtility.getOrdinaryParameter(decl.resolveBinding());
 		decl.modifiers().forEach(obj -> result.getAnnotationsAndModifiers()
 				.add(toModifierOrAnnotationInstanceConverter.convert((IExtendedModifier) obj)));
 		result.setTypeReference(toTypeReferenceConverter.convert(decl.getType()));

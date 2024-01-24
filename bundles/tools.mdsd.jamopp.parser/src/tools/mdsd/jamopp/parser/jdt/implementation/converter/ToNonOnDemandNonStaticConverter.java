@@ -25,8 +25,9 @@ public class ToNonOnDemandNonStaticConverter implements Converter<ImportDeclarat
 	private final JdtResolver jdtResolverUtility;
 
 	@Inject
-	public ToNonOnDemandNonStaticConverter(UtilNamedElement utilNamedElement, UtilLayout layoutInformationConverter,
-			JdtResolver jdtResolverUtility, ImportsFactory importsFactory) {
+	public ToNonOnDemandNonStaticConverter(final UtilNamedElement utilNamedElement,
+			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
+			final ImportsFactory importsFactory) {
 		this.importsFactory = importsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilNamedElement = utilNamedElement;
@@ -34,14 +35,14 @@ public class ToNonOnDemandNonStaticConverter implements Converter<ImportDeclarat
 	}
 
 	@Override
-	public Import convert(ImportDeclaration importDecl) {
-		ClassifierImport convertedImport = importsFactory.createClassifierImport();
+	public Import convert(final ImportDeclaration importDecl) {
+		final ClassifierImport convertedImport = importsFactory.createClassifierImport();
 		Classifier proxy;
-		IBinding iBinding = importDecl.getName().resolveBinding();
+		final IBinding iBinding = importDecl.getName().resolveBinding();
 		if (iBinding instanceof IPackageBinding) {
 			proxy = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 		} else {
-			ITypeBinding binding = (ITypeBinding) iBinding;
+			final ITypeBinding binding = (ITypeBinding) iBinding;
 			if (binding == null || binding.isRecovered()) {
 				proxy = jdtResolverUtility.getClass(importDecl.getName().getFullyQualifiedName());
 			} else {

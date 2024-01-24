@@ -44,18 +44,18 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	private final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper;
 
 	@Inject
-	public ToClassMethodOrConstructorConverter(UtilTypeInstructionSeparation utilTypeInstructionSeparation,
-			UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
-			Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
-			Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
-			Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
-			ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
-			JdtResolver jdtResolverUtility,
-			Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
-			StatementsFactory statementsFactory,
-			ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
+	public ToClassMethodOrConstructorConverter(final UtilTypeInstructionSeparation utilTypeInstructionSeparation,
+			final UtilNamedElement utilNamedElement, final UtilLayout utilLayout,
+			final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<TypeParameter, tools.mdsd.jamopp.model.java.generics.TypeParameter> toTypeParameterConverter,
+			final Converter<MethodDeclaration, ReceiverParameter> toReceiverParameterConverter,
+			final Converter<SingleVariableDeclaration, Parameter> toParameterConverter,
+			final Converter<IExtendedModifier, AnnotationInstanceOrModifier> toModifierOrAnnotationInstanceConverter,
+			final ToArrayDimensionAfterAndSetConverter utilToArrayDimensionAfterAndSetConverter,
+			final JdtResolver jdtResolverUtility,
+			final Converter<TypeReference, NamespaceClassifierReference> inNamespaceClassifierReferenceWrapper,
+			final StatementsFactory statementsFactory,
+			final ToArrayDimensionsAndSetConverter utilToArrayDimensionsAndSetConverter) {
 		this.statementsFactory = statementsFactory;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
@@ -72,7 +72,7 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	}
 
 	@Override
-	public Member convert(MethodDeclaration methodDecl) {
+	public Member convert(final MethodDeclaration methodDecl) {
 		Member result;
 		if (methodDecl.isConstructor()) {
 			result = handleConstructor(methodDecl);
@@ -83,9 +83,9 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	}
 
 	@SuppressWarnings("unchecked")
-	private Member handleClassMethod(MethodDeclaration methodDecl) {
+	private Member handleClassMethod(final MethodDeclaration methodDecl) {
 		ClassMethod result;
-		IMethodBinding binding = methodDecl.resolveBinding();
+		final IMethodBinding binding = methodDecl.resolveBinding();
 		if (binding != null) {
 			result = jdtResolverUtility.getClassMethod(binding);
 		} else {
@@ -117,9 +117,9 @@ public class ToClassMethodOrConstructorConverter implements Converter<MethodDecl
 	}
 
 	@SuppressWarnings("unchecked")
-	private Member handleConstructor(MethodDeclaration methodDecl) {
+	private Member handleConstructor(final MethodDeclaration methodDecl) {
 		Constructor result;
-		IMethodBinding binding = methodDecl.resolveBinding();
+		final IMethodBinding binding = methodDecl.resolveBinding();
 		if (binding == null) {
 			result = jdtResolverUtility.getConstructor(methodDecl.getName().getIdentifier());
 		} else {

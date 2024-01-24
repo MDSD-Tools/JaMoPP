@@ -20,9 +20,9 @@ public class ToCompilationUnitConverter
 	private final Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility;
 
 	@Inject
-	public ToCompilationUnitConverter(AbstractVisitor visitor, UtilLayout layoutInformationConverter,
-			ContainersFactory containersFactory,
-			Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility) {
+	public ToCompilationUnitConverter(final AbstractVisitor visitor, final UtilLayout layoutInformationConverter,
+			final ContainersFactory containersFactory,
+			final Converter<AbstractTypeDeclaration, ConcreteClassifier> classifierConverterUtility) {
 		this.containersFactory = containersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.classifierConverterUtility = classifierConverterUtility;
@@ -31,8 +31,9 @@ public class ToCompilationUnitConverter
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.CompilationUnit convert(CompilationUnit unit) {
-		tools.mdsd.jamopp.model.java.containers.CompilationUnit result = containersFactory.createCompilationUnit();
+	public tools.mdsd.jamopp.model.java.containers.CompilationUnit convert(final CompilationUnit unit) {
+		final tools.mdsd.jamopp.model.java.containers.CompilationUnit result = containersFactory
+				.createCompilationUnit();
 		result.setName("");
 		layoutInformationConverter.convertJavaRootLayoutInformation(result, unit, visitor.getSource());
 		unit.types().forEach(

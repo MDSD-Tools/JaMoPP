@@ -16,19 +16,19 @@ public class ToArrayDimensionsAndSetConverterImpl implements ToArrayDimensionsAn
 	private final Converter<Dimension, ArrayDimension> toArrayDimensionConverter;
 
 	@Inject
-	public ToArrayDimensionsAndSetConverterImpl(Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
+	public ToArrayDimensionsAndSetConverterImpl(final Converter<Dimension, ArrayDimension> toArrayDimensionConverter) {
 		this.toArrayDimensionConverter = toArrayDimensionConverter;
 	}
 
 	@Override
-	public void convert(Type type, ArrayTypeable arrDimContainer) {
+	public void convert(final Type type, final ArrayTypeable arrDimContainer) {
 		convert(type, arrDimContainer, 0);
 	}
 
 	@Override
-	public void convert(Type type, ArrayTypeable arrDimContainer, int ignoreDimensions) {
+	public void convert(final Type type, final ArrayTypeable arrDimContainer, final int ignoreDimensions) {
 		if (type.isArrayType()) {
-			ArrayType arrT = (ArrayType) type;
+			final ArrayType arrT = (ArrayType) type;
 			for (int i = ignoreDimensions; i < arrT.dimensions().size(); i++) {
 				arrDimContainer.getArrayDimensionsBefore()
 						.add(toArrayDimensionConverter.convert((Dimension) arrT.dimensions().get(i)));

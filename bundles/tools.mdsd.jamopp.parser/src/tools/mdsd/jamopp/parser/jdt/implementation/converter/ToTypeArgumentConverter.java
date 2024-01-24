@@ -22,32 +22,33 @@ public class ToTypeArgumentConverter implements Converter<ITypeBinding, TypeArgu
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
-	public ToTypeArgumentConverter(UtilArrays utilJdtBindingConverter,
-			Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter, GenericsFactory genericsFactory) {
+	public ToTypeArgumentConverter(final UtilArrays utilJdtBindingConverter,
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
+			final GenericsFactory genericsFactory) {
 		this.genericsFactory = genericsFactory;
 		this.utilJdtBindingConverter = utilJdtBindingConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
 	}
 
 	@Override
-	public TypeArgument convert(ITypeBinding binding) {
+	public TypeArgument convert(final ITypeBinding binding) {
 		TypeArgument typeArgument;
 		if (binding.isWildcardType()) {
 			if (binding.getBound() == null) {
 				typeArgument = genericsFactory.createUnknownTypeArgument();
 			} else if (binding.isUpperbound()) {
-				ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
+				final ExtendsTypeArgument result = genericsFactory.createExtendsTypeArgument();
 				result.setExtendType(toTypeReferencesConverter.convert(binding.getBound()).get(0));
 				utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
 				typeArgument = result;
 			} else {
-				SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
+				final SuperTypeArgument result = genericsFactory.createSuperTypeArgument();
 				result.setSuperType(toTypeReferencesConverter.convert(binding.getBound()).get(0));
 				utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
 				typeArgument = result;
 			}
 		} else {
-			QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
+			final QualifiedTypeArgument result = genericsFactory.createQualifiedTypeArgument();
 			result.setTypeReference(toTypeReferencesConverter.convert(binding).get(0));
 			utilJdtBindingConverter.convertToArrayDimensionsAndSet(binding, result);
 			typeArgument = result;

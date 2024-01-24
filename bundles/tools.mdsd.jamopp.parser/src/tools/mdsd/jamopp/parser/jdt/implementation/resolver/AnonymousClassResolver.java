@@ -15,26 +15,26 @@ public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITy
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public AnonymousClassResolver(Map<String, AnonymousClass> bindings, ClassifiersFactory classifiersFactory,
-			ToTypeNameConverter toTypeNameConverter) {
+	public AnonymousClassResolver(final Map<String, AnonymousClass> bindings,
+			final ClassifiersFactory classifiersFactory, final ToTypeNameConverter toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
 	@Override
-	public AnonymousClass getByBinding(ITypeBinding binding) {
-		String typeName = toTypeNameConverter.convertToTypeName(binding);
+	public AnonymousClass getByBinding(final ITypeBinding binding) {
+		final String typeName = toTypeNameConverter.convertToTypeName(binding);
 		return getByName(typeName);
 	}
 
 	@Override
-	public AnonymousClass getByName(String name) {
+	public AnonymousClass getByName(final String name) {
 		AnonymousClass anonymousClass;
 		if (getBindings().containsKey(name)) {
 			anonymousClass = getBindings().get(name);
 		} else {
-			AnonymousClass result = classifiersFactory.createAnonymousClass();
+			final AnonymousClass result = classifiersFactory.createAnonymousClass();
 			getBindings().put(name, result);
 			anonymousClass = result;
 		}

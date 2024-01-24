@@ -45,11 +45,11 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	private final Set<EObject> visitedObjects = new HashSet<>();
 
 	@Inject
-	public UtilTypeInstructionSeparationImpl(Converter<Expression, AnnotationValue> toAnnotationValueConverter,
-			Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
-			JdtResolver jdtResolverUtility,
-			Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
-			Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
+	public UtilTypeInstructionSeparationImpl(final Converter<Expression, AnnotationValue> toAnnotationValueConverter,
+			final Converter<Statement, tools.mdsd.jamopp.model.java.statements.Statement> statementToStatementConverter,
+			final JdtResolver jdtResolverUtility,
+			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> expressionConverterUtility,
+			final Converter<Block, tools.mdsd.jamopp.model.java.statements.Block> blockToBlockConverter) {
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.expressionConverterUtility = expressionConverterUtility;
 		this.toAnnotationValueConverter = toAnnotationValueConverter;
@@ -88,8 +88,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleAnnotationSetting() {
-		HashMap<Expression, AnnotationAttributeSetting> clone = new HashMap<>(annotationSetting);
-		Iterator<Expression> exprIter = clone.keySet().iterator();
+		final HashMap<Expression, AnnotationAttributeSetting> clone = new HashMap<>(annotationSetting);
+		final Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
 			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
@@ -102,8 +102,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleSingleAnnotations() {
-		HashMap<Expression, SingleAnnotationParameter> clone = new HashMap<>(singleAnnotations);
-		Iterator<Expression> exprIter = clone.keySet().iterator();
+		final HashMap<Expression, SingleAnnotationParameter> clone = new HashMap<>(singleAnnotations);
+		final Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
 			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
@@ -116,8 +116,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleAnnotationMethods() {
-		HashMap<Expression, InterfaceMethod> clone = new HashMap<>(annotationMethods);
-		Iterator<Expression> exprIter = clone.keySet().iterator();
+		final HashMap<Expression, InterfaceMethod> clone = new HashMap<>(annotationMethods);
+		final Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
 			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
@@ -131,8 +131,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 
 	@SuppressWarnings("unchecked")
 	private void handleInitializers() {
-		HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> clone = new HashMap<>(initializers);
-		Iterator<Block> iter = clone.keySet().iterator();
+		final HashMap<Block, tools.mdsd.jamopp.model.java.statements.Block> clone = new HashMap<>(initializers);
+		final Iterator<Block> iter = clone.keySet().iterator();
 		while (iter.hasNext()) {
 			if (visitedObjects.contains(clone.get(iter.next()))) {
 				iter.remove();
@@ -147,8 +147,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleAddFields() {
-		HashMap<Expression, AdditionalField> clone = new HashMap<>(addFields);
-		Iterator<Expression> exprIter = clone.keySet().iterator();
+		final HashMap<Expression, AdditionalField> clone = new HashMap<>(addFields);
+		final Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
 			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
@@ -161,8 +161,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleFields() {
-		HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> clone = new HashMap<>(fields);
-		Iterator<Expression> exprIter = clone.keySet().iterator();
+		final HashMap<Expression, tools.mdsd.jamopp.model.java.members.Field> clone = new HashMap<>(fields);
+		final Iterator<Expression> exprIter = clone.keySet().iterator();
 		while (exprIter.hasNext()) {
 			if (visitedObjects.contains(clone.get(exprIter.next()))) {
 				exprIter.remove();
@@ -175,8 +175,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleConstructors() {
-		HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> clone = new HashMap<>(constructors);
-		Iterator<Block> iter = clone.keySet().iterator();
+		final HashMap<Block, tools.mdsd.jamopp.model.java.members.Constructor> clone = new HashMap<>(constructors);
+		final Iterator<Block> iter = clone.keySet().iterator();
 		while (iter.hasNext()) {
 			if (visitedObjects.contains(clone.get(iter.next()))) {
 				iter.remove();
@@ -189,8 +189,8 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	private void handleMethods() {
-		HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> clone = new HashMap<>(methods);
-		Iterator<Block> iter = clone.keySet().iterator();
+		final HashMap<Block, tools.mdsd.jamopp.model.java.members.Method> clone = new HashMap<>(methods);
+		final Iterator<Block> iter = clone.keySet().iterator();
 		while (iter.hasNext()) {
 			if (visitedObjects.contains(clone.get(iter.next()))) {
 				iter.remove();
@@ -203,42 +203,43 @@ public class UtilTypeInstructionSeparationImpl implements UtilTypeInstructionSep
 	}
 
 	@Override
-	public void addMethod(Block block, tools.mdsd.jamopp.model.java.members.Method method) {
+	public void addMethod(final Block block, final tools.mdsd.jamopp.model.java.members.Method method) {
 		methods.put(block, method);
 	}
 
 	@Override
-	public void addConstructor(Block block, tools.mdsd.jamopp.model.java.members.Constructor constructor) {
+	public void addConstructor(final Block block, final tools.mdsd.jamopp.model.java.members.Constructor constructor) {
 		constructors.put(block, constructor);
 	}
 
 	@Override
-	public void addField(Expression initializer, tools.mdsd.jamopp.model.java.members.Field field) {
+	public void addField(final Expression initializer, final tools.mdsd.jamopp.model.java.members.Field field) {
 		fields.put(initializer, field);
 	}
 
 	@Override
-	public void addAdditionalField(Expression initializer, AdditionalField field) {
+	public void addAdditionalField(final Expression initializer, final AdditionalField field) {
 		addFields.put(initializer, field);
 	}
 
 	@Override
-	public void addInitializer(Block block, tools.mdsd.jamopp.model.java.statements.Block correspondingBlock) {
+	public void addInitializer(final Block block,
+			final tools.mdsd.jamopp.model.java.statements.Block correspondingBlock) {
 		initializers.put(block, correspondingBlock);
 	}
 
 	@Override
-	public void addAnnotationMethod(Expression value, InterfaceMethod method) {
+	public void addAnnotationMethod(final Expression value, final InterfaceMethod method) {
 		annotationMethods.put(value, method);
 	}
 
 	@Override
-	public void addSingleAnnotationParameter(Expression value, SingleAnnotationParameter param) {
+	public void addSingleAnnotationParameter(final Expression value, final SingleAnnotationParameter param) {
 		singleAnnotations.put(value, param);
 	}
 
 	@Override
-	public void addAnnotationAttributeSetting(Expression value, AnnotationAttributeSetting setting) {
+	public void addAnnotationAttributeSetting(final Expression value, final AnnotationAttributeSetting setting) {
 		annotationSetting.put(value, setting);
 	}
 

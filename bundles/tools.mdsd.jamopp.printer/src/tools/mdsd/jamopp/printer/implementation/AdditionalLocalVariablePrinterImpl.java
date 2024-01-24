@@ -17,14 +17,14 @@ public class AdditionalLocalVariablePrinterImpl implements Printer<AdditionalLoc
 	private final Printer<Expression> expressionPrinter;
 
 	@Inject
-	public AdditionalLocalVariablePrinterImpl(Printer<List<ArrayDimension>> arrayDimensionsPrinter,
-			Printer<Expression> expressionPrinter) {
+	public AdditionalLocalVariablePrinterImpl(final Printer<List<ArrayDimension>> arrayDimensionsPrinter,
+			final Printer<Expression> expressionPrinter) {
 		this.arrayDimensionsPrinter = arrayDimensionsPrinter;
 		this.expressionPrinter = expressionPrinter;
 	}
 
 	@Override
-	public void print(AdditionalLocalVariable element, BufferedWriter writer) throws IOException {
+	public void print(final AdditionalLocalVariable element, final BufferedWriter writer) throws IOException {
 		writer.append(element.getName());
 		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);

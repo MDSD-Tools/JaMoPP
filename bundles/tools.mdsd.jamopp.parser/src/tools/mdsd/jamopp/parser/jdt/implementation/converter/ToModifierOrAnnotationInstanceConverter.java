@@ -18,14 +18,14 @@ public class ToModifierOrAnnotationInstanceConverter
 
 	@Inject
 	public ToModifierOrAnnotationInstanceConverter(
-			Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
-			Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
+			final Converter<Modifier, tools.mdsd.jamopp.model.java.modifiers.Modifier> toModifierConverter,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.toModifierConverter = toModifierConverter;
 	}
 
 	@Override
-	public AnnotationInstanceOrModifier convert(IExtendedModifier mod) {
+	public AnnotationInstanceOrModifier convert(final IExtendedModifier mod) {
 		AnnotationInstanceOrModifier result;
 		if (mod.isModifier()) {
 			result = toModifierConverter.convert((Modifier) mod);

@@ -30,10 +30,10 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 
 	@Inject
 	public ToClassMemberConverter(
-			Converter<Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter,
-			@Named("ToClassMethodOrConstructorConverter") Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
-			Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter,
-			Converter<FieldDeclaration, Field> toFieldConverter) {
+			final Converter<Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter,
+			@Named("ToClassMethodOrConstructorConverter") final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
+			final Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter,
+			final Converter<FieldDeclaration, Field> toFieldConverter) {
 		this.toBlockConverter = toBlockConverter;
 		this.toFieldConverter = toFieldConverter;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
@@ -41,7 +41,7 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 	}
 
 	@Override
-	public Member convert(BodyDeclaration body) {
+	public Member convert(final BodyDeclaration body) {
 		Member result = null;
 		if (body instanceof AbstractTypeDeclaration) {
 			result = toConcreteClassifierConverter.convert((AbstractTypeDeclaration) body);
@@ -59,7 +59,7 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 
 	@Inject
 	public void setToConcreteClassifierConverter(
-			Converter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter) {
+			final Converter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter) {
 		this.toConcreteClassifierConverter = toConcreteClassifierConverter;
 	}
 

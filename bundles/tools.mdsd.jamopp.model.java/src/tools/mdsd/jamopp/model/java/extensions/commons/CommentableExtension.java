@@ -46,7 +46,7 @@ public final class CommentableExtension {
 	/**
 	 * Adds the given statement before the statement that contains this element.
 	 */
-	public static void addBeforeContainingStatement(Commentable commentable, Statement statementToAdd) {
+	public static void addBeforeContainingStatement(final Commentable commentable, final Statement statementToAdd) {
 		EObject container = commentable.eContainer();
 		EObject statement = commentable;
 		while (container != null) {
@@ -60,9 +60,9 @@ public final class CommentableExtension {
 			throw new IllegalArgumentException(
 					"Element " + commentable + " is not contained in a StatementListContainer.");
 		}
-		StatementListContainer statementListContainer = (StatementListContainer) container;
-		EList<Statement> statements = statementListContainer.getStatements();
-		int index = statements.indexOf(statement);
+		final StatementListContainer statementListContainer = (StatementListContainer) container;
+		final EList<Statement> statements = statementListContainer.getStatements();
+		final int index = statements.indexOf(statement);
 
 		statements.add(index, statementToAdd);
 	}
@@ -70,7 +70,7 @@ public final class CommentableExtension {
 	/**
 	 * Adds the given statement after the statement that contains this element.
 	 */
-	public static void addAfterContainingStatement(Commentable commentable, Statement statementToAdd) {
+	public static void addAfterContainingStatement(final Commentable commentable, final Statement statementToAdd) {
 		EObject container = commentable.eContainer();
 		EObject statement = commentable;
 		while (container != null) {
@@ -84,9 +84,9 @@ public final class CommentableExtension {
 			throw new IllegalArgumentException(
 					"Element " + commentable + " is not contained in a StatementListContainer.");
 		}
-		StatementListContainer statementListContainer = (StatementListContainer) container;
-		EList<Statement> statements = statementListContainer.getStatements();
-		int index = statements.indexOf(statement);
+		final StatementListContainer statementListContainer = (StatementListContainer) container;
+		final EList<Statement> statements = statementListContainer.getStatements();
+		final int index = statements.indexOf(statement);
 
 		if (index == statements.size() - 1) {
 			// statement is the last one
@@ -100,7 +100,7 @@ public final class CommentableExtension {
 	 * Walks up the containment hierarchy and returns the first parent with the
 	 * given type. If no such parent is found, null is returned.
 	 */
-	public static EObject getParentByEType(EObject eObject, EClassifier type) {
+	public static EObject getParentByEType(final EObject eObject, final EClassifier type) {
 		EObject container = eObject.eContainer();
 		EObject result = null;
 		while (container != null) {
@@ -117,7 +117,7 @@ public final class CommentableExtension {
 	 * Walks up the containment hierarchy and returns the first parent with the
 	 * given type. If no such parent is found, null is returned.
 	 */
-	public static <T> T getParentByType(EObject eObject, Class<T> type) {
+	public static <T> T getParentByType(final EObject eObject, final Class<T> type) {
 		EObject container = eObject.eContainer();
 		T result = null;
 		while (container != null) {
@@ -134,11 +134,11 @@ public final class CommentableExtension {
 	 * Searches for the first child with the given type. If no such child is found,
 	 * <code>null</code> is returned.
 	 */
-	public static EObject getFirstChildByEType(EObject eObject, EClassifier type) {
-		Iterator<EObject> iterator = eObject.eAllContents();
+	public static EObject getFirstChildByEType(final EObject eObject, final EClassifier type) {
+		final Iterator<EObject> iterator = eObject.eAllContents();
 		EObject result = null;
 		while (iterator.hasNext()) {
-			EObject next = iterator.next();
+			final EObject next = iterator.next();
 			if (type.isInstance(next)) {
 				result = next;
 				break;
@@ -151,11 +151,11 @@ public final class CommentableExtension {
 	 * Searches for the first child with the given type. If no such child is found,
 	 * <code>null</code> is returned.
 	 */
-	public static <T> T getFirstChildByType(EObject eObject, Class<T> type) {
-		Iterator<EObject> iterator = eObject.eAllContents();
+	public static <T> T getFirstChildByType(final EObject eObject, final Class<T> type) {
+		final Iterator<EObject> iterator = eObject.eAllContents();
 		T result = null;
 		while (iterator.hasNext()) {
-			EObject next = iterator.next();
+			final EObject next = iterator.next();
 			if (type.isInstance(next)) {
 				result = type.cast(next);
 				break;
@@ -167,11 +167,11 @@ public final class CommentableExtension {
 	/**
 	 * Returns all children of the given type.
 	 */
-	public static EList<EObject> getChildrenByEType(EObject eObject, EClassifier type) {
-		EList<EObject> children = new BasicEList<>();
-		Iterator<EObject> iterator = eObject.eAllContents();
+	public static EList<EObject> getChildrenByEType(final EObject eObject, final EClassifier type) {
+		final EList<EObject> children = new BasicEList<>();
+		final Iterator<EObject> iterator = eObject.eAllContents();
 		while (iterator.hasNext()) {
-			EObject next = iterator.next();
+			final EObject next = iterator.next();
 			if (type.isInstance(next)) {
 				children.add(next);
 			}
@@ -182,11 +182,11 @@ public final class CommentableExtension {
 	/**
 	 * Returns all children of the given type.
 	 */
-	public static <T> EList<T> getChildrenByType(EObject eObject, Class<T> type) {
-		EList<T> children = new BasicEList<>();
-		Iterator<EObject> iterator = eObject.eAllContents();
+	public static <T> EList<T> getChildrenByType(final EObject eObject, final Class<T> type) {
+		final EList<T> children = new BasicEList<>();
+		final Iterator<EObject> iterator = eObject.eAllContents();
 		while (iterator.hasNext()) {
-			EObject next = iterator.next();
+			final EObject next = iterator.next();
 			if (type.isInstance(next)) {
 				children.add(type.cast(next));
 			}
@@ -201,7 +201,7 @@ public final class CommentableExtension {
 	 * @param commentable unused
 	 * @param name        classified name of the ConcreteClassifier
 	 */
-	public static ConcreteClassifier getConcreteClassifier(Commentable commentable, String name) {
+	public static ConcreteClassifier getConcreteClassifier(final Commentable commentable, final String name) {
 		return JavaClasspath.get().getFirstConcreteClassifier(name);
 	}
 
@@ -213,16 +213,16 @@ public final class CommentableExtension {
 	 * @param packageName     name of the package
 	 * @param classifierQuery * for all classifiers or name of a single classifier
 	 */
-	public static EList<ConcreteClassifier> getConcreteClassifiers(Commentable commentable, String packageName,
-			String classifierQuery) {
-		EList<ConcreteClassifier> result = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getConcreteClassifiers(final Commentable commentable,
+			final String packageName, final String classifierQuery) {
+		final EList<ConcreteClassifier> result = new UniqueEList<>();
 		if ("*".equals(classifierQuery)) {
-			tools.mdsd.jamopp.model.java.containers.Package pack = JavaClasspath.get().getPackage(packageName);
+			final tools.mdsd.jamopp.model.java.containers.Package pack = JavaClasspath.get().getPackage(packageName);
 			if (pack != null) {
 				result.addAll(pack.getClassifiers());
 			}
 		} else {
-			ConcreteClassifier classifier = JavaClasspath.get()
+			final ConcreteClassifier classifier = JavaClasspath.get()
 					.getConcreteClassifier(packageName + "." + classifierQuery);
 			if (classifier != null) {
 				result.add(classifier);
@@ -239,8 +239,9 @@ public final class CommentableExtension {
 	 * @param name        name of the Class.
 	 * @return the Class.
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class getLibClass(Commentable commentable, String name) {
-		ConcreteClassifier result = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
+	public static tools.mdsd.jamopp.model.java.classifiers.Class getLibClass(final Commentable commentable,
+			final String name) {
+		final ConcreteClassifier result = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
 		tools.mdsd.jamopp.model.java.classifiers.Class resultClass = null;
 		if (result instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
 			resultClass = (tools.mdsd.jamopp.model.java.classifiers.Class) result;
@@ -257,8 +258,8 @@ public final class CommentableExtension {
 	 * @param name        name of the Interface.
 	 * @return the interface.
 	 */
-	public static Interface getLibInterface(Commentable commentable, String name) {
-		ConcreteClassifier interfaceClass = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
+	public static Interface getLibInterface(final Commentable commentable, final String name) {
+		final ConcreteClassifier interfaceClass = JavaClasspath.get().getConcreteClassifier("java.lang." + name);
 		Interface result = null;
 		if (interfaceClass instanceof Interface) {
 			result = (Interface) interfaceClass;
@@ -272,7 +273,7 @@ public final class CommentableExtension {
 	 *
 	 * @return the Class.
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class getClassClass(Commentable commentabke) {
+	public static tools.mdsd.jamopp.model.java.classifiers.Class getClassClass(final Commentable commentabke) {
 		return commentabke.getLibClass("Class");
 	}
 
@@ -282,7 +283,7 @@ public final class CommentableExtension {
 	 *
 	 * @return the Class.
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class getObjectClass(Commentable commentable) {
+	public static tools.mdsd.jamopp.model.java.classifiers.Class getObjectClass(final Commentable commentable) {
 		return commentable.getLibClass("Object");
 	}
 
@@ -292,7 +293,7 @@ public final class CommentableExtension {
 	 *
 	 * @return the Class.
 	 */
-	public static tools.mdsd.jamopp.model.java.classifiers.Class getStringClass(Commentable commentable) {
+	public static tools.mdsd.jamopp.model.java.classifiers.Class getStringClass(final Commentable commentable) {
 		return commentable.getLibClass("String");
 	}
 
@@ -303,8 +304,8 @@ public final class CommentableExtension {
 	 * @param commentable unused
 	 * @return the Class.
 	 */
-	public static Interface getAnnotationInterface(Commentable commentable) {
-		ConcreteClassifier proxy = JavaClasspath.get().getConcreteClassifier("java.lang.annotation.Annotation");
+	public static Interface getAnnotationInterface(final Commentable commentable) {
+		final ConcreteClassifier proxy = JavaClasspath.get().getConcreteClassifier("java.lang.annotation.Annotation");
 		Interface result = null;
 		if (proxy instanceof Interface) {
 			result = (Interface) proxy;
@@ -320,7 +321,7 @@ public final class CommentableExtension {
 	 * @param value
 	 * @return containing classifier
 	 */
-	public static ConcreteClassifier getContainingConcreteClassifier(Commentable commentable) {
+	public static ConcreteClassifier getContainingConcreteClassifier(final Commentable commentable) {
 		EObject value = commentable;
 		while (!(value instanceof ConcreteClassifier) && value != null) {
 			value = value.eContainer();
@@ -336,7 +337,7 @@ public final class CommentableExtension {
 	 *
 	 * @return containing classifier
 	 */
-	public static ConcreteClassifier getParentConcreteClassifier(Commentable commentable) {
+	public static ConcreteClassifier getParentConcreteClassifier(final Commentable commentable) {
 		return commentable.getContainingConcreteClassifier();
 	}
 
@@ -345,7 +346,7 @@ public final class CommentableExtension {
 	 *
 	 * @return containing anonymous class
 	 */
-	public static AnonymousClass getContainingAnonymousClass(Commentable commentable) {
+	public static AnonymousClass getContainingAnonymousClass(final Commentable commentable) {
 		EObject value = commentable;
 		while (!(value instanceof AnonymousClass) && !(value instanceof ConcreteClassifier)
 		// Do not jump over other classifiers
@@ -365,7 +366,7 @@ public final class CommentableExtension {
 	 *
 	 * @return containing compilation unit
 	 */
-	public static CompilationUnit getContainingCompilationUnit(Commentable commentable) {
+	public static CompilationUnit getContainingCompilationUnit(final Commentable commentable) {
 		EObject value = commentable;
 		while (!(value instanceof CompilationUnit) && value != null) {
 			value = value.eContainer();
@@ -378,7 +379,7 @@ public final class CommentableExtension {
 	 *
 	 * @return containing annotation instance
 	 */
-	public static AnnotationInstance getContainingAnnotationInstance(Commentable commentable) {
+	public static AnnotationInstance getContainingAnnotationInstance(final Commentable commentable) {
 		EObject value = commentable;
 		while (!(value instanceof AnnotationInstance) && value != null) {
 			value = value.eContainer();
@@ -386,30 +387,30 @@ public final class CommentableExtension {
 		return (AnnotationInstance) value;
 	}
 
-	public static EList<String> getContainingPackageName(Commentable commentable) {
-		CompilationUnit compilationUnit = commentable.getContainingCompilationUnit();
+	public static EList<String> getContainingPackageName(final Commentable commentable) {
+		final CompilationUnit compilationUnit = commentable.getContainingCompilationUnit();
 		EList<String> result;
 		if (compilationUnit == null) {
 			result = ECollections.emptyEList();
 		} else {
 			int idx = compilationUnit.getNamespaces().size();
 			if (compilationUnit.getName() != null) {
-				char[] fullName = compilationUnit.getName().toCharArray();
-				for (char element : fullName) {
+				final char[] fullName = compilationUnit.getName().toCharArray();
+				for (final char element : fullName) {
 					if (element == DOLLAR) {
 						idx--;
 					}
 				}
 			}
-			List<String> packageNameParts = compilationUnit.getNamespaces().subList(0, idx);
-			BasicEList<String> packageNameList = new BasicEList<>(packageNameParts);
+			final List<String> packageNameParts = compilationUnit.getNamespaces().subList(0, idx);
+			final BasicEList<String> packageNameList = new BasicEList<>(packageNameParts);
 			result = ECollections.unmodifiableEList(packageNameList);
 		}
 		return result;
 	}
 
-	public static EList<String> getContainingContainerName(Commentable commentable) {
-		CompilationUnit compilationUnit = commentable.getContainingCompilationUnit();
+	public static EList<String> getContainingContainerName(final Commentable commentable) {
+		final CompilationUnit compilationUnit = commentable.getContainingCompilationUnit();
 		EList<String> result;
 		if (compilationUnit == null) {
 			result = ECollections.emptyEList();

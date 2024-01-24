@@ -21,9 +21,9 @@ public class ToReceiverParameterConverter implements Converter<MethodDeclaration
 	private final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
 
 	@Inject
-	public ToReceiverParameterConverter(Converter<Type, TypeReference> toTypeReferenceConverter,
-			Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
-			ParametersFactory parametersFactory, LiteralsFactory literalsFactory) {
+	public ToReceiverParameterConverter(final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
+			final ParametersFactory parametersFactory, final LiteralsFactory literalsFactory) {
 		this.literalsFactory = literalsFactory;
 		this.parametersFactory = parametersFactory;
 		this.toTypeReferenceConverter = toTypeReferenceConverter;
@@ -31,8 +31,8 @@ public class ToReceiverParameterConverter implements Converter<MethodDeclaration
 	}
 
 	@Override
-	public ReceiverParameter convert(MethodDeclaration methodDecl) {
-		ReceiverParameter result = parametersFactory.createReceiverParameter();
+	public ReceiverParameter convert(final MethodDeclaration methodDecl) {
+		final ReceiverParameter result = parametersFactory.createReceiverParameter();
 		result.setName("");
 		result.setTypeReference(toTypeReferenceConverter.convert(methodDecl.getReceiverType()));
 		if (methodDecl.getReceiverQualifier() != null) {

@@ -38,7 +38,7 @@ public final class ReferenceExtension {
 		// Should not be initiated.
 	}
 
-	public static Reference getPrevious(Reference reference) {
+	public static Reference getPrevious(final Reference reference) {
 		Reference result = null;
 		if (reference.eContainer() instanceof Reference
 				&& reference.equals(((Reference) reference.eContainer()).getNext())) {
@@ -54,7 +54,7 @@ public final class ReferenceExtension {
 	 *
 	 * @return the determined type
 	 */
-	public static Type getReferencedType(Reference reference) {
+	public static Type getReferencedType(final Reference reference) {
 		Type type = null;
 		if (reference instanceof Literal) {
 			type = handeLiteral(reference);
@@ -79,9 +79,9 @@ public final class ReferenceExtension {
 		return type;
 	}
 
-	private static Type handleElementReference(Reference reference, Type type) {
+	private static Type handleElementReference(final Reference reference, final Type type) {
 		// Referenced element points to an element with a type
-		ReferenceableElement target = ((ElementReference) reference).getTarget();
+		final ReferenceableElement target = ((ElementReference) reference).getTarget();
 		Type newType = null;
 		if (target != null && !target.eIsProxy()) {
 			newType = type;
@@ -89,7 +89,7 @@ public final class ReferenceExtension {
 
 		// Navigate through AdditionalLocalVariable or Field
 		if (target instanceof TypedElement) {
-			TypeReference typeRef = ((TypedElement) target).getTypeReference();
+			final TypeReference typeRef = ((TypedElement) target).getTypeReference();
 			if (typeRef != null) {
 				newType = typeRef.getBoundTarget(reference);
 			}
@@ -101,31 +101,31 @@ public final class ReferenceExtension {
 		return newType;
 	}
 
-	private static Type handlePrimitiveTypeReference(Reference reference) {
+	private static Type handlePrimitiveTypeReference(final Reference reference) {
 		return ((PrimitiveTypeReference) reference).getPrimitiveType();
 	}
 
-	private static Type handleNestedExpression(Reference reference) {
+	private static Type handleNestedExpression(final Reference reference) {
 		return ((NestedExpression) reference).getExpression().getType();
 	}
 
-	private static Type handleStringReference(Reference reference) {
+	private static Type handleStringReference(final Reference reference) {
 		// Strings may also appear as reference
 		return reference.getStringClass();
 	}
 
-	private static Type handleReflectiveClassReference(Reference reference) {
+	private static Type handleReflectiveClassReference(final Reference reference) {
 		// Element points to the object's class object
 		return reference.getClassClass();
 	}
 
-	private static Type handleSelfReference(Reference reference) {
+	private static Type handleSelfReference(final Reference reference) {
 		// Element points to this or super
 		Type thisClass;
 		if (reference.getPrevious() != null) {
 			thisClass = reference.getPrevious().getReferencedType();
 		} else {
-			AnonymousClass anonymousContainer = reference.getContainingAnonymousClass();
+			final AnonymousClass anonymousContainer = reference.getContainingAnonymousClass();
 			if (anonymousContainer != null) {
 				thisClass = anonymousContainer;
 			} else {
@@ -148,13 +148,13 @@ public final class ReferenceExtension {
 		return result;
 	}
 
-	private static Type handleTypedElement(Reference reference) {
+	private static Type handleTypedElement(final Reference reference) {
 		// Referenced element points to a type
-		TypeReference typeRef = ((TypedElement) reference).getTypeReference();
+		final TypeReference typeRef = ((TypedElement) reference).getTypeReference();
 		return typeRef.getBoundTarget(reference);
 	}
 
-	private static Type handeLiteral(Reference reference) {
+	private static Type handeLiteral(final Reference reference) {
 		return ((Literal) reference).getType();
 	}
 

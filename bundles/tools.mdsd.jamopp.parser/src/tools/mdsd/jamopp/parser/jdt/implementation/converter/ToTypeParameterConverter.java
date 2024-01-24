@@ -23,9 +23,9 @@ public class ToTypeParameterConverter
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 
 	@Inject
-	public ToTypeParameterConverter(UtilNamedElement utilNamedElement, UtilLayout utilLayout,
-			JdtResolver utilJDTResolver, ToTypeReferenceConverter toTypeReferenceConverter,
-			ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+	public ToTypeParameterConverter(final UtilNamedElement utilNamedElement, final UtilLayout utilLayout,
+			final JdtResolver utilJDTResolver, final ToTypeReferenceConverter toTypeReferenceConverter,
+			final ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.utilJDTResolver = utilJDTResolver;
@@ -35,8 +35,8 @@ public class ToTypeParameterConverter
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public tools.mdsd.jamopp.model.java.generics.TypeParameter convert(TypeParameter param) {
-		tools.mdsd.jamopp.model.java.generics.TypeParameter result = utilJDTResolver
+	public tools.mdsd.jamopp.model.java.generics.TypeParameter convert(final TypeParameter param) {
+		final tools.mdsd.jamopp.model.java.generics.TypeParameter result = utilJDTResolver
 				.getTypeParameter(param.resolveBinding());
 		param.modifiers()
 				.forEach(obj -> result.getAnnotations().add(toAnnotationInstanceConverter.convert((Annotation) obj)));

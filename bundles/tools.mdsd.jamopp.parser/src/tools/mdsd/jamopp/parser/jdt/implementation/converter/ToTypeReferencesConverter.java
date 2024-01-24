@@ -29,8 +29,8 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	private final Map<String, Supplier<TypeReference>> mappings;
 
 	@Inject
-	public ToTypeReferencesConverter(TypesFactory typesFactory, UtilNamedElement utilNamedElement,
-			JdtResolver iUtilJdtResolver) {
+	public ToTypeReferencesConverter(final TypesFactory typesFactory, final UtilNamedElement utilNamedElement,
+			final JdtResolver iUtilJdtResolver) {
 		this.typesFactory = typesFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
@@ -47,7 +47,7 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	}
 
 	@Override
-	public List<TypeReference> convert(ITypeBinding binding) {
+	public List<TypeReference> convert(final ITypeBinding binding) {
 		List<TypeReference> list;
 		if (binding.isPrimitive()) {
 			list = new ArrayList<>();
@@ -56,16 +56,16 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 			list = convert(binding.getElementType());
 		} else if (binding.isIntersectionType()) {
 			list = new ArrayList<>();
-			for (ITypeBinding b : binding.getTypeBounds()) {
+			for (final ITypeBinding b : binding.getTypeBounds()) {
 				list.addAll(convert(b));
 			}
 		} else {
 			list = new ArrayList<>();
-			Classifier classifier = iUtilJdtResolver.getClassifier(binding);
+			final Classifier classifier = iUtilJdtResolver.getClassifier(binding);
 			utilNamedElement.convertToNameAndSet(binding, classifier);
-			ClassifierReference ref = typesFactory.createClassifierReference();
+			final ClassifierReference ref = typesFactory.createClassifierReference();
 			if (binding.isParameterizedType()) {
-				for (ITypeBinding b : binding.getTypeArguments()) {
+				for (final ITypeBinding b : binding.getTypeArguments()) {
 					ref.getTypeArguments().add(toTypeArgumentConverter.convert(b));
 				}
 			}
@@ -76,8 +76,8 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 		return list;
 	}
 
-	private void handlePrimitive(ITypeBinding binding, List<TypeReference> result) {
-		for (Entry<String, Supplier<TypeReference>> entry : mappings.entrySet()) {
+	private void handlePrimitive(final ITypeBinding binding, final List<TypeReference> result) {
+		for (final Entry<String, Supplier<TypeReference>> entry : mappings.entrySet()) {
 			if (entry.getKey().equals(binding.getName())) {
 				result.add(entry.getValue().get());
 				break;
@@ -86,7 +86,7 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	}
 
 	@Inject
-	public void setToTypeArgumentConverter(Converter<ITypeBinding, TypeArgument> toTypeArgumentConverter) {
+	public void setToTypeArgumentConverter(final Converter<ITypeBinding, TypeArgument> toTypeArgumentConverter) {
 		this.toTypeArgumentConverter = toTypeArgumentConverter;
 	}
 

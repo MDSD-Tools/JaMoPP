@@ -27,8 +27,8 @@ public final class AnnotationExtension {
 		// Should not be initiated
 	}
 
-	public static EList<ConcreteClassifier> getAllSuperClassifiers(Annotation annotation) {
-		EList<ConcreteClassifier> result = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getAllSuperClassifiers(final Annotation annotation) {
+		final EList<ConcreteClassifier> result = new UniqueEList<>();
 		result.add(annotation.getAnnotationInterface());
 		return result;
 	}
