@@ -15,6 +15,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.visitor;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -43,8 +44,8 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	private final Converter<Annotation, AnnotationInstance> annotationInstanceConverter;
 	private final Converter<ImportDeclaration, Import> toImportConverter;
 
-	private Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit> toCompilationUnitConverter;
-	private Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module> toModuleConverter;
+	private final Provider<Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit>> toCompilationUnitConverter;
+	private final Provider<Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module>> toModuleConverter;
 
 	private JavaRoot convertedRootElement;
 	private String originalSource;
@@ -54,13 +55,17 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			@Named("ToImportConverter") final Converter<ImportDeclaration, Import> toImportConverter,
 			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
 			final ContainersFactory containersFactory,
-			final Converter<Annotation, AnnotationInstance> annotationInstanceConverter) {
+			final Converter<Annotation, AnnotationInstance> annotationInstanceConverter,
+			final Provider<Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module>> toModuleConverter,
+			final Provider<Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit>> toCompilationUnitConverter) {
 		this.containersFactory = containersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.annotationInstanceConverter = annotationInstanceConverter;
 		this.toImportConverter = toImportConverter;
+		this.toCompilationUnitConverter = toCompilationUnitConverter;
+		this.toModuleConverter = toModuleConverter;
 	}
 
 	@Override
@@ -86,12 +91,14 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(final CompilationUnit node) {
+
 		setConvertedElement(null);
 		if (!node.types().isEmpty()) {
-			setConvertedElement(toCompilationUnitConverter.convert(node));
+			setConvertedElement(toCompilationUnitConverter.get().convert(node));
 		}
 		if (node.getModule() != null) {
-			final tools.mdsd.jamopp.model.java.containers.Module module = toModuleConverter.convert(node.getModule());
+			final tools.mdsd.jamopp.model.java.containers.Module module = toModuleConverter.get()
+					.convert(node.getModule());
 			setConvertedElement(module);
 		}
 		if (convertedRootElement == null && node.getPackage() != null) {
@@ -114,18 +121,6 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			convertedRootElement.getImports().add(toImportConverter.convert((ImportDeclaration) obj));
 		}
 		return false;
-	}
-
-	@Inject
-	public void setToModuleConverter(
-			final Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module> toModuleConverter) {
-		this.toModuleConverter = toModuleConverter;
-	}
-
-	@Inject
-	public void setToCompilationUnitConverter(
-			final Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit> toCompilationUnitConverter) {
-		this.toCompilationUnitConverter = toCompilationUnitConverter;
 	}
 
 }

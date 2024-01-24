@@ -3,6 +3,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayType;
@@ -36,7 +37,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 	private final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
 	private final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter;
 	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
-	private Converter<Type, TypeArgument> typeToTypeArgumentConverter;
+	private final Provider<Converter<Type, TypeArgument>> typeToTypeArgumentConverter;
 
 	@Inject
 	public ToTypeReferenceConverter(final Converter<Name, TypeReference> utilBaseConverter,
@@ -44,7 +45,8 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
 			final Converter<SimpleName, ClassifierReference> toClassifierReferenceConverter,
 			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter,
-			final UtilLayout layoutInformationConverter, final UtilArrays jdtBindingConverterUtility) {
+			final UtilLayout layoutInformationConverter, final UtilArrays jdtBindingConverterUtility,
+			final Provider<Converter<Type, TypeArgument>> typeToTypeArgumentConverter) {
 		this.typesFactory = typesFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtBindingConverterUtility = jdtBindingConverterUtility;
@@ -52,6 +54,7 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.toClassifierReferenceConverter = toClassifierReferenceConverter;
 		this.toTypeReferencesConverter = toTypeReferencesConverter;
+		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
 	@Override
@@ -115,8 +118,8 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 			container = containerContainer.getClassifierReferences()
 					.get(containerContainer.getClassifierReferences().size() - 1);
 		}
-		paramT.typeArguments()
-				.forEach(obj -> container.getTypeArguments().add(typeToTypeArgumentConverter.convert((Type) obj)));
+		paramT.typeArguments().forEach(
+				obj -> container.getTypeArguments().add(typeToTypeArgumentConverter.get().convert((Type) obj)));
 		return ref;
 	}
 
@@ -190,11 +193,6 @@ public class ToTypeReferenceConverter implements Converter<Type, TypeReference> 
 		}
 		layoutInformationConverter.convertToMinimalLayoutInformation(ref, type);
 		return ref;
-	}
-
-	@Inject
-	public void setTypeToTypeArgumentConverter(final Converter<Type, TypeArgument> typeToTypeArgumentConverter) {
-		this.typeToTypeArgumentConverter = typeToTypeArgumentConverter;
 	}
 
 }

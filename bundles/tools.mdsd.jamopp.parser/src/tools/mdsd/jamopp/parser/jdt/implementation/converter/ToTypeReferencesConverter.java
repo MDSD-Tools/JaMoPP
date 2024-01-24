@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
@@ -25,15 +26,17 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	private final TypesFactory typesFactory;
 	private final JdtResolver iUtilJdtResolver;
 	private final UtilNamedElement utilNamedElement;
-	private Converter<ITypeBinding, TypeArgument> toTypeArgumentConverter;
+	private final Provider<Converter<ITypeBinding, TypeArgument>> toTypeArgumentConverter;
 	private final Map<String, Supplier<TypeReference>> mappings;
 
 	@Inject
 	public ToTypeReferencesConverter(final TypesFactory typesFactory, final UtilNamedElement utilNamedElement,
-			final JdtResolver iUtilJdtResolver) {
+			final JdtResolver iUtilJdtResolver,
+			final Provider<Converter<ITypeBinding, TypeArgument>> toTypeArgumentConverter) {
 		this.typesFactory = typesFactory;
 		this.iUtilJdtResolver = iUtilJdtResolver;
 		this.utilNamedElement = utilNamedElement;
+		this.toTypeArgumentConverter = toTypeArgumentConverter;
 		mappings = new HashMap<>();
 		mappings.put("int", () -> typesFactory.createInt());
 		mappings.put("byte", () -> typesFactory.createByte());
@@ -66,7 +69,7 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 			final ClassifierReference ref = typesFactory.createClassifierReference();
 			if (binding.isParameterizedType()) {
 				for (final ITypeBinding b : binding.getTypeArguments()) {
-					ref.getTypeArguments().add(toTypeArgumentConverter.convert(b));
+					ref.getTypeArguments().add(toTypeArgumentConverter.get().convert(b));
 				}
 			}
 			ref.setTarget(classifier);
@@ -83,11 +86,6 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 				break;
 			}
 		}
-	}
-
-	@Inject
-	public void setToTypeArgumentConverter(final Converter<ITypeBinding, TypeArgument> toTypeArgumentConverter) {
-		this.toTypeArgumentConverter = toTypeArgumentConverter;
 	}
 
 }

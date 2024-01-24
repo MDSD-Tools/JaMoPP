@@ -1,6 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
@@ -29,16 +30,18 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 	private final UtilLayout layoutInformationConverter;
 	private final JdtResolver jdtResolverUtility;
 	private final UtilNamedElement utilNamedElement;
-	private UtilTypeInstructionSeparation typeInstructionSeparationUtility;
+	private final Provider<UtilTypeInstructionSeparation> typeInstructionSeparationUtility;
 
 	@Inject
 	public ToAnnotationInstanceConverter(final UtilNamedElement utilNamedElement,
 			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
-			final AnnotationsFactory annotationsFactory) {
+			final AnnotationsFactory annotationsFactory,
+			final Provider<UtilTypeInstructionSeparation> typeInstructionSeparationUtility) {
 		this.annotationsFactory = annotationsFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
 		this.jdtResolverUtility = jdtResolverUtility;
 		this.utilNamedElement = utilNamedElement;
+		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
 	}
 
 	@Override
@@ -83,7 +86,7 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 			}
 			utilNamedElement.setNameOfElement(memVal.getName(), methodProxy);
 			attrSet.setAttribute(methodProxy);
-			typeInstructionSeparationUtility.addAnnotationAttributeSetting(memVal.getValue(), attrSet);
+			typeInstructionSeparationUtility.get().addAnnotationAttributeSetting(memVal.getValue(), attrSet);
 			layoutInformationConverter.convertToMinimalLayoutInformation(attrSet, memVal);
 			param.getSettings().add(attrSet);
 		});
@@ -93,13 +96,7 @@ public class ToAnnotationInstanceConverter implements Converter<Annotation, Anno
 		final SingleAnnotationParameter param = annotationsFactory.createSingleAnnotationParameter();
 		result.setParameter(param);
 		final SingleMemberAnnotation singleAnnot = (SingleMemberAnnotation) annot;
-		typeInstructionSeparationUtility.addSingleAnnotationParameter(singleAnnot.getValue(), param);
-	}
-
-	@Inject
-	public void setTypeInstructionSeparationUtility(
-			final UtilTypeInstructionSeparation typeInstructionSeparationUtility) {
-		this.typeInstructionSeparationUtility = typeInstructionSeparationUtility;
+		typeInstructionSeparationUtility.get().addSingleAnnotationParameter(singleAnnot.getValue(), param);
 	}
 
 }

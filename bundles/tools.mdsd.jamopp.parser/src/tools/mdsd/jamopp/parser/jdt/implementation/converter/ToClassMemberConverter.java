@@ -2,6 +2,7 @@ package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
@@ -22,7 +23,7 @@ import tools.mdsd.jamopp.parser.jdt.interfaces.converter.Converter;
 @Singleton
 public class ToClassMemberConverter implements Converter<BodyDeclaration, Member> {
 
-	private Converter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter;
+	private final Provider<Converter<AbstractTypeDeclaration, ConcreteClassifier>> toConcreteClassifierConverter;
 	private final Converter<Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter;
 	private final Converter<FieldDeclaration, Field> toFieldConverter;
 	private final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter;
@@ -33,7 +34,9 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 			final Converter<Initializer, tools.mdsd.jamopp.model.java.statements.Block> toBlockConverter,
 			@Named("ToClassMethodOrConstructorConverter") final Converter<MethodDeclaration, Member> toClassMethodOrConstructorConverter,
 			final Converter<AnnotationTypeMemberDeclaration, InterfaceMethod> toInterfaceMethodConverter,
-			final Converter<FieldDeclaration, Field> toFieldConverter) {
+			final Converter<FieldDeclaration, Field> toFieldConverter,
+			final Provider<Converter<AbstractTypeDeclaration, ConcreteClassifier>> toConcreteClassifierConverter) {
+		this.toConcreteClassifierConverter = toConcreteClassifierConverter;
 		this.toBlockConverter = toBlockConverter;
 		this.toFieldConverter = toFieldConverter;
 		this.toClassMethodOrConstructorConverter = toClassMethodOrConstructorConverter;
@@ -44,7 +47,7 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 	public Member convert(final BodyDeclaration body) {
 		Member result = null;
 		if (body instanceof AbstractTypeDeclaration) {
-			result = toConcreteClassifierConverter.convert((AbstractTypeDeclaration) body);
+			result = toConcreteClassifierConverter.get().convert((AbstractTypeDeclaration) body);
 		} else if (body.getNodeType() == ASTNode.INITIALIZER) {
 			result = toBlockConverter.convert((Initializer) body);
 		} else if (body.getNodeType() == ASTNode.FIELD_DECLARATION) {
@@ -55,12 +58,6 @@ public class ToClassMemberConverter implements Converter<BodyDeclaration, Member
 			result = toInterfaceMethodConverter.convert((AnnotationTypeMemberDeclaration) body);
 		}
 		return result;
-	}
-
-	@Inject
-	public void setToConcreteClassifierConverter(
-			final Converter<AbstractTypeDeclaration, ConcreteClassifier> toConcreteClassifierConverter) {
-		this.toConcreteClassifierConverter = toConcreteClassifierConverter;
 	}
 
 }

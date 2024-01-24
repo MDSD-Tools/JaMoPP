@@ -1,6 +1,7 @@
 package tools.mdsd.jamopp.parser.jdt.implementation.converter;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
@@ -16,13 +17,17 @@ public class ToArrayInitialisierConverter
 
 	private final ArraysFactory arraysFactory;
 	private final UtilLayout utilLayout;
-	private Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter;
-	private Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter;
+	private final Provider<Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression>> utilExpressionConverter;
+	private final Provider<Converter<Annotation, AnnotationInstance>> toAnnotationInstanceConverter;
 
 	@Inject
-	public ToArrayInitialisierConverter(final UtilLayout utilLayout, final ArraysFactory arraysFactory) {
+	public ToArrayInitialisierConverter(final UtilLayout utilLayout, final ArraysFactory arraysFactory,
+			final Provider<Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression>> utilExpressionConverter,
+			final Provider<Converter<Annotation, AnnotationInstance>> toAnnotationInstanceConverter) {
 		this.arraysFactory = arraysFactory;
 		this.utilLayout = utilLayout;
+		this.utilExpressionConverter = utilExpressionConverter;
+		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -35,26 +40,14 @@ public class ToArrayInitialisierConverter
 			if (expr instanceof ArrayInitializer) {
 				value = convert((ArrayInitializer) expr);
 			} else if (expr instanceof Annotation) {
-				value = toAnnotationInstanceConverter.convert((Annotation) expr);
+				value = toAnnotationInstanceConverter.get().convert((Annotation) expr);
 			} else {
-				value = utilExpressionConverter.convert(expr);
+				value = utilExpressionConverter.get().convert(expr);
 			}
 			result.getInitialValues().add(value);
 		});
 		utilLayout.convertToMinimalLayoutInformation(result, arr);
 		return result;
-	}
-
-	@Inject
-	public void setToAnnotationInstanceConverter(
-			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
-		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
-	}
-
-	@Inject
-	public void setUtilExpressionConverter(
-			final Converter<Expression, tools.mdsd.jamopp.model.java.expressions.Expression> utilExpressionConverter) {
-		this.utilExpressionConverter = utilExpressionConverter;
 	}
 
 }
