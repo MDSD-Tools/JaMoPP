@@ -15,7 +15,7 @@ import tools.mdsd.jamopp.model.java.members.ClassMethod;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.statements.ExpressionStatement;
 import tools.mdsd.jamopp.model.java.statements.Statement;
-import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.JaMoPPJDTParser;
 
 /**
  * Class for testing the Parser API

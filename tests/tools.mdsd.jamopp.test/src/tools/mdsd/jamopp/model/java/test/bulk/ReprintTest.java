@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import tools.mdsd.jamopp.test.AbstractJaMoPPTests;
 import org.junit.jupiter.api.Test;
 
-import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.JaMoPPJDTParser;
 
 /**
  * Parameterized test for resolving use of JDT-based conversion of Java source

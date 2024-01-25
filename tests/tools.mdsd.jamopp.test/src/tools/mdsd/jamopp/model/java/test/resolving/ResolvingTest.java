@@ -26,7 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tools.mdsd.jamopp.resource.JavaResource2Factory;
-import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.JaMoPPJDTParser;
 
 /**
  * Parameterized test for resolving use of JDT-based conversion of Java source

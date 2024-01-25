@@ -40,7 +40,7 @@ import tools.mdsd.jamopp.model.java.containers.Package;
 import tools.mdsd.jamopp.model.java.containers.impl.CompilationUnitImpl;
 import tools.mdsd.jamopp.model.java.members.Member;
 import tools.mdsd.jamopp.test.resolving.ResolvingTest;
-import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.JaMoPPJDTParser;
 
 /**
  * Parameterized test for standalone use of JDT-based conversion of Java source

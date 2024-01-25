@@ -13,5 +13,5 @@ Import-Package: org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.xmi.impl,
  tools.mdsd.jamopp.model.java.commons,
  tools.mdsd.jamopp.model.java.containers,
- tools.mdsd.jamopp.parser.jdt,
+ tools.mdsd.jamopp.parser,
  tools.mdsd.jamopp.resource
