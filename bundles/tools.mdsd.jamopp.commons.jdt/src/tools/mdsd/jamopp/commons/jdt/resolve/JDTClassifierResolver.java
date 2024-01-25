@@ -115,14 +115,11 @@ public class JDTClassifierResolver {
 			if (packageName != null) {
 				packages = new char[][] { packageName.toCharArray() };
 			}
-			final char[][] typeNames = null;
 			final IJavaProject[] projects = { project };
 			final IJavaSearchScope searchScope = SearchEngine.createJavaSearchScope(projects);
 			final int waitingPolicy = IJavaSearchConstants.FORCE_IMMEDIATE_SEARCH;
-			final IProgressMonitor progessMonitor = null;
-
 			// perform search
-			searchEngine.searchAllTypeNames(packages, typeNames, searchScope, visitor, waitingPolicy, progessMonitor);
+			searchEngine.searchAllTypeNames(packages, null, searchScope, visitor, waitingPolicy, null);
 
 			classes = visitor.getClassifiersInClasspath();
 		} catch (final JavaModelException e) {

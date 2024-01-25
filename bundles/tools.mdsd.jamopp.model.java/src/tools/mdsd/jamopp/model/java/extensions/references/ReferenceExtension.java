@@ -65,7 +65,7 @@ public final class ReferenceExtension {
 		} else if (reference instanceof ReflectiveClassReference) {
 			type = handleReflectiveClassReference(reference);
 		} else if (reference instanceof ElementReference) {
-			type = handleElementReference(reference, type);
+			type = handleElementReference(reference);
 		} else if (reference instanceof StringReference) {
 			type = handleStringReference(reference);
 		} else if (reference instanceof NestedExpression) {
@@ -79,14 +79,10 @@ public final class ReferenceExtension {
 		return type;
 	}
 
-	private static Type handleElementReference(final Reference reference, final Type type) {
+	private static Type handleElementReference(final Reference reference) {
 		// Referenced element points to an element with a type
 		final ReferenceableElement target = ((ElementReference) reference).getTarget();
 		Type newType = null;
-		if (target != null && !target.eIsProxy()) {
-			newType = type;
-		}
-
 		// Navigate through AdditionalLocalVariable or Field
 		if (target instanceof TypedElement) {
 			final TypeReference typeRef = ((TypedElement) target).getTypeReference();

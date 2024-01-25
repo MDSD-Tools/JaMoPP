@@ -129,7 +129,7 @@ public final class TypeParameterExtension {
 		final EList<Type> prevTypeList = new UniqueEList<>();
 
 		if (reference != null && reference.getPrevious() instanceof NestedExpression) {
-			parentReference = getParentReferenceAndFillPrevTypeList(reference, parentReference, prevTypeList);
+			parentReference = getParentReferenceAndFillPrevTypeListWithNested(reference, prevTypeList);
 		} else if (reference != null && reference.getPrevious() != null) {
 			parentReference = getParentReferenceAndFillPrevTypeList(reference, prevTypeList);
 		} else if (reference != null) {
@@ -511,9 +511,9 @@ public final class TypeParameterExtension {
 		return parentReference;
 	}
 
-	private static Reference getParentReferenceAndFillPrevTypeList(final Reference reference,
-			final Reference parentReference, final EList<Type> prevTypeList) {
-		Reference newParentReference = parentReference;
+	private static Reference getParentReferenceAndFillPrevTypeListWithNested(final Reference reference,
+			final EList<Type> prevTypeList) {
+		Reference newParentReference = null;
 		final NestedExpression nestedExpression = (NestedExpression) reference.getPrevious();
 		Expression expression = null;
 		final Expression nestedExpressionExpression = nestedExpression.getExpression();
