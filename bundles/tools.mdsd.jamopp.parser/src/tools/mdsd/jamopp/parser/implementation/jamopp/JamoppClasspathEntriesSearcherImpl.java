@@ -25,7 +25,7 @@ public class JamoppClasspathEntriesSearcherImpl implements JamoppClasspathEntrie
 	@Override
 	public String[] getClasspathEntries(final Path dir) {
 		String[] entries;
-		try (final Stream<Path> paths = Files.walk(dir)) {
+		try (Stream<Path> paths = Files.walk(dir)) {
 			entries = paths.filter(Files::isRegularFile).filter(this::isJar).map(Path::toAbsolutePath)
 					.map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
 		} catch (final IOException e) {

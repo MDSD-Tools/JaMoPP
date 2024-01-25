@@ -41,15 +41,15 @@ public final class JaMoPPStandalone {
 		// Should not be initiated
 	}
 
-	public static void main(String[] agrs) {
+	public static void main(final String[] agrs) {
 
 		ContainersFactory.eINSTANCE.createEmptyModel();
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		JaMoPPParserAPI parser = new JaMoPPJDTParser();
-		ResourceSet resourceSet = parser.parseUri(URI.createURI(INPUT));
+		final JaMoPPParserAPI parser = new JaMoPPJDTParser();
+		final ResourceSet resourceSet = parser.parseUri(URI.createURI(INPUT));
 		EcoreUtil.resolveAll(resourceSet);
-		for (Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
+		for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
 
 			if (javaResource.getContents().isEmpty()) {
 				OUTPUT.println("WARNING: Emtpy Resource: " + javaResource.getURI());
@@ -60,36 +60,36 @@ public final class JaMoPPStandalone {
 				continue;
 			}
 
-			File outputFile = createFile(javaResource);
+			final File outputFile = createFile(javaResource);
 			outputFile.getParentFile().mkdirs();
 
-			URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
-			Resource xmiResource = resourceSet.createResource(xmiFileURI);
+			final URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
+			final Resource xmiResource = resourceSet.createResource(xmiFileURI);
 			xmiResource.getContents().addAll(javaResource.getContents());
 		}
 
-		for (Resource xmiResource : resourceSet.getResources()) {
+		for (final Resource xmiResource : resourceSet.getResources()) {
 			if (xmiResource instanceof XMIResource) {
 				try {
 					xmiResource.save(resourceSet.getLoadOptions());
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					// Ignore
 				}
 			}
 		}
 	}
 
-	private static File createFile(Resource javaResource) {
+	private static File createFile(final Resource javaResource) {
 		return new File("." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
 	}
 
-	private static String checkScheme(Resource javaResource) {
+	private static String checkScheme(final Resource javaResource) {
 		String outputFileName = "";
-		JavaRoot root = (JavaRoot) javaResource.getContents().get(0);
+		final JavaRoot root = (JavaRoot) javaResource.getContents().get(0);
 
 		if (root instanceof CompilationUnit) {
 			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
-			CompilationUnit compilationUnit = (CompilationUnit) root;
+			final CompilationUnit compilationUnit = (CompilationUnit) root;
 			if (compilationUnit.getClassifiers().isEmpty()) {
 				outputFileName += 0;
 			} else {

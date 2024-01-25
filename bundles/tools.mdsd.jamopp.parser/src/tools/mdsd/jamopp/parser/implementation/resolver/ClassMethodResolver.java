@@ -73,7 +73,6 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 			}
 		}
 
-		ClassMethod classMethod;
 		return result;
 	}
 
