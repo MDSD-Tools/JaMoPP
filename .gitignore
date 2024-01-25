@@ -2,7 +2,6 @@
 .loadpath
 .metadata
 .recommenders
-.settings/
 .worksheet
 *.bak
 *.class
