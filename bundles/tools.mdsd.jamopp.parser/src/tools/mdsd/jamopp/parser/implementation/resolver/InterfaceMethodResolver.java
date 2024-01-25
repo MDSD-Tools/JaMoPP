@@ -51,7 +51,7 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 					.getClassifier(methoDeclaration.getDeclaringClass());
 			InterfaceMethod result = null;
 			if (classifier != null) {
-				result = handleNullClassifier(methoDeclaration, classifier, result);
+				result = handleNullClassifier(methoDeclaration, classifier);
 			}
 			if (result == null) {
 				result = createNewInterfaceMethod();
@@ -63,13 +63,13 @@ public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, I
 	}
 
 	private InterfaceMethod handleNullClassifier(final IMethodBinding methoDeclaration,
-			final ConcreteClassifier classifier, final InterfaceMethod result) {
-		InterfaceMethod interfaceMethod = result;
+			final ConcreteClassifier classifier) {
+		InterfaceMethod interfaceMethod = null;
 		for (final tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 			if (mem instanceof InterfaceMethod) {
 				interfaceMethod = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
 						methoDeclaration);
-				if (result != null) {
+				if (interfaceMethod != null) {
 					break;
 				}
 			}

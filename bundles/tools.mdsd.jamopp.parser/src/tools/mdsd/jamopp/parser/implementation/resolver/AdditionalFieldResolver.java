@@ -40,7 +40,7 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
 					.getClassifier(binding.getDeclaringClass());
 			if (potClass != null) {
-				result = handleNullPotClass(binding, result, potClass);
+				result = handleNullPotClass(binding, potClass);
 			}
 			if (result == null) {
 				result = membersFactory.createAdditionalField();
@@ -51,9 +51,9 @@ public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, I
 		return additionalField;
 	}
 
-	private AdditionalField handleNullPotClass(final IVariableBinding binding, final AdditionalField result,
+	private AdditionalField handleNullPotClass(final IVariableBinding binding,
 			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass) {
-		AdditionalField additionalField = result;
+		AdditionalField additionalField = null;
 		for (final tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
 			if (mem instanceof final tools.mdsd.jamopp.model.java.members.Field field) {
 				boolean leave = false;

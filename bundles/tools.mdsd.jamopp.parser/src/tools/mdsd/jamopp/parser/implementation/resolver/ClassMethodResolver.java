@@ -51,7 +51,7 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 					.getClassifier(methodDeclaration.getDeclaringClass());
 			ClassMethod result = null;
 			if (classifier != null) {
-				result = handleClassifier(methodDeclaration, classifier, result);
+				result = handleClassifier(methodDeclaration, classifier);
 			}
 			if (result == null) {
 				result = createNewClassMethod();
@@ -62,8 +62,7 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 		return classMethod;
 	}
 
-	private ClassMethod handleClassifier(final IMethodBinding binding, final ConcreteClassifier classifier,
-			final ClassMethod method) {
+	private ClassMethod handleClassifier(final IMethodBinding binding, final ConcreteClassifier classifier) {
 		ClassMethod result = null;
 		for (final tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 			if (mem instanceof ClassMethod) {
@@ -75,12 +74,7 @@ public class ClassMethodResolver extends ResolverAbstract<ClassMethod, IMethodBi
 		}
 
 		ClassMethod classMethod;
-		if (result != null) {
-			classMethod = result;
-		} else {
-			classMethod = method;
-		}
-		return classMethod;
+		return result;
 	}
 
 	@Override

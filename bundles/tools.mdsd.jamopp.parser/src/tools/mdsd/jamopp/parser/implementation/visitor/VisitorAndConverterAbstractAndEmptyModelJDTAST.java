@@ -107,7 +107,7 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			layoutInformationConverter.convertJavaRootLayoutInformation(convertedRootElement, node, getSource());
 			setConvertedElement(convertedRootElement);
 		}
-		if (node.getPackage() != null && convertedRootElement != null) {
+		if (convertedRootElement != null && node.getPackage() != null) {
 			node.getPackage().annotations().forEach(obj -> convertedRootElement.getAnnotations()
 					.add(annotationInstanceConverter.convert((Annotation) obj)));
 			convertedRootElement.getNamespaces().clear();
