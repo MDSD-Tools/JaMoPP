@@ -7,7 +7,7 @@
  *
  * Contributors: Marvin Meller - initial implementation Yves Kirschner - parameterize implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test.resolving;
+package tools.mdsd.jamopp.test.resolving;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

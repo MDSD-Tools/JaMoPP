@@ -10,7 +10,7 @@
  * initial API and implementation
  ******************************************************************************/
 
-package tools.mdsd.jamopp.model.java.test;
+package tools.mdsd.jamopp.test;
 
 /**
  * A test class that executed all tests from JavaParserTest but does not compare the reprinting

@@ -10,11 +10,11 @@
  * initial API and implementation
  ******************************************************************************/
 
-package tools.mdsd.jamopp.model.java.test.bugs;
+package tools.mdsd.jamopp.test.bugs;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import tools.mdsd.jamopp.model.java.test.AbstractJaMoPPTests;
+import tools.mdsd.jamopp.test.AbstractJaMoPPTests;
 
 public abstract class AbstractBugTestCase extends AbstractJaMoPPTests {
     protected ResourceSet createResourceSet() {

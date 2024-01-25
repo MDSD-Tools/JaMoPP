@@ -8,7 +8,7 @@
  * Contributors: Benjamin Klatt
  *******************************************************************************/
 
-package tools.mdsd.jamopp.model.java.test.resolving;
+package tools.mdsd.jamopp.test.resolving;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 

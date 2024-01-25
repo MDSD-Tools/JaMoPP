@@ -9,7 +9,7 @@
  * Contributors: Software Technology Group - TU Dresden, Germany; DevBoost GmbH - Dresden, Germany -
  * initial API and implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test.bulk;
+package tools.mdsd.jamopp.test.bulk;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -24,7 +24,7 @@ import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.examples.Expander;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import tools.mdsd.jamopp.model.java.test.AbstractJaMoPPTests;
+import tools.mdsd.jamopp.test.AbstractJaMoPPTests;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 @Disabled("Requires initialization of all submodules and dependency resolution.")
 public class BulkTest extends AbstractJaMoPPTests {
     private final static String BASE_ZIP = "JaMoPP-BulkTest" + File.separator + "Tests" + File.separator
-            + "tools.mdsd.jamopp.model.java.test.bulk" + File.separator + "input" + File.separator;
+            + "tools.mdsd.jamopp.test.bulk" + File.separator + "input" + File.separator;
     private final static String END_SRC = File.separator + "src";
     private final static String END_ZIP = File.separator + "src.zip";
     private String generalInputFolder;

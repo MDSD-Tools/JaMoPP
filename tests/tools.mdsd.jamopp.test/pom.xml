@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>tools.mdsd.jamopp</groupId>
-    <artifactId>tools.mdsd.jamopp.model.java.test</artifactId>
+    <artifactId>tools.mdsd.jamopp.test</artifactId>
     <version>5.1.0-SNAPSHOT</version>
     <packaging>eclipse-test-plugin</packaging>
 

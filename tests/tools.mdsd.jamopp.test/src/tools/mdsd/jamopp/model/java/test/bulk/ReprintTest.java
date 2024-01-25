@@ -7,13 +7,13 @@
  *
  * Contributors: Marvin Meller - initial implementation Yves Kirschner - parameterize implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test.bulk;
+package tools.mdsd.jamopp.test.bulk;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.nio.file.Path;
 
-import tools.mdsd.jamopp.model.java.test.AbstractJaMoPPTests;
+import tools.mdsd.jamopp.test.AbstractJaMoPPTests;
 import org.junit.jupiter.api.Test;
 
 import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;

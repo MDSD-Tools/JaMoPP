@@ -10,7 +10,7 @@
  * initial API and implementation
  ******************************************************************************/
 
-package tools.mdsd.jamopp.model.java.test;
+package tools.mdsd.jamopp.test;
 
 import java.math.BigInteger;
 

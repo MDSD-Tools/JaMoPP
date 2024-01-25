@@ -10,7 +10,7 @@
  * initial API and implementation
  ******************************************************************************/
 
-package tools.mdsd.jamopp.model.java.test.xmi;
+package tools.mdsd.jamopp.test.xmi;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.containers.Package;
-import tools.mdsd.jamopp.model.java.test.AbstractJaMoPPTests;
+import tools.mdsd.jamopp.test.AbstractJaMoPPTests;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

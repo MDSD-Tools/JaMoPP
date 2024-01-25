@@ -9,7 +9,7 @@
  * Contributors: Software Technology Group - TU Dresden, Germany; DevBoost GmbH - Berlin, Germany -
  * initial API and implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test.resolving;
+package tools.mdsd.jamopp.test.resolving;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,7 +26,7 @@ import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.statements.ExpressionStatement;
 import tools.mdsd.jamopp.model.java.statements.Statement;
-import tools.mdsd.jamopp.model.java.test.AbstractJaMoPPTests;
+import tools.mdsd.jamopp.test.AbstractJaMoPPTests;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 
 /**

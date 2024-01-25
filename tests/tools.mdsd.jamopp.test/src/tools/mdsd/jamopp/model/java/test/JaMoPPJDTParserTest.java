@@ -7,7 +7,7 @@
  *
  * Contributors: Yves Kirschner - initial implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test;
+package tools.mdsd.jamopp.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JaMoPP Test Plugin
-Bundle-SymbolicName: tools.mdsd.jamopp.model.java.test;singleton:=true
+Bundle-SymbolicName: tools.mdsd.jamopp.test;singleton:=true
 Bundle-Version: 5.1.0.qualifier
 Bundle-Vendor: MDSD-Tools
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Automatic-Module-Name: tools.mdsd.jamopp.model.java.test
+Automatic-Module-Name: tools.mdsd.jamopp.test
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.core,
  org.eclipse.text,
@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  tools.mdsd.jamopp.resource,
  org.apache.commons.compress,
  org.apache.log4j
-Export-Package: tools.mdsd.jamopp.model.java.test
+Export-Package: tools.mdsd.jamopp.test
 Import-Package: tools.mdsd.jamopp.parser.jdt,
  org.junit,
  org.junit.jupiter.api,

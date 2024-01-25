@@ -9,7 +9,7 @@
  * Contributors: Software Technology Group - TU Dresden, Germany; DevBoost GmbH - Berlin, Germany -
  * initial API and implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test.resolving;
+package tools.mdsd.jamopp.test.resolving;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;

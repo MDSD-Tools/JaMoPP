@@ -10,7 +10,7 @@
  * initial API and implementation Yves Kirschner - KIT, Germany - penultimate implementation
  ******************************************************************************/
 
-package tools.mdsd.jamopp.model.java.test;
+package tools.mdsd.jamopp.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

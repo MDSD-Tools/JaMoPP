@@ -9,7 +9,7 @@
  * Contributors: Software Technology Group - TU Dresden, Germany; DevBoost GmbH - Dresden, Germany -
  * initial API and implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test.bugs;
+package tools.mdsd.jamopp.test.bugs;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

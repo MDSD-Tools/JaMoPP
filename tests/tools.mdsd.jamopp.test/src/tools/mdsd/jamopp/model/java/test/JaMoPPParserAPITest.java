@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.model.java.test;
+package tools.mdsd.jamopp.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

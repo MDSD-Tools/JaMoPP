@@ -7,7 +7,7 @@
  *
  * Contributors: Marvin Meller - initial implementation Yves Kirschner - parameterize implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test.standalone;
+package tools.mdsd.jamopp.test.standalone;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,7 +39,7 @@ import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.containers.Package;
 import tools.mdsd.jamopp.model.java.containers.impl.CompilationUnitImpl;
 import tools.mdsd.jamopp.model.java.members.Member;
-import tools.mdsd.jamopp.model.java.test.resolving.ResolvingTest;
+import tools.mdsd.jamopp.test.resolving.ResolvingTest;
 import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
 
 /**
@@ -168,7 +168,7 @@ public class StandaloneTest extends ResolvingTest {
 	 * @param input Name of the project folder to test.
 	 *
 	 * @see tools.mdsd.jamopp.standalone.JaMoPPStandalone
-	 * @see tools.mdsd.jamopp.model.java.test.AbstractJaMoPPTests
+	 * @see tools.mdsd.jamopp.test.AbstractJaMoPPTests
 	 */
 	private void resourceSerialization(String input) {
 		final Path directory = directoryOf(input);

@@ -9,7 +9,7 @@
  * Contributors: Software Technology Group - TU Dresden, Germany; DevBoost GmbH - Berlin, Germany -
  * initial API and implementation
  ******************************************************************************/
-package tools.mdsd.jamopp.model.java.test;
+package tools.mdsd.jamopp.test;
 
 /**
  * A CharacterEscaper can be used to escape and unescape special characters in Java strings and

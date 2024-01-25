@@ -1,4 +1,4 @@
-package tools.mdsd.jamopp.model.java.test;
+package tools.mdsd.jamopp.test;
 
 public class JavaSevenAndUpTestWithoutReprinting extends JavaSevenAndUpTest {
     @Override
