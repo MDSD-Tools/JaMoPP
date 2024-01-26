@@ -7,6 +7,7 @@
     xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
 
 	<exclude-pattern>.*/src-gen/.*</exclude-pattern>
+	<exclude-pattern>.*/injection/.*</exclude-pattern>
 
 	<rule ref="category/java/bestpractices.xml/AbstractClassWithoutAbstractMethod" />
 	<rule ref="category/java/bestpractices.xml/AccessorClassGeneration" />

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 import javax.inject.Inject;
@@ -37,7 +36,9 @@ public class JamoppClasspathEntriesSearcherImpl implements JamoppClasspathEntrie
 
 	private boolean isJar(final Path path) {
 		final Path fileName = path.getFileName();
-		Objects.requireNonNull(fileName);
+		if (fileName == null) {
+			return false;
+		}
 		return fileName.toString().toLowerCase(Locale.US).endsWith("jar");
 	}
 

@@ -46,20 +46,24 @@ public class InstantiationPrinterImpl implements Printer<Instantiation> {
 			callTypeArgumentablePrinter.print(call, writer);
 			writer.append(" ");
 			typeReferencePrinter.print(call.getTypeReference(), writer);
-			if (call instanceof NewConstructorCallWithInferredTypeArguments) {
-				writer.append("<>");
-			} else {
-				typeArgumentablePrinter.print(call, writer);
-			}
+			printTypeArgument(writer, call);
 			argumentablePrinter.print(call, writer);
 			if (call.getAnonymousClass() != null) {
 				anonymousClassPrinter.print(call.getAnonymousClass(), writer);
 			}
 		} else {
-			final var call = (ExplicitConstructorCall) element;
+			final ExplicitConstructorCall call = (ExplicitConstructorCall) element;
 			callTypeArgumentablePrinter.print(call, writer);
 			selfPrinter.print(call.getCallTarget(), writer);
 			argumentablePrinter.print(call, writer);
+		}
+	}
+
+	private void printTypeArgument(final BufferedWriter writer, final NewConstructorCall call) throws IOException {
+		if (call instanceof NewConstructorCallWithInferredTypeArguments) {
+			writer.append("<>");
+		} else {
+			typeArgumentablePrinter.print(call, writer);
 		}
 	}
 

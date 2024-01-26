@@ -160,10 +160,8 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 	public String[] getSourcepathEntries(final Path dir) {
 		String[] returnValue;
 		try (Stream<Path> paths = Files.walk(dir)) {
-			returnValue = paths
-					.filter(path -> Files.isRegularFile(path)
-							&& path.getFileName().toString().toLowerCase(Locale.US).endsWith("java"))
-					.map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).filter(p -> {
+			returnValue = paths.filter(Files::isRegularFile).filter(this::isJavaFile).map(Path::toAbsolutePath)
+					.map(Path::normalize).map(Path::toString).filter(p -> {
 						final Resource resource = JavaClasspath.get().getResource(URI.createFileURI(p));
 						if (resource != null) {
 							resourceSet.getResources().add(resource);
@@ -176,6 +174,14 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			returnValue = new String[0];
 		}
 		return returnValue;
+	}
+
+	private boolean isJavaFile(final Path path) {
+		final Path fileName = path.getFileName();
+		if (fileName == null) {
+			return false;
+		}
+		return fileName.toString().toLowerCase(Locale.US).endsWith("java");
 	}
 
 	@Override

@@ -91,32 +91,36 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean visit(final CompilationUnit node) {
-
 		setConvertedElement(null);
 		if (!node.types().isEmpty()) {
 			setConvertedElement(toCompilationUnitConverter.get().convert(node));
 		}
+
 		if (node.getModule() != null) {
 			final tools.mdsd.jamopp.model.java.containers.Module module = toModuleConverter.get()
 					.convert(node.getModule());
 			setConvertedElement(module);
 		}
+
 		if (convertedRootElement == null && node.getPackage() != null) {
 			convertedRootElement = jdtResolverUtility.getPackage(node.getPackage().resolveBinding());
 			convertedRootElement.setName("");
 			layoutInformationConverter.convertJavaRootLayoutInformation(convertedRootElement, node, getSource());
 			setConvertedElement(convertedRootElement);
 		}
+
 		if (convertedRootElement != null && node.getPackage() != null) {
 			node.getPackage().annotations().forEach(obj -> convertedRootElement.getAnnotations()
 					.add(annotationInstanceConverter.convert((Annotation) obj)));
 			convertedRootElement.getNamespaces().clear();
 			utilNamedElement.addNameToNameSpace(node.getPackage().getName(), convertedRootElement);
 		}
+
 		if (convertedRootElement == null) {
 			convertedRootElement = containersFactory.createEmptyModel();
 			convertedRootElement.setName("");
 		}
+
 		for (final Object obj : node.imports()) {
 			convertedRootElement.getImports().add(toImportConverter.convert((ImportDeclaration) obj));
 		}
