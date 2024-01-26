@@ -1,15 +1,9 @@
-# JaMoPP
-**Notice:** This repository is not endorsed by or affiliated with DevBoost GmbH or Software Technology Group, Dresden University of Technology.
+# JaMoPP: Java Model Parser and Printer
+JaMoPP is an [EMF-based](https://www.eclipse.org/modeling/emf/) tool that can parse and print Java source and byte code into EMF models and vice versa. It preserves source formatting and can be used for code analysis, refactoring, and code generation. JaMoPP is based on the [original version by DevBoost GmbH](https://github.com/DevBoost/JaMoPP) and the [Software Technology Group of the Technical University of Dresden](https://tu-dresden.de/ing/informatik/smt/st). It has been forked by the [Institute of Information Security and Dependability (KASTEL)](https://www.kastel.kit.edu/) at the [Karlsruhe Institute of Technology (KIT)](https://www.kit.edu/). This repository is not supported by or affiliated with [DevBoost GmbH](https://devboost.com/) or [TU Dresden (TUD)](https://tu-dresden.de/).
+ 
+JaMoPP defines a complete metamodel and textual syntax specification for Java, covering Java versions up to 15. It also provides a parser and printer that can convert between text and models in both directions. This allows Java code to be treated like any other model. JaMoPP can also parse and print byte code (`.class` files) using the [Eclipse Java Development Tools (JDT)](https://eclipse.dev/jdt/).
 
-JaMoPP can parse Java source code into EMF-based models and vice versa. It can be used for code analysis and refactoring. For more information read the original publications: [JaMoPP publications](https://github.com/DevBoost/JaMoPP/tree/master/Doc/org.emftext.language.java.doc/publications)
-
-## State
-- Complete support for Java up to 14 and support of Java 15 in meta-model and printer implementation.
-- Removed loading of class files and old reference resolution and parser.
-- For parsing and reference resolution, JDT is used.
-- New printer.
-- Replaced the JavaResource with a new, simple JavaResource2 implementation.
-- Updated and extended all test cases.
+For more information read the original publications: [JaMoPP publications](https://github.com/DevBoost/JaMoPP/tree/master/Doc/org.emftext.language.java.doc/publications)
 
 ## Getting Started
 Currently, JaMoPP only supports a direct inclusion of its sources into Eclipse. For stand-alone usage, use the code in `jamopp.standalone.JaMoPPStandalone.java`  as a starting point.
@@ -33,15 +27,56 @@ Currently, JaMoPP only supports a direct inclusion of its sources into Eclipse. 
 - [Maven](https://maven.apache.org/)
 - [Google Guice](https://github.com/google/guice) - Used for the bundles `/tools.mdsd.jamopp.printer` and `/tools.mdsd.jamopp.parser`. The modules responsible for the dependency injection are in the `injection` packages.
 
+## Usage
+In Eclipse, after installing JaMoPP, you can load Java files (`.java` and `.class` files) with any EMF-based tool similar to how you load other EMF models.
+ 
+For stand-alone usage, use the code in [JaMoPPStandalone.java](https://github.com/MDSD-Tools/JaMoPP/blob/main/bundles/jamopp.standalone/src/jamopp/standalone/JaMoPPStandalone.java) as a starting point. The JaMoPPStandalone class is a standalone utility for parsing Java source code and generating XMI models. It can be used to parse any URI (absolute or relative file path/ Directory/ Archive) and output the corresponding XMI model. The class takes two input parameters:
+- `INPUT`: The URI of the Java source code to parse.
+- `ENABLE_OUTPUT_OF_LIBRARY_FILES`: A Boolean flag that determines whether to output XMI models for library files.
+The class generates XMI models for the Java source code and saves them to the ./standalone_output directory. The directory structure of the output files mirrors the package hierarchy of the Java source code.
+
 ## Codestyle
 For styling and coding conventions the Eclipse internal formatter/compiler, the Eclipse plugin [Eclipse-PMD](https://github.com/eclipse-pmd) and [Teamscale](https://teamscale.com) are used.
 - The PMD ruleset is `JaMoPP\codestyle\jamopp-ruleset.xml`.
 - The Teamscale analysis profile is `JaMoPP\codestyle\Jamopp-Profile.tsanalysisprofile`.
 - The Eclipse preferences file is `codestyle/preferences.epf` and contains predefined settings for `Java > Compiler > Error/Warnings`.
 
+## Case Studies
+We tested JaMoPP with the following evaluation scenarios:
+https://github.com/acmeair/acmeair/archive/refs/tags/v1.2.0.zip
+https://github.com/apache/commons-lang/archive/refs/tags/rel/commons-lang-3.12.0.zip
+https://github.com/berndruecker/flowing-retail/archive/refs/heads/master.zip
+https://github.com/bigbluebutton/bigbluebutton/archive/refs/tags/v2.4.7.zip
+https://github.com/connorimes/SPECjvm2008/archive/refs/heads/master.zip
+https://github.com/csluluyao/SPECjbb2005/archive/refs/heads/master.zip
+https://github.com/DescartesResearch/TeaStore/archive/refs/tags/v1.4.0.zip
+https://github.com/eventuate-tram/eventuate-tram-examples-customers-and-orders-redis/archive/e4a3da5502aa11af441b70b7ab6b5f1430b17d4.zip
+https://github.com/ewolff/microservice-kafka/archive/refs/heads/master.zip
+https://github.com/ewolff/microservice/archive/refs/heads/master.zip
+https://github.com/h2database/h2database/archive/refs/tags/version-2.1.210.zip
+https://github.com/jonashackt/spring-rabbitmq-messaging-microservices/archive/19cadd4c1310a4651f3529626ac2acd4853a987.zip
+https://github.com/kbastani/spring-cloud-event-sourcing-example/archive/refs/heads/master.zip
+https://github.com/kit-sdq/esda/archive/refs/heads/master.zip
+https://github.com/kit-sdq/TimeSheetGenerator/archive/refs/heads/main.zip
+https://github.com/meet-eat/meet-eat-data/archive/refs/heads/master.zip
+https://github.com/meet-eat/meet-eat-server/archive/refs/heads/master.zip
+https://github.com/nickboucher/trojan-source/archive/refs/heads/main.zip
+https://github.com/PalladioSimulator/Palladio-Addons-PlantUML/archive/refs/heads/main.zip
+https://github.com/PalladioSimulator/Palladio-Build-DependencyTool/archive/refs/heads/master.zip
+https://github.com/petros94/smart-home-websockets/archive/refs/heads/master.zip
+https://github.com/sguazt/RUBiS/archive/refs/heads/master.zip
+https://github.com/sjwoodman/clnr-demo/archive/refs/heads/master.zip
+https://github.com/spring-io/sagan/archive/1995913fb2d90693c97c251fd142b429724cdf44.zip
+https://github.com/spring-petclinic/spring-petclinic-microservices/archive/refs/tags/v2.3.6.zip
+https://github.com/sqshq/piggymetrics/archive/refs/tags/spring.version.2.0.3.zip
+https://github.com/TeamatesProject/teammates/archive/refs/heads/master.zip
+
 ## Links
 - Related: [GitHub - PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools](https://github.com/PalladioSimulator/Palladio-Supporting-EclipseJavaDevelopmentTools)
 - Original repository: [GitHub - DevBoost/JaMoPP](https://github.com/DevBoost/JaMoPP)
 
-## Licensing
-The code in this project is licensed under the [Eclipse Public License - Version 1.0](https://www.eclipse.org/legal/epl-v10.html).
+## Contributing
+We welcome contributions to JaMoPP. Please submit pull requests to the [GitHub repository](https://github.com/MDSD-Tools/JaMoPP).
+
+## License
+JaMoPP is released under the Eclipse Public License - v 1.0. For more information, please refer to the [LICENSE](https://github.com/MDSD-Tools/JaMoPP/blob/main/LICENSE) file.
