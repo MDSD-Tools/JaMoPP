@@ -84,27 +84,31 @@ public final class JaMoPPStandalone {
 	}
 
 	private static String checkScheme(final Resource javaResource) {
-		String outputFileName = "";
+		StringBuilder outputFileName = null;
 		final JavaRoot root = (JavaRoot) javaResource.getContents().get(0);
+		final String nameSpace = root.getNamespacesAsString().replace(".", File.separator);
 
 		if (root instanceof CompilationUnit) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
+			outputFileName = new StringBuilder(nameSpace + File.separator);
 			final CompilationUnit compilationUnit = (CompilationUnit) root;
 			if (compilationUnit.getClassifiers().isEmpty()) {
-				outputFileName += 0;
+				outputFileName.append(0);
 			} else {
-				outputFileName += compilationUnit.getClassifiers().get(0).getName();
+				outputFileName.append(compilationUnit.getClassifiers().get(0).getName());
 			}
-
 		} else if (root instanceof Package) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator
-					+ "package-info";
-			if (outputFileName.startsWith(File.separator)) {
-				outputFileName = outputFileName.substring(1);
+			outputFileName = new StringBuilder(nameSpace).append(File.separator).append("package-info");
+			if (outputFileName.toString().startsWith(File.separator)) {
+				outputFileName = new StringBuilder(outputFileName.substring(1));
 			}
 		} else if (root instanceof tools.mdsd.jamopp.model.java.containers.Module) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator + "module-info";
+			outputFileName = new StringBuilder(nameSpace).append(File.separator).append("module-info");
 		}
-		return outputFileName;
+
+		if (outputFileName == null) {
+			return "";
+		}
+
+		return outputFileName.toString();
 	}
 }
