@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.Modifier;
 

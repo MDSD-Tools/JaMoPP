@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.literals.BinaryIntegerLiteral;
 import tools.mdsd.jamopp.model.java.literals.BinaryLongLiteral;

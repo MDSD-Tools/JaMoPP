@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 

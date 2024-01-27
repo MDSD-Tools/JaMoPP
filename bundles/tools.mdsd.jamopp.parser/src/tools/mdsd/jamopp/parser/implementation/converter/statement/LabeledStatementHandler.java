@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.implementation.converter.statement;
 
 import java.util.Set;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.LabeledStatement;
 import org.eclipse.jdt.core.dom.Statement;

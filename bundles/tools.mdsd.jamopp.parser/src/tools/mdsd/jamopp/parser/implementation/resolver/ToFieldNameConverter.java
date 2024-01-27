@@ -2,8 +2,8 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;

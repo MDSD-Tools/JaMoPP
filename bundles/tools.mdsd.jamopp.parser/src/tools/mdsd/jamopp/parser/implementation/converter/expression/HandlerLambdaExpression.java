@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.implementation.converter.expression;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.Expression;

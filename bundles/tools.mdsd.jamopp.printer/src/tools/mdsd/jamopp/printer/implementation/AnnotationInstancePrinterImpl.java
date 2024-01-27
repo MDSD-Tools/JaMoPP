@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.google.inject.Provider;
 
+import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationParameterList;
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;

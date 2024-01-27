@@ -13,9 +13,9 @@
 
 package tools.mdsd.jamopp.parser.implementation.visitor;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.google.inject.Provider;
 
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;

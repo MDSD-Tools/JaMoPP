@@ -7,5 +7,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="libs/aopalliance.jar"/>
+	<classpathentry kind="lib" path="libs/failureaccess-1.0.2.jar"/>
+	<classpathentry kind="lib" path="libs/guava-33.0.0-jre.jar"/>
+	<classpathentry kind="lib" path="libs/jakarta.inject-api-2.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

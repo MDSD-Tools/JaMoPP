@@ -1,13 +1,12 @@
 package tools.mdsd.jamopp.parser.implementation.converter;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.Member;

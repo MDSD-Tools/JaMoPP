@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
 import tools.mdsd.jamopp.model.java.literals.BooleanLiteral;

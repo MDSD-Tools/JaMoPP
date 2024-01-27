@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jdt.core.dom.IMethodBinding;

@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.modules.ExportsModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.ModuleDirective;

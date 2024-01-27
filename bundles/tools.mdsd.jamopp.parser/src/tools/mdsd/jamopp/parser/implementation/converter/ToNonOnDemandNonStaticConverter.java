@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.implementation.converter;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;

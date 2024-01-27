@@ -17,8 +17,6 @@ public class HelperModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		bind(UtilArrays.class).to(UtilArraysImpl.class);
 		bind(UtilLayout.class).to(UtilLayoutImpl.class);
 		bind(UtilNamedElement.class).to(UtilNamedElementImpl.class);

@@ -20,14 +20,12 @@ public class JamoppModule extends AbstractModule {
 
 	private final String loggerName;
 
-	public JamoppModule(String loggerName) {
+	public JamoppModule(final String loggerName) {
 		this.loggerName = loggerName;
 	}
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		bind(Logger.class).toInstance(Logger.getLogger(loggerName));
 		bind(String.class).annotatedWith(Names.named("DEFAULT_JAVA_VERSION")).toInstance("14");
 		bind(String.class).annotatedWith(Names.named("DEFAULT_ENCODING")).toInstance(StandardCharsets.UTF_8.toString());

@@ -233,8 +233,6 @@ public class ConverterModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		bind(ToArrayDimensionAfterAndSetConverter.class).to(ToArrayDimensionAfterAndSetConverterImpl.class);
 		bind(ToArrayDimensionsAndSetConverter.class).to(ToArrayDimensionsAndSetConverterImpl.class);
 		bind(ToSwitchCasesAndSetConverter.class).to(ToSwitchCasesAndSetConverterImpl.class);

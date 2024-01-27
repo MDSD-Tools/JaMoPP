@@ -151,8 +151,6 @@ public class ModulePrinterInjection extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		binder().disableCircularProxies();
 
 		bind(new TypeLiteral<Printer<AdditionalField>>() {/* empty */

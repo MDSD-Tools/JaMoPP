@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import javax.inject.Provider;
+import com.google.inject.Provider;
 
 import org.eclipse.emf.ecore.EObject;
 

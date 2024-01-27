@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.implementation.jamopp;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;

@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.implementation.converter.statement;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.Expression;

@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.implementation.converter;
 
 import java.util.Collections;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 

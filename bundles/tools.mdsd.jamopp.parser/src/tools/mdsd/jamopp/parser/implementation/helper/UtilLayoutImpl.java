@@ -13,7 +13,7 @@
 
 package tools.mdsd.jamopp.parser.implementation.helper;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 

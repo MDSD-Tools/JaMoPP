@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.implementation.converter.expression;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.google.inject.Provider;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;

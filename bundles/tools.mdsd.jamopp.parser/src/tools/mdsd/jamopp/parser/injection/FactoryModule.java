@@ -26,8 +26,6 @@ public class FactoryModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		bind(ImportsFactory.class).toInstance(ImportsFactory.eINSTANCE);
 		bind(ModifiersFactory.class).toInstance(ModifiersFactory.eINSTANCE);
 		bind(ExpressionsFactory.class).toInstance(ExpressionsFactory.eINSTANCE);

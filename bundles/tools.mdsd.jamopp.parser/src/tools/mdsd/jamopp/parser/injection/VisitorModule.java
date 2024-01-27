@@ -9,8 +9,6 @@ public class VisitorModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		bind(AbstractVisitor.class).to(VisitorAndConverterAbstractAndEmptyModelJDTAST.class);
 	}
 

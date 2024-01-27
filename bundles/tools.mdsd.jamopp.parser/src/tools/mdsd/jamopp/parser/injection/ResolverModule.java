@@ -28,8 +28,6 @@ public class ResolverModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		super.configure();
-
 		bind(JdtResolver.class).to(UtilJdtResolverImpl.class).in(Singleton.class);
 
 		bind(String.class).annotatedWith(Names.named("synthClass")).toInstance(SYNTH_CLASS);

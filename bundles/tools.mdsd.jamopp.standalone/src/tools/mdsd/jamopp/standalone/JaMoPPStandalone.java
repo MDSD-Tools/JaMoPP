@@ -105,8 +105,8 @@ public final class JaMoPPStandalone {
 			outputFileName = new StringBuilder(nameSpace).append(File.separator).append("module-info");
 		}
 
-		if (outputFileName == null) {
-			return "";
+		if(outputFileName == null) {
+			outputFileName  = new StringBuilder();
 		}
 
 		return outputFileName.toString();

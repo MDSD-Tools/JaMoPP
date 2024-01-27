@@ -3,7 +3,7 @@ package tools.mdsd.jamopp.parser.implementation.jamopp;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.NullProgressMonitor;
