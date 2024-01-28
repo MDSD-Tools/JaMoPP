@@ -9,23 +9,19 @@ For more information read the original publications: [JaMoPP publications](https
 Currently, JaMoPP only supports a direct inclusion of its sources into Eclipse. For stand-alone usage, use the code in `jamopp.standalone.JaMoPPStandalone.java`  as a starting point.
 
 ### Prerequisites
-- Eclipse Modeling Tools 2022-09
+- Eclipse Modeling Tools 2022-09 with UTF-8 encoding and (optionally) install Xtext from the Marketplace
 - Java 17
 - Maven 3.8.7
 
-### Installing
-1. In Eclipse: click File -> Import and select General -> Existing Projects into Workspace
-2. Select root folder of project and import the 'JaMoPP' project and all `/tools.mdsd.jamopp` nested projects except `/tools.mdsd.jamopp.mwe2`.
-3. Generate code from `.genmodel` files. For each file right click on the root element and press Generate all. The three files are:
-   - `/tools.mdsd.jamopp.model.java/metamodel/java.genmodel`   
-   - `/tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel`
-   - `/tools.mdsd.jamopp.commons.jdt/metamodel/jdt.genmodel`
-4. To test the setup, open the console in root folder and build project with `mvn clean verify`.
-
-## Built With
-- [Eclipse Tycho](https://projects.eclipse.org/projects/technology.tycho)
-- [Maven](https://maven.apache.org/)
-- [Google Guice](https://github.com/google/guice) - Used for the bundles `/tools.mdsd.jamopp.printer` and `/tools.mdsd.jamopp.parser`. The modules responsible for the dependency injection are in the `injection` packages.
+## Installation
+JaMoPP can be installed from its [update site](https://updatesite.mdsd.tools/jamopp/nightly/) (latest build from master), or the plugins can be imported directly into Eclipse:
+ 
+1. Clone this repository.
+2. Import all existing plugins from this repository (In Eclipse click `File -> Import` and select `General -> Existing Projects into Workspace`).
+3. Set `releng/org.palladiosimulator.jdt.targetplatform/org.palladiosimulator.jdt.targetplatform.target` as the active target platform.
+4. Run the `generate.mwe2` file in `releng/org.palladiosimulator.jdt.workflow/workflow/` (if Xtext is installed). Alternatively, run a build (e.g. `mvn clean verify`) that also generates the model code.
+5. Now you should be able to use JaMoPP. Note: The file encoding must be set to UTF-8. Otherwise compilation errors may occur.
+6. To test the setup, open the console in root folder and build project with `mvn clean verify`. All tests will be run with the build.
 
 ## Usage
 In Eclipse, after installing JaMoPP, you can load Java files (`.java` and `.class` files) with any EMF-based tool similar to how you load other EMF models.
@@ -36,14 +32,19 @@ For stand-alone usage, use the code in [JaMoPPStandalone.java](https://github.co
 - `ENABLE_OUTPUT_OF_LIBRARY_FILES`: A Boolean flag that determines whether to output XMI models for library files.
   The class generates XMI models for the Java source code and saves them to the ./standalone_output directory. The directory structure of the output files mirrors the package hierarchy of the Java source code.
 
+## Built With
+- [Eclipse Tycho](https://projects.eclipse.org/projects/technology.tycho)
+- [Maven](https://maven.apache.org/)
+- [Google Guice](https://github.com/google/guice) - Used for the bundles `/tools.mdsd.jamopp.printer` and `/tools.mdsd.jamopp.parser`. The code responsible for the dependency injection are in the `injection` packages.
+
 ## Codestyle
-For styling and coding conventions the Eclipse internal formatter/compiler, the Eclipse plugins [Eclipse-PMD](https://github.com/eclipse-pmd) and [SpotBugs](https://marketplace.eclipse.org/content/spotbugs-eclipse-plugin) and [Teamscale](https://teamscale.com) are used.
+For styling and coding conventions the Eclipse internal compiler, [Eclipse-PMD](https://github.com/eclipse-pmd), [SpotBugs](https://marketplace.eclipse.org/content/spotbugs-eclipse-plugin) and [Teamscale](https://teamscale.com) are used.
 
 - The PMD ruleset is `JaMoPP\codestyle\jamopp-ruleset.xml`.
 - The Teamscale analysis profile is `JaMoPP\codestyle\Jamopp-Profile.tsanalysisprofile`.
 - The Spotbugs exclude file is `JaMoPP\codestyle\myExcludeFilter.xml`.
 
-The settings for the plugins and the internal formatter/compiler are all saved as project settings. Spotbugs and PMD must be downloaded from the Eclipse Marketplace.
+The settings for the plugins and the internal compiler are all saved as project settings and should be imported when the repository is cloned. Spotbugs and PMD must be downloaded from the Eclipse Marketplace.
 
 ## Case Studies
 We tested JaMoPP with the following evaluation scenarios:
