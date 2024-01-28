@@ -209,7 +209,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			ast.accept(VISITOR);
 			UTIL_TYPE_INSTRUCTION_SEPARATION.convertAll();
 			UTIL_JDT_RESOLVER.completeResolution();
-			resourceSet = null;
+
 			root = VISITOR.getConvertedElement();
 		}
 		return root;
@@ -222,9 +222,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		Arrays.fill(encodings, DEFAULT_ENCODING);
 		convertCompilationUnits(getCompilationUnits(parser, getClasspathEntries(dir), sources, encodings));
 
-		final ResourceSet result = resourceSet;
-		resourceSet = null;
-		return result;
+		return resourceSet;
 	}
 
 	@Override
@@ -239,7 +237,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 			result = convertCompilationUnits(getCompilationUnits(getJavaParser(DEFAULT_JAVA_VERSION), new String[] {},
 					new String[] { file.toAbsolutePath().toString() }, new String[] { DEFAULT_ENCODING })).get(0)
 					.eResource();
-			resourceSet = null;
+
 		}
 
 		return result;
@@ -262,9 +260,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 
 		convertCompilationUnits(compilationUnits);
-		final ResourceSet result = resourceSet;
-		resourceSet = null;
-		return result;
+		return resourceSet;
 	}
 
 	@Override
@@ -285,9 +281,7 @@ public class JaMoPPJDTParser implements JaMoPPParserAPI {
 		}
 
 		convertCompilationUnits(compilationUnits);
-		final ResourceSet result = resourceSet;
-		resourceSet = null;
-		return result;
+		return resourceSet;
 	}
 
 	@Override
