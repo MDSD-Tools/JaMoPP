@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class AnnotationResolver extends AbstractResolver<Annotation, ITypeBinding> {
+public class AnnotationResolver extends ResolverWithCache<Annotation, ITypeBinding> {
 
 	private final Set<ITypeBinding> typeBindings;
 	private final ClassifiersFactory classifiersFactory;
@@ -35,8 +35,8 @@ public class AnnotationResolver extends AbstractResolver<Annotation, ITypeBindin
 	@Override
 	public Annotation getByName(final String name) {
 		Annotation annotation;
-		if (getBindings().containsKey(name)) {
-			annotation = getBindings().get(name);
+		if (containsKey(name)) {
+			annotation = get(name);
 		} else {
 			Annotation result;
 			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
@@ -46,7 +46,7 @@ public class AnnotationResolver extends AbstractResolver<Annotation, ITypeBindin
 			} else {
 				result = classifiersFactory.createAnnotation();
 			}
-			getBindings().put(name, result);
+			putBinding(name, result);
 			annotation = result;
 		}
 		return annotation;

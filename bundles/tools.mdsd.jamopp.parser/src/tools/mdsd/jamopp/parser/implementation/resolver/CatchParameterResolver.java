@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 
-public class CatchParameterResolver extends AbstractResolver<CatchParameter, IVariableBinding> {
+public class CatchParameterResolver extends ResolverWithCache<CatchParameter, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final ParametersFactory parametersFactory;
@@ -35,11 +35,11 @@ public class CatchParameterResolver extends AbstractResolver<CatchParameter, IVa
 	@Override
 	public CatchParameter getByName(final String name) {
 		CatchParameter catchParameter;
-		if (getBindings().containsKey(name)) {
-			catchParameter = getBindings().get(name);
+		if (containsKey(name)) {
+			catchParameter = get(name);
 		} else {
 			final CatchParameter result = parametersFactory.createCatchParameter();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			catchParameter = result;
 		}
 		return catchParameter;

@@ -3,15 +3,15 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.ITypeBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
 
-public class InterfaceResolver extends AbstractResolver<Interface, ITypeBinding> {
+public class InterfaceResolver extends ResolverWithCache<Interface, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;
@@ -30,8 +30,8 @@ public class InterfaceResolver extends AbstractResolver<Interface, ITypeBinding>
 	public Interface getByBinding(final ITypeBinding binding) {
 		final String interName = toTypeNameConverter.convertToTypeName(binding);
 		Interface interfaceResult;
-		if (getBindings().containsKey(interName)) {
-			interfaceResult = getBindings().get(interName);
+		if (containsKey(interName)) {
+			interfaceResult = get(interName);
 		} else {
 			typeBindings.add(binding);
 			Interface result;
@@ -42,7 +42,7 @@ public class InterfaceResolver extends AbstractResolver<Interface, ITypeBinding>
 			} else {
 				result = classifiersFactory.createInterface();
 			}
-			getBindings().put(interName, result);
+			putBinding(interName, result);
 			interfaceResult = result;
 		}
 		return interfaceResult;

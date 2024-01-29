@@ -42,9 +42,9 @@ public class MethodCompleter {
 						.getClassifier(methBind.getDeclaringClass());
 				if (cla == null) {
 					final String typeName = toTypeNameConverter.convertToTypeName(methBind.getDeclaringClass());
-					if (anonymousClassResolver.getBindings().containsKey(typeName)) {
+					if (anonymousClassResolver.containsKey(typeName)) {
 						final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-								.getBindings().get(typeName);
+								.get(typeName);
 						if (!anonClass.getMembers().contains(method)) {
 							anonClass.getMembers().add(method);
 						}

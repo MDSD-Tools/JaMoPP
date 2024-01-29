@@ -13,7 +13,7 @@ import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 
-public class ConstructorResolver extends AbstractResolver<Constructor, IMethodBinding> {
+public class ConstructorResolver extends ResolverWithCache<Constructor, IMethodBinding> {
 
 	private final Set<IMethodBinding> methodBindings;
 	private final StatementsFactory statementsFactory;
@@ -40,8 +40,8 @@ public class ConstructorResolver extends AbstractResolver<Constructor, IMethodBi
 	public Constructor getByBinding(final IMethodBinding binding) {
 		final String methName = toMethodNameConverter.convertToMethodName(binding);
 		Constructor constructor;
-		if (getBindings().containsKey(methName)) {
-			constructor = getBindings().get(methName);
+		if (containsKey(methName)) {
+			constructor = get(methName);
 		} else {
 			methodBindings.add(binding);
 			Constructor result = getConstructor(binding);
@@ -51,7 +51,7 @@ public class ConstructorResolver extends AbstractResolver<Constructor, IMethodBi
 				block.setName("");
 				result.setBlock(block);
 			}
-			getBindings().put(methName, result);
+			putBinding(methName, result);
 			constructor = result;
 		}
 		return constructor;
@@ -60,14 +60,14 @@ public class ConstructorResolver extends AbstractResolver<Constructor, IMethodBi
 	@Override
 	public Constructor getByName(final String name) {
 		Constructor constructor;
-		if (getBindings().containsKey(name)) {
-			constructor = getBindings().get(name);
+		if (containsKey(name)) {
+			constructor = get(name);
 		} else {
 			final Constructor result = membersFactory.createConstructor();
 			final tools.mdsd.jamopp.model.java.statements.Block block = statementsFactory.createBlock();
 			block.setName("");
 			result.setBlock(block);
-			getBindings().put(name, result);
+			putBinding(name, result);
 			constructor = result;
 		}
 		return constructor;

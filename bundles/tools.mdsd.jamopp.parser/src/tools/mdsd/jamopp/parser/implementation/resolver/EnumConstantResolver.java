@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 
-public class EnumConstantResolver extends AbstractResolver<EnumConstant, IVariableBinding> {
+public class EnumConstantResolver extends ResolverWithCache<EnumConstant, IVariableBinding> {
 
 	private final MembersFactory membersFactory;
 	private final Set<IVariableBinding> variableBindings;
@@ -32,8 +32,8 @@ public class EnumConstantResolver extends AbstractResolver<EnumConstant, IVariab
 	public EnumConstant getByBinding(final IVariableBinding binding) {
 		final String enumCN = toFieldNameConverter.convertToFieldName(binding);
 		EnumConstant enumConstant;
-		if (getBindings().containsKey(enumCN)) {
-			enumConstant = getBindings().get(enumCN);
+		if (containsKey(enumCN)) {
+			enumConstant = get(enumCN);
 		} else {
 			variableBindings.add(binding);
 			final tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = enumerationResolver
@@ -50,7 +50,7 @@ public class EnumConstantResolver extends AbstractResolver<EnumConstant, IVariab
 			if (result == null) {
 				result = membersFactory.createEnumConstant();
 			}
-			getBindings().put(enumCN, result);
+			putBinding(enumCN, result);
 			enumConstant = result;
 		}
 		return enumConstant;
@@ -59,11 +59,11 @@ public class EnumConstantResolver extends AbstractResolver<EnumConstant, IVariab
 	@Override
 	public EnumConstant getByName(final String name) {
 		EnumConstant enumConstant;
-		if (getBindings().containsKey(name)) {
-			enumConstant = getBindings().get(name);
+		if (containsKey(name)) {
+			enumConstant = get(name);
 		} else {
 			final EnumConstant result = membersFactory.createEnumConstant();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			enumConstant = result;
 		}
 		return enumConstant;

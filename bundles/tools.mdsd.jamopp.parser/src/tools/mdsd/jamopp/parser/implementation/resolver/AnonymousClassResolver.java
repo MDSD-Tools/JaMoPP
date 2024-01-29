@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class AnonymousClassResolver extends AbstractResolver<AnonymousClass, ITypeBinding> {
+public class AnonymousClassResolver extends ResolverWithCache<AnonymousClass, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final ToTypeNameConverter toTypeNameConverter;
@@ -31,11 +31,11 @@ public class AnonymousClassResolver extends AbstractResolver<AnonymousClass, ITy
 	@Override
 	public AnonymousClass getByName(final String name) {
 		AnonymousClass anonymousClass;
-		if (getBindings().containsKey(name)) {
-			anonymousClass = getBindings().get(name);
+		if (containsKey(name)) {
+			anonymousClass = get(name);
 		} else {
 			final AnonymousClass result = classifiersFactory.createAnonymousClass();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			anonymousClass = result;
 		}
 		return anonymousClass;

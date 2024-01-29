@@ -1,8 +1,6 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -14,10 +12,10 @@ import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-import com.google.inject.Provider;
-
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.name.Named;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
@@ -83,26 +81,20 @@ public class PureTypeBindingsConverter {
 
 	public void convertPureTypeBindings(final ResourceSet resourceSet) {
 		int oldSize;
-		int newSize = annotationResolver.getBindings().size() + enumerationResolver.getBindings().size()
-				+ interfaceResolver.getBindings().size() + classResolver.getBindings().size()
-				+ moduleResolver.getBindings().size() + packageResolver.getBindings().size();
+		int newSize = annotationResolver.bindingsSize() + enumerationResolver.bindingsSize() + interfaceResolver.bindingsSize()
+				+ classResolver.bindingsSize() + moduleResolver.bindingsSize() + packageResolver.bindingsSize();
 		do {
 			oldSize = newSize;
 			// For concurrent reasons forEach is called on copies
-			cloneMap(annotationResolver.getBindings()).forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
-			cloneMap(enumerationResolver.getBindings()).forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
-			cloneMap(interfaceResolver.getBindings()).forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
-			cloneMap(classResolver.getBindings()).forEach((t, u) -> convertPureTypeBinding(t, u, resourceSet));
-			cloneMap(packageResolver.getBindings()).forEach((t, u) -> convertPurePackageBinding(t, u, resourceSet));
-			cloneMap(moduleResolver.getBindings()).forEach((t, u) -> convertPureModuleBinding(t, u, resourceSet));
-			newSize = annotationResolver.getBindings().size() + enumerationResolver.getBindings().size()
-					+ interfaceResolver.getBindings().size() + classResolver.getBindings().size()
-					+ moduleResolver.getBindings().size() + packageResolver.getBindings().size();
+			annotationResolver.forEachBindingOnCopy((t, u) -> convertPureTypeBinding(t, u, resourceSet));
+			enumerationResolver.forEachBindingOnCopy((t, u) -> convertPureTypeBinding(t, u, resourceSet));
+			interfaceResolver.forEachBindingOnCopy((t, u) -> convertPureTypeBinding(t, u, resourceSet));
+			classResolver.forEachBindingOnCopy((t, u) -> convertPureTypeBinding(t, u, resourceSet));
+			packageResolver.forEachBindingOnCopy((t, u) -> convertPurePackageBinding(t, u, resourceSet));
+			moduleResolver.forEachBindingOnCopy((t, u) -> convertPureModuleBinding(t, u, resourceSet));
+			newSize = annotationResolver.bindingsSize() + enumerationResolver.bindingsSize() + interfaceResolver.bindingsSize()
+					+ classResolver.bindingsSize() + moduleResolver.bindingsSize() + packageResolver.bindingsSize();
 		} while (oldSize < newSize);
-	}
-
-	private <K, V> Map<K, V> cloneMap(final Map<K, V> map) {
-		return new HashMap<>(map);
 	}
 
 	private void convertPureTypeBinding(final String typeName, final ConcreteClassifier classifier,

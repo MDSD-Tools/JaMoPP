@@ -13,7 +13,7 @@ import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
-public class InterfaceMethodResolver extends AbstractResolver<InterfaceMethod, IMethodBinding> {
+public class InterfaceMethodResolver extends ResolverWithCache<InterfaceMethod, IMethodBinding> {
 
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
@@ -44,8 +44,8 @@ public class InterfaceMethodResolver extends AbstractResolver<InterfaceMethod, I
 		methodBindings.add(methoDeclaration);
 		final String methName = toMethodNameConverter.convertToMethodName(methoDeclaration);
 		InterfaceMethod interfaceMethod;
-		if (getBindings().containsKey(methName)) {
-			interfaceMethod = getBindings().get(methName);
+		if (containsKey(methName)) {
+			interfaceMethod = get(methName);
 		} else {
 			final ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
 					.getClassifier(methoDeclaration.getDeclaringClass());
@@ -56,7 +56,7 @@ public class InterfaceMethodResolver extends AbstractResolver<InterfaceMethod, I
 			if (result == null) {
 				result = createNewInterfaceMethod();
 			}
-			getBindings().put(methName, result);
+			putBinding(methName, result);
 			interfaceMethod = result;
 		}
 		return interfaceMethod;
@@ -80,11 +80,11 @@ public class InterfaceMethodResolver extends AbstractResolver<InterfaceMethod, I
 	@Override
 	public InterfaceMethod getByName(final String name) {
 		InterfaceMethod interfaceMethod;
-		if (getBindings().containsKey(name)) {
-			interfaceMethod = getBindings().get(name);
+		if (containsKey(name)) {
+			interfaceMethod = get(name);
 		} else {
 			final InterfaceMethod result = createNewInterfaceMethod();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			interfaceMethod = result;
 		}
 		return interfaceMethod;

@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 
-public class LocalVariableResolver extends AbstractResolver<LocalVariable, IVariableBinding> {
+public class LocalVariableResolver extends ResolverWithCache<LocalVariable, IVariableBinding> {
 
 	private final VariablesFactory variablesFactory;
 	private final Set<IVariableBinding> variableBindings;
@@ -34,11 +34,11 @@ public class LocalVariableResolver extends AbstractResolver<LocalVariable, IVari
 	@Override
 	public LocalVariable getByName(final String name) {
 		LocalVariable localVariable;
-		if (getBindings().containsKey(name)) {
-			localVariable = getBindings().get(name);
+		if (containsKey(name)) {
+			localVariable = get(name);
 		} else {
 			final LocalVariable result = variablesFactory.createLocalVariable();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			localVariable = result;
 		}
 		return localVariable;

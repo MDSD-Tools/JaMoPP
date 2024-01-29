@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.Package;
 
-public class PackageResolver extends AbstractResolver<Package, IPackageBinding> {
+public class PackageResolver extends ResolverWithCache<Package, IPackageBinding> {
 
 	private final Set<IPackageBinding> packageBindings;
 	private final ContainersFactory containersFactory;
@@ -33,14 +33,14 @@ public class PackageResolver extends AbstractResolver<Package, IPackageBinding> 
 	@Override
 	public Package getByName(final String name) {
 		Package resultPackage;
-		if (getBindings().containsKey(name)) {
-			resultPackage = getBindings().get(name);
+		if (containsKey(name)) {
+			resultPackage = get(name);
 		} else {
 			Package result = JavaClasspath.get().getPackage(name);
 			if (result == null) {
 				result = containersFactory.createPackage();
 			}
-			getBindings().put(name, result);
+			putBinding(name, result);
 			resultPackage = result;
 		}
 		return resultPackage;

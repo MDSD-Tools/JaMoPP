@@ -90,14 +90,14 @@ public class ReferenceableElementResolver {
 			referenceableElement = handleIsParameter(binding);
 		} else {
 			final String paramName = toParameterNameConverter.convertToParameterName(binding, false);
-			if (catchParameterResolver.getBindings().containsKey(paramName)) {
-				referenceableElement = catchParameterResolver.getBindings().get(paramName);
-			} else if (localVariableResolver.getBindings().containsKey(paramName)) {
-				referenceableElement = localVariableResolver.getBindings().get(paramName);
-			} else if (additionalLocalVariableResolver.getBindings().containsKey(paramName)) {
-				referenceableElement = additionalLocalVariableResolver.getBindings().get(paramName);
-			} else if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
-				referenceableElement = ordinaryParameterResolver.getBindings().get(paramName);
+			if (catchParameterResolver.containsKey(paramName)) {
+				referenceableElement = catchParameterResolver.get(paramName);
+			} else if (localVariableResolver.containsKey(paramName)) {
+				referenceableElement = localVariableResolver.get(paramName);
+			} else if (additionalLocalVariableResolver.containsKey(paramName)) {
+				referenceableElement = additionalLocalVariableResolver.get(paramName);
+			} else if (ordinaryParameterResolver.containsKey(paramName)) {
+				referenceableElement = ordinaryParameterResolver.get(paramName);
 			} else {
 				referenceableElement = localVariableResolver.getByBinding(binding);
 			}
@@ -112,10 +112,10 @@ public class ReferenceableElementResolver {
 	private ReferenceableElement handleIsParameter(final IVariableBinding binding) {
 		final String paramName = toParameterNameConverter.convertToParameterName(binding, false);
 		ReferenceableElement referenceableElement;
-		if (ordinaryParameterResolver.getBindings().containsKey(paramName)) {
-			referenceableElement = ordinaryParameterResolver.getBindings().get(paramName);
-		} else if (variableLengthParameterResolver.getBindings().containsKey(paramName)) {
-			referenceableElement = variableLengthParameterResolver.getBindings().get(paramName);
+		if (ordinaryParameterResolver.containsKey(paramName)) {
+			referenceableElement = ordinaryParameterResolver.get(paramName);
+		} else if (variableLengthParameterResolver.containsKey(paramName)) {
+			referenceableElement = variableLengthParameterResolver.get(paramName);
 		} else {
 			referenceableElement = ordinaryParameterResolver.getByBinding(binding);
 		}
@@ -125,10 +125,10 @@ public class ReferenceableElementResolver {
 	private ReferenceableElement handleIsField(final IVariableBinding binding) {
 		ReferenceableElement referenceableElement;
 		final String fieldName = toFieldNameConverter.convertToFieldName(binding);
-		if (fieldResolver.getBindings().containsKey(fieldName)) {
-			referenceableElement = fieldResolver.getBindings().get(fieldName);
-		} else if (additionalFieldResolver.getBindings().containsKey(fieldName)) {
-			referenceableElement = additionalFieldResolver.getBindings().get(fieldName);
+		if (fieldResolver.containsKey(fieldName)) {
+			referenceableElement = fieldResolver.get(fieldName);
+		} else if (additionalFieldResolver.containsKey(fieldName)) {
+			referenceableElement = additionalFieldResolver.get(fieldName);
 		} else {
 			referenceableElement = fieldResolver.getByBinding(binding);
 		}
@@ -140,21 +140,21 @@ public class ReferenceableElementResolver {
 		streams.add(variableBindings.stream().filter(bindingsFilter(name)).map(this::getByBinding));
 		streams.add(methodBindings.stream().filter(methodFilter(name)).map(methodResolver::getMethod));
 		streams.add(typeBindings.stream().filter(typeFilter(name)).map(classifierResolver::getClassifier));
-		streams.add(catchParameterResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(localVariableResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(variableLengthParameterResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(ordinaryParameterResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(additionalLocalVariableResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(enumConstantResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(fieldResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(additionalFieldResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(classMethodResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(interfaceMethodResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(typeParameterResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(enumerationResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(annotationResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(classResolver.getBindings().values().stream().filter(filter(name)));
-		streams.add(interfaceResolver.getBindings().values().stream().filter(filter(name)));
+		streams.add(catchParameterResolver.getBindings().stream().filter(filter(name)));
+		streams.add(localVariableResolver.getBindings().stream().filter(filter(name)));
+		streams.add(variableLengthParameterResolver.getBindings().stream().filter(filter(name)));
+		streams.add(ordinaryParameterResolver.getBindings().stream().filter(filter(name)));
+		streams.add(additionalLocalVariableResolver.getBindings().stream().filter(filter(name)));
+		streams.add(enumConstantResolver.getBindings().stream().filter(filter(name)));
+		streams.add(fieldResolver.getBindings().stream().filter(filter(name)));
+		streams.add(additionalFieldResolver.getBindings().stream().filter(filter(name)));
+		streams.add(classMethodResolver.getBindings().stream().filter(filter(name)));
+		streams.add(interfaceMethodResolver.getBindings().stream().filter(filter(name)));
+		streams.add(typeParameterResolver.getBindings().stream().filter(filter(name)));
+		streams.add(enumerationResolver.getBindings().stream().filter(filter(name)));
+		streams.add(annotationResolver.getBindings().stream().filter(filter(name)));
+		streams.add(classResolver.getBindings().stream().filter(filter(name)));
+		streams.add(interfaceResolver.getBindings().stream().filter(filter(name)));
 
 		ReferenceableElement referenceableElement;
 		final Optional<? extends ReferenceableElement> optionalRefElement = streams.stream().flatMap(s -> s)

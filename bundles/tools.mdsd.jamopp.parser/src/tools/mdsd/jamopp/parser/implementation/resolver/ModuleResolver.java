@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.Module;
 
-public class ModuleResolver extends AbstractResolver<Module, IModuleBinding> {
+public class ModuleResolver extends ResolverWithCache<Module, IModuleBinding> {
 
 	private final Set<IModuleBinding> moduleBindings;
 	private final ContainersFactory containersFactory;
@@ -33,14 +33,14 @@ public class ModuleResolver extends AbstractResolver<Module, IModuleBinding> {
 	@Override
 	public Module getByName(final String name) {
 		Module module;
-		if (getBindings().containsKey(name)) {
-			module = getBindings().get(name);
+		if (containsKey(name)) {
+			module = get(name);
 		} else {
 			Module result = JavaClasspath.get().getModule(name);
 			if (result == null) {
 				result = containersFactory.createModule();
 			}
-			getBindings().put(name, result);
+			putBinding(name, result);
 			module = result;
 		}
 		return module;

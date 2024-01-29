@@ -3,14 +3,14 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 
-public class AdditionalLocalVariableResolver extends AbstractResolver<AdditionalLocalVariable, IVariableBinding> {
+public class AdditionalLocalVariableResolver extends ResolverWithCache<AdditionalLocalVariable, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final VariablesFactory variablesFactory;
@@ -35,11 +35,11 @@ public class AdditionalLocalVariableResolver extends AbstractResolver<Additional
 	@Override
 	public AdditionalLocalVariable getByName(final String name) {
 		AdditionalLocalVariable additionalLocalVariable;
-		if (getBindings().containsKey(name)) {
-			additionalLocalVariable = getBindings().get(name);
+		if (containsKey(name)) {
+			additionalLocalVariable = get(name);
 		} else {
 			final AdditionalLocalVariable result = variablesFactory.createAdditionalLocalVariable();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			additionalLocalVariable = result;
 		}
 		return additionalLocalVariable;

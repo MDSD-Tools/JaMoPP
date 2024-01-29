@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
 
-public class TypeParameterResolver extends AbstractResolver<TypeParameter, ITypeBinding> {
+public class TypeParameterResolver extends ResolverWithCache<TypeParameter, ITypeBinding> {
 
 	private final Set<ITypeBinding> typeBindings;
 	private final GenericsFactory genericsFactory;
@@ -29,12 +29,12 @@ public class TypeParameterResolver extends AbstractResolver<TypeParameter, IType
 	public TypeParameter getByBinding(final ITypeBinding binding) {
 		final String paramName = toTypeParameterNameConverter.convertToTypeParameterName(binding);
 		TypeParameter typeParameter;
-		if (getBindings().containsKey(paramName)) {
-			typeParameter = getBindings().get(paramName);
+		if (containsKey(paramName)) {
+			typeParameter = get(paramName);
 		} else {
 			typeBindings.add(binding);
 			final TypeParameter result = genericsFactory.createTypeParameter();
-			getBindings().put(paramName, result);
+			putBinding(paramName, result);
 			typeParameter = result;
 		}
 		return typeParameter;

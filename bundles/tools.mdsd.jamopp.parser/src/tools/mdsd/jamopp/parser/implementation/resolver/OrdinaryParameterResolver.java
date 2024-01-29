@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 
-public class OrdinaryParameterResolver extends AbstractResolver<OrdinaryParameter, IVariableBinding> {
+public class OrdinaryParameterResolver extends ResolverWithCache<OrdinaryParameter, IVariableBinding> {
 
 	private final ParametersFactory parametersFactory;
 	private final Set<IVariableBinding> variableBindings;
@@ -35,11 +35,11 @@ public class OrdinaryParameterResolver extends AbstractResolver<OrdinaryParamete
 	@Override
 	public OrdinaryParameter getByName(final String name) {
 		OrdinaryParameter ordinaryParameter;
-		if (getBindings().containsKey(name)) {
-			ordinaryParameter = getBindings().get(name);
+		if (containsKey(name)) {
+			ordinaryParameter = get(name);
 		} else {
 			final OrdinaryParameter result = parametersFactory.createOrdinaryParameter();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			ordinaryParameter = result;
 		}
 		return ordinaryParameter;

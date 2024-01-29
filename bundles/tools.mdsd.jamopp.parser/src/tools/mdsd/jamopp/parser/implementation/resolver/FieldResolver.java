@@ -12,7 +12,7 @@ import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
-public class FieldResolver extends AbstractResolver<Field, IVariableBinding> {
+public class FieldResolver extends ResolverWithCache<Field, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final TypesFactory typesFactory;
@@ -36,8 +36,8 @@ public class FieldResolver extends AbstractResolver<Field, IVariableBinding> {
 	public Field getByBinding(final IVariableBinding binding) {
 		final String varName = toFieldNameConverter.convertToFieldName(binding);
 		Field field;
-		if (getBindings().containsKey(varName)) {
-			field = getBindings().get(varName);
+		if (containsKey(varName)) {
+			field = get(varName);
 		} else {
 			variableBindings.add(binding);
 			ConcreteClassifier potClass = null;
@@ -57,7 +57,7 @@ public class FieldResolver extends AbstractResolver<Field, IVariableBinding> {
 				result = membersFactory.createField();
 				result.setTypeReference(typesFactory.createInt());
 			}
-			getBindings().put(varName, result);
+			putBinding(varName, result);
 			field = result;
 		}
 		return field;
@@ -66,11 +66,11 @@ public class FieldResolver extends AbstractResolver<Field, IVariableBinding> {
 	@Override
 	public Field getByName(final String name) {
 		Field field;
-		if (getBindings().containsKey(name)) {
-			field = getBindings().get(name);
+		if (containsKey(name)) {
+			field = get(name);
 		} else {
 			final Field result = membersFactory.createField();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			field = result;
 		}
 		return field;

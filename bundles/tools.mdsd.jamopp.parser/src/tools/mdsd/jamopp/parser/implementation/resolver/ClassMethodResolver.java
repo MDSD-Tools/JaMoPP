@@ -3,9 +3,9 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IMethodBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.ClassMethod;
@@ -13,7 +13,7 @@ import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
-public class ClassMethodResolver extends AbstractResolver<ClassMethod, IMethodBinding> {
+public class ClassMethodResolver extends ResolverWithCache<ClassMethod, IMethodBinding> {
 
 	private final Set<IMethodBinding> methodBindings;
 	private final StatementsFactory statementsFactory;
@@ -44,8 +44,8 @@ public class ClassMethodResolver extends AbstractResolver<ClassMethod, IMethodBi
 		methodBindings.add(methodDeclaration);
 		final String methName = toMethodNameConverter.convertToMethodName(methodDeclaration);
 		ClassMethod classMethod;
-		if (getBindings().containsKey(methName)) {
-			classMethod = getBindings().get(methName);
+		if (containsKey(methName)) {
+			classMethod = get(methName);
 		} else {
 			final ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
 					.getClassifier(methodDeclaration.getDeclaringClass());
@@ -56,7 +56,7 @@ public class ClassMethodResolver extends AbstractResolver<ClassMethod, IMethodBi
 			if (result == null) {
 				result = createNewClassMethod();
 			}
-			getBindings().put(methName, result);
+			putBinding(methName, result);
 			classMethod = result;
 		}
 		return classMethod;
@@ -79,11 +79,11 @@ public class ClassMethodResolver extends AbstractResolver<ClassMethod, IMethodBi
 	@Override
 	public ClassMethod getByName(final String name) {
 		ClassMethod classMethod;
-		if (getBindings().containsKey(name)) {
-			classMethod = getBindings().get(name);
+		if (containsKey(name)) {
+			classMethod = get(name);
 		} else {
 			final ClassMethod result = createNewClassMethod();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			classMethod = result;
 		}
 		return classMethod;

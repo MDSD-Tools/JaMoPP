@@ -115,11 +115,11 @@ public class ResolutionCompleter {
 	}
 
 	public void completeResolution(final ResourceSet resourceSet) {
-		enumConstantResolver.getBindings().forEach(this::handleEnumConstants);
-		fieldResolver.getBindings().forEach(this::handleFields);
-		constructorResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
-		classMethodResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
-		interfaceMethodResolver.getBindings().forEach((t, u) -> methodCompleter.completeMethod(t, u));
+		enumConstantResolver.forEachBinding(this::handleEnumConstants);
+		fieldResolver.forEachBinding(this::handleFields);
+		constructorResolver.forEachBinding((t, u) -> methodCompleter.completeMethod(t, u));
+		classMethodResolver.forEachBinding((t, u) -> methodCompleter.completeMethod(t, u));
+		interfaceMethodResolver.forEachBinding((t, u) -> methodCompleter.completeMethod(t, u));
 
 		pureTypeBindingsConverter.convertPureTypeBindings(resourceSet);
 
@@ -146,9 +146,9 @@ public class ResolutionCompleter {
 				.getClassifier(varBind.getDeclaringClass());
 		if (cla == null) {
 			final String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
-			if (anonymousClassResolver.getBindings().containsKey(typeName)) {
+			if (anonymousClassResolver.containsKey(typeName)) {
 				final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-						.getBindings().get(typeName);
+						.get(typeName);
 				if (!anonClass.getMembers().contains(field)) {
 					anonClass.getMembers().add(field);
 				}
@@ -177,35 +177,35 @@ public class ResolutionCompleter {
 	}
 
 	private void register() {
-		moduleResolver.getBindings().values().forEach(module -> JavaClasspath.get().registerModule(module));
-		packageResolver.getBindings().values().forEach(pack -> JavaClasspath.get().registerPackage(pack));
-		annotationResolver.getBindings().values().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
-		enumerationResolver.getBindings().values()
+		moduleResolver.getBindings().forEach(module -> JavaClasspath.get().registerModule(module));
+		packageResolver.getBindings().forEach(pack -> JavaClasspath.get().registerPackage(pack));
+		annotationResolver.getBindings().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
+		enumerationResolver.getBindings()
 				.forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
-		interfaceResolver.getBindings().values()
+		interfaceResolver.getBindings()
 				.forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
-		classResolver.getBindings().values().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
+		classResolver.getBindings().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
 	}
 
 	private void clear() {
-		moduleResolver.getBindings().clear();
-		packageResolver.getBindings().clear();
-		annotationResolver.getBindings().clear();
-		enumerationResolver.getBindings().clear();
-		interfaceResolver.getBindings().clear();
-		classResolver.getBindings().clear();
-		typeParameterResolver.getBindings().clear();
-		classMethodResolver.getBindings().clear();
-		constructorResolver.getBindings().clear();
-		fieldResolver.getBindings().clear();
-		interfaceMethodResolver.getBindings().clear();
-		additionalFieldResolver.getBindings().clear();
-		localVariableResolver.getBindings().clear();
-		additionalLocalVariableResolver.getBindings().clear();
-		enumConstantResolver.getBindings().clear();
-		variableLengthParameterResolver.getBindings().clear();
-		ordinaryParameterResolver.getBindings().clear();
-		catchParameterResolver.getBindings().clear();
+		moduleResolver.clearBindings();
+		packageResolver.clearBindings();
+		annotationResolver.clearBindings();
+		enumerationResolver.clearBindings();
+		interfaceResolver.clearBindings();
+		classResolver.clearBindings();
+		typeParameterResolver.clearBindings();
+		classMethodResolver.clearBindings();
+		constructorResolver.clearBindings();
+		fieldResolver.clearBindings();
+		interfaceMethodResolver.clearBindings();
+		additionalFieldResolver.clearBindings();
+		localVariableResolver.clearBindings();
+		additionalLocalVariableResolver.clearBindings();
+		enumConstantResolver.clearBindings();
+		variableLengthParameterResolver.clearBindings();
+		ordinaryParameterResolver.clearBindings();
+		catchParameterResolver.clearBindings();
 		moduleBindings.clear();
 		packageBindings.clear();
 		typeBindings.clear();
@@ -214,16 +214,16 @@ public class ResolutionCompleter {
 		varBindToUid.clear();
 		objVisited.clear();
 		nameCache.clear();
-		anonymousClassResolver.getBindings().clear();
+		anonymousClassResolver.clearBindings();
 	}
 
 	private void escapeAllIdentifiers() {
-		moduleResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		packageResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		annotationResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		enumerationResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		classResolver.getBindings().values().forEach(this::escapeIdentifiers);
-		interfaceResolver.getBindings().values().forEach(this::escapeIdentifiers);
+		moduleResolver.getBindings().forEach(this::escapeIdentifiers);
+		packageResolver.getBindings().forEach(this::escapeIdentifiers);
+		annotationResolver.getBindings().forEach(this::escapeIdentifiers);
+		enumerationResolver.getBindings().forEach(this::escapeIdentifiers);
+		classResolver.getBindings().forEach(this::escapeIdentifiers);
+		interfaceResolver.getBindings().forEach(this::escapeIdentifiers);
 	}
 
 	private void escapeIdentifiers(final EObject obj) {

@@ -3,14 +3,14 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 
-public class AdditionalFieldResolver extends AbstractResolver<AdditionalField, IVariableBinding> {
+public class AdditionalFieldResolver extends ResolverWithCache<AdditionalField, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final MembersFactory membersFactory;
@@ -32,8 +32,8 @@ public class AdditionalFieldResolver extends AbstractResolver<AdditionalField, I
 	public AdditionalField getByBinding(final IVariableBinding binding) {
 		final String varName = toFieldNameConverter.convertToFieldName(binding);
 		AdditionalField additionalField;
-		if (getBindings().containsKey(varName)) {
-			additionalField = getBindings().get(varName);
+		if (containsKey(varName)) {
+			additionalField = get(varName);
 		} else {
 			variableBindings.add(binding);
 			AdditionalField result = null;
@@ -45,7 +45,7 @@ public class AdditionalFieldResolver extends AbstractResolver<AdditionalField, I
 			if (result == null) {
 				result = membersFactory.createAdditionalField();
 			}
-			getBindings().put(varName, result);
+			putBinding(varName, result);
 			additionalField = result;
 		}
 		return additionalField;
@@ -75,11 +75,11 @@ public class AdditionalFieldResolver extends AbstractResolver<AdditionalField, I
 	@Override
 	public AdditionalField getByName(final String name) {
 		AdditionalField additionalField;
-		if (getBindings().containsKey(name)) {
-			additionalField = getBindings().get(name);
+		if (containsKey(name)) {
+			additionalField = get(name);
 		} else {
 			final AdditionalField result = membersFactory.createAdditionalField();
-			getBindings().put(name, result);
+			putBinding(name, result);
 			additionalField = result;
 		}
 		return additionalField;

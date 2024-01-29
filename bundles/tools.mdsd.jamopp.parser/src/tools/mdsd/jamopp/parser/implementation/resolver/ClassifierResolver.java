@@ -38,7 +38,7 @@ public class ClassifierResolver {
 		if (potClass != null) {
 			classifier = potClass;
 		} else if (!binding.isAnonymous() && (!binding.isLocal() || binding.getDeclaringMember() != null)
-				&& !anonymousClassResolver.getBindings().containsKey(toTypeNameConverter.convertToTypeName(binding))) {
+				&& !anonymousClassResolver.containsKey(toTypeNameConverter.convertToTypeName(binding))) {
 			classifier = switchOverBinding(binding);
 		}
 		return classifier;

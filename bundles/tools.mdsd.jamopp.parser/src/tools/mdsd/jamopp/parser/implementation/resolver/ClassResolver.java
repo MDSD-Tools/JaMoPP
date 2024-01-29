@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class ClassResolver extends AbstractResolver<Class, ITypeBinding> {
+public class ClassResolver extends ResolverWithCache<Class, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;
@@ -35,8 +35,8 @@ public class ClassResolver extends AbstractResolver<Class, ITypeBinding> {
 	@Override
 	public Class getByName(final String name) {
 		Class resultClass;
-		if (getBindings().containsKey(name)) {
-			resultClass = getBindings().get(name);
+		if (containsKey(name)) {
+			resultClass = get(name);
 		} else {
 			Class result;
 			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
@@ -46,7 +46,7 @@ public class ClassResolver extends AbstractResolver<Class, ITypeBinding> {
 			} else {
 				result = classifiersFactory.createClass();
 			}
-			getBindings().put(name, result);
+			putBinding(name, result);
 			resultClass = result;
 		}
 		return resultClass;

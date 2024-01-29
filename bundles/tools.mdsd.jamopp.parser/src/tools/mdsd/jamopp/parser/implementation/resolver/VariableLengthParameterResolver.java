@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 
-public class VariableLengthParameterResolver extends AbstractResolver<VariableLengthParameter, IVariableBinding> {
+public class VariableLengthParameterResolver extends ResolverWithCache<VariableLengthParameter, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final ParametersFactory parametersFactory;
@@ -30,12 +30,12 @@ public class VariableLengthParameterResolver extends AbstractResolver<VariableLe
 	public VariableLengthParameter getByBinding(final IVariableBinding binding) {
 		VariableLengthParameter variableLengthParameter;
 		final String paramName = toParameterNameConverter.convertToParameterName(binding, true);
-		if (getBindings().containsKey(paramName)) {
-			variableLengthParameter = getBindings().get(paramName);
+		if (containsKey(paramName)) {
+			variableLengthParameter = get(paramName);
 		} else {
 			variableBindings.add(binding);
 			final VariableLengthParameter result = parametersFactory.createVariableLengthParameter();
-			getBindings().put(paramName, result);
+			putBinding(paramName, result);
 			variableLengthParameter = result;
 		}
 		return variableLengthParameter;
