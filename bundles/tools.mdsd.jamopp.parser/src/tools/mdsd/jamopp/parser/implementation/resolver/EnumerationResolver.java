@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 
-public class EnumerationResolver extends ResolverAbstract<Enumeration, ITypeBinding> {
+public class EnumerationResolver extends AbstractResolver<Enumeration, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;

@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class AnonymousClassResolver extends ResolverAbstract<AnonymousClass, ITypeBinding> {
+public class AnonymousClassResolver extends AbstractResolver<AnonymousClass, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final ToTypeNameConverter toTypeNameConverter;

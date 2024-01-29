@@ -1,13 +1,13 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
-import com.google.inject.Inject;
-
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
@@ -17,6 +17,10 @@ import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
 
+/**
+ * Facade for whole package. This is the only class that should be used outside
+ * this package.
+ */
 public class UtilJdtResolverImpl implements JdtResolver {
 
 	private ResourceSet resourceSet;

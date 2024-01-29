@@ -13,7 +13,7 @@ import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
-public class InterfaceMethodResolver extends ResolverAbstract<InterfaceMethod, IMethodBinding> {
+public class InterfaceMethodResolver extends AbstractResolver<InterfaceMethod, IMethodBinding> {
 
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;

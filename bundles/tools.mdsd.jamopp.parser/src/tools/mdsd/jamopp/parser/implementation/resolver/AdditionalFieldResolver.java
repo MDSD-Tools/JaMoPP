@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 
-public class AdditionalFieldResolver extends ResolverAbstract<AdditionalField, IVariableBinding> {
+public class AdditionalFieldResolver extends AbstractResolver<AdditionalField, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final MembersFactory membersFactory;

@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 
-public class EnumConstantResolver extends ResolverAbstract<EnumConstant, IVariableBinding> {
+public class EnumConstantResolver extends AbstractResolver<EnumConstant, IVariableBinding> {
 
 	private final MembersFactory membersFactory;
 	private final Set<IVariableBinding> variableBindings;

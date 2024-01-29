@@ -13,7 +13,7 @@ import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 
-public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBinding> {
+public class ConstructorResolver extends AbstractResolver<Constructor, IMethodBinding> {
 
 	private final Set<IMethodBinding> methodBindings;
 	private final StatementsFactory statementsFactory;
@@ -86,7 +86,7 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 						receiveOffset = 1;
 					}
 					if (con.getParameters().size() == binding.getParameterTypes().length + receiveOffset) {
-						if (skip(binding, con, receiveOffset)) {
+						if (shouldSkip(binding, con, receiveOffset)) {
 							continue;
 						}
 
@@ -99,7 +99,7 @@ public class ConstructorResolver extends ResolverAbstract<Constructor, IMethodBi
 		return result;
 	}
 
-	private boolean skip(final IMethodBinding binding, final Constructor con, final int receiveOffset) {
+	private boolean shouldSkip(final IMethodBinding binding, final Constructor con, final int receiveOffset) {
 		return receiveOffset == 1
 				&& (!(con.getParameters().get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
 						|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType()).equals(

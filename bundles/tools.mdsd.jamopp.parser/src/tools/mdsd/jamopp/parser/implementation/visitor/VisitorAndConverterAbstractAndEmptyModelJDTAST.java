@@ -13,20 +13,20 @@
 
 package tools.mdsd.jamopp.parser.implementation.visitor;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-import com.google.inject.Provider;
-
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.ModuleDeclaration;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
+import tools.mdsd.jamopp.model.java.containers.Module;
 import tools.mdsd.jamopp.model.java.imports.Import;
 import tools.mdsd.jamopp.parser.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.interfaces.helper.UtilLayout;
@@ -45,7 +45,7 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 	private final Converter<ImportDeclaration, Import> toImportConverter;
 
 	private final Provider<Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit>> toCompilationUnitConverter;
-	private final Provider<Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module>> toModuleConverter;
+	private final Provider<Converter<ModuleDeclaration, Module>> toModuleConverter;
 
 	private JavaRoot convertedRootElement;
 	private String originalSource;
@@ -56,7 +56,7 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 			final UtilLayout layoutInformationConverter, final JdtResolver jdtResolverUtility,
 			final ContainersFactory containersFactory,
 			final Converter<Annotation, AnnotationInstance> annotationInstanceConverter,
-			final Provider<Converter<ModuleDeclaration, tools.mdsd.jamopp.model.java.containers.Module>> toModuleConverter,
+			final Provider<Converter<ModuleDeclaration, Module>> toModuleConverter,
 			final Provider<Converter<CompilationUnit, tools.mdsd.jamopp.model.java.containers.CompilationUnit>> toCompilationUnitConverter) {
 		this.containersFactory = containersFactory;
 		this.layoutInformationConverter = layoutInformationConverter;
@@ -97,8 +97,7 @@ public class VisitorAndConverterAbstractAndEmptyModelJDTAST extends AbstractVisi
 		}
 
 		if (node.getModule() != null) {
-			final tools.mdsd.jamopp.model.java.containers.Module module = toModuleConverter.get()
-					.convert(node.getModule());
+			final Module module = toModuleConverter.get().convert(node.getModule());
 			setConvertedElement(module);
 		}
 

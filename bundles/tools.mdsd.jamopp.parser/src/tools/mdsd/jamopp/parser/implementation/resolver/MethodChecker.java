@@ -1,9 +1,9 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.members.Method;
 import tools.mdsd.jamopp.model.java.parameters.Parameter;

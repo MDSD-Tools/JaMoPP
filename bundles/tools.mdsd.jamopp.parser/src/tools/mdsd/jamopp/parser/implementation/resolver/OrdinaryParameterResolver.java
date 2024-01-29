@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 
-public class OrdinaryParameterResolver extends ResolverAbstract<OrdinaryParameter, IVariableBinding> {
+public class OrdinaryParameterResolver extends AbstractResolver<OrdinaryParameter, IVariableBinding> {
 
 	private final ParametersFactory parametersFactory;
 	private final Set<IVariableBinding> variableBindings;

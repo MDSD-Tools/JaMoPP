@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 
-public class LocalVariableResolver extends ResolverAbstract<LocalVariable, IVariableBinding> {
+public class LocalVariableResolver extends AbstractResolver<LocalVariable, IVariableBinding> {
 
 	private final VariablesFactory variablesFactory;
 	private final Set<IVariableBinding> variableBindings;

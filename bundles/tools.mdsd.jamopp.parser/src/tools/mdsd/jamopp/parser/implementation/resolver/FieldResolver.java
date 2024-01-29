@@ -12,7 +12,7 @@ import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
-public class FieldResolver extends ResolverAbstract<Field, IVariableBinding> {
+public class FieldResolver extends AbstractResolver<Field, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final TypesFactory typesFactory;

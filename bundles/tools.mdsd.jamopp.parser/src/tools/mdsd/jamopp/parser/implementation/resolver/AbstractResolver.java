@@ -12,12 +12,12 @@ import tools.mdsd.jamopp.parser.interfaces.resolver.IResolver;
  * @param <C> Class
  * @param <B> BindingType
  */
-public abstract class ResolverAbstract<C, B extends IBinding> implements IResolver<C, B> {
+public abstract class AbstractResolver<C, B extends IBinding> implements IResolver<C, B> {
 
 	private final Map<String, C> bindings;
 
 	@Inject
-	public ResolverAbstract(final Map<String, C> bindings) {
+	public AbstractResolver(final Map<String, C> bindings) {
 		this.bindings = bindings;
 	}
 

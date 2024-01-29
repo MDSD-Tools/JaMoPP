@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
 
-public class TypeParameterResolver extends ResolverAbstract<TypeParameter, ITypeBinding> {
+public class TypeParameterResolver extends AbstractResolver<TypeParameter, ITypeBinding> {
 
 	private final Set<ITypeBinding> typeBindings;
 	private final GenericsFactory genericsFactory;

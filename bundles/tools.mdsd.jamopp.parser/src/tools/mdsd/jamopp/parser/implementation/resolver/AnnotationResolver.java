@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class AnnotationResolver extends ResolverAbstract<Annotation, ITypeBinding> {
+public class AnnotationResolver extends AbstractResolver<Annotation, ITypeBinding> {
 
 	private final Set<ITypeBinding> typeBindings;
 	private final ClassifiersFactory classifiersFactory;

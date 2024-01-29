@@ -2,34 +2,34 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 
 import java.util.Set;
 
+import org.eclipse.jdt.core.dom.IMethodBinding;
+
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import org.eclipse.jdt.core.dom.IMethodBinding;
-
 public class MethodCompleter {
 
-	private final AnonymousClassResolver anonymousClassResolver;
-	private final Set<IMethodBinding> methodBindings;
 	private final boolean extractAdditionalInfosFromTypeBindings;
+	private final AnonymousClassResolver anonymousClassResolver;
 	private final ToMethodNameConverter toMethodNameConverter;
 	private final ClassifierResolver classifierResolver;
 	private final ToTypeNameConverter toTypeNameConverter;
-	private final ClassResolverSynthetic classResolverSynthetic;
+	private final ClassResolverHelper classResolverHelper;
+	private final Set<IMethodBinding> methodBindings;
 
 	@Inject
 	public MethodCompleter(final Set<IMethodBinding> methodBindings,
 			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromBindings,
 			final AnonymousClassResolver anonymousClassResolver, final ToTypeNameConverter toTypeNameConverter,
 			final ToMethodNameConverter toMethodNameConverter, final ClassifierResolver classifierResolver,
-			final ClassResolverSynthetic classResolverSynthetic) {
+			final ClassResolverHelper classResolverHelper) {
 		this.anonymousClassResolver = anonymousClassResolver;
 		this.methodBindings = methodBindings;
 		extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromBindings;
 		this.toMethodNameConverter = toMethodNameConverter;
 		this.classifierResolver = classifierResolver;
 		this.toTypeNameConverter = toTypeNameConverter;
-		this.classResolverSynthetic = classResolverSynthetic;
+		this.classResolverHelper = classResolverHelper;
 	}
 
 	public void completeMethod(final String methodName, final tools.mdsd.jamopp.model.java.members.Member method) {
@@ -49,7 +49,7 @@ public class MethodCompleter {
 							anonClass.getMembers().add(method);
 						}
 					} else {
-						classResolverSynthetic.addToSyntheticClass(method);
+						classResolverHelper.addToSyntheticClass(method);
 					}
 				} else if (!extractAdditionalInfosFromTypeBindings
 						&& cla instanceof final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
@@ -57,7 +57,7 @@ public class MethodCompleter {
 					classifier.getMembers().add(method);
 				}
 			} else {
-				classResolverSynthetic.addToSyntheticClass(method);
+				classResolverHelper.addToSyntheticClass(method);
 			}
 		}
 	}
