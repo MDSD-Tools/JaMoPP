@@ -16,6 +16,7 @@
 package tools.mdsd.jamopp.model.java.extensions.generics;
 
 import java.util.Iterator;
+import java.util.Optional;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.BasicEList;
@@ -467,14 +468,14 @@ public final class TypeParameterExtension {
 	private static void fillPrevTypeList(final Reference reference, final EList<Type> prevTypeList) {
 		// Prev type is one of the containing classes which can still bind
 		// by inheritance
-		ConcreteClassifier containingClassifier = reference.getContainingConcreteClassifier();
-		while (containingClassifier != null) {
-			prevTypeList.add(containingClassifier);
-			final EObject container = containingClassifier.eContainer();
+		Optional<ConcreteClassifier> containingClassifier = Optional.of(reference.getContainingConcreteClassifier());
+		while (containingClassifier.isPresent()) {
+			prevTypeList.add(containingClassifier.get());
+			final EObject container = containingClassifier.get().eContainer();
 			if (container instanceof final Commentable commentableContainer) {
-				containingClassifier = commentableContainer.getContainingConcreteClassifier();
+				containingClassifier = Optional.of(commentableContainer.getContainingConcreteClassifier());
 			} else {
-				containingClassifier = null;
+				containingClassifier = Optional.empty();
 			}
 		}
 	}

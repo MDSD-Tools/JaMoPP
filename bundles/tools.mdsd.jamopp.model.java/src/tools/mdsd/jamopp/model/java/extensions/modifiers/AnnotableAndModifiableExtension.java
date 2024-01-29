@@ -261,18 +261,19 @@ public final class AnnotableAndModifiableExtension {
 			}
 		}
 		// visibility through anonymous subclass
-		AnonymousClass anonymousClass = lContext.getContainingAnonymousClass();
-		while (anonymousClass != null) {
-			if (anonymousClass.getSuperClassifier() == null) {
+		Optional<AnonymousClass> anonymousClass = Optional.of(lContext.getContainingAnonymousClass());
+		while (anonymousClass.isPresent()) {
+			if (anonymousClass.get().getSuperClassifier() == null) {
 				return true;
-			} else if (anonymousClass.getSuperClassifier().isSuperType(0, myClassifier, null)) {
+			} else if (anonymousClass.get().getSuperClassifier().isSuperType(0, myClassifier, null)) {
 				return false;
 			}
 
-			if (anonymousClass.eContainer() instanceof Commentable) {
-				anonymousClass = ((Commentable) anonymousClass.eContainer()).getContainingAnonymousClass();
+			if (anonymousClass.get().eContainer() instanceof Commentable) {
+				anonymousClass = Optional
+						.of(((Commentable) anonymousClass.get().eContainer()).getContainingAnonymousClass());
 			} else {
-				anonymousClass = null;
+				anonymousClass = Optional.empty();
 			}
 		}
 		return true;
