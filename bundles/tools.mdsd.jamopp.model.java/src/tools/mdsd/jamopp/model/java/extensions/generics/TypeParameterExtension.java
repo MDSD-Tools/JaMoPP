@@ -482,25 +482,24 @@ public final class TypeParameterExtension {
 
 	private static Reference getParentReferenceAndFillPrevTypeList(final Reference reference,
 			final EList<Type> prevTypeList) {
-		Reference parentReference;
-		parentReference = reference.getPrevious();
-		while (parentReference instanceof SelfReference) {
-			if (!(((SelfReference) parentReference).getSelf() instanceof Super)) {
+		Optional<Reference> parentReference = Optional.of(reference.getPrevious());
+		while (parentReference.get() instanceof SelfReference) {
+			if (!(((SelfReference) parentReference.get()).getSelf() instanceof Super)) {
 				break;
 			}
-			if (parentReference.eContainer() instanceof Reference) {
-				parentReference = (Reference) parentReference.eContainer();
+			if (parentReference.get().eContainer() instanceof Reference) {
+				parentReference = Optional.of((Reference) parentReference.get().eContainer());
 			} else {
 				final ConcreteClassifier containingClassifier = reference.getContainingConcreteClassifier();
 				if (containingClassifier != null) {
 					prevTypeList.add(containingClassifier);
 				}
-				parentReference = null;
+				parentReference = Optional.empty();
 			}
 		}
 
-		if (parentReference != null) {
-			final Type prevType = parentReference.getReferencedType();
+		if (parentReference.isPresent()) {
+			final Type prevType = parentReference.get().getReferencedType();
 			if (prevType instanceof final TemporalCompositeClassifier temporalCompositeClassifier) {
 				for (final EObject aType : temporalCompositeClassifier.getSuperTypes()) {
 					prevTypeList.add((Type) aType);
@@ -509,7 +508,7 @@ public final class TypeParameterExtension {
 				prevTypeList.add(prevType);
 			}
 		}
-		return parentReference;
+		return parentReference.get();
 	}
 
 	private static Reference getParentReferenceAndFillPrevTypeListWithNested(final Reference reference,
