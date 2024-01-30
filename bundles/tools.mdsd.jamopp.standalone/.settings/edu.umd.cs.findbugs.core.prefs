@@ -1,5 +1,5 @@
 #SpotBugs User Preferences
-#Thu Jan 25 20:15:31 CET 2024
+#Tue Jan 30 16:44:09 CET 2024
 detectorExplicitSerialization=ExplicitSerialization|true
 detectorFindVulnerableSecurityCheckMethods=FindVulnerableSecurityCheckMethods|true
 detectorMultithreadedInstanceAccess=MultithreadedInstanceAccess|true
@@ -176,7 +176,7 @@ detectorNoteNonNullAnnotations=NoteNonNullAnnotations|true
 detectorCheckTypeQualifiers=CheckTypeQualifiers|true
 detectorComparatorIdiom=ComparatorIdiom|true
 detectorFindMismatchedWaitOrNotify=FindMismatchedWaitOrNotify|true
-excludefilter0=../../codestyle/myExcludeFilter.xml|true
+excludefilter0=../../codestyle/jamopp-exclude-filter.xml|true
 detectorBadResultSetAccess=BadResultSetAccess|true
 detectorIncompatMask=IncompatMask|true
 run_at_full_build=false

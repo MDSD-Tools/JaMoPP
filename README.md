@@ -42,7 +42,7 @@ For styling and coding conventions the Eclipse internal compiler, [Eclipse-PMD](
 
 - The PMD ruleset is `JaMoPP\codestyle\jamopp-ruleset.xml`.
 - The Teamscale analysis profile is `JaMoPP\codestyle\Jamopp-Profile.tsanalysisprofile`.
-- The Spotbugs exclude file is `JaMoPP\codestyle\myExcludeFilter.xml`.
+- The Spotbugs exclude file is `JaMoPP\codestyle\jamopp-exclude-filter.xml`.
 
 The settings for the plugins and the internal compiler are all saved as project settings and should be imported when the repository is cloned. Spotbugs and PMD must be downloaded from the Eclipse Marketplace.
 
