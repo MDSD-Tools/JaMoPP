@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
+import org.eclipse.jdt.core.dom.ITypeBinding;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.generics.TypeArgument;
@@ -53,39 +53,54 @@ public class ToTypeReferencesConverter implements Converter<ITypeBinding, List<T
 	public List<TypeReference> convert(final ITypeBinding binding) {
 		List<TypeReference> list;
 		if (binding.isPrimitive()) {
-			list = new ArrayList<>();
-			handlePrimitive(binding, list);
+			list = handlePrimitive(binding);
 		} else if (binding.isArray()) {
 			list = convert(binding.getElementType());
 		} else if (binding.isIntersectionType()) {
-			list = new ArrayList<>();
-			for (final ITypeBinding b : binding.getTypeBounds()) {
-				list.addAll(convert(b));
-			}
+			list = handleIntersectionType(binding);
 		} else {
-			list = new ArrayList<>();
-			final Classifier classifier = iUtilJdtResolver.getClassifier(binding);
-			utilNamedElement.convertToNameAndSet(binding, classifier);
-			final ClassifierReference ref = typesFactory.createClassifierReference();
-			if (binding.isParameterizedType()) {
-				for (final ITypeBinding b : binding.getTypeArguments()) {
-					ref.getTypeArguments().add(toTypeArgumentConverter.get().convert(b));
-				}
-			}
-			ref.setTarget(classifier);
-			list.add(ref);
+			list = handleRest(binding);
 		}
 
 		return list;
 	}
 
-	private void handlePrimitive(final ITypeBinding binding, final List<TypeReference> result) {
+	private List<TypeReference> handlePrimitive(final ITypeBinding binding) {
+		List<TypeReference> list;
+		list = new ArrayList<>();
+		final List<TypeReference> result = list;
 		for (final Entry<String, Supplier<TypeReference>> entry : mappings.entrySet()) {
 			if (entry.getKey().equals(binding.getName())) {
 				result.add(entry.getValue().get());
 				break;
 			}
 		}
+		return list;
+	}
+
+	private List<TypeReference> handleRest(final ITypeBinding binding) {
+		List<TypeReference> list;
+		list = new ArrayList<>();
+		final Classifier classifier = iUtilJdtResolver.getClassifier(binding);
+		utilNamedElement.convertToNameAndSet(binding, classifier);
+		final ClassifierReference ref = typesFactory.createClassifierReference();
+		if (binding.isParameterizedType()) {
+			for (final ITypeBinding b : binding.getTypeArguments()) {
+				ref.getTypeArguments().add(toTypeArgumentConverter.get().convert(b));
+			}
+		}
+		ref.setTarget(classifier);
+		list.add(ref);
+		return list;
+	}
+
+	private List<TypeReference> handleIntersectionType(final ITypeBinding binding) {
+		List<TypeReference> list;
+		list = new ArrayList<>();
+		for (final ITypeBinding b : binding.getTypeBounds()) {
+			list.addAll(convert(b));
+		}
+		return list;
 	}
 
 }
