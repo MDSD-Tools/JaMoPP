@@ -1,12 +1,12 @@
 package tools.mdsd.jamopp.parser.implementation.converter;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.NumberLiteral;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.expressions.PrimaryExpression;
 import tools.mdsd.jamopp.model.java.literals.LiteralsFactory;
@@ -24,7 +24,8 @@ public class ToPrimaryExpressionConverter implements Converter<Expression, Prima
 
 	@Inject
 	public ToPrimaryExpressionConverter(final LiteralsFactory literalsFactory,
-			final ToNumberLiteralConverter toNumberLiteralConverter, final UtilLayout layoutInformationConverter,
+			final Converter<NumberLiteral, tools.mdsd.jamopp.model.java.literals.Literal> toNumberLiteralConverter,
+			final UtilLayout layoutInformationConverter,
 			final Converter<Expression, tools.mdsd.jamopp.model.java.references.Reference> toReferenceConverterFromExpression,
 			final UtilReferenceWalker utilReferenceWalker) {
 		this.utilReferenceWalker = utilReferenceWalker;

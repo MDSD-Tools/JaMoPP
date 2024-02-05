@@ -2,13 +2,15 @@ package tools.mdsd.jamopp.parser.implementation.converter;
 
 import java.util.List;
 
-import com.google.inject.Inject;
+import javax.inject.Provider;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.compiler.problem.AbortCompilation;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.ModifiersFactory;
@@ -34,19 +36,19 @@ public class BindingToModuleConverter
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	private JdtResolver jdtTResolverUtility;
-	private Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
+	private final Provider<Converter<ITypeBinding, List<TypeReference>>> toTypeReferencesConverter;
 
 	@Inject
-	public BindingToModuleConverter(final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter,
-			final ModulesFactory modulesFactory, final ModifiersFactory modifiersFactory,
+	public BindingToModuleConverter(final ModulesFactory modulesFactory, final ModifiersFactory modifiersFactory,
 			final JdtResolver jdtTResolverUtility, final UtilNamedElement utilNamedElement,
-			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter) {
+			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
+			final Provider<Converter<ITypeBinding, List<TypeReference>>> toTypeReferencesConverter) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;
-		this.toTypeReferencesConverter = toTypeReferencesConverter;
 		this.jdtTResolverUtility = jdtTResolverUtility;
 		this.bindingToAnnotationInstanceConverter = bindingToAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;
+		this.toTypeReferencesConverter = toTypeReferencesConverter;
 	}
 
 	@Override
@@ -101,14 +103,14 @@ public class BindingToModuleConverter
 		}
 		for (final ITypeBinding typeBind : binding.getUses()) {
 			final UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
-			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
+			dir.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
 			result.getTarget().add(dir);
 		}
 		for (final ITypeBinding typeBind : binding.getServices()) {
 			final ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
-			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
+			dir.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
 			for (final ITypeBinding service : binding.getImplementations(typeBind)) {
-				dir.getServiceProviders().addAll(toTypeReferencesConverter.convert(service));
+				dir.getServiceProviders().addAll(toTypeReferencesConverter.get().convert(service));
 			}
 			result.getTarget().add(dir);
 		}
@@ -128,11 +130,6 @@ public class BindingToModuleConverter
 	@Inject
 	public void setJdtTResolverUtility(final JdtResolver jdtTResolverUtility) {
 		this.jdtTResolverUtility = jdtTResolverUtility;
-	}
-
-	@Inject
-	public void setToTypeReferencesConverter(final ToTypeReferencesConverter toTypeReferencesConverter) {
-		this.toTypeReferencesConverter = toTypeReferencesConverter;
 	}
 
 }

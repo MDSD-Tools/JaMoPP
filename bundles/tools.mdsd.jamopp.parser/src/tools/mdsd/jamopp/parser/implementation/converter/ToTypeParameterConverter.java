@@ -1,10 +1,10 @@
 package tools.mdsd.jamopp.parser.implementation.converter;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeParameter;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
@@ -24,8 +24,8 @@ public class ToTypeParameterConverter
 
 	@Inject
 	public ToTypeParameterConverter(final UtilNamedElement utilNamedElement, final UtilLayout utilLayout,
-			final JdtResolver utilJDTResolver, final ToTypeReferenceConverter toTypeReferenceConverter,
-			final ToAnnotationInstanceConverter toAnnotationInstanceConverter) {
+			final JdtResolver utilJDTResolver, final Converter<Type, TypeReference> toTypeReferenceConverter,
+			final Converter<Annotation, AnnotationInstance> toAnnotationInstanceConverter) {
 		this.toAnnotationInstanceConverter = toAnnotationInstanceConverter;
 		this.utilNamedElement = utilNamedElement;
 		this.utilJDTResolver = utilJDTResolver;

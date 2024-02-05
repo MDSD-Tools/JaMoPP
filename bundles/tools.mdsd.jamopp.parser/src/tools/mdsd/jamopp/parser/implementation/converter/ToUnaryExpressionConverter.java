@@ -1,8 +1,8 @@
 package tools.mdsd.jamopp.parser.implementation.converter;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.PrefixExpression;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.expressions.ExpressionsFactory;
@@ -20,7 +20,8 @@ public class ToUnaryExpressionConverter implements Converter<PrefixExpression, U
 	private final Converter<PrefixExpression.Operator, UnaryOperator> toUnaryOperatorConverter;
 
 	@Inject
-	public ToUnaryExpressionConverter(final ToUnaryOperatorConverter toUnaryOperatorConverter,
+	public ToUnaryExpressionConverter(
+			final Converter<PrefixExpression.Operator, UnaryOperator> toUnaryOperatorConverter,
 			final Converter<org.eclipse.jdt.core.dom.Expression, Expression> toExpressionConverter,
 			final UtilLayout layoutInformationConverter, final ExpressionsFactory expressionsFactory) {
 		this.layoutInformationConverter = layoutInformationConverter;
