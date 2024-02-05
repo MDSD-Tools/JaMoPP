@@ -4,6 +4,6 @@ import org.eclipse.jdt.core.dom.IBinding;
 
 public interface Converter<B extends IBinding> {
 
-	String convert(final B binding);
+	String convert(B binding);
 
 }

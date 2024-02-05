@@ -4,6 +4,6 @@ import tools.mdsd.jamopp.model.java.members.Member;
 
 public interface ClassResolverExtension {
 
-	void addToSyntheticClass(final Member member);
+	void addToSyntheticClass(Member member);
 
 }

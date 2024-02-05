@@ -76,7 +76,7 @@ public class ConstructorResolver extends AbstractResolverWithCache<Constructor, 
 	private Constructor getConstructor(final IMethodBinding binding) {
 		Constructor result = null;
 		final ConcreteClassifier potClass = (ConcreteClassifier) classifierResolver
-				.getClassifier(binding.getDeclaringClass());
+				.getByBinding(binding.getDeclaringClass());
 
 		if (potClass != null) {
 			for (final tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {

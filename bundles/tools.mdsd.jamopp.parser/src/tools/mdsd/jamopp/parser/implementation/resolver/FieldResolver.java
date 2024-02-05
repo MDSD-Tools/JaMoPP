@@ -34,7 +34,7 @@ public class FieldResolver extends AbstractResolverWithCache<Field, IVariableBin
 
 	@Override
 	public Field getByBinding(final IVariableBinding binding) {
-		final String varName = toFieldNameConverter.convertToFieldName(binding);
+		final String varName = toFieldNameConverter.convert(binding);
 		Field field;
 		if (containsKey(varName)) {
 			field = get(varName);
@@ -42,7 +42,7 @@ public class FieldResolver extends AbstractResolverWithCache<Field, IVariableBin
 			variableBindings.add(binding);
 			ConcreteClassifier potClass = null;
 			if (binding.getDeclaringClass() != null) {
-				potClass = (ConcreteClassifier) classifierResolver.getClassifier(binding.getDeclaringClass());
+				potClass = (ConcreteClassifier) classifierResolver.getByBinding(binding.getDeclaringClass());
 			}
 			Field result = null;
 			if (potClass != null) {

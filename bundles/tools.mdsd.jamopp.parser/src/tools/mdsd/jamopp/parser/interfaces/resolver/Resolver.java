@@ -1,11 +1,11 @@
 package tools.mdsd.jamopp.parser.interfaces.resolver;
 
-import org.eclipse.jdt.core.dom.ITypeBinding;
+/**
+ * @param <C> Class
+ * @param <B> BindingType
+ */
+public interface Resolver<C, B> {
 
-import tools.mdsd.jamopp.model.java.classifiers.Classifier;
-
-public interface Resolver {
-
-	Classifier getClassifier(final ITypeBinding binding);
+	C getByBinding(B binding);
 
 }

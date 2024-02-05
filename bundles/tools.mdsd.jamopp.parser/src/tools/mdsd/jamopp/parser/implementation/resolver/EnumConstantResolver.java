@@ -30,7 +30,7 @@ public class EnumConstantResolver extends AbstractResolverWithCache<EnumConstant
 
 	@Override
 	public EnumConstant getByBinding(final IVariableBinding binding) {
-		final String enumCN = toFieldNameConverter.convertToFieldName(binding);
+		final String enumCN = toFieldNameConverter.convert(binding);
 		EnumConstant enumConstant;
 		if (containsKey(enumCN)) {
 			enumConstant = get(enumCN);

@@ -3,9 +3,6 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -16,12 +13,18 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
 
-public class ResolutionCompleter {
+public class ResolutionCompleterImpl implements ResolutionCompleter {
 
 	private final boolean extractAdditionalInfosFromTypeBindings;
 	private final Map<IVariableBinding, Integer> varBindToUid;
@@ -51,21 +54,21 @@ public class ResolutionCompleter {
 	private final VariableLengthParameterResolver variableLengthParameterResolver;
 	private final LocalVariableResolver localVariableResolver;
 	private final InterfaceMethodResolver interfaceMethodResolver;
-	private final MethodCompleter methodCompleter;
-	private final PureTypeBindingsConverter pureTypeBindingsConverter;
+	private final MethodCompleter methodCompleterImpl;
+	private final PureTypeBindingsConverter pureTypeBindingsConverterImpl;
 	private final ClassResolverExtensionImpl classResolverExtensionImpl;
 	private final ToFieldNameConverter toFieldNameConverter;
 	private final ToTypeNameConverter toTypeNameConverter;
 	private final ClassifierResolver classifierResolver;
 
 	@Inject
-	public ResolutionCompleter(final VariableLengthParameterResolver variableLengthParameterResolver,
+	public ResolutionCompleterImpl(final VariableLengthParameterResolver variableLengthParameterResolver,
 			final Set<IVariableBinding> variableBindings, final Map<IVariableBinding, Integer> varBindToUid,
 			final TypeParameterResolver typeParameterResolver, final Set<ITypeBinding> typeBindings,
-			final PureTypeBindingsConverter pureTypeBindingsConverter, final PackageResolver packageResolver,
+			final PureTypeBindingsConverter pureTypeBindingsConverterImpl, final PackageResolver packageResolver,
 			final Set<IPackageBinding> packageBindings, final OrdinaryParameterResolver ordinaryParameterResolver,
 			final Set<EObject> objVisited, final ModuleResolver moduleResolver,
-			final Set<IModuleBinding> moduleBindings, final MethodCompleter methodCompleter,
+			final Set<IModuleBinding> moduleBindings, final MethodCompleter methodCompleterImpl,
 			final Set<IMethodBinding> methodBindings, final LocalVariableResolver localVariableResolver,
 			final InterfaceResolver interfaceResolver, final InterfaceMethodResolver interfaceMethodResolver,
 			final FieldResolver fieldResolver,
@@ -75,9 +78,10 @@ public class ResolutionCompleter {
 			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
 			final AnonymousClassResolver anonymousClassResolver, final AnnotationResolver annotationResolver,
 			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			final AdditionalFieldResolver additionalFieldResolver, final ClassResolverExtensionImpl classResolverExtensionImpl,
-			final ToTypeNameConverter toTypeNameConverter, final ToFieldNameConverter toFieldNameConverter,
-			final ClassifierResolver classifierResolver, final Map<IBinding, String> nameCache) {
+			final AdditionalFieldResolver additionalFieldResolver,
+			final ClassResolverExtensionImpl classResolverExtensionImpl, final ToTypeNameConverter toTypeNameConverter,
+			final ToFieldNameConverter toFieldNameConverter, final ClassifierResolver classifierResolver,
+			final Map<IBinding, String> nameCache) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
@@ -106,22 +110,23 @@ public class ResolutionCompleter {
 		this.variableLengthParameterResolver = variableLengthParameterResolver;
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
-		this.methodCompleter = methodCompleter;
-		this.pureTypeBindingsConverter = pureTypeBindingsConverter;
+		this.methodCompleterImpl = methodCompleterImpl;
+		this.pureTypeBindingsConverterImpl = pureTypeBindingsConverterImpl;
 		this.classResolverExtensionImpl = classResolverExtensionImpl;
 		this.toFieldNameConverter = toFieldNameConverter;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.classifierResolver = classifierResolver;
 	}
 
+	@Override
 	public void completeResolution(final ResourceSet resourceSet) {
 		enumConstantResolver.forEachBinding(this::handleEnumConstants);
 		fieldResolver.forEachBinding(this::handleFields);
-		constructorResolver.forEachBinding((t, u) -> methodCompleter.completeMethod(t, u));
-		classMethodResolver.forEachBinding((t, u) -> methodCompleter.completeMethod(t, u));
-		interfaceMethodResolver.forEachBinding((t, u) -> methodCompleter.completeMethod(t, u));
+		constructorResolver.forEachBinding((t, u) -> methodCompleterImpl.completeMethod(t, u));
+		classMethodResolver.forEachBinding((t, u) -> methodCompleterImpl.completeMethod(t, u));
+		interfaceMethodResolver.forEachBinding((t, u) -> methodCompleterImpl.completeMethod(t, u));
 
-		pureTypeBindingsConverter.convertPureTypeBindings(resourceSet);
+		pureTypeBindingsConverterImpl.convertPureTypeBindings(resourceSet);
 
 		register();
 		escapeAllIdentifiers();
@@ -131,7 +136,7 @@ public class ResolutionCompleter {
 	private void handleFields(final String fieldName, final Field field) {
 		if (field.eContainer() == null) {
 			final IVariableBinding varBind = variableBindings.stream().filter(
-					binding -> binding != null && fieldName.equals(toFieldNameConverter.convertToFieldName(binding)))
+					binding -> binding != null && fieldName.equals(toFieldNameConverter.convert(binding)))
 					.findFirst().orElse(null);
 			if (varBind == null || varBind.getDeclaringClass() == null) {
 				classResolverExtensionImpl.addToSyntheticClass(field);
@@ -143,7 +148,7 @@ public class ResolutionCompleter {
 
 	private void handleFieldsElse(final Field field, final IVariableBinding varBind) {
 		final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
-				.getClassifier(varBind.getDeclaringClass());
+				.getByBinding(varBind.getDeclaringClass());
 		if (cla == null) {
 			final String typeName = toTypeNameConverter.convert(varBind.getDeclaringClass());
 			if (anonymousClassResolver.containsKey(typeName)) {
@@ -165,7 +170,7 @@ public class ResolutionCompleter {
 	private void handleEnumConstants(final String constName, final EnumConstant enConst) {
 		if (enConst.eContainer() == null) {
 			final IVariableBinding varBind = variableBindings.stream().filter(
-					binding -> binding != null && constName.equals(toFieldNameConverter.convertToFieldName(binding)))
+					binding -> binding != null && constName.equals(toFieldNameConverter.convert(binding)))
 					.findFirst().get();
 			if (!varBind.getDeclaringClass().isAnonymous()) {
 				final Enumeration enumeration = enumerationResolver.getByBinding(varBind.getDeclaringClass());
@@ -180,10 +185,8 @@ public class ResolutionCompleter {
 		moduleResolver.getBindings().forEach(module -> JavaClasspath.get().registerModule(module));
 		packageResolver.getBindings().forEach(pack -> JavaClasspath.get().registerPackage(pack));
 		annotationResolver.getBindings().forEach(ann -> JavaClasspath.get().registerConcreteClassifier(ann));
-		enumerationResolver.getBindings()
-				.forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
-		interfaceResolver.getBindings()
-				.forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
+		enumerationResolver.getBindings().forEach(enume -> JavaClasspath.get().registerConcreteClassifier(enume));
+		interfaceResolver.getBindings().forEach(interf -> JavaClasspath.get().registerConcreteClassifier(interf));
 		classResolver.getBindings().forEach(clazz -> JavaClasspath.get().registerConcreteClassifier(clazz));
 	}
 

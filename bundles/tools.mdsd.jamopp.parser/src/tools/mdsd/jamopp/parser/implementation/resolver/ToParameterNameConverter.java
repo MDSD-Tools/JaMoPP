@@ -7,9 +7,10 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
-public class ToParameterNameConverter {
+public class ToParameterNameConverter implements ConverterWithBoolean<IVariableBinding> {
 
 	private final Map<IVariableBinding, Integer> varBindToUid;
 	private final Map<IBinding, String> nameCache;
@@ -25,6 +26,7 @@ public class ToParameterNameConverter {
 		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
+	@Override
 	public String convertToParameterName(final IVariableBinding binding, final boolean register) {
 		String result;
 		if (binding == null) {

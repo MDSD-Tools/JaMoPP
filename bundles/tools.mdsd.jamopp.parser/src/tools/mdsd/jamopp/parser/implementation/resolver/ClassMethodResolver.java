@@ -12,6 +12,7 @@ import tools.mdsd.jamopp.model.java.members.ClassMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
 
 public class ClassMethodResolver extends AbstractResolverWithCache<ClassMethod, IMethodBinding> {
 
@@ -20,21 +21,21 @@ public class ClassMethodResolver extends AbstractResolverWithCache<ClassMethod, 
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
 	private final ClassifierResolver classifierResolver;
-	private final MethodChecker methodChecker;
+	private final MethodChecker methodCheckerImpl;
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
 	public ClassMethodResolver(final Map<String, ClassMethod> bindings, final TypesFactory typesFactory,
 			final StatementsFactory statementsFactory, final Set<IMethodBinding> methodBindings,
 			final MembersFactory membersFactory, final ClassifierResolver classifierResolver,
-			final MethodChecker methodChecker, final ToMethodNameConverter toMethodNameConverter) {
+			final MethodChecker methodCheckerImpl, final ToMethodNameConverter toMethodNameConverter) {
 		super(bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;
 		this.membersFactory = membersFactory;
 		this.classifierResolver = classifierResolver;
-		this.methodChecker = methodChecker;
+		this.methodCheckerImpl = methodCheckerImpl;
 		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
@@ -48,7 +49,7 @@ public class ClassMethodResolver extends AbstractResolverWithCache<ClassMethod, 
 			classMethod = get(methName);
 		} else {
 			final ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
-					.getClassifier(methodDeclaration.getDeclaringClass());
+					.getByBinding(methodDeclaration.getDeclaringClass());
 			ClassMethod result = null;
 			if (classifier != null) {
 				result = handleClassifier(methodDeclaration, classifier);
@@ -66,7 +67,7 @@ public class ClassMethodResolver extends AbstractResolverWithCache<ClassMethod, 
 		ClassMethod result = null;
 		for (final tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 			if (mem instanceof ClassMethod) {
-				result = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
+				result = methodCheckerImpl.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem, binding);
 				if (result != null) {
 					break;
 				}

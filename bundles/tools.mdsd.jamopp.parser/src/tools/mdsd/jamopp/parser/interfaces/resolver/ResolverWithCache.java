@@ -9,11 +9,7 @@ import org.eclipse.jdt.core.dom.IBinding;
  * @param <C> Class
  * @param <B> BindingType
  */
-public interface ResolverWithCache<C, B extends IBinding> {
-
-	C getByBinding(B binding);
-
-	C getByName(String name);
+public interface ResolverWithCache<C, B extends IBinding> extends ResolverWithName<C, B> {
 
 	Collection<C> getBindings();
 
@@ -21,8 +17,8 @@ public interface ResolverWithCache<C, B extends IBinding> {
 
 	void clearBindings();
 
-	void forEachBinding(final BiConsumer<? super String, ? super C> biConsumer);
+	void forEachBinding(BiConsumer<? super String, ? super C> biConsumer);
 
-	void forEachBindingOnCopy(final BiConsumer<? super String, ? super C> biConsumer);
+	void forEachBindingOnCopy(BiConsumer<? super String, ? super C> biConsumer);
 
 }

@@ -18,9 +18,17 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
+import tools.mdsd.jamopp.parser.implementation.resolver.MethodCheckerImpl;
+import tools.mdsd.jamopp.parser.implementation.resolver.MethodCompleterImpl;
+import tools.mdsd.jamopp.parser.implementation.resolver.PureTypeBindingsConverterImpl;
+import tools.mdsd.jamopp.parser.implementation.resolver.ResolutionCompleterImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.UidManagerImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.UtilJdtResolverImpl;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 public class ResolverModule extends AbstractModule {
@@ -31,6 +39,11 @@ public class ResolverModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(JdtResolver.class).to(UtilJdtResolverImpl.class).in(Singleton.class);
+		bind(UidManager.class).to(UidManagerImpl.class);
+		bind(MethodChecker.class).to(MethodCheckerImpl.class);
+		bind(MethodCompleter.class).to(MethodCompleterImpl.class);
+		bind(ResolutionCompleter.class).to(ResolutionCompleterImpl.class);
+		bind(PureTypeBindingsConverter.class).to(PureTypeBindingsConverterImpl.class);
 
 		bind(String.class).annotatedWith(Names.named("synthClass")).toInstance(SYNTH_CLASS);
 		bind(Boolean.class).annotatedWith(Names.named("extractAdditionalInfosFromTypeBindings"))
@@ -93,7 +106,6 @@ public class ResolverModule extends AbstractModule {
 		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass>>() {
 			/* empty */}).toInstance(new HashMap<>());
 
-		bind(UidManager.class).to(UidManagerImpl.class);
 	}
 
 }

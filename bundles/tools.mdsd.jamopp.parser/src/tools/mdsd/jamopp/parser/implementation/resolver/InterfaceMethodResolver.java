@@ -12,6 +12,7 @@ import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
 
 public class InterfaceMethodResolver extends AbstractResolverWithCache<InterfaceMethod, IMethodBinding> {
 
@@ -20,21 +21,21 @@ public class InterfaceMethodResolver extends AbstractResolverWithCache<Interface
 	private final MembersFactory membersFactory;
 	private final Set<IMethodBinding> methodBindings;
 	private final ClassifierResolver classifierResolver;
-	private final MethodChecker methodChecker;
+	private final MethodChecker methodCheckerImpl;
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
 	public InterfaceMethodResolver(final Map<String, InterfaceMethod> bindings, final TypesFactory typesFactory,
 			final StatementsFactory statementsFactory, final Set<IMethodBinding> methodBindings,
 			final MembersFactory membersFactory, final ClassifierResolver classifierResolver,
-			final MethodChecker methodChecker, final ToMethodNameConverter toMethodNameConverter) {
+			final MethodChecker methodCheckerImpl, final ToMethodNameConverter toMethodNameConverter) {
 		super(bindings);
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;
 		this.membersFactory = membersFactory;
 		this.methodBindings = methodBindings;
 		this.classifierResolver = classifierResolver;
-		this.methodChecker = methodChecker;
+		this.methodCheckerImpl = methodCheckerImpl;
 		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
@@ -48,7 +49,7 @@ public class InterfaceMethodResolver extends AbstractResolverWithCache<Interface
 			interfaceMethod = get(methName);
 		} else {
 			final ConcreteClassifier classifier = (ConcreteClassifier) classifierResolver
-					.getClassifier(methoDeclaration.getDeclaringClass());
+					.getByBinding(methoDeclaration.getDeclaringClass());
 			InterfaceMethod result = null;
 			if (classifier != null) {
 				result = handleNullClassifier(methoDeclaration, classifier);
@@ -67,7 +68,7 @@ public class InterfaceMethodResolver extends AbstractResolverWithCache<Interface
 		InterfaceMethod interfaceMethod = null;
 		for (final tools.mdsd.jamopp.model.java.members.Member mem : classifier.getMembers()) {
 			if (mem instanceof InterfaceMethod) {
-				interfaceMethod = methodChecker.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
+				interfaceMethod = methodCheckerImpl.checkMethod((tools.mdsd.jamopp.model.java.members.Method) mem,
 						methoDeclaration);
 				if (interfaceMethod != null) {
 					break;

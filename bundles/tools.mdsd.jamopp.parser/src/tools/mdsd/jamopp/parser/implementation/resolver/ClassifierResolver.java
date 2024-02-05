@@ -5,9 +5,10 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 
-public class ClassifierResolver implements Resolver {
+public class ClassifierResolver implements Resolver<Classifier, ITypeBinding> {
 
 	private final AnonymousClassResolver anonymousClassResolver;
 	private final ToTypeNameConverter toTypeNameConverter;
@@ -32,9 +33,9 @@ public class ClassifierResolver implements Resolver {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(final ITypeBinding binding) {
+	public Classifier getByBinding(final ITypeBinding binding) {
 		final String typeName = toTypeNameConverter.convert(binding);
-		tools.mdsd.jamopp.model.java.classifiers.Classifier classifier = null;
+		Classifier classifier = null;
 		final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
 		if (potClass != null) {
@@ -46,8 +47,8 @@ public class ClassifierResolver implements Resolver {
 		return classifier;
 	}
 
-	private tools.mdsd.jamopp.model.java.classifiers.Classifier switchOverBinding(final ITypeBinding binding) {
-		tools.mdsd.jamopp.model.java.classifiers.Classifier classifier = null;
+	private Classifier switchOverBinding(final ITypeBinding binding) {
+		Classifier classifier = null;
 		if (binding.isAnnotation()) {
 			classifier = annotationResolver.getByBinding(binding);
 		} else if (binding.isInterface()) {
@@ -59,7 +60,7 @@ public class ClassifierResolver implements Resolver {
 		} else if (binding.isTypeVariable()) {
 			classifier = typeParameterResolver.getByBinding(binding);
 		} else if (binding.isArray()) {
-			classifier = getClassifier(binding.getElementType());
+			classifier = getByBinding(binding.getElementType());
 		}
 		return classifier;
 	}

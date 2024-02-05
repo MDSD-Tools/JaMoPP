@@ -21,8 +21,9 @@ import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.parser.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
+import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
 
-public class PureTypeBindingsConverter {
+public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter {
 
 	private final boolean extractAdditionalInfosFromTypeBindings;
 
@@ -47,7 +48,7 @@ public class PureTypeBindingsConverter {
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public PureTypeBindingsConverter(
+	public PureTypeBindingsConverterImpl(
 			final Provider<ToConcreteClassifierConverterWithExtraInfo> utilBindingInfoToConcreteClassifierConverter,
 			final PackageResolver packageResolver, final ModuleResolver moduleResolver,
 			final InterfaceResolver interfaceResolver,
@@ -79,10 +80,12 @@ public class PureTypeBindingsConverter {
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
+	@Override
 	public void convertPureTypeBindings(final ResourceSet resourceSet) {
 		int oldSize;
-		int newSize = annotationResolver.bindingsSize() + enumerationResolver.bindingsSize() + interfaceResolver.bindingsSize()
-				+ classResolver.bindingsSize() + moduleResolver.bindingsSize() + packageResolver.bindingsSize();
+		int newSize = annotationResolver.bindingsSize() + enumerationResolver.bindingsSize()
+				+ interfaceResolver.bindingsSize() + classResolver.bindingsSize() + moduleResolver.bindingsSize()
+				+ packageResolver.bindingsSize();
 		do {
 			oldSize = newSize;
 			// For concurrent reasons forEach is called on copies
@@ -92,8 +95,9 @@ public class PureTypeBindingsConverter {
 			classResolver.forEachBindingOnCopy((t, u) -> convertPureTypeBinding(t, u, resourceSet));
 			packageResolver.forEachBindingOnCopy((t, u) -> convertPurePackageBinding(t, u, resourceSet));
 			moduleResolver.forEachBindingOnCopy((t, u) -> convertPureModuleBinding(t, u, resourceSet));
-			newSize = annotationResolver.bindingsSize() + enumerationResolver.bindingsSize() + interfaceResolver.bindingsSize()
-					+ classResolver.bindingsSize() + moduleResolver.bindingsSize() + packageResolver.bindingsSize();
+			newSize = annotationResolver.bindingsSize() + enumerationResolver.bindingsSize()
+					+ interfaceResolver.bindingsSize() + classResolver.bindingsSize() + moduleResolver.bindingsSize()
+					+ packageResolver.bindingsSize();
 		} while (oldSize < newSize);
 	}
 
@@ -110,8 +114,8 @@ public class PureTypeBindingsConverter {
 
 	private void convert(final String typeName, final ConcreteClassifier classifier, final ResourceSet resourceSet) {
 		final ITypeBinding typeBind = typeBindings.stream()
-				.filter(type -> type != null && typeName.equals(toTypeNameConverter.convert(type)))
-				.findFirst().orElse(null);
+				.filter(type -> type != null && typeName.equals(toTypeNameConverter.convert(type))).findFirst()
+				.orElse(null);
 		if (typeBind == null) {
 			classifier.setPackage(packageResolver.getByName(""));
 			if (classifier.eContainer() != null) {
@@ -152,7 +156,7 @@ public class PureTypeBindingsConverter {
 	private void handleNested(final ConcreteClassifier classifier, final ResourceSet resourceSet,
 			final ITypeBinding typeBind) {
 		final ConcreteClassifier parentClassifier = (ConcreteClassifier) classifierResolver
-				.getClassifier(typeBind.getDeclaringClass());
+				.getByBinding(typeBind.getDeclaringClass());
 		convertPureTypeBinding(toTypeNameConverter.convert(typeBind.getDeclaringClass()), parentClassifier,
 				resourceSet);
 		classifier.setPackage(packageResolver.getByBinding(typeBind.getPackage()));
@@ -161,7 +165,7 @@ public class PureTypeBindingsConverter {
 	private void handleArray(final String typeName, final ResourceSet resourceSet, final ITypeBinding typeBind) {
 		final ITypeBinding elementType = typeBind.getElementType();
 		if (!elementType.isPrimitive() && !elementType.isTypeVariable()) {
-			convertPureTypeBinding(typeName, (ConcreteClassifier) classifierResolver.getClassifier(elementType),
+			convertPureTypeBinding(typeName, (ConcreteClassifier) classifierResolver.getByBinding(elementType),
 					resourceSet);
 		}
 	}

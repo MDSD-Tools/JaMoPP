@@ -59,19 +59,23 @@ public class ToTypeNameConverter implements Converter<ITypeBinding> {
 		} else if (binding.isLocal()) {
 			result = handleLocal(binding);
 		} else {
-			String qualifiedName;
-			if (binding.isMember()) {
-				qualifiedName = convert(binding.getDeclaringClass()) + "." + binding.getName();
-			} else {
-				qualifiedName = binding.getQualifiedName();
-			}
-			if (qualifiedName.contains("<")) {
-				qualifiedName = qualifiedName.substring(0, qualifiedName.indexOf('<'));
-			}
-			nameCache.put(binding, qualifiedName);
-			result = qualifiedName;
+			result = handleElse(binding);
 		}
 		return result;
+	}
+
+	private String handleElse(final ITypeBinding binding) {
+		String qualifiedName;
+		if (binding.isMember()) {
+			qualifiedName = convert(binding.getDeclaringClass()) + "." + binding.getName();
+		} else {
+			qualifiedName = binding.getQualifiedName();
+		}
+		if (qualifiedName.contains("<")) {
+			qualifiedName = qualifiedName.substring(0, qualifiedName.indexOf('<'));
+		}
+		nameCache.put(binding, qualifiedName);
+		return qualifiedName;
 	}
 
 	private String handleLocal(final ITypeBinding binding) {
@@ -80,8 +84,7 @@ public class ToTypeNameConverter implements Converter<ITypeBinding> {
 		if (iBinding instanceof IMethodBinding) {
 			qualifiedName = toMethodNameConverter.get().convert((IMethodBinding) iBinding) + "." + binding.getKey();
 		} else if (iBinding instanceof IVariableBinding) {
-			qualifiedName = toFieldNameConverter.convertToFieldName((IVariableBinding) iBinding) + "."
-					+ binding.getKey();
+			qualifiedName = toFieldNameConverter.convert((IVariableBinding) iBinding) + "." + binding.getKey();
 		} else {
 			qualifiedName = binding.getKey();
 		}

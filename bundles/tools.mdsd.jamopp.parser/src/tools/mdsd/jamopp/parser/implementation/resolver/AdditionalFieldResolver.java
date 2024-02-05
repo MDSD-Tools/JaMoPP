@@ -30,7 +30,7 @@ public class AdditionalFieldResolver extends AbstractResolverWithCache<Additiona
 
 	@Override
 	public AdditionalField getByBinding(final IVariableBinding binding) {
-		final String varName = toFieldNameConverter.convertToFieldName(binding);
+		final String varName = toFieldNameConverter.convert(binding);
 		AdditionalField additionalField;
 		if (containsKey(varName)) {
 			additionalField = get(varName);
@@ -38,7 +38,7 @@ public class AdditionalFieldResolver extends AbstractResolverWithCache<Additiona
 			variableBindings.add(binding);
 			AdditionalField result = null;
 			final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = (tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier) classifierResolver
-					.getClassifier(binding.getDeclaringClass());
+					.getByBinding(binding.getDeclaringClass());
 			if (potClass != null) {
 				result = handleNullPotClass(binding, potClass);
 			}

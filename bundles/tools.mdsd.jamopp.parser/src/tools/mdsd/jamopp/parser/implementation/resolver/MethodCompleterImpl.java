@@ -7,7 +7,9 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class MethodCompleter {
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
+
+public class MethodCompleterImpl implements MethodCompleter {
 
 	private final boolean extractAdditionalInfosFromTypeBindings;
 	private final AnonymousClassResolver anonymousClassResolver;
@@ -18,7 +20,7 @@ public class MethodCompleter {
 	private final Set<IMethodBinding> methodBindings;
 
 	@Inject
-	public MethodCompleter(final Set<IMethodBinding> methodBindings,
+	public MethodCompleterImpl(final Set<IMethodBinding> methodBindings,
 			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromBindings,
 			final AnonymousClassResolver anonymousClassResolver, final ToTypeNameConverter toTypeNameConverter,
 			final ToMethodNameConverter toMethodNameConverter, final ClassifierResolver classifierResolver,
@@ -32,33 +34,38 @@ public class MethodCompleter {
 		this.classResolverExtensionImpl = classResolverExtensionImpl;
 	}
 
+	@Override
 	public void completeMethod(final String methodName, final tools.mdsd.jamopp.model.java.members.Member method) {
 		if (method.eContainer() == null) {
 			final IMethodBinding methBind = methodBindings.stream()
-					.filter(meth -> methodName.equals(toMethodNameConverter.convert(meth))).findFirst()
-					.orElse(null);
+					.filter(meth -> methodName.equals(toMethodNameConverter.convert(meth))).findFirst().orElse(null);
 			if (methBind != null) {
-				final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
-						.getClassifier(methBind.getDeclaringClass());
-				if (cla == null) {
-					final String typeName = toTypeNameConverter.convert(methBind.getDeclaringClass());
-					if (anonymousClassResolver.containsKey(typeName)) {
-						final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-								.get(typeName);
-						if (!anonClass.getMembers().contains(method)) {
-							anonClass.getMembers().add(method);
-						}
-					} else {
-						classResolverExtensionImpl.addToSyntheticClass(method);
-					}
-				} else if (!extractAdditionalInfosFromTypeBindings
-						&& cla instanceof final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
-						&& !classifier.getMembers().contains(method)) {
-					classifier.getMembers().add(method);
+				handleEmptyMehodBinding(method, methBind);
+			} else {
+				classResolverExtensionImpl.addToSyntheticClass(method);
+			}
+		}
+	}
+
+	private void handleEmptyMehodBinding(final tools.mdsd.jamopp.model.java.members.Member method,
+			final IMethodBinding methBind) {
+		final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
+				.getByBinding(methBind.getDeclaringClass());
+		if (cla == null) {
+			final String typeName = toTypeNameConverter.convert(methBind.getDeclaringClass());
+			if (anonymousClassResolver.containsKey(typeName)) {
+				final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
+						.get(typeName);
+				if (!anonClass.getMembers().contains(method)) {
+					anonClass.getMembers().add(method);
 				}
 			} else {
 				classResolverExtensionImpl.addToSyntheticClass(method);
 			}
+		} else if (!extractAdditionalInfosFromTypeBindings
+				&& cla instanceof final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier
+				&& !classifier.getMembers().contains(method)) {
+			classifier.getMembers().add(method);
 		}
 	}
 

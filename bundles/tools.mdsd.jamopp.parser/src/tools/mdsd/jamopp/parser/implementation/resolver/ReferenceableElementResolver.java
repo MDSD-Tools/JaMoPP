@@ -7,16 +7,17 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.commons.NamedElement;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithName;
 
-public class ReferenceableElementResolver {
+public class ReferenceableElementResolver implements ResolverWithName<ReferenceableElement, IVariableBinding> {
 
 	private final Set<ITypeBinding> typeBindings;
 	private final Set<IMethodBinding> methodBindings;
@@ -37,7 +38,7 @@ public class ReferenceableElementResolver {
 	private final LocalVariableResolver localVariableResolver;
 	private final InterfaceMethodResolver interfaceMethodResolver;
 	private final ClassifierResolver classifierResolver;
-	private final MethodResolver methodResolver;
+	private final MethodResolverImpl methodResolverImpl;
 
 	private final ToFieldNameConverter toFieldNameConverter;
 	private final ToParameterNameConverter toParameterNameConverter;
@@ -55,7 +56,7 @@ public class ReferenceableElementResolver {
 			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
 			final AdditionalFieldResolver additionalFieldResolver,
 			final ToParameterNameConverter toParameterNameConverter, final ToFieldNameConverter toFieldNameConverter,
-			final MethodResolver methodResolver, final ClassifierResolver classifierResolver) {
+			final MethodResolverImpl methodResolverImpl, final ClassifierResolver classifierResolver) {
 		this.typeBindings = typeBindings;
 		this.methodBindings = methodBindings;
 		this.variableBindings = variableBindings;
@@ -75,11 +76,12 @@ public class ReferenceableElementResolver {
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.classifierResolver = classifierResolver;
-		this.methodResolver = methodResolver;
+		this.methodResolverImpl = methodResolverImpl;
 		this.toFieldNameConverter = toFieldNameConverter;
 		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
+	@Override
 	public ReferenceableElement getByBinding(final IVariableBinding binding) {
 		ReferenceableElement referenceableElement;
 		if (binding.isEnumConstant()) {
@@ -124,7 +126,7 @@ public class ReferenceableElementResolver {
 
 	private ReferenceableElement handleIsField(final IVariableBinding binding) {
 		ReferenceableElement referenceableElement;
-		final String fieldName = toFieldNameConverter.convertToFieldName(binding);
+		final String fieldName = toFieldNameConverter.convert(binding);
 		if (fieldResolver.containsKey(fieldName)) {
 			referenceableElement = fieldResolver.get(fieldName);
 		} else if (additionalFieldResolver.containsKey(fieldName)) {
@@ -135,11 +137,12 @@ public class ReferenceableElementResolver {
 		return referenceableElement;
 	}
 
+	@Override
 	public ReferenceableElement getByName(final String name) {
 		final List<Stream<? extends ReferenceableElement>> streams = new ArrayList<>();
 		streams.add(variableBindings.stream().filter(bindingsFilter(name)).map(this::getByBinding));
-		streams.add(methodBindings.stream().filter(methodFilter(name)).map(methodResolver::getMethod));
-		streams.add(typeBindings.stream().filter(typeFilter(name)).map(classifierResolver::getClassifier));
+		streams.add(methodBindings.stream().filter(methodFilter(name)).map(methodResolverImpl::getMethod));
+		streams.add(typeBindings.stream().filter(typeFilter(name)).map(classifierResolver::getByBinding));
 		streams.add(catchParameterResolver.getBindings().stream().filter(filter(name)));
 		streams.add(localVariableResolver.getBindings().stream().filter(filter(name)));
 		streams.add(variableLengthParameterResolver.getBindings().stream().filter(filter(name)));

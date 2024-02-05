@@ -16,6 +16,7 @@ import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 /**
@@ -26,10 +27,10 @@ public class UtilJdtResolverImpl implements JdtResolver {
 
 	private ResourceSet resourceSet;
 
-	private final ResolutionCompleter resolutionCompleter;
+	private final ResolutionCompleter resolutionCompleterImpl;
 	private final ToMethodNameConverter toMethodNameConverter;
 	private final ClassifierResolver classifierResolver;
-	private final MethodResolver methodResolver;
+	private final MethodResolverImpl methodResolverImpl;
 	private final ModuleResolver moduleResolver;
 	private final PackageResolver packageResolver;
 	private final AnnotationResolver annotationResolver;
@@ -55,10 +56,10 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	@Inject
 	public UtilJdtResolverImpl(final VariableLengthParameterResolver variableLengthParameterResolver,
 			final TypeParameterResolver typeParameterResolver, final ToMethodNameConverter toMethodNameConverter,
-			final ResolutionCompleter resolutionCompleter,
+			final ResolutionCompleter resolutionCompleterImpl,
 			final ReferenceableElementResolver referenceableElementResolver, final PackageResolver packageResolver,
 			final OrdinaryParameterResolver ordinaryParameterResolver, final ModuleResolver moduleResolver,
-			final MethodResolver methodResolver, final LocalVariableResolver localVariableResolver,
+			final MethodResolverImpl methodResolverImpl, final LocalVariableResolver localVariableResolver,
 			final InterfaceResolver interfaceResolver, final InterfaceMethodResolver interfaceMethodResolver,
 			final FieldResolver fieldResolver, final EnumerationResolver enumerationResolver,
 			final EnumConstantResolver enumConstantResolver, final ConstructorResolver constructorResolver,
@@ -67,10 +68,10 @@ public class UtilJdtResolverImpl implements JdtResolver {
 			final AnonymousClassResolver anonymousClassResolver, final AnnotationResolver annotationResolver,
 			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
 			final AdditionalFieldResolver additionalFieldResolver, final UidManager uidManagerImpl) {
-		this.resolutionCompleter = resolutionCompleter;
+		this.resolutionCompleterImpl = resolutionCompleterImpl;
 		this.toMethodNameConverter = toMethodNameConverter;
 		this.classifierResolver = classifierResolver;
-		this.methodResolver = methodResolver;
+		this.methodResolverImpl = methodResolverImpl;
 		this.moduleResolver = moduleResolver;
 		this.packageResolver = packageResolver;
 		this.annotationResolver = annotationResolver;
@@ -151,7 +152,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(final ITypeBinding binding) {
-		return classifierResolver.getClassifier(binding);
+		return classifierResolver.getByBinding(binding);
 	}
 
 	public String convertToMethodName(final IMethodBinding binding) {
@@ -190,7 +191,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 
 	@Override
 	public tools.mdsd.jamopp.model.java.members.Method getMethod(final IMethodBinding binding) {
-		return methodResolver.getMethod(binding);
+		return methodResolverImpl.getMethod(binding);
 	}
 
 	@Override
@@ -300,7 +301,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 
 	@Override
 	public void completeResolution() {
-		resolutionCompleter.completeResolution(resourceSet);
+		resolutionCompleterImpl.completeResolution(resourceSet);
 	}
 
 }

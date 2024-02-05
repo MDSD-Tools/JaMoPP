@@ -8,18 +8,20 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.members.Method;
 import tools.mdsd.jamopp.model.java.parameters.Parameter;
 import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
 
-public class MethodChecker {
+public class MethodCheckerImpl implements MethodChecker {
 
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
-	public MethodChecker(final ToTypeNameConverter toTypeNameConverter) {
+	public MethodCheckerImpl(final ToTypeNameConverter toTypeNameConverter) {
 		this.toTypeNameConverter = toTypeNameConverter;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
-	protected <T extends Method> T checkMethod(final Method mem, final IMethodBinding binding) {
+	public <T extends Method> T checkMethod(final Method mem, final IMethodBinding binding) {
 		T result = null;
 		if (mem.getName().equals(binding.getName())) {
 			final T meth = (T) mem;
