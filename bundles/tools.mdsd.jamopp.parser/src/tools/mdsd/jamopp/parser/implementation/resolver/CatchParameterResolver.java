@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 
-public class CatchParameterResolver extends ResolverWithCache<CatchParameter, IVariableBinding> {
+public class CatchParameterResolver extends AbstractResolverWithCache<CatchParameter, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final ParametersFactory parametersFactory;

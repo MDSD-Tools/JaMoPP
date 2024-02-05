@@ -2,24 +2,26 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 
 import java.util.Map;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
+import com.google.inject.Inject;
+
+import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 public class ToParameterNameConverter {
 
 	private final Map<IVariableBinding, Integer> varBindToUid;
 	private final Map<IBinding, String> nameCache;
-	private final UidManager uidManager;
+	private final UidManager uidManagerImpl;
 	private final ToMethodNameConverter toMethodNameConverter;
 
 	@Inject
-	public ToParameterNameConverter(final Map<IVariableBinding, Integer> varBindToUid, final UidManager uidManager,
+	public ToParameterNameConverter(final Map<IVariableBinding, Integer> varBindToUid, final UidManager uidManagerImpl,
 			final ToMethodNameConverter toMethodNameConverter, final Map<IBinding, String> nameCache) {
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
-		this.uidManager = uidManager;
+		this.uidManagerImpl = uidManagerImpl;
 		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
@@ -32,13 +34,13 @@ public class ToParameterNameConverter {
 		} else {
 			String prefix;
 			if (binding.getDeclaringMethod() != null) {
-				prefix = toMethodNameConverter.convertToMethodName(binding.getDeclaringMethod());
+				prefix = toMethodNameConverter.convert(binding.getDeclaringMethod());
 			} else if (varBindToUid.containsKey(binding)) {
 				prefix = String.valueOf(varBindToUid.get(binding));
 			} else {
-				prefix = String.valueOf(uidManager.getUid());
+				prefix = String.valueOf(uidManagerImpl.getUid());
 				if (register) {
-					varBindToUid.put(binding, uidManager.getUid());
+					varBindToUid.put(binding, uidManagerImpl.getUid());
 				}
 			}
 			final String name = prefix + "::" + binding.getName() + "::" + binding.getVariableId() + binding.hashCode();

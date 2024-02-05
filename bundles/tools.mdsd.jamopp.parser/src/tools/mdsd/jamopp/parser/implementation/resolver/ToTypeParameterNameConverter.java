@@ -2,12 +2,14 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 
 import java.util.Map;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-public class ToTypeParameterNameConverter {
+import com.google.inject.Inject;
+
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+
+public class ToTypeParameterNameConverter implements Converter<ITypeBinding> {
 
 	private final Map<IBinding, String> nameCache;
 	private final ToTypeNameConverter toTypeNameConverter;
@@ -21,7 +23,8 @@ public class ToTypeParameterNameConverter {
 		this.toMethodNameConverter = toMethodNameConverter;
 	}
 
-	protected String convertToTypeParameterName(final ITypeBinding binding) {
+	@Override
+	public String convert(final ITypeBinding binding) {
 		String result;
 		if (binding == null) {
 			result = "";
@@ -30,9 +33,9 @@ public class ToTypeParameterNameConverter {
 		} else {
 			final StringBuilder name = new StringBuilder();
 			if (binding.getDeclaringClass() != null) {
-				name.append(toTypeNameConverter.convertToTypeName(binding.getDeclaringClass()));
+				name.append(toTypeNameConverter.convert(binding.getDeclaringClass()));
 			} else if (binding.getDeclaringMethod() != null) {
-				name.append(toMethodNameConverter.convertToMethodName(binding.getDeclaringMethod()));
+				name.append(toMethodNameConverter.convert(binding.getDeclaringMethod()));
 			}
 			name.append('.').append(binding.getName());
 			nameCache.put(binding, name.toString());

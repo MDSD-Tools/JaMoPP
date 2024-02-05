@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.Module;
 
-public class ModuleResolver extends ResolverWithCache<Module, IModuleBinding> {
+public class ModuleResolver extends AbstractResolverWithCache<Module, IModuleBinding> {
 
 	private final Set<IModuleBinding> moduleBindings;
 	private final ContainersFactory containersFactory;

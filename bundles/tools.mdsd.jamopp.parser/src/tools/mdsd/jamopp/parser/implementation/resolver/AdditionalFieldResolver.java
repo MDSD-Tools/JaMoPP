@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 
-public class AdditionalFieldResolver extends ResolverWithCache<AdditionalField, IVariableBinding> {
+public class AdditionalFieldResolver extends AbstractResolverWithCache<AdditionalField, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final MembersFactory membersFactory;

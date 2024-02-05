@@ -53,7 +53,7 @@ public class MethodChecker {
 	}
 
 	private boolean predicateTwo(final ITypeBinding currentParamType, final Parameter currentParam) {
-		return !toTypeNameConverter.convertToTypeName(currentParamType)
+		return !toTypeNameConverter.convert(currentParamType)
 				.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
 				|| currentParamType.getDimensions() != currentParam.getArrayDimension();
 	}
@@ -62,9 +62,9 @@ public class MethodChecker {
 			final int receiveOffset) {
 		return receiveOffset == 1
 				&& (!(meth.getParameters().get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
-						|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType()).equals(
+						|| !toTypeNameConverter.convert(binding.getDeclaredReceiverType()).equals(
 								toTypeNameConverter.convertToTypeName(meth.getParameters().get(0).getTypeReference())))
-				|| !toTypeNameConverter.convertToTypeName(binding.getReturnType())
+				|| !toTypeNameConverter.convert(binding.getReturnType())
 						.equals(toTypeNameConverter.convertToTypeName(meth.getTypeReference()));
 	}
 

@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 
-public class EnumerationResolver extends ResolverWithCache<Enumeration, ITypeBinding> {
+public class EnumerationResolver extends AbstractResolverWithCache<Enumeration, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;
@@ -28,7 +28,7 @@ public class EnumerationResolver extends ResolverWithCache<Enumeration, ITypeBin
 
 	@Override
 	public Enumeration getByBinding(final ITypeBinding binding) {
-		final String enumName = toTypeNameConverter.convertToTypeName(binding);
+		final String enumName = toTypeNameConverter.convert(binding);
 		Enumeration enumeration;
 		if (containsKey(enumName)) {
 			enumeration = get(enumName);

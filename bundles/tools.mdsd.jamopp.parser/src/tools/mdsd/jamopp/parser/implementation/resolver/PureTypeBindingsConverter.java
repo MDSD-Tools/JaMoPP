@@ -110,7 +110,7 @@ public class PureTypeBindingsConverter {
 
 	private void convert(final String typeName, final ConcreteClassifier classifier, final ResourceSet resourceSet) {
 		final ITypeBinding typeBind = typeBindings.stream()
-				.filter(type -> type != null && typeName.equals(toTypeNameConverter.convertToTypeName(type)))
+				.filter(type -> type != null && typeName.equals(toTypeNameConverter.convert(type)))
 				.findFirst().orElse(null);
 		if (typeBind == null) {
 			classifier.setPackage(packageResolver.getByName(""));
@@ -153,7 +153,7 @@ public class PureTypeBindingsConverter {
 			final ITypeBinding typeBind) {
 		final ConcreteClassifier parentClassifier = (ConcreteClassifier) classifierResolver
 				.getClassifier(typeBind.getDeclaringClass());
-		convertPureTypeBinding(toTypeNameConverter.convertToTypeName(typeBind.getDeclaringClass()), parentClassifier,
+		convertPureTypeBinding(toTypeNameConverter.convert(typeBind.getDeclaringClass()), parentClassifier,
 				resourceSet);
 		classifier.setPackage(packageResolver.getByBinding(typeBind.getPackage()));
 	}

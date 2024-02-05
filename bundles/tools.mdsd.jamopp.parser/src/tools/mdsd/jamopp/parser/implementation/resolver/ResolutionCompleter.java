@@ -53,7 +53,7 @@ public class ResolutionCompleter {
 	private final InterfaceMethodResolver interfaceMethodResolver;
 	private final MethodCompleter methodCompleter;
 	private final PureTypeBindingsConverter pureTypeBindingsConverter;
-	private final ClassResolverHelper classResolverHelper;
+	private final ClassResolverExtensionImpl classResolverExtensionImpl;
 	private final ToFieldNameConverter toFieldNameConverter;
 	private final ToTypeNameConverter toTypeNameConverter;
 	private final ClassifierResolver classifierResolver;
@@ -75,7 +75,7 @@ public class ResolutionCompleter {
 			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
 			final AnonymousClassResolver anonymousClassResolver, final AnnotationResolver annotationResolver,
 			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			final AdditionalFieldResolver additionalFieldResolver, final ClassResolverHelper classResolverHelper,
+			final AdditionalFieldResolver additionalFieldResolver, final ClassResolverExtensionImpl classResolverExtensionImpl,
 			final ToTypeNameConverter toTypeNameConverter, final ToFieldNameConverter toFieldNameConverter,
 			final ClassifierResolver classifierResolver, final Map<IBinding, String> nameCache) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
@@ -108,7 +108,7 @@ public class ResolutionCompleter {
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.methodCompleter = methodCompleter;
 		this.pureTypeBindingsConverter = pureTypeBindingsConverter;
-		this.classResolverHelper = classResolverHelper;
+		this.classResolverExtensionImpl = classResolverExtensionImpl;
 		this.toFieldNameConverter = toFieldNameConverter;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.classifierResolver = classifierResolver;
@@ -134,7 +134,7 @@ public class ResolutionCompleter {
 					binding -> binding != null && fieldName.equals(toFieldNameConverter.convertToFieldName(binding)))
 					.findFirst().orElse(null);
 			if (varBind == null || varBind.getDeclaringClass() == null) {
-				classResolverHelper.addToSyntheticClass(field);
+				classResolverExtensionImpl.addToSyntheticClass(field);
 			} else {
 				handleFieldsElse(field, varBind);
 			}
@@ -145,7 +145,7 @@ public class ResolutionCompleter {
 		final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
 				.getClassifier(varBind.getDeclaringClass());
 		if (cla == null) {
-			final String typeName = toTypeNameConverter.convertToTypeName(varBind.getDeclaringClass());
+			final String typeName = toTypeNameConverter.convert(varBind.getDeclaringClass());
 			if (anonymousClassResolver.containsKey(typeName)) {
 				final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
 						.get(typeName);
@@ -153,7 +153,7 @@ public class ResolutionCompleter {
 					anonClass.getMembers().add(field);
 				}
 			} else {
-				classResolverHelper.addToSyntheticClass(field);
+				classResolverExtensionImpl.addToSyntheticClass(field);
 			}
 		} else if (!extractAdditionalInfosFromTypeBindings
 				&& cla instanceof final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier classifier

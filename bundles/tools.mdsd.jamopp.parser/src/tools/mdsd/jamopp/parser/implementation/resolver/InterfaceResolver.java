@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
 
-public class InterfaceResolver extends ResolverWithCache<Interface, ITypeBinding> {
+public class InterfaceResolver extends AbstractResolverWithCache<Interface, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;
@@ -28,7 +28,7 @@ public class InterfaceResolver extends ResolverWithCache<Interface, ITypeBinding
 
 	@Override
 	public Interface getByBinding(final ITypeBinding binding) {
-		final String interName = toTypeNameConverter.convertToTypeName(binding);
+		final String interName = toTypeNameConverter.convert(binding);
 		Interface interfaceResult;
 		if (containsKey(interName)) {
 			interfaceResult = get(interName);

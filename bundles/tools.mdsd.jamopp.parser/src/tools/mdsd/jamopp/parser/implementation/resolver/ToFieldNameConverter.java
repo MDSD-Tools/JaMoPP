@@ -27,7 +27,7 @@ public class ToFieldNameConverter {
 		} else if (nameCache.containsKey(binding)) {
 			result = nameCache.get(binding);
 		} else {
-			final String name = toTypeNameConverter.get().convertToTypeName(binding.getDeclaringClass()) + "::"
+			final String name = toTypeNameConverter.get().convert(binding.getDeclaringClass()) + "::"
 					+ binding.getName();
 			nameCache.put(binding, name);
 			result = name;

@@ -1,12 +1,13 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-import tools.mdsd.jamopp.model.java.JavaClasspath;
+import com.google.inject.Inject;
 
-public class ClassifierResolver {
+import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+
+public class ClassifierResolver implements Resolver {
 
 	private final AnonymousClassResolver anonymousClassResolver;
 	private final ToTypeNameConverter toTypeNameConverter;
@@ -30,15 +31,16 @@ public class ClassifierResolver {
 		this.typeParameterResolver = typeParameterResolver;
 	}
 
+	@Override
 	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(final ITypeBinding binding) {
-		final String typeName = toTypeNameConverter.convertToTypeName(binding);
+		final String typeName = toTypeNameConverter.convert(binding);
 		tools.mdsd.jamopp.model.java.classifiers.Classifier classifier = null;
 		final tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier potClass = JavaClasspath.get()
 				.getConcreteClassifier(typeName);
 		if (potClass != null) {
 			classifier = potClass;
 		} else if (!binding.isAnonymous() && (!binding.isLocal() || binding.getDeclaringMember() != null)
-				&& !anonymousClassResolver.containsKey(toTypeNameConverter.convertToTypeName(binding))) {
+				&& !anonymousClassResolver.containsKey(toTypeNameConverter.convert(binding))) {
 			classifier = switchOverBinding(binding);
 		}
 		return classifier;

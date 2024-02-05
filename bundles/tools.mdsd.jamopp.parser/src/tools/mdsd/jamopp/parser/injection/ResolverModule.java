@@ -18,8 +18,10 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
+import tools.mdsd.jamopp.parser.implementation.resolver.UidManagerImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.UtilJdtResolverImpl;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 public class ResolverModule extends AbstractModule {
 
@@ -91,6 +93,7 @@ public class ResolverModule extends AbstractModule {
 		bind(new TypeLiteral<Map<String, tools.mdsd.jamopp.model.java.classifiers.AnonymousClass>>() {
 			/* empty */}).toInstance(new HashMap<>());
 
+		bind(UidManager.class).to(UidManagerImpl.class);
 	}
 
 }

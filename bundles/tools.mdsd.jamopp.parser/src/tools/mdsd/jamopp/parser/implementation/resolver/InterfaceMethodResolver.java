@@ -13,7 +13,7 @@ import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
 
-public class InterfaceMethodResolver extends ResolverWithCache<InterfaceMethod, IMethodBinding> {
+public class InterfaceMethodResolver extends AbstractResolverWithCache<InterfaceMethod, IMethodBinding> {
 
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
@@ -42,7 +42,7 @@ public class InterfaceMethodResolver extends ResolverWithCache<InterfaceMethod, 
 	public InterfaceMethod getByBinding(final IMethodBinding binding) {
 		final IMethodBinding methoDeclaration = binding.getMethodDeclaration();
 		methodBindings.add(methoDeclaration);
-		final String methName = toMethodNameConverter.convertToMethodName(methoDeclaration);
+		final String methName = toMethodNameConverter.convert(methoDeclaration);
 		InterfaceMethod interfaceMethod;
 		if (containsKey(methName)) {
 			interfaceMethod = get(methName);

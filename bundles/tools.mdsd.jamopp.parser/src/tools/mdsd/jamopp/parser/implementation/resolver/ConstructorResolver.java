@@ -13,7 +13,7 @@ import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 
-public class ConstructorResolver extends ResolverWithCache<Constructor, IMethodBinding> {
+public class ConstructorResolver extends AbstractResolverWithCache<Constructor, IMethodBinding> {
 
 	private final Set<IMethodBinding> methodBindings;
 	private final StatementsFactory statementsFactory;
@@ -38,7 +38,7 @@ public class ConstructorResolver extends ResolverWithCache<Constructor, IMethodB
 
 	@Override
 	public Constructor getByBinding(final IMethodBinding binding) {
-		final String methName = toMethodNameConverter.convertToMethodName(binding);
+		final String methName = toMethodNameConverter.convert(binding);
 		Constructor constructor;
 		if (containsKey(methName)) {
 			constructor = get(methName);
@@ -102,7 +102,7 @@ public class ConstructorResolver extends ResolverWithCache<Constructor, IMethodB
 	private boolean shouldSkip(final IMethodBinding binding, final Constructor con, final int receiveOffset) {
 		return receiveOffset == 1
 				&& (!(con.getParameters().get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
-						|| !toTypeNameConverter.convertToTypeName(binding.getDeclaredReceiverType()).equals(
+						|| !toTypeNameConverter.convert(binding.getDeclaredReceiverType()).equals(
 								toTypeNameConverter.convertToTypeName(con.getParameters().get(0).getTypeReference())))
 				|| skipMember(binding, con, receiveOffset);
 	}
@@ -113,7 +113,7 @@ public class ConstructorResolver extends ResolverWithCache<Constructor, IMethodB
 			final ITypeBinding currentType = binding.getParameterTypes()[i];
 			final tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = con.getParameters()
 					.get(i + receiveOffset);
-			if (!toTypeNameConverter.convertToTypeName(currentType)
+			if (!toTypeNameConverter.convert(currentType)
 					.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
 					|| currentType.getDimensions() != currentParam.getArrayDimension()) {
 				skipMember = true;

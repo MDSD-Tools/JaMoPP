@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class ClassResolver extends ResolverWithCache<Class, ITypeBinding> {
+public class ClassResolver extends AbstractResolverWithCache<Class, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;
@@ -29,7 +29,7 @@ public class ClassResolver extends ResolverWithCache<Class, ITypeBinding> {
 	@Override
 	public Class getByBinding(final ITypeBinding binding) {
 		typeBindings.add(binding);
-		return getByName(toTypeNameConverter.convertToTypeName(binding));
+		return getByName(toTypeNameConverter.convert(binding));
 	}
 
 	@Override

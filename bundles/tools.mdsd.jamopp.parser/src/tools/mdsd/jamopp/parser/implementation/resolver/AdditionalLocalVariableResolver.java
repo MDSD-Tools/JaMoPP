@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
 
-public class AdditionalLocalVariableResolver extends ResolverWithCache<AdditionalLocalVariable, IVariableBinding> {
+public class AdditionalLocalVariableResolver extends AbstractResolverWithCache<AdditionalLocalVariable, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final VariablesFactory variablesFactory;

@@ -16,6 +16,7 @@ import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 /**
  * Facade for whole package. This is the only class that should be used outside
@@ -26,9 +27,6 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	private ResourceSet resourceSet;
 
 	private final ResolutionCompleter resolutionCompleter;
-	private final ToFieldNameConverter toFieldNameConverter;
-	private final ToParameterNameConverter toParameterNameConverter;
-	private final ToTypeNameConverter toTypeNameConverter;
 	private final ToMethodNameConverter toMethodNameConverter;
 	private final ClassifierResolver classifierResolver;
 	private final MethodResolver methodResolver;
@@ -52,13 +50,12 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	private final LocalVariableResolver localVariableResolver;
 	private final InterfaceMethodResolver interfaceMethodResolver;
 	private final ReferenceableElementResolver referenceableElementResolver;
-	private final UidManager uidManager;
+	private final UidManager uidManagerImpl;
 
 	@Inject
 	public UtilJdtResolverImpl(final VariableLengthParameterResolver variableLengthParameterResolver,
-			final TypeParameterResolver typeParameterResolver, final ToTypeNameConverter toTypeNameConverter,
-			final ToParameterNameConverter toParameterNameConverter, final ToMethodNameConverter toMethodNameConverter,
-			final ToFieldNameConverter toFieldNameConverter, final ResolutionCompleter resolutionCompleter,
+			final TypeParameterResolver typeParameterResolver, final ToMethodNameConverter toMethodNameConverter,
+			final ResolutionCompleter resolutionCompleter,
 			final ReferenceableElementResolver referenceableElementResolver, final PackageResolver packageResolver,
 			final OrdinaryParameterResolver ordinaryParameterResolver, final ModuleResolver moduleResolver,
 			final MethodResolver methodResolver, final LocalVariableResolver localVariableResolver,
@@ -69,11 +66,8 @@ public class UtilJdtResolverImpl implements JdtResolver {
 			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
 			final AnonymousClassResolver anonymousClassResolver, final AnnotationResolver annotationResolver,
 			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			final AdditionalFieldResolver additionalFieldResolver, final UidManager uidManager) {
+			final AdditionalFieldResolver additionalFieldResolver, final UidManager uidManagerImpl) {
 		this.resolutionCompleter = resolutionCompleter;
-		this.toFieldNameConverter = toFieldNameConverter;
-		this.toParameterNameConverter = toParameterNameConverter;
-		this.toTypeNameConverter = toTypeNameConverter;
 		this.toMethodNameConverter = toMethodNameConverter;
 		this.classifierResolver = classifierResolver;
 		this.methodResolver = methodResolver;
@@ -97,7 +91,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.referenceableElementResolver = referenceableElementResolver;
-		this.uidManager = uidManager;
+		this.uidManagerImpl = uidManagerImpl;
 	}
 
 	@Override
@@ -123,10 +117,6 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.containers.Package getPackage(final String packageName) {
 		return packageResolver.getByName(packageName);
-	}
-
-	public String convertToTypeName(final ITypeBinding binding) {
-		return toTypeNameConverter.convertToTypeName(binding);
 	}
 
 	@Override
@@ -165,7 +155,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	}
 
 	public String convertToMethodName(final IMethodBinding binding) {
-		return toMethodNameConverter.convertToMethodName(binding);
+		return toMethodNameConverter.convert(binding);
 	}
 
 	@Override
@@ -218,10 +208,6 @@ public class UtilJdtResolverImpl implements JdtResolver {
 		return anonymousClassResolver.getByBinding(binding);
 	}
 
-	public String convertToFieldName(final IVariableBinding binding) {
-		return toFieldNameConverter.convertToFieldName(binding);
-	}
-
 	@Override
 	public tools.mdsd.jamopp.model.java.members.Field getField(final String name) {
 		return fieldResolver.getByName(name);
@@ -250,10 +236,6 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	@Override
 	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(final IVariableBinding binding) {
 		return additionalFieldResolver.getByBinding(binding);
-	}
-
-	public String convertToParameterName(final IVariableBinding binding, final boolean register) {
-		return toParameterNameConverter.convertToParameterName(binding, register);
 	}
 
 	@Override
@@ -303,7 +285,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 
 	@Override
 	public void prepareNextUid() {
-		uidManager.prepareNextUid();
+		uidManagerImpl.prepareNextUid();
 	}
 
 	@Override

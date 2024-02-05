@@ -11,7 +11,7 @@ import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 
-public class AnnotationResolver extends ResolverWithCache<Annotation, ITypeBinding> {
+public class AnnotationResolver extends AbstractResolverWithCache<Annotation, ITypeBinding> {
 
 	private final Set<ITypeBinding> typeBindings;
 	private final ClassifiersFactory classifiersFactory;
@@ -29,7 +29,7 @@ public class AnnotationResolver extends ResolverWithCache<Annotation, ITypeBindi
 	@Override
 	public Annotation getByBinding(final ITypeBinding binding) {
 		typeBindings.add(binding);
-		return getByName(toTypeNameConverter.convertToTypeName(binding));
+		return getByName(toTypeNameConverter.convert(binding));
 	}
 
 	@Override
