@@ -67,22 +67,32 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 	private final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver;
 
 	@Inject
-	public ReferenceableElementResolver(final VariableLengthParameterResolver variableLengthParameterResolver,
-			final Set<IVariableBinding> variableBindings, final TypeParameterResolver typeParameterResolver,
-			final Set<ITypeBinding> typeBindings, final OrdinaryParameterResolver ordinaryParameterResolver,
-			final Set<IMethodBinding> methodBindings, final LocalVariableResolver localVariableResolver,
-			final InterfaceResolver interfaceResolver, final InterfaceMethodResolver interfaceMethodResolver,
-			final FieldResolver fieldResolver, final EnumerationResolver enumerationResolver,
-			final EnumConstantResolver enumConstantResolver, final ClassResolver classResolver,
-			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
-			final AnnotationResolver annotationResolver,
-			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			final AdditionalFieldResolver additionalFieldResolver,
-			final ToParameterNameConverter toParameterNameConverter, final ToFieldNameConverter toFieldNameConverter,
-			final MethodResolverImpl methodResolverImpl, final ClassifierResolver classifierResolver) {
+	public ReferenceableElementResolver(final Set<ITypeBinding> typeBindings, final Set<IMethodBinding> methodBindings,
+			final Set<IVariableBinding> variableBindings, final Converter<IVariableBinding> toFieldNameConverter,
+			final ConverterWithBoolean<IVariableBinding> toParameterNameConverter, final MethodResolver methodResolver,
+			final Resolver<Classifier, ITypeBinding> classifierResolver,
+			final ResolverWithCache<Annotation, ITypeBinding> annotationResolver,
+			final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
+			final ResolverWithCache<Interface, ITypeBinding> interfaceResolver,
+			final ResolverWithCache<Class, ITypeBinding> classResolver,
+			final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver,
+			final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver,
+			final ResolverWithCache<Field, IVariableBinding> fieldResolver,
+			final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver,
+			final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver,
+			final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver,
+			final ResolverWithCache<OrdinaryParameter, IVariableBinding> ordinaryParameterResolver,
+			final ResolverWithCache<AdditionalLocalVariable, IVariableBinding> additionalLocalVariableResolver,
+			final ResolverWithCache<VariableLengthParameter, IVariableBinding> variableLengthParameterResolver,
+			final ResolverWithCache<LocalVariable, IVariableBinding> localVariableResolver,
+			final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver) {
 		this.typeBindings = typeBindings;
 		this.methodBindings = methodBindings;
 		this.variableBindings = variableBindings;
+		this.toFieldNameConverter = toFieldNameConverter;
+		this.toParameterNameConverter = toParameterNameConverter;
+		this.methodResolver = methodResolver;
+		this.classifierResolver = classifierResolver;
 		this.annotationResolver = annotationResolver;
 		this.enumerationResolver = enumerationResolver;
 		this.interfaceResolver = interfaceResolver;
@@ -98,10 +108,6 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 		this.variableLengthParameterResolver = variableLengthParameterResolver;
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
-		this.classifierResolver = classifierResolver;
-		this.methodResolver = methodResolverImpl;
-		this.toFieldNameConverter = toFieldNameConverter;
-		this.toParameterNameConverter = toParameterNameConverter;
 	}
 
 	@Override

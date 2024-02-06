@@ -4,17 +4,20 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.members.ClassMethod;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.members.Method;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 
 public class MethodResolverImpl implements MethodResolver {
 
-	private final InterfaceMethodResolver interfaceMethodResolver;
-	private final ClassMethodResolver classMethodResolver;
+	private final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver;
+	private final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver;
 
 	@Inject
-	public MethodResolverImpl(final InterfaceMethodResolver interfaceMethodResolver,
-			final ClassMethodResolver classMethodResolver) {
+	public MethodResolverImpl(final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver,
+			final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver) {
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.classMethodResolver = classMethodResolver;
 	}

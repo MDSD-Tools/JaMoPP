@@ -17,11 +17,20 @@ import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.classifiers.Class;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
+import tools.mdsd.jamopp.model.java.containers.Module;
+import tools.mdsd.jamopp.model.java.containers.Package;
 import tools.mdsd.jamopp.parser.interfaces.converter.Converter;
 import tools.mdsd.jamopp.parser.interfaces.converter.ToConcreteClassifierConverterWithExtraInfo;
 import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 
 public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter {
 
@@ -37,30 +46,31 @@ public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter 
 	private final Set<ITypeBinding> typeBindings;
 	private final Set<EObject> objVisited;
 
-	private final ModuleResolver moduleResolver;
-	private final PackageResolver packageResolver;
-	private final AnnotationResolver annotationResolver;
-	private final EnumerationResolver enumerationResolver;
-	private final InterfaceResolver interfaceResolver;
-	private final ClassResolver classResolver;
-	private final ClassifierResolver classifierResolver;
+	private final ResolverWithCache<Module, IModuleBinding> moduleResolver;
+	private final ResolverWithCache<Package, IPackageBinding> packageResolver;
+	private final ResolverWithCache<Annotation, ITypeBinding> annotationResolver;
+	private final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver;
+	private final ResolverWithCache<Interface, ITypeBinding> interfaceResolver;
+	private final ResolverWithCache<Class, ITypeBinding> classResolver;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
 
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public PureTypeBindingsConverterImpl(
 			final Provider<ToConcreteClassifierConverterWithExtraInfo> utilBindingInfoToConcreteClassifierConverter,
-			final PackageResolver packageResolver, final ModuleResolver moduleResolver,
-			final InterfaceResolver interfaceResolver,
+			final ResolverWithCache<Package, IPackageBinding> packageResolver,
+			final ResolverWithCache<Module, IModuleBinding> moduleResolver,
+			final ResolverWithCache<Interface, ITypeBinding> interfaceResolver,
 			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromTypeBindings,
-			final EnumerationResolver enumerationResolver, final ContainersFactory containersFactory,
-			final ClassResolver classResolver,
+			final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
+			final ContainersFactory containersFactory, final ResolverWithCache<Class, ITypeBinding> classResolver,
 			final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
 			final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
-			final AnnotationResolver annotationResolver, final Set<ITypeBinding> typeBindings,
+			final ResolverWithCache<Annotation, ITypeBinding> annotationResolver, final Set<ITypeBinding> typeBindings,
 			final Set<IPackageBinding> packageBindings, final Set<EObject> objVisited,
 			final Set<IModuleBinding> moduleBindings, final ToTypeNameConverter toTypeNameConverter,
-			final ClassifierResolver classifierResolver) {
+			final Resolver<Classifier, ITypeBinding> classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.containersFactory = containersFactory;
 		this.utilBindingInfoToConcreteClassifierConverter = utilBindingInfoToConcreteClassifierConverter;

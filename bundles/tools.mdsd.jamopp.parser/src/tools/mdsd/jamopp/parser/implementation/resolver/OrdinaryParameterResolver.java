@@ -3,23 +3,24 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 
 public class OrdinaryParameterResolver extends AbstractResolverWithCache<OrdinaryParameter, IVariableBinding> {
 
 	private final ParametersFactory parametersFactory;
 	private final Set<IVariableBinding> variableBindings;
-	private final ToParameterNameConverter toParameterNameConverter;
+	private final ConverterWithBoolean<IVariableBinding> toParameterNameConverter;
 
 	@Inject
 	public OrdinaryParameterResolver(final Map<String, OrdinaryParameter> bindings,
 			final ParametersFactory parametersFactory, final Set<IVariableBinding> variableBindings,
-			final ToParameterNameConverter toParameterNameConverter) {
+			final ConverterWithBoolean<IVariableBinding> toParameterNameConverter) {
 		super(bindings);
 		this.parametersFactory = parametersFactory;
 		this.variableBindings = variableBindings;

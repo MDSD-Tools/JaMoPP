@@ -3,28 +3,38 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ClassResolverExtension;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 
 public class MethodCompleterImpl implements MethodCompleter {
 
 	private final boolean extractAdditionalInfosFromTypeBindings;
-	private final AnonymousClassResolver anonymousClassResolver;
-	private final ToMethodNameConverter toMethodNameConverter;
-	private final ClassifierResolver classifierResolver;
-	private final ToTypeNameConverter toTypeNameConverter;
-	private final ClassResolverExtensionImpl classResolverExtensionImpl;
 	private final Set<IMethodBinding> methodBindings;
+
+	private final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver;
+	private final Converter<IMethodBinding> toMethodNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ClassResolverExtension classResolverExtensionImpl;
 
 	@Inject
 	public MethodCompleterImpl(final Set<IMethodBinding> methodBindings,
 			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromBindings,
-			final AnonymousClassResolver anonymousClassResolver, final ToTypeNameConverter toTypeNameConverter,
-			final ToMethodNameConverter toMethodNameConverter, final ClassifierResolver classifierResolver,
-			final ClassResolverExtensionImpl classResolverExtensionImpl) {
+			final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver,
+			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
+			final Converter<IMethodBinding> toMethodNameConverter,
+			final Resolver<Classifier, ITypeBinding> classifierResolver,
+			final ClassResolverExtension classResolverExtensionImpl) {
 		this.anonymousClassResolver = anonymousClassResolver;
 		this.methodBindings = methodBindings;
 		extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromBindings;
