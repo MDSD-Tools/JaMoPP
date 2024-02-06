@@ -21,13 +21,13 @@ import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 public class ToTypeNameConverter implements Converter<ITypeBinding> {
 
 	private final Map<IBinding, String> nameCache;
-	private final Provider<ToMethodNameConverter> toMethodNameConverter;
-	private final ToFieldNameConverter toFieldNameConverter;
+	private final Provider<Converter<IMethodBinding>> toMethodNameConverter;
+	private final Converter<IVariableBinding> toFieldNameConverter;
 	private final Map<Class<?>, Function<TypeReference, String>> mapping;
 
 	@Inject
-	public ToTypeNameConverter(final Provider<ToMethodNameConverter> toMethodNameConverter,
-			final ToFieldNameConverter toFieldNameConverter, final Map<IBinding, String> nameCache) {
+	public ToTypeNameConverter(final Provider<Converter<IMethodBinding>> toMethodNameConverter,
+			final Converter<IVariableBinding> toFieldNameConverter, final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toMethodNameConverter = toMethodNameConverter;
 		this.toFieldNameConverter = toFieldNameConverter;

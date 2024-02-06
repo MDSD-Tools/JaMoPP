@@ -17,12 +17,32 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.classifiers.Class;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
+import tools.mdsd.jamopp.model.java.containers.Module;
+import tools.mdsd.jamopp.model.java.containers.Package;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.model.java.members.AdditionalField;
+import tools.mdsd.jamopp.model.java.members.ClassMethod;
+import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.model.java.variables.LocalVariable;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ClassResolverExtension;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 
 public class ResolutionCompleterImpl implements ResolutionCompleter {
 
@@ -35,53 +55,63 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 	private final Set<IMethodBinding> methodBindings;
 	private final Set<IVariableBinding> variableBindings;
 	private final Set<EObject> objVisited;
-	private final ModuleResolver moduleResolver;
-	private final PackageResolver packageResolver;
-	private final AnnotationResolver annotationResolver;
-	private final EnumerationResolver enumerationResolver;
-	private final InterfaceResolver interfaceResolver;
-	private final ClassResolver classResolver;
-	private final TypeParameterResolver typeParameterResolver;
-	private final ClassMethodResolver classMethodResolver;
-	private final ConstructorResolver constructorResolver;
-	private final FieldResolver fieldResolver;
+	private final ResolverWithCache<Module, IModuleBinding> moduleResolver;
+	private final ResolverWithCache<Package, IPackageBinding> packageResolver;
+	private final ResolverWithCache<Annotation, ITypeBinding> annotationResolver;
+	private final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver;
+	private final ResolverWithCache<Interface, ITypeBinding> interfaceResolver;
+	private final ResolverWithCache<Class, ITypeBinding> classResolver;
+	private final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver;
+	private final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver;
+	private final ResolverWithCache<Constructor, IMethodBinding> constructorResolver;
+	private final ResolverWithCache<Field, IVariableBinding> fieldResolver;
 	private final AnonymousClassResolver anonymousClassResolver;
-	private final EnumConstantResolver enumConstantResolver;
-	private final AdditionalFieldResolver additionalFieldResolver;
-	private final CatchParameterResolver catchParameterResolver;
-	private final OrdinaryParameterResolver ordinaryParameterResolver;
-	private final AdditionalLocalVariableResolver additionalLocalVariableResolver;
-	private final VariableLengthParameterResolver variableLengthParameterResolver;
-	private final LocalVariableResolver localVariableResolver;
-	private final InterfaceMethodResolver interfaceMethodResolver;
+	private final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver;
+	private final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver;
+	private final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver;
+	private final ResolverWithCache<OrdinaryParameter, IVariableBinding> ordinaryParameterResolver;
+	private final ResolverWithCache<AdditionalLocalVariable, IVariableBinding> additionalLocalVariableResolver;
+	private final ResolverWithCache<VariableLengthParameter, IVariableBinding> variableLengthParameterResolver;
+	private final ResolverWithCache<LocalVariable, IVariableBinding> localVariableResolver;
+	private final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver;
 	private final MethodCompleter methodCompleterImpl;
 	private final PureTypeBindingsConverter pureTypeBindingsConverterImpl;
-	private final ClassResolverExtensionImpl classResolverExtensionImpl;
-	private final ToFieldNameConverter toFieldNameConverter;
-	private final ToTypeNameConverter toTypeNameConverter;
-	private final ClassifierResolver classifierResolver;
+	private final ClassResolverExtension classResolverExtensionImpl;
+	private final Converter<IVariableBinding> toFieldNameConverter;
+	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
 
 	@Inject
-	public ResolutionCompleterImpl(final VariableLengthParameterResolver variableLengthParameterResolver,
-			final Set<IVariableBinding> variableBindings, final Map<IVariableBinding, Integer> varBindToUid,
-			final TypeParameterResolver typeParameterResolver, final Set<ITypeBinding> typeBindings,
-			final PureTypeBindingsConverter pureTypeBindingsConverterImpl, final PackageResolver packageResolver,
-			final Set<IPackageBinding> packageBindings, final OrdinaryParameterResolver ordinaryParameterResolver,
-			final Set<EObject> objVisited, final ModuleResolver moduleResolver,
-			final Set<IModuleBinding> moduleBindings, final MethodCompleter methodCompleterImpl,
-			final Set<IMethodBinding> methodBindings, final LocalVariableResolver localVariableResolver,
-			final InterfaceResolver interfaceResolver, final InterfaceMethodResolver interfaceMethodResolver,
-			final FieldResolver fieldResolver,
+	public ResolutionCompleterImpl(
 			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromTypeBindings,
-			final EnumerationResolver enumerationResolver, final EnumConstantResolver enumConstantResolver,
-			final ConstructorResolver constructorResolver, final ClassResolver classResolver,
-			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
-			final AnonymousClassResolver anonymousClassResolver, final AnnotationResolver annotationResolver,
-			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			final AdditionalFieldResolver additionalFieldResolver,
-			final ClassResolverExtensionImpl classResolverExtensionImpl, final ToTypeNameConverter toTypeNameConverter,
-			final ToFieldNameConverter toFieldNameConverter, final ClassifierResolver classifierResolver,
-			final Map<IBinding, String> nameCache) {
+			final Map<IVariableBinding, Integer> varBindToUid, final Map<IBinding, String> nameCache,
+			final Set<IModuleBinding> moduleBindings, final Set<IPackageBinding> packageBindings,
+			final Set<ITypeBinding> typeBindings, final Set<IMethodBinding> methodBindings,
+			final Set<IVariableBinding> variableBindings, final Set<EObject> objVisited,
+			final ResolverWithCache<Module, IModuleBinding> moduleResolver,
+			final ResolverWithCache<Package, IPackageBinding> packageResolver,
+			final ResolverWithCache<Annotation, ITypeBinding> annotationResolver,
+			final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
+			final ResolverWithCache<Interface, ITypeBinding> interfaceResolver,
+			final ResolverWithCache<Class, ITypeBinding> classResolver,
+			final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver,
+			final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver,
+			final ResolverWithCache<Constructor, IMethodBinding> constructorResolver,
+			final ResolverWithCache<Field, IVariableBinding> fieldResolver,
+			final AnonymousClassResolver anonymousClassResolver,
+			final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver,
+			final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver,
+			final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver,
+			final ResolverWithCache<OrdinaryParameter, IVariableBinding> ordinaryParameterResolver,
+			final ResolverWithCache<AdditionalLocalVariable, IVariableBinding> additionalLocalVariableResolver,
+			final ResolverWithCache<VariableLengthParameter, IVariableBinding> variableLengthParameterResolver,
+			final ResolverWithCache<LocalVariable, IVariableBinding> localVariableResolver,
+			final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver,
+			final MethodCompleter methodCompleterImpl, final PureTypeBindingsConverter pureTypeBindingsConverterImpl,
+			final ClassResolverExtension classResolverExtensionImpl,
+			final Converter<IVariableBinding> toFieldNameConverter,
+			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
+			final Resolver<Classifier, ITypeBinding> classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
@@ -135,8 +165,8 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 
 	private void handleFields(final String fieldName, final Field field) {
 		if (field.eContainer() == null) {
-			final IVariableBinding varBind = variableBindings.stream().filter(
-					binding -> binding != null && fieldName.equals(toFieldNameConverter.convert(binding)))
+			final IVariableBinding varBind = variableBindings.stream()
+					.filter(binding -> binding != null && fieldName.equals(toFieldNameConverter.convert(binding)))
 					.findFirst().orElse(null);
 			if (varBind == null || varBind.getDeclaringClass() == null) {
 				classResolverExtensionImpl.addToSyntheticClass(field);
@@ -169,8 +199,8 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 
 	private void handleEnumConstants(final String constName, final EnumConstant enConst) {
 		if (enConst.eContainer() == null) {
-			final IVariableBinding varBind = variableBindings.stream().filter(
-					binding -> binding != null && constName.equals(toFieldNameConverter.convert(binding)))
+			final IVariableBinding varBind = variableBindings.stream()
+					.filter(binding -> binding != null && constName.equals(toFieldNameConverter.convert(binding)))
 					.findFirst().get();
 			if (!varBind.getDeclaringClass().isAnonymous()) {
 				final Enumeration enumeration = enumerationResolver.getByBinding(varBind.getDeclaringClass());

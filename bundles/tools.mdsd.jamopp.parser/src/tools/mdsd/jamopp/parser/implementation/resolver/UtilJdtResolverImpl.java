@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
@@ -7,16 +9,34 @@ import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
-import com.google.inject.Inject;
-
+import tools.mdsd.jamopp.model.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.classifiers.Class;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
+import tools.mdsd.jamopp.model.java.containers.Module;
+import tools.mdsd.jamopp.model.java.containers.Package;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.model.java.members.AdditionalField;
+import tools.mdsd.jamopp.model.java.members.ClassMethod;
+import tools.mdsd.jamopp.model.java.members.Constructor;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodResolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithName;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 /**
@@ -28,46 +48,56 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	private ResourceSet resourceSet;
 
 	private final ResolutionCompleter resolutionCompleterImpl;
-	private final ToMethodNameConverter toMethodNameConverter;
-	private final ClassifierResolver classifierResolver;
-	private final MethodResolverImpl methodResolverImpl;
-	private final ModuleResolver moduleResolver;
-	private final PackageResolver packageResolver;
-	private final AnnotationResolver annotationResolver;
-	private final EnumerationResolver enumerationResolver;
-	private final InterfaceResolver interfaceResolver;
-	private final ClassResolver classResolver;
-	private final TypeParameterResolver typeParameterResolver;
-	private final ClassMethodResolver classMethodResolver;
-	private final ConstructorResolver constructorResolver;
-	private final FieldResolver fieldResolver;
-	private final AnonymousClassResolver anonymousClassResolver;
-	private final EnumConstantResolver enumConstantResolver;
-	private final AdditionalFieldResolver additionalFieldResolver;
-	private final CatchParameterResolver catchParameterResolver;
-	private final OrdinaryParameterResolver ordinaryParameterResolver;
-	private final AdditionalLocalVariableResolver additionalLocalVariableResolver;
-	private final VariableLengthParameterResolver variableLengthParameterResolver;
-	private final LocalVariableResolver localVariableResolver;
-	private final InterfaceMethodResolver interfaceMethodResolver;
-	private final ReferenceableElementResolver referenceableElementResolver;
+	private final Converter<IMethodBinding> toMethodNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+	private final MethodResolver methodResolverImpl;
+	private final ResolverWithCache<Module, IModuleBinding> moduleResolver;
+	private final ResolverWithCache<Package, IPackageBinding> packageResolver;
+	private final ResolverWithCache<Annotation, ITypeBinding> annotationResolver;
+	private final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver;
+	private final ResolverWithCache<Interface, ITypeBinding> interfaceResolver;
+	private final ResolverWithCache<Class, ITypeBinding> classResolver;
+	private final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver;
+	private final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver;
+	private final ResolverWithCache<Constructor, IMethodBinding> constructorResolver;
+	private final ResolverWithCache<Field, IVariableBinding> fieldResolver;
+	private final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver;
+	private final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver;
+	private final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver;
+	private final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver;
+	private final ResolverWithCache<OrdinaryParameter, IVariableBinding> ordinaryParameterResolver;
+	private final ResolverWithCache<AdditionalLocalVariable, IVariableBinding> additionalLocalVariableResolver;
+	private final ResolverWithCache<VariableLengthParameter, IVariableBinding> variableLengthParameterResolver;
+	private final ResolverWithCache<LocalVariable, IVariableBinding> localVariableResolver;
+	private final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver;
+	private final ResolverWithName<ReferenceableElement, IVariableBinding> referenceableElementResolver;
 	private final UidManager uidManagerImpl;
 
 	@Inject
-	public UtilJdtResolverImpl(final VariableLengthParameterResolver variableLengthParameterResolver,
-			final TypeParameterResolver typeParameterResolver, final ToMethodNameConverter toMethodNameConverter,
-			final ResolutionCompleter resolutionCompleterImpl,
-			final ReferenceableElementResolver referenceableElementResolver, final PackageResolver packageResolver,
-			final OrdinaryParameterResolver ordinaryParameterResolver, final ModuleResolver moduleResolver,
-			final MethodResolverImpl methodResolverImpl, final LocalVariableResolver localVariableResolver,
-			final InterfaceResolver interfaceResolver, final InterfaceMethodResolver interfaceMethodResolver,
-			final FieldResolver fieldResolver, final EnumerationResolver enumerationResolver,
-			final EnumConstantResolver enumConstantResolver, final ConstructorResolver constructorResolver,
-			final ClassifierResolver classifierResolver, final ClassResolver classResolver,
-			final ClassMethodResolver classMethodResolver, final CatchParameterResolver catchParameterResolver,
-			final AnonymousClassResolver anonymousClassResolver, final AnnotationResolver annotationResolver,
-			final AdditionalLocalVariableResolver additionalLocalVariableResolver,
-			final AdditionalFieldResolver additionalFieldResolver, final UidManager uidManagerImpl) {
+	public UtilJdtResolverImpl(final ResolutionCompleter resolutionCompleterImpl,
+			final Converter<IMethodBinding> toMethodNameConverter,
+			final Resolver<Classifier, ITypeBinding> classifierResolver, final MethodResolver methodResolverImpl,
+			final ResolverWithCache<Module, IModuleBinding> moduleResolver,
+			final ResolverWithCache<Package, IPackageBinding> packageResolver,
+			final ResolverWithCache<Annotation, ITypeBinding> annotationResolver,
+			final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
+			final ResolverWithCache<Interface, ITypeBinding> interfaceResolver,
+			final ResolverWithCache<Class, ITypeBinding> classResolver,
+			final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver,
+			final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver,
+			final ResolverWithCache<Constructor, IMethodBinding> constructorResolver,
+			final ResolverWithCache<Field, IVariableBinding> fieldResolver,
+			final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver,
+			final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver,
+			final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver,
+			final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver,
+			final ResolverWithCache<OrdinaryParameter, IVariableBinding> ordinaryParameterResolver,
+			final ResolverWithCache<AdditionalLocalVariable, IVariableBinding> additionalLocalVariableResolver,
+			final ResolverWithCache<VariableLengthParameter, IVariableBinding> variableLengthParameterResolver,
+			final ResolverWithCache<LocalVariable, IVariableBinding> localVariableResolver,
+			final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver,
+			final ResolverWithName<ReferenceableElement, IVariableBinding> referenceableElementResolver,
+			final UidManager uidManagerImpl) {
 		this.resolutionCompleterImpl = resolutionCompleterImpl;
 		this.toMethodNameConverter = toMethodNameConverter;
 		this.classifierResolver = classifierResolver;

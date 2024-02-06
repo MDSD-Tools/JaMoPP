@@ -2,6 +2,8 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 
 import java.util.Map;
 
+import javax.inject.Named;
+
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -14,10 +16,11 @@ public class ToMethodNameConverter implements Converter<IMethodBinding> {
 
 	private static final String JAVA_LANG_OBJECT_CLONE = "java.lang.Object::clone()";
 	private final Map<IBinding, String> nameCache;
-	private final ToTypeNameConverter toTypeNameConverter;
+	private final Converter<ITypeBinding> toTypeNameConverter;
 
 	@Inject
-	public ToMethodNameConverter(final ToTypeNameConverter toTypeNameConverter, final Map<IBinding, String> nameCache) {
+	public ToMethodNameConverter(@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
+			final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 	}

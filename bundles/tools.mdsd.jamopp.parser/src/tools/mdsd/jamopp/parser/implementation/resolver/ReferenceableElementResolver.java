@@ -13,8 +13,29 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.classifiers.Class;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
 import tools.mdsd.jamopp.model.java.commons.NamedElement;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.model.java.members.AdditionalField;
+import tools.mdsd.jamopp.model.java.members.ClassMethod;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.model.java.variables.LocalVariable;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
+import tools.mdsd.jamopp.parser.interfaces.resolver.MethodResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithName;
 
 public class ReferenceableElementResolver implements ResolverWithName<ReferenceableElement, IVariableBinding> {
@@ -22,26 +43,28 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 	private final Set<ITypeBinding> typeBindings;
 	private final Set<IMethodBinding> methodBindings;
 	private final Set<IVariableBinding> variableBindings;
-	private final AnnotationResolver annotationResolver;
-	private final EnumerationResolver enumerationResolver;
-	private final InterfaceResolver interfaceResolver;
-	private final ClassResolver classResolver;
-	private final TypeParameterResolver typeParameterResolver;
-	private final ClassMethodResolver classMethodResolver;
-	private final FieldResolver fieldResolver;
-	private final EnumConstantResolver enumConstantResolver;
-	private final AdditionalFieldResolver additionalFieldResolver;
-	private final CatchParameterResolver catchParameterResolver;
-	private final OrdinaryParameterResolver ordinaryParameterResolver;
-	private final AdditionalLocalVariableResolver additionalLocalVariableResolver;
-	private final VariableLengthParameterResolver variableLengthParameterResolver;
-	private final LocalVariableResolver localVariableResolver;
-	private final InterfaceMethodResolver interfaceMethodResolver;
-	private final ClassifierResolver classifierResolver;
-	private final MethodResolverImpl methodResolverImpl;
 
-	private final ToFieldNameConverter toFieldNameConverter;
-	private final ToParameterNameConverter toParameterNameConverter;
+	private final Converter<IVariableBinding> toFieldNameConverter;
+	private final ConverterWithBoolean<IVariableBinding> toParameterNameConverter;
+
+	private final MethodResolver methodResolver;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+
+	private final ResolverWithCache<Annotation, ITypeBinding> annotationResolver;
+	private final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver;
+	private final ResolverWithCache<Interface, ITypeBinding> interfaceResolver;
+	private final ResolverWithCache<Class, ITypeBinding> classResolver;
+	private final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver;
+	private final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver;
+	private final ResolverWithCache<Field, IVariableBinding> fieldResolver;
+	private final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver;
+	private final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver;
+	private final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver;
+	private final ResolverWithCache<OrdinaryParameter, IVariableBinding> ordinaryParameterResolver;
+	private final ResolverWithCache<AdditionalLocalVariable, IVariableBinding> additionalLocalVariableResolver;
+	private final ResolverWithCache<VariableLengthParameter, IVariableBinding> variableLengthParameterResolver;
+	private final ResolverWithCache<LocalVariable, IVariableBinding> localVariableResolver;
+	private final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver;
 
 	@Inject
 	public ReferenceableElementResolver(final VariableLengthParameterResolver variableLengthParameterResolver,
@@ -76,7 +99,7 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 		this.localVariableResolver = localVariableResolver;
 		this.interfaceMethodResolver = interfaceMethodResolver;
 		this.classifierResolver = classifierResolver;
-		this.methodResolverImpl = methodResolverImpl;
+		this.methodResolver = methodResolverImpl;
 		this.toFieldNameConverter = toFieldNameConverter;
 		this.toParameterNameConverter = toParameterNameConverter;
 	}
@@ -97,7 +120,7 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 			} else if (localVariableResolver.containsKey(paramName)) {
 				referenceableElement = localVariableResolver.get(paramName);
 			} else if (additionalLocalVariableResolver.containsKey(paramName)) {
-				referenceableElement = additionalLocalVariableResolver.get(paramName);
+				referenceableElement = additionalLocalVariableResolver.getByName(paramName);
 			} else if (ordinaryParameterResolver.containsKey(paramName)) {
 				referenceableElement = ordinaryParameterResolver.get(paramName);
 			} else {
@@ -141,7 +164,7 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 	public ReferenceableElement getByName(final String name) {
 		final List<Stream<? extends ReferenceableElement>> streams = new ArrayList<>();
 		streams.add(variableBindings.stream().filter(bindingsFilter(name)).map(this::getByBinding));
-		streams.add(methodBindings.stream().filter(methodFilter(name)).map(methodResolverImpl::getMethod));
+		streams.add(methodBindings.stream().filter(methodFilter(name)).map(methodResolver::getMethod));
 		streams.add(typeBindings.stream().filter(typeFilter(name)).map(classifierResolver::getByBinding));
 		streams.add(catchParameterResolver.getBindings().stream().filter(filter(name)));
 		streams.add(localVariableResolver.getBindings().stream().filter(filter(name)));

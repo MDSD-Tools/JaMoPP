@@ -3,10 +3,12 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.IBinding;
+import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
@@ -15,11 +17,11 @@ public class ToParameterNameConverter implements ConverterWithBoolean<IVariableB
 	private final Map<IVariableBinding, Integer> varBindToUid;
 	private final Map<IBinding, String> nameCache;
 	private final UidManager uidManagerImpl;
-	private final ToMethodNameConverter toMethodNameConverter;
+	private final Converter<IMethodBinding> toMethodNameConverter;
 
 	@Inject
 	public ToParameterNameConverter(final Map<IVariableBinding, Integer> varBindToUid, final UidManager uidManagerImpl,
-			final ToMethodNameConverter toMethodNameConverter, final Map<IBinding, String> nameCache) {
+			final Converter<IMethodBinding> toMethodNameConverter, final Map<IBinding, String> nameCache) {
 		this.varBindToUid = varBindToUid;
 		this.nameCache = nameCache;
 		this.uidManagerImpl = uidManagerImpl;

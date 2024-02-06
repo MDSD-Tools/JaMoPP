@@ -3,22 +3,26 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.generics.GenericsFactory;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 
 public class TypeParameterResolver extends AbstractResolverWithCache<TypeParameter, ITypeBinding> {
 
 	private final Set<ITypeBinding> typeBindings;
 	private final GenericsFactory genericsFactory;
-	private final ToTypeParameterNameConverter toTypeParameterNameConverter;
+	private final Converter<ITypeBinding> toTypeParameterNameConverter;
 
 	@Inject
 	public TypeParameterResolver(final Map<String, TypeParameter> bindings, final Set<ITypeBinding> typeBindings,
-			final GenericsFactory genericsFactory, final ToTypeParameterNameConverter toTypeParameterNameConverter) {
+			final GenericsFactory genericsFactory,
+			@Named("ToTypeParameterNameConverter") final Converter<ITypeBinding> toTypeParameterNameConverter) {
 		super(bindings);
 		this.typeBindings = typeBindings;
 		this.genericsFactory = genericsFactory;

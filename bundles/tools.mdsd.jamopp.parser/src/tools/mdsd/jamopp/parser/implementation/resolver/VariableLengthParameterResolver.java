@@ -3,23 +3,25 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.parameters.ParametersFactory;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 
-public class VariableLengthParameterResolver extends AbstractResolverWithCache<VariableLengthParameter, IVariableBinding> {
+public class VariableLengthParameterResolver
+		extends AbstractResolverWithCache<VariableLengthParameter, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final ParametersFactory parametersFactory;
-	private final ToParameterNameConverter toParameterNameConverter;
+	private final ConverterWithBoolean<IVariableBinding> toParameterNameConverter;
 
 	@Inject
 	public VariableLengthParameterResolver(final Map<String, VariableLengthParameter> bindings,
 			final Set<IVariableBinding> variableBindings, final ParametersFactory parametersFactory,
-			final ToParameterNameConverter toParameterNameConverter) {
+			final ConverterWithBoolean<IVariableBinding> toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.parametersFactory = parametersFactory;
