@@ -27,7 +27,6 @@ import tools.mdsd.jamopp.model.java.instantiations.NewConstructorCall;
 import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.parameters.Parameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
-import tools.mdsd.jamopp.model.java.statements.Statement;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
@@ -35,7 +34,11 @@ import tools.mdsd.jamopp.model.java.types.TypeReference;
  * Extension providing utility methods for the the Constructor meta model class.
  */
 
-public class ConstructorExtension {
+public final class ConstructorExtension {
+
+	private ConstructorExtension() {
+		// Should not initiated.
+	}
 
 	/**
 	 * Returns <code>true</code> if the given {@link Constructor} <code>co</code> is
@@ -52,23 +55,23 @@ public class ConstructorExtension {
 	 * least weak match</li>
 	 * </ol>
 	 *
-	 * @param co    The constructor to check if it is better.
-	 * @param other The existing constructor to compare with.
-	 * @param call  The call to check for.
+	 * @param constructor The constructor to check if it is better.
+	 * @param other       The existing constructor to compare with.
+	 * @param call        The call to check for.
 	 * @return True only if the new {@link Constructor} <code>co</code> is better
 	 *         than the other one.
 	 */
-	public static boolean isBetterConstructorForCall(Constructor co, Constructor other, NewConstructorCall call) {
-
+	public static boolean isBetterConstructorForCall(final Constructor constructor, final Constructor other,
+			final NewConstructorCall call) {
+		boolean result;
 		if (isConstructorForCall(other, call, true)) {
-			return false;
+			result = false;
+		} else if (isConstructorForCall(other, call, false)) {
+			result = isConstructorForCall(constructor, call, true);
+		} else {
+			result = isConstructorForCall(constructor, call, false);
 		}
-
-		if (isConstructorForCall(other, call, false)) {
-			return isConstructorForCall(co, call, true);
-		}
-
-		return isConstructorForCall(co, call, false);
+		return result;
 	}
 
 	/**
@@ -84,33 +87,35 @@ public class ConstructorExtension {
 	 * hard criteria and thus checked as part of the general
 	 * {@link #isConstructorForCall(Constructor, NewConstructorCall, boolean)}.
 	 *
-	 * @param co                The constructor to check.
+	 * @param constructor       The constructor to check.
 	 * @param call              The call to check for.
 	 * @param needsPerfectMatch Flag how to handle parameters with variable argument
 	 *                          (array) length
 	 * @return True if the constructor is valid for the call.
 	 */
-	public static boolean isConstructorForCall(Constructor co, NewConstructorCall call, boolean needsPerfectMatch) {
+	public static boolean isConstructorForCall(final Constructor constructor, final NewConstructorCall call,
+			final boolean needsPerfectMatch) {
 
-		Type callType = call.getReferencedType();
-		if (!(callType instanceof ConcreteClassifier) || !((ConcreteClassifier) callType).getMembers().contains(co)) {
+		final Type callType = call.getReferencedType();
+		if (!(callType instanceof ConcreteClassifier)
+				|| !((ConcreteClassifier) callType).getMembers().contains(constructor)) {
 			return false;
 		}
 
-		EList<Type> argumentTypeList = call.getArgumentTypes();
-		EList<Parameter> parameterList = new BasicEList<>(co.getParameters());
+		final EList<Type> argumentTypeList = call.getArgumentTypes();
+		final EList<Parameter> parameterList = new BasicEList<>(constructor.getParameters());
 
-		EList<Type> parameterTypeList = new BasicEList<>();
-		for (Parameter parameter : parameterList) {
+		final EList<Type> parameterTypeList = new BasicEList<>();
+		for (final Parameter parameter : parameterList) {
 			// Determine types before messing with the parameters
-			TypeReference typeReference = parameter.getTypeReference();
-			Type boundTarget = typeReference.getBoundTarget(call);
+			final TypeReference typeReference = parameter.getTypeReference();
+			final Type boundTarget = typeReference.getBoundTarget(call);
 			parameterTypeList.add(boundTarget);
 		}
 
 		if (!parameterList.isEmpty()) {
-			Parameter lastParameter = parameterList.get(parameterList.size() - 1);
-			Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
+			final Parameter lastParameter = parameterList.get(parameterList.size() - 1);
+			final Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
 			if (lastParameter instanceof VariableLengthParameter) {
 				// In case of variable length add/remove some parameters
 				while (parameterList.size() < argumentTypeList.size()) {
@@ -134,18 +139,18 @@ public class ConstructorExtension {
 		if (parameterList.size() == argumentTypeList.size()) {
 			boolean parametersMatch = true;
 			for (int i = 0; i < argumentTypeList.size(); i++) {
-				Type parameterType = parameterTypeList.get(i);
-				Type argumentType = argumentTypeList.get(i);
+				final Type parameterType = parameterTypeList.get(i);
+				final Type argumentType = argumentTypeList.get(i);
 
 				if (argumentType == null || parameterType == null
 						|| parameterType.eIsProxy() && argumentType.eIsProxy()) {
 					return false;
 				}
-				Expression argument = call.getArguments().get(i);
-				long argumentArrayDimension = argument.getArrayDimension();
-				Parameter parameter = parameterList.get(i);
+				final Expression argument = call.getArguments().get(i);
+				final long argumentArrayDimension = argument.getArrayDimension();
+				final Parameter parameter = parameterList.get(i);
 				if (needsPerfectMatch) {
-					long parameterArrayDimension = parameter.getArrayDimension();
+					final long parameterArrayDimension = parameter.getArrayDimension();
 					parametersMatch = parametersMatch
 							&& argumentType.equalsType(argumentArrayDimension, parameterType, parameterArrayDimension);
 				} else {
@@ -157,18 +162,5 @@ public class ConstructorExtension {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns a list of all statements within the block of a constructor. This is a
-	 * legacy method to provide a stable and backwards-compatible API.
-	 *
-	 * @param me the constructor for which the statements are obtained.
-	 * @return the list of all statements.
-	 * @deprecated Use getBlock().getStatements().
-	 */
-	@Deprecated
-	public static EList<Statement> getStatements(Constructor me) {
-		return me.getBlock().getStatements();
 	}
 }

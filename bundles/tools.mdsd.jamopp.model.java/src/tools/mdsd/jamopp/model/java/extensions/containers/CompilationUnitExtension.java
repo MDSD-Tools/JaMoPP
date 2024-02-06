@@ -31,7 +31,11 @@ import tools.mdsd.jamopp.model.java.imports.ClassifierImport;
 import tools.mdsd.jamopp.model.java.imports.ImportsFactory;
 import tools.mdsd.jamopp.model.java.imports.PackageImport;
 
-public class CompilationUnitExtension {
+public final class CompilationUnitExtension {
+
+	private CompilationUnitExtension() {
+		// Should not be initiated.
+	}
 
 	/**
 	 * Returns the first {@link ConcreteClassifier} that is contained in this
@@ -40,31 +44,28 @@ public class CompilationUnitExtension {
 	 * @param name the name of the classifier to search for
 	 * @return the classifier if one is found, otherwise <code>null</code>
 	 */
-	public static ConcreteClassifier getContainedClassifier(CompilationUnit me, String name) {
-		if (name == null) {
-			return null;
-		}
-
-		for (ConcreteClassifier candidate : me.getClassifiers()) {
+	public static ConcreteClassifier getContainedClassifier(final CompilationUnit compilationUnit, final String name) {
+		ConcreteClassifier result = null;
+		for (final ConcreteClassifier candidate : compilationUnit.getClassifiers()) {
 			if (name.equals(candidate.getName())) {
-				return candidate;
+				result = candidate;
 			}
 		}
-		return null;
+		return result;
 	}
 
 	/**
 	 * @return all classes in the same package imports
 	 */
-	public static EList<ConcreteClassifier> getClassifiersInSamePackage(CompilationUnit me) {
-		EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
+	public static EList<ConcreteClassifier> getClassifiersInSamePackage(final CompilationUnit compilationUnit) {
+		final EList<ConcreteClassifier> defaultImportList = new UniqueEList<>();
 
-		String packageName = me.getNamespacesAsString();
+		final String packageName = compilationUnit.getNamespacesAsString();
 
 		// locally defined in this container
-		defaultImportList.addAll(me.getClassifiers());
+		defaultImportList.addAll(compilationUnit.getClassifiers());
 
-		defaultImportList.addAll(me.getConcreteClassifiers(packageName, "*"));
+		defaultImportList.addAll(compilationUnit.getConcreteClassifiers(packageName, "*"));
 
 		return defaultImportList;
 	}
@@ -78,17 +79,13 @@ public class CompilationUnitExtension {
 	 * @return the class directly contained in the compilation unit (if there is
 	 *         exactly one contained classifier that is of type {@link Class})
 	 */
-	public static Class getContainedClass(CompilationUnit me) {
-		List<ConcreteClassifier> classifiers = me.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+	public static Class getContainedClass(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+		Class result = null;
+		if (classifiers.get(0) instanceof final Class clazz && classifiers.size() == 1) {
+			result = clazz;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Class) {
-			return (Class) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -100,17 +97,13 @@ public class CompilationUnitExtension {
 	 * @return the interface directly contained in the compilation unit (if there is
 	 *         exactly one contained classifier that is of type {@link Interface})
 	 */
-	public static Interface getContainedInterface(CompilationUnit me) {
-		List<ConcreteClassifier> classifiers = me.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+	public static Interface getContainedInterface(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+		Interface result = null;
+		if (classifiers.get(0) instanceof final Interface interfaze && classifiers.size() == 1) {
+			result = interfaze;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Interface) {
-			return (Interface) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -123,17 +116,13 @@ public class CompilationUnitExtension {
 	 *         is exactly one contained classifier that is of type
 	 *         {@link Annotation})
 	 */
-	public static Annotation getContainedAnnotation(CompilationUnit me) {
-		List<ConcreteClassifier> classifiers = me.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+	public static Annotation getContainedAnnotation(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+		Annotation result = null;
+		if (classifiers.get(0) instanceof final Annotation annotation && classifiers.size() == 1) {
+			result = annotation;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Annotation) {
-			return (Annotation) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -146,36 +135,32 @@ public class CompilationUnitExtension {
 	 *         is exactly one contained classifier that is of type
 	 *         {@link Enumeration})
 	 */
-	public static Enumeration getContainedEnumeration(CompilationUnit me) {
-		List<ConcreteClassifier> classifiers = me.getClassifiers();
-		if (classifiers.size() != 1) {
-			return null;
+	public static Enumeration getContainedEnumeration(final CompilationUnit compilationUnit) {
+		final List<ConcreteClassifier> classifiers = compilationUnit.getClassifiers();
+		Enumeration result = null;
+		if (classifiers.get(0) instanceof final Enumeration enumeration && classifiers.size() == 1) {
+			result = enumeration;
 		}
-
-		ConcreteClassifier first = classifiers.get(0);
-		if (first instanceof Enumeration) {
-			return (Enumeration) first;
-		}
-		return null;
+		return result;
 	}
 
 	/**
 	 * Adds an import of the given class to this compilation unit.
 	 */
-	public static void addImport(CompilationUnit me, String nameOfClassToImport) {
-		ClassifierImport classifierImport = ImportsFactory.eINSTANCE.createClassifierImport();
-		ConcreteClassifier classToImport = me.getConcreteClassifier(nameOfClassToImport);
+	public static void addImport(final CompilationUnit compilationUnit, final String nameOfClassToImport) {
+		final ClassifierImport classifierImport = ImportsFactory.eINSTANCE.createClassifierImport();
+		final ConcreteClassifier classToImport = compilationUnit.getConcreteClassifier(nameOfClassToImport);
 		classifierImport.setClassifier(classToImport);
 		classifierImport.getNamespaces().addAll(classToImport.getContainingCompilationUnit().getNamespaces());
-		me.getImports().add(classifierImport);
+		compilationUnit.getImports().add(classifierImport);
 	}
 
 	/**
 	 * Adds an import of the given package to this compilation unit.
 	 */
-	public static void addPackageImport(CompilationUnit me, String packageName) {
-		PackageImport nsImport = ImportsFactory.eINSTANCE.createPackageImport();
+	public static void addPackageImport(final CompilationUnit compilationUnit, final String packageName) {
+		final PackageImport nsImport = ImportsFactory.eINSTANCE.createPackageImport();
 		Collections.addAll(nsImport.getNamespaces(), packageName.split("\\."));
-		me.getImports().add(nsImport);
+		compilationUnit.getImports().add(nsImport);
 	}
 }

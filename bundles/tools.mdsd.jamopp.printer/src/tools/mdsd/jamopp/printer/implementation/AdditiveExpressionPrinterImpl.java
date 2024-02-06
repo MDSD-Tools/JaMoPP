@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.AdditiveOperator;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class AdditiveExpressionPrinterImpl implements Printer<AdditiveExpression> {
@@ -17,18 +16,18 @@ public class AdditiveExpressionPrinterImpl implements Printer<AdditiveExpression
 	private final Printer<AdditiveOperator> additiveOperatorPrinter;
 
 	@Inject
-	public AdditiveExpressionPrinterImpl(Printer<AdditiveExpressionChild> additiveExpressionChildPrinter,
-			Printer<AdditiveOperator> additiveOperatorPrinter) {
+	public AdditiveExpressionPrinterImpl(final Printer<AdditiveExpressionChild> additiveExpressionChildPrinter,
+			final Printer<AdditiveOperator> additiveOperatorPrinter) {
 		this.additiveExpressionChildPrinter = additiveExpressionChildPrinter;
 		this.additiveOperatorPrinter = additiveOperatorPrinter;
 	}
 
 	@Override
-	public void print(AdditiveExpression element, BufferedWriter writer) throws IOException {
-		this.additiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
+	public void print(final AdditiveExpression element, final BufferedWriter writer) throws IOException {
+		additiveExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
-			this.additiveOperatorPrinter.print(element.getAdditiveOperators().get(index - 1), writer);
-			this.additiveExpressionChildPrinter.print(element.getChildren().get(index), writer);
+			additiveOperatorPrinter.print(element.getAdditiveOperators().get(index - 1), writer);
+			additiveExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

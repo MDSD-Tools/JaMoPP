@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpression;
 import tools.mdsd.jamopp.model.java.expressions.MultiplicativeExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.MultiplicativeOperator;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class MultiplicativeExpressionPrinterImpl implements Printer<MultiplicativeExpression> {
@@ -18,18 +17,18 @@ public class MultiplicativeExpressionPrinterImpl implements Printer<Multiplicati
 
 	@Inject
 	public MultiplicativeExpressionPrinterImpl(
-			Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter,
-			Printer<MultiplicativeOperator> multiplicativeOperatorPrinter) {
+			final Printer<MultiplicativeExpressionChild> multiplicativeExpressionChildPrinter,
+			final Printer<MultiplicativeOperator> multiplicativeOperatorPrinter) {
 		this.multiplicativeExpressionChildPrinter = multiplicativeExpressionChildPrinter;
 		this.multiplicativeOperatorPrinter = multiplicativeOperatorPrinter;
 	}
 
 	@Override
-	public void print(MultiplicativeExpression element, BufferedWriter writer) throws IOException {
-		this.multiplicativeExpressionChildPrinter.print(element.getChildren().get(0), writer);
+	public void print(final MultiplicativeExpression element, final BufferedWriter writer) throws IOException {
+		multiplicativeExpressionChildPrinter.print(element.getChildren().get(0), writer);
 		for (var index = 1; index < element.getChildren().size(); index++) {
-			this.multiplicativeOperatorPrinter.print(element.getMultiplicativeOperators().get(index - 1), writer);
-			this.multiplicativeExpressionChildPrinter.print(element.getChildren().get(index), writer);
+			multiplicativeOperatorPrinter.print(element.getMultiplicativeOperators().get(index - 1), writer);
+			multiplicativeExpressionChildPrinter.print(element.getChildren().get(index), writer);
 		}
 	}
 

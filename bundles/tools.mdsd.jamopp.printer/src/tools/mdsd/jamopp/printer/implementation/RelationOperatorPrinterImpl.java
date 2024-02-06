@@ -8,13 +8,12 @@ import tools.mdsd.jamopp.model.java.operators.GreaterThanOrEqual;
 import tools.mdsd.jamopp.model.java.operators.LessThan;
 import tools.mdsd.jamopp.model.java.operators.LessThanOrEqual;
 import tools.mdsd.jamopp.model.java.operators.RelationOperator;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class RelationOperatorPrinterImpl implements Printer<RelationOperator> {
 
 	@Override
-	public void print(RelationOperator element, BufferedWriter writer) throws IOException {
+	public void print(final RelationOperator element, final BufferedWriter writer) throws IOException {
 		if (element instanceof GreaterThan) {
 			writer.append(" > ");
 		} else if (element instanceof GreaterThanOrEqual) {

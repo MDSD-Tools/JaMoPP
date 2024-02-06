@@ -27,11 +27,14 @@ import tools.mdsd.jamopp.model.java.parameters.Parameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.statements.Block;
-import tools.mdsd.jamopp.model.java.statements.Statement;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 
-public class MethodExtension {
+public final class MethodExtension {
+
+	private MethodExtension() {
+		// Should not be initiated.
+	}
 
 	/**
 	 * Returns <code>true</code> if the given method matches the given call.
@@ -39,8 +42,8 @@ public class MethodExtension {
 	 * @param methodCall
 	 * @return
 	 */
-	public static boolean isSomeMethodForCall(Method me, MethodCall methodCall) {
-		return me.isMethodForCall(methodCall, false);
+	public static boolean isSomeMethodForCall(final Method method, final MethodCall methodCall) {
+		return method.isMethodForCall(methodCall, false);
 	}
 
 	/**
@@ -52,51 +55,51 @@ public class MethodExtension {
 	 * @param methodCall
 	 * @return
 	 */
-	public static boolean isBetterMethodForCall(Method me, Method otherMethod, MethodCall methodCall) {
-
-		if (!me.isMethodForCall(methodCall, false)) {
-			return false;
-		}
-
-		if (otherMethod.isMethodForCall(methodCall, true)) {
-			if (me.isMethodForCall(methodCall, true)) {
+	public static boolean isBetterMethodForCall(final Method method, final Method otherMethod,
+			final MethodCall methodCall) {
+		boolean result;
+		if (method.isMethodForCall(methodCall, false)) {
+			if (otherMethod.isMethodForCall(methodCall, true) && method.isMethodForCall(methodCall, true)) {
 				// We both match perfectly; lets compare our return types
-				Type target = me.getTypeReference().getTarget();
+				final Type target = method.getTypeReference().getTarget();
 				if (target instanceof ConcreteClassifier && ((ConcreteClassifier) target).getAllSuperClassifiers()
 						.contains(otherMethod.getTypeReference().getTarget())) {
 					// I am the more concrete type
-					return true;
+					result = true;
+				} else {
+					result = false;
 				}
+			} else {
+				result = false;
 			}
-
-			// the other already matches perfectly; I am not better
-			return false;
-		}
-
-		if (!otherMethod.isMethodForCall(methodCall, false)) {
+		} else if (otherMethod.isMethodForCall(methodCall, false)) {
+			// we both match, I am only better if I match perfectly
+			result = method.isMethodForCall(methodCall, true);
+		} else {
 			// I match, but the other does not
-			return true;
+			result = true;
 		}
-		// we both match, I am only better if I match perfectly
-		return me.isMethodForCall(methodCall, true);
+
+		return result;
 	}
 
-	public static boolean isMethodForCall(Method me, MethodCall methodCall, boolean needsPerfectMatch) {
+	public static boolean isMethodForCall(final Method method, final MethodCall methodCall,
+			final boolean needsPerfectMatch) {
 
-		EList<Type> argumentTypeList = methodCall.getArgumentTypes();
-		EList<Parameter> parameterList = new BasicEList<>(me.getParameters());
+		final EList<Type> argumentTypeList = methodCall.getArgumentTypes();
+		final EList<Parameter> parameterList = new BasicEList<>(method.getParameters());
 
-		EList<Type> parameterTypeList = new BasicEList<>();
-		for (Parameter parameter : parameterList) {
+		final EList<Type> parameterTypeList = new BasicEList<>();
+		for (final Parameter parameter : parameterList) {
 			// Determine types before messing with the parameters
-			TypeReference typeReference = parameter.getTypeReference();
-			Type boundTarget = typeReference.getBoundTarget(methodCall);
+			final TypeReference typeReference = parameter.getTypeReference();
+			final Type boundTarget = typeReference.getBoundTarget(methodCall);
 			parameterTypeList.add(boundTarget);
 		}
 
 		if (!parameterList.isEmpty()) {
-			Parameter lastParameter = parameterList.get(parameterList.size() - 1);
-			Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
+			final Parameter lastParameter = parameterList.get(parameterList.size() - 1);
+			final Type lastParameterType = parameterTypeList.get(parameterTypeList.size() - 1);
 			if (lastParameter instanceof VariableLengthParameter) {
 				// In case of variable length add/remove some parameters
 				while (parameterList.size() < argumentTypeList.size()) {
@@ -120,18 +123,18 @@ public class MethodExtension {
 		if (parameterList.size() == argumentTypeList.size()) {
 			boolean parametersMatch = true;
 			for (int i = 0; i < argumentTypeList.size(); i++) {
-				Type parameterType = parameterTypeList.get(i);
-				Type argumentType = argumentTypeList.get(i);
+				final Type parameterType = parameterTypeList.get(i);
+				final Type argumentType = argumentTypeList.get(i);
 
 				if (argumentType == null || parameterType == null
 						|| parameterType.eIsProxy() && argumentType.eIsProxy()) {
 					return false;
 				}
-				Expression argument = methodCall.getArguments().get(i);
-				long argumentArrayDimension = argument.getArrayDimension();
-				Parameter parameter = parameterList.get(i);
+				final Expression argument = methodCall.getArguments().get(i);
+				final long argumentArrayDimension = argument.getArrayDimension();
+				final Parameter parameter = parameterList.get(i);
 				if (needsPerfectMatch) {
-					long parameterArrayDimension = parameter.getArrayDimension();
+					final long parameterArrayDimension = parameter.getArrayDimension();
 					parametersMatch = parametersMatch
 							&& argumentType.equalsType(argumentArrayDimension, parameterType, parameterArrayDimension);
 				} else {
@@ -147,29 +150,16 @@ public class MethodExtension {
 	}
 
 	/**
-	 * Returns a list of all statements within the block of a method. This is a
-	 * legacy method to provide a stable and backwards-compatible API.
-	 *
-	 * @param me the method for which the statements are obtained.
-	 * @return the list of all statements.
-	 * @deprecated Use getBlock().getStatements().
-	 */
-	@Deprecated
-	public static EList<Statement> getStatements(Method me) {
-		Block b = getBlock(me);
-		return b != null ? b.getStatements() : new BasicEList<>();
-	}
-
-	/**
 	 * Returns a block representing the body of a method.
 	 *
-	 * @param me the method for which the body is returned.
+	 * @param method the method for which the body is returned.
 	 * @return the block or null if the method has no implementation.
 	 */
-	public static Block getBlock(Method me) {
-		if (me.getStatement() instanceof Block) {
-			return (Block) me.getStatement();
+	public static Block getBlock(final Method method) {
+		Block result = null;
+		if (method.getStatement() instanceof final Block block) {
+			result = block;
 		}
-		return null;
+		return result;
 	}
 }

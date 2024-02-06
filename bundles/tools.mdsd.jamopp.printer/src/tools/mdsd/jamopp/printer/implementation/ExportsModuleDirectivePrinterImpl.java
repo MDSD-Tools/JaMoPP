@@ -3,11 +3,10 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import tools.mdsd.jamopp.model.java.modules.AccessProvidingModuleDirective;
-import tools.mdsd.jamopp.model.java.modules.ExportsModuleDirective;
-
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.modules.AccessProvidingModuleDirective;
+import tools.mdsd.jamopp.model.java.modules.ExportsModuleDirective;
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ExportsModuleDirectivePrinterImpl implements Printer<ExportsModuleDirective> {
@@ -16,14 +15,14 @@ public class ExportsModuleDirectivePrinterImpl implements Printer<ExportsModuleD
 
 	@Inject
 	public ExportsModuleDirectivePrinterImpl(
-			Printer<AccessProvidingModuleDirective> remainingAccessProvidingModuleDirectivePrinter) {
+			final Printer<AccessProvidingModuleDirective> remainingAccessProvidingModuleDirectivePrinter) {
 		this.remainingAccessProvidingModuleDirectivePrinter = remainingAccessProvidingModuleDirectivePrinter;
 	}
 
 	@Override
-	public void print(ExportsModuleDirective element, BufferedWriter writer) throws IOException {
+	public void print(final ExportsModuleDirective element, final BufferedWriter writer) throws IOException {
 		writer.append("exports ");
-		this.remainingAccessProvidingModuleDirectivePrinter.print(element, writer);
+		remainingAccessProvidingModuleDirectivePrinter.print(element, writer);
 	}
 
 }

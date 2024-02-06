@@ -3,15 +3,14 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.generics.TypeParametrizable;
 import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.ExceptionThrower;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
 import tools.mdsd.jamopp.model.java.statements.Block;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ConstructorPrinterImpl implements Printer<Constructor> {
@@ -23,9 +22,10 @@ public class ConstructorPrinterImpl implements Printer<Constructor> {
 	private final Printer<TypeParametrizable> typeParametrizablePrinter;
 
 	@Inject
-	public ConstructorPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<Parametrizable> parametrizablePrinter,
-			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<Block> blockPrinter) {
+	public ConstructorPrinterImpl(final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			final Printer<TypeParametrizable> typeParametrizablePrinter,
+			final Printer<Parametrizable> parametrizablePrinter,
+			final Printer<ExceptionThrower> exceptionThrowerPrinter, final Printer<Block> blockPrinter) {
 		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		this.typeParametrizablePrinter = typeParametrizablePrinter;
 		this.parametrizablePrinter = parametrizablePrinter;
@@ -34,13 +34,13 @@ public class ConstructorPrinterImpl implements Printer<Constructor> {
 	}
 
 	@Override
-	public void print(Constructor element, BufferedWriter writer) throws IOException {
-		this.annotableAndModifiablePrinter.print(element, writer);
-		this.typeParametrizablePrinter.print(element, writer);
+	public void print(final Constructor element, final BufferedWriter writer) throws IOException {
+		annotableAndModifiablePrinter.print(element, writer);
+		typeParametrizablePrinter.print(element, writer);
 		writer.append(" " + element.getName());
-		this.parametrizablePrinter.print(element, writer);
-		this.exceptionThrowerPrinter.print(element, writer);
-		this.blockPrinter.print(element.getBlock(), writer);
+		parametrizablePrinter.print(element, writer);
+		exceptionThrowerPrinter.print(element, writer);
+		blockPrinter.print(element.getBlock(), writer);
 	}
 
 }

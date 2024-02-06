@@ -2,6 +2,11 @@ package tools.mdsd.jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.arrays.ArrayInstantiation;
@@ -15,10 +20,6 @@ import tools.mdsd.jamopp.model.java.references.ReflectiveClassReference;
 import tools.mdsd.jamopp.model.java.references.SelfReference;
 import tools.mdsd.jamopp.model.java.references.StringReference;
 import tools.mdsd.jamopp.model.java.references.TextBlockReference;
-
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
 import tools.mdsd.jamopp.printer.interfaces.EmptyPrinter;
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
@@ -35,16 +36,19 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 	private final Printer<SelfReference> selfReferencePrinter;
 	private final Printer<StringReference> stringReferencePrinter;
 	private final Printer<TextBlockReference> textBlockReferencePrinter;
+	private final List<Mapping<?>> mappings;
 
 	@Inject
-	public ReferencePrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
-			Printer<NestedExpression> nestedExpressionPrinter,
-			@Named("ReflectiveClassReferencePrinter") EmptyPrinter reflectiveClassReferencePrinter,
-			Printer<PrimitiveTypeReference> primitiveTypeReferencePrinter,
-			Printer<StringReference> stringReferencePrinter, Printer<SelfReference> selfReferencePrinter,
-			Printer<ArrayInstantiation> arrayInstantiationPrinter, Printer<Instantiation> instantiationPrinter,
-			Printer<TextBlockReference> textBlockReferencePrinter, Printer<ElementReference> elementReferencePrinter,
-			Printer<ArraySelector> arraySelectorPrinter) {
+	public ReferencePrinterImpl(final Printer<AnnotationInstance> annotationInstancePrinter,
+			final Printer<NestedExpression> nestedExpressionPrinter,
+			@Named("ReflectiveClassReferencePrinter") final EmptyPrinter reflectiveClassReferencePrinter,
+			final Printer<PrimitiveTypeReference> primitiveTypeReferencePrinter,
+			final Printer<StringReference> stringReferencePrinter, final Printer<SelfReference> selfReferencePrinter,
+			final Printer<ArrayInstantiation> arrayInstantiationPrinter,
+			final Printer<Instantiation> instantiationPrinter,
+			final Printer<TextBlockReference> textBlockReferencePrinter,
+			final Printer<ElementReference> elementReferencePrinter,
+			final Printer<ArraySelector> arraySelectorPrinter) {
 		this.annotationInstancePrinter = annotationInstancePrinter;
 		this.nestedExpressionPrinter = nestedExpressionPrinter;
 		this.reflectiveClassReferencePrinter = reflectiveClassReferencePrinter;
@@ -56,33 +60,38 @@ public class ReferencePrinterImpl implements Printer<Reference> {
 		this.textBlockReferencePrinter = textBlockReferencePrinter;
 		this.elementReferencePrinter = elementReferencePrinter;
 		this.arraySelectorPrinter = arraySelectorPrinter;
+		mappings = new ArrayList<>();
 	}
 
 	@Override
-	public void print(Reference element, BufferedWriter writer) throws IOException {
-		if (element instanceof AnnotationInstance) {
-			this.annotationInstancePrinter.print((AnnotationInstance) element, writer);
-		} else if (element instanceof NestedExpression) {
-			this.nestedExpressionPrinter.print((NestedExpression) element, writer);
-		} else if (element instanceof ReflectiveClassReference) {
-			this.reflectiveClassReferencePrinter.print(writer);
-		} else if (element instanceof PrimitiveTypeReference) {
-			this.primitiveTypeReferencePrinter.print((PrimitiveTypeReference) element, writer);
-		} else if (element instanceof StringReference) {
-			this.stringReferencePrinter.print((StringReference) element, writer);
-		} else if (element instanceof SelfReference) {
-			this.selfReferencePrinter.print((SelfReference) element, writer);
-		} else if (element instanceof ArrayInstantiation) {
-			this.arrayInstantiationPrinter.print((ArrayInstantiation) element, writer);
-		} else if (element instanceof Instantiation) {
-			this.instantiationPrinter.print((Instantiation) element, writer);
-		} else if (element instanceof TextBlockReference) {
-			this.textBlockReferencePrinter.print((TextBlockReference) element, writer);
-		} else {
-			this.elementReferencePrinter.print((ElementReference) element, writer);
+	public void print(final Reference element, final BufferedWriter writer) throws IOException {
+
+		if (mappings.isEmpty()) {
+			mappings.add(new Mapping<>(AnnotationInstance.class, annotationInstancePrinter));
+			mappings.add(new Mapping<>(NestedExpression.class, nestedExpressionPrinter));
+			mappings.add(new Mapping<>(PrimitiveTypeReference.class, primitiveTypeReferencePrinter));
+			mappings.add(new Mapping<>(StringReference.class, stringReferencePrinter));
+			mappings.add(new Mapping<>(SelfReference.class, selfReferencePrinter));
+			mappings.add(new Mapping<>(ArrayInstantiation.class, arrayInstantiationPrinter));
+			mappings.add(new Mapping<>(Instantiation.class, instantiationPrinter));
+			mappings.add(new Mapping<>(TextBlockReference.class, textBlockReferencePrinter));
+			mappings.add(new Mapping<>(ElementReference.class, elementReferencePrinter));
 		}
-		for (ArraySelector sel : element.getArraySelectors()) {
-			this.arraySelectorPrinter.print(sel, writer);
+
+		boolean printed = false;
+		for (final Mapping<?> mapping : mappings) {
+			printed = mapping.checkAndPrint(element, writer);
+			if (printed) {
+				break;
+			}
+		}
+
+		if (element instanceof ReflectiveClassReference && !printed) {
+			reflectiveClassReferencePrinter.print(writer);
+		}
+
+		for (final ArraySelector sel : element.getArraySelectors()) {
+			arraySelectorPrinter.print(sel, writer);
 		}
 		if (element.getNext() != null) {
 			writer.append(".");

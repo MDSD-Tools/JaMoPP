@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.ShiftExpressionChild;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ShiftExpressionChildPrinterImpl implements Printer<ShiftExpressionChild> {
@@ -17,18 +16,18 @@ public class ShiftExpressionChildPrinterImpl implements Printer<ShiftExpressionC
 	private final Printer<AdditiveExpression> additiveExpressionPrinter;
 
 	@Inject
-	public ShiftExpressionChildPrinterImpl(Printer<AdditiveExpression> additiveExpressionPrinter,
-			Printer<AdditiveExpressionChild> additiveExpressionChildPrinter) {
+	public ShiftExpressionChildPrinterImpl(final Printer<AdditiveExpression> additiveExpressionPrinter,
+			final Printer<AdditiveExpressionChild> additiveExpressionChildPrinter) {
 		this.additiveExpressionPrinter = additiveExpressionPrinter;
 		this.additiveExpressionChildPrinter = additiveExpressionChildPrinter;
 	}
 
 	@Override
-	public void print(ShiftExpressionChild element, BufferedWriter writer) throws IOException {
+	public void print(final ShiftExpressionChild element, final BufferedWriter writer) throws IOException {
 		if (element instanceof AdditiveExpression) {
-			this.additiveExpressionPrinter.print((AdditiveExpression) element, writer);
+			additiveExpressionPrinter.print((AdditiveExpression) element, writer);
 		} else {
-			this.additiveExpressionChildPrinter.print((AdditiveExpressionChild) element, writer);
+			additiveExpressionChildPrinter.print((AdditiveExpressionChild) element, writer);
 		}
 	}
 

@@ -6,13 +6,12 @@ import java.io.IOException;
 import tools.mdsd.jamopp.model.java.operators.Division;
 import tools.mdsd.jamopp.model.java.operators.Multiplication;
 import tools.mdsd.jamopp.model.java.operators.MultiplicativeOperator;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class MultiplicativeOperatorPrinterImpl implements Printer<MultiplicativeOperator> {
 
 	@Override
-	public void print(MultiplicativeOperator element, BufferedWriter writer) throws IOException {
+	public void print(final MultiplicativeOperator element, final BufferedWriter writer) throws IOException {
 		if (element instanceof Multiplication) {
 			writer.append(" * ");
 		} else if (element instanceof Division) {

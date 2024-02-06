@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: turbine
-  cloud:
-    config:
-      enabled: false

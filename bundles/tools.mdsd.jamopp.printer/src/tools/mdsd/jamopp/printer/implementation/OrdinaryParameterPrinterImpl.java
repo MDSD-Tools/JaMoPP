@@ -4,14 +4,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class OrdinaryParameterPrinterImpl implements Printer<OrdinaryParameter> {
@@ -22,9 +21,9 @@ public class OrdinaryParameterPrinterImpl implements Printer<OrdinaryParameter> 
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public OrdinaryParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
+	public OrdinaryParameterPrinterImpl(final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			final Printer<TypeReference> typeReferencePrinter, final Printer<TypeArgumentable> typeArgumentablePrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter) {
 		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		this.typeReferencePrinter = typeReferencePrinter;
 		this.typeArgumentablePrinter = typeArgumentablePrinter;
@@ -32,13 +31,13 @@ public class OrdinaryParameterPrinterImpl implements Printer<OrdinaryParameter> 
 	}
 
 	@Override
-	public void print(OrdinaryParameter element, BufferedWriter writer) throws IOException {
-		this.annotableAndModifiablePrinter.print(element, writer);
-		this.typeReferencePrinter.print(element.getTypeReference(), writer);
-		this.typeArgumentablePrinter.print(element, writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+	public void print(final OrdinaryParameter element, final BufferedWriter writer) throws IOException {
+		annotableAndModifiablePrinter.print(element, writer);
+		typeReferencePrinter.print(element.getTypeReference(), writer);
+		typeArgumentablePrinter.print(element, writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 	}
 
 }

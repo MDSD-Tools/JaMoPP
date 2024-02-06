@@ -19,32 +19,39 @@
 package tools.mdsd.jamopp.model.java;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
 
 /**
- * This class is responsible for managing and retrieving Java resources to establish inter-model references between
- * different Java classes represented as EMF-models.
+ * This class is responsible for managing and retrieving Java resources to
+ * establish inter-model references between different Java classes represented
+ * as EMF-models.
  */
-public class JavaClasspath {
+public final class JavaClasspath {
 	/**
 	 * Singleton instance.
 	 */
 	private static JavaClasspath globalClasspath;
+	private final Set<tools.mdsd.jamopp.model.java.containers.Module> modules = new HashSet<>();
+	private final Set<tools.mdsd.jamopp.model.java.containers.Package> packages = new HashSet<>();
+	private final Set<ConcreteClassifier> classifiers = new HashSet<>();
 
-	public static JavaClasspath get() {
-		if (globalClasspath == null) {
-			globalClasspath = new JavaClasspath();
-		}
-		return globalClasspath;
+	static {
+		globalClasspath = new JavaClasspath();
 	}
 
-	private final HashSet<tools.mdsd.jamopp.model.java.containers.Module> modules = new HashSet<>();
-	private final HashSet<tools.mdsd.jamopp.model.java.containers.Package> packages = new HashSet<>();
-	private final HashSet<ConcreteClassifier> classifiers = new HashSet<>();
+	private JavaClasspath() {
+		// Is singleton.
+	}
+
+	public static JavaClasspath get() {
+		return globalClasspath;
+	}
 
 	public void clear() {
 		modules.clear();
@@ -52,68 +59,71 @@ public class JavaClasspath {
 		classifiers.clear();
 	}
 
-	public void registerPackage(tools.mdsd.jamopp.model.java.containers.Package pack) {
+	public void registerPackage(final tools.mdsd.jamopp.model.java.containers.Package pack) {
 		packages.add(pack);
 	}
 
-	public void registerModule(tools.mdsd.jamopp.model.java.containers.Module module) {
+	public void registerModule(final tools.mdsd.jamopp.model.java.containers.Module module) {
 		modules.add(module);
 	}
 
-	public void registerConcreteClassifier(ConcreteClassifier classifier) {
+	public void registerConcreteClassifier(final ConcreteClassifier classifier) {
 		classifiers.add(classifier);
 	}
 
-	public tools.mdsd.jamopp.model.java.containers.Package getPackage(String packageName) {
+	public tools.mdsd.jamopp.model.java.containers.Package getPackage(final String packageName) {
 		return packages.stream().filter(p -> p.getNamespacesAsString().equals(packageName)).findFirst().orElse(null);
 	}
 
-	public tools.mdsd.jamopp.model.java.containers.Module getModule(String moduleName) {
+	public tools.mdsd.jamopp.model.java.containers.Module getModule(final String moduleName) {
 		return modules.stream().filter(m -> m.getNamespacesAsString().equals(moduleName)).findFirst().orElse(null);
 	}
 
-	public ConcreteClassifier getConcreteClassifier(URI uri) {
-		return classifiers.stream().filter(c -> ((c.eResource() != null) && c.eResource().getURI().toString().equals(uri.toString()))).findFirst().orElse(null);
+	public ConcreteClassifier getConcreteClassifier(final URI uri) {
+		return classifiers.stream()
+				.filter(c -> c.eResource() != null && c.eResource().getURI().toString().equals(uri.toString()))
+				.findFirst().orElse(null);
 	}
 
-	public ConcreteClassifier getConcreteClassifier(String fullQualifiedClassifierName) {
-		return classifiers.stream().filter(c -> c.getQualifiedName().equals(fullQualifiedClassifierName)).findFirst().orElse(null);
+	public ConcreteClassifier getConcreteClassifier(final String fullQualifiedClassifierName) {
+		return classifiers.stream().filter(c -> c.getQualifiedName().equals(fullQualifiedClassifierName)).findFirst()
+				.orElse(null);
 	}
 
-	public ConcreteClassifier getFirstConcreteClassifier(String simpleClassifierName) {
+	public ConcreteClassifier getFirstConcreteClassifier(final String simpleClassifierName) {
 		return classifiers.stream().filter(c -> c.getName().equals(simpleClassifierName)).findFirst().orElse(null);
 	}
 
-	public CompilationUnit getCompilationUnit(String fullQualifiedClassifierName) {
+	public CompilationUnit getCompilationUnit(final String fullQualifiedClassifierName) {
 		ConcreteClassifier classifier = getConcreteClassifier(fullQualifiedClassifierName);
+		CompilationUnit result = null;
 		if (classifier != null) {
 			while (classifier.eContainer() != null && !(classifier.eContainer() instanceof CompilationUnit)) {
 				classifier = (ConcreteClassifier) classifier.eContainer();
 			}
 			if (classifier.eContainer() != null) {
-				return (CompilationUnit) classifier.eContainer();
+				result = (CompilationUnit) classifier.eContainer();
 			}
 		}
-		return null;
+		return result;
 	}
 
-	public Resource getResource(URI resourceURI) {
-		ConcreteClassifier classifier = getConcreteClassifier(resourceURI);
+	public Resource getResource(final URI resourceURI) {
+		final ConcreteClassifier classifier = getConcreteClassifier(resourceURI);
+		final tools.mdsd.jamopp.model.java.containers.Package pack = packages.stream()
+				.filter(p -> p.eResource() != null)
+				.filter(p -> p.eResource().getURI().toString().equals(resourceURI.toString())).findFirst().orElse(null);
+		final tools.mdsd.jamopp.model.java.containers.Module mod = modules.stream().filter(m -> m.eResource() != null)
+				.filter(m -> m.eResource().getURI().toString().equals(resourceURI.toString())).findFirst().orElse(null);
+
+		Resource result = null;
 		if (classifier != null) {
-			return classifier.eResource();
+			result = classifier.eResource();
+		} else if (pack != null) {
+			result = pack.eResource();
+		} else if (mod != null) {
+			result = mod.eResource();
 		}
-		tools.mdsd.jamopp.model.java.containers.Package pack = packages.stream().filter(p -> p.eResource() != null)
-				.filter(p -> p.eResource().getURI().toString().equals(resourceURI.toString()))
-				.findFirst().orElse(null);
-		if (pack != null) {
-			return pack.eResource();
-		}
-		tools.mdsd.jamopp.model.java.containers.Module mod = modules.stream().filter(m -> m.eResource() != null)
-				.filter(m -> m.eResource().getURI().toString().equals(resourceURI.toString()))
-				.findFirst().orElse(null);
-		if (mod != null) {
-			return mod.eResource();
-		}
-		return null;
+		return result;
 	}
 }

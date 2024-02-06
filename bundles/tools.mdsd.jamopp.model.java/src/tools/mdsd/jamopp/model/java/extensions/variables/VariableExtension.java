@@ -16,9 +16,9 @@
 package tools.mdsd.jamopp.model.java.extensions.variables;
 
 import org.eclipse.emf.common.util.EList;
+
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.members.MemberContainer;
-import tools.mdsd.jamopp.model.java.members.Method;
 import tools.mdsd.jamopp.model.java.references.IdentifierReference;
 import tools.mdsd.jamopp.model.java.references.MethodCall;
 import tools.mdsd.jamopp.model.java.references.ReferencesFactory;
@@ -27,7 +27,11 @@ import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.variables.Variable;
 
-public class VariableExtension {
+public final class VariableExtension {
+
+	private VariableExtension() {
+		// Should not initiated.
+	}
 
 	/**
 	 * Creates a statement that calls the method with the given name on this
@@ -37,10 +41,11 @@ public class VariableExtension {
 	 * @param methodName
 	 * @param arguments
 	 */
-	public static ExpressionStatement createMethodCallStatement(Variable me, String methodName, EList<Expression> arguments) {
+	public static ExpressionStatement createMethodCallStatement(final Variable variable, final String methodName,
+			final EList<Expression> arguments) {
 
-		ExpressionStatement callStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
-		callStatement.setExpression(me.createMethodCall(methodName, arguments));
+		final ExpressionStatement callStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
+		callStatement.setExpression(variable.createMethodCall(methodName, arguments));
 		return callStatement;
 	}
 
@@ -52,23 +57,20 @@ public class VariableExtension {
 	 * @param methodName
 	 * @param arguments
 	 */
-	public static IdentifierReference createMethodCall(Variable me, String methodName, EList<Expression> arguments) {
-		IdentifierReference thisRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
-		thisRef.setTarget(me);
-
-		Type thisType = me.getTypeReference().getTarget();
-		if (!(thisType instanceof MemberContainer castedType)) {
-			return null;
+	public static IdentifierReference createMethodCall(final Variable variable, final String methodName,
+			final EList<Expression> arguments) {
+		final IdentifierReference thisRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
+		thisRef.setTarget(variable);
+		IdentifierReference result = null;
+		final Type thisType = variable.getTypeReference().getTarget();
+		if (thisType instanceof final MemberContainer castedType && castedType.getContainedMethod(methodName) != null) {
+			final MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
+			methodCall.setTarget(castedType.getContainedMethod(methodName));
+			// add arguments
+			methodCall.getArguments().addAll(arguments);
+			thisRef.setNext(methodCall);
+			result = thisRef;
 		}
-		Method method = castedType.getContainedMethod(methodName);
-		if (method == null) {
-			return null;
-		}
-		MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
-		methodCall.setTarget(method);
-		// add arguments
-		methodCall.getArguments().addAll(arguments);
-		thisRef.setNext(methodCall);
-		return thisRef;
+		return result;
 	}
 }

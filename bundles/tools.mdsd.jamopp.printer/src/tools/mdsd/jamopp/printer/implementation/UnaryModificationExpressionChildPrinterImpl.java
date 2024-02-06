@@ -3,14 +3,13 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.CastExpression;
 import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpression;
 import tools.mdsd.jamopp.model.java.expressions.MethodReferenceExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild;
 import tools.mdsd.jamopp.model.java.statements.Switch;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class UnaryModificationExpressionChildPrinterImpl implements Printer<UnaryModificationExpressionChild> {
@@ -21,10 +20,10 @@ public class UnaryModificationExpressionChildPrinterImpl implements Printer<Unar
 	private final Printer<Switch> switchPrinter;
 
 	@Inject
-	public UnaryModificationExpressionChildPrinterImpl(Printer<Switch> switchPrinter,
-			Printer<CastExpression> castExpressionPrinter,
-			Printer<MethodReferenceExpression> methodReferenceExpressionPrinter,
-			Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter) {
+	public UnaryModificationExpressionChildPrinterImpl(final Printer<Switch> switchPrinter,
+			final Printer<CastExpression> castExpressionPrinter,
+			final Printer<MethodReferenceExpression> methodReferenceExpressionPrinter,
+			final Printer<MethodReferenceExpressionChild> methodReferenceExpressionChildPrinter) {
 		this.switchPrinter = switchPrinter;
 		this.castExpressionPrinter = castExpressionPrinter;
 		this.methodReferenceExpressionPrinter = methodReferenceExpressionPrinter;
@@ -32,15 +31,15 @@ public class UnaryModificationExpressionChildPrinterImpl implements Printer<Unar
 	}
 
 	@Override
-	public void print(UnaryModificationExpressionChild element, BufferedWriter writer) throws IOException {
+	public void print(final UnaryModificationExpressionChild element, final BufferedWriter writer) throws IOException {
 		if (element instanceof Switch) {
-			this.switchPrinter.print((Switch) element, writer);
+			switchPrinter.print((Switch) element, writer);
 		} else if (element instanceof CastExpression) {
-			this.castExpressionPrinter.print((CastExpression) element, writer);
+			castExpressionPrinter.print((CastExpression) element, writer);
 		} else if (element instanceof MethodReferenceExpression) {
-			this.methodReferenceExpressionPrinter.print((MethodReferenceExpression) element, writer);
+			methodReferenceExpressionPrinter.print((MethodReferenceExpression) element, writer);
 		} else {
-			this.methodReferenceExpressionChildPrinter.print((MethodReferenceExpressionChild) element, writer);
+			methodReferenceExpressionChildPrinter.print((MethodReferenceExpressionChild) element, writer);
 		}
 	}
 

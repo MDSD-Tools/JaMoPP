@@ -8,7 +8,7 @@ import tools.mdsd.jamopp.printer.interfaces.EmptyPrinter;
 public class EmptyStatementPrinterImpl implements EmptyPrinter {
 
 	@Override
-	public void print(BufferedWriter writer) throws IOException {
+	public void print(final BufferedWriter writer) throws IOException {
 		writer.append(";\n");
 	}
 

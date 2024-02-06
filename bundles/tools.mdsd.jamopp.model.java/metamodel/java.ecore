@@ -398,7 +398,7 @@
         <eParameters name="statementToAdd" lowerBound="1" eType="#_Wo2YzNz1Ed2bJ_pQViWxFg"/>
       </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="layoutInformations" upperBound="-1"
-          eType="ecore:EClass platform:/resource/tools.mdsd.jamopp.commons.layout/metamodel/layout.ecore#//LayoutInformation"
+          eType="ecore:EClass ../../tools.mdsd.jamopp.commons.layout/metamodel/layout.ecore#//LayoutInformation"
           containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//commons/Commentable">
@@ -551,12 +551,12 @@
         eSuperTypes="#//expressions/AssignmentExpressionChild">
       <eOperations name="getExpressionElse" lowerBound="1" eType="#//expressions/AssignmentExpressionChild">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.expressions.ConditionalExpressionExtension.getExpressionElse((tools.mdsd.jamopp.model.java.expressions.ConditionalExpression) this);"/>
+          <details key="body" value="if (getGeneralExpressionElse() instanceof AssignmentExpressionChild) {return (AssignmentExpressionChild) getGeneralExpressionElse();}return null;"/>
         </eAnnotations>
       </eOperations>
       <eOperations name="setExpressionChild" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="tools.mdsd.jamopp.model.java.extensions.expressions.ConditionalExpressionExtension.setExpressionElse((tools.mdsd.jamopp.model.java.expressions.ConditionalExpression) this, newChild);"/>
+          <details key="body" value="setGeneralExpressionElse(newChild);"/>
         </eAnnotations>
         <eParameters name="newChild" lowerBound="1" eType="#//expressions/AssignmentExpressionChild"/>
       </eOperations>
@@ -698,12 +698,12 @@
         eSuperTypes="#_Wo2ZP9z1Ed2bJ_pQViWxFg #//arrays/ArrayTypeable #//expressions/UnaryModificationExpressionChild">
       <eOperations name="getChild" lowerBound="1" eType="#//expressions/MultiplicativeExpressionChild">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.expressions.CastExpressionExtension.getChild((tools.mdsd.jamopp.model.java.expressions.CastExpression) this);"/>
+          <details key="body" value="&#x9;if (getGeneralChild() instanceof MultiplicativeExpressionChild) {return (MultiplicativeExpressionChild) getGeneralChild();}return null;"/>
         </eAnnotations>
       </eOperations>
       <eOperations name="setChild" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="tools.mdsd.jamopp.model.java.extensions.expressions.CastExpressionExtension.setChild((tools.mdsd.jamopp.model.java.expressions.CastExpression) this, newChild);"/>
+          <details key="body" value="setGeneralChild(newChild);"/>
         </eAnnotations>
         <eParameters name="newChild" lowerBound="1" eType="#//expressions/MultiplicativeExpressionChild"/>
       </eOperations>
@@ -766,7 +766,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="ExtendsTypeArgument" eSuperTypes="#//annotations/Annotable #//generics/TypeArgument">
       <eOperations name="getExtendTypes" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.generics.ExtendsTypeArgumentExtension.getExtendTypes((tools.mdsd.jamopp.model.java.generics.ExtendsTypeArgument) this);"/>
+          <details key="body" value="EList&lt;TypeReference> result = new &lt;%org.eclipse.emf.common.util.BasicEList%>&lt;>();&#xA;result.add(getExtendType());&#xA;return result;"/>
         </eAnnotations>
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
           <eTypeArguments eClassifier="#_Wo2ZPdz1Ed2bJ_pQViWxFg"/>
@@ -1019,7 +1019,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="Constructor" eSuperTypes="#//members/Member #//parameters/Parametrizable #//generics/TypeParametrizable #//members/ExceptionThrower #//modifiers/AnnotableAndModifiable #//statements/BlockContainer #//statements/StatementListContainer">
       <eOperations name="getStatements" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.members.ConstructorExtension.getStatements((tools.mdsd.jamopp.model.java.members.Constructor) this);"/>
+          <details key="body" value="return getBlock().getStatements();"/>
         </eAnnotations>
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
           <eTypeArguments eClassifier="#_Wo2YzNz1Ed2bJ_pQViWxFg"/>
@@ -1062,7 +1062,7 @@
       </eOperations>
       <eOperations name="getStatements" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.members.MethodExtension.getStatements((tools.mdsd.jamopp.model.java.members.Method) this);"/>
+          <details key="body" value="&#x9;&#x9;Block b = tools.mdsd.jamopp.model.java.extensions.members.MethodExtension.getBlock(this);&#xA;&#x9;&#x9;if (b == null) {&#xA;&#x9;&#x9;&#x9;return new org.eclipse.emf.common.util.BasicEList&lt;>();&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return b.getStatements();"/>
         </eAnnotations>
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
           <eTypeArguments eClassifier="#_Wo2YzNz1Ed2bJ_pQViWxFg"/>
@@ -1390,7 +1390,7 @@
         eSuperTypes="#//statements/StatementListContainer #//statements/BlockContainer">
       <eOperations name="getStatements" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.statements.CatchBlockExtension.getStatements((tools.mdsd.jamopp.model.java.statements.CatchBlock) this);"/>
+          <details key="body" value="return getBlock().getStatements();"/>
         </eAnnotations>
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
           <eTypeArguments eClassifier="#_Wo2YzNz1Ed2bJ_pQViWxFg"/>
@@ -1463,7 +1463,7 @@
         eSuperTypes="#_Wo2YzNz1Ed2bJ_pQViWxFg #//statements/StatementListContainer #//statements/BlockContainer">
       <eOperations name="getStatements" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.statements.SynchronizedBlockExtension.getStatements((tools.mdsd.jamopp.model.java.statements.SynchronizedBlock) this);"/>
+          <details key="body" value="return getBlock().getStatements();"/>
         </eAnnotations>
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
           <eTypeArguments eClassifier="#_Wo2YzNz1Ed2bJ_pQViWxFg"/>
@@ -1481,7 +1481,7 @@
         eSuperTypes="#_Wo2YzNz1Ed2bJ_pQViWxFg #//statements/StatementListContainer #//statements/BlockContainer">
       <eOperations name="getCatcheBlocks" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.statements.TryBlockExtension.getCatcheBlocks((tools.mdsd.jamopp.model.java.statements.TryBlock) this);"/>
+          <details key="body" value="return getCatchBlocks();"/>
         </eAnnotations>
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
           <eTypeArguments eClassifier="#_Wo2ZD9z1Ed2bJ_pQViWxFg"/>
@@ -1489,7 +1489,7 @@
       </eOperations>
       <eOperations name="getStatements" lowerBound="1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return tools.mdsd.jamopp.model.java.extensions.statements.TryBlockExtension.getStatements((tools.mdsd.jamopp.model.java.statements.TryBlock) this);"/>
+          <details key="body" value="return getBlock().getStatements();"/>
         </eAnnotations>
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
           <eTypeArguments eClassifier="#_Wo2YzNz1Ed2bJ_pQViWxFg"/>

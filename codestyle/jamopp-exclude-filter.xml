@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+	<Match>
+  		<Bug pattern="CD_CIRCULAR_DEPENDENCY" />
+	</Match>
+	<Match>
+  		<Bug pattern="EI_EXPOSE_REP" />
+	</Match>
+	<Match>
+  		<Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES" />
+	</Match>
+	<Match>
+  		<Bug pattern="BC_UNCONFIRMED_CAST" />
+	</Match>
+	<Match>
+  		<Bug pattern="EI_EXPOSE_REP2" />
+	</Match>
+	<Match>
+  		<Bug pattern="MS_EXPOSE_REP" />
+	</Match>
+	<Match>
+ 		<Class name="~tools.mdsd.jamopp.model.java.(?!(extension|JavaClasspath|util)).*" />
+	</Match>
+	<Match>
+ 		<Class name="~tools.mdsd.jamopp.commons.jdt.(?!(resolve)).*" />
+	</Match>
+	<Match>
+ 		<Class name="~tools.mdsd.jamopp.parser.injection..*" />
+	</Match>
+	<Match>
+ 		<Class name="~tools.mdsd.jamopp.printer.injection..*" />
+	</Match>
+	<Match>
+ 		<Class name="~tools.mdsd.jamopp.commons.layout..*" />
+	</Match>
+	<Match>
+ 		<Class name="~tools.mdsd.jamopp.commons.layout.provider..*" />
+	</Match>
+</FindBugsFilter>

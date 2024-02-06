@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.arrays.ArrayInitializer;
 import tools.mdsd.jamopp.model.java.arrays.ArrayInstantiation;
@@ -13,9 +15,6 @@ import tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationByValuesUntyped;
 import tools.mdsd.jamopp.model.java.expressions.Expression;
 import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation> {
@@ -27,9 +26,10 @@ public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public ArrayInstantiationPrinterImpl(Printer<TypeReference> typeReferencePrinter,
-			Printer<TypeArgumentable> typeArgumentablePrinter, Printer<Expression> expressionPrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<ArrayInitializer> arrayInitializerPrinter) {
+	public ArrayInstantiationPrinterImpl(final Printer<TypeReference> typeReferencePrinter,
+			final Printer<TypeArgumentable> typeArgumentablePrinter, final Printer<Expression> expressionPrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter,
+			final Printer<ArrayInitializer> arrayInitializerPrinter) {
 		this.typeReferencePrinter = typeReferencePrinter;
 		this.typeArgumentablePrinter = typeArgumentablePrinter;
 		this.expressionPrinter = expressionPrinter;
@@ -38,31 +38,46 @@ public class ArrayInstantiationPrinterImpl implements Printer<ArrayInstantiation
 	}
 
 	@Override
-	public void print(ArrayInstantiation element, BufferedWriter writer) throws IOException {
-		if (element instanceof ArrayInstantiationBySize inst) {
-			writer.append("new ");
-			this.typeReferencePrinter.print(inst.getTypeReference(), writer);
-			this.typeArgumentablePrinter.print(inst, writer);
-			writer.append(" ");
-			for (Expression expr : inst.getSizes()) {
-				writer.append("[");
-				this.expressionPrinter.print(expr, writer);
-				writer.append("] ");
-			}
-			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
-			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
-		} else if (element instanceof ArrayInstantiationByValuesUntyped inst) {
-			this.arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
+	public void print(final ArrayInstantiation element, final BufferedWriter writer) throws IOException {
+		if (element instanceof final ArrayInstantiationBySize inst) {
+			printArrayInstantiationBySize(writer, inst);
+		} else if (element instanceof final ArrayInstantiationByValuesUntyped inst) {
+			printArrayInstantiationByValuesUntyped(writer, inst);
 		} else {
-			var inst = (ArrayInstantiationByValuesTyped) element;
-			writer.append("new ");
-			this.typeReferencePrinter.print(inst.getTypeReference(), writer);
-			this.typeArgumentablePrinter.print(inst, writer);
-			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
-			this.arrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
-			writer.append(" ");
-			this.arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
+			printArrayInstantiationByValuesTyped(element, writer);
 		}
+	}
+
+	private void printArrayInstantiationByValuesTyped(final ArrayInstantiation element, final BufferedWriter writer)
+			throws IOException {
+		final ArrayInstantiationByValuesTyped inst = (ArrayInstantiationByValuesTyped) element;
+		writer.append("new ");
+		typeReferencePrinter.print(inst.getTypeReference(), writer);
+		typeArgumentablePrinter.print(inst, writer);
+		arrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
+		arrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
+		writer.append(" ");
+		arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
+	}
+
+	private void printArrayInstantiationByValuesUntyped(final BufferedWriter writer,
+			final ArrayInstantiationByValuesUntyped inst) throws IOException {
+		arrayInitializerPrinter.print(inst.getArrayInitializer(), writer);
+	}
+
+	private void printArrayInstantiationBySize(final BufferedWriter writer, final ArrayInstantiationBySize inst)
+			throws IOException {
+		writer.append("new ");
+		typeReferencePrinter.print(inst.getTypeReference(), writer);
+		typeArgumentablePrinter.print(inst, writer);
+		writer.append(" ");
+		for (final Expression expr : inst.getSizes()) {
+			writer.append("[");
+			expressionPrinter.print(expr, writer);
+			writer.append("] ");
+		}
+		arrayDimensionsPrinter.print(inst.getArrayDimensionsBefore(), writer);
+		arrayDimensionsPrinter.print(inst.getArrayDimensionsAfter(), writer);
 	}
 
 }

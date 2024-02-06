@@ -3,15 +3,14 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.modules.ExportsModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.ModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.OpensModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.ProvidesModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective;
 import tools.mdsd.jamopp.model.java.modules.UsesModuleDirective;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ModulePrinterImpl implements Printer<tools.mdsd.jamopp.model.java.containers.Module> {
@@ -23,11 +22,11 @@ public class ModulePrinterImpl implements Printer<tools.mdsd.jamopp.model.java.c
 	private final Printer<UsesModuleDirective> usesModuleDirectivePrinter;
 
 	@Inject
-	public ModulePrinterImpl(Printer<UsesModuleDirective> usesModuleDirectivePrinter,
-			Printer<ProvidesModuleDirective> providesModuleDirectivePrinter,
-			Printer<RequiresModuleDirective> requiresModuleDirectivePrinter,
-			Printer<OpensModuleDirective> opensModuleDirectivePrinter,
-			Printer<ExportsModuleDirective> exportsModuleDirectivePrinter) {
+	public ModulePrinterImpl(final Printer<UsesModuleDirective> usesModuleDirectivePrinter,
+			final Printer<ProvidesModuleDirective> providesModuleDirectivePrinter,
+			final Printer<RequiresModuleDirective> requiresModuleDirectivePrinter,
+			final Printer<OpensModuleDirective> opensModuleDirectivePrinter,
+			final Printer<ExportsModuleDirective> exportsModuleDirectivePrinter) {
 		this.usesModuleDirectivePrinter = usesModuleDirectivePrinter;
 		this.providesModuleDirectivePrinter = providesModuleDirectivePrinter;
 		this.requiresModuleDirectivePrinter = requiresModuleDirectivePrinter;
@@ -36,23 +35,24 @@ public class ModulePrinterImpl implements Printer<tools.mdsd.jamopp.model.java.c
 	}
 
 	@Override
-	public void print(tools.mdsd.jamopp.model.java.containers.Module element, BufferedWriter writer) throws IOException {
+	public void print(final tools.mdsd.jamopp.model.java.containers.Module element, final BufferedWriter writer)
+			throws IOException {
 		writer.append("module ");
 		if (element.getOpen() != null) {
 			writer.append("open ");
 		}
 		writer.append(element.getNamespacesAsString() + " {\n");
-		for (ModuleDirective dir : element.getTarget()) {
+		for (final ModuleDirective dir : element.getTarget()) {
 			if (dir instanceof UsesModuleDirective) {
-				this.usesModuleDirectivePrinter.print((UsesModuleDirective) dir, writer);
+				usesModuleDirectivePrinter.print((UsesModuleDirective) dir, writer);
 			} else if (dir instanceof ProvidesModuleDirective) {
-				this.providesModuleDirectivePrinter.print((ProvidesModuleDirective) dir, writer);
+				providesModuleDirectivePrinter.print((ProvidesModuleDirective) dir, writer);
 			} else if (dir instanceof RequiresModuleDirective) {
-				this.requiresModuleDirectivePrinter.print((RequiresModuleDirective) dir, writer);
+				requiresModuleDirectivePrinter.print((RequiresModuleDirective) dir, writer);
 			} else if (dir instanceof OpensModuleDirective) {
-				this.opensModuleDirectivePrinter.print((OpensModuleDirective) dir, writer);
+				opensModuleDirectivePrinter.print((OpensModuleDirective) dir, writer);
 			} else {
-				this.exportsModuleDirectivePrinter.print((ExportsModuleDirective) dir, writer);
+				exportsModuleDirectivePrinter.print((ExportsModuleDirective) dir, writer);
 			}
 		}
 		writer.append("}\n");

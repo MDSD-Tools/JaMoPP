@@ -1,4 +1,0 @@
-package unicode;
-
-class ControlZ {
-}

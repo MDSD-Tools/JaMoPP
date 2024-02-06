@@ -4,13 +4,12 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import tools.mdsd.jamopp.model.java.modules.AccessProvidingModuleDirective;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class RemainingAccessProvidingModuleDirectivePrinterImpl implements Printer<AccessProvidingModuleDirective> {
 
 	@Override
-	public void print(AccessProvidingModuleDirective element, BufferedWriter writer) throws IOException {
+	public void print(final AccessProvidingModuleDirective element, final BufferedWriter writer) throws IOException {
 		writer.append(element.getAccessablePackage().getNamespacesAsString());
 		if (!element.getModules().isEmpty()) {
 			writer.append(" to ");

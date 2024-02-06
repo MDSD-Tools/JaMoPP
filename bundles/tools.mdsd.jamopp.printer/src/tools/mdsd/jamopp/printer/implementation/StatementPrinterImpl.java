@@ -2,6 +2,12 @@ package tools.mdsd.jamopp.printer.implementation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.google.inject.Provider;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.statements.Assert;
@@ -24,11 +30,6 @@ import tools.mdsd.jamopp.model.java.statements.Throw;
 import tools.mdsd.jamopp.model.java.statements.TryBlock;
 import tools.mdsd.jamopp.model.java.statements.WhileLoop;
 import tools.mdsd.jamopp.model.java.statements.YieldStatement;
-
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.name.Named;
-
 import tools.mdsd.jamopp.printer.interfaces.EmptyPrinter;
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
@@ -54,21 +55,24 @@ public class StatementPrinterImpl implements Printer<Statement> {
 	private final Provider<Printer<TryBlock>> tryBlockPrinter;
 	private final Provider<Printer<WhileLoop>> whileLoopPrinter;
 	private final Provider<Printer<YieldStatement>> yieldStatementPrinter;
+	private final List<Mapping<? extends Statement>> mappings;
 
 	@Inject
-	public StatementPrinterImpl(Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter,
-			Provider<Printer<Assert>> assertPrinter, Provider<Printer<Block>> blockPrinter,
-			Provider<Printer<Condition>> conditionPrinter,
-			@Named("EmptyStatementPrinter") Provider<EmptyPrinter> emptyStatementPrinter,
-			Provider<Printer<ExpressionStatement>> expressionStatementPrinter,
-			Provider<Printer<ForLoop>> forLoopPrinter, Provider<Printer<ForEachLoop>> forEachLoopPrinter,
-			Provider<Printer<Break>> breakPrinter, Provider<Printer<Continue>> continuePrinter,
-			Provider<Printer<JumpLabel>> jumpLabelPrinter,
-			Provider<Printer<LocalVariableStatement>> localVariableStatementPrinter,
-			Provider<Printer<Return>> returnPrinter, Provider<Printer<Switch>> switchPrinter,
-			Provider<Printer<SynchronizedBlock>> synchronizedBlockPrinter, Provider<Printer<Throw>> throwPrinter,
-			Provider<Printer<TryBlock>> tryBlockPrinter, Provider<Printer<DoWhileLoop>> doWhileLoopPrinter,
-			Provider<Printer<WhileLoop>> whileLoopPrinter, Provider<Printer<YieldStatement>> yieldStatementPrinter) {
+	public StatementPrinterImpl(final Provider<Printer<ConcreteClassifier>> concreteClassifierPrinter,
+			final Provider<Printer<Assert>> assertPrinter, final Provider<Printer<Block>> blockPrinter,
+			final Provider<Printer<Condition>> conditionPrinter,
+			@Named("EmptyStatementPrinter") final Provider<EmptyPrinter> emptyStatementPrinter,
+			final Provider<Printer<ExpressionStatement>> expressionStatementPrinter,
+			final Provider<Printer<ForLoop>> forLoopPrinter, final Provider<Printer<ForEachLoop>> forEachLoopPrinter,
+			final Provider<Printer<Break>> breakPrinter, final Provider<Printer<Continue>> continuePrinter,
+			final Provider<Printer<JumpLabel>> jumpLabelPrinter,
+			final Provider<Printer<LocalVariableStatement>> localVariableStatementPrinter,
+			final Provider<Printer<Return>> returnPrinter, final Provider<Printer<Switch>> switchPrinter,
+			final Provider<Printer<SynchronizedBlock>> synchronizedBlockPrinter,
+			final Provider<Printer<Throw>> throwPrinter, final Provider<Printer<TryBlock>> tryBlockPrinter,
+			final Provider<Printer<DoWhileLoop>> doWhileLoopPrinter,
+			final Provider<Printer<WhileLoop>> whileLoopPrinter,
+			final Provider<Printer<YieldStatement>> yieldStatementPrinter) {
 		this.concreteClassifierPrinter = concreteClassifierPrinter;
 		this.assertPrinter = assertPrinter;
 		this.blockPrinter = blockPrinter;
@@ -89,51 +93,44 @@ public class StatementPrinterImpl implements Printer<Statement> {
 		this.doWhileLoopPrinter = doWhileLoopPrinter;
 		this.whileLoopPrinter = whileLoopPrinter;
 		this.yieldStatementPrinter = yieldStatementPrinter;
+		mappings = new ArrayList<>();
 	}
 
 	@Override
-	public void print(Statement element, BufferedWriter writer) throws IOException {
-		if (element instanceof ConcreteClassifier) {
-			this.concreteClassifierPrinter.get().print((ConcreteClassifier) element, writer);
-		} else if (element instanceof Assert) {
-			this.assertPrinter.get().print((Assert) element, writer);
-		} else if (element instanceof Block) {
-			this.blockPrinter.get().print((Block) element, writer);
-		} else if (element instanceof Condition) {
-			this.conditionPrinter.get().print((Condition) element, writer);
-		} else if (element instanceof EmptyStatement) {
-			this.emptyStatementPrinter.get().print(writer);
-		} else if (element instanceof ExpressionStatement) {
-			this.expressionStatementPrinter.get().print((ExpressionStatement) element, writer);
-		} else if (element instanceof ForLoop) {
-			this.forLoopPrinter.get().print((ForLoop) element, writer);
-		} else if (element instanceof ForEachLoop) {
-			this.forEachLoopPrinter.get().print((ForEachLoop) element, writer);
-		} else if (element instanceof Break) {
-			this.breakPrinter.get().print((Break) element, writer);
-		} else if (element instanceof Continue) {
-			this.continuePrinter.get().print((Continue) element, writer);
-		} else if (element instanceof JumpLabel) {
-			this.jumpLabelPrinter.get().print((JumpLabel) element, writer);
-		} else if (element instanceof LocalVariableStatement) {
-			this.localVariableStatementPrinter.get().print((LocalVariableStatement) element, writer);
-		} else if (element instanceof Return) {
-			this.returnPrinter.get().print((Return) element, writer);
-		} else if (element instanceof Switch) {
-			this.switchPrinter.get().print((Switch) element, writer);
-		} else if (element instanceof SynchronizedBlock) {
-			this.synchronizedBlockPrinter.get().print((SynchronizedBlock) element, writer);
-		} else if (element instanceof Throw) {
-			this.throwPrinter.get().print((Throw) element, writer);
-		} else if (element instanceof TryBlock) {
-			this.tryBlockPrinter.get().print((TryBlock) element, writer);
-		} else if (element instanceof DoWhileLoop) {
-			this.doWhileLoopPrinter.get().print((DoWhileLoop) element, writer);
-		} else if (element instanceof WhileLoop) {
-			this.whileLoopPrinter.get().print((WhileLoop) element, writer);
-		} else {
-			this.yieldStatementPrinter.get().print((YieldStatement) element, writer);
+	public void print(final Statement element, final BufferedWriter writer) throws IOException {
+		if (mappings.isEmpty()) {
+			mappings.add(new Mapping<>(ConcreteClassifier.class, concreteClassifierPrinter));
+			mappings.add(new Mapping<>(Assert.class, assertPrinter));
+			mappings.add(new Mapping<>(Block.class, blockPrinter));
+			mappings.add(new Mapping<>(Condition.class, conditionPrinter));
+			mappings.add(new Mapping<>(ExpressionStatement.class, expressionStatementPrinter));
+			mappings.add(new Mapping<>(ForLoop.class, forLoopPrinter));
+			mappings.add(new Mapping<>(ForEachLoop.class, forEachLoopPrinter));
+			mappings.add(new Mapping<>(Break.class, breakPrinter));
+			mappings.add(new Mapping<>(Continue.class, continuePrinter));
+			mappings.add(new Mapping<>(JumpLabel.class, jumpLabelPrinter));
+			mappings.add(new Mapping<>(LocalVariableStatement.class, localVariableStatementPrinter));
+			mappings.add(new Mapping<>(Return.class, returnPrinter));
+			mappings.add(new Mapping<>(Switch.class, switchPrinter));
+			mappings.add(new Mapping<>(SynchronizedBlock.class, synchronizedBlockPrinter));
+			mappings.add(new Mapping<>(Throw.class, throwPrinter));
+			mappings.add(new Mapping<>(TryBlock.class, tryBlockPrinter));
+			mappings.add(new Mapping<>(DoWhileLoop.class, doWhileLoopPrinter));
+			mappings.add(new Mapping<>(WhileLoop.class, whileLoopPrinter));
+			mappings.add(new Mapping<>(YieldStatement.class, yieldStatementPrinter));
 		}
+
+		for (final Mapping<? extends Statement> mapping : mappings) {
+			final boolean printed = mapping.checkAndPrint(element, writer);
+			if (printed) {
+				return;
+			}
+		}
+
+		if (element instanceof EmptyStatement) {
+			emptyStatementPrinter.get().print(writer);
+		}
+
 	}
 
 }

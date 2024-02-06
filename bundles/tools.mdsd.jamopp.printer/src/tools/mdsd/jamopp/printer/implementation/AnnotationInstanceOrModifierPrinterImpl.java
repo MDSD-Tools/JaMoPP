@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationInstance;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotationInstanceOrModifier;
 import tools.mdsd.jamopp.model.java.modifiers.Modifier;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class AnnotationInstanceOrModifierPrinterImpl implements Printer<AnnotationInstanceOrModifier> {
@@ -17,18 +16,18 @@ public class AnnotationInstanceOrModifierPrinterImpl implements Printer<Annotati
 	private final Printer<Modifier> modifierPrinter;
 
 	@Inject
-	public AnnotationInstanceOrModifierPrinterImpl(Printer<AnnotationInstance> annotationInstancePrinter,
-			Printer<Modifier> modifierPrinter) {
+	public AnnotationInstanceOrModifierPrinterImpl(final Printer<AnnotationInstance> annotationInstancePrinter,
+			final Printer<Modifier> modifierPrinter) {
 		this.annotationInstancePrinter = annotationInstancePrinter;
 		this.modifierPrinter = modifierPrinter;
 	}
 
 	@Override
-	public void print(AnnotationInstanceOrModifier element, BufferedWriter writer) throws IOException {
+	public void print(final AnnotationInstanceOrModifier element, final BufferedWriter writer) throws IOException {
 		if (element instanceof AnnotationInstance) {
-			this.annotationInstancePrinter.print((AnnotationInstance) element, writer);
+			annotationInstancePrinter.print((AnnotationInstance) element, writer);
 		} else {
-			this.modifierPrinter.print((Modifier) element, writer);
+			modifierPrinter.print((Modifier) element, writer);
 		}
 	}
 

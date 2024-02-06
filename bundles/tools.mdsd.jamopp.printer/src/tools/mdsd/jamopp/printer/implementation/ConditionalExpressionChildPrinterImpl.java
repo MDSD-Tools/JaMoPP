@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.ConditionalExpressionChild;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpression;
 import tools.mdsd.jamopp.model.java.expressions.ConditionalOrExpressionChild;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ConditionalExpressionChildPrinterImpl implements Printer<ConditionalExpressionChild> {
@@ -17,18 +16,18 @@ public class ConditionalExpressionChildPrinterImpl implements Printer<Conditiona
 	private final Printer<ConditionalOrExpression> conditionalOrExpressionPrinter;
 
 	@Inject
-	public ConditionalExpressionChildPrinterImpl(Printer<ConditionalOrExpression> conditionalOrExpressionPrinter,
-			Printer<ConditionalOrExpressionChild> conditionalOrExpressionChildPrinter) {
+	public ConditionalExpressionChildPrinterImpl(final Printer<ConditionalOrExpression> conditionalOrExpressionPrinter,
+			final Printer<ConditionalOrExpressionChild> conditionalOrExpressionChildPrinter) {
 		this.conditionalOrExpressionPrinter = conditionalOrExpressionPrinter;
 		this.conditionalOrExpressionChildPrinter = conditionalOrExpressionChildPrinter;
 	}
 
 	@Override
-	public void print(ConditionalExpressionChild element, BufferedWriter writer) throws IOException {
+	public void print(final ConditionalExpressionChild element, final BufferedWriter writer) throws IOException {
 		if (element instanceof ConditionalOrExpression) {
-			this.conditionalOrExpressionPrinter.print((ConditionalOrExpression) element, writer);
+			conditionalOrExpressionPrinter.print((ConditionalOrExpression) element, writer);
 		} else {
-			this.conditionalOrExpressionChildPrinter.print((ConditionalOrExpressionChild) element, writer);
+			conditionalOrExpressionChildPrinter.print((ConditionalOrExpressionChild) element, writer);
 		}
 	}
 

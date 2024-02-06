@@ -4,15 +4,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.Annotable;
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class VariableLengthParameterPrinterImpl implements Printer<VariableLengthParameter> {
@@ -24,9 +23,9 @@ public class VariableLengthParameterPrinterImpl implements Printer<VariableLengt
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public VariableLengthParameterPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Annotable> annotablePrinter) {
+	public VariableLengthParameterPrinterImpl(final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			final Printer<TypeReference> typeReferencePrinter, final Printer<TypeArgumentable> typeArgumentablePrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter, final Printer<Annotable> annotablePrinter) {
 		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		this.typeReferencePrinter = typeReferencePrinter;
 		this.typeArgumentablePrinter = typeArgumentablePrinter;
@@ -35,14 +34,14 @@ public class VariableLengthParameterPrinterImpl implements Printer<VariableLengt
 	}
 
 	@Override
-	public void print(VariableLengthParameter element, BufferedWriter writer) throws IOException {
-		this.annotableAndModifiablePrinter.print(element, writer);
-		this.typeReferencePrinter.print(element.getTypeReference(), writer);
-		this.typeArgumentablePrinter.print(element, writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+	public void print(final VariableLengthParameter element, final BufferedWriter writer) throws IOException {
+		annotableAndModifiablePrinter.print(element, writer);
+		typeReferencePrinter.print(element.getTypeReference(), writer);
+		typeArgumentablePrinter.print(element, writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
 		writer.append(" ");
-		this.annotablePrinter.print(element, writer);
+		annotablePrinter.print(element, writer);
 		writer.append(" ..." + element.getName());
 	}
 

@@ -8,16 +8,17 @@ import tools.mdsd.jamopp.model.java.imports.Import;
 import tools.mdsd.jamopp.model.java.imports.PackageImport;
 import tools.mdsd.jamopp.model.java.imports.StaticClassifierImport;
 import tools.mdsd.jamopp.model.java.imports.StaticMemberImport;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ImportPrinterImpl implements Printer<Import> {
 
-	private static void printClassifierImport(ClassifierImport element, BufferedWriter writer) throws IOException {
+	private static void printClassifierImport(final ClassifierImport element, final BufferedWriter writer)
+			throws IOException {
 		writer.append(element.getNamespacesAsString() + "." + element.getClassifier().getName());
 	}
 
-	private static void printPackageImport(PackageImport element, BufferedWriter writer) throws IOException {
+	private static void printPackageImport(final PackageImport element, final BufferedWriter writer)
+			throws IOException {
 		writer.append(element.getNamespacesAsString());
 		if (element.getClassifier() != null) {
 			writer.append("." + element.getClassifier().getName());
@@ -25,18 +26,19 @@ public class ImportPrinterImpl implements Printer<Import> {
 		writer.append(".*");
 	}
 
-	private static void printStaticClassifierImport(StaticClassifierImport element, BufferedWriter writer)
+	private static void printStaticClassifierImport(final StaticClassifierImport element, final BufferedWriter writer)
 			throws IOException {
 		writer.append("static " + element.getNamespacesAsString() + "." + element.getClassifier().getName() + ".*");
 	}
 
-	private static void printStaticMemberImport(StaticMemberImport element, BufferedWriter writer) throws IOException {
+	private static void printStaticMemberImport(final StaticMemberImport element, final BufferedWriter writer)
+			throws IOException {
 		writer.append("static " + element.getNamespacesAsString() + "." + element.getClassifier().getName() + "."
 				+ element.getStaticMembers().get(0).getName());
 	}
 
 	@Override
-	public void print(Import element, BufferedWriter writer) throws IOException {
+	public void print(final Import element, final BufferedWriter writer) throws IOException {
 		writer.append("import ");
 		if (element instanceof ClassifierImport) {
 			printClassifierImport((ClassifierImport) element, writer);

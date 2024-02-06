@@ -3,6 +3,8 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.generics.CallTypeArgumentable;
 import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
@@ -13,9 +15,6 @@ import tools.mdsd.jamopp.model.java.instantiations.NewConstructorCallWithInferre
 import tools.mdsd.jamopp.model.java.literals.Self;
 import tools.mdsd.jamopp.model.java.references.Argumentable;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class InstantiationPrinterImpl implements Printer<Instantiation> {
@@ -28,10 +27,10 @@ public class InstantiationPrinterImpl implements Printer<Instantiation> {
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public InstantiationPrinterImpl(Printer<CallTypeArgumentable> callTypeArgumentablePrinter,
-			Printer<TypeReference> typeReferencePrinter, Printer<TypeArgumentable> typeArgumentablePrinter,
-			Printer<Argumentable> argumentablePrinter, Printer<AnonymousClass> anonymousClassPrinter,
-			Printer<Self> selfPrinter) {
+	public InstantiationPrinterImpl(final Printer<CallTypeArgumentable> callTypeArgumentablePrinter,
+			final Printer<TypeReference> typeReferencePrinter, final Printer<TypeArgumentable> typeArgumentablePrinter,
+			final Printer<Argumentable> argumentablePrinter, final Printer<AnonymousClass> anonymousClassPrinter,
+			final Printer<Self> selfPrinter) {
 		this.callTypeArgumentablePrinter = callTypeArgumentablePrinter;
 		this.typeReferencePrinter = typeReferencePrinter;
 		this.typeArgumentablePrinter = typeArgumentablePrinter;
@@ -41,26 +40,30 @@ public class InstantiationPrinterImpl implements Printer<Instantiation> {
 	}
 
 	@Override
-	public void print(Instantiation element, BufferedWriter writer) throws IOException {
-		if (element instanceof NewConstructorCall call) {
+	public void print(final Instantiation element, final BufferedWriter writer) throws IOException {
+		if (element instanceof final NewConstructorCall call) {
 			writer.append("new ");
-			this.callTypeArgumentablePrinter.print(call, writer);
+			callTypeArgumentablePrinter.print(call, writer);
 			writer.append(" ");
-			this.typeReferencePrinter.print(call.getTypeReference(), writer);
-			if (call instanceof NewConstructorCallWithInferredTypeArguments) {
-				writer.append("<>");
-			} else {
-				this.typeArgumentablePrinter.print(call, writer);
-			}
-			this.argumentablePrinter.print(call, writer);
+			typeReferencePrinter.print(call.getTypeReference(), writer);
+			printTypeArgument(writer, call);
+			argumentablePrinter.print(call, writer);
 			if (call.getAnonymousClass() != null) {
-				this.anonymousClassPrinter.print(call.getAnonymousClass(), writer);
+				anonymousClassPrinter.print(call.getAnonymousClass(), writer);
 			}
 		} else {
-			var call = (ExplicitConstructorCall) element;
-			this.callTypeArgumentablePrinter.print(call, writer);
-			this.selfPrinter.print(call.getCallTarget(), writer);
-			this.argumentablePrinter.print(call, writer);
+			final ExplicitConstructorCall call = (ExplicitConstructorCall) element;
+			callTypeArgumentablePrinter.print(call, writer);
+			selfPrinter.print(call.getCallTarget(), writer);
+			argumentablePrinter.print(call, writer);
+		}
+	}
+
+	private void printTypeArgument(final BufferedWriter writer, final NewConstructorCall call) throws IOException {
+		if (call instanceof NewConstructorCallWithInferredTypeArguments) {
+			writer.append("<>");
+		} else {
+			typeArgumentablePrinter.print(call, writer);
 		}
 	}
 

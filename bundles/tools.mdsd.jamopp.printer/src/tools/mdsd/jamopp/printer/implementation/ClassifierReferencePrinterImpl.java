@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.Annotable;
 import tools.mdsd.jamopp.model.java.generics.TypeArgumentable;
 import tools.mdsd.jamopp.model.java.types.ClassifierReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class ClassifierReferencePrinterImpl implements Printer<ClassifierReference> {
@@ -17,17 +16,17 @@ public class ClassifierReferencePrinterImpl implements Printer<ClassifierReferen
 	private final Printer<TypeArgumentable> typeArgumentablePrinter;
 
 	@Inject
-	public ClassifierReferencePrinterImpl(Printer<Annotable> annotablePrinter,
-			Printer<TypeArgumentable> typeArgumentablePrinter) {
+	public ClassifierReferencePrinterImpl(final Printer<Annotable> annotablePrinter,
+			final Printer<TypeArgumentable> typeArgumentablePrinter) {
 		this.annotablePrinter = annotablePrinter;
 		this.typeArgumentablePrinter = typeArgumentablePrinter;
 	}
 
 	@Override
-	public void print(ClassifierReference element, BufferedWriter writer) throws IOException {
-		this.annotablePrinter.print(element, writer);
+	public void print(final ClassifierReference element, final BufferedWriter writer) throws IOException {
+		annotablePrinter.print(element, writer);
 		writer.append(element.getTarget().getName());
-		this.typeArgumentablePrinter.print(element, writer);
+		typeArgumentablePrinter.print(element, writer);
 	}
 
 }

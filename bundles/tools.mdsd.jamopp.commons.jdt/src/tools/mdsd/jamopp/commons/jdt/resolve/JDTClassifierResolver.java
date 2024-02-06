@@ -22,7 +22,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
@@ -32,6 +31,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
+
 import tools.mdsd.jamopp.commons.jdt.JDTJavaClassifier;
 import tools.mdsd.jamopp.commons.jdt.JdtPackage;
 
@@ -42,89 +42,86 @@ import tools.mdsd.jamopp.commons.jdt.JdtPackage;
 public class JDTClassifierResolver {
 
 	/**
-	 * Returns the Java project that is located at the given URI. If the project
-	 * at this locations is not a Java project or if there is no project at all,
+	 * Returns the Java project that is located at the given URI. If the project at
+	 * this locations is not a Java project or if there is no project at all,
 	 * <code>null</code> is returned.
 	 */
-	public IJavaProject getJavaProject(URI uri) {
-		IProject project = getProject(uri);
-		if (project == null) {
-			return null;
+	public IJavaProject getJavaProject(final URI uri) {
+		final IProject project = getProject(uri);
+		IJavaProject javaProject = null;
+		if (project != null) {
+			javaProject = getJavaProject(project);
 		}
-
-		return getJavaProject(project);
+		return javaProject;
 	}
 
-	private static boolean isJavaProject(IProject project) {
-		if (project == null) {
-			return false;
+	private static boolean isJavaProject(final IProject project) {
+		boolean result = false;
+		if (project != null) {
+			try {
+				result = project.isNatureEnabled("org.eclipse.jdt.core.javanature");
+			} catch (final CoreException e) {
+				// Ignore
+			}
 		}
-
-		try {
-			return project.isNatureEnabled("org.eclipse.jdt.core.javanature");
-		} catch (CoreException e) {
-		}
-		return false;
+		return result;
 	}
 
-	private static IProject getProject(URI uri) {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	private static IProject getProject(final URI uri) {
+		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		if (uri.isPlatformResource() && uri.segmentCount() > 2) {
-			String segment = uri.segment(1);
+			final String segment = uri.segment(1);
 			// We must decode the URI segment to make sure the escaped
 			// characters (e.g., whitespace that is represented as %20) are
 			// correctly replaced.
-			String decoded = URI.decode(segment);
+			final String decoded = URI.decode(segment);
 			return root.getProject(decoded);
 		}
 		throw new IllegalArgumentException("Can't handle URIs that do not reference platform resources: " + uri);
 	}
 
-	private static IJavaProject getJavaProject(IProject project) {
-		return (isJavaProject(project) ? JavaCore.create(project) : null);
+	private static IJavaProject getJavaProject(final IProject project) {
+		IJavaProject javaProject = null;
+		if (isJavaProject(project)) {
+			javaProject = JavaCore.create(project);
+		}
+		return javaProject;
 	}
 
 	/**
-	 * Returns a list of all Java classifiers that are available in the
-	 * classpath of the given project.
+	 * Returns a list of all Java classifiers that are available in the classpath of
+	 * the given project.
 	 */
-	public List<JDTJavaClassifier> getAllClassifiersInClassPath(
-			IJavaProject project) {
-
+	public List<JDTJavaClassifier> getAllClassifiersInClassPath(final IJavaProject project) {
 		return getAllClassifiersForPackageInClassPath(null, project);
 	}
 
 	/**
-	 * Returns a list of all Java classifiers that are available in the
-	 * classpath of the given project within the given package. If
-	 * <code>packageName</code> is null, all classifiers in the project are
-	 * returned.
+	 * Returns a list of all Java classifiers that are available in the classpath of
+	 * the given project within the given package. If <code>packageName</code> is
+	 * null, all classifiers in the project are returned.
 	 */
-	public List<JDTJavaClassifier> getAllClassifiersForPackageInClassPath(
-			String packageName, IJavaProject project) {
+	public List<JDTJavaClassifier> getAllClassifiersForPackageInClassPath(final String packageName,
+			final IJavaProject project) {
 
 		List<JDTJavaClassifier> classes = new ArrayList<>();
 		try {
-			SearchEngine searchEngine = new SearchEngine();
-			ClassifierVisitor visitor = new ClassifierVisitor(project);
+			final SearchEngine searchEngine = new SearchEngine();
+			final ClassifierVisitor visitor = new ClassifierVisitor(project);
 
 			// prepare search parameters
 			char[][] packages = null;
 			if (packageName != null) {
-				packages = new char[][]{packageName.toCharArray()};
+				packages = new char[][] { packageName.toCharArray() };
 			}
-			char[][] typeNames = null;
-			IJavaProject[] projects = {project};
-			IJavaSearchScope searchScope = SearchEngine.createJavaSearchScope(projects);
-			int waitingPolicy = IJavaSearchConstants.FORCE_IMMEDIATE_SEARCH;
-			IProgressMonitor progessMonitor = null;
-
+			final IJavaProject[] projects = { project };
+			final IJavaSearchScope searchScope = SearchEngine.createJavaSearchScope(projects);
+			final int waitingPolicy = IJavaSearchConstants.FORCE_IMMEDIATE_SEARCH;
 			// perform search
-			searchEngine.searchAllTypeNames(packages, typeNames, searchScope,
-					visitor, waitingPolicy, progessMonitor);
+			searchEngine.searchAllTypeNames(packages, null, searchScope, visitor, waitingPolicy, null);
 
 			classes = visitor.getClassifiersInClasspath();
-		} catch (JavaModelException e) {
+		} catch (final JavaModelException e) {
 			logWarning("Search for Java classifiers failed.", e);
 		}
 		return classes;
@@ -133,9 +130,9 @@ public class JDTClassifierResolver {
 	/**
 	 * Logs the given exception.
 	 */
-	private static void logWarning(String message, JavaModelException e) {
-		String pluginName = JdtPackage.class.getPackage().getName();
-		Status status = new Status(IStatus.WARNING, pluginName, message, e);
+	private static void logWarning(final String message, final JavaModelException exception) {
+		final String pluginName = JdtPackage.class.getPackage().getName();
+		final Status status = new Status(IStatus.WARNING, pluginName, message, exception);
 		ResourcesPlugin.getPlugin().getLog().log(status);
 	}
 }

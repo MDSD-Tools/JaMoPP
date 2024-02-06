@@ -5,13 +5,12 @@ import java.io.IOException;
 
 import tools.mdsd.jamopp.model.java.modifiers.Static;
 import tools.mdsd.jamopp.model.java.modules.RequiresModuleDirective;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class RequiresModuleDirectivePrinterImpl implements Printer<RequiresModuleDirective> {
 
 	@Override
-	public void print(RequiresModuleDirective element, BufferedWriter writer) throws IOException {
+	public void print(final RequiresModuleDirective element, final BufferedWriter writer) throws IOException {
 		writer.append("requires ");
 		if (element.getModifier() != null) {
 			if (element.getModifier() instanceof Static) {

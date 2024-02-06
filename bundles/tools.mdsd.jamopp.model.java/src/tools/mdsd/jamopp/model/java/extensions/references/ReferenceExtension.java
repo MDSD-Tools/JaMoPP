@@ -20,7 +20,6 @@ import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.expressions.NestedExpression;
 import tools.mdsd.jamopp.model.java.literals.Literal;
 import tools.mdsd.jamopp.model.java.literals.Super;
-import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.references.ElementReference;
 import tools.mdsd.jamopp.model.java.references.PrimitiveTypeReference;
@@ -32,18 +31,20 @@ import tools.mdsd.jamopp.model.java.references.StringReference;
 import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.types.TypedElement;
-import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 
-public class ReferenceExtension {
+public final class ReferenceExtension {
 
-	public static Reference getPrevious(Reference me) {
-		if (me.eContainer() instanceof Reference) {
-			Reference container = (Reference) me.eContainer();
-			if (me.equals(container.getNext())) {
-				return container;
-			}
+	private ReferenceExtension() {
+		// Should not be initiated.
+	}
+
+	public static Reference getPrevious(final Reference reference) {
+		Reference result = null;
+		if (reference.eContainer() instanceof Reference
+				&& reference.equals(((Reference) reference.eContainer()).getNext())) {
+			result = (Reference) reference.eContainer();
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -53,111 +54,104 @@ public class ReferenceExtension {
 	 *
 	 * @return the determined type
 	 */
-	public static Type getReferencedType(Reference me) {
-		if (me instanceof Literal) {
-			return handeLiteral(me);
-		}
-
+	public static Type getReferencedType(final Reference reference) {
 		Type type = null;
-		if (me instanceof TypedElement) {
-			type = handleTypedElement(me);
-		} else if (me instanceof SelfReference) {
-			return handleSelfReference(me);
-		} else if (me instanceof ReflectiveClassReference) {
-			return handleReflectiveClassReference(me);
-		} else if (me instanceof ElementReference) {
-			type = handleElementReference(me, type);
-		} else if (me instanceof StringReference) {
-			return handleStringReference(me);
-		} else if (me instanceof NestedExpression) {
-			type = handleNestedExpression(me);
-		} else if (me instanceof PrimitiveTypeReference) {
-			type = handlePrimitiveTypeReference(me);
+		if (reference instanceof Literal) {
+			type = handeLiteral(reference);
+		} else if (reference instanceof TypedElement) {
+			type = handleTypedElement(reference);
+		} else if (reference instanceof SelfReference) {
+			type = handleSelfReference(reference);
+		} else if (reference instanceof ReflectiveClassReference) {
+			type = handleReflectiveClassReference(reference);
+		} else if (reference instanceof ElementReference) {
+			type = handleElementReference(reference);
+		} else if (reference instanceof StringReference) {
+			type = handleStringReference(reference);
+		} else if (reference instanceof NestedExpression) {
+			type = handleNestedExpression(reference);
+		} else if (reference instanceof PrimitiveTypeReference) {
+			type = handlePrimitiveTypeReference(reference);
 		} else {
 			assert false;
 		}
+
 		return type;
 	}
 
-	private static Type handleElementReference(Reference me, Type type) {
+	private static Type handleElementReference(final Reference reference) {
 		// Referenced element points to an element with a type
-		ReferenceableElement target = ((ElementReference) me).getTarget();
-
-		if (target == null) {
-			type = null;
-		}
-		if (target.eIsProxy()) {
-			type = null;
-		}
-
+		final ReferenceableElement target = ((ElementReference) reference).getTarget();
+		Type newType = null;
 		// Navigate through AdditionalLocalVariable or Field
-		if (target instanceof AdditionalLocalVariable || target instanceof AdditionalField) {
-			target = (ReferenceableElement) target.eContainer();
-		} else if (target instanceof TypedElement) {
-			TypeReference typeRef = ((TypedElement) target).getTypeReference();
+		if (target instanceof TypedElement) {
+			final TypeReference typeRef = ((TypedElement) target).getTypeReference();
 			if (typeRef != null) {
-				type = typeRef.getBoundTarget(me);
+				newType = typeRef.getBoundTarget(reference);
 			}
 		} else if (target instanceof Type/* e.g. Annotation */ ) {
-			type = (Type) target;
+			newType = (Type) target;
 		} else if (target instanceof EnumConstant) {
-			type = (Enumeration) target.eContainer();
+			newType = (Enumeration) target.eContainer();
 		}
-		return type;
+		return newType;
 	}
 
-	private static Type handlePrimitiveTypeReference(Reference me) {
-		return ((PrimitiveTypeReference) me).getPrimitiveType();
+	private static Type handlePrimitiveTypeReference(final Reference reference) {
+		return ((PrimitiveTypeReference) reference).getPrimitiveType();
 	}
 
-	private static Type handleNestedExpression(Reference me) {
-		return ((NestedExpression) me).getExpression().getType();
+	private static Type handleNestedExpression(final Reference reference) {
+		return ((NestedExpression) reference).getExpression().getType();
 	}
 
-	private static Type handleStringReference(Reference me) {
+	private static Type handleStringReference(final Reference reference) {
 		// Strings may also appear as reference
-		return me.getStringClass();
+		return reference.getStringClass();
 	}
 
-	private static Type handleReflectiveClassReference(Reference me) {
+	private static Type handleReflectiveClassReference(final Reference reference) {
 		// Element points to the object's class object
-		return me.getClassClass();
+		return reference.getClassClass();
 	}
 
-	private static Type handleSelfReference(Reference me) {
+	private static Type handleSelfReference(final Reference reference) {
 		// Element points to this or super
-		Type thisClass = null;
-		if (me.getPrevious() != null) {
-			thisClass = me.getPrevious().getReferencedType();
+		Type thisClass;
+		if (reference.getPrevious() != null) {
+			thisClass = reference.getPrevious().getReferencedType();
 		} else {
-			AnonymousClass anonymousContainer = me.getContainingAnonymousClass();
+			final AnonymousClass anonymousContainer = reference.getContainingAnonymousClass();
 			if (anonymousContainer != null) {
 				thisClass = anonymousContainer;
 			} else {
-				thisClass = me.getContainingConcreteClassifier();
+				thisClass = reference.getContainingConcreteClassifier();
 			}
 		}
 
-		// Find super class if "self" is "super"
-		if (((SelfReference) me).getSelf() instanceof Super) {
+		Type result;
+		if (((SelfReference) reference).getSelf() instanceof Super) {
 			if (thisClass instanceof tools.mdsd.jamopp.model.java.classifiers.Class) {
-				return ((tools.mdsd.jamopp.model.java.classifiers.Class) thisClass).getSuperClass();
+				result = ((tools.mdsd.jamopp.model.java.classifiers.Class) thisClass).getSuperClass();
+			} else if (thisClass instanceof AnonymousClass) {
+				result = ((AnonymousClass) thisClass).getSuperClassifier();
+			} else {
+				result = thisClass;
 			}
-			if (thisClass instanceof AnonymousClass) {
-				return ((AnonymousClass) thisClass).getSuperClassifier();
-			}
+		} else {
+			result = thisClass;
 		}
-
-		return thisClass;
+		return result;
 	}
 
-	private static Type handleTypedElement(Reference me) {
+	private static Type handleTypedElement(final Reference reference) {
 		// Referenced element points to a type
-		TypeReference typeRef = ((TypedElement) me).getTypeReference();
-		return typeRef.getBoundTarget(me);
+		final TypeReference typeRef = ((TypedElement) reference).getTypeReference();
+		return typeRef.getBoundTarget(reference);
 	}
 
-	private static Type handeLiteral(Reference me) {
-		return ((Literal) me).getType();
+	private static Type handeLiteral(final Reference reference) {
+		return ((Literal) reference).getType();
 	}
+
 }

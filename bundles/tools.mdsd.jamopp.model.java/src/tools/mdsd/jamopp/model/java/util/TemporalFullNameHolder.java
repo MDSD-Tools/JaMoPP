@@ -18,40 +18,39 @@ package tools.mdsd.jamopp.model.java.util;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 
-
 /**
- * This adapter is used during reference resolving to cache the
- * full qualified name of a {@link ConcreteClassifier} that
- * is determined based on the classpath during reference resolving.
+ * This adapter is used during reference resolving to cache the full qualified
+ * name of a {@link ConcreteClassifier} that is determined based on the
+ * classpath during reference resolving.
  */
 public final class TemporalFullNameHolder extends AdapterImpl {
+
 	private String fullName;
 
-	private TemporalFullNameHolder(String fullName) {
+	private TemporalFullNameHolder(final String fullName) {
 		this.fullName = fullName;
 	}
 
-	public static String getFullName(ConcreteClassifier concreteClassifier) {
-		for (Adapter a : concreteClassifier.eAdapters()) {
+	public static String getFullName(final ConcreteClassifier concreteClassifier) {
+		String result = concreteClassifier.getName();
+		for (final Adapter a : concreteClassifier.eAdapters()) {
 			if (a instanceof TemporalFullNameHolder) {
-				return ((TemporalFullNameHolder) a).fullName;
+				result = ((TemporalFullNameHolder) a).fullName;
 			}
 		}
-		return concreteClassifier.getName();
+		return result;
 	}
 
-	public static void setFullName(
-			Notifier concreteClassifier,
-			String fullName) {
-		for (Adapter a : concreteClassifier.eAdapters()) {
+	public static void setFullName(final Notifier concreteClassifier, final String otherName) {
+		for (final Adapter a : concreteClassifier.eAdapters()) {
 			if (a instanceof TemporalFullNameHolder) {
-				((TemporalFullNameHolder) a).fullName = fullName;
+				((TemporalFullNameHolder) a).fullName = otherName;
 				return;
 			}
 		}
-		concreteClassifier.eAdapters().add(
-				new TemporalFullNameHolder(fullName));
+		concreteClassifier.eAdapters().add(new TemporalFullNameHolder(otherName));
 	}
 }

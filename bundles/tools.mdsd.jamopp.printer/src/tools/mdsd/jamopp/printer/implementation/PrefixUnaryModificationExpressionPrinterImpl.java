@@ -3,12 +3,11 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.expressions.PrefixUnaryModificationExpression;
 import tools.mdsd.jamopp.model.java.expressions.UnaryModificationExpressionChild;
 import tools.mdsd.jamopp.model.java.operators.UnaryModificationOperator;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class PrefixUnaryModificationExpressionPrinterImpl implements Printer<PrefixUnaryModificationExpression> {
@@ -18,18 +17,18 @@ public class PrefixUnaryModificationExpressionPrinterImpl implements Printer<Pre
 
 	@Inject
 	public PrefixUnaryModificationExpressionPrinterImpl(
-			Printer<UnaryModificationOperator> unaryModificationOperatorPrinter,
-			Printer<UnaryModificationExpressionChild> unaryModificationExpressionChildPrinter) {
+			final Printer<UnaryModificationOperator> unaryModificationOperatorPrinter,
+			final Printer<UnaryModificationExpressionChild> unaryModificationExpressionChildPrinter) {
 		this.unaryModificationOperatorPrinter = unaryModificationOperatorPrinter;
 		this.unaryModificationExpressionChildPrinter = unaryModificationExpressionChildPrinter;
 	}
 
 	@Override
-	public void print(PrefixUnaryModificationExpression element, BufferedWriter writer) throws IOException {
+	public void print(final PrefixUnaryModificationExpression element, final BufferedWriter writer) throws IOException {
 		if (element.getOperator() != null) {
-			this.unaryModificationOperatorPrinter.print(element.getOperator(), writer);
+			unaryModificationOperatorPrinter.print(element.getOperator(), writer);
 		}
-		this.unaryModificationExpressionChildPrinter.print(element.getChild(), writer);
+		unaryModificationExpressionChildPrinter.print(element.getChild(), writer);
 	}
 
 }

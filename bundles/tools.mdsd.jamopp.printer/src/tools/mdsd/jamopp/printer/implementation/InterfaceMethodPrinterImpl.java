@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import tools.mdsd.jamopp.model.java.annotations.AnnotationValue;
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;
 import tools.mdsd.jamopp.model.java.generics.TypeParametrizable;
@@ -13,9 +15,6 @@ import tools.mdsd.jamopp.model.java.modifiers.AnnotableAndModifiable;
 import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
 import tools.mdsd.jamopp.model.java.statements.Statement;
 import tools.mdsd.jamopp.model.java.types.TypeReference;
-
-import com.google.inject.Inject;
-
 import tools.mdsd.jamopp.printer.interfaces.Printer;
 
 public class InterfaceMethodPrinterImpl implements Printer<InterfaceMethod> {
@@ -30,11 +29,13 @@ public class InterfaceMethodPrinterImpl implements Printer<InterfaceMethod> {
 	private final Printer<TypeReference> typeReferencePrinter;
 
 	@Inject
-	public InterfaceMethodPrinterImpl(Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
-			Printer<TypeParametrizable> typeParametrizablePrinter, Printer<TypeReference> typeReferencePrinter,
-			Printer<List<ArrayDimension>> arrayDimensionsPrinter, Printer<Parametrizable> parametrizablePrinter,
-			Printer<ExceptionThrower> exceptionThrowerPrinter, Printer<AnnotationValue> annotationValuePrinter,
-			Printer<Statement> statementPrinter) {
+	public InterfaceMethodPrinterImpl(final Printer<AnnotableAndModifiable> annotableAndModifiablePrinter,
+			final Printer<TypeParametrizable> typeParametrizablePrinter,
+			final Printer<TypeReference> typeReferencePrinter,
+			final Printer<List<ArrayDimension>> arrayDimensionsPrinter,
+			final Printer<Parametrizable> parametrizablePrinter,
+			final Printer<ExceptionThrower> exceptionThrowerPrinter,
+			final Printer<AnnotationValue> annotationValuePrinter, final Printer<Statement> statementPrinter) {
 		this.annotableAndModifiablePrinter = annotableAndModifiablePrinter;
 		this.typeParametrizablePrinter = typeParametrizablePrinter;
 		this.typeReferencePrinter = typeReferencePrinter;
@@ -46,22 +47,22 @@ public class InterfaceMethodPrinterImpl implements Printer<InterfaceMethod> {
 	}
 
 	@Override
-	public void print(InterfaceMethod element, BufferedWriter writer) throws IOException {
-		this.annotableAndModifiablePrinter.print(element, writer);
-		this.typeParametrizablePrinter.print(element, writer);
+	public void print(final InterfaceMethod element, final BufferedWriter writer) throws IOException {
+		annotableAndModifiablePrinter.print(element, writer);
+		typeParametrizablePrinter.print(element, writer);
 		writer.append(" ");
-		this.typeReferencePrinter.print(element.getTypeReference(), writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
+		typeReferencePrinter.print(element.getTypeReference(), writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsBefore(), writer);
 		writer.append(" " + element.getName());
-		this.parametrizablePrinter.print(element, writer);
-		this.arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
-		this.exceptionThrowerPrinter.print(element, writer);
+		parametrizablePrinter.print(element, writer);
+		arrayDimensionsPrinter.print(element.getArrayDimensionsAfter(), writer);
+		exceptionThrowerPrinter.print(element, writer);
 		writer.append(" ");
 		if (element.getDefaultValue() != null) {
 			writer.append("default ");
-			this.annotationValuePrinter.print(element.getDefaultValue(), writer);
+			annotationValuePrinter.print(element.getDefaultValue(), writer);
 		}
-		this.statementPrinter.print(element.getStatement(), writer);
+		statementPrinter.print(element.getStatement(), writer);
 		writer.append("\n");
 	}
 

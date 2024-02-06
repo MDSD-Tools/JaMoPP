@@ -18,6 +18,7 @@ package tools.mdsd.jamopp.model.java.extensions.expressions;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+
 import tools.mdsd.jamopp.model.java.arrays.ArrayInstantiationBySize;
 import tools.mdsd.jamopp.model.java.arrays.ArrayTypeable;
 import tools.mdsd.jamopp.model.java.expressions.AdditiveExpression;
@@ -50,107 +51,97 @@ import tools.mdsd.jamopp.model.java.types.Type;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 
-public class ExpressionExtension {
+public final class ExpressionExtension {
+
+	private static final String CLONE = "clone";
+
+	private ExpressionExtension() {
+		// Should not be initiated.
+	}
 
 	/**
-	 * Returns the type of the expression considering all concrete subtypes of
-	 * the Expression.
+	 * Returns the type of the expression considering all concrete subtypes of the
+	 * Expression.
 	 *
 	 * @return type of expression
 	 */
-	public static Type getType(Expression me) {
-		return me.getOneType(false);
+	public static Type getType(final Expression expression) {
+		return expression.getOneType(false);
 	}
 
-	public static Type getAlternativeType(Expression me) {
-		return me.getOneType(true);
+	public static Type getAlternativeType(final Expression expression) {
+		return expression.getOneType(true);
 	}
 
-	public static Type getOneType(Expression me, boolean alternative) {
-		tools.mdsd.jamopp.model.java.classifiers.Class stringClass = me.getStringClass();
+	public static Type getOneType(final Expression expression, final boolean alternative) {
+		final tools.mdsd.jamopp.model.java.classifiers.Class stringClass = expression.getStringClass();
 
 		Type type = null;
 
-		if (me instanceof Reference reference) {
-			//navigate down references
-			while(reference.getNext() != null) {
+		if (expression instanceof Reference reference) {
+			// navigate down references
+			while (reference.getNext() != null) {
 				reference = reference.getNext();
 			}
 			type = reference.getReferencedType();
-		}
-		else if (me instanceof Literal) {
-			type = ((Literal) me).getType();
-		}
-		else if (me instanceof CastExpression) {
-			type = ((CastExpression) me).getTypeReference().getTarget();
-		}
-		else if (me instanceof AssignmentExpression) {
-			type = ((AssignmentExpression) me).getChild().getOneType(alternative);
-		}
-		else if (me instanceof ConditionalExpression &&
-				((ConditionalExpression)me).getExpressionIf() != null) {
+		} else if (expression instanceof Literal) {
+			type = ((Literal) expression).getType();
+		} else if (expression instanceof CastExpression) {
+			type = ((CastExpression) expression).getTypeReference().getTarget();
+		} else if (expression instanceof AssignmentExpression) {
+			type = ((AssignmentExpression) expression).getChild().getOneType(alternative);
+		} else if (expression instanceof ConditionalExpression
+				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
 			if (alternative) {
-				type = ((ConditionalExpression)me).getExpressionElse().getOneType(alternative);
-			}
-			else {
-				type = ((ConditionalExpression)me).getExpressionIf().getOneType(alternative);
+				type = ((ConditionalExpression) expression).getExpressionElse().getOneType(alternative);
+			} else {
+				type = ((ConditionalExpression) expression).getExpressionIf().getOneType(alternative);
 			}
 
-		}
-		else if (me instanceof EqualityExpression ||
-				me instanceof RelationExpression ||
-				me instanceof ConditionalOrExpression ||
-				me instanceof ConditionalAndExpression ||
-				me instanceof InstanceOfExpression) {
-			type = me.getLibClass("Boolean");
-		}
-		else if (me instanceof AdditiveExpression ||
-				me instanceof MultiplicativeExpression ||
-				me instanceof InclusiveOrExpression ||
-				me instanceof ExclusiveOrExpression ||
-				me instanceof AndExpression ||
-				me instanceof ShiftExpression) {
+		} else if (expression instanceof EqualityExpression || expression instanceof RelationExpression
+				|| expression instanceof ConditionalOrExpression || expression instanceof ConditionalAndExpression
+				|| expression instanceof InstanceOfExpression) {
+			type = expression.getLibClass("Boolean");
+		} else if (expression instanceof AdditiveExpression || expression instanceof MultiplicativeExpression
+				|| expression instanceof InclusiveOrExpression || expression instanceof ExclusiveOrExpression
+				|| expression instanceof AndExpression || expression instanceof ShiftExpression) {
 
-			if (me instanceof AdditiveExpression additiveExpression) {
-				for(Expression subExp : additiveExpression.getChildren()) {
+			if (expression instanceof final AdditiveExpression additiveExpression) {
+				for (final Expression subExp : additiveExpression.getChildren()) {
 					if (stringClass.equals(subExp.getOneType(alternative))) {
-						//special case: string concatenation
+						// special case: string concatenation
 						return stringClass;
 					}
 				}
 			}
 
 			@SuppressWarnings("unchecked")
-			Expression subExp = ((EList<Expression>)
-					me.eGet(me.eClass().getEStructuralFeature("children"))).get(0);
+			final Expression subExp = ((EList<Expression>) expression
+					.eGet(expression.eClass().getEStructuralFeature("children"))).get(0);
 
 			return subExp.getOneType(alternative);
-		}
-		else if (me instanceof UnaryExpression) {
-			Expression subExp = ((UnaryExpression) me).getChild();
-
+		} else if (expression instanceof UnaryExpression) {
+			final Expression subExp = ((UnaryExpression) expression).getChild();
 			return subExp.getOneType(alternative);
 		} else {
-			for(TreeIterator<EObject> i = me.eAllContents(); i.hasNext(); ) {
+			for (final TreeIterator<EObject> i = expression.eAllContents(); i.hasNext();) {
 				EObject next = i.next();
 				Type nextType = null;
 
 				if (next instanceof PrimaryExpression) {
 
 					if (next instanceof Reference ref) {
-						//navigate down references
-						while(ref.getNext() != null) {
+						// navigate down references
+						while (ref.getNext() != null) {
 							ref = ref.getNext();
 						}
 						next = ref;
 					}
 					if (next instanceof Literal) {
 						nextType = ((Literal) next).getType();
-					}
-					else if (next instanceof CastExpression) {
-						nextType = ((CastExpression)next).getTypeReference().getTarget();
-					}
-					else {
+					} else if (next instanceof CastExpression) {
+						nextType = ((CastExpression) next).getTypeReference().getTarget();
+					} else {
 						nextType = ((Reference) next).getReferencedType();
 					}
 					i.prune();
@@ -158,89 +149,93 @@ public class ExpressionExtension {
 				}
 				if (nextType != null) {
 					type = nextType;
-					//in the special case that this is an expression with
-					//some string included, everything is converted to string
+					// in the special case that this is an expression with
+					// some string included, everything is converted to string
 					if (stringClass.equals(type)) {
 						break;
 					}
 				}
 			}
 		}
-		//type can be null in cases of unresolved/unresolvable proxies
+		// type can be null in cases of unresolved/unresolvable proxies
 		return type;
 	}
 
-	public static long getArrayDimension(Expression me) {
-		if (me instanceof NestedExpression &&
-				((NestedExpression)me).getNext() == null) {
-			return ((NestedExpression) me).getExpression().getArrayDimension()
-					- ((NestedExpression) me).getArraySelectors().size();
-		}
-		if (me instanceof ConditionalExpression &&
-				((ConditionalExpression)me).getExpressionIf() != null) {
-			return ((ConditionalExpression)me).getExpressionIf().getArrayDimension();
-		}
-		if (me instanceof AssignmentExpression) {
-			Expression value = ((AssignmentExpression) me).getValue();
+	public static long getArrayDimension(final Expression expression) {
+		long result;
+		if (expression instanceof NestedExpression && ((NestedExpression) expression).getNext() == null) {
+			result = ((NestedExpression) expression).getExpression().getArrayDimension()
+					- ((NestedExpression) expression).getArraySelectors().size();
+		} else if (expression instanceof ConditionalExpression
+				&& ((ConditionalExpression) expression).getExpressionIf() != null) {
+			result = ((ConditionalExpression) expression).getExpressionIf().getArrayDimension();
+		} else if (expression instanceof AssignmentExpression) {
+			final Expression value = ((AssignmentExpression) expression).getValue();
 			if (value == null) {
-				return 0;
+				result = 0;
+			} else {
+				result = value.getArrayDimension();
 			}
-			return value.getArrayDimension();
+		} else if (expression instanceof InstanceOfExpression) {
+			result = 0;
+		} else {
+			result = calcSize(expression);
 		}
-		if (me instanceof InstanceOfExpression) {
-			return 0;
-		}
+		return result;
+	}
+
+	private static long calcSize(final Expression expression) {
 		long size = 0;
 		ArrayTypeable arrayType = null;
-		if (me instanceof Reference reference) {
+		if (expression instanceof Reference reference) {
 			while (reference.getNext() != null) {
 				reference = reference.getNext();
 			}
-			//an array clone? -> dimension defined by cloned array
-			if (reference instanceof ElementReference &&
-					reference.getPrevious() != null) {
-				ReferenceableElement target = ((ElementReference)reference).getTarget();
-				if((target instanceof Method) && "clone".equals(((Method)target).getName())) {
+			// an array clone? -> dimension defined by cloned array
+			if (reference instanceof ElementReference && reference.getPrevious() != null) {
+				final ReferenceableElement target = ((ElementReference) reference).getTarget();
+				if (target instanceof Method && CLONE.equals(((Method) target).getName())) {
 					reference = (Reference) reference.eContainer();
 				}
 			}
-			if (reference instanceof ElementReference elementReference) {
+			if (reference instanceof final ElementReference elementReference) {
 				if (elementReference.getTarget() instanceof ArrayTypeable) {
 					arrayType = (ArrayTypeable) elementReference.getTarget();
 				}
 				if (elementReference.getTarget() instanceof AdditionalLocalVariable) {
-					AdditionalLocalVariable additionalLocalVariable = (AdditionalLocalVariable) elementReference.getTarget();
+					final AdditionalLocalVariable additionalLocalVariable = (AdditionalLocalVariable) elementReference
+							.getTarget();
 					arrayType = (LocalVariable) additionalLocalVariable.eContainer();
 					size += additionalLocalVariable.getArrayDimensionsAfter().size();
 					size -= arrayType.getArrayDimensionsAfter().size();
 				}
 				if (elementReference.getTarget() instanceof AdditionalField) {
-					AdditionalField additionalField = (AdditionalField) elementReference.getTarget();
+					final AdditionalField additionalField = (AdditionalField) elementReference.getTarget();
 					arrayType = (Field) additionalField.eContainer();
 					size += additionalField.getArrayDimensionsAfter().size();
 					size -= arrayType.getArrayDimensionsAfter().size();
 				}
-			}
-			else if (me instanceof ArrayTypeable) {
-				size += ((ArrayTypeable) me).getArrayDimensionsBefore().size() + ((ArrayTypeable) me).getArrayDimensionsAfter().size();
-				if (me instanceof VariableLengthParameter) {
+			} else if (expression instanceof ArrayTypeable) {
+				size += ((ArrayTypeable) expression).getArrayDimensionsBefore().size()
+						+ ((ArrayTypeable) expression).getArrayDimensionsAfter().size();
+				if (expression instanceof VariableLengthParameter) {
 					size++;
 				}
 			}
 			size -= reference.getArraySelectors().size();
-		}
-		else if (me instanceof ArrayTypeable) {
-			size += ((ArrayTypeable) me).getArrayDimensionsBefore().size() + ((ArrayTypeable) me).getArrayDimensionsAfter().size();
-			if (me instanceof VariableLengthParameter) {
+		} else if (expression instanceof ArrayTypeable) {
+			size += ((ArrayTypeable) expression).getArrayDimensionsBefore().size()
+					+ ((ArrayTypeable) expression).getArrayDimensionsAfter().size();
+			if (expression instanceof VariableLengthParameter) {
 				size++;
 			}
 		}
 
-		if (me instanceof ArrayInstantiationBySize) {
-			size += ((ArrayInstantiationBySize) me).getSizes().size();
+		if (expression instanceof ArrayInstantiationBySize) {
+			size += ((ArrayInstantiationBySize) expression).getSizes().size();
 		}
 
-		if(arrayType != null) {
+		if (arrayType != null) {
 			size += arrayType.getArrayDimension();
 		}
 

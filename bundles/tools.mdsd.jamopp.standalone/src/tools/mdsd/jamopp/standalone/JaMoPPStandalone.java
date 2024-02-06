@@ -1,6 +1,8 @@
 package tools.mdsd.jamopp.standalone;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.util.URI;
@@ -14,8 +16,8 @@ import tools.mdsd.jamopp.model.java.containers.CompilationUnit;
 import tools.mdsd.jamopp.model.java.containers.ContainersFactory;
 import tools.mdsd.jamopp.model.java.containers.JavaRoot;
 import tools.mdsd.jamopp.model.java.containers.Package;
-import tools.mdsd.jamopp.parser.api.JaMoPPParserAPI;
-import tools.mdsd.jamopp.parser.jdt.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.JaMoPPJDTParser;
+import tools.mdsd.jamopp.parser.JaMoPPParserAPI;
 import tools.mdsd.jamopp.resource.JavaResource2Factory;
 
 /**
@@ -29,25 +31,28 @@ import tools.mdsd.jamopp.resource.JavaResource2Factory;
  * If you have Problems opening the .xmi file with the Ecore Model Editor make
  * sure you installed the Standalone version as an Ecplise Plugin
  */
+public final class JaMoPPStandalone {
 
-public class JaMoPPStandalone {
-
+	private static final PrintStream OUTPUT = System.out;
 	private static final String INPUT = "";
 	private static final boolean ENABLE_OUTPUT_OF_LIBRARY_FILES = false;
 
-	public static void main(String[] agrs) throws Exception {
+	private JaMoPPStandalone() {
+		// Should not be initiated
+	}
+
+	public static void main(final String[] agrs) {
 
 		ContainersFactory.eINSTANCE.createEmptyModel();
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-		JaMoPPParserAPI parser = new JaMoPPJDTParser();
-		ResourceSet rs = parser.parseUri(URI.createURI(INPUT));
-		EcoreUtil.resolveAll(rs);
-		for (Resource javaResource : new ArrayList<>(rs.getResources())) {
+		final JaMoPPParserAPI parser = new JaMoPPJDTParser();
+		final ResourceSet resourceSet = parser.parseUri(URI.createURI(INPUT));
+		EcoreUtil.resolveAll(resourceSet);
+		for (final Resource javaResource : new ArrayList<>(resourceSet.getResources())) {
 
 			if (javaResource.getContents().isEmpty()) {
-
-				System.out.println("WARNING: Emtpy Resource: " + javaResource.getURI());
+				OUTPUT.println("WARNING: Emtpy Resource: " + javaResource.getURI());
 				continue;
 			}
 
@@ -55,52 +60,55 @@ public class JaMoPPStandalone {
 				continue;
 			}
 
-			File outputFile = new File(
-					"." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
+			final File outputFile = createFile(javaResource);
 			outputFile.getParentFile().mkdirs();
 
-			URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
-			Resource xmiResource = rs.createResource(xmiFileURI);
+			final URI xmiFileURI = URI.createFileURI(outputFile.getAbsolutePath()).appendFileExtension("xmi");
+			final Resource xmiResource = resourceSet.createResource(xmiFileURI);
 			xmiResource.getContents().addAll(javaResource.getContents());
 		}
 
-		for (Resource xmiResource : rs.getResources()) {
+		for (final Resource xmiResource : resourceSet.getResources()) {
 			if (xmiResource instanceof XMIResource) {
 				try {
-					xmiResource.save(rs.getLoadOptions());
-				} catch (Exception e) {
-					e.printStackTrace();
+					xmiResource.save(resourceSet.getLoadOptions());
+				} catch (final IOException e) {
+					// Ignore
 				}
 			}
 		}
 	}
 
-	private static String checkScheme(Resource javaResource) {
-		int emptyFileName = 0;
-		String outputFileName = "";
-		JavaRoot root = ContainersFactory.eINSTANCE.createEmptyModel();
+	private static File createFile(final Resource javaResource) {
+		return new File("." + File.separator + "./standalone_output" + File.separator + checkScheme(javaResource));
+	}
 
-		root = (JavaRoot) javaResource.getContents().get(0);
+	private static String checkScheme(final Resource javaResource) {
+		StringBuilder outputFileName = null;
+		final JavaRoot root = (JavaRoot) javaResource.getContents().get(0);
+		final String nameSpace = root.getNamespacesAsString().replace(".", File.separator);
 
 		if (root instanceof CompilationUnit) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator;
-			CompilationUnit cu = (CompilationUnit) root;
-			if (!cu.getClassifiers().isEmpty()) {
-				outputFileName += cu.getClassifiers().get(0).getName();
+			outputFileName = new StringBuilder(nameSpace + File.separator);
+			final CompilationUnit compilationUnit = (CompilationUnit) root;
+			if (compilationUnit.getClassifiers().isEmpty()) {
+				outputFileName.append(0);
 			} else {
-				outputFileName += emptyFileName;
-				emptyFileName++;
+				outputFileName.append(compilationUnit.getClassifiers().get(0).getName());
 			}
-
 		} else if (root instanceof Package) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator
-					+ "package-info";
-			if (outputFileName.startsWith(File.separator)) {
-				outputFileName = outputFileName.substring(1);
+			outputFileName = new StringBuilder(nameSpace).append(File.separator).append("package-info");
+			if (outputFileName.toString().startsWith(File.separator)) {
+				outputFileName = new StringBuilder(outputFileName.substring(1));
 			}
 		} else if (root instanceof tools.mdsd.jamopp.model.java.containers.Module) {
-			outputFileName = root.getNamespacesAsString().replace(".", File.separator) + File.separator + "module-info";
+			outputFileName = new StringBuilder(nameSpace).append(File.separator).append("module-info");
 		}
-		return outputFileName;
+
+		if(outputFileName == null) {
+			outputFileName  = new StringBuilder();
+		}
+
+		return outputFileName.toString();
 	}
 }
