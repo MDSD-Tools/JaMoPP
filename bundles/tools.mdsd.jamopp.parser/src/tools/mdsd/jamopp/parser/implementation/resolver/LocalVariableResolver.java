@@ -3,22 +3,24 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IVariableBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 
 public class LocalVariableResolver extends AbstractResolverWithCache<LocalVariable, IVariableBinding> {
 
 	private final VariablesFactory variablesFactory;
 	private final Set<IVariableBinding> variableBindings;
-	private final ToParameterNameConverter toParameterNameConverter;
+	private final ConverterWithBoolean<IVariableBinding> toParameterNameConverter;
 
 	@Inject
 	public LocalVariableResolver(final Map<String, LocalVariable> bindings, final VariablesFactory variablesFactory,
-			final Set<IVariableBinding> variableBindings, final ToParameterNameConverter toParameterNameConverter) {
+			final Set<IVariableBinding> variableBindings,
+			final ConverterWithBoolean<IVariableBinding> toParameterNameConverter) {
 		super(bindings);
 		this.variablesFactory = variablesFactory;
 		this.variableBindings = variableBindings;

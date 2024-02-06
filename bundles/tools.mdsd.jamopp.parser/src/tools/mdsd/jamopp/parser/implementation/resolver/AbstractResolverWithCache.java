@@ -49,7 +49,8 @@ public abstract class AbstractResolverWithCache<C, B extends IBinding> implement
 		return bindings.values();
 	}
 
-	protected boolean containsKey(final String varName) {
+	@Override
+	public boolean containsKey(final String varName) {
 		return bindings.containsKey(varName);
 	}
 

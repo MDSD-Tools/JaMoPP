@@ -3,32 +3,36 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
+
 import com.google.inject.Inject;
 
-import org.eclipse.jdt.core.dom.IMethodBinding;
-
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 
 public class InterfaceMethodResolver extends AbstractResolverWithCache<InterfaceMethod, IMethodBinding> {
 
+	private final Set<IMethodBinding> methodBindings;
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
-	private final Set<IMethodBinding> methodBindings;
-	private final ClassifierResolver classifierResolver;
 	private final MethodChecker methodCheckerImpl;
-	private final ToMethodNameConverter toMethodNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+	private final Converter<IMethodBinding> toMethodNameConverter;
 
 	@Inject
 	public InterfaceMethodResolver(final Map<String, InterfaceMethod> bindings, final TypesFactory typesFactory,
 			final StatementsFactory statementsFactory, final Set<IMethodBinding> methodBindings,
-			final MembersFactory membersFactory, final ClassifierResolver classifierResolver,
-			final MethodChecker methodCheckerImpl, final ToMethodNameConverter toMethodNameConverter) {
+			final MembersFactory membersFactory, final Resolver<Classifier, ITypeBinding> classifierResolver,
+			final MethodChecker methodCheckerImpl, final Converter<IMethodBinding> toMethodNameConverter) {
 		super(bindings);
 		this.statementsFactory = statementsFactory;
 		this.typesFactory = typesFactory;

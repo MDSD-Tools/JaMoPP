@@ -1,28 +1,41 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
+import javax.inject.Named;
+
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
+import tools.mdsd.jamopp.model.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 
 public class ClassifierResolver implements Resolver<Classifier, ITypeBinding> {
 
-	private final AnonymousClassResolver anonymousClassResolver;
-	private final ToTypeNameConverter toTypeNameConverter;
-	private final AnnotationResolver annotationResolver;
-	private final InterfaceResolver interfaceResolver;
-	private final EnumerationResolver enumerationResolver;
-	private final ClassResolver classResolver;
-	private final TypeParameterResolver typeParameterResolver;
+	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver;
+	private final ResolverWithCache<Annotation, ITypeBinding> annotationResolver;
+	private final ResolverWithCache<Interface, ITypeBinding> interfaceResolver;
+	private final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver;
+	private final ResolverWithCache<Class, ITypeBinding> classResolver;
+	private final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver;
 
 	@Inject
-	public ClassifierResolver(final AnonymousClassResolver anonymousClassResolver,
-			final TypeParameterResolver typeParameterResolver, final ToTypeNameConverter toTypeNameConverter,
-			final InterfaceResolver interfaceResolver, final EnumerationResolver enumerationResolver,
-			final ClassResolver classResolver, final AnnotationResolver annotationResolver) {
+	public ClassifierResolver(final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver,
+			final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver,
+			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
+			final ResolverWithCache<Interface, ITypeBinding> interfaceResolver,
+			final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
+			final ResolverWithCache<Class, ITypeBinding> classResolver,
+			final ResolverWithCache<Annotation, ITypeBinding> annotationResolver) {
 		this.anonymousClassResolver = anonymousClassResolver;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.annotationResolver = annotationResolver;

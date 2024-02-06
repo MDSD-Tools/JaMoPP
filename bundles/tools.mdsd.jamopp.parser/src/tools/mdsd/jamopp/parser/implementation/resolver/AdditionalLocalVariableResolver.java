@@ -9,17 +9,19 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.VariablesFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 
-public class AdditionalLocalVariableResolver extends AbstractResolverWithCache<AdditionalLocalVariable, IVariableBinding> {
+public class AdditionalLocalVariableResolver
+		extends AbstractResolverWithCache<AdditionalLocalVariable, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final VariablesFactory variablesFactory;
-	private final ToParameterNameConverter toParameterNameConverter;
+	private final ConverterWithBoolean<IVariableBinding> toParameterNameConverter;
 
 	@Inject
 	public AdditionalLocalVariableResolver(final Map<String, AdditionalLocalVariable> bindings,
 			final VariablesFactory variablesFactory, final Set<IVariableBinding> variableBindings,
-			final ToParameterNameConverter toParameterNameConverter) {
+			final ConverterWithBoolean<IVariableBinding> toParameterNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.variablesFactory = variablesFactory;

@@ -3,23 +3,27 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.jdt.core.dom.ITypeBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 
 public class ClassResolver extends AbstractResolverWithCache<Class, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;
-	private final ToTypeNameConverter toTypeNameConverter;
+	private final Converter<ITypeBinding> toTypeNameConverter;
 
 	@Inject
 	public ClassResolver(final Map<String, Class> bindings, final ClassifiersFactory classifiersFactory,
-			final Set<ITypeBinding> typeBindings, final ToTypeNameConverter toTypeNameConverter) {
+			final Set<ITypeBinding> typeBindings,
+			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;

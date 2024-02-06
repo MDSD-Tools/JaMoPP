@@ -4,15 +4,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.ClassMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 
 public class ClassMethodResolver extends AbstractResolverWithCache<ClassMethod, IMethodBinding> {
 
@@ -20,15 +24,15 @@ public class ClassMethodResolver extends AbstractResolverWithCache<ClassMethod, 
 	private final StatementsFactory statementsFactory;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
-	private final ClassifierResolver classifierResolver;
 	private final MethodChecker methodCheckerImpl;
-	private final ToMethodNameConverter toMethodNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+	private final Converter<IMethodBinding> toMethodNameConverter;
 
 	@Inject
 	public ClassMethodResolver(final Map<String, ClassMethod> bindings, final TypesFactory typesFactory,
 			final StatementsFactory statementsFactory, final Set<IMethodBinding> methodBindings,
-			final MembersFactory membersFactory, final ClassifierResolver classifierResolver,
-			final MethodChecker methodCheckerImpl, final ToMethodNameConverter toMethodNameConverter) {
+			final MembersFactory membersFactory, final Resolver<Classifier, ITypeBinding> classifierResolver,
+			final MethodChecker methodCheckerImpl, final Converter<IMethodBinding> toMethodNameConverter) {
 		super(bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;

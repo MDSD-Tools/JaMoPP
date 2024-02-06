@@ -3,27 +3,32 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 
 public class FieldResolver extends AbstractResolverWithCache<Field, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
-	private final ClassifierResolver classifierResolver;
-	private final ToFieldNameConverter toFieldNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+	private final Converter<IVariableBinding> toFieldNameConverter;
 
 	@Inject
 	public FieldResolver(final Map<String, Field> bindings, final Set<IVariableBinding> variableBindings,
 			final TypesFactory typesFactory, final MembersFactory membersFactory,
-			final ClassifierResolver classifierResolver, final ToFieldNameConverter toFieldNameConverter) {
+			final Resolver<Classifier, ITypeBinding> classifierResolver,
+			final Converter<IVariableBinding> toFieldNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.typesFactory = typesFactory;

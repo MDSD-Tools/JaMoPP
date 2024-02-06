@@ -3,24 +3,28 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
+import com.google.inject.Inject;
+
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 
 public class EnumConstantResolver extends AbstractResolverWithCache<EnumConstant, IVariableBinding> {
 
 	private final MembersFactory membersFactory;
 	private final Set<IVariableBinding> variableBindings;
-	private final EnumerationResolver enumerationResolver;
-	private final ToFieldNameConverter toFieldNameConverter;
+	private final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver;
+	private final Converter<IVariableBinding> toFieldNameConverter;
 
 	@Inject
 	public EnumConstantResolver(final Map<String, EnumConstant> bindings, final Set<IVariableBinding> variableBindings,
-			final MembersFactory membersFactory, final EnumerationResolver enumerationResolver,
-			final ToFieldNameConverter toFieldNameConverter) {
+			final MembersFactory membersFactory, final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
+			final Converter<IVariableBinding> toFieldNameConverter) {
 		super(bindings);
 		this.membersFactory = membersFactory;
 		this.variableBindings = variableBindings;

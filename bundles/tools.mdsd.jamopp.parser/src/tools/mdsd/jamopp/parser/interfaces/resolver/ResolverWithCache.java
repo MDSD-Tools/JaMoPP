@@ -21,4 +21,6 @@ public interface ResolverWithCache<C, B extends IBinding> extends ResolverWithNa
 
 	void forEachBindingOnCopy(BiConsumer<? super String, ? super C> biConsumer);
 
+	boolean containsKey(String varName);
+
 }

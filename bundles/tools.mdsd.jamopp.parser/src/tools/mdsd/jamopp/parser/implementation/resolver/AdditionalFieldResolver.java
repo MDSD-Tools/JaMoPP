@@ -3,24 +3,29 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 
 public class AdditionalFieldResolver extends AbstractResolverWithCache<AdditionalField, IVariableBinding> {
 
 	private final Set<IVariableBinding> variableBindings;
 	private final MembersFactory membersFactory;
-	private final ClassifierResolver classifierResolver;
-	private final ToFieldNameConverter toFieldNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+	private final Converter<IVariableBinding> toFieldNameConverter;
 
 	@Inject
 	public AdditionalFieldResolver(final Map<String, AdditionalField> bindings,
 			final Set<IVariableBinding> variableBindings, final MembersFactory membersFactory,
-			final ClassifierResolver classifierResolver, final ToFieldNameConverter toFieldNameConverter) {
+			final Resolver<Classifier, ITypeBinding> classifierResolver,
+			final Converter<IVariableBinding> toFieldNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.membersFactory = membersFactory;

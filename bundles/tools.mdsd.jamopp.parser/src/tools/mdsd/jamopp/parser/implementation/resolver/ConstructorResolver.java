@@ -3,15 +3,16 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.inject.Inject;
-
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+
+import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 
 public class ConstructorResolver extends AbstractResolverWithCache<Constructor, IMethodBinding> {
 
@@ -19,14 +20,14 @@ public class ConstructorResolver extends AbstractResolverWithCache<Constructor, 
 	private final StatementsFactory statementsFactory;
 	private final MembersFactory membersFactory;
 	private final ClassifierResolver classifierResolver;
-	private final ToMethodNameConverter toMethodNameConverter;
+	private final Converter<IMethodBinding> toMethodNameConverter;
 	private final ToTypeNameConverter toTypeNameConverter;
 
 	@Inject
 	public ConstructorResolver(final Map<String, Constructor> bindings, final StatementsFactory statementsFactory,
 			final Set<IMethodBinding> methodBindings, final MembersFactory membersFactory,
 			final ClassifierResolver classifierResolver, final ToTypeNameConverter toTypeNameConverter,
-			final ToMethodNameConverter toMethodNameConverter) {
+			final Converter<IMethodBinding> toMethodNameConverter) {
 		super(bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;

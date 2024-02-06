@@ -18,17 +18,63 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
+import tools.mdsd.jamopp.model.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
+import tools.mdsd.jamopp.model.java.classifiers.Class;
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
+import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
+import tools.mdsd.jamopp.model.java.classifiers.Interface;
+import tools.mdsd.jamopp.model.java.containers.Module;
+import tools.mdsd.jamopp.model.java.containers.Package;
+import tools.mdsd.jamopp.model.java.generics.TypeParameter;
+import tools.mdsd.jamopp.model.java.members.AdditionalField;
+import tools.mdsd.jamopp.model.java.members.ClassMethod;
+import tools.mdsd.jamopp.model.java.members.Constructor;
+import tools.mdsd.jamopp.model.java.members.EnumConstant;
+import tools.mdsd.jamopp.model.java.members.Field;
+import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
+import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
+import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
+import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
+import tools.mdsd.jamopp.parser.implementation.resolver.AbstractResolverWithCache;
+import tools.mdsd.jamopp.parser.implementation.resolver.AdditionalFieldResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.AdditionalLocalVariableResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.AnnotationResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.AnonymousClassResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.CatchParameterResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.ClassMethodResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.ClassResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.ClassifierResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.ConstructorResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.EnumConstantResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.EnumerationResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.FieldResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.InterfaceResolver;
 import tools.mdsd.jamopp.parser.implementation.resolver.MethodCheckerImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.MethodCompleterImpl;
+import tools.mdsd.jamopp.parser.implementation.resolver.ModuleResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.OrdinaryParameterResolver;
+import tools.mdsd.jamopp.parser.implementation.resolver.PackageResolver;
 import tools.mdsd.jamopp.parser.implementation.resolver.PureTypeBindingsConverterImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.ResolutionCompleterImpl;
+import tools.mdsd.jamopp.parser.implementation.resolver.ToFieldNameConverter;
+import tools.mdsd.jamopp.parser.implementation.resolver.ToMethodNameConverter;
+import tools.mdsd.jamopp.parser.implementation.resolver.ToParameterNameConverter;
+import tools.mdsd.jamopp.parser.implementation.resolver.ToTypeNameConverter;
+import tools.mdsd.jamopp.parser.implementation.resolver.ToTypeParameterNameConverter;
+import tools.mdsd.jamopp.parser.implementation.resolver.TypeParameterResolver;
 import tools.mdsd.jamopp.parser.implementation.resolver.UidManagerImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.UtilJdtResolverImpl;
+import tools.mdsd.jamopp.parser.implementation.resolver.VariableLengthParameterResolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 public class ResolverModule extends AbstractModule {
@@ -44,6 +90,60 @@ public class ResolverModule extends AbstractModule {
 		bind(MethodCompleter.class).to(MethodCompleterImpl.class);
 		bind(ResolutionCompleter.class).to(ResolutionCompleterImpl.class);
 		bind(PureTypeBindingsConverter.class).to(PureTypeBindingsConverterImpl.class);
+
+		bind(new TypeLiteral<Converter<IVariableBinding>>() {
+			/* empty */}).to(ToFieldNameConverter.class);
+		bind(new TypeLiteral<Converter<IMethodBinding>>() {
+			/* empty */}).to(ToMethodNameConverter.class);
+		bind(new TypeLiteral<Converter<ITypeBinding>>() {
+			/* empty */}).annotatedWith(Names.named("ToTypeNameConverter")).to(ToTypeNameConverter.class);
+		bind(new TypeLiteral<Converter<ITypeBinding>>() {
+			/* empty */}).annotatedWith(Names.named("ToTypeParameterNameConverter"))
+				.to(ToTypeParameterNameConverter.class);
+
+		bind(new TypeLiteral<ResolverWithCache<AdditionalField, IVariableBinding>>() {
+			/* empty */}).to(AdditionalFieldResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<AdditionalLocalVariable, IVariableBinding>>() {
+			/* empty */}).to(AdditionalLocalVariableResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<Annotation, ITypeBinding>>() {
+			/* empty */}).to(AnnotationResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<AnonymousClass, ITypeBinding>>() {
+			/* empty */}).to(AnonymousClassResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<CatchParameter, IVariableBinding>>() {
+			/* empty */}).to(CatchParameterResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<ClassMethod, IMethodBinding>>() {
+			/* empty */}).to(ClassMethodResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<Class, ITypeBinding>>() {
+			/* empty */}).to(ClassResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<Constructor, IMethodBinding>>() {
+			/* empty */}).to(ConstructorResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<EnumConstant, IVariableBinding>>() {
+			/* empty */}).to(EnumConstantResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<Enumeration, ITypeBinding>>() {
+			/* empty */}).to(EnumerationResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<Field, IVariableBinding>>() {
+			/* empty */}).to(FieldResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<Module, IModuleBinding>>() {
+			/* empty */}).to(ModuleResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<OrdinaryParameter, IVariableBinding>>() {
+			/* empty */}).to(OrdinaryParameterResolver.class);
+		bind(new TypeLiteral<AbstractResolverWithCache<Package, IPackageBinding>>() {
+			/* empty */}).to(PackageResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<TypeParameter, ITypeBinding>>() {
+			/* empty */}).to(TypeParameterResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<VariableLengthParameter, IVariableBinding>>() {
+			/* empty */}).to(VariableLengthParameterResolver.class);
+		bind(new TypeLiteral<ResolverWithCache<Interface, ITypeBinding>>() {
+			/* empty */}).to(InterfaceResolver.class);
+
+		bind(new TypeLiteral<ResolverWithCache<VariableLengthParameter, IVariableBinding>>() {
+			/* empty */}).to(VariableLengthParameterResolver.class);
+
+		bind(new TypeLiteral<Resolver<Classifier, ITypeBinding>>() {
+			/* empty */}).to(ClassifierResolver.class);
+
+		bind(new TypeLiteral<ConverterWithBoolean<IVariableBinding>>() {
+			/* empty */}).to(ToParameterNameConverter.class);
 
 		bind(String.class).annotatedWith(Names.named("synthClass")).toInstance(SYNTH_CLASS);
 		bind(Boolean.class).annotatedWith(Names.named("extractAdditionalInfosFromTypeBindings"))
