@@ -2,7 +2,7 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 
 import java.util.Map;
 
-import javax.inject.Named;
+import  com.google.inject.name.Named;
 
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IMethodBinding;

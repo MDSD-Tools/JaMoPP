@@ -1,6 +1,6 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
-import javax.inject.Named;
+import  com.google.inject.name.Named;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;

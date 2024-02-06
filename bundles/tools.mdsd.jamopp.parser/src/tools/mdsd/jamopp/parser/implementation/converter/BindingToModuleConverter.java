@@ -2,8 +2,6 @@ package tools.mdsd.jamopp.parser.implementation.converter;
 
 import java.util.List;
 
-import javax.inject.Provider;
-
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IModuleBinding;
 import org.eclipse.jdt.core.dom.IPackageBinding;
@@ -36,13 +34,13 @@ public class BindingToModuleConverter
 	private final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter;
 
 	private JdtResolver jdtTResolverUtility;
-	private final Provider<Converter<ITypeBinding, List<TypeReference>>> toTypeReferencesConverter;
+	private final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter;
 
 	@Inject
 	public BindingToModuleConverter(final ModulesFactory modulesFactory, final ModifiersFactory modifiersFactory,
 			final JdtResolver jdtTResolverUtility, final UtilNamedElement utilNamedElement,
 			final Converter<IAnnotationBinding, AnnotationInstance> bindingToAnnotationInstanceConverter,
-			final Provider<Converter<ITypeBinding, List<TypeReference>>> toTypeReferencesConverter) {
+			final Converter<ITypeBinding, List<TypeReference>> toTypeReferencesConverter) {
 		this.modulesFactory = modulesFactory;
 		this.modifiersFactory = modifiersFactory;
 		this.jdtTResolverUtility = jdtTResolverUtility;
@@ -103,14 +101,14 @@ public class BindingToModuleConverter
 		}
 		for (final ITypeBinding typeBind : binding.getUses()) {
 			final UsesModuleDirective dir = modulesFactory.createUsesModuleDirective();
-			dir.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
+			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
 			result.getTarget().add(dir);
 		}
 		for (final ITypeBinding typeBind : binding.getServices()) {
 			final ProvidesModuleDirective dir = modulesFactory.createProvidesModuleDirective();
-			dir.setTypeReference(toTypeReferencesConverter.get().convert(typeBind).get(0));
+			dir.setTypeReference(toTypeReferencesConverter.convert(typeBind).get(0));
 			for (final ITypeBinding service : binding.getImplementations(typeBind)) {
-				dir.getServiceProviders().addAll(toTypeReferencesConverter.get().convert(service));
+				dir.getServiceProviders().addAll(toTypeReferencesConverter.convert(service));
 			}
 			result.getTarget().add(dir);
 		}
