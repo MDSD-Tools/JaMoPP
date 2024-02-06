@@ -24,19 +24,20 @@ import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.InterfaceMethod;
+import tools.mdsd.jamopp.model.java.members.Method;
 import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodResolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithName;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 /**
@@ -48,7 +49,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	private ResourceSet resourceSet;
 
 	private final ResolutionCompleter resolutionCompleterImpl;
-	private final Converter<IMethodBinding> toMethodNameConverter;
+	private final ToStringConverter<IMethodBinding> toMethodNameConverter;
 	private final Resolver<Classifier, ITypeBinding> classifierResolver;
 	private final MethodResolver methodResolverImpl;
 	private final ResolverWithCache<Module, IModuleBinding> moduleResolver;
@@ -75,7 +76,7 @@ public class UtilJdtResolverImpl implements JdtResolver {
 
 	@Inject
 	public UtilJdtResolverImpl(final ResolutionCompleter resolutionCompleterImpl,
-			final Converter<IMethodBinding> toMethodNameConverter,
+			final ToStringConverter<IMethodBinding> toMethodNameConverter,
 			final Resolver<Classifier, ITypeBinding> classifierResolver, final MethodResolver methodResolverImpl,
 			final ResolverWithCache<Module, IModuleBinding> moduleResolver,
 			final ResolverWithCache<Package, IPackageBinding> packageResolver,
@@ -131,57 +132,57 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.Module getModule(final IModuleBinding binding) {
+	public Module getModule(final IModuleBinding binding) {
 		return moduleResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.Module getModule(final String modName) {
+	public Module getModule(final String modName) {
 		return moduleResolver.getByName(modName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.Package getPackage(final IPackageBinding binding) {
+	public Package getPackage(final IPackageBinding binding) {
 		return packageResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.containers.Package getPackage(final String packageName) {
+	public Package getPackage(final String packageName) {
 		return packageResolver.getByName(packageName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Annotation getAnnotation(final ITypeBinding binding) {
+	public Annotation getAnnotation(final ITypeBinding binding) {
 		return annotationResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Annotation getAnnotation(final String annotName) {
+	public Annotation getAnnotation(final String annotName) {
 		return annotationResolver.getByName(annotName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Enumeration getEnumeration(final ITypeBinding binding) {
+	public Enumeration getEnumeration(final ITypeBinding binding) {
 		return enumerationResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Class getClass(final ITypeBinding binding) {
+	public Class getClass(final ITypeBinding binding) {
 		return classResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Interface getInterface(final ITypeBinding binding) {
+	public Interface getInterface(final ITypeBinding binding) {
 		return interfaceResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.generics.TypeParameter getTypeParameter(final ITypeBinding binding) {
+	public TypeParameter getTypeParameter(final ITypeBinding binding) {
 		return typeParameterResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Classifier getClassifier(final ITypeBinding binding) {
+	public Classifier getClassifier(final ITypeBinding binding) {
 		return classifierResolver.getByBinding(binding);
 	}
 
@@ -190,82 +191,82 @@ public class UtilJdtResolverImpl implements JdtResolver {
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(final String methodName) {
+	public InterfaceMethod getInterfaceMethod(final String methodName) {
 		return interfaceMethodResolver.getByName(methodName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.InterfaceMethod getInterfaceMethod(final IMethodBinding binding) {
+	public InterfaceMethod getInterfaceMethod(final IMethodBinding binding) {
 		return interfaceMethodResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.ClassMethod getClassMethod(final String methodName) {
+	public ClassMethod getClassMethod(final String methodName) {
 		return classMethodResolver.getByName(methodName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.ClassMethod getClassMethod(final IMethodBinding binding) {
+	public ClassMethod getClassMethod(final IMethodBinding binding) {
 		return classMethodResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.Constructor getConstructor(final IMethodBinding binding) {
+	public Constructor getConstructor(final IMethodBinding binding) {
 		return constructorResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.Constructor getConstructor(final String methName) {
+	public Constructor getConstructor(final String methName) {
 		return constructorResolver.getByName(methName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.Method getMethod(final IMethodBinding binding) {
+	public Method getMethod(final IMethodBinding binding) {
 		return methodResolverImpl.getMethod(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.Class getClass(final String typeName) {
+	public Class getClass(final String typeName) {
 		return classResolver.getByName(typeName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.AnonymousClass getAnonymousClass(final String typeName) {
+	public AnonymousClass getAnonymousClass(final String typeName) {
 		return anonymousClassResolver.getByName(typeName);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.classifiers.AnonymousClass getAnonymousClass(final ITypeBinding binding) {
+	public AnonymousClass getAnonymousClass(final ITypeBinding binding) {
 		return anonymousClassResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.Field getField(final String name) {
+	public Field getField(final String name) {
 		return fieldResolver.getByName(name);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.Field getField(final IVariableBinding binding) {
+	public Field getField(final IVariableBinding binding) {
 		return fieldResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(final IVariableBinding binding) {
+	public EnumConstant getEnumConstant(final IVariableBinding binding) {
 		return enumConstantResolver.getByBinding(binding);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.EnumConstant getEnumConstant(final String enumCN) {
+	public EnumConstant getEnumConstant(final String enumCN) {
 		return enumConstantResolver.getByName(enumCN);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(final String name) {
+	public AdditionalField getAdditionalField(final String name) {
 		return additionalFieldResolver.getByName(name);
 	}
 
 	@Override
-	public tools.mdsd.jamopp.model.java.members.AdditionalField getAdditionalField(final IVariableBinding binding) {
+	public AdditionalField getAdditionalField(final IVariableBinding binding) {
 		return additionalFieldResolver.getByBinding(binding);
 	}
 

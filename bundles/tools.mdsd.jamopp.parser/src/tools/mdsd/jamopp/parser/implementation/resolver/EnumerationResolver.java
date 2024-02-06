@@ -12,18 +12,18 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class EnumerationResolver extends AbstractResolverWithCache<Enumeration, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
 	private final Set<ITypeBinding> typeBindings;
-	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
 
 	@Inject
 	public EnumerationResolver(final Map<String, Enumeration> bindings, final Set<ITypeBinding> typeBindings,
 			final ClassifiersFactory classifiersFactory,
-			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter) {
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.typeBindings = typeBindings;

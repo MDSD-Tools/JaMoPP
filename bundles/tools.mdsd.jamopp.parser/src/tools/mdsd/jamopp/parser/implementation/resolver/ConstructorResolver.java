@@ -3,38 +3,47 @@ package tools.mdsd.jamopp.parser.implementation.resolver;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Named;
+
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 
+import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Constructor;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
+import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class ConstructorResolver extends AbstractResolverWithCache<Constructor, IMethodBinding> {
 
 	private final Set<IMethodBinding> methodBindings;
 	private final StatementsFactory statementsFactory;
 	private final MembersFactory membersFactory;
-	private final ClassifierResolver classifierResolver;
-	private final Converter<IMethodBinding> toMethodNameConverter;
-	private final ToTypeNameConverter toTypeNameConverter;
+	private final Resolver<Classifier, ITypeBinding> classifierResolver;
+	private final ToStringConverter<IMethodBinding> toMethodNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverterFromBinding;
+	private final ToStringConverter<TypeReference> toTypeNameConverterFromReference;
 
 	@Inject
-	public ConstructorResolver(final Map<String, Constructor> bindings, final StatementsFactory statementsFactory,
+	public ConstructorResolver(final Map<String, Constructor> bindings,
+			final ToStringConverter<TypeReference> toTypeNameConverterFromReference,
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverterFromBinding,
+			final ToStringConverter<IMethodBinding> toMethodNameConverter, final StatementsFactory statementsFactory,
 			final Set<IMethodBinding> methodBindings, final MembersFactory membersFactory,
-			final ClassifierResolver classifierResolver, final ToTypeNameConverter toTypeNameConverter,
-			final Converter<IMethodBinding> toMethodNameConverter) {
+			final Resolver<Classifier, ITypeBinding> classifierResolver) {
 		super(bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;
 		this.membersFactory = membersFactory;
 		this.classifierResolver = classifierResolver;
 		this.toMethodNameConverter = toMethodNameConverter;
-		this.toTypeNameConverter = toTypeNameConverter;
+		this.toTypeNameConverterFromBinding = toTypeNameConverterFromBinding;
+		this.toTypeNameConverterFromReference = toTypeNameConverterFromReference;
 	}
 
 	@Override
@@ -103,8 +112,9 @@ public class ConstructorResolver extends AbstractResolverWithCache<Constructor, 
 	private boolean shouldSkip(final IMethodBinding binding, final Constructor con, final int receiveOffset) {
 		return receiveOffset == 1
 				&& (!(con.getParameters().get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
-						|| !toTypeNameConverter.convert(binding.getDeclaredReceiverType()).equals(
-								toTypeNameConverter.convertToTypeName(con.getParameters().get(0).getTypeReference())))
+						|| !toTypeNameConverterFromBinding.convert(binding.getDeclaredReceiverType())
+								.equals(toTypeNameConverterFromReference
+										.convert(con.getParameters().get(0).getTypeReference())))
 				|| skipMember(binding, con, receiveOffset);
 	}
 
@@ -114,8 +124,8 @@ public class ConstructorResolver extends AbstractResolverWithCache<Constructor, 
 			final ITypeBinding currentType = binding.getParameterTypes()[i];
 			final tools.mdsd.jamopp.model.java.parameters.Parameter currentParam = con.getParameters()
 					.get(i + receiveOffset);
-			if (!toTypeNameConverter.convert(currentType)
-					.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
+			if (!toTypeNameConverterFromBinding.convert(currentType)
+					.equals(toTypeNameConverterFromReference.convert(currentParam.getTypeReference()))
 					|| currentType.getDimensions() != currentParam.getArrayDimension()) {
 				skipMember = true;
 				break;

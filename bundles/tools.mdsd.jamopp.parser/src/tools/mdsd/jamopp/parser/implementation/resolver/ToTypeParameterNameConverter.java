@@ -10,17 +10,17 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
-public class ToTypeParameterNameConverter implements Converter<ITypeBinding> {
+public class ToTypeParameterNameConverter implements ToStringConverter<ITypeBinding> {
 
 	private final Map<IBinding, String> nameCache;
-	private final Converter<ITypeBinding> toTypeNameConverter;
-	private final Converter<IMethodBinding> toMethodNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
+	private final ToStringConverter<IMethodBinding> toMethodNameConverter;
 
 	@Inject
-	public ToTypeParameterNameConverter(@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
-			final Converter<IMethodBinding> toMethodNameConverter, final Map<IBinding, String> nameCache) {
+	public ToTypeParameterNameConverter(@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter,
+			final ToStringConverter<IMethodBinding> toMethodNameConverter, final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;
 		this.toMethodNameConverter = toMethodNameConverter;

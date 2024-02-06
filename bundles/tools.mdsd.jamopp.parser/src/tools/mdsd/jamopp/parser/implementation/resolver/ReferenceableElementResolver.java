@@ -31,7 +31,7 @@ import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodResolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
@@ -44,7 +44,7 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 	private final Set<IMethodBinding> methodBindings;
 	private final Set<IVariableBinding> variableBindings;
 
-	private final Converter<IVariableBinding> toFieldNameConverter;
+	private final ToStringConverter<IVariableBinding> toFieldNameConverter;
 	private final ConverterWithBoolean<IVariableBinding> toParameterNameConverter;
 
 	private final MethodResolver methodResolver;
@@ -68,7 +68,7 @@ public class ReferenceableElementResolver implements ResolverWithName<Referencea
 
 	@Inject
 	public ReferenceableElementResolver(final Set<ITypeBinding> typeBindings, final Set<IMethodBinding> methodBindings,
-			final Set<IVariableBinding> variableBindings, final Converter<IVariableBinding> toFieldNameConverter,
+			final Set<IVariableBinding> variableBindings, final ToStringConverter<IVariableBinding> toFieldNameConverter,
 			final ConverterWithBoolean<IVariableBinding> toParameterNameConverter, final MethodResolver methodResolver,
 			final Resolver<Classifier, ITypeBinding> classifierResolver,
 			final ResolverWithCache<Annotation, ITypeBinding> annotationResolver,

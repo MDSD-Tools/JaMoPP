@@ -18,6 +18,7 @@ import com.google.inject.name.Named;
 
 import tools.mdsd.jamopp.model.java.JavaClasspath;
 import tools.mdsd.jamopp.model.java.classifiers.Annotation;
+import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.Class;
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
@@ -37,12 +38,12 @@ import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ClassResolverExtension;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class ResolutionCompleterImpl implements ResolutionCompleter {
 
@@ -65,7 +66,7 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 	private final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver;
 	private final ResolverWithCache<Constructor, IMethodBinding> constructorResolver;
 	private final ResolverWithCache<Field, IVariableBinding> fieldResolver;
-	private final AnonymousClassResolver anonymousClassResolver;
+	private final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver;
 	private final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver;
 	private final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver;
 	private final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver;
@@ -77,8 +78,8 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 	private final MethodCompleter methodCompleterImpl;
 	private final PureTypeBindingsConverter pureTypeBindingsConverterImpl;
 	private final ClassResolverExtension classResolverExtensionImpl;
-	private final Converter<IVariableBinding> toFieldNameConverter;
-	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ToStringConverter<IVariableBinding> toFieldNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
 	private final Resolver<Classifier, ITypeBinding> classifierResolver;
 
 	@Inject
@@ -98,7 +99,7 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 			final ResolverWithCache<ClassMethod, IMethodBinding> classMethodResolver,
 			final ResolverWithCache<Constructor, IMethodBinding> constructorResolver,
 			final ResolverWithCache<Field, IVariableBinding> fieldResolver,
-			final AnonymousClassResolver anonymousClassResolver,
+			final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver,
 			final ResolverWithCache<EnumConstant, IVariableBinding> enumConstantResolver,
 			final ResolverWithCache<AdditionalField, IVariableBinding> additionalFieldResolver,
 			final ResolverWithCache<CatchParameter, IVariableBinding> catchParameterResolver,
@@ -109,8 +110,8 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 			final ResolverWithCache<InterfaceMethod, IMethodBinding> interfaceMethodResolver,
 			final MethodCompleter methodCompleterImpl, final PureTypeBindingsConverter pureTypeBindingsConverterImpl,
 			final ClassResolverExtension classResolverExtensionImpl,
-			final Converter<IVariableBinding> toFieldNameConverter,
-			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
+			final ToStringConverter<IVariableBinding> toFieldNameConverter,
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter,
 			final Resolver<Classifier, ITypeBinding> classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.varBindToUid = varBindToUid;
@@ -177,13 +178,11 @@ public class ResolutionCompleterImpl implements ResolutionCompleter {
 	}
 
 	private void handleFieldsElse(final Field field, final IVariableBinding varBind) {
-		final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
-				.getByBinding(varBind.getDeclaringClass());
+		final Classifier cla = classifierResolver.getByBinding(varBind.getDeclaringClass());
 		if (cla == null) {
 			final String typeName = toTypeNameConverter.convert(varBind.getDeclaringClass());
 			if (anonymousClassResolver.containsKey(typeName)) {
-				final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-						.get(typeName);
+				final AnonymousClass anonClass = anonymousClassResolver.get(typeName);
 				if (!anonClass.getMembers().contains(field)) {
 					anonClass.getMembers().add(field);
 				}

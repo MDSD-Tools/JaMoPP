@@ -14,13 +14,13 @@ import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.classifiers.Interface;
 import tools.mdsd.jamopp.model.java.generics.TypeParameter;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 
 public class ClassifierResolver implements Resolver<Classifier, ITypeBinding> {
 
-	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
 	private final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver;
 	private final ResolverWithCache<Annotation, ITypeBinding> annotationResolver;
 	private final ResolverWithCache<Interface, ITypeBinding> interfaceResolver;
@@ -31,7 +31,7 @@ public class ClassifierResolver implements Resolver<Classifier, ITypeBinding> {
 	@Inject
 	public ClassifierResolver(final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver,
 			final ResolverWithCache<TypeParameter, ITypeBinding> typeParameterResolver,
-			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter,
 			final ResolverWithCache<Interface, ITypeBinding> interfaceResolver,
 			final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
 			final ResolverWithCache<Class, ITypeBinding> classResolver,

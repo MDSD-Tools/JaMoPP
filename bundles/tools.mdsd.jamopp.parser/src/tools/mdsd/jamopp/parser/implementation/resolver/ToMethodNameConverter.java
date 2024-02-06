@@ -10,16 +10,16 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import com.google.inject.Inject;
 
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
-public class ToMethodNameConverter implements Converter<IMethodBinding> {
+public class ToMethodNameConverter implements ToStringConverter<IMethodBinding> {
 
 	private static final String JAVA_LANG_OBJECT_CLONE = "java.lang.Object::clone()";
 	private final Map<IBinding, String> nameCache;
-	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
 
 	@Inject
-	public ToMethodNameConverter(@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
+	public ToMethodNameConverter(@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter,
 			final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;

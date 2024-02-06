@@ -11,20 +11,20 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.classifiers.Enumeration;
 import tools.mdsd.jamopp.model.java.members.EnumConstant;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class EnumConstantResolver extends AbstractResolverWithCache<EnumConstant, IVariableBinding> {
 
 	private final MembersFactory membersFactory;
 	private final Set<IVariableBinding> variableBindings;
 	private final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver;
-	private final Converter<IVariableBinding> toFieldNameConverter;
+	private final ToStringConverter<IVariableBinding> toFieldNameConverter;
 
 	@Inject
 	public EnumConstantResolver(final Map<String, EnumConstant> bindings, final Set<IVariableBinding> variableBindings,
 			final MembersFactory membersFactory, final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
-			final Converter<IVariableBinding> toFieldNameConverter) {
+			final ToStringConverter<IVariableBinding> toFieldNameConverter) {
 		super(bindings);
 		this.membersFactory = membersFactory;
 		this.variableBindings = variableBindings;
@@ -40,8 +40,7 @@ public class EnumConstantResolver extends AbstractResolverWithCache<EnumConstant
 			enumConstant = get(enumCN);
 		} else {
 			variableBindings.add(binding);
-			final tools.mdsd.jamopp.model.java.classifiers.Enumeration potPar = enumerationResolver
-					.getByBinding(binding.getDeclaringClass());
+			final Enumeration potPar = enumerationResolver.getByBinding(binding.getDeclaringClass());
 			EnumConstant result = null;
 			if (potPar != null) {
 				for (final EnumConstant con : potPar.getConstants()) {

@@ -54,10 +54,12 @@ public abstract class AbstractResolverWithCache<C, B extends IBinding> implement
 		return bindings.containsKey(varName);
 	}
 
+	@Override
 	public C get(final String varName) {
 		return bindings.get(varName);
 	}
 
+	@Override
 	public void putBinding(final String name, final C value) {
 		bindings.put(name, value);
 	}

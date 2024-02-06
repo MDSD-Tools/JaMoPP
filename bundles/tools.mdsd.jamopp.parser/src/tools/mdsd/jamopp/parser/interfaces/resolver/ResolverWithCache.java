@@ -23,8 +23,8 @@ public interface ResolverWithCache<C, B extends IBinding> extends ResolverWithNa
 
 	boolean containsKey(String varName);
 
-	C get(final String varName);
+	C get(String varName);
 
-	void putBinding(final String name, final C value);
+	void putBinding(String name, C value);
 
 }

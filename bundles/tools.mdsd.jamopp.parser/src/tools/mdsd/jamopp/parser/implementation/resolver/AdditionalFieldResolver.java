@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.model.java.members.AdditionalField;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 
 public class AdditionalFieldResolver extends AbstractResolverWithCache<AdditionalField, IVariableBinding> {
@@ -19,13 +19,13 @@ public class AdditionalFieldResolver extends AbstractResolverWithCache<Additiona
 	private final Set<IVariableBinding> variableBindings;
 	private final MembersFactory membersFactory;
 	private final Resolver<Classifier, ITypeBinding> classifierResolver;
-	private final Converter<IVariableBinding> toFieldNameConverter;
+	private final ToStringConverter<IVariableBinding> toFieldNameConverter;
 
 	@Inject
 	public AdditionalFieldResolver(final Map<String, AdditionalField> bindings,
 			final Set<IVariableBinding> variableBindings, final MembersFactory membersFactory,
 			final Resolver<Classifier, ITypeBinding> classifierResolver,
-			final Converter<IVariableBinding> toFieldNameConverter) {
+			final ToStringConverter<IVariableBinding> toFieldNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.membersFactory = membersFactory;

@@ -10,17 +10,17 @@ import com.google.inject.Inject;
 
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.ClassifiersFactory;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class AnonymousClassResolver extends AbstractResolverWithCache<AnonymousClass, ITypeBinding> {
 
 	private final ClassifiersFactory classifiersFactory;
-	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
 
 	@Inject
 	public AnonymousClassResolver(final Map<String, AnonymousClass> bindings,
 			final ClassifiersFactory classifiersFactory,
-			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter) {
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter) {
 		super(bindings);
 		this.classifiersFactory = classifiersFactory;
 		this.toTypeNameConverter = toTypeNameConverter;

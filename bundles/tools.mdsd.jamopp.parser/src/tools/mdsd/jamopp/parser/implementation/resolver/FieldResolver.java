@@ -13,8 +13,8 @@ import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.members.Field;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class FieldResolver extends AbstractResolverWithCache<Field, IVariableBinding> {
 
@@ -22,13 +22,13 @@ public class FieldResolver extends AbstractResolverWithCache<Field, IVariableBin
 	private final TypesFactory typesFactory;
 	private final MembersFactory membersFactory;
 	private final Resolver<Classifier, ITypeBinding> classifierResolver;
-	private final Converter<IVariableBinding> toFieldNameConverter;
+	private final ToStringConverter<IVariableBinding> toFieldNameConverter;
 
 	@Inject
 	public FieldResolver(final Map<String, Field> bindings, final Set<IVariableBinding> variableBindings,
 			final TypesFactory typesFactory, final MembersFactory membersFactory,
 			final Resolver<Classifier, ITypeBinding> classifierResolver,
-			final Converter<IVariableBinding> toFieldNameConverter) {
+			final ToStringConverter<IVariableBinding> toFieldNameConverter) {
 		super(bindings);
 		this.variableBindings = variableBindings;
 		this.typesFactory = typesFactory;
@@ -44,26 +44,7 @@ public class FieldResolver extends AbstractResolverWithCache<Field, IVariableBin
 		if (containsKey(varName)) {
 			field = get(varName);
 		} else {
-			variableBindings.add(binding);
-			ConcreteClassifier potClass = null;
-			if (binding.getDeclaringClass() != null) {
-				potClass = (ConcreteClassifier) classifierResolver.getByBinding(binding.getDeclaringClass());
-			}
-			Field result = null;
-			if (potClass != null) {
-				for (final tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
-					if (mem instanceof Field && mem.getName().equals(binding.getName())) {
-						result = (Field) mem;
-						break;
-					}
-				}
-			}
-			if (result == null) {
-				result = membersFactory.createField();
-				result.setTypeReference(typesFactory.createInt());
-			}
-			putBinding(varName, result);
-			field = result;
+			field = getByBinding(binding, varName);
 		}
 		return field;
 	}
@@ -79,6 +60,29 @@ public class FieldResolver extends AbstractResolverWithCache<Field, IVariableBin
 			field = result;
 		}
 		return field;
+	}
+
+	private Field getByBinding(final IVariableBinding binding, final String varName) {
+		variableBindings.add(binding);
+		ConcreteClassifier potClass = null;
+		if (binding.getDeclaringClass() != null) {
+			potClass = (ConcreteClassifier) classifierResolver.getByBinding(binding.getDeclaringClass());
+		}
+		Field result = null;
+		if (potClass != null) {
+			for (final tools.mdsd.jamopp.model.java.members.Member mem : potClass.getMembers()) {
+				if (mem instanceof Field && mem.getName().equals(binding.getName())) {
+					result = (Field) mem;
+					break;
+				}
+			}
+		}
+		if (result == null) {
+			result = membersFactory.createField();
+			result.setTypeReference(typesFactory.createInt());
+		}
+		putBinding(varName, result);
+		return result;
 	}
 
 }

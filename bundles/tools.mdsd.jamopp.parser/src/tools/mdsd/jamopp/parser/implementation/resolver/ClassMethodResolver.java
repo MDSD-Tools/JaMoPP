@@ -14,7 +14,7 @@ import tools.mdsd.jamopp.model.java.members.ClassMethod;
 import tools.mdsd.jamopp.model.java.members.MembersFactory;
 import tools.mdsd.jamopp.model.java.statements.StatementsFactory;
 import tools.mdsd.jamopp.model.java.types.TypesFactory;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 
@@ -26,13 +26,13 @@ public class ClassMethodResolver extends AbstractResolverWithCache<ClassMethod, 
 	private final MembersFactory membersFactory;
 	private final MethodChecker methodCheckerImpl;
 	private final Resolver<Classifier, ITypeBinding> classifierResolver;
-	private final Converter<IMethodBinding> toMethodNameConverter;
+	private final ToStringConverter<IMethodBinding> toMethodNameConverter;
 
 	@Inject
 	public ClassMethodResolver(final Map<String, ClassMethod> bindings, final TypesFactory typesFactory,
 			final StatementsFactory statementsFactory, final Set<IMethodBinding> methodBindings,
 			final MembersFactory membersFactory, final Resolver<Classifier, ITypeBinding> classifierResolver,
-			final MethodChecker methodCheckerImpl, final Converter<IMethodBinding> toMethodNameConverter) {
+			final MethodChecker methodCheckerImpl, final ToStringConverter<IMethodBinding> toMethodNameConverter) {
 		super(bindings);
 		this.methodBindings = methodBindings;
 		this.statementsFactory = statementsFactory;

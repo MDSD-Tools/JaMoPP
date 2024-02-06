@@ -31,6 +31,7 @@ import tools.mdsd.jamopp.parser.interfaces.converter.ToConcreteClassifierConvert
 import tools.mdsd.jamopp.parser.interfaces.resolver.PureTypeBindingsConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter {
 
@@ -38,8 +39,8 @@ public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter 
 
 	private final ContainersFactory containersFactory;
 	private final Provider<ToConcreteClassifierConverterWithExtraInfo> utilBindingInfoToConcreteClassifierConverter;
-	private final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter;
-	private final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter;
+	private final Provider<Converter<IPackageBinding, Package>> bindingToPackageConverter;
+	private final Provider<Converter<IModuleBinding, Module>> bindingToModuleConverter;
 
 	private final Set<IModuleBinding> moduleBindings;
 	private final Set<IPackageBinding> packageBindings;
@@ -54,7 +55,7 @@ public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter 
 	private final ResolverWithCache<Class, ITypeBinding> classResolver;
 	private final Resolver<Classifier, ITypeBinding> classifierResolver;
 
-	private final ToTypeNameConverter toTypeNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
 
 	@Inject
 	public PureTypeBindingsConverterImpl(
@@ -65,11 +66,12 @@ public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter 
 			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromTypeBindings,
 			final ResolverWithCache<Enumeration, ITypeBinding> enumerationResolver,
 			final ContainersFactory containersFactory, final ResolverWithCache<Class, ITypeBinding> classResolver,
-			final Provider<Converter<IPackageBinding, tools.mdsd.jamopp.model.java.containers.Package>> bindingToPackageConverter,
-			final Provider<Converter<IModuleBinding, tools.mdsd.jamopp.model.java.containers.Module>> bindingToModuleConverter,
+			final Provider<Converter<IPackageBinding, Package>> bindingToPackageConverter,
+			final Provider<Converter<IModuleBinding, Module>> bindingToModuleConverter,
 			final ResolverWithCache<Annotation, ITypeBinding> annotationResolver, final Set<ITypeBinding> typeBindings,
 			final Set<IPackageBinding> packageBindings, final Set<EObject> objVisited,
-			final Set<IModuleBinding> moduleBindings, final ToTypeNameConverter toTypeNameConverter,
+			final Set<IModuleBinding> moduleBindings,
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter,
 			final Resolver<Classifier, ITypeBinding> classifierResolver) {
 		this.extractAdditionalInfosFromTypeBindings = extractAdditionalInfosFromTypeBindings;
 		this.containersFactory = containersFactory;
@@ -180,11 +182,11 @@ public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter 
 		}
 	}
 
-	private void convertPurePackageBinding(final String packageName,
-			final tools.mdsd.jamopp.model.java.containers.Package pack, final ResourceSet resourceSet) {
+	private void convertPurePackageBinding(final String packageName, final Package pack,
+			final ResourceSet resourceSet) {
 		if (!objVisited.contains(pack)) {
 			objVisited.add(pack);
-			final tools.mdsd.jamopp.model.java.containers.Package potPack = JavaClasspath.get().getPackage(packageName);
+			final Package potPack = JavaClasspath.get().getPackage(packageName);
 			if (!Objects.equals(potPack, pack)) {
 				final IPackageBinding binding = packageBindings.stream().filter(b -> packageName.equals(b.getName()))
 						.findFirst().orElse(null);
@@ -204,11 +206,10 @@ public class PureTypeBindingsConverterImpl implements PureTypeBindingsConverter 
 		}
 	}
 
-	private void convertPureModuleBinding(final String modName,
-			final tools.mdsd.jamopp.model.java.containers.Module module, final ResourceSet resourceSet) {
+	private void convertPureModuleBinding(final String modName, final Module module, final ResourceSet resourceSet) {
 		if (!objVisited.contains(module)) {
 			objVisited.add(module);
-			final tools.mdsd.jamopp.model.java.containers.Module potMod = JavaClasspath.get().getModule(modName);
+			final Module potMod = JavaClasspath.get().getModule(modName);
 			if (!Objects.equals(potMod, module) && module.eResource() == null) {
 				final IModuleBinding binding = moduleBindings.stream().filter(b -> modName.equals(b.getName()))
 						.findFirst().orElse(null);

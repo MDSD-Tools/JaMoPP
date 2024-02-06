@@ -1,5 +1,7 @@
 package tools.mdsd.jamopp.parser.implementation.resolver;
 
+import javax.inject.Named;
+
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
@@ -8,15 +10,20 @@ import com.google.inject.Inject;
 import tools.mdsd.jamopp.model.java.members.Method;
 import tools.mdsd.jamopp.model.java.parameters.Parameter;
 import tools.mdsd.jamopp.model.java.parameters.Parametrizable;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class MethodCheckerImpl implements MethodChecker {
 
-	private final ToTypeNameConverter toTypeNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverterFromBinding;
+	private final ToStringConverter<TypeReference> toTypeNameConverterFromReference;
 
 	@Inject
-	public MethodCheckerImpl(final ToTypeNameConverter toTypeNameConverter) {
-		this.toTypeNameConverter = toTypeNameConverter;
+	public MethodCheckerImpl(final ToStringConverter<TypeReference> toTypeNameConverterFromReference,
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverterFromBinding) {
+		this.toTypeNameConverterFromBinding = toTypeNameConverterFromBinding;
+		this.toTypeNameConverterFromReference = toTypeNameConverterFromReference;
 	}
 
 	@Override
@@ -55,8 +62,8 @@ public class MethodCheckerImpl implements MethodChecker {
 	}
 
 	private boolean predicateTwo(final ITypeBinding currentParamType, final Parameter currentParam) {
-		return !toTypeNameConverter.convert(currentParamType)
-				.equals(toTypeNameConverter.convertToTypeName(currentParam.getTypeReference()))
+		return !toTypeNameConverterFromBinding.convert(currentParamType)
+				.equals(toTypeNameConverterFromReference.convert(currentParam.getTypeReference()))
 				|| currentParamType.getDimensions() != currentParam.getArrayDimension();
 	}
 
@@ -64,10 +71,11 @@ public class MethodCheckerImpl implements MethodChecker {
 			final int receiveOffset) {
 		return receiveOffset == 1
 				&& (!(meth.getParameters().get(0) instanceof tools.mdsd.jamopp.model.java.parameters.ReceiverParameter)
-						|| !toTypeNameConverter.convert(binding.getDeclaredReceiverType()).equals(
-								toTypeNameConverter.convertToTypeName(meth.getParameters().get(0).getTypeReference())))
-				|| !toTypeNameConverter.convert(binding.getReturnType())
-						.equals(toTypeNameConverter.convertToTypeName(meth.getTypeReference()));
+						|| !toTypeNameConverterFromBinding.convert(binding.getDeclaredReceiverType())
+								.equals(toTypeNameConverterFromReference
+										.convert(meth.getParameters().get(0).getTypeReference())))
+				|| !toTypeNameConverterFromBinding.convert(binding.getReturnType())
+						.equals(toTypeNameConverterFromReference.convert(meth.getTypeReference()));
 	}
 
 }

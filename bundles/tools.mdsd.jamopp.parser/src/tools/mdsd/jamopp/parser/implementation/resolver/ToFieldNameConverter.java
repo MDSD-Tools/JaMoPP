@@ -11,16 +11,16 @@ import org.eclipse.jdt.core.dom.IVariableBinding;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
-public class ToFieldNameConverter implements Converter<IVariableBinding> {
+public class ToFieldNameConverter implements ToStringConverter<IVariableBinding> {
 
 	private final Map<IBinding, String> nameCache;
-	private final Provider<Converter<ITypeBinding>> toTypeNameConverter;
+	private final Provider<ToStringConverter<ITypeBinding>> toTypeNameConverter;
 
 	@Inject
 	public ToFieldNameConverter(
-			@Named("ToTypeNameConverter") final Provider<Converter<ITypeBinding>> toTypeNameConverter,
+			@Named("ToTypeNameConverterFromBinding") final Provider<ToStringConverter<ITypeBinding>> toTypeNameConverter,
 			final Map<IBinding, String> nameCache) {
 		this.nameCache = nameCache;
 		this.toTypeNameConverter = toTypeNameConverter;

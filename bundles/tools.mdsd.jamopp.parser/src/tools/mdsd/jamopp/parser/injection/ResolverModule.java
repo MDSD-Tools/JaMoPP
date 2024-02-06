@@ -37,6 +37,7 @@ import tools.mdsd.jamopp.model.java.parameters.CatchParameter;
 import tools.mdsd.jamopp.model.java.parameters.OrdinaryParameter;
 import tools.mdsd.jamopp.model.java.parameters.VariableLengthParameter;
 import tools.mdsd.jamopp.model.java.references.ReferenceableElement;
+import tools.mdsd.jamopp.model.java.types.TypeReference;
 import tools.mdsd.jamopp.model.java.variables.AdditionalLocalVariable;
 import tools.mdsd.jamopp.model.java.variables.LocalVariable;
 import tools.mdsd.jamopp.parser.implementation.resolver.AdditionalFieldResolver;
@@ -67,14 +68,14 @@ import tools.mdsd.jamopp.parser.implementation.resolver.ResolutionCompleterImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.ToFieldNameConverter;
 import tools.mdsd.jamopp.parser.implementation.resolver.ToMethodNameConverter;
 import tools.mdsd.jamopp.parser.implementation.resolver.ToParameterNameConverter;
-import tools.mdsd.jamopp.parser.implementation.resolver.ToTypeNameConverter;
+import tools.mdsd.jamopp.parser.implementation.resolver.ToTypeNameConverterFromBinding;
+import tools.mdsd.jamopp.parser.implementation.resolver.ToTypeNameConverterFromReference;
 import tools.mdsd.jamopp.parser.implementation.resolver.ToTypeParameterNameConverter;
 import tools.mdsd.jamopp.parser.implementation.resolver.TypeParameterResolver;
 import tools.mdsd.jamopp.parser.implementation.resolver.UidManagerImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.UtilJdtResolverImpl;
 import tools.mdsd.jamopp.parser.implementation.resolver.VariableLengthParameterResolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ClassResolverExtension;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ConverterWithBoolean;
 import tools.mdsd.jamopp.parser.interfaces.resolver.JdtResolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodChecker;
@@ -85,6 +86,7 @@ import tools.mdsd.jamopp.parser.interfaces.resolver.ResolutionCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithName;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.UidManager;
 
 public class ResolverModule extends AbstractModule {
@@ -103,13 +105,16 @@ public class ResolverModule extends AbstractModule {
 		bind(MethodResolver.class).to(MethodResolverImpl.class);
 		bind(ClassResolverExtension.class).to(ClassResolverExtensionImpl.class);
 
-		bind(new TypeLiteral<Converter<IVariableBinding>>() {
+		bind(new TypeLiteral<ToStringConverter<IVariableBinding>>() {
 			/* empty */}).to(ToFieldNameConverter.class);
-		bind(new TypeLiteral<Converter<IMethodBinding>>() {
+		bind(new TypeLiteral<ToStringConverter<IMethodBinding>>() {
 			/* empty */}).to(ToMethodNameConverter.class);
-		bind(new TypeLiteral<Converter<ITypeBinding>>() {
-			/* empty */}).annotatedWith(Names.named("ToTypeNameConverter")).to(ToTypeNameConverter.class);
-		bind(new TypeLiteral<Converter<ITypeBinding>>() {
+		bind(new TypeLiteral<ToStringConverter<TypeReference>>() {
+			/* empty */}).to(ToTypeNameConverterFromReference.class);
+		bind(new TypeLiteral<ToStringConverter<ITypeBinding>>() {
+			/* empty */}).annotatedWith(Names.named("ToTypeNameConverterFromBinding"))
+				.to(ToTypeNameConverterFromBinding.class);
+		bind(new TypeLiteral<ToStringConverter<ITypeBinding>>() {
 			/* empty */}).annotatedWith(Names.named("ToTypeParameterNameConverter"))
 				.to(ToTypeParameterNameConverter.class);
 

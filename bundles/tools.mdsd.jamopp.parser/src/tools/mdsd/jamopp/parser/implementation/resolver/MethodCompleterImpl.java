@@ -11,10 +11,10 @@ import com.google.inject.name.Named;
 import tools.mdsd.jamopp.model.java.classifiers.AnonymousClass;
 import tools.mdsd.jamopp.model.java.classifiers.Classifier;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ClassResolverExtension;
-import tools.mdsd.jamopp.parser.interfaces.resolver.Converter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.MethodCompleter;
 import tools.mdsd.jamopp.parser.interfaces.resolver.Resolver;
 import tools.mdsd.jamopp.parser.interfaces.resolver.ResolverWithCache;
+import tools.mdsd.jamopp.parser.interfaces.resolver.ToStringConverter;
 
 public class MethodCompleterImpl implements MethodCompleter {
 
@@ -22,17 +22,17 @@ public class MethodCompleterImpl implements MethodCompleter {
 	private final Set<IMethodBinding> methodBindings;
 
 	private final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver;
-	private final Converter<IMethodBinding> toMethodNameConverter;
+	private final ToStringConverter<IMethodBinding> toMethodNameConverter;
 	private final Resolver<Classifier, ITypeBinding> classifierResolver;
-	private final Converter<ITypeBinding> toTypeNameConverter;
+	private final ToStringConverter<ITypeBinding> toTypeNameConverter;
 	private final ClassResolverExtension classResolverExtensionImpl;
 
 	@Inject
 	public MethodCompleterImpl(final Set<IMethodBinding> methodBindings,
 			@Named("extractAdditionalInfosFromTypeBindings") final boolean extractAdditionalInfosFromBindings,
 			final ResolverWithCache<AnonymousClass, ITypeBinding> anonymousClassResolver,
-			@Named("ToTypeNameConverter") final Converter<ITypeBinding> toTypeNameConverter,
-			final Converter<IMethodBinding> toMethodNameConverter,
+			@Named("ToTypeNameConverterFromBinding") final ToStringConverter<ITypeBinding> toTypeNameConverter,
+			final ToStringConverter<IMethodBinding> toMethodNameConverter,
 			final Resolver<Classifier, ITypeBinding> classifierResolver,
 			final ClassResolverExtension classResolverExtensionImpl) {
 		this.anonymousClassResolver = anonymousClassResolver;
@@ -59,13 +59,11 @@ public class MethodCompleterImpl implements MethodCompleter {
 
 	private void handleEmptyMehodBinding(final tools.mdsd.jamopp.model.java.members.Member method,
 			final IMethodBinding methBind) {
-		final tools.mdsd.jamopp.model.java.classifiers.Classifier cla = classifierResolver
-				.getByBinding(methBind.getDeclaringClass());
+		final Classifier cla = classifierResolver.getByBinding(methBind.getDeclaringClass());
 		if (cla == null) {
 			final String typeName = toTypeNameConverter.convert(methBind.getDeclaringClass());
 			if (anonymousClassResolver.containsKey(typeName)) {
-				final tools.mdsd.jamopp.model.java.classifiers.AnonymousClass anonClass = anonymousClassResolver
-						.get(typeName);
+				final AnonymousClass anonClass = anonymousClassResolver.get(typeName);
 				if (!anonClass.getMembers().contains(method)) {
 					anonClass.getMembers().add(method);
 				}
