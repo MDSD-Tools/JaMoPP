@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 
 import tools.mdsd.jamopp.model.java.expressions.AssignmentExpression;
 import tools.mdsd.jamopp.model.java.expressions.AssignmentExpressionChild;

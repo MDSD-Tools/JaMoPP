@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 
 import tools.mdsd.jamopp.model.java.annotations.Annotable;
 import tools.mdsd.jamopp.model.java.arrays.ArrayDimension;

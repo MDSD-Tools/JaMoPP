@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Provider;
+
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.google.inject.Provider;
 
 import tools.mdsd.jamopp.model.java.classifiers.ConcreteClassifier;
 import tools.mdsd.jamopp.model.java.statements.Assert;
@@ -99,25 +100,25 @@ public class StatementPrinterImpl implements Printer<Statement> {
 	@Override
 	public void print(final Statement element, final BufferedWriter writer) throws IOException {
 		if (mappings.isEmpty()) {
-			mappings.add(new Mapping<>(ConcreteClassifier.class, concreteClassifierPrinter));
-			mappings.add(new Mapping<>(Assert.class, assertPrinter));
-			mappings.add(new Mapping<>(Block.class, blockPrinter));
-			mappings.add(new Mapping<>(Condition.class, conditionPrinter));
-			mappings.add(new Mapping<>(ExpressionStatement.class, expressionStatementPrinter));
-			mappings.add(new Mapping<>(ForLoop.class, forLoopPrinter));
-			mappings.add(new Mapping<>(ForEachLoop.class, forEachLoopPrinter));
-			mappings.add(new Mapping<>(Break.class, breakPrinter));
-			mappings.add(new Mapping<>(Continue.class, continuePrinter));
-			mappings.add(new Mapping<>(JumpLabel.class, jumpLabelPrinter));
-			mappings.add(new Mapping<>(LocalVariableStatement.class, localVariableStatementPrinter));
-			mappings.add(new Mapping<>(Return.class, returnPrinter));
-			mappings.add(new Mapping<>(Switch.class, switchPrinter));
-			mappings.add(new Mapping<>(SynchronizedBlock.class, synchronizedBlockPrinter));
-			mappings.add(new Mapping<>(Throw.class, throwPrinter));
-			mappings.add(new Mapping<>(TryBlock.class, tryBlockPrinter));
-			mappings.add(new Mapping<>(DoWhileLoop.class, doWhileLoopPrinter));
-			mappings.add(new Mapping<>(WhileLoop.class, whileLoopPrinter));
-			mappings.add(new Mapping<>(YieldStatement.class, yieldStatementPrinter));
+			mappings.add(new Mapping<>(ConcreteClassifier.class, concreteClassifierPrinter.get()));
+			mappings.add(new Mapping<>(Assert.class, assertPrinter.get()));
+			mappings.add(new Mapping<>(Block.class, blockPrinter.get()));
+			mappings.add(new Mapping<>(Condition.class, conditionPrinter.get()));
+			mappings.add(new Mapping<>(ExpressionStatement.class, expressionStatementPrinter.get()));
+			mappings.add(new Mapping<>(ForLoop.class, forLoopPrinter.get()));
+			mappings.add(new Mapping<>(ForEachLoop.class, forEachLoopPrinter.get()));
+			mappings.add(new Mapping<>(Break.class, breakPrinter.get()));
+			mappings.add(new Mapping<>(Continue.class, continuePrinter.get()));
+			mappings.add(new Mapping<>(JumpLabel.class, jumpLabelPrinter.get()));
+			mappings.add(new Mapping<>(LocalVariableStatement.class, localVariableStatementPrinter.get()));
+			mappings.add(new Mapping<>(Return.class, returnPrinter.get()));
+			mappings.add(new Mapping<>(Switch.class, switchPrinter.get()));
+			mappings.add(new Mapping<>(SynchronizedBlock.class, synchronizedBlockPrinter.get()));
+			mappings.add(new Mapping<>(Throw.class, throwPrinter.get()));
+			mappings.add(new Mapping<>(TryBlock.class, tryBlockPrinter.get()));
+			mappings.add(new Mapping<>(DoWhileLoop.class, doWhileLoopPrinter.get()));
+			mappings.add(new Mapping<>(WhileLoop.class, whileLoopPrinter.get()));
+			mappings.add(new Mapping<>(YieldStatement.class, yieldStatementPrinter.get()));
 		}
 
 		for (final Mapping<? extends Statement> mapping : mappings) {

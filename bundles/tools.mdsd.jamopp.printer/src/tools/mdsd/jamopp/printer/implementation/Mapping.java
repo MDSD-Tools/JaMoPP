@@ -3,8 +3,6 @@ package tools.mdsd.jamopp.printer.implementation;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import com.google.inject.Provider;
-
 import org.eclipse.emf.ecore.EObject;
 
 import tools.mdsd.jamopp.printer.interfaces.Printer;
@@ -25,11 +23,6 @@ public class Mapping<K> {
 	public Mapping(final Class<K> clazz, final Printer<K> printer) {
 		this.clazz = clazz;
 		this.printer = printer;
-	}
-
-	public Mapping(final Class<K> clazz, final Provider<Printer<K>> printer) {
-		this.clazz = clazz;
-		this.printer = printer.get();
 	}
 
 	/**
