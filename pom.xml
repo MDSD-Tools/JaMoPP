@@ -7,9 +7,10 @@
 
     <parent>
         <groupId>tools.mdsd</groupId>
-        <artifactId>jamopp.model</artifactId>
-        <version>8.0.0</version>
+        <artifactId>eclipse-parent-updatesite</artifactId>
+        <version>0.8.9</version>
     </parent>
+   
 
     <groupId>tools.mdsd.jamopp</groupId>
     <artifactId>parent</artifactId>

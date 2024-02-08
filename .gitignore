@@ -2,7 +2,6 @@
 .loadpath
 .metadata
 .recommenders
-.settings/
 .worksheet
 *.bak
 *.class
@@ -30,7 +29,6 @@ target/
 
 # Package Files
 *.ear
-*.jar
 *.nar
 *.rar
 *.tar.gz

@@ -14,26 +14,26 @@ Workflow {
 		scanClassPath = true
 		platformUri = workspaceRoot
 		
-		registerGenModelFile = "platform:/resource/org.emftext.commons.jdt/metamodel/jdt.genmodel"
-		registerGenModelFile = "platform:/resource/org.emftext.commons.layout/metamodel/layout.genmodel"
+		registerGenModelFile = "platform:/resource/tools.mdsd.jamopp.commons.jdt/metamodel/jdt.genmodel"
+		registerGenModelFile = "platform:/resource/tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel"
 		
 		logResourceUriMap = true
 	}
 	
 	component = EcoreGenerator {
-		genModel = "platform:/resource/org.emftext.commons.jdt/metamodel/jdt.genmodel"
-		srcPath = "platform:/resource/org.emftext.commons.jdt/src-gen"
+		genModel = "platform:/resource/tools.mdsd.jamopp.commons.jdt/metamodel/jdt.genmodel"
+		srcPath = "platform:/resource/tools.mdsd.jamopp.commons.jdt/src-gen"
 	}
 	
 	component = EcoreGenerator {
-		genModel = "platform:/resource/org.emftext.commons.layout/metamodel/layout.genmodel"
-		srcPath = "platform:/resource/org.emftext.commons.layout/src-gen"
+		genModel = "platform:/resource/tools.mdsd.jamopp.commons.layout/metamodel/layout.genmodel"
+		srcPath = "platform:/resource/tools.mdsd.jamopp.commons.layout/src-gen"
 		generateEdit = true
 	}
 	
 	component = EcoreGenerator {
-		genModel = "platform:/resource/org.emftext.language.java/metamodel/java.genmodel"
-		srcPath = "platform:/resource/org.emftext.language.java/src-gen"
+		genModel = "platform:/resource/tools.mdsd.jamopp.model.java/metamodel/java.genmodel"
+		srcPath = "platform:/resource/tools.mdsd.jamopp.model.java/src-gen"
 		generateEdit = true
                 generateEditor = true
 	}

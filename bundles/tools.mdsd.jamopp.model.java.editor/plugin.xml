@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ Copyright (c) 2006-2014
+ Software Technology Group, Dresden University of Technology
+ DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+ 
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ which accompanies this distribution, and is available at
+ http://www.eclipse.org/legal/epl-v10.html
+ 
+ Contributors:
+   Software Technology Group - TU Dresden, Germany;
+   DevBoost GmbH - Berlin, Germany
+      - initial API and implementation
+   Martin Armbruster
+      - Extension for Java 7-13
+  
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.annotations.presentation.AnnotationsModelWizardID"
+            name="%_UI_AnnotationsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.annotations.presentation.AnnotationsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/AnnotationsModelFile.gif">
+         <description>%_UI_AnnotationsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.annotations.presentation.AnnotationsEditorID"
+            name="%_UI_AnnotationsEditor_label"
+            icon="icons/full/obj16/AnnotationsModelFile.gif"
+            extensions="annotations"
+            class="tools.mdsd.jamopp.model.java.annotations.presentation.AnnotationsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.annotations.presentation.AnnotationsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.arrays.presentation.ArraysModelWizardID"
+            name="%_UI_ArraysModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.arrays.presentation.ArraysModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ArraysModelFile.gif">
+         <description>%_UI_ArraysModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.arrays.presentation.ArraysEditorID"
+            name="%_UI_ArraysEditor_label"
+            icon="icons/full/obj16/ArraysModelFile.gif"
+            extensions="arrays"
+            class="tools.mdsd.jamopp.model.java.arrays.presentation.ArraysEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.arrays.presentation.ArraysActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.classifiers.presentation.ClassifiersModelWizardID"
+            name="%_UI_ClassifiersModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.classifiers.presentation.ClassifiersModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ClassifiersModelFile.gif">
+         <description>%_UI_ClassifiersModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.classifiers.presentation.ClassifiersEditorID"
+            name="%_UI_ClassifiersEditor_label"
+            icon="icons/full/obj16/ClassifiersModelFile.gif"
+            extensions="classifiers"
+            class="tools.mdsd.jamopp.model.java.classifiers.presentation.ClassifiersEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.classifiers.presentation.ClassifiersActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.containers.presentation.ContainersModelWizardID"
+            name="%_UI_ContainersModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.containers.presentation.ContainersModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ContainersModelFile.gif">
+         <description>%_UI_ContainersModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.containers.presentation.ContainersEditorID"
+            name="%_UI_ContainersEditor_label"
+            icon="icons/full/obj16/ContainersModelFile.gif"
+            extensions="containers"
+            class="tools.mdsd.jamopp.model.java.containers.presentation.ContainersEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.containers.presentation.ContainersActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.expressions.presentation.ExpressionsModelWizardID"
+            name="%_UI_ExpressionsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.expressions.presentation.ExpressionsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ExpressionsModelFile.gif">
+         <description>%_UI_ExpressionsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.expressions.presentation.ExpressionsEditorID"
+            name="%_UI_ExpressionsEditor_label"
+            icon="icons/full/obj16/ExpressionsModelFile.gif"
+            extensions="expressions"
+            class="tools.mdsd.jamopp.model.java.expressions.presentation.ExpressionsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.expressions.presentation.ExpressionsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.generics.presentation.GenericsModelWizardID"
+            name="%_UI_GenericsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.generics.presentation.GenericsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/GenericsModelFile.gif">
+         <description>%_UI_GenericsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.generics.presentation.GenericsEditorID"
+            name="%_UI_GenericsEditor_label"
+            icon="icons/full/obj16/GenericsModelFile.gif"
+            extensions="generics"
+            class="tools.mdsd.jamopp.model.java.generics.presentation.GenericsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.generics.presentation.GenericsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.imports.presentation.ImportsModelWizardID"
+            name="%_UI_ImportsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.imports.presentation.ImportsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ImportsModelFile.gif">
+         <description>%_UI_ImportsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.imports.presentation.ImportsEditorID"
+            name="%_UI_ImportsEditor_label"
+            icon="icons/full/obj16/ImportsModelFile.gif"
+            extensions="imports"
+            class="tools.mdsd.jamopp.model.java.imports.presentation.ImportsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.imports.presentation.ImportsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.instantiations.presentation.InstantiationsModelWizardID"
+            name="%_UI_InstantiationsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.instantiations.presentation.InstantiationsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/InstantiationsModelFile.gif">
+         <description>%_UI_InstantiationsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.instantiations.presentation.InstantiationsEditorID"
+            name="%_UI_InstantiationsEditor_label"
+            icon="icons/full/obj16/InstantiationsModelFile.gif"
+            extensions="instantiations"
+            class="tools.mdsd.jamopp.model.java.instantiations.presentation.InstantiationsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.instantiations.presentation.InstantiationsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.literals.presentation.LiteralsModelWizardID"
+            name="%_UI_LiteralsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.literals.presentation.LiteralsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/LiteralsModelFile.gif">
+         <description>%_UI_LiteralsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.literals.presentation.LiteralsEditorID"
+            name="%_UI_LiteralsEditor_label"
+            icon="icons/full/obj16/LiteralsModelFile.gif"
+            extensions="literals"
+            class="tools.mdsd.jamopp.model.java.literals.presentation.LiteralsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.literals.presentation.LiteralsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.members.presentation.MembersModelWizardID"
+            name="%_UI_MembersModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.members.presentation.MembersModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MembersModelFile.gif">
+         <description>%_UI_MembersModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.members.presentation.MembersEditorID"
+            name="%_UI_MembersEditor_label"
+            icon="icons/full/obj16/MembersModelFile.gif"
+            extensions="members"
+            class="tools.mdsd.jamopp.model.java.members.presentation.MembersEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.members.presentation.MembersActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.modifiers.presentation.ModifiersModelWizardID"
+            name="%_UI_ModifiersModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.modifiers.presentation.ModifiersModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ModifiersModelFile.gif">
+         <description>%_UI_ModifiersModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.modifiers.presentation.ModifiersEditorID"
+            name="%_UI_ModifiersEditor_label"
+            icon="icons/full/obj16/ModifiersModelFile.gif"
+            extensions="modifiers"
+            class="tools.mdsd.jamopp.model.java.modifiers.presentation.ModifiersEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.modifiers.presentation.ModifiersActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.operators.presentation.OperatorsModelWizardID"
+            name="%_UI_OperatorsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.operators.presentation.OperatorsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/OperatorsModelFile.gif">
+         <description>%_UI_OperatorsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.operators.presentation.OperatorsEditorID"
+            name="%_UI_OperatorsEditor_label"
+            icon="icons/full/obj16/OperatorsModelFile.gif"
+            extensions="operators"
+            class="tools.mdsd.jamopp.model.java.operators.presentation.OperatorsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.operators.presentation.OperatorsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.parameters.presentation.ParametersModelWizardID"
+            name="%_UI_ParametersModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.parameters.presentation.ParametersModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ParametersModelFile.gif">
+         <description>%_UI_ParametersModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.parameters.presentation.ParametersEditorID"
+            name="%_UI_ParametersEditor_label"
+            icon="icons/full/obj16/ParametersModelFile.gif"
+            extensions="parameters"
+            class="tools.mdsd.jamopp.model.java.parameters.presentation.ParametersEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.parameters.presentation.ParametersActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.references.presentation.ReferencesModelWizardID"
+            name="%_UI_ReferencesModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.references.presentation.ReferencesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ReferencesModelFile.gif">
+         <description>%_UI_ReferencesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.references.presentation.ReferencesEditorID"
+            name="%_UI_ReferencesEditor_label"
+            icon="icons/full/obj16/ReferencesModelFile.gif"
+            extensions="references"
+            class="tools.mdsd.jamopp.model.java.references.presentation.ReferencesEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.references.presentation.ReferencesActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.statements.presentation.StatementsModelWizardID"
+            name="%_UI_StatementsModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.statements.presentation.StatementsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/StatementsModelFile.gif">
+         <description>%_UI_StatementsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.statements.presentation.StatementsEditorID"
+            name="%_UI_StatementsEditor_label"
+            icon="icons/full/obj16/StatementsModelFile.gif"
+            extensions="statements"
+            class="tools.mdsd.jamopp.model.java.statements.presentation.StatementsEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.statements.presentation.StatementsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.types.presentation.TypesModelWizardID"
+            name="%_UI_TypesModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.types.presentation.TypesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/TypesModelFile.gif">
+         <description>%_UI_TypesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.types.presentation.TypesEditorID"
+            name="%_UI_TypesEditor_label"
+            icon="icons/full/obj16/TypesModelFile.gif"
+            extensions="types"
+            class="tools.mdsd.jamopp.model.java.types.presentation.TypesEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.types.presentation.TypesActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.variables.presentation.VariablesModelWizardID"
+            name="%_UI_VariablesModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.variables.presentation.VariablesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/VariablesModelFile.gif">
+         <description>%_UI_VariablesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.variables.presentation.VariablesEditorID"
+            name="%_UI_VariablesEditor_label"
+            icon="icons/full/obj16/VariablesModelFile.gif"
+            extensions="variables"
+            class="tools.mdsd.jamopp.model.java.variables.presentation.VariablesEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.variables.presentation.VariablesActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated java -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="tools.mdsd.jamopp.model.java.modules.presentation.ModulesModelWizardID"
+            name="%_UI_ModulesModelWizard_label"
+            class="tools.mdsd.jamopp.model.java.modules.presentation.ModulesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ModulesModelFile.gif">
+         <description>%_UI_ModulesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated java -->
+      <editor
+            id="tools.mdsd.jamopp.model.java.modules.presentation.ModulesEditorID"
+            name="%_UI_ModulesEditor_label"
+            icon="icons/full/obj16/ModulesModelFile.gif"
+            extensions="modules"
+            class="tools.mdsd.jamopp.model.java.modules.presentation.ModulesEditor"
+            contributorClass="tools.mdsd.jamopp.model.java.modules.presentation.ModulesActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

@@ -16,11 +16,11 @@ Workflow {
 	}
 	
 	component = URISupportingDirectoryCleaner {
-        directory = "platform:/resource/org.emftext.commons.jdt/src-gen"
-        directory = "platform:/resource/org.emftext.commons.layout/src-gen"
-        directory = "platform:/resource/org.emftext.commons.layout.edit/src-gen"
-        directory = "platform:/resource/org.emftext.language.java/src-gen"
-        directory = "platform:/resource/org.emftext.language.java.edit/src-gen"
-        directory = "platform:/resource/org.emftext.language.java.editor/src-gen"
+        directory = "platform:/resource/tools.mdsd.jamopp.commons.jdt/src-gen"
+        directory = "platform:/resource/tools.mdsd.jamopp.commons.layout/src-gen"
+        directory = "platform:/resource/tools.mdsd.jamopp.commons.layout.edit/src-gen"
+        directory = "platform:/resource/tools.mdsd.jamopp.model.java/src-gen"
+        directory = "platform:/resource/tools.mdsd.jamopp.model.java.edit/src-gen"
+        directory = "platform:/resource/tools.mdsd.jamopp.model.java.editor/src-gen"
     }
 }
