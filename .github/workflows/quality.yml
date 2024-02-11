@@ -38,11 +38,11 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: java
         fail-fast: false
     - name: Autobuild Repository
-      uses: github/codeql-action/autobuild@v2
+      uses: github/codeql-action/autobuild@v3
     - name: Perform Analyze
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
