@@ -12,6 +12,6 @@ Require-Bundle: org.eclipse.jdt.core,
  tools.mdsd.jamopp.model.java,
  org.eclipse.emf.ecore,
  com.google.inject,
- org.apache.log4j;bundle-version="1.2.24"
-Export-Package: 
+ org.apache.log4j
+Export-Package:
  tools.mdsd.jamopp.parser
